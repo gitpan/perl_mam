@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH File::stat 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH File::stat 3 "perl 5.005, patch 53" "19/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -230,7 +230,7 @@ You may also import all the structure fields directly into your namespace
 as regular variables using the :FIELDS import tag.  (Note that this still
 overrides your \fIstat()\fR and \fIlstat()\fR functions.)  Access these fields as
 variables named with a preceding \f(CWst_\fR in front their method names.
-Thus, \f(CW$stat_obj->\fIdev()\fR\fR corresponds to \f(CW$st_dev\fR if you import
+Thus, \f(CW$stat_obj->dev()\fR corresponds to \f(CW$st_dev\fR if you import
 the fields.
 .PP
 To access this functionality without the core overrides,

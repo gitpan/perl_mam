@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH GD 3 "perl 5.004, patch 55" "19/Nov/97" "User Contributed Perl Documentation"
+.TH GD 3 "perl 5.005, patch 53" "26/Jan/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -222,6 +222,10 @@ GD.pm \- Interface to Gd Graphics Library
 \&    $im->fill(50,50,$red);
 .Ve
 .Vb 2
+\&    # make sure we are writing to a binary stream
+\&    binmode STDOUT;
+.Ve
+.Vb 2
 \&    # Convert the image to GIF and print it on standard output
 \&    print $im->gif;
 .Ve
@@ -277,6 +281,10 @@ A Simple Example:
 \&        $im->fill(50,50,$red);
 .Ve
 .Vb 2
+\&        # make sure we are writing to a binary stream
+\&        binmode STDOUT;
+.Ve
+.Vb 2
 \&        # Convert the image to GIF and print it on standard output
 \&        print $im->gif;
 .Ve
@@ -285,7 +293,7 @@ Notes:
 .Ip "2. Next you will ordinarily add colors to the image's color table. colors are added using a colorAllocate() method call.  The three parameters in each call are the red, green and blue (rgb) triples for the desired color.  The method returns the index of that color in the image's color table.  You should store these indexes for later use." 5
 .Ip "3. Now you can do some drawing!  The various graphics primitives are described below.  In this example, we do some text drawing, create an oval, and create and draw a polygon." 5
 .Ip "4. Polygons are created with a new() message to \s-1GD::\s0Polygon.  You can add points to the returned polygon one at a time using the addPt() method. The polygon can then be passed to an image for rendering." 5
-.Ip "5. When you're done drawing, you can convert the image into \s-1GIF\s0 format by sending it a gif() message.  It will return a (potentially large) scalar value containing the binary data for the image.  Ordinarily you will print it out at this point or write it to a file." 5
+.Ip "5. When you're done drawing, you can convert the image into \s-1GIF\s0 format by sending it a gif() message.  It will return a (potentially large) scalar value containing the binary data for the image.  Ordinarily you will print it out at this point or write it to a file.  To ensure portability to platforms that differentiate between text and binary files, be sure to call \f(CWbinmode()\fR on the file you are writing the image to." 5
 .SH "Method Calls"
 .Sh "Creating and Saving Images"
 .Ip "\f(CWnew\fR" 5
@@ -311,6 +319,8 @@ initialized image which you can then manipulate as you please.  If it
 fails, which usually happens if the thing at the other end of the
 filehandle is not a valid \s-1GIF\s0 file, the call returns undef.  Notice
 that the call doesn't automatically close the filehandle for you.
+But it does call \f(CWbinmode(FILEHANDLE)\fR for you, on platforms where
+this matters.
 .Sp
 To get information about the size and color usage of the information,
 you can call the image query methods described below.
@@ -334,6 +344,8 @@ contents of an X Bitmap file:
 \&        $myImage = newFromXbm GD::Image(XBM) || die;
 \&        close XBM;
 .Ve
+Note that this function also calls \f(CWbinmode(FILEHANDLE)\fR before
+reading from the filehandle.
 .Ip "\f(CWnewFromGd\fR" 5
 \f(CWGD::Image::newFromGd(FILEHANDLE)\fR \fIclass method\fR
 .Sp
@@ -349,25 +361,31 @@ become \fB\s-1BIG\s0\fR.
 \&        $myImage = newFromGd GD::Image(GDF) || die;
 \&        close GDF;
 .Ve
+Note that this function also calls \f(CWbinmode(FILEHANDLE)\fR before
+reading from the supplied filehandle.
 .Ip "\f(CWgif\fR" 5
 \f(CWGD::Image::gif\fR \fIobject method\fR
 .Sp
 This returns the image data in \s-1GIF\s0 format.  You can then print it,
 pipe it to a display program, or write it to a file.  Example:
 .Sp
-.Vb 4
+.Vb 5
 \&        $gif_data = $myImage->gif;
 \&        open (DISPLAY,"| display -") || die;
+\&        binmode DISPLAY;
 \&        print DISPLAY $gif_data;
 \&        close DISPLAY;
 .Ve
+Note the use of \f(CWbinmode()\fR.  This is crucial for portability to
+DOSish platforms.
 .Ip "\f(CWgd\fR" 5
 \f(CWGD::Image::gd\fR \fIobject method\fR
 .Sp
 This returns the image data in \s-1GD\s0 format.  You can then print it,
 pipe it to a display program, or write it to a file.  Example:
 .Sp
-.Vb 1
+.Vb 2
+\&        binmode MYOUTFILE;
 \&        print MYOUTFILE $myImage->gd;
 .Ve
 .Sh "Color Control"
@@ -474,11 +492,12 @@ current index of the transparent color, or \-1 if none.
 .Sp
 Example:
 .Sp
-.Vb 5
+.Vb 6
 \&        open(GIF,"test.gif");
 \&        $im = newFromGif GD::Image(GIF);
 \&        $white = $im->colorClosest(255,255,255); # find white
 \&        $im->transparent($white);
+\&        binmode STDOUT;
 \&        print $im->gif;
 .Ve
 .Sh "Special Colors"
@@ -778,7 +797,7 @@ Example:
 Gd allows you to draw characters and strings, either in normal
 horizontal orientation or rotated 90 degrees.  These routines use a
 \s-1GD::\s0Font object, described in more detail below.  There are four
-built-in fonts, available in global variables gdLargeFont,
+built-in fonts, available in global variables gdGiantFont, gdLargeFont,
 gdMediumBoldFont, gdSmallFont and gdTinyFont.  Currently there is no
 way of dynamically creating your own fonts.
 .Ip "\f(CWstring\fR" 5
@@ -786,7 +805,7 @@ way of dynamically creating your own fonts.
 .Sp
 This method draws a string startin at position (x,y) in the specified
 font and color.  Your choices of fonts are gdSmallFont, gdMediumBoldFont,
-gdTinyFont and gdLargeFont.
+gdTinyFont, gdLargeFont and gdGiantFont.
 .Sp
 Example:
 .Sp
@@ -953,29 +972,38 @@ sx and sy are the X and Y scaling factors, rx and ry are the X and Y
 rotation factors, and tx and ty are X and Y offsets.  See the Adobe
 PostScript Reference, page 154 for a full explanation, or experiment.
 .Sh "Font Utilities"
-Gd's support for fonts is minimal.  Basically you have access to
-gdSmallFont and gdLargeFont for drawing, and not much else.  However,
-for future compatibility, I've made the fonts into perl objects of
-type \s-1GD::\s0Font that you can query and, perhaps someday manipulate.
+Gd's support for fonts is minimal.  Basically you have access to a
+half dozen for drawing, and not much else.  However, for future
+compatibility, I've made the fonts into perl objects of type \s-1GD::\s0Font
+that you can query and, perhaps someday manipulate.
+.PP
+This distribution comes with Jan Pazdziora's bdftogd program, an
+\fBunsupported\fR utility that can help you convert \s-1BDF\s0 fonts into \s-1GD\s0
+format.
 .Ip "\f(CWgdSmallFont\fR" 5
-\f(CWGD::Font::gdSmallFont\fR \fIconstant\fR
+\f(CWGD::Font::Small\fR \fIconstant\fR
 .Sp
 This is the basic small font, \*(L"borrowed\*(R" from a well known public
 domain 6x12 font.
 .Ip "\f(CWgdLargeFont\fR" 5
-\f(CWGD::Font::gdLargeFont\fR \fIconstant\fR
+\f(CWGD::Font::Large\fR \fIconstant\fR
 .Sp
 This is the basic large font, \*(L"borrowed\*(R" from a well known public
 domain 8x16 font.
 .Ip "\f(CWgdMediumBoldFont\fR" 5
-\f(CWGD::Font::gdMediumBoldFont\fR \fIconstant\fR
+\f(CWGD::Font::MediumBold\fR \fIconstant\fR
 .Sp
 This is a bold font intermediate in size between the small and large
 fonts, borrowed from a public domain 7x13 font;
 .Ip "\f(CWgdTinyFont\fR" 5
-\f(CWGD::Font::gdTinyFont\fR \fIconstant\fR
+\f(CWGD::Font::Tiny\fR \fIconstant\fR
 .Sp
 This is a tiny, almost unreadable font, 5x8 pixels wide.
+.Ip "\f(CWgdGiantFont\fR" 5
+\f(CWGD::Font::Giant\fR \fIconstant\fR
+.Sp
+This is a 9x15 bold font converted by Jan Pazdziora from a sans serif
+X11 font.
 .Ip "\f(CWnchars\fR" 5
 \f(CWGD::Font::nchars\fR	\fIobject method\fR
 .Sp
@@ -1045,7 +1073,7 @@ The latest versions of GD.pm are available at
 
 .IX Item "4. Polygons are created with a new() message to \s-1GD::\s0Polygon.  You can add points to the returned polygon one at a time using the addPt() method. The polygon can then be passed to an image for rendering."
 
-.IX Item "5. When you're done drawing, you can convert the image into \s-1GIF\s0 format by sending it a gif() message.  It will return a (potentially large) scalar value containing the binary data for the image.  Ordinarily you will print it out at this point or write it to a file."
+.IX Item "5. When you're done drawing, you can convert the image into \s-1GIF\s0 format by sending it a gif() message.  It will return a (potentially large) scalar value containing the binary data for the image.  Ordinarily you will print it out at this point or write it to a file.  To ensure portability to platforms that differentiate between text and binary files, be sure to call \f(CWbinmode()\fR on the file you are writing the image to."
 
 .IX Header "Method Calls"
 
@@ -1176,6 +1204,8 @@ The latest versions of GD.pm are available at
 .IX Item "\f(CWgdMediumBoldFont\fR"
 
 .IX Item "\f(CWgdTinyFont\fR"
+
+.IX Item "\f(CWgdGiantFont\fR"
 
 .IX Item "\f(CWnchars\fR"
 

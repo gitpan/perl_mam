@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Time::localtime 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Time::localtime 3 "perl 5.005, patch 53" "19/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -214,7 +214,7 @@ You may also import all the structure fields directly into your namespace
 as regular variables using the :FIELDS import tag.  (Note that this still
 overrides your core functions.)  Access these fields as
 variables named with a preceding \f(CWtm_\fR in front their method names.
-Thus, \f(CW$tm_obj->\fImday()\fR\fR corresponds to \f(CW$tm_mday\fR if you import
+Thus, \f(CW$tm_obj->mday()\fR corresponds to \f(CW$tm_mday\fR if you import
 the fields.
 .PP
 The \fIctime()\fR funtion provides a way of getting at the 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::servent 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Net::servent 3 "perl 5.005, patch 53" "19/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -214,9 +214,9 @@ method returns an array reference, the rest scalars.
 You may also import all the structure fields directly into your namespace
 as regular variables using the :FIELDS import tag.  (Note that this still
 overrides your core functions.)  Access these fields as variables named
-with a preceding \f(CWn_\fR.  Thus, \f(CW$serv_obj->\fIname()\fR\fR corresponds to
+with a preceding \f(CWn_\fR.  Thus, \f(CW$serv_obj->name()\fR corresponds to
 \f(CW$s_name\fR if you import the fields.  Array references are available as
-regular array variables, so for example \f(CW@{ \f(CW$serv_obj\fR->\fIaliases()\fR
+regular array variables, so for example \f(CW@{ $serv_obj->aliases()
 }\fR would be simply \f(CW@s_aliases\fR.
 .PP
 The \fIgetserv()\fR function is a simple front-end that forwards a numeric

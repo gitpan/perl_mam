@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Daemon 3 "perl 5.004, patch 55" "14/Nov/97" "User Contributed Perl Documentation"
+.TH lib::HTTP::Daemon 3 "libwww-perl-5.36" "15/Apr/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -196,26 +196,26 @@ HTTP::Daemon \- a simple http server class
 \&  use HTTP::Status;
 .Ve
 .Vb 14
-\&  $d = new HTTP::Daemon;
+\&  my $d = new HTTP::Daemon;
 \&  print "Please contact me at: <URL:", $d->url, ">\en";
-\&  while ($c = $d->accept) {
-\&      $r = $c->get_request;
-\&      if ($r) {
+\&  while (my $c = $d->accept) {
+\&      while (my $r = $c->get_request) {
 \&          if ($r->method eq 'GET' and $r->url->path eq "/xyzzy") {
-\&              # this is *not* recommened practice
+\&              # remember, this is *not* recommened practice :-)
 \&              $c->send_file_response("/etc/passwd");
 \&          } else {
 \&              $c->send_error(RC_FORBIDDEN)
 \&          }
 \&      }
-\&      $c = undef;  # close connection
+\&      $c->close;
+\&      undef($c);
 \&  }
 .Ve
 .SH "DESCRIPTION"
 Instances of the \fIHTTP::Daemon\fR class are HTTP/1.1 servers that
 listens on a socket for incoming requests. The \fIHTTP::Daemon\fR is a
 sub-class of \fIIO::Socket::INET\fR, so you can do socket operations
-directly on it.
+directly on it too.
 .PP
 The \fIaccept()\fR method will return when a connection from a client is
 available. The returned value will be a reference to a object of the
@@ -233,11 +233,11 @@ The following is a list of methods that are new (or enhanced) relative
 to the \fIIO::Socket::INET\fR base class.
 .Ip "$d = new \s-1HTTP::\s0Daemon" 4
 The object constructor takes the same parameters as the
-\fI\s-1IO::\s0Socket::\s-1INET\s0\fR constructor.  It can also be called without
-specifying any parameters. The daemon will then set up a listen queue
-of 5 connections and allocate some random port number.  A server
-that want to bind to some specific address on the standard \s-1HTTP\s0 port
-will be constructed like this:
+\fI\s-1IO::\s0Socket::\s-1INET\s0\fR constructor.  It can be called without specifying
+any parameters. The daemon will then set up a listen queue of 5
+connections and allocate some random port number.  A server that want
+to bind to some specific address on the standard \s-1HTTP\s0 port will be
+constructed like this:
 .Sp
 .Vb 3
 \&  $d = new HTTP::Daemon
@@ -253,31 +253,93 @@ that time.
 Returns a \s-1URL\s0 string that can be used to access the server root.
 .Ip "$d->product_tokens" 4
 Returns the name that this server will use to identify itself.  This
-is the string that is sent with the \fIServer\fR response header.
+is the string that is sent with the \fIServer\fR response header.  The
+main reason to have this method is that subclasses can override it if
+they want to use another product name.
 .PP
 The \fI\s-1HTTP::\s0Daemon::ClientConn\fR is also a \fI\s-1IO::\s0Socket::\s-1INET\s0\fR
 subclass. Instances of this class are returned by the \fIaccept()\fR method
 of the \fI\s-1HTTP::\s0Daemon\fR.  The following additional methods are
 provided:
-.Ip "$c->get_request" 4
-Will read data from the client and turn it into a \fI\s-1HTTP::\s0Request\fR
-object which is then returned. Will return undef if reading of the
-request failed.  If it fails, then the \fI\s-1HTTP::\s0Daemon::ClientConn\fR
-object ($c) should be discarded.
+.Ip "$c->get_request([$headers_only])" 4
+This method will read data from the client and turn it into a
+\fI\s-1HTTP::\s0Request\fR object which is then returned.  It returns \f(CWundef\fR
+if reading of the request fails.  If it fails, then the
+\fI\s-1HTTP::\s0Daemon::ClientConn\fR object ($c) should be discarded, and you
+should not call this method again.  The \f(CW$c\fR\->reason method might give
+you some information on why \f(CW$c\fR\->get_request returned \f(CWundef\fR.
 .Sp
-The \f(CW$c\fR\->get_request method support \s-1HTTP/1\s0.1 content bodies, including
-\fIchunked\fR transfer encoding with footer and \fImultipart/*\fR types.
+The \f(CW$c\fR\->get_request method support \s-1HTTP/1\s0.1 request content bodies,
+including \fIchunked\fR transfer encoding with footer and self delimiting
+\fImultipart/*\fR content types.
+.Sp
+The \f(CW$c\fR\->get_request method will normally not return until the whole
+request has been received from the client.  This might not be what you
+want if the request is an upload of a multi-mega-byte file (and with
+chunked transfer encoding \s-1HTTP\s0 can even support infinite request
+messages \- uploading live audio for instance).  If you pass a \s-1TRUE\s0
+value as the \f(CW$headers_only\fR argument, then \f(CW$c\fR\->get_request will return
+immediately after parsing the request headers and you are responsible
+for reading the rest of the request content (and if you are going to
+call \f(CW$c\fR\->get_request again on the same connection you better read the
+correct number of bytes).
+.Ip "$c->read_buffer([$new_value])" 4
+Bytes read by \f(CW$c\fR\->get_request, but not used are placed in the \fIread
+buffer\fR.  The next time \f(CW$c\fR\->get_request is called it will consume the
+bytes in this buffer before reading more data from the network
+connection itself.  The read buffer is invalid after \f(CW$c\fR\->get_request
+has returned an undefined value.
+.Sp
+If you handle the reading of the request content yourself you need to
+empty this buffer before you read more and you need to place
+unconsumed bytes here.  You also need this buffer if you implement
+services like \fI101 Switching Protocols\fR.
+.Sp
+This method always return the old buffer content and can optionally
+update the buffer content if you pass it an argument.
+.Ip "$c->reason" 4
+When \f(CW$c\fR\->get_request returns \f(CWundef\fR you can obtain a short string
+describing why it happened by calling \f(CW$c\fR\->reason.
+.Ip "$c->proto_ge($proto)" 4
+Returns \s-1TRUE\s0 if the client announced a protocol with version number
+greater or equal to the given argument.  The \f(CW$proto\fR argument can be a
+string like \*(L"\s-1HTTP/1\s0.1\*(R" or just \*(L"1.1\*(R".
 .Ip "$c->antique_client" 4
-Returns \s-1TRUE\s0 if the client speaks the \s-1HTTP/0\s0.9 protocol, i.e. no
-status code or headers should be returned.
+Returns \s-1TRUE\s0 if the client speaks the \s-1HTTP/0\s0.9 protocol.  No status
+code and no headers should be returned to such a client.  This should
+be the same as !$c->\fIproto_ge\fR\|("\s-1HTTP/1\s0.0").
+.Ip "$c->force_last_request" 4
+Make sure that \f(CW$c\fR\->get_request will not try to read more requests off
+this connection.  If you generate a response that is not self
+delimiting, then you should signal this fact by calling this method.
+.Sp
+This attribute is turned on automatically if the client announce
+protocol \s-1HTTP/1\s0.0 or worse and does not include a \*(L"Connection:
+Keep-Alive\*(R" header.  It is also turned on automatically when \s-1HTTP/1\s0.1
+or better clients send the \*(L"Connection: close\*(R" request header.
 .Ip "$c->send_status_line( [$code, [$mess, [$proto]]] )" 4
-Sends the status line back to the client.
+Sends the status line back to the client.  If \f(CW$code\fR is omitted 200 is
+assumed.  If \f(CW$mess\fR is omitted, then a message corresponding to \f(CW$code\fR
+is inserted.  If \f(CW$proto\fR is missing the content of the
+\f(CW$HTTP::Daemon::PROTO\fR variable is used.
+.Ip "$c->send_crlf" 4
+Send the \s-1CRLF\s0 sequence to the client.
 .Ip "$c->send_basic_header( [$code, [$mess, [$proto]]] )" 4
 Sends the status line and the \*(L"Date:\*(R" and \*(L"Server:\*(R" headers back to
-the client.
+the client.  This header is assumed to be continued and does not end
+with an empty \s-1CRLF\s0 line.
 .Ip "$c->send_response( [$res] )" 4
-Takes a \fI\s-1HTTP::\s0Response\fR object as parameter and send it back to the
-client as the response.
+Takes a \fI\s-1HTTP::\s0Response\fR object as parameter and write it back to the
+client as the response.  We try hard to make sure that the response is
+self delimiting so that the connection can stay persistent for further
+request/response exchanges.
+.Sp
+The content attribute of the \fI\s-1HTTP::\s0Response\fR object can be a normal
+string or a subroutine reference.  If it is a subroutine, then
+whatever this callback routine returns will be written back to the
+client as the response content.  The routine will be called until it
+return an undefined or empty value.  If the client is \s-1HTTP/1\s0.1 aware
+then we will use the chunked transfer encoding for the response.
 .Ip "$c->send_redirect( $loc, [$code, [$entity_body]] )" 4
 Sends a redirect response back to the client.  The location ($loc) can
 be an absolute or a relative \s-1URL\s0. The \f(CW$code\fR must be one the redirect
@@ -288,16 +350,20 @@ Send an error response back to the client.  If the \f(CW$code\fR is missing a
 is incorporated in the body of the \s-1HTML\s0 entity body.
 .Ip "$c->send_file_response($filename)" 4
 Send back a response with the specified \f(CW$filename\fR as content.  If the
-file happen to be a directory we will generate a \s-1HTML\s0 index for it.
+file happen to be a directory we will try to generate an \s-1HTML\s0 index
+of it.
 .Ip "$c->send_file($fd);" 4
 Copies the file back to the client.  The file can be a string (which
-will be interpreted as a filename) or a reference to a glob.
+will be interpreted as a filename) or a reference to an \fI\s-1IO::\s0Handle\fR
+or glob.
 .Ip "$c->daemon" 4
 Return a reference to the corresponding \fI\s-1HTTP::\s0Daemon\fR object.
 .SH "SEE ALSO"
+RFC 2068
+.PP
 the \fIIO::Socket\fR manpage, the \fIApache\fR manpage
 .SH "COPYRIGHT"
-Copyright 1996, Gisle Aas
+Copyright 1996-1998, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -322,11 +388,21 @@ modify it under the same terms as Perl itself.
 
 .IX Item "$d->product_tokens"
 
-.IX Item "$c->get_request"
+.IX Item "$c->get_request([$headers_only])"
+
+.IX Item "$c->read_buffer([$new_value])"
+
+.IX Item "$c->reason"
+
+.IX Item "$c->proto_ge($proto)"
 
 .IX Item "$c->antique_client"
 
+.IX Item "$c->force_last_request"
+
 .IX Item "$c->send_status_line( [$code, [$mess, [$proto]]] )"
+
+.IX Item "$c->send_crlf"
 
 .IX Item "$c->send_basic_header( [$code, [$mess, [$proto]]] )"
 

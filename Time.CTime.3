@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Time::CTime 3 "perl 5.004, patch 55" "1/Mar/97" "User Contributed Perl Documentation"
+.TH lib::Time::CTime 3 "perl 5.005, patch 53" "10/Jun/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -194,7 +194,7 @@ Time::CTime -- format times ala POSIX asctime
 .Vb 4
 \&        use Time::CTime
 \&        print ctime(time);
-\&        print asctime(timelocal(time));
+\&        print asctime(localtime(time));
 \&        print strftime(template, localtime(time)); 
 .Ve
 .Sh "strftime conversions"

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH autouse 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH autouse 3 "perl 5.005, patch 53" "5/Mar/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -241,13 +241,6 @@ your scripts like this:
 The first line ensures that the errors in your argument specification
 are found early.  When you ship your application you should comment
 out the first line, since it makes the second one useless.
-.SH "BUGS"
-If \fIModule::func3()\fR is autoused, and the module is loaded between the
-\f(CWautouse\fR directive and a call to \fIModule::func3()\fR, warnings about
-redefinition would appear if warnings are enabled.
-.PP
-If \fIModule::func3()\fR is autoused, warnings are disabled when loading the
-module via autoused functions.
 .SH "AUTHOR"
 Ilya Zakharevich (ilya@math.ohio-state.edu)
 .SH "SEE ALSO"
@@ -268,8 +261,6 @@ Ilya Zakharevich (ilya@math.ohio-state.edu)
 .IX Item "\(bu"
 
 .IX Item "\(bu"
-
-.IX Header "BUGS"
 
 .IX Header "AUTHOR"
 

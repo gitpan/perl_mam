@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Request 3 "perl 5.004, patch 55" "18/Nov/97" "User Contributed Perl Documentation"
+.TH lib::HTTP::Request 3 "libwww-perl-5.36" "1/Apr/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -193,11 +193,11 @@ HTTP::Request \- Class encapsulating HTTP Requests
 .PP
 .Vb 2
 \& require HTTP::Request;
-\& $request = new HTTP::Request GET => 'http://www.oslonett.no/';
+\& $request = HTTP::Request->new(GET => 'http://www.oslonett.no/');
 .Ve
 .SH "DESCRIPTION"
 \f(CWHTTP::Request\fR is a class encapsulating HTTP style requests,
-consisting of a request line, a MIME header, and optional
+consisting of a request line, some headers, and some (potentially empty)
 content. Note that the LWP library also uses this HTTP style requests
 for non-HTTP protocols.
 .PP
@@ -205,40 +205,44 @@ Instances of this class are usually passed to the \f(CWrequest()\fR method
 of an \f(CWLWP::UserAgent\fR object:
 .PP
 .Vb 3
-\& $ua = new LWP::UserAgent;
-\& $request = new HTTP::Request GET => 'http://www.oslonett.no/';
+\& $ua = LWP::UserAgent->new;
+\& $request = HTTP::Request->new(GET => 'http://www.oslonett.no/');
 \& $response = $ua->request($request);
 .Ve
-.SH "METHODS"
 \f(CWHTTP::Request\fR is a subclass of \f(CWHTTP::Message\fR and therefore
-inherits its methods.  The inherited methods are \fIheader()\fR,
+inherits its methods.  The inherited methods often used are \fIheader()\fR,
 \fIpush_header()\fR, \fIremove_header()\fR, \fIheaders_as_string()\fR and \fIcontent()\fR.
 See the \fIHTTP::Message\fR manpage for details.
-.Sh "\f(CW$r\fR = new \s-1HTTP::\s0Request \f(CW$method\fR, \f(CW$url\fR, [$header, [$content]]"
+.PP
+The following additional methods are available:
+.Ip "$r = \s-1HTTP::\s0Request->new($method, $url, [$header, [$content]])" 4
 Constructs a new \f(CWHTTP::Request\fR object describing a request on the
 object \f(CW$url\fR using method \f(CW$method\fR.  The \f(CW$url\fR argument can be
 either a string, or a reference to a \f(CWURI::URL\fR object.  The \f(CW$header\fR
-argument should be a reference to a \s-1HTTP::\s0Headers object.
-.PP
-.Vb 1
-\& $request = new HTTP::Request GET => 'http://www.oslonett.no/';
-.Ve
-.Sh "\f(CW$r\fR\->\fImethod\fR\|([$val])"
-.Sh "\f(CW$r\fR\->\fIurl\fR\|([$val])"
+argument should be a reference to an \f(CWHTTP::Headers\fR object.
+.Ip "$r->method([$val])" 4
+.Ip "$r->url([$val])" 4
 These methods provide public access to the member variables containing
 respectively the method of the request and the \s-1URL\s0 object of the
 request.
-.PP
+.Sp
 If an argument is given the member variable is given that as its new
 value. If no argument is given the value is not touched. In either
 case the previous value is returned.
-.PP
+.Sp
 The \fIurl()\fR method accept both a reference to a \s-1URI::URL\s0 object and a
 string as its argument.  If a string is given, then it should be
 parseable as an absolute \s-1URL\s0.
-.Sh "\f(CW$r\fR\->\fIas_string()\fR"
+.Ip "$r->as_string()" 4
 Method returning a textual representation of the request.
 Mainly useful for debugging purposes. It takes no arguments.
+.SH "SEE ALSO"
+the \fIHTTP::Headers\fR manpage, the \fIHTTP::Message\fR manpage, the \fIHTTP::Request::Common\fR manpage
+.SH "COPYRIGHT"
+Copyright 1995-1998 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::HTTP::Request 3"
@@ -250,13 +254,15 @@ Mainly useful for debugging purposes. It takes no arguments.
 
 .IX Header "DESCRIPTION"
 
-.IX Header "METHODS"
+.IX Item "$r = \s-1HTTP::\s0Request->new($method, $url, [$header, [$content]])"
 
-.IX Subsection "\f(CW$r\fR = new \s-1HTTP::\s0Request \f(CW$method\fR, \f(CW$url\fR, [$header, [$content]]"
+.IX Item "$r->method([$val])"
 
-.IX Subsection "\f(CW$r\fR\->\fImethod\fR\|([$val])"
+.IX Item "$r->url([$val])"
 
-.IX Subsection "\f(CW$r\fR\->\fIurl\fR\|([$val])"
+.IX Item "$r->as_string()"
 
-.IX Subsection "\f(CW$r\fR\->\fIas_string()\fR"
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
 

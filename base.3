@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH base 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH base 3 "perl 5.005, patch 53" "30/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -191,10 +191,8 @@
 base \- Establish IS\-A relationship with base class at compile time
 .SH "SYNOPSIS"
 .PP
-.Vb 1
+.Vb 2
 \&    package Baz;
-.Ve
-.Vb 1
 \&    use base qw(Foo Bar);
 .Ve
 .SH "DESCRIPTION"
@@ -207,9 +205,17 @@ Roughly similar in effect to
 \&        push @ISA, qw(Foo Bar);
 \&    }
 .Ve
+Will also initialize the \f(CW%FIELDS\fR hash if one of the base classes has
+it.  Multiple inheritance of \f(CW%FIELDS\fR is not supported.  The \*(L'base\*(R'
+pragma will croak if multiple base classes has a \f(CW%FIELDS\fR hash.  See
+the \fIfields\fR manpage for a description of this feature.
+.PP
+When strict \*(L'vars\*(R' is in scope \fIbase\fR also let you assign to \f(CW@ISA\fR
+without having to declare \f(CW@ISA\fR with the \*(L'vars\*(R' pragma first.
+.PP
 This module was introduced with Perl 5.004_04.
-.SH "BUGS"
-Needs proper documentation!
+.SH "SEE ALSO"
+the \fIfields\fR manpage
 
 .rn }` ''
 .IX Title "base 3"
@@ -221,5 +227,5 @@ Needs proper documentation!
 
 .IX Header "DESCRIPTION"
 
-.IX Header "BUGS"
+.IX Header "SEE ALSO"
 

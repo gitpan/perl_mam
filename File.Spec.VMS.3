@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::IO 3 "perl 5.004, patch 55" "5/Apr/97" "User Contributed Perl Documentation"
+.TH File::Spec::VMS 3 "perl 5.005, patch 53" "20/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,24 +188,38 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-LWP::IO \- Low level I/O capability
+File::Spec::VMS \- methods for VMS file specs
 .SH "SYNOPSIS"
 .PP
 .Vb 1
-\& use LWP::IO ();
+\& use File::Spec::VMS; # Done internally by File::Spec if needed
 .Ve
 .SH "DESCRIPTION"
-.Sh "\fI\s-1LWP::IO::\s0read\fR\|($fd, \f(CW$data\fR, \f(CW$size\fR, \f(CW$offset\fR, \f(CW$timeout\fR)"
-.Sh "\fI\s-1LWP::IO::\s0write\fR\|($fd, \f(CW$data\fR, \f(CW$timeout\fR)"
-These routines provide low level I/O with timeout capability for the
-\s-1LWP\s0 library.  These routines will only be installed if they are not
-already defined.  This fact can be used by programs that need to
-override these functions.  Just provide replacement functions before
-you require \s-1LWP\s0. See also the \fI\s-1LWP::\s0TkIO\fR manpage.
+See File::Spec::Unix for a documentation of the methods provided
+there. This package overrides the implementation of these methods, not
+the semantics.
+.Sh "Methods always loaded"
+.Ip "catdir" 5
+Concatenates a list of file specifications, and returns the result as a
+\s-1VMS\s0\-syntax directory specification.
+.Ip "catfile" 5
+Concatenates a list of file specifications, and returns the result as a
+\s-1VMS\s0\-syntax directory specification.
+.Ip "curdir (override)" 5
+Returns a string representing of the current directory.
+.Ip "rootdir (override)" 5
+Returns a string representing of the root directory.
+.Ip "updir (override)" 5
+Returns a string representing of the parent directory.
+.Ip "path (override)" 5
+Translate logical name \s-1DCL$PATH\s0 as a searchlist, rather than trying
+to \f(CWsplit\fR string value of \f(CW$ENV{'PATH'}\fR.
+.Ip "file_name_is_absolute (override)" 5
+Checks for \s-1VMS\s0 directory spec as well as Unix separators.
 
 .rn }` ''
-.IX Title "lib::LWP::IO 3"
-.IX Name "LWP::IO - Low level I/O capability"
+.IX Title "File::Spec::VMS 3"
+.IX Name "File::Spec::VMS - methods for VMS file specs"
 
 .IX Header "NAME"
 
@@ -213,7 +227,19 @@ you require \s-1LWP\s0. See also the \fI\s-1LWP::\s0TkIO\fR manpage.
 
 .IX Header "DESCRIPTION"
 
-.IX Subsection "\fI\s-1LWP::IO::\s0read\fR\|($fd, \f(CW$data\fR, \f(CW$size\fR, \f(CW$offset\fR, \f(CW$timeout\fR)"
+.IX Subsection "Methods always loaded"
 
-.IX Subsection "\fI\s-1LWP::IO::\s0write\fR\|($fd, \f(CW$data\fR, \f(CW$timeout\fR)"
+.IX Item "catdir"
+
+.IX Item "catfile"
+
+.IX Item "curdir (override)"
+
+.IX Item "rootdir (override)"
+
+.IX Item "updir (override)"
+
+.IX Item "path (override)"
+
+.IX Item "file_name_is_absolute (override)"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Formatter 3 "perl 5.004, patch 55" "12/Oct/97" "User Contributed Perl Documentation"
+.TH lib::Digest::HMAC_MD5 3 "perl 5.005, patch 53" "26/Oct/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,33 +188,39 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-HTML::Formatter \- Base class for HTML formatters
+Digest::HMAC_MD5 \- Keyed-Hashing for Message Authentication
 .SH "SYNOPSIS"
 .PP
+.Vb 4
+\& # Functional style
+\& use Digest::HMAC_MD5 qw(hmac_md5 hmac_md5_hex);
+\& $digest = hmac_md5($data, $key);
+\& print hmac_md5_hex($data, $key);
+.Ve
 .Vb 3
-\& package HTML::FormatXX;
-\& require HTML::Formatter;
-\& @ISA=qw(HTML::Formatter);
+\& # OO style
+\& use Digest::HMAC_MD5;
+\& $hmac = Digest::HMAC_MD5->new($key);
+.Ve
+.Vb 2
+\& $hmac->add($data);
+\& $hmac->addfile(*FILE);
+.Ve
+.Vb 3
+\& $digest = $hmac->digest;
+\& $digest = $hmac->hexdigest;
+\& $digest = $hmac->b64digest;
 .Ve
 .SH "DESCRIPTION"
-HTML formatters are able to format a HTML syntax tree into various
-printable formats.  Different formatters produce output for different
-output media.  Common for all formatters are that they will return the
-formatted output when the \fIformat()\fR method is called.  \fIFormat()\fR takes a
-HTML::Element as parameter.
+This module provide HMAC\-MD5 hashing.
 .SH "SEE ALSO"
-the \fIHTML::FormatText\fR manpage, the \fIHTML::FormatPS\fR manpage, the \fIHTML::Element\fR manpage
-.SH "COPYRIGHT"
-Copyright (c) 1995-1997 Gisle Aas. All rights reserved.
-.PP
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+the \fIDigest::HMAC\fR manpage, the \fIDigest::MD5\fR manpage, the \fIDigest::HMAC_SHA1\fR manpage
 .SH "AUTHOR"
-Gisle Aas <aas@oslonett.no>
+Gisle Aas <gisle@aas.no>
 
 .rn }` ''
-.IX Title "lib::HTML::Formatter 3"
-.IX Name "HTML::Formatter - Base class for HTML formatters"
+.IX Title "lib::Digest::HMAC_MD5 3"
+.IX Name "Digest::HMAC_MD5 - Keyed-Hashing for Message Authentication"
 
 .IX Header "NAME"
 
@@ -223,8 +229,6 @@ Gisle Aas <aas@oslonett.no>
 .IX Header "DESCRIPTION"
 
 .IX Header "SEE ALSO"
-
-.IX Header "COPYRIGHT"
 
 .IX Header "AUTHOR"
 

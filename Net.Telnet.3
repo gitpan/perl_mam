@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Net::Telnet 3 "perl 5.004, patch 55" "15/Mar/97" "User Contributed Perl Documentation"
+.TH lib::Net::Telnet 3 "perl 5.005, patch 53" "27/Dec/97" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -190,37 +190,20 @@
 .SH "NAME"
 Net::Telnet \- interact with TELNET port or other TCP ports
 .SH "SYNOPSIS"
+\f(CWuse Net::Telnet ();\fR
 .PP
-.Vb 2
-\&    use Net::Telnet ();
-\&    see METHODS section below
-.Ve
+see METHODS section below
 .SH "DESCRIPTION"
 Net::Telnet allows you to make client connections to a TCP port and do
-network I/O, especially with a port using the TELNET protocol.  Simple
+network I/O, especially to a port using the TELNET protocol.  Simple
 I/O methods such as print, get, and getline are provided.  More
 sophisticated interactive features are provided because connecting to
 a TELNET port ultimately means communicating with a program designed
-for human interaction.  Some interactive features include the ability
+for human interaction.  These interactive features include the ability
 to specify a timeout and to wait for patterns to appear in the input
-stream, such as the prompt from a command interpreter.
+stream, such as the prompt from a shell.
 .PP
-This example prints who's logged-on to the remote host sparky:
-.PP
-.Vb 7
-\&    $sparky = new Net::Telnet (Host => "sparky",
-\&                               Timeout => 10,
-\&                               Prompt => '/[$%#>] $/');
-\&    $sparky->login($username, $passwd);
-\&    @lines = $sparky->cmd("/usr/bin/who");
-\&    print @lines;
-\&    $sparky->close;
-.Ve
-Methods \fBlogin()\fR and \fBcmd()\fR use the prompt setting in the object
-to determine when a login or command is complete.  If the prompt
-doesn't match, it's likely those commands will timeout.
-.PP
-Other reasons to use this class than strictly with a TELNET port are:
+Other reasons to use this module than strictly with a TELNET port are:
 .Ip "\(bu" 2
 You're not familiar with sockets and you want a simple way to make
 client connections to \s-1TCP\s0 services.
@@ -232,37 +215,92 @@ You're communicating with an interactive program at the other end of
 some socket or pipe and you want to wait for certain patterns to
 appear.
 .PP
-\fBPlease note\fR some important differences with most other Perl I/O
-calls.  All input is buffered, while all output is flushed.  The
-output record separator for \fBprint()\fR is set to \fB\en\fR by default, so
-there's no need to append all your commands with a newline.  See
-\fBoutput_record_separator()\fR to change the default.  In the input
-stream, each sequence of \fB\er\en\fR is converted to \fB\en\fR.  In the output
-stream, each occurrence of \fB\en\fR is converted to a sequence of
-\fB\er\en\fR.  See \fBbinmode()\fR to change the default.  \s-1TCP\s0 protocols
-typically use the \s-1ASCII\s0 sequence \fIcarriage-return\fR \fInewline\fR to
-designate a newline.
+Here's an example that prints who's logged-on to the remote host
+sparky.  In addition to a username and password, you must also know
+the user's shell prompt, which for this example is \f(CWbash$\fR
 .PP
+.Vb 7
+\&    use Net::Telnet ();
+\&    $t = new Net::Telnet (Timeout => 10,
+\&                          Prompt => '/bash\e$ $/');
+\&    $t->open("sparky");
+\&    $t->login($username, $passwd);
+\&    @lines = $t->cmd("/usr/bin/who");
+\&    print @lines;
+.Ve
+More examples are in the \fB\s-1EXAMPLES\s0\fR section below.
+.Sh "What To Know Before Using"
+.Ip "\(bu" 2
+All output is flushed while all input is buffered.  Each object
+contains an input buffer.
+.Ip "\(bu" 2
+The output record separator for \f(CWprint()\fR and \f(CWcmd()\fR is set to
+\f(CW"\en"\fR by default, so that you don't have to append all your commands
+with a newline.  See \f(CWoutput_record_separator()\fR to change the
+behavior.
+.Ip "\(bu" 2
+The methods \f(CWlogin()\fR and \f(CWcmd()\fR use the \fIprompt\fR setting in the
+object to determine when a login or remote command is complete.  The
+method will fail with a time-out if you don't set the prompt
+correctly.
+.Ip "\(bu" 2
+To avoid unexpected backslash interpretation, always use single quotes
+instead of double quotes to construct a match operator argument for
+\f(CWprompt()\fR and \f(CWwaitfor()\fR (e.g. \f(CW'/bash\e$ $/'\fR).  If you're
+constructing a \s-1DOS\s0 like file path, you'll need to use four backslashes
+to represent one (e.g. \f(CW'/c:\e\e\e\eusers\e\e\e\ebill>$/i'\fR).
+.Sp
+Of course don't forget about regexp metacharacters like \f(CW.\fR, \f(CW[\fR, or
+\f(CW$\fR.  You'll only need a single backslash to quote them.  The anchor
+metacharacters \f(CW^\fR and \f(CW$\fR refer to positions in the input buffer.
+.Ip "\(bu" 2
+Errors such as timing-out are handled according to the \fIerrmode\fR
+action.  The default action is to print an error message to standard
+error and have the program die.  Use \f(CWerrmode()\fR to change the
+action.
+.Sp
+Using an \fIerrmode\fR of \f(CW"return"\fR arranges for the error message to
+be saved and the offending method to return with an undefined value.
+You can obtain the error message using \f(CWerrmsg()\fR.
+.Ip "\(bu" 2
 You'll need to be running at least Perl version 5.002 to use this
 module.  This module does not require any libraries that don't already
-come with the standard Perl distribution.  If you have the \s-1IO\s0::
-libraries then methods are inherited from the class \s-1IO::\s0Socket::\s-1INET\s0,
-otherwise FileHandle is used as a base class.
+come with a standard Perl distribution.
+.Sp
+If you have the \s-1IO\s0:: libraries installed then \s-1IO::\s0Socket::\s-1INET\s0 is used
+as a base class, otherwise FileHandle is used.  The \s-1IO\s0:: libraries now
+come standard starting with perl5.004.
+.Ip "\(bu" 2
+In the input stream, each sequence of \fIcarriage return\fR and \fIline
+feed\fR (i.e. \f(CW"\e015\e012"\fR or \s-1CR\s0 \s-1LF\s0) is converted to \f(CW"\en"\fR.  In the
+output stream, each occurrence of \f(CW"\en"\fR is converted to a sequence
+of \s-1CR\s0 \s-1LF\s0.  See \f(CWbinmode()\fR to change the behavior.  \s-1TCP\s0 protocols
+typically use the \s-1ASCII\s0 sequence, carriage return and line feed to
+designate a newline.
+.Ip "\(bu" 2
+Timing-out while making a connection is disabled for machines that
+don't support the \f(CWalarm()\fR function.  Most notably these include
+Win32 machines.
+.Sp
+More universal support for connection time-outs will be in a later
+release.
+.Ip "\(bu" 2
+This is an alpha version \- meaning that the interface may change in
+future versions.  Contact me, Jay Rogers <jay@rgrs.com>, if you find
+any bugs or have suggestions for improvement.
+.Sh "Debugging"
+The typical bug causes a timeout error because you've made incorrect
+assumptions about what the remote side actually sends.  The easiest
+way to reconcile what the remote side sends with your expectations is
+to use \f(CWinput_log()\fR or \f(CWdump_log()\fR.
 .PP
-Special methods are provided to handle errors.  Normally when an error
-or timeout is encountered using a telnet object, the program dies with
-an error message printed to standard error.  You may arrange for the
-methods to return with an undefined value instead by using
-\fBerrmode()\fR or the \fBerrmode\fR option to \fBnew()\fR.  See \fBerrmode()\fR
-for other sophisticated error mode settings.  The error message itself
-may be obtained using the \fBerrmsg()\fR.
-.PP
-Note that \fIeof\fR is not considered an error while \fItiming-out\fR is.
-.PP
-While debugging your program use \fBinput_log()\fR or \fBdump_log()\fR to
-see what's actually being received and sent.
-.PP
-Two different styles of named arguments are supported.  This document
+\f(CWdump_log()\fR allows you to see the data being sent from the remote
+side before any translation is done, while \f(CWinput_log()\fR shows you
+the results after translation.  The translation includes converting
+end of line characters and stripping and responding to \s-1TELNET\s0 protocol
+commands.
+.Sh "Style of Named Parameters"
+Two different styles of named parameters are supported.  This document
 only shows the \s-1IO\s0:: style:
 .PP
 .Vb 1
@@ -273,22 +311,30 @@ however the dash-option style is also allowed:
 .Vb 1
 \&    Net::Telnet->new(-timeout => 20);
 .Ve
-For more help, see the \fB\s-1EXAMPLES\s0\fR section below.
+.Sh "Connecting to a Remote Win32 Machine"
+By default, Windows machines don't come with a \s-1TELNET\s0 service.
+However, third party \s-1TELNET\s0 servers can be acquired to provide access
+to a \s-1DOS\s0 shell.  As is all too familiar, many of these servers are of
+inferior quality.
 .PP
-This is an alpha version \- meaning that the interface may change in
-future versions.  Contact me, Jay Rogers <jay@rgrs.com>, if you find
-any bugs or have suggestions for improvement.
+One particularly nasty problem is a server that sends \s-1ANSI\s0 terminal
+escape sequences despite being told not to.  These escape sequences
+make your job of parsing the data much more difficult.  You can
+sometimes avoid this with a server that prompts you for \fIconsole
+mode\fR.  Choose \fIno\fR to console mode.
 .SH "METHODS"
-.Sh "new \- create a new Net::Telnet object"
-.PP
-.Vb 13
+.Ip "\fBnew\fR \- create a new Net::Telnet object" 4
+.Sp
+.Vb 15
 \&    $obj = Net::Telnet->new([Binmode    => $mode,]
+\&                            [Cmd_remove_mode => $mode,]
 \&                            [Dump_Log   => $filename,]
 \&                            [Errmode    => $errmode,]
 \&                            [Fhopen     => $filehandle,]
 \&                            [Host       => $host,]
 \&                            [Input_log  => $file,]
 \&                            [Input_record_separator => $char,]
+\&                            [Option_log => $file,]
 \&                            [Output_log => $file,]
 \&                            [Output_record_separator => $char,]
 \&                            [Port       => $port,]
@@ -298,107 +344,165 @@ any bugs or have suggestions for improvement.
 .Ve
 This is the constructor for Net::Telnet objects.  A new object is
 returned on success, the \fI$errmode\fR action is performed on failure \-
-see \fBerrmode()\fR.  The arguments are short-cuts to methods of the same
+see \f(CWerrmode()\fR.  The arguments are short-cuts to methods of the same
 name.
-.PP
+.Sp
 If the \fI$host\fR argument is given then the object is opened by
-connecting to \s-1TCP\s0 \fI$port\fR on \fI$host\fR.  Also see \fBopen()\fR.  The new
+connecting to \s-1TCP\s0 \fI$port\fR on \fI$host\fR.  Also see \f(CWopen()\fR.  The new
 object returned is given the following defaults in the absence of
 corresponding named arguments:
-.Ip "\(bu" 2
-The default \fBhost\fR is \fB"localhost\*(R"\fR
-.Ip "\(bu" 2
-The default \fBport\fR is \fB23\fR
-.Ip "\(bu" 2
-The default \fBprompt\fR is \fB'/[$%#\fR>\fB] $/\*(R'\fR
-.Ip "\(bu" 2
-The default \fBtimeout\fR is \fB10\fR
-.Ip "\(bu" 2
-The default \fBerrmode\fR is \fB'die\*(R'\fR
-.Ip "\(bu" 2
-The default \fBoutput_record_separator\fR is \fB\*(R"\en\*(R"\fR
-.Ip "\(bu" 2
-The default \fBinput_record_separator\fR is \fB\*(R"\en\*(R"\fR
-.Ip "\(bu" 2
-The default \fBbinmode\fR is \fB0\fR, which means do newline translations
-.Sh "binmode \- turn off/on newline translation"
-.PP
+.Ip "" 8
+The default \fIHost\fR is \f(CW"localhost"\fR
+.Ip "" 8
+The default \fIPort\fR is \f(CW23\fR
+.Ip "" 8
+The default \fIPrompt\fR is \f(CW'/[\e$%#>] $/'\fR
+.Ip "" 8
+The default \fITimeout\fR is \f(CW10\fR
+.Ip "" 8
+The default \fIErrmode\fR is \f(CW"die"\fR
+.Ip "" 8
+The default \fIOutput_record_separator\fR is \f(CW"\en"\fR
+.Ip "" 8
+The default \fIInput_record_separator\fR is \f(CW"\en"\fR
+.Ip "" 8
+The default \fIBinmode\fR is \f(CW0\fR, which means do newline translation
+.Ip "" 8
+The default \fICmd_remove_mode\fR is \f(CW"auto"\fR.
+.Ip "\fBbinmode\fR \- toggle newline translation" 4
+.Sp
+.Vb 1
+\&    $mode = $obj->binmode;
+.Ve
 .Vb 1
 \&    $prev = $obj->binmode($mode);
 .Ve
-This method controls whether or not sequences of \fB\er\en\fR are
-translated.  By default they are translated (i.e. binmode is \fIoff\fR).
-.PP
-If \fI$mode\fR is missing or \fB1\fR then binmode is \fIon\fR and newline
-translation is not done.
-.PP
-If \fI$mode\fR is \fB0\fR then binmode is \fIoff\fR and newline translation is
-done.  In the input stream, each sequence of \fB\er\en\fR is converted to
-\fB\en\fR and in the output stream, each occurrence of \fB\en\fR is converted
-to a sequence of \fB\er\en\fR.
-.PP
+This method controls whether or not sequences of carriage returns and
+line feeds (\s-1CR\s0 \s-1LF\s0 or more specifically \f(CW"\e015\e012"\fR) are translated.
+By default they are translated (i.e. binmode is \f(CW0\fR).
+.Sp
+If no argument is given, the current mode is returned.
+.Sp
+If \fI$mode\fR is \f(CW1\fR then binmode is \fIon\fR and newline translation is
+not done.
+.Sp
+If \fI$mode\fR is \f(CW0\fR then binmode is \fIoff\fR and newline translation is
+done.  In the input stream, each sequence of \s-1CR\s0 \s-1LF\s0 is converted to
+\f(CW"\en"\fR and in the output stream, each occurrence of \f(CW"\en"\fR is
+converted to a sequence of \s-1CR\s0 \s-1LF\s0.
+.Sp
 Note that input is always buffered.  Changing binmode doesn't effect
 what's already been read into the buffer.  Output is not buffered and
 changing binmode will have an immediate effect.
-.Sh "break \- send \s-1TELNET\s0 break character"
-.PP
+.Ip "\fBbreak\fR \- send \s-1TELNET\s0 break character" 4
+.Sp
 .Vb 1
 \&    $ok = $obj->break;
 .Ve
 This method sends the \s-1TELNET\s0 break character.  This character is
-provided because it's a signal outside the \s-1USASCII\s0 set which is
-currently given local meaning within many systems.  It's intended to
-indicate that the Break Key or the Attention Key was hit.
-.Sh "close \- close object"
-.PP
+provided because it's a signal outside the \s-1USASCII\s0 character set which
+is currently given local meaning within many systems.  It's intended
+to indicate that the Break Key or the Attention Key was hit.
+.Ip "\fBbuffer\fR \- scalar reference to object's input buffer" 4
+.Sp
+.Vb 1
+\&    $ref = $obj->buffer;
+.Ve
+This method returns a scalar reference to the input buffer for
+\fI$obj\fR.  Data in the input buffer is data that has been read from the
+remote side but has yet to be read by the user.  Modifications to the
+input buffer are returned by a subsequent read.
+.Ip "\fBbuffer_empty\fR \- discard all data in object's input buffer" 4
+.Sp
+.Vb 1
+\&    $obj->buffer_empty;
+.Ve
+This method removes all data in the input buffer for \fI$obj\fR.
+.Ip "\fBclose\fR \- close object" 4
+.Sp
 .Vb 1
 \&    $ok = $obj->close;
 .Ve
 This method closes the socket, file, or pipe associated with the
 object.
-.Sh "cmd \- issue command and retrieve output"
-.PP
-.Vb 5
+.Ip "\fBcmd\fR \- issue command and retrieve output" 4
+.Sp
+.Vb 6
 \&    $ok = $obj->cmd($string);
 \&    $ok = $obj->cmd(String   => $string,
 \&                    [Output  => $ref,]
 \&                    [Prompt  => $match,]
-\&                    [Timeout => $secs,]);
+\&                    [Timeout => $secs,]
+\&                    [Cmd_remove_mode => $mode,]);
 .Ve
-.Vb 5
+.Vb 6
 \&    @output = $obj->cmd($string);
-\&    @output = $obj->cmd(String  => $string,
+\&    @output = $obj->cmd(String   => $string,
 \&                        [Output  => $ref,]
 \&                        [Prompt  => $match,]
-\&                        [Timeout => $secs,]);
+\&                        [Timeout => $secs,]
+\&                        [Cmd_remove_mode => $mode,]);
 .Ve
 This method sends the command \fI$string\fR, and reads the characters
 sent back by the command up until and including the matching prompt.
 It's assumed that the program to which you're sending is some kind of
 command prompting interpreter such as a shell.
-.PP
+.Sp
 In a scalar context the characters read are discarded and a boolean is
 returned indicating the success or failure of sending the command
 string and reading the prompt.  Note that in order to return on error,
-\fBerrmode()\fR must not be set to \fIdie\fR.
-.PP
+\f(CWerrmode()\fR must not be set to \f(CW"die"\fR.
+.Sp
 In an array context, just the output generated by the command is
 returned, one line per element.  In other words, all the characters in
 between the echoed back command string and the prompt are returned.
 If the command happens to return no output, an array containing one
 element, the null string is returned.  This is so the array will
-indicate \fItrue\fR in a boolean context.
-.PP
+indicate true in a boolean context.
+.Sp
+Many command interpreters echo back the command sent.  In most
+situations, this method removes the first line returned from the
+remote side (i.e. the echoed back command).  See \f(CWcmd_remove_mode()\fR
+for more control over this feature.
+.Sp
+Use \f(CWdump_log()\fR to debug when this method keeps timing-out and you
+don't think it should.
+.Sp
 Optional named arguments are provided to override the current settings
-of prompt and timeout.
-.PP
-The \fBoutput\fR named argument provides an alternative method of
-receiving command output.  If you pass a scalar reference, the output
-is returned in the referenced scalar.  If you pass an array or hash
-reference, the lines of output are returned in the referenced array or
-hash.
-.Sh "dump_log \- log all I/O in dump format"
-.PP
+of prompt, timeout, and cmd_remove_mode.
+.Sp
+The \fIOutput\fR named argument provides an alternative method of
+receiving command output.  If you pass a scalar reference, all the
+output (even if it contains multiple lines) is returned in the
+referenced scalar.  If you pass an array or hash reference, the lines
+of output are returned in the referenced array or hash.
+.Ip "\fBcmd_remove_mode\fR \- toggle removal of echoed commands" 4
+.Sp
+.Vb 1
+\&    $mode = $obj->cmd_remove_mode;
+.Ve
+.Vb 1
+\&    $prev = $obj->cmd_remove_mode($mode);
+.Ve
+This method controls how to deal with echoed back commands in the
+output returned by \fIcmd()\fR.  Typically, when you send a command to the
+remote side, the first line of output returned is the command echoed
+back.  Use this mode to remove the first line of output normally
+returned by \fIcmd()\fR.
+.Sp
+If no argument is given, the current mode is returned.
+.Sp
+If \fI$mode\fR is \f(CW0\fR then the command output returned from \fIcmd()\fR has no
+lines removed.  If \fI$mode\fR is a positive integer, then the first
+\fI$mode\fR lines of command output are stripped.
+.Sp
+By default, \fI$mode\fR is set to \f(CW"auto"\fR.  Auto means that whether or
+not the first line of command output is stripped, depends on whether
+or not the remote side offered to echo.  By default, Net::Telnet
+always accepts an offer to echo by the remote side.  You can change
+the default to reject such an offer using \f(CWoption_accept()\fR.
+.Ip "\fBdump_log\fR \- log all I/O in dump format" 4
+.Sp
 .Vb 1
 \&    $fh = $obj->dump_log;
 .Ve
@@ -412,18 +516,18 @@ This method starts or stops dump format logging of all the object's
 input and output.  The dump format shows the blocks read and written
 in a hexadecimal and printable character format.  This method is
 useful when debugging, however you might want to first try
-\fBinput_log()\fR as it's more readable.
-.PP
+\f(CWinput_log()\fR as it's more readable.
+.Sp
 If no argument is given, the current log filehandle is returned.  A
 null string indicates logging is off.
-.PP
+.Sp
 To stop logging, use a null string as an argument.
-.PP
+.Sp
 If an open filehandle is given, it is used for logging and returned.
 Otherwise, the argument is assumed to be the name of a file, the file
 is opened and a filehandle to it is returned.
-.Sh "eof \- end of file read indicator"
-.PP
+.Ip "\fBeof\fR \- end of file indicator" 4
+.Sp
 .Vb 1
 \&    $eof = $obj->eof;
 .Ve
@@ -432,8 +536,8 @@ is buffered this isn't the same thing as \fI$obj\fR has closed.  In other
 words \fI$obj\fR can be closed but there still can be stuff in the buffer
 to be read.  Under this condition you can still read but you won't be
 able to write.
-.Sh "errmode \- set action to perform on error"
-.PP
+.Ip "\fBerrmode\fR \-  define action to be performed on error" 4
+.Sp
 .Vb 1
 \&    $mode = $obj->errmode;
 .Ve
@@ -443,32 +547,32 @@ able to write.
 This method gets or sets the action used when errors are encountered
 using the object.  The first calling sequence returns the current
 error mode.  The second calling sequence sets it to \fI$mode\fR and
-returns the previous mode.  Valid values for \fI$mode\fR are \fBdie\fR (the
-default), \fBreturn\fR, a \fIcoderef\fR, or an \fIarrayref\fR.
-.PP
-When mode is \fBdie\fR then when an error is encountered using the
-object, the program dies and an error message is printed on standard
-error.
-.PP
-When mode is \fBreturn\fR then the method generating the error places an
-error message in the object and returns the undefined value in a
+returns the previous mode.  Valid values for \fI$mode\fR are \f(CW"die"\fR
+(the default), \f(CW"return"\fR, a \fIcoderef\fR, or an \fIarrayref\fR.
+.Sp
+When mode is \f(CW"die"\fR and an error is encountered using the object,
+then an error message is printed to standard error and the program
+dies.
+.Sp
+When mode is \f(CW"return"\fR then the method generating the error places
+an error message in the object and returns the undefined value in a
 scalar context and a null list in list context.  The error message may
-be obtained using \fBerrmsg()\fR.
-.PP
+be obtained using \f(CWerrmsg()\fR.
+.Sp
 When mode is a \fIcoderef\fR, then when an error is encountered
 \fIcoderef\fR is called with the error message as its first argument.
 Using this mode you may have your own subroutine handle errors.  If
 \fIcoderef\fR itself returns then the method generating the error returns
 undefined or a null list depending on context.
-.PP
+.Sp
 When mode is an \fIarrayref\fR, the first element of the array must be a
 \fIcoderef\fR.  Any elements that follow are the arguments to \fIcoderef\fR.
 When an error is encountered, the \fIcoderef\fR is called with its
 arguments.  Using this mode you may have your own subroutine handle
 errors.  If the \fIcoderef\fR itself returns then the method generating
 the error returns undefined or a null list depending on context.
-.Sh "errmsg \- most recent error message"
-.PP
+.Ip "\fBerrmsg\fR \- most recent error message" 4
+.Sp
 .Vb 1
 \&    $msg = $obj->errmsg;
 .Ve
@@ -481,35 +585,35 @@ encountered yet.  The second calling sequence sets the error message
 for the object to the concatenation of \fI@msgs\fR and returns the
 previous error message.  Normally, error messages are set internally
 by a method when an error is encountered.
-.Sh "error \- perform the error mode action"
-.PP
+.Ip "\fBerror\fR \- perform the error mode action" 4
+.Sp
 .Vb 1
 \&    $obj->error(@msgs);
 .Ve
 This method concatenates \fI@msgs\fR into a string and places it in the
-object as the error message.  Also see \fBerrmsg()\fR.  It then performs
-the error mode.  Also see \fBerrmode()\fR.
-.PP
+object as the error message.  Also see \f(CWerrmsg()\fR.  It then performs
+the error mode.  Also see \f(CWerrmode()\fR.
+.Sp
 If the error mode doesn't cause the program to die then the undefined
 value or a null list is returned depending on context.
-.PP
+.Sp
 This method is primarily used by this class or a sub-class to perform
 the user requested action when an error is encountered.
-.Sh "fhopen \- use an existing open filehandle"
-.PP
+.Ip "\fBfhopen\fR \- use already open filehandle for I/O" 4
+.Sp
 .Vb 1
 \&    $ok = $obj->fhopen($fh);
 .Ve
-This method associates the open filehandle \fI$fh\fR with the object for
-further I/O.
-.PP
-This method provides a way to use this module with a filehandle that's
-already opened.  Suppose you want to use the features of this module
-to do I/O to something other than a \s-1TCP\s0 port.  Instead of opening the
-object for I/O to a \s-1TCP\s0 port by passing a \fBhost\fR arg to \fBnew()\fR or
-invoking \fBopen()\fR, call this method instead.
-.Sh "get \- read block of data"
-.PP
+This method associates the open filehandle \fI$fh\fR with \fI$obj\fR for
+further I/O.  Filehandle \fI$fh\fR must already be opened.
+.Sp
+Suppose you want to use the features of this module to do I/O to
+something other than a \s-1TCP\s0 port, for example \s-1STDIN\s0 or a filehandle
+opened to read from a process.  Instead of opening the object for I/O
+to a \s-1TCP\s0 port by using \f(CWopen()\fR or \f(CWnew()\fR, call this method
+instead.
+.Ip "\fBget\fR \- read block of data" 4
+.Sp
 .Vb 1
 \&    $data = $obj->get([Timeout => $secs,]);
 .Ve
@@ -517,43 +621,54 @@ This method reads a block of data from the object and returns it along
 with any buffered data.  If no buffered data is available to return,
 it will wait for data to read using the timeout specified in the
 object.  You can override that timeout using \fI$secs\fR.  Also see
-\fBtimeout()\fR.  If buffered data is available to return, it also checks
+\f(CWtimeout()\fR.  If buffered data is available to return, it also checks
 for a block of data that can be immediately read.
-.PP
-On eof an undefined value is returned.  On timeout or other errors the
-error mode action is performed.
-.Sh "getline \- read next line"
-.PP
+.Sp
+On eof an undefined value is returned.  On time-out or other errors
+the error mode action is performed.
+.Sp
+An undefined value is returned for both eof and time-out when
+\fIerrmode\fR is not set to \f(CW"die"\fR.  Use \f(CWeof()\fR and \f(CWtimed_out()\fR to
+distinguish.
+.Ip "\fBgetline\fR \- read next line" 4
+.Sp
 .Vb 1
 \&    $line = $obj->getline([Timeout => $secs,]);
 .Ve
 This method reads and returns the next line of data from the object.
-You can use \fBinput_record_separator()\fR to change the notion of what
-separates a line.  The default is \fB\en\fR.
-.PP
+You can use \f(CWinput_record_separator()\fR to change the notion of what
+separates a line.  The default is \f(CW"\en"\fR.
+.Sp
 If a line isn't immediately available, this method blocks waiting for
 a line or the timeout.  You can override the object's timeout for this
-method using \fI$secs\fR.  Also see \fBtimeout()\fR.
-.PP
+method using \fI$secs\fR.  Also see \f(CWtimeout()\fR.
+.Sp
 On eof an undefined value is returned.  On timeout or other errors the
 error mode action is performed.
-.Sh "getlines \- read next lines"
-.PP
+.Sp
+An undefined value is returned for both eof and time-out when
+\fIerrmode\fR is not set to \f(CW"die"\fR.  Use \f(CWeof()\fR and \f(CWtimed_out()\fR to
+distinguish.
+.Ip "\fBgetlines\fR \- read next lines" 4
+.Sp
 .Vb 1
 \&    @lines = $obj->getlines([Timeout => $secs,]);
 .Ve
 This method reads and returns the next available lines of data from
-the object.  You can use \fBinput_record_separator()\fR to change the
-notion of what separates a line.  The default is \fB\en\fR.
-.PP
+the object.  You can use \f(CWinput_record_separator()\fR to change the
+notion of what separates a line.  The default is \f(CW"\en"\fR.
+.Sp
 If a line isn't immediately available, this method blocks waiting for
 one or more lines, or the timeout.  You can override the object's
-timeout for this method using \fI$secs\fR.  Also see \fBtimeout()\fR.
-.PP
+timeout for this method using \fI$secs\fR.  Also see \f(CWtimeout()\fR.
+.Sp
 On eof a null array is returned.  On timeout or other errors the error
 mode action is performed.
-.Sh "host \- name of remote host"
-.PP
+.Sp
+A null array is returned for both eof and time-out when \fIerrmode\fR is
+not set to \f(CW"die"\fR.  Use \f(CWeof()\fR and \f(CWtimed_out()\fR to distinguish.
+.Ip "\fBhost\fR \- name of remote host" 4
+.Sp
 .Vb 1
 \&    $host = $obj->host;
 .Ve
@@ -565,8 +680,8 @@ returns the current host name set in the object.  With an argument it
 sets the current host name to \fI$host\fR and returns the previous host
 name.  You may indicate the remote host using either a hostname or an
 \s-1IP\s0 address.
-.Sh "input_log \- log all input"
-.PP
+.Ip "\fBinput_log\fR \- log all input" 4
+.Sp
 .Vb 1
 \&    $fh = $obj->input_log;
 .Ve
@@ -577,21 +692,21 @@ name.  You may indicate the remote host using either a hostname or an
 \&    $fh = $obj->input_log($filename);
 .Ve
 This method starts or stops logging of input.  This is useful when
-debugging.  Also see \fBdump_log()\fR.  Because most command interpreters
+debugging.  Also see \f(CWdump_log()\fR.  Because most command interpreters
 echo back commands received, its likely all your output will also be
 in this log.  Note that input logging occurs after newline
-translation.  See \fBbinmode()\fR for details on newline translation.
-.PP
+translation.  See \f(CWbinmode()\fR for details on newline translation.
+.Sp
 If no argument is given, the log filehandle is returned.  A null
 string indicates logging is off.
-.PP
+.Sp
 To stop logging, use a null string as an argument.
-.PP
+.Sp
 If an open filehandle is given, it is used for logging and returned.
 Otherwise, the argument is assumed to be the name of a file, the file
 is opened for logging and a filehandle to it is returned.
-.Sh "input_record_separator \- input line delimiter"
-.PP
+.Ip "\fBinput_record_separator\fR \- input line delimiter" 4
+.Sp
 .Vb 1
 \&    $rs = $obj->input_record_separator;
 .Ve
@@ -599,14 +714,14 @@ is opened for logging and a filehandle to it is returned.
 \&    $prev = $obj->input_record_separator($rs);
 .Ve
 This method designates the line delimiter for input.  It's used with
-\fBgetline()\fR, \fBgetlines()\fR, and \fBcmd()\fR to determine lines in the
+\f(CWgetline()\fR, \f(CWgetlines()\fR, and \f(CWcmd()\fR to determine lines in the
 input.
-.PP
+.Sp
 With no argument this method returns the current input record
 separator set in the object.  With an argument it sets the input
 record separator to \fI$rs\fR and returns the previous value.
-.Sh "lastline \- the lastline read"
-.PP
+.Ip "\fBlastline\fR \- last line read" 4
+.Sp
 .Vb 1
 \&    $line = $obj->lastline;
 .Ve
@@ -617,13 +732,13 @@ This method saves the last line read from the object.  This may be a
 useful error message when the remote side abnormally closes the
 connection.  Typically the remote side will print an error message
 before closing.
-.PP
+.Sp
 With no argument this method returns the last line read from the
 object.  With an argument it sets the last line read to \fI$line\fR and
 returns the previous value.  Normally, only internal methods set the
 last line.
-.Sh "login \- perform standard login"
-.PP
+.Ip "\fBlogin\fR \- perform standard login" 4
+.Sp
 .Vb 1
 \&    $ok = $obj->login($username, $password);
 .Ve
@@ -633,30 +748,34 @@ last line.
 \&                      [Prompt  => $match,]
 \&                      [Timeout => $secs,]);
 .Ve
-This method performs a standard login by waiting for a login prompt and
-responding with \fI$username\fR, then waiting for the password prompt and
-responding with \fI$password\fR, and then waiting for the command
-interpreter prompt.  If any of the prompts sent don't match what's
-expected, the method will timeout \- unless timeout is turned off.
-.PP
+This method performs a standard login by waiting for a login prompt
+and responding with \fI$username\fR, then waiting for the password prompt
+and responding with \fI$password\fR, and then waiting for the command
+interpreter prompt.  If any of those prompts sent by the remote side
+don't match what's expected, this method will timeout \- unless timeout
+is turned off.
+.Sp
 Login prompts must match either of the patterns:
-.PP
+.Sp
 .Vb 2
 \&    /login[: ]*$/i
 \&    /username[: ]*$/i
 .Ve
 Password prompts must match the pattern:
-.PP
+.Sp
 .Vb 1
 \&    /password[: ]*$/i
 .Ve
-The command interpreter prompt must match the current value of
-\fBprompt()\fR.
-.PP
+The command interpreter prompt must match the current setting of
+prompt.
+.Sp
+Use \f(CWdump_log()\fR to debug when this method keeps timing-out and you
+don't think it should.
+.Sp
 Optional named arguments are provided to override the current settings
 of prompt and timeout.
-.Sh "max_buffer_length \- maximum size of input buffer"
-.PP
+.Ip "\fBmax_buffer_length\fR \- maximum size of input buffer" 4
+.Sp
 .Vb 1
 \&    $len = $obj->max_buffer_length;
 .Ve
@@ -666,15 +785,15 @@ of prompt and timeout.
 This method designates the maximum size of the input buffer.  An error
 is generated when a read causes the buffer to exceed this limit.  The
 default value is 1,048,576 bytes (1MB).  The input buffer can grow
-much larger than the block size when you read using \fBgetline()\fR or
-\fBwaitfor()\fR and the data stream contains no newlines or matching
-waitfor patterns.
-.PP
+much larger than the block size when you continuously read using
+\f(CWgetline()\fR or \f(CWwaitfor()\fR and the data stream contains no newlines
+or matching waitfor patterns.
+.Sp
 With no argument this method returns the current maximum buffer length
 set in the object.  With an argument it sets the maximum buffer length
 to \fI$len\fR and returns the previous value.
-.Sh "open \- connect to host and port"
-.PP
+.Ip "\fBopen\fR \- connect to port on remote host" 4
+.Sp
 .Vb 1
 \&    $ok = $obj->open($host);
 .Ve
@@ -684,36 +803,201 @@ to \fI$len\fR and returns the previous value.
 \&                     [Timeout => $secs,]);
 .Ve
 This method opens a \s-1TCP\s0 connection to \fI$port\fR on \fI$host\fR.  If either
-argument is missing then the current value of \fBhost()\fR or \fBport()\fR
-is used.
-.PP
-An optional named argument is provided to override the current setting
-of timeout.
-.PP
+argument is missing then the current value of \f(CWhost()\fR or \f(CWport()\fR
+is used.  An optional named argument is provided to override the
+current setting of timeout.
+.Sp
+On time-out or other connection errors, the error mode action is
+performed.
+.Sp
 Timeouts don't work for this method on machines that don't implement
-\s-1SIGALRM\s0.  For those machines, an error is returned when the system
-reaches its own time-out while trying to connect.
-.PP
+\s-1SIGALRM\s0 \- most notably Win32 machines.  For those machines, an error
+is returned when the system reaches its own time-out while trying to
+connect.
+.Sp
 A side effect of this method is to reset the alarm interval associated
 with \s-1SIGALRM\s0.
-.Sh "output_field_separator \- field separator for print"
-.PP
+.Ip "\fBoption_accept\fR \- indicate willingness to accept a \s-1TELNET\s0 option" 4
+.Sp
+.Vb 4
+\&    $fh = $obj->option_accept([Do   => $telopt,]
+\&                              [Dont => $telopt,]
+\&                              [Will => $telopt,]
+\&                              [Wont => $telopt,]);
+.Ve
+This method is used to indicate whether to accept or reject an offer
+to enable a \s-1TELNET\s0 option made by the remote side.  If you're using
+\fIDo\fR or \fIWill\fR to indicate a willingness to enable, then a
+notification callback must have already been defined by a prior call
+to \f(CWoption_callback()\fR.  See \f(CWoption_callback()\fR for details on
+receiving enable/disable notification of a \s-1TELNET\s0 option.
+.Sp
+You can give multiple \fIDo\fR, \fIDont\fR, \fIWill\fR, or \fIWont\fR arguments
+for different \s-1TELNET\s0 options in the same call to this method.
+.Sp
+The following example describes the meaning of the named arguments.  A
+\s-1TELNET\s0 option, such as \f(CWTELOPT_ECHO\fR used below, is an integer
+constant that you can import from Net::Telnet.  See the source in file
+Telnet.pm for the complete list.
+.Ip "" 8
+\fIDo\fR => \f(CWTELOPT_ECHO\fR
+.Ip "" 12
+we'll accept an offer to enable the echo option on the local side
+.Ip "" 8
+\fIDont\fR => \f(CWTELOPT_ECHO\fR
+.Ip "" 12
+we'll reject an offer to enable the echo option on the local side
+.Ip "" 8
+\fIWill\fR => \f(CWTELOPT_ECHO\fR
+.Ip "" 12
+we'll accept an offer to enable the echo option on the remote side
+.Ip "" 8
+\fIWont\fR => \f(CWTELOPT_ECHO\fR
+.Ip "" 12
+we'll reject an offer to enable the echo option on the remote side
+.Ip "" 4
+Use \f(CWoption_send()\fR to send a request to the remote side to enable or
+disable a particular \s-1TELNET\s0 option.
+.Ip "\fBoption_callback\fR \- define the option negotiation callback" 4
+.Sp
+.Vb 1
+\&    $coderef = $obj->option_callback;
+.Ve
+.Vb 1
+\&    $prev = $obj->option_callback($coderef);
+.Ve
+This method defines the callback subroutine that's called when a
+\s-1TELNET\s0 option is enabled or disabled.  Once defined, the
+\fIoption_callback\fR may not be undefined.  However, calling this method
+with a different \fI$coderef\fR changes it.
+.Sp
+Here are the circumstances that invoke \fI$coderef\fR:
+.Ip "" 8
+An option becomes enabled because the remote side requested an enable
+and \f(CWoption_accept()\fR had been used to arrange that it be accepted.
+.Ip "" 8
+The remote side arbitrarily decides to disable an option that is
+currently enabled.  Note that Net::Telnet always accepts a request to
+disable from the remote side.
+.Ip "" 8
+\f(CWoption_send()\fR was used to send a request to enable or disable an
+option and the response from the remote side has just been received.
+Note, that if a request to enable is rejected then \fI$coderef\fR is
+still invoked even though the option didn't change.
+.Ip "" 4
+Here are the arguments passed to \fI&$coderef\fR:
+.Sp
+.Vb 2
+\&    &$coderef($obj, $option, $is_remote,
+\&              $is_enabled, $was_enabled, $buf_position);
+.Ve
+.Ip "" 8
+1.  \fI$obj\fR is the Net::Telnet object
+.Ip "" 8
+2.  \fI$option\fR is the \s-1TELNET\s0 option.  Net::Telnet exports constants
+for the various \s-1TELNET\s0 options which just equate to an integer.
+.Ip "" 8
+3.  \fI$is_remote\fR is a boolean indicating for which side the option
+applies.
+.Ip "" 8
+4.  \fI$is_enabled\fR is a boolean indicating the option is enabled or
+disabled
+.Ip "" 8
+5.  \fI$was_enabled\fR is a boolean indicating the option was previously
+enabled or disabled
+.Ip "" 8
+6.  \fI$buf_position\fR is an integer indicating the position in the
+object's input buffer where the option takes effect.  See \f(CWbuffer()\fR
+to access the object's input buffer.
+.Ip "\fBoption_log\fR \- log all \s-1TELNET\s0 options sent or received" 4
+.Sp
+.Vb 1
+\&    $fh = $obj->option_log;
+.Ve
+.Vb 1
+\&    $fh = $obj->option_log($fh);
+.Ve
+.Vb 1
+\&    $fh = $obj->option_log($filename);
+.Ve
+This method starts or stops logging of all \s-1TELNET\s0 options being sent
+or received.  This is useful for debugging when you send options via
+\f(CWoption_send()\fR or you arrange to accept option requests from the
+remote side via \f(CWoption_accept()\fR.  Also see \f(CWdump_log()\fR.
+.Sp
+If no argument is given, the log filehandle is returned.  A null
+string indicates logging is off.
+.Sp
+To stop logging, use a null string as an argument.
+.Sp
+If an open filehandle is given, it is used for logging and returned.
+Otherwise, the argument is assumed to be the name of a file, the file
+is opened for logging and a filehandle to it is returned.
+.Ip "\fBoption_send\fR \- send \s-1TELNET\s0 option negotiation request" 4
+.Sp
+.Vb 5
+\&    $ok = $obj->option_send([Do    => $telopt,]
+\&                            [Dont  => $telopt,]
+\&                            [Will  => $telopt,]
+\&                            [Wont  => $telopt,]
+\&                            [Async => $boolean,]);
+.Ve
+This method is not yet implemented.  Look for it in a future version.
+.Ip "\fBoption_state\fR \- get current state of a \s-1TELNET\s0 option" 4
+.Sp
+.Vb 1
+\&    $hashref = $obj->option_state($telopt);
+.Ve
+This method returns a hashref containing a copy of the current state
+of \s-1TELNET\s0 option \fI$telopt\fR.
+.Sp
+Here are the values returned in the hash:
+.Ip "" 8
+\fI$hashref\fR\->{remote_enabled}
+.Ip "" 12
+boolean that indicates if the option is enabled on the remote side.
+.Ip "" 8
+\fI$hashref\fR\->{remote_enable_ok}
+.Ip "" 12
+boolean that indicates if it's ok to accept an offer to enable this
+option on the remote side.
+.Ip "" 8
+\fI$hashref\fR\->{remote_state}
+.Ip "" 12
+string used to hold the internal state of option negotiation for this
+option on the remote side.
+.Ip "" 8
+\fI$hashref\fR\->{local_enabled}
+.Ip "" 12
+boolean that indicates if the option is enabled on the local side.
+.Ip "" 8
+\fI$hashref\fR\->{local_enable_ok}
+.Ip "" 12
+boolean that indicates if it's ok to accept an offer to enable this
+option on the local side.
+.Ip "" 8
+\fI$hashref\fR\->{local_state}
+.Ip "" 12
+string used to hold the internal state of option negotiation for this
+option on the local side.
+.Ip "\fBoutput_field_separator\fR \- field separator for print" 4
+.Sp
 .Vb 1
 \&    $ofs = $obj->output_field_separator;
 .Ve
 .Vb 1
 \&    $prev = $obj->output_field_separator($ofs);
 .Ve
-This method designates the output field separator for \fBprint()\fR.
+This method designates the output field separator for \f(CWprint()\fR.
 Ordinarily the print method simply prints out the comma separated
 fields you specify.  Set this to specify what's printed between
 fields.
-.PP
+.Sp
 With no argument this method returns the current output field
 separator set in the object.  With an argument it sets the output
 field separator to \fI$ofs\fR and returns the previous value.
-.Sh "output_log \- log all output"
-.PP
+.Ip "\fBoutput_log\fR \- log all output" 4
+.Sp
 .Vb 1
 \&    $fh = $obj->output_log;
 .Ve
@@ -724,42 +1008,42 @@ field separator to \fI$ofs\fR and returns the previous value.
 \&    $fh = $obj->output_log($filename);
 .Ve
 This method starts or stops logging of output.  This is useful when
-debugging.  Also see \fBdump_log()\fR.  Because most command interpreters
+debugging.  Also see \f(CWdump_log()\fR.  Because most command interpreters
 echo back commands received, its likely all your output would also be
-in an input log.  See \fBinput_log()\fR.  Note that output logging occurs
-before newline translation.  See \fBbinmode()\fR for details on newline
+in an input log.  See \f(CWinput_log()\fR.  Note that output logging occurs
+before newline translation.  See \f(CWbinmode()\fR for details on newline
 translation.
-.PP
+.Sp
 If no argument is given, the log filehandle is returned.  A null
 string indicates logging is off.
-.PP
+.Sp
 To stop logging, use a null string as an argument.
-.PP
+.Sp
 If an open filehandle is given, it is used for logging and returned.
 Otherwise, the argument is assumed to be the name of a file, the file
 is opened for logging and a filehandle to it is returned.
-.Sh "output_record_separator \- output line delimiter"
-.PP
+.Ip "\fBoutput_record_separator\fR \- output line delimiter" 4
+.Sp
 .Vb 1
 \&    $ors = $obj->output_record_separator;
 .Ve
 .Vb 1
 \&    $prev = $obj->output_record_separator($ors);
 .Ve
-This method designates the output record separator for \fBprint()\fR.
+This method designates the output record separator for \f(CWprint()\fR.
 Ordinarily the print operator simply prints out the comma separated
 fields you specify, with no trailing newline or record separator
 assumed.  Set this variable to specify what's printed at the end of
 the print.
-.PP
-Note: the output record separator is set to \fB\en\fR by default, so
+.Sp
+Note: the output record separator is set to \f(CW"\en"\fR by default, so
 there's no need to append all your commands with a newline.
-.PP
+.Sp
 With no argument this method returns the current output record
 separator set in the object.  With an argument it sets the output
 record separator to \fI$ors\fR and returns the previous value.
-.Sh "port \- remote port"
-.PP
+.Ip "\fBport\fR \- remote port" 4
+.Sp
 .Vb 1
 \&    $port = $obj->port;
 .Ve
@@ -770,34 +1054,34 @@ This method designates the remote \s-1TCP\s0 port.  With no argument this
 method returns the current port number.  With an argument it sets the
 current port number to \fI$port\fR and returns the previous port.  If
 \fI$port\fR is a service name, then first it's converted to a port number
-using the perl function \fBgetservbyname()\fR.
-.Sh "print \- write to object"
-.PP
+using the perl function \f(CWgetservbyname()\fR.
+.Ip "\fBprint\fR \- write to object" 4
+.Sp
 .Vb 1
 \&    $ok = $obj->print(@list);
 .Ve
 This method prints a string or a comma-separated list of strings to
 the opened object and returns non-zero if all data was successfully
 written.
-.PP
-By default, the \fBoutput_record_separator()\fR is set to \fB\en\fR in order
+.Sp
+By default, the \f(CWoutput_record_separator()\fR is set to \f(CW"\en"\fR in order
 to have your commands automatically end with a newline.  In most cases
 your output is being read by a command interpreter which won't accept
 a command until newline is read.  This is similar to someone typing a
 command and hitting the return key.
-.PP
+.Sp
 On failure, it's possible that some data was written.  If you choose
-to try and recover from a print timing-out, use \fBprint_length()\fR to
-determine how much was written before timeout occurred.
-.Sh "print_length \- number of bytes written by print"
-.PP
+to try and recover from a print timing-out, use \f(CWprint_length()\fR to
+determine how much was written before time-out occurred.
+.Ip "\fBprint_length\fR \- number of bytes written by print" 4
+.Sp
 .Vb 1
 \&    $num = $obj->print_length;
 .Ve
 This returns the number of bytes successfully written by the most
-recent \fBprint()\fR.
-.Sh "prompt \- pattern to match a prompt"
-.PP
+recent \f(CWprint()\fR.
+.Ip "\fBprompt\fR \- pattern to match a prompt" 4
+.Sp
 .Vb 1
 \&    $matchop = $obj->prompt;
 .Ve
@@ -806,34 +1090,44 @@ recent \fBprint()\fR.
 .Ve
 This method sets the pattern used to find a prompt in the input
 stream.  It must be a string representing a valid perl pattern match
-operator.  The methods \fBlogin()\fR and \fBcmd()\fR try to read until
-matching the prompt.  If the pattern chosen doesn't match what's
-sent, then it's likely those commands will timeout.
-.PP
+operator.  The methods \f(CWlogin()\fR and \f(CWcmd()\fR try to read until
+matching the prompt.  They will fail with a time-out error if the
+pattern you've chosen doesn't match what the remote side sends.
+.Sp
 With no argument this method returns the prompt set in the object.
 With an argument it sets the prompt to \fI$matchop\fR and returns the
 previous value.
-.PP
-The default prompt is \*(L'/[$%#>] $/\*(R'
-.PP
-Always use single quotes to construct \fI$matchop\fR to avoid unintended
-backslash interpretation.  Using single quotes, you only need add
-extra backslashes to quote patterns containing \fB\e\*(R'\fR or \fB\e\e\fR.
-.Sh "telnetmode \- turn off/on telnet command interpretation"
-.PP
+.Sp
+The default prompt is \f(CW'/[\e$%#>] $/'\fR
+.Sp
+Always use single quotes, instead of double quotes, to construct
+\fI$matchop\fR (e.g. \f(CW'/bash\e$ $/'\fR).  If you're constructing a \s-1DOS\s0 like
+file path, you'll need to use four backslashes to represent one
+(e.g. \f(CW'/c:\e\e\e\eusers\e\e\e\ebill>$/i'\fR).
+.Sp
+Of course don't forget about regexp metacharacters like \f(CW.\fR, \f(CW[\fR, or
+\f(CW$\fR.  You'll only need a single backslash to quote them.  The anchor
+metacharacters \f(CW^\fR and \f(CW$\fR refer to positions in the input buffer.
+.Ip "\fBtelnetmode\fR \- turn off/on telnet command interpretation" 4
+.Sp
 .Vb 1
-\&    $prev = $obj->telnet($mode);
+\&    $mode = $obj->telnetmode;
 .Ve
-This method controls whether or not telnet commands in the data stream
-are recognized and handled.  The telnet protocol uses certain
+.Vb 1
+\&    $prev = $obj->telnetmode($mode);
+.Ve
+This method controls whether or not \s-1TELNET\s0 commands in the data stream
+are recognized and handled.  The \s-1TELNET\s0 protocol uses certain
 character sequences sent in the data stream to control the session.
-If the port you're connecting to isn't using the telnet protocol, then
+If the port you're connecting to isn't using the \s-1TELNET\s0 protocol, then
 you should turn this mode off.  The default is \fIon\fR.
-.PP
-If \fI$mode\fR is \fB0\fR then telnet mode is off.  If \fI$mode\fR is missing
-or \fB1\fR then telnet mode is on.
-.Sh "timed_out \- timeout indicator"
-.PP
+.Sp
+If no argument is given, the current mode is returned.
+.Sp
+If \fI$mode\fR is \f(CW0\fR then telnet mode is off.  If \fI$mode\fR is \f(CW1\fR then
+telnet mode is on.
+.Ip "\fBtimed_out\fR \- time-out indicator" 4
+.Sp
 .Vb 1
 \&    $boolean = $obj->timed_out;
 .Ve
@@ -841,12 +1135,12 @@ or \fB1\fR then telnet mode is on.
 \&    $prev = $obj->timed_out($boolean);
 .Ve
 This method indicates if a previous read or write method timed-out.
-.PP
+.Sp
 With no argument this method returns true if a previous method
-timed-out.  With an argument it sets the indicator.  Generally this is
-used by internal methods to clear it.
-.Sh "timeout \- I/O timeout interval"
-.PP
+timed-out.  With an argument it sets the indicator.  Normally, only
+internal methods set this indicator.
+.Ip "\fBtimeout\fR \- I/O time-out interval" 4
+.Sp
 .Vb 1
 \&    $secs = $obj->timeout;
 .Ve
@@ -857,22 +1151,22 @@ This method sets the timeout interval that's used when performing I/O
 or connecting to a port.  When a method doesn't complete within the
 timeout interval then it's an error and the error mode action is
 performed.
-.PP
+.Sp
 The timeout may be expressed as a relative or absolute value.  If
 \fI$secs\fR is greater than or equal to the time the program was started,
 as determined by $^T, then it's the absolute time when timeout occurs.
-Also see the perl function \fBtime()\fR.  A relative timeout happens
+Also see the perl function \f(CWtime()\fR.  A relative timeout happens
 \fI$secs\fR from when the I/O method begins.
-.PP
-If \fI$secs\fR is \fB0\fR then timeout occurs if the data cannot be
+.Sp
+If \fI$secs\fR is \f(CW0\fR then timeout occurs if the data cannot be
 immediately read or written.  Use the undefined value to turn off
 timing-out.
-.PP
+.Sp
 With no argument this method returns the timeout set in the object.
 With an argument it sets the timeout to \fI$secs\fR and returns the
 previous value.
-.Sh "watchfor \- wait for pattern in the input"
-.PP
+.Ip "\fBwaitfor\fR \- wait for pattern in the input" 4
+.Sp
 .Vb 4
 \&    $ok = $obj->waitfor($matchop);
 \&    $ok = $obj->waitfor([Match   => $matchop,]
@@ -887,39 +1181,53 @@ previous value.
 .Ve
 This method reads until a pattern match or string is found in the
 input stream.  All the characters before and including the match are
-removed from the input stream.  On eof an undefined value is returned.
-On timeout or other errors the error mode action is performed.
-.PP
+removed from the input stream.  On time-out, eof, or other errors the
+error mode action is performed.
+.Sp
 In an array context the characters before the match and the matched
 characters are returned in \fI$prematch\fR and \fI$match\fR.
-.PP
+.Sp
 You can specify more than one pattern or string by simply providing
-multiple \fBMatch\fR and/or \fBString\fR named arguments.  A \fI$matchop\fR
-must be a string representing a valid perl pattern match operator.
+multiple \fIMatch\fR and/or \fIString\fR named arguments.  A \fI$matchop\fR
+must be a string representing a valid Perl pattern match operator.
 The \fI$string\fR is just a substring to find in the input stream.
-.PP
+.Sp
+Use \f(CWdump_log()\fR to debug when this method keeps timing-out and you
+don't think it should.
+.Sp
 An optional named argument is provided to override the current setting
 of timeout.
-.PP
-Always use single quotes to construct \fI$matchop\fR to avoid unintended
-backslash interpretation.  Using single quotes, you only need add
-extra backslashes to quote patterns containing \fB\e\*(R'\fR or \fB\e\e\fR.
+.Sp
+To avoid unexpected backslash interpretation, always use single quotes
+instead of double quotes to construct a match operator argument for
+\f(CWprompt()\fR and \f(CWwaitfor()\fR (e.g. \f(CW'/bash\e$ $/'\fR).  If you're
+constructing a \s-1DOS\s0 like file path, you'll need to use four backslashes
+to represent one (e.g. \f(CW'/c:\e\e\e\eusers\e\e\e\ebill>$/i'\fR).
+.Sp
+Of course don't forget about regexp metacharacters like \f(CW.\fR, \f(CW[\fR, or
+\f(CW$\fR.  You'll only need a single backslash to quote them.  The anchor
+metacharacters \f(CW^\fR and \f(CW$\fR refer to positions in the input buffer.
 .SH "SEE ALSO"
-.Ip "\(bu" 2
-\s-1RFC\s0 854 \- \s-1TELNET\s0 Protocol Specification
-.Ip "\(bu" 2
-\s-1RFC\s0 1143 \- The Q Method of Implementing \s-1TELNET\s0 Option Negotiation
-.Ip "\(bu" 2
-\s-1TELNET\s0 Options
+.Ip "\s-1RFC\s0 854" 2
+\s-1TELNET\s0\ Protocol\ Specification
+.Sp
+ftp://ftp.isi.edu/in-notes/rfc854.txt
+.Ip "\s-1RFC\s0 1143" 2
+Q\ Method\ of\ Implementing\ \s-1TELNET\s0\ Option\ Negotiation
+.Sp
+ftp://ftp.isi.edu/in-notes/rfc1143.txt
+.Ip "\s-1TELNET\s0 Option Assignments" 2
+ftp://ftp.isi.edu/in-notes/iana/assignments/telnet-options
 .SH "EXAMPLES"
 This example gets the current weather forecast for Brainerd, Minnesota.
 .PP
-.Vb 2
-\&    use Net::Telnet ();
+.Vb 1
 \&    my($forecast, $t);
 .Ve
-.Vb 1
-\&    $t = new Net::Telnet (-host => "rainmaker.wunderground.com");
+.Vb 3
+\&    use Net::Telnet ();
+\&    $t = new Net::Telnet;
+\&    $t->open("rainmaker.wunderground.com");
 .Ve
 .Vb 3
 \&    ## Wait for first prompt and "hit return".
@@ -928,7 +1236,7 @@ This example gets the current weather forecast for Brainerd, Minnesota.
 .Ve
 .Vb 3
 \&    ## Wait for second prompt and respond with city code.
-\&    $t->waitfor('/city code:.*$/');
+\&    $t->waitfor('/city code.*$/');
 \&    $t->print("BRD");
 .Ve
 .Vb 3
@@ -941,8 +1249,7 @@ This example gets the current weather forecast for Brainerd, Minnesota.
 .Ve
 This example checks a POP server to see if you have mail.
 .PP
-.Vb 2
-\&    use Net::Telnet ();
+.Vb 1
 \&    my($hostname, $line, $passwd, $pop, $username);
 .Ve
 .Vb 3
@@ -950,10 +1257,11 @@ This example checks a POP server to see if you have mail.
 \&    $username = "your_username_here";
 \&    $passwd = "your_password_here";
 .Ve
-.Vb 3
-\&    $pop = new Net::Telnet (-host => $hostname,
-\&                            -port => 110,
-\&                            -telnetmode => '');
+.Vb 4
+\&    use Net::Telnet ();
+\&    $pop = new Net::Telnet (Telnetmode => 0);
+\&    $pop->open(Host => $hostname,
+\&               Port => 110);
 .Ve
 .Vb 3
 \&    ## Read connection message.
@@ -988,8 +1296,7 @@ put in raw mode using the Bourne shell.  The Bourne shell is used
 because some shells, notably tcsh, prevent changing tty modes.  Upon
 completion, FTP style statistics are printed to stderr.
 .PP
-.Vb 4
-\&    use Net::Telnet;
+.Vb 3
 \&    my($block, $filename, $host, $hostname, $k_per_sec, $line,
 \&       $num_read, $passwd, $prevblock, $prompt, $size, $size_bsd,
 \&       $size_sysv, $start_time, $total_time, $username);
@@ -1000,11 +1307,12 @@ completion, FTP style statistics are printed to stderr.
 \&    $passwd = "your_password_here";
 \&    $filename = "your_download_file_here";
 .Ve
-.Vb 5
+.Vb 6
 \&    ## Connect and login.
-\&    $host = new Net::Telnet (Host => $hostname,
-\&                             Timeout => 30,
+\&    use Net::Telnet ();
+\&    $host = new Net::Telnet (Timeout => 30,
 \&                             Prompt => '/[%#>] $/');
+\&    $host->open($hostname);
 \&    $host->login($username, $passwd);
 .Ve
 .Vb 4
@@ -1030,7 +1338,7 @@ completion, FTP style statistics are printed to stderr.
 .Vb 5
 \&    ## Start sending the file.
 \&    binmode STDOUT;
-\&    $host->binmode;
+\&    $host->binmode(1);
 \&    $host->print("/usr/bin/sh -c 'stty raw; cat $filename'");
 \&    $host->getline;    # discard echoed back line
 .Ve
@@ -1081,8 +1389,7 @@ filehandle to the pseudo-terminal.  This example sends some
 initial commands and then allows the user to type commands
 to the telnet session.
 .PP
-.Vb 3
-\&    use Net::Telnet;
+.Vb 2
 \&    my($comm_pty, $host, $hostname, $passwd, $pty,
 \&       $username, @lines);
 .Ve
@@ -1114,20 +1421,22 @@ to the telnet session.
 \&        $pty = "main::" . $comm_pty;
 \&    }
 .Ve
-.Vb 13
+.Vb 15
 \&    ## Obtain a new Net::Telnet object that does I/O to the
 \&    ## pseudo-terminal attached to the running telnet
 \&    ## program.  The "Telnetmode" is "off" because we're
 \&    ## not talking directly to a telnet port as we normally
 \&    ## do, we're talking to a pseudo-terminal.  The
-\&    ## "Output_record_separator" is now a carriage-return
+\&    ## "Output_record_separator" is now a carriage return
 \&    ## because that's what you'd normally hit when you get
 \&    ## done typing a line at a terminal.
+\&    use Net::Telnet ();
 \&    $host = new Net::Telnet (Fhopen => $pty,
 \&                             Timeout => 10,
-\&                             Prompt => '/[%#>] $/',
+\&                             Prompt => '/[\e$%#>] $/',
+\&                             Output_record_separator => "\er",
 \&                             Telnetmode => 0,
-\&                             Output_record_separator => "\er");
+\&                             Cmd_remove_mode => 1);
 .Ve
 .Vb 4
 \&    ## Issue some commands.
@@ -1176,95 +1485,201 @@ terms as Perl itself.
 
 .IX Item "\(bu"
 
+.IX Subsection "What To Know Before Using"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "Debugging"
+
+.IX Subsection "Style of Named Parameters"
+
+.IX Subsection "Connecting to a Remote Win32 Machine"
+
 .IX Header "METHODS"
 
-.IX Subsection "new \- create a new Net::Telnet object"
+.IX Item "\fBnew\fR \- create a new Net::Telnet object"
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Item "\(bu"
+.IX Item ""
 
-.IX Subsection "binmode \- turn off/on newline translation"
+.IX Item ""
 
-.IX Subsection "break \- send \s-1TELNET\s0 break character"
+.IX Item "\fBbinmode\fR \- toggle newline translation"
 
-.IX Subsection "close \- close object"
+.IX Item "\fBbreak\fR \- send \s-1TELNET\s0 break character"
 
-.IX Subsection "cmd \- issue command and retrieve output"
+.IX Item "\fBbuffer\fR \- scalar reference to object's input buffer"
 
-.IX Subsection "dump_log \- log all I/O in dump format"
+.IX Item "\fBbuffer_empty\fR \- discard all data in object's input buffer"
 
-.IX Subsection "eof \- end of file read indicator"
+.IX Item "\fBclose\fR \- close object"
 
-.IX Subsection "errmode \- set action to perform on error"
+.IX Item "\fBcmd\fR \- issue command and retrieve output"
 
-.IX Subsection "errmsg \- most recent error message"
+.IX Item "\fBcmd_remove_mode\fR \- toggle removal of echoed commands"
 
-.IX Subsection "error \- perform the error mode action"
+.IX Item "\fBdump_log\fR \- log all I/O in dump format"
 
-.IX Subsection "fhopen \- use an existing open filehandle"
+.IX Item "\fBeof\fR \- end of file indicator"
 
-.IX Subsection "get \- read block of data"
+.IX Item "\fBerrmode\fR \-  define action to be performed on error"
 
-.IX Subsection "getline \- read next line"
+.IX Item "\fBerrmsg\fR \- most recent error message"
 
-.IX Subsection "getlines \- read next lines"
+.IX Item "\fBerror\fR \- perform the error mode action"
 
-.IX Subsection "host \- name of remote host"
+.IX Item "\fBfhopen\fR \- use already open filehandle for I/O"
 
-.IX Subsection "input_log \- log all input"
+.IX Item "\fBget\fR \- read block of data"
 
-.IX Subsection "input_record_separator \- input line delimiter"
+.IX Item "\fBgetline\fR \- read next line"
 
-.IX Subsection "lastline \- the lastline read"
+.IX Item "\fBgetlines\fR \- read next lines"
 
-.IX Subsection "login \- perform standard login"
+.IX Item "\fBhost\fR \- name of remote host"
 
-.IX Subsection "max_buffer_length \- maximum size of input buffer"
+.IX Item "\fBinput_log\fR \- log all input"
 
-.IX Subsection "open \- connect to host and port"
+.IX Item "\fBinput_record_separator\fR \- input line delimiter"
 
-.IX Subsection "output_field_separator \- field separator for print"
+.IX Item "\fBlastline\fR \- last line read"
 
-.IX Subsection "output_log \- log all output"
+.IX Item "\fBlogin\fR \- perform standard login"
 
-.IX Subsection "output_record_separator \- output line delimiter"
+.IX Item "\fBmax_buffer_length\fR \- maximum size of input buffer"
 
-.IX Subsection "port \- remote port"
+.IX Item "\fBopen\fR \- connect to port on remote host"
 
-.IX Subsection "print \- write to object"
+.IX Item "\fBoption_accept\fR \- indicate willingness to accept a \s-1TELNET\s0 option"
 
-.IX Subsection "print_length \- number of bytes written by print"
+.IX Item ""
 
-.IX Subsection "prompt \- pattern to match a prompt"
+.IX Item ""
 
-.IX Subsection "telnetmode \- turn off/on telnet command interpretation"
+.IX Item ""
 
-.IX Subsection "timed_out \- timeout indicator"
+.IX Item ""
 
-.IX Subsection "timeout \- I/O timeout interval"
+.IX Item ""
 
-.IX Subsection "watchfor \- wait for pattern in the input"
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item "\fBoption_callback\fR \- define the option negotiation callback"
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item "\fBoption_log\fR \- log all \s-1TELNET\s0 options sent or received"
+
+.IX Item "\fBoption_send\fR \- send \s-1TELNET\s0 option negotiation request"
+
+.IX Item "\fBoption_state\fR \- get current state of a \s-1TELNET\s0 option"
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item "\fBoutput_field_separator\fR \- field separator for print"
+
+.IX Item "\fBoutput_log\fR \- log all output"
+
+.IX Item "\fBoutput_record_separator\fR \- output line delimiter"
+
+.IX Item "\fBport\fR \- remote port"
+
+.IX Item "\fBprint\fR \- write to object"
+
+.IX Item "\fBprint_length\fR \- number of bytes written by print"
+
+.IX Item "\fBprompt\fR \- pattern to match a prompt"
+
+.IX Item "\fBtelnetmode\fR \- turn off/on telnet command interpretation"
+
+.IX Item "\fBtimed_out\fR \- time-out indicator"
+
+.IX Item "\fBtimeout\fR \- I/O time-out interval"
+
+.IX Item "\fBwaitfor\fR \- wait for pattern in the input"
 
 .IX Header "SEE ALSO"
 
-.IX Item "\(bu"
+.IX Item "\s-1RFC\s0 854"
 
-.IX Item "\(bu"
+.IX Item "\s-1RFC\s0 1143"
 
-.IX Item "\(bu"
+.IX Item "\s-1TELNET\s0 Option Assignments"
 
 .IX Header "EXAMPLES"
 

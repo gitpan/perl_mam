@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Peek 3 "perl 5.004, patch 55" "28/Nov/97" "User Contributed Perl Documentation"
+.TH Peek 3 "perl 5.005, patch 53" "3/Oct/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -222,6 +222,10 @@ function.
 .PP
 Function \f(CWDumpArray()\fR allows dumping of multiple values (useful when you
 need to analize returns of functions).
+.PP
+The global variable \f(CW$Devel::Peek::pv_limit\fR can be set to limit the
+number of character printed in various string values.  Setting it to 0
+means no limit.
 .SH "EXAMPLES"
 The following examples don't attempt to show everything as that would be a
 monumental task, and, frankly, we don't want this manpage to be an internals
@@ -248,14 +252,16 @@ The output:
 \&          REFCNT = 1
 \&          FLAGS = (POK,pPOK)
 \&          IV = 0
-\&          PV = 0xb2048 "hello"
+\&          PV = 0xb2048 "hello"\e0
 \&          CUR = 5
 \&          LEN = 6
 .Ve
 This says \f(CW$a\fR is an \s-1SV\s0, a scalar.  The scalar is a \s-1PVIV\s0, a string.
 Its reference count is 1.  It has the \f(CWPOK\fR flag set, meaning its
 current \s-1PV\s0 field is valid.  Because \s-1POK\s0 is set we look at the \s-1PV\s0 item
-to see what is in the scalar.  If the \s-1FLAGS\s0 had been \s-1IOK\s0 we would look
+to see what is in the scalar.  The \e0 at the end indicate that this
+\s-1PV\s0 is properly \s-1NUL\s0\-terminated.
+If the \s-1FLAGS\s0 had been \s-1IOK\s0 we would look
 at the \s-1IV\s0 item.  \s-1CUR\s0 indicates the number of characters in the \s-1PV\s0.
 \s-1LEN\s0 indicates the number of bytes requested for the \s-1PV\s0 (one more than
 \s-1CUR\s0, in this case, because \s-1LEN\s0 includes an extra byte for the
@@ -418,7 +424,7 @@ The following shows the raw form of a reference to a hash.
 .Ve
 The output:
 .PP
-.Vb 20
+.Vb 19
 \&        SV = RV(0xf041c)
 \&          REFCNT = 1
 \&          FLAGS = (ROK)
@@ -426,7 +432,6 @@ The output:
 \&        SV = PVHV(0xbd448)
 \&          REFCNT = 1
 \&          FLAGS = ()
-\&          IV = 1
 \&          NV = 0
 \&          ARRAY = 0xbd748
 \&          KEYS = 1

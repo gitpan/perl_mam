@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::Trig 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Math::Trig 3 "perl 5.005, patch 53" "7/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -210,79 +210,67 @@ core Perl which defines only the \f(CWsin()\fR and \f(CWcos()\fR.  The constant
 conversions.
 .SH "TRIGONOMETRIC FUNCTIONS"
 The tangent
+.Ip "\fBtan\fR" 4
 .PP
-.Vb 1
-\&        tan
-.Ve
 The cofunctions of the sine, cosine, and tangent (cosec/csc and cotan/cot
 are aliases)
 .PP
-.Vb 1
-\&        csc cosec sec cot cotan
-.Ve
+\fBcsc\fR, \fBcosec\fR, \fBsec\fR, \fBsec\fR, \fBcot\fR, \fBcotan\fR
+.PP
 The arcus (also known as the inverse) functions of the sine, cosine,
 and tangent
 .PP
-.Vb 1
-\&        asin acos atan
-.Ve
+\fBasin\fR, \fBacos\fR, \fBatan\fR
+.PP
 The principal value of the arc tangent of y/x
 .PP
-.Vb 1
-\&        atan2(y, x)
-.Ve
+\fBatan2\fR(y, x)
+.PP
 The arcus cofunctions of the sine, cosine, and tangent (acosec/acsc
 and acotan/acot are aliases)
 .PP
-.Vb 1
-\&        acsc acosec asec acot acotan
-.Ve
+\fBacsc\fR, \fBacosec\fR, \fBasec\fR, \fBacot\fR, \fBacotan\fR
+.PP
 The hyperbolic sine, cosine, and tangent
 .PP
-.Vb 1
-\&        sinh cosh tanh
-.Ve
+\fBsinh\fR, \fBcosh\fR, \fBtanh\fR
+.PP
 The cofunctions of the hyperbolic sine, cosine, and tangent (cosech/csch
 and cotanh/coth are aliases)
 .PP
-.Vb 1
-\&        csch cosech sech coth cotanh
-.Ve
+\fBcsch\fR, \fBcosech\fR, \fBsech\fR, \fBcoth\fR, \fBcotanh\fR
+.PP
 The arcus (also known as the inverse) functions of the hyperbolic
 sine, cosine, and tangent
 .PP
-.Vb 1
-\&        asinh acosh atanh
-.Ve
+\fBasinh\fR, \fBacosh\fR, \fBatanh\fR
+.PP
 The arcus cofunctions of the hyperbolic sine, cosine, and tangent
 (acsch/acosech and acoth/acotanh are aliases)
 .PP
-.Vb 1
-\&        acsch acosech asech acoth acotanh
-.Ve
+\fBacsch\fR, \fBacosech\fR, \fBasech\fR, \fBacoth\fR, \fBacotanh\fR
+.PP
 The trigonometric constant \fBpi\fR is also defined.
 .PP
-.Vb 1
-\&        $pi2 = 2 * pi;
-.Ve
+$pi2 = 2 * \fBpi\fR;
 .Sh "\s-1ERRORS\s0 \s-1DUE\s0 \s-1TO\s0 \s-1DIVISION\s0 \s-1BY\s0 \s-1ZERO\s0"
 The following functions
 .PP
 .Vb 14
-\&        tan
-\&        sec
-\&        csc
-\&        cot
-\&        asec
-\&        acsc
-\&        tanh
-\&        sech
-\&        csch
-\&        coth
-\&        atanh
-\&        asech
-\&        acsch
 \&        acoth
+\&        acsc
+\&        acsch
+\&        asec
+\&        asech
+\&        atanh
+\&        cot
+\&        coth
+\&        csc
+\&        csch
+\&        sec
+\&        sech
+\&        tan
+\&        tanh
 .Ve
 cannot be computed for all arguments because that would mean dividing
 by zero or taking logarithm of zero. These situations cause fatal
@@ -332,7 +320,7 @@ details like for example how to display complex numbers. For example:
 .Ve
 That is, a complex number with the real part of approximately \f(CW1.571\fR
 and the imaginary part of approximately \f(CW-1.317\fR.
-.SH "ANGLE CONVERSIONS"
+.SH "PLANE ANGLE CONVERSIONS"
 (Plane, 2-dimensional) angles may be converted with the following functions.
 .PP
 .Vb 8
@@ -346,6 +334,118 @@ and the imaginary part of approximately \f(CW-1.317\fR.
 \&        $gradians = rad2grad($radians);
 .Ve
 The full circle is 2 \fIpi\fR radians or \fI360\fR degrees or \fI400\fR gradians.
+.SH "RADIAL COORDINATE CONVERSIONS"
+\fBRadial coordinate systems\fR are the \fBspherical\fR and the \fBcylindrical\fR
+systems, explained shortly in more detail.
+.PP
+You can import radial coordinate conversion functions by using the
+\f(CW:radial\fR tag:
+.PP
+.Vb 1
+\&    use Math::Trig ':radial';
+.Ve
+.Vb 6
+\&    ($rho, $theta, $z)     = cartesian_to_cylindrical($x, $y, $z);
+\&    ($rho, $theta, $phi)   = cartesian_to_spherical($x, $y, $z);
+\&    ($x, $y, $z)           = cylindrical_to_cartesian($rho, $theta, $z);
+\&    ($rho_s, $theta, $phi) = cylindrical_to_spherical($rho_c, $theta, $z);
+\&    ($x, $y, $z)           = spherical_to_cartesian($rho, $theta, $phi);
+\&    ($rho_c, $theta, $z)   = spherical_to_cylindrical($rho_s, $theta, $phi);
+.Ve
+\fBAll angles are in radians\fR.
+.Sh "\s-1COORDINATE\s0 \s-1SYSTEMS\s0"
+\fBCartesian\fR coordinates are the usual rectangular \fI(x, y,
+z)\fR\-coordinates.
+.PP
+Spherical coordinates, \fI(rho, theta, pi)\fR, are three-dimensional
+coordinates which define a point in three-dimensional space.  They are
+based on a sphere surface.  The radius of the sphere is \fBrho\fR, also
+known as the \fIradial\fR coordinate.  The angle in the \fIxy\fR\-plane
+(around the \fIz\fR\-axis) is \fBtheta\fR, also known as the \fIazimuthal\fR
+coordinate.  The angle from the \fIz\fR\-axis is \fBphi\fR, also known as the
+\fIpolar\fR coordinate.  The `North Pole\*(R' is therefore \fI0, 0, rho\fR, and
+the `Bay of Guinea\*(R' (think of the missing big chunk of Africa) \fI0,
+pi/2, rho\fR.
+.PP
+\fBBeware\fR: some texts define \fItheta\fR and \fIphi\fR the other way round,
+some texts define the \fIphi\fR to start from the horizontal plane, some
+texts use \fIr\fR in place of \fIrho\fR.
+.PP
+Cylindrical coordinates, \fI(rho, theta, z)\fR, are three-dimensional
+coordinates which define a point in three-dimensional space.  They are
+based on a cylinder surface.  The radius of the cylinder is \fBrho\fR,
+also known as the \fIradial\fR coordinate.  The angle in the \fIxy\fR\-plane
+(around the \fIz\fR\-axis) is \fBtheta\fR, also known as the \fIazimuthal\fR
+coordinate.  The third coordinate is the \fIz\fR, pointing up from the
+\fBtheta\fR\-plane.
+.Sh "3-D \s-1ANGLE\s0 \s-1CONVERSIONS\s0"
+Conversions to and from spherical and cylindrical coordinates are
+available.  Please notice that the conversions are not necessarily
+reversible because of the equalities like \fIpi\fR angles being equal to
+\fI\-pi\fR angles.
+.Ip "cartesian_to_cylindrical" 4
+.Sp
+.Vb 1
+\&        ($rho, $theta, $z) = cartesian_to_cylindrical($x, $y, $z);
+.Ve
+.Ip "cartesian_to_spherical" 4
+.Sp
+.Vb 1
+\&        ($rho, $theta, $phi) = cartesian_to_spherical($x, $y, $z);
+.Ve
+.Ip "cylindrical_to_cartesian" 4
+.Sp
+.Vb 1
+\&        ($x, $y, $z) = cylindrical_to_cartesian($rho, $theta, $z);
+.Ve
+.Ip "cylindrical_to_spherical" 4
+.Sp
+.Vb 1
+\&        ($rho_s, $theta, $phi) = cylindrical_to_spherical($rho_c, $theta, $z);
+.Ve
+Notice that when \f(CW$z\fR is not 0 \f(CW$rho_s\fR is not equal to \f(CW$rho_c\fR.
+.Ip "spherical_to_cartesian" 4
+.Sp
+.Vb 1
+\&        ($x, $y, $z) = spherical_to_cartesian($rho, $theta, $phi);
+.Ve
+.Ip "spherical_to_cylindrical" 4
+.Sp
+.Vb 1
+\&        ($rho_c, $theta, $z) = spherical_to_cylindrical($rho_s, $theta, $phi);
+.Ve
+Notice that when \f(CW$z\fR is not 0 \f(CW$rho_c\fR is not equal to \f(CW$rho_s\fR.
+.SH "GREAT CIRCLE DISTANCES"
+You can compute spherical distances, called \fBgreat circle distances\fR,
+by importing the \f(CWgreat_circle_distance\fR function:
+.PP
+.Vb 1
+\&        use Math::Trig 'great_circle_distance'
+.Ve
+.Vb 1
+\&    $distance = great_circle_distance($theta0, $phi0, $theta1, $phi, [, $rho]);
+.Ve
+The \fIgreat circle distance\fR is the shortest distance between two
+points on a sphere.  The distance is in \f(CW$rho\fR units.  The \f(CW$rho\fR is
+optional, it defaults to 1 (the unit sphere), therefore the distance
+defaults to radians.
+.SH "EXAMPLES"
+To calculate the distance between London (51.3N 0.5W) and Tokyo (35.7N
+139.8E) in kilometers:
+.PP
+.Vb 1
+\&        use Math::Trig qw(great_circle_distance deg2rad);
+.Ve
+.Vb 3
+\&        # Notice the 90 - latitude: phi zero is at the North Pole.
+\&        @L = (deg2rad(-0.5), deg2rad(90 - 51.3));
+\&        @T = (deg2rad(139.8),deg2rad(90 - 35.7));
+.Ve
+.Vb 1
+\&        $km = great_circle_distance(@L, @T, 6378);
+.Ve
+The answer may be off by up to 0.3% because of the irregular (slightly
+aspherical) form of the Earth.
 .SH "BUGS"
 Saying \f(CWuse Math::Trig;\fR exports many mathematical routines in the
 caller environment and even overrides some (\f(CWsin\fR, \f(CWcos\fR).  This is
@@ -372,11 +472,35 @@ Raphael Manfredi <\fIRaphael_Manfredi@grenoble.hp.com\fR>.
 
 .IX Header "TRIGONOMETRIC FUNCTIONS"
 
+.IX Item "\fBtan\fR"
+
 .IX Subsection "\s-1ERRORS\s0 \s-1DUE\s0 \s-1TO\s0 \s-1DIVISION\s0 \s-1BY\s0 \s-1ZERO\s0"
 
 .IX Subsection "\s-1SIMPLE\s0 (\s-1REAL\s0) \s-1ARGUMENTS\s0, \s-1COMPLEX\s0 \s-1RESULTS\s0"
 
-.IX Header "ANGLE CONVERSIONS"
+.IX Header "PLANE ANGLE CONVERSIONS"
+
+.IX Header "RADIAL COORDINATE CONVERSIONS"
+
+.IX Subsection "\s-1COORDINATE\s0 \s-1SYSTEMS\s0"
+
+.IX Subsection "3-D \s-1ANGLE\s0 \s-1CONVERSIONS\s0"
+
+.IX Item "cartesian_to_cylindrical"
+
+.IX Item "cartesian_to_spherical"
+
+.IX Item "cylindrical_to_cartesian"
+
+.IX Item "cylindrical_to_spherical"
+
+.IX Item "spherical_to_cartesian"
+
+.IX Item "spherical_to_cylindrical"
+
+.IX Header "GREAT CIRCLE DISTANCES"
+
+.IX Header "EXAMPLES"
 
 .IX Header "BUGS"
 

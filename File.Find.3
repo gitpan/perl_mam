@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH File::Find 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH File::Find 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -193,16 +193,28 @@ find \- traverse a file tree
 finddepth \- traverse a directory structure depth-first
 .SH "SYNOPSIS"
 .PP
-.Vb 7
+.Vb 3
 \&    use File::Find;
 \&    find(\e&wanted, '/foo','/bar');
 \&    sub wanted { ... }
-\&    
+.Ve
+.Vb 3
 \&    use File::Find;
 \&    finddepth(\e&wanted, '/foo','/bar');
 \&    sub wanted { ... }
 .Ve
 .SH "DESCRIPTION"
+The first argument to \fIfind()\fR is either a hash reference describing the
+operations to be performed for each file, a code reference, or a string
+that contains a subroutine name.  If it is a hash reference, then the
+value for the key \f(CWwanted\fR should be a code reference.  This code
+reference is called \fIthe wanted() function\fR below.
+.PP
+Currently the only other supported key for the above hash is
+\f(CWbydepth\fR, in presense of which the walk over directories is
+performed depth-first.  Entry point \fIfinddepth()\fR is a shortcut for
+specifying \f(CW{ bydepth =\fR 1}> in the first argument of \fIfind()\fR.
+.PP
 The \fIwanted()\fR function does whatever verifications you want.
 \f(CW$File::Find::dir\fR contains the current directory name, and \f(CW$_\fR the
 current filename within that directory.  \f(CW$File::Find::name\fR contains
@@ -213,7 +225,7 @@ prune the tree.
 File::Find assumes that you don't alter the \f(CW$_\fR variable.  If you do then
 make sure you return it to its original value before exiting your function.
 .PP
-This library is primarily for the \f(CWfind2perl\fR tool, which when fed, 
+This library is useful for the \f(CWfind2perl\fR tool, which when fed,
 .PP
 .Vb 2
 \&    find2perl / -name .nfs\e* -mtime +7 \e
@@ -245,7 +257,7 @@ that don't resolve:
 .Vb 3
 \&    sub wanted {
 \&        -l && !-e && print "bogus link: $File::Find::name\en";
-\&    } 
+\&    }
 .Ve
 .SH "BUGS"
 There is no way to make find or finddepth follow symlinks.

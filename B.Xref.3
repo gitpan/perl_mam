@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::File::CounterFile 3 "perl 5.004, patch 55" "31/Oct/96" "User Contributed Perl Documentation"
+.TH B::Xref 3 "perl 5.005, patch 53" "20/Feb/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,72 +188,70 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-File::CounterFile \- Persistent counter class
+B::Xref \- Generates cross reference reports for Perl programs
 .SH "SYNOPSIS"
-.PP
-.Vb 2
-\& use File::CounterFile;
-\& $c = new File::CounterFile "COUNTER", "aa00";
-.Ve
-.Vb 2
-\& $id = $c->inc;
-\& open(F, ">F$id");
-.Ve
+perl \-MO=Xref[,OPTIONS] foo.pl
 .SH "DESCRIPTION"
-This module implements a persistent counter class.  Each counter is
-represented by a separate file in the file system.  File locking is
-applied, so multiple processes might try to access the same counters
-at the same time without risk of counter destruction.
+The B::Xref module is used to generate a cross reference listing of all
+definitions and uses of variables, subroutines and formats in a Perl program.
+It is implemented as a backend for the Perl compiler.
 .PP
-You give the file name as the first parameter to the object
-constructor (\f(CWnew\fR).  The file is created if it does not exist.
+The report generated is in the following format:
 .PP
-If the file name does not start with \*(L"/\*(R" or \*(L".\*(R", then it is
-interpreted as a file relative to \f(CW$File::CounterFile::DEFAULT_DIR\fR.
-The default value for this variable is initialized from the
-environment variable \f(CWTMPDIR\fR, or \fI/usr/tmp\fR is no environment
-variable is defined.  You may want to assign a different value to this
-variable before creating counters.
+.Vb 8
+\&    File filename1
+\&      Subroutine subname1
+\&        Package package1
+\&          object1        C<line numbers>
+\&          object2        C<line numbers>
+\&          ...
+\&        Package package2
+\&        ...
+.Ve
+Each \fBFile\fR section reports on a single file. Each \fBSubroutine\fR section
+reports on a single subroutine apart from the special cases
+\*(L"(definitions)\*(R" and \*(L"(main)\*(R". These report, respectively, on subroutine
+definitions found by the initial symbol table walk and on the main part of
+the program or module external to all subroutines.
 .PP
-If you pass a second parameter to the constructor, that sets the
-initial value for a new counter.  This parameter only takes effect
-when the file is created (i.e. it does not exist before the call).
+The report is then grouped by the \fBPackage\fR of each variable,
+subroutine or format with the special case \*(L"(lexicals)\*(R" meaning
+lexical variables. Each \fBobject\fR name (implicitly qualified by its
+containing \fBPackage\fR) includes its type \fIcharacter\fR\|(s) at the beginning
+where possible. Lexical variables are easier to track and even
+included dereferencing information where possible.
 .PP
-When you call the \f(CWinc()\fR method, you increment the counter value by
-one. When you call \f(CWdec()\fR the counter value is decrementd.  In both
-cases the new value is returned.  The \f(CWdec()\fR method only works for
-numerical counters (digits only).
-.PP
-You can peek at the value of the counter (without incrementing it) by
-using the \f(CWvalue()\fR method.
-.PP
-The counter can be locked and unlocked with the \f(CWlock()\fR and
-\f(CWunlock()\fR methods.  Incrementing and value retrieval is faster when
-the counter is locked, because we do not have to update the counter
-file all the time.  You can query whether the counter is locked with
-the \f(CWlocked()\fR method.
-.PP
-There is also an operator overloading interface to the
-File::CounterFile object.  This means that you might use the \f(CW++\fR
-operator for incrementing the counter, \f(CW--\fR operator for decrementing
-and you can interpolate counters diretly into strings.
+The \f(CWline numbers\fR are a comma separated list of line numbers (some
+preceded by code letters) where that object is used in some way.
+Simple uses aren't preceded by a code letter. Introductions (such as
+where a lexical is first defined with \f(CWmy\fR) are indicated with the
+letter \*(L"i\*(R". Subroutine and method calls are indicated by the character
+\*(L"&\*(R".  Subroutine definitions are indicated by \*(L"s\*(R" and format
+definitions by \*(L"f\*(R".
+.SH "OPTIONS"
+Option words are separated by commas (not whitespace) and follow the
+usual conventions of compiler backend options.
+.Ip "\f(CW-oFILENAME\fR" 8
+Directs output to \f(CWFILENAME\fR instead of standard output.
+.Ip "\f(CW-r\fR" 8
+Raw output. Instead of producing a human-readable report, outputs a line
+in machine-readable form for each definition/use of a variable/sub/format.
+.Ip "\f(CW-D[tO]\fR" 8
+(Internal) debug options, probably only useful if \f(CW-r\fR included.
+The \f(CWt\fR option prints the object on the top of the stack as it's
+being tracked. The \f(CWO\fR option prints each operator as it's being
+processed in the execution order of the program.
 .SH "BUGS"
-It uses \fIflock\fR\|(2) to lock the counter file.  This does not work on all
-systems.  Perhaps we should use the File::Lock module?
-.SH "INSTALLATION"
-Copy this file to the \fIFile\fR subdirectory of your Perl 5 library
-directory (often \fI/usr/local/lib/perl5\fR).
-.SH "COPYRIGHT"
-Copyright (c) 1995-1996 Gisle Aas. All rights reserved.
-.PP
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+Non-lexical variables are quite difficult to track through a program.
+Sometimes the type of a non-lexical variable's use is impossible to
+determine. Introductions of non-lexical non-scalars don't seem to be
+reported properly.
 .SH "AUTHOR"
-Gisle Aas <aas@sn.no>
+Malcolm Beattie, mbeattie@sable.ox.ac.uk.
 
 .rn }` ''
-.IX Title "lib::File::CounterFile 3"
-.IX Name "File::CounterFile - Persistent counter class"
+.IX Title "B::Xref 3"
+.IX Name "B::Xref - Generates cross reference reports for Perl programs"
 
 .IX Header "NAME"
 
@@ -261,11 +259,15 @@ Gisle Aas <aas@sn.no>
 
 .IX Header "DESCRIPTION"
 
+.IX Header "OPTIONS"
+
+.IX Item "\f(CW-oFILENAME\fR"
+
+.IX Item "\f(CW-r\fR"
+
+.IX Item "\f(CW-D[tO]\fR"
+
 .IX Header "BUGS"
-
-.IX Header "INSTALLATION"
-
-.IX Header "COPYRIGHT"
 
 .IX Header "AUTHOR"
 

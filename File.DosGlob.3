@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH File::DosGlob 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH File::DosGlob 3 "perl 5.005, patch 53" "8/Aug/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -189,48 +189,45 @@
 .rm #[ #] #H #V #F C
 .SH "NAME"
 File::DosGlob \- DOS like globbing and then some
-.PP
-perlglob.bat \- a more capable perlglob.exe replacement
 .SH "SYNOPSIS"
 .PP
-.Vb 12
+.Vb 7
 \&    require 5.004;
 \&    
 \&    # override CORE::glob in current package
 \&    use File::DosGlob 'glob';
 \&    
+\&    # override CORE::glob in ALL packages (use with extreme caution!)
+\&    use File::DosGlob 'GLOBAL_glob';
+.Ve
+.Vb 5
 \&    @perlfiles = glob  "..\e\epe?l/*.p?";
 \&    print <..\e\epe?l/*.p?>;
 \&    
 \&    # from the command line (overrides only in main::)
 \&    > perl -MFile::DosGlob=glob -e "print <../pe*/*p?>"
-\&    
-\&    > perlglob ../pe*/*p?
 .Ve
 .SH "DESCRIPTION"
 A module that implements DOS\-like globbing with a few enhancements.
-This file is also a portable replacement for perlglob.exe.  It
-is largely compatible with perlglob.exe (the M$ setargv.obj
+It is largely compatible with perlglob.exe (the M$ setargv.obj
 version) in all but one respect\*(--it understands wildcards in
 directory components.
 .PP
-For example, C<<..\e\el*b\e\efile/*glob.p?>> will work as expected (in
+For example, \f(CW<..\e\el*b\e\efile/*glob.p?\fR> will work as expected (in
 that it will find something like \*(L'..\elib\eFile/DosGlob.pm\*(R' alright).
 Note that all path components are case-insensitive, and that
 backslashes and forward slashes are both accepted, and preserved.
 You may have to double the backslashes if you are putting them in
 literally, due to double-quotish parsing of the pattern by perl.
 .PP
-When invoked as a program, it will print null-separated filenames
-to standard output.
-.PP
-While one may replace perlglob.exe with this, usage by overriding
-CORE::glob via importation should be much more efficient, because
-it avoids launching a separate process, and is therefore strongly
-recommended.  Note that it is currently possible to override
-builtins like \fIglob()\fR only on a per-package basis, not \*(L"globally\*(R".
-Thus, every namespace that wants to override \fIglob()\fR must explicitly
-request the override.  See the \fIperlsub\fR manpage.
+Spaces in the argument delimit distinct patterns, so
+\f(CWglob('*.exe *.dll')\fR globs all filenames that end in \f(CW.exe\fR
+or \f(CW.dll\fR.  If you want to put in literal spaces in the glob
+pattern, you can escape them with either double quotes, or backslashes.
+e.g. \f(CWglob('c:/"Program Files"/*/*.dll')\fR, or
+\f(CWglob('c:/Program\e Files/*/*.dll')\fR.  The argument is tokenized using
+\f(CWText::ParseWords::parse_line()\fR, so see the \fIText::ParseWords\fR manpage for details
+of the quoting rules used.
 .PP
 Extending it to csh patterns is left as an exercise to the reader.
 .SH "EXPORTS (by request only)"
@@ -241,6 +238,8 @@ pandering to DOS habits.  Needs a dose of optimizium too.
 .SH "AUTHOR"
 Gurusamy Sarathy <gsar@umich.edu>
 .SH "HISTORY"
+.Ip "\(bu" 4
+Support for globally overriding \fIglob()\fR (\s-1GSAR\s0 3-\s-1JUN\s0\-98)
 .Ip "\(bu" 4
 Scalar context, independent iterator context fixes (\s-1GSAR\s0 15-\s-1SEP\s0\-97)
 .Ip "\(bu" 4
@@ -254,6 +253,10 @@ under Borland (\s-1GSAR\s0 27-\s-1MAY\s0\-97)
 Initial version (\s-1GSAR\s0 20-\s-1FEB\s0\-97)
 .SH "SEE ALSO"
 perl
+.PP
+perlglob.bat
+.PP
+Text::ParseWords
 
 .rn }` ''
 .IX Title "File::DosGlob 3"
@@ -272,6 +275,8 @@ perl
 .IX Header "AUTHOR"
 
 .IX Header "HISTORY"
+
+.IX Item "\(bu"
 
 .IX Item "\(bu"
 

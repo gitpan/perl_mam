@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Term::ReadLine 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Term::ReadLine 3 "perl 5.005, patch 53" "13/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -288,12 +288,24 @@ these methods by checking for corresponding \f(CWFeatures\fR.
 .SH "EXPORTS"
 None
 .SH "ENVIRONMENT"
-The variable \f(CWPERL_RL\fR governs which ReadLine clone is loaded. If the
-value is false, a dummy interface is used. If the value is true, it
-should be tail of the name of the package to use, such as \f(CWPerl\fR or
-\f(CWGnu\fR. 
+The envrironment variable \f(CWPERL_RL\fR governs which ReadLine clone is
+loaded. If the value is false, a dummy interface is used. If the value
+is true, it should be tail of the name of the package to use, such as
+\f(CWPerl\fR or \f(CWGnu\fR.  
 .PP
-If the variable is not set, the best available package is loaded.
+As a special case, if the value of this variable is space-separated,
+the tail might be used to disable the ornaments by setting the tail to
+be \f(CWo=0\fR or \f(CWornaments=0\fR.  The head should be as described above, say
+.PP
+If the variable is not set, or if the head of space-separated list is
+empty, the best available package is loaded.
+.PP
+.Vb 2
+\&  export "PERL_RL=Perl o=0"     # Use Perl ReadLine without ornaments
+\&  export "PERL_RL= o=0"         # Use best available ReadLine without ornaments
+.Ve
+(Note that processing of \f(CWPERL_RL\fR for ornaments is in the discretion of the 
+particular used \f(CWTerm::ReadLine::*\fR package).
 
 .rn }` ''
 .IX Title "Term::ReadLine 3"

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Push 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH CGI::Push 3 "perl 5.005, patch 53" "28/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -275,6 +275,8 @@ redrawing loop and print out the final page (if any)
 \&               "This page called $counter times";
 \&    }
 .Ve
+You are of course free to refer to create and use global variables
+within your draw routine in order to achieve special effects.
 .Ip "-last_page" 4
 This optional parameter points to a reference to the subroutine
 responsible for drawing the last page of the series.  It is called
@@ -283,8 +285,12 @@ itself should have exactly the same calling conventions as the
 \-next_page routine.
 .Ip "-type" 4
 This optional parameter indicates the content type of each page.  It
-defaults to \*(L"text/html\*(R".  Currently, server push of heterogeneous
-document types is not supported.
+defaults to \*(L"text/html\*(R".  Normally the module assumes that each page
+is of a homogenous \s-1MIME\s0 type.  However if you provide either of the
+magic values \*(L"heterogeneous\*(R" or \*(L"dynamic\*(R" (the latter provided for the
+convenience of those who hate long parameter names), you can specify
+the \s-1MIME\s0 type -- and other header fields -- on a per-page basis.  See 
+\*(L"heterogeneous pages\*(R" for more details.
 .Ip "-delay" 4
 This indicates the delay, in seconds, between frames.  Smaller delays
 refresh the page faster.  Fractional values are allowed.
@@ -293,6 +299,59 @@ refresh the page faster.  Fractional values are allowed.
 .Ip "-cookie, \-target, \-expires" 4
 These have the same meaning as the like-named parameters in
 \fI\s-1CGI::\s0header()\fR.
+.Sh "Heterogeneous Pages"
+Ordinarily all pages displayed by \s-1CGI::\s0Push share a common \s-1MIME\s0 type.
+However by providing a value of \*(L"heterogeneous\*(R" or \*(L"dynamic\*(R" in the
+\fIdo_push()\fR \-type parameter, you can specify the \s-1MIME\s0 type of each page
+on a case-by-case basis.  
+.PP
+If you use this option, you will be responsible for producing the
+\s-1HTTP\s0 header for each page.  Simply modify your draw routine to
+look like this:
+.PP
+.Vb 7
+\&    sub my_draw_routine {
+\&        my($q,$counter) = @_;
+\&        return header('text/html'),   # note we're producing the header here
+\&               start_html('testing'),
+\&               h1('testing'),
+\&               "This page called $counter times";
+\&    }
+.Ve
+You can add any header fields that you like, but some (cookies and
+status fields included) may not be interpreted by the browser.  One
+interesting effect is to display a series of pages, then, after the
+last page, to redirect the browser to a new \s-1URL\s0.  Because \fIredirect()\fR 
+does b<not> work, the easiest way is with a \-refresh header field,
+as shown below:
+.PP
+.Vb 18
+\&    sub my_draw_routine {
+\&        my($q,$counter) = @_;
+\&        return undef if $counter > 10;
+\&        return header('text/html'),   # note we're producing the header here
+\&               start_html('testing'),
+\&               h1('testing'),
+\&               "This page called $counter times";
+\&    }
+\&   
+\&    sub my_last_page {
+\&        header(-refresh=>'5; URL=http://somewhere.else/finished.html',
+\&               -type=>'text/html'),
+\&        start_html('Moved'),
+\&        h1('This is the last page'),
+\&        'Goodbye!'
+\&         hr,    
+\&         end_html; 
+\&    }
+.Ve
+.Sh "Changing the Page Delay on the Fly"
+If you would like to control the delay between pages on a page-by-page
+basis, call \fIpush_delay()\fR from within your draw routine.  \fIpush_delay()\fR
+takes a single numeric argument representing the number of seconds you
+wish to delay after the current page is displayed and before
+displaying the next one.  The delay may be fractional.  Without
+parameters, \fIpush_delay()\fR just returns the current delay.
 .SH "INSTALLING CGI::Push SCRIPTS"
 Server push scripts \fBmust\fR be installed as no-parsed-header (NPH)
 scripts in order to work correctly.  On Unix systems, this is most
@@ -336,6 +395,10 @@ the \fICGI::Carp\fR manpage, the \fICGI\fR manpage
 .IX Item "-delay"
 
 .IX Item "-cookie, \-target, \-expires"
+
+.IX Subsection "Heterogeneous Pages"
+
+.IX Subsection "Changing the Page Delay on the Fly"
 
 .IX Header "INSTALLING CGI::Push SCRIPTS"
 

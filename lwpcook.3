@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH LWPCOOK 1 "perl 5.004, patch 55" "17/Nov/97" "User Contributed Perl Documentation"
+.TH LWPCOOK 1 "libwww-perl-5.36" "12/Mar/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -210,7 +210,7 @@ or, as a perl one-liner using the \fIgetprint()\fR function:
 .Vb 1
 \&  perl -MLWP::Simple -e 'getprint "http://www.sn.no/libwww-perl/"'
 .Ve
-or, how about fetching the latest perl by running this:
+or, how about fetching the latest perl by running this command:
 .PP
 .Vb 3
 \&  perl -MLWP::Simple -e '
@@ -232,7 +232,7 @@ handle the response returned.
 \&  use LWP::UserAgent;
 \&  $ua = new LWP::UserAgent;
 \&  $ua->agent("$0/0.1 " . $ua->agent);
-\&  # $ua->agent("Mozilla/5.0") # pretend you are some very new Netscape browser
+\&  # $ua->agent("Mozilla/8.0") # pretend we are very capable browser
 .Ve
 .Vb 2
 \&  $req = new HTTP::Request 'GET' => 'http://www.sn.no/libwww-perl';
@@ -247,7 +247,7 @@ handle the response returned.
 \&  if ($res->is_success) {
 \&     print $res->content;
 \&  } else {
-\&     print "Error: " . $res->code . " " . $res->message;
+\&     print "Error: " . $res->status_line . "\en";
 \&  }
 .Ve
 The lwp-request program (alias GET) that is distributed with the
@@ -273,7 +273,7 @@ More control over the request or access to all header values returned
 require that you use the object oriented interface described for GET
 above.  Just s/GET/HEAD/g.
 .SH "POST"
-There is no simple interface for posting data to a WWW server.  You
+There is no simple procedural interface for posting data to a WWW server.  You
 must use the object oriented interface for this. The most common POST
 operation is to access a WWW form application:
 .PP
@@ -290,7 +290,7 @@ operation is to access a WWW form application:
 \&  my $res = $ua->request($req);
 \&  print $res->as_string;
 .Ve
-You can also use the HTTP::Request::Common module to set up a suitable
+Lazy people use the HTTP::Request::Common module to set up a suitable
 POST request message (it handles all the escaping issues) and has a
 suitable default for the content_type:
 .PP
@@ -335,26 +335,19 @@ Applications that use the \f(CW$ua\fR\->\fIenv_proxy()\fR method will normally n
 use the \f(CW$ua\fR\->\fIproxy()\fR and \f(CW$ua\fR\->\fIno_proxy()\fR methods.
 .PP
 Some proxies also require that you send it a username/password in
-order to let requests through.  LWP does not support
-Proxy-Authorization directly yet, but you should be able to add the
-required header manually.
+order to let requests through.  You should be able to add the
+required header, with something like this:
 .PP
-Do something like this:
-.PP
-.Vb 2
+.Vb 1
 \& use LWP::UserAgent;
-\& use MIME::Base64 qw(encode_base64);
 .Ve
 .Vb 2
 \& $ua = new LWP::UserAgent;
 \& $ua->proxy(['http', 'ftp'] => 'http://proxy.myorg.com');
 .Ve
-.Vb 1
-\& $proxy_auth = "Basic " . encode_base64("proxy_user:proxy_password");
-.Ve
 .Vb 2
 \& $req = new HTTP::Request 'GET',"http://www.perl.com";
-\& $req->header("Proxy-Authorization" => $proxy_auth);  # This is the key!
+\& $req->proxy_authorization_basic("proxy_user", "proxy_password");
 .Ve
 .Vb 2
 \& $res = $ua->request($req);
@@ -532,6 +525,11 @@ determine which base URL to use.  The HTTP::Response objects now has a
 .Vb 1
 \&  $BASE = $res->base;
 .Ve
+.SH "COPYRIGHT"
+Copyright 1996-1997, Gisle Aas
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "LWPCOOK 1"
@@ -562,4 +560,6 @@ determine which base URL to use.  The HTTP::Response objects now has a
 .IX Header "EXPAND RELATIVE URLS"
 
 .IX Header "BASE URL"
+
+.IX Header "COPYRIGHT"
 

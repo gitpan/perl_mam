@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::FTP 3 "perl 5.004, patch 55" "25/Nov/97" "User Contributed Perl Documentation"
+.TH Net::FTP 3 "perl 5.005, patch 53" "21/Dec/97" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -257,6 +257,9 @@ as a ftp proxy.
 passive mode. This is required for some \fIdumb\fR servers, and some
 firewall configurations.  This can also be set by the environment
 variable \f(CWFTP_PASSIVE\fR.
+.Sp
+If the constructor fails undef will be returned and an error message will
+be in $@
 .SH "METHODS"
 Unless otherwise stated all methods return either a \fItrue\fR or \fIfalse\fR
 value, with \fItrue\fR meaning that the operation was a success. When a method

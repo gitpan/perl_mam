@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH DB_File 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH DB_File 3 "perl 5.005, patch 53" "10/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,7 +188,7 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-DB_File \- Perl5 access to Berkeley DB
+DB_File \- Perl5 access to Berkeley DB version 1.x
 .SH "SYNOPSIS"
 .PP
 .Vb 5
@@ -226,14 +226,11 @@ DB_File \- Perl5 access to Berkeley DB
 .Ve
 .SH "DESCRIPTION"
 \fBDB_File\fR is a module which allows Perl programs to make use of the
-facilities provided by Berkeley DB.  If you intend to use this
-module you should really have a copy of the Berkeley DB manual pages at
-hand. The interface defined here mirrors the Berkeley DB interface
-closely.
-.PP
-Please note that this module will only work with version 1.x of
-Berkeley DB. Once Berkeley DB version 2 is released, \fBDB_File\fR will be
-upgraded to work with it.
+facilities provided by Berkeley DB version 1.x (if you have a newer
+version of DB, see the section on \fIUsing DB_File with Berkeley DB version 2\fR). It is
+assumed that you have a copy of the Berkeley DB manual pages at hand
+when reading this documentation. The interface defined here mirrors the
+Berkeley DB interface closely.
 .PP
 Berkeley DB is a C library which provides a consistent interface to a
 number of database formats.  \fBDB_File\fR provides an interface to all
@@ -263,6 +260,31 @@ keys are stored in lexical order.
 to be manipulated using the same key/value pair interface as in \s-1DB_HASH\s0
 and \s-1DB_BTREE\s0.  In this case the key will consist of a record (line)
 number.
+.Sh "Using DB_File with Berkeley \s-1DB\s0 version 2"
+Although \fBDB_File\fR is intended to be used with Berkeley \s-1DB\s0 version 1,
+it can also be used with version 2. In this case the interface is
+limited to the functionality provided by Berkeley \s-1DB\s0 1.x. Anywhere the
+version 2 interface differs, \fBDB_File\fR arranges for it to work like
+version 1. This feature allows \fBDB_File\fR scripts that were built with
+version 1 to be migrated to version 2 without any changes.
+.PP
+If you want to make use of the new features available in Berkeley \s-1DB\s0
+2.x, use the Perl module \fBBerkeleyDB\fR instead.
+.PP
+At the time of writing this document the \fBBerkeleyDB\fR module is still
+alpha quality (the version number is < 1.0), and so unsuitable for use
+in any serious development work. Once its version number is >= 1.0, it
+is considered stable enough for real work.
+.PP
+\fBNote:\fR The database file format has changed in Berkeley \s-1DB\s0 version 2.
+If you cannot recreate your databases, you must dump any existing
+databases with the \f(CWdb_dump185\fR utility that comes with Berkeley \s-1DB\s0.
+Once you have upgraded DB_File to use Berkeley \s-1DB\s0 version 2, your
+databases can be recreated using \f(CWdb_load\fR. Refer to the Berkeley \s-1DB\s0
+documentation for further details.
+.PP
+Please read the \fI\s-1COPYRIGHT\s0\fR manpage before using version 2.x of Berkeley \s-1DB\s0 with
+DB_File.
 .Sh "Interface to Berkeley \s-1DB\s0"
 \fBDB_File\fR allows access to Berkeley \s-1DB\s0 files using the \fItie()\fR mechanism
 in Perl 5 (for full details, see the \f(CWtie()\fR entry in the \fIperlfunc\fR manpage). This facility
@@ -883,11 +905,15 @@ Here is the output from the script:
 \&    The 2nd last element is blue
 .Ve
 .Sh "Extra Methods"
-As you can see from the example above, the tied array interface is
-quite limited. To make the interface more useful, a number of methods
-are supplied with \fBDB_File\fR to simulate the standard array operations
-that are not currently implemented in Perl's tied array interface. All
-these methods are accessed via the object returned from the tie call.
+If you are using a version of Perl earlier than 5.004_57, the tied
+array interface is quite limited. The example script above will work,
+but you won't be able to use \f(CWpush\fR, \f(CWpop\fR, \f(CWshift\fR, \f(CWunshift\fR
+etc. with the tied array.
+.PP
+To make the interface more useful for older versions of Perl, a number
+of methods are supplied with \fBDB_File\fR to simulate the missing array
+operations. All these methods are accessed via the object returned from
+the tie call.
 .PP
 Here are the methods:
 .Ip "\fB$X\->push(list) ;\fR" 5
@@ -1451,151 +1477,61 @@ double quotes, like this:
 Although it might seem like a real pain, it is really worth the effort
 of having a \f(CWuse strict\fR in all your scripts.
 .SH "HISTORY"
-.Ip "0.1" 5
-First Release.
-.Ip "0.2" 5
-When \fBDB_File\fR is opening a database file it no longer terminates the
-process if \fIdbopen\fR returned an error. This allows file protection
-errors to be caught at run time. Thanks to Judith Grass
-<grass@cybercash.com> for spotting the bug.
-.Ip "0.3" 5
-Added prototype support for multiple btree compare callbacks.
-.Ip "1.0" 5
-\fBDB_File\fR has been in use for over a year. To reflect that, the
-version number has been incremented to 1.0.
-.Sp
-Added complete support for multiple concurrent callbacks.
-.Sp
-Using the \fIpush\fR method on an empty list didn't work properly. This
-has been fixed.
-.Ip "1.01" 5
-Fixed a core dump problem with SunOS.
-.Sp
-The return value from \s-1TIEHASH\s0 wasn't set to \s-1NULL\s0 when dbopen returned
-an error.
-.Ip "1.02" 5
-Merged \s-1OS/2\s0 specific code into DB_File.xs
-.Sp
-Removed some redundant code in DB_File.xs.
-.Sp
-Documentation update.
-.Sp
-Allow negative subscripts with \s-1RECNO\s0 interface.
-.Sp
-Changed the default flags from O_RDWR to O_CREAT|O_RDWR.
-.Sp
-The example code which showed how to lock a database needed a call to
-\f(CWsync\fR added. Without it the resultant database file was empty.
-.Sp
-Added get_dup method.
-.Ip "1.03" 5
-Documentation update.
-.Sp
-\fBDB_File\fR now imports the constants (O_RDWR, O_CREAT etc.) from Fcntl
-automatically.
-.Sp
-The standard hash function \f(CWexists\fR is now supported.
-.Sp
-Modified the behavior of get_dup. When it returns an associative
-array, the value is the count of the number of matching \s-1BTREE\s0 values.
-.Ip "1.04" 5
-Minor documentation changes.
-.Sp
-Fixed a bug in hash_cb. Patches supplied by Dave Hammen,
-<hammen@gothamcity.jsc.nasa.gov>.
-.Sp
-Fixed a bug with the constructors for DB_File::\s-1HASHINFO\s0,
-DB_File::\s-1BTREEINFO\s0 and DB_File::\s-1RECNOINFO\s0. Also tidied up the
-constructors to make them \f(CW-w\fR clean.
-.Sp
-Reworked part of the test harness to be more locale friendly.
-.Ip "1.05" 5
-Made all scripts in the documentation \f(CWstrict\fR and \f(CW-w\fR clean.
-.Sp
-Added logic to \fIDB_File.xs\fR to allow the module to be built after Perl
-is installed.
-.Ip "1.06" 5
-Minor namespace cleanup: Localized \f(CWPrintBtree\fR.
-.Ip "1.07" 5
-Fixed bug with \s-1RECNO\s0, where bval wasn't defaulting to \*(L"\en\*(R".
-.Ip "1.08" 5
-Documented operation of bval.
-.Ip "1.09" 5
-Minor bug fix in DB_File::\s-1HASHINFO\s0, DB_File::\s-1RECNOINFO\s0 and
-DB_File::\s-1BTREEINFO\s0.
-.Sp
-Changed default mode to 0666.
-.Ip "1.10" 5
-Fixed fd method so that it still returns \-1 for in-memory files when db
-1.86 is used.
-.Ip "1.11" 5
-Documented the untie gotcha.
-.Ip "1.12" 5
-Documented the incompatibility with version 2 of Berkeley \s-1DB\s0.
-.Ip "1.13" 5
-Minor changes to DB_FIle.xs and DB_File.pm
-.Ip "1.14" 5
-Made it illegal to tie an associative array to a \s-1RECNO\s0 database and an
-ordinary array to a \s-1HASH\s0 or \s-1BTREE\s0 database.
-.Ip "1.15" 5
-Patch from Gisle Aas <gisle@aas.no> to suppress \*(L"use of undefined
-value\*(R" warning with db_get and db_seq.
-.Sp
-Patch from Gisle Aas <gisle@aas.no> to make DB_File export only the O_*
-constants from Fcntl.
-.Sp
-Removed the \s-1DESTROY\s0 method from the DB_File::\s-1HASHINFO\s0 module.
-.Sp
-Previously DB_File hard-wired the class name of any object that it
-created to \*(L"DB_File\*(R". This makes sub-classing difficult. Now DB_File
-creats objects in the namespace of the package it has been inherited
-into.
-.Ip "1.16" 5
-Minor changes to DB_File.xs to support multithreaded perl.
+Moved to the Changes file.
 .SH "BUGS"
 Some older versions of Berkeley DB had problems with fixed length
-records using the RECNO file format. The newest version at the time of
-writing was 1.85 \- this seems to have fixed the problems with RECNO.
+records using the RECNO file format. This problem has been fixed since
+version 1.85 of Berkeley DB.
 .PP
 I am sure there are bugs in the code. If you do find any, or can
 suggest any enhancements, I would welcome your comments.
 .SH "AVAILABILITY"
 \fBDB_File\fR comes with the standard Perl source distribution. Look in
-the directory \fIext/DB_File\fR.
+the directory \fIext/DB_File\fR. Given the amount of time between releases
+of Perl the version that ships with Perl is quite likely to be out of
+date, so the most recent version can always be found on CPAN (see
+the \f(CWCPAN\fR entry in the \fIperlmod\fR manpage for details), in the directory
+\fImodules/by-module/DB_File\fR.
 .PP
-This version of \fBDB_File\fR will only work with version 1.x of Berkeley
-DB. It is \fInot\fR yet compatible with version 2.
+This version of \fBDB_File\fR will work with either version 1.x or 2.x of
+Berkeley DB, but is limited to the functionality provided by version 1.
 .PP
-Version 1 of Berkeley DB is available at your nearest CPAN archive (see
-the section on \fICPAN\fR in the \fIperlmod\fR manpage for a list) in \fIsrc/misc/db.1.85.tar.gz\fR, or via the
-host \fIftp.cs.berkeley.edu\fR in \fI/ucb/4bsd/db.tar.gz\fR.  Alternatively,
-check out the Berkeley DB home page at \fIhttp://www.bostic.com/db\fR. It
-is \fInot\fR under the GPL.
+The official web site for Berkeley DB is
+\fIhttp://www.sleepycat.com/db\fR. The ftp equivalent is
+\fIftp.sleepycat.com:/pub\fR. Both versions 1 and 2 of Berkeley DB are
+available there.
 .PP
-If you are running IRIX, then get Berkeley DB from
+Alternatively, Berkeley DB version 1 is available at your nearest CPAN
+archive in \fIsrc/misc/db.1.85.tar.gz\fR.
+.PP
+If you are running IRIX, then get Berkeley DB version 1 from
 \fIhttp://reality.sgi.com/ariel\fR. It has the patches necessary to
 compile properly on IRIX 5.3.
+.SH "COPYRIGHT"
+Copyright (c) 1995-8 Paul Marquess. All rights reserved. This program
+is free software; you can redistribute it and/or modify it under the
+same terms as Perl itself.
 .PP
-As of January 1997, version 1.86 of Berkeley DB is available from the
-Berkeley DB home page. Although this release does fix a number of bugs
-that were present in 1.85 you should be aware of the following
-information (taken from the Berkeley DB home page) before you consider
-using it:
+Although \fBDB_File\fR is covered by the Perl license, the library it
+makes use of, namely Berkeley DB, is not. Berkeley DB has its own
+copyright and its own license. Please take the time to read it.
 .PP
-.Vb 4
-\&    DB version 1.86 includes a new implementation of the hash access
-\&    method that fixes a variety of hashing problems found in DB version
-\&    1.85. We are making it available as an interim solution until DB
-\&    2.0 is available.
+Here are are few words taken from the Berkeley DB FAQ (at
+http://www.sleepycat.com) regarding the license:
+.PP
+.Vb 1
+\&    Do I have to license DB to use it in Perl scripts? 
 .Ve
 .Vb 6
-\&    PLEASE NOTE: the underlying file format for the hash access method
-\&    changed between version 1.85 and version 1.86, so you will have to
-\&    dump and reload all of your databases to convert from version 1.85
-\&    to version 1.86. If you do not absolutely require the fixes from
-\&    version 1.86, we strongly urge you to wait until DB 2.0 is released
-\&    before upgrading from 1.85.  
+\&    No. The Berkeley DB license requires that software that uses
+\&    Berkeley DB be freely redistributable. In the case of Perl, that
+\&    software is Perl, and not your scripts. Any Perl scripts that you
+\&    write are your property, including scripts that make use of
+\&    Berkeley DB. Neither the Perl license nor the Berkeley DB license
+\&    place any restriction on what you may do with them.
 .Ve
+If you are in any doubt about the license situation, contact either the
+Berkeley DB authors or the author of DB_File. See the section on \fIAUTHOR\fR for details.
 .SH "SEE ALSO"
 the \fIperl(1)\fR manpage, the \fIdbopen(3)\fR manpage, the \fIhash(3)\fR manpage, the \fIrecno(3)\fR manpage, the \fIbtree(3)\fR manpage 
 .SH "AUTHOR"
@@ -1606,7 +1542,7 @@ Questions about the DB system itself may be addressed to
 
 .rn }` ''
 .IX Title "DB_File 3"
-.IX Name "DB_File - Perl5 access to Berkeley DB"
+.IX Name "DB_File - Perl5 access to Berkeley DB version 1.x"
 
 .IX Header "NAME"
 
@@ -1619,6 +1555,8 @@ Questions about the DB system itself may be addressed to
 .IX Item "\fB\s-1DB_BTREE\s0\fR"
 
 .IX Item "\fB\s-1DB_RECNO\s0\fR"
+
+.IX Subsection "Using DB_File with Berkeley \s-1DB\s0 version 2"
 
 .IX Subsection "Interface to Berkeley \s-1DB\s0"
 
@@ -1714,49 +1652,11 @@ Questions about the DB system itself may be addressed to
 
 .IX Header "HISTORY"
 
-.IX Item "0.1"
-
-.IX Item "0.2"
-
-.IX Item "0.3"
-
-.IX Item "1.0"
-
-.IX Item "1.01"
-
-.IX Item "1.02"
-
-.IX Item "1.03"
-
-.IX Item "1.04"
-
-.IX Item "1.05"
-
-.IX Item "1.06"
-
-.IX Item "1.07"
-
-.IX Item "1.08"
-
-.IX Item "1.09"
-
-.IX Item "1.10"
-
-.IX Item "1.11"
-
-.IX Item "1.12"
-
-.IX Item "1.13"
-
-.IX Item "1.14"
-
-.IX Item "1.15"
-
-.IX Item "1.16"
-
 .IX Header "BUGS"
 
 .IX Header "AVAILABILITY"
+
+.IX Header "COPYRIGHT"
 
 .IX Header "SEE ALSO"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH User::pwent 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH User::pwent 3 "perl 5.005, patch 53" "19/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -219,7 +219,7 @@ You may also import all the structure fields directly into your namespace
 as regular variables using the :FIELDS import tag.  (Note that this still
 overrides your core functions.)  Access these fields as
 variables named with a preceding \f(CWpw_\fR in front their method names.
-Thus, \f(CW$passwd_obj->\fIshell()\fR\fR corresponds to \f(CW$pw_shell\fR if you import
+Thus, \f(CW$passwd_obj->shell()\fR corresponds to \f(CW$pw_shell\fR if you import
 the fields.
 .PP
 The \fIgetpw()\fR funtion is a simple front-end that forwards

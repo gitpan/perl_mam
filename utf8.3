@@ -1,0 +1,356 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH utf8 3 "perl 5.005, patch 53" "8/Aug/98" "Perl Programmers Reference Guide"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+utf8 \- Perl pragma to turn on UTF\-8 and Unicode support
+.SH "SYNOPSIS"
+.PP
+.Vb 2
+\&    use utf8;
+\&    no utf8;
+.Ve
+.SH "DESCRIPTION"
+The utf8 pragma tells Perl to use UTF\-8 as its internal string
+representation for the rest of the enclosing block.  (The \*(L"no utf8\*(R"
+pragma tells Perl to switch back to ordinary byte-oriented processing
+for the rest of the enclosing block.)  Under utf8, many operations that
+formerly operated on bytes change to operating on characters.  For
+ASCII data this makes no difference, because UTF\-8 stores ASCII in
+single bytes, but for any character greater than \f(CWchr(127)\fR, the
+character is stored in a sequence of two or more bytes, all of which
+have the high bit set.  But by and large, the user need not worry about
+this, because the utf8 pragma hides it from the user.  A character
+under utf8 is logically just a number ranging from 0 to 2**32 or so.
+Larger characters encode to longer sequences of bytes, but again, this
+is hidden.
+.PP
+Use of the utf8 pragma has the following effects:
+.Ip "\(bu" 4
+Strings and patterns may contain characters that have an ordinal value
+larger than 255.  Presuming you use a Unicode editor to edit your
+program, these will typically occur directly within the literal strings
+as \s-1UTF\s0\-8 characters, but you can also specify a particular character
+with an extension of the \f(CW\ex\fR notation.  \s-1UTF\s0\-8 characters are
+specified by putting the hexidecimal code within curlies after the
+\f(CW\ex\fR.  For instance, a Unicode smiley face is \f(CW\ex{263A}\fR.  A
+character in the Latin-1 range (128..255) should be written \f(CW\ex{ab}\fR
+rather than \f(CW\exab\fR, since the former will turn into a two-byte \s-1UTF\s0\-8
+code, while the latter will continue to be interpreted as generating a
+8-bit byte rather than a character.  In fact, if \-w is turned on, it will
+produce a warning that you might be generating invalid \s-1UTF\s0\-8.
+.Ip "\(bu" 4
+Identifiers within the Perl script may contain Unicode alphanumeric
+characters, including ideographs.  (You are currently on your own when
+it comes to using the canonical forms of characters\*(--Perl doesn't (yet)
+attempt to canonicalize variable names for you.)
+.Ip "\(bu" 4
+Regular expressions match characters instead of bytes.  For instance,
+\*(L".\*(R" matches a character instead of a byte.  (However, the \f(CW\eC\fR pattern
+is provided to force a match a single byte ("\f(CWchar\fR\*(R" in C, hence
+\f(CW\eC\fR).)
+.Ip "\(bu" 4
+Character classes in regular expressions match characters instead of
+bytes, and match against the character properties specified in the
+Unicode properties database.  So \f(CW\ew\fR can be used to match an ideograph,
+for instance.
+.Ip "\(bu" 4
+Named Unicode properties and block ranges make be used as character
+classes via the new \f(CW\ep{}\fR (matches property) and \f(CW\eP{}\fR (doesn't
+match property) constructs.  For instance, \f(CW\ep{Lu}\fR matches any
+character with the Unicode uppercase property, while \f(CW\ep{M}\fR matches
+any mark character.  Single letter properties may omit the brackets, so
+that can be written \f(CW\epM\fR also.  Many predefined character classes are
+available, such as \f(CW\ep{IsMirrored}\fR and  \f(CW\ep{InTibetan}\fR.
+.Ip "\(bu" 4
+The special pattern \f(CW\eX\fR match matches any extended Unicode sequence
+(a \*(L"combining character sequence\*(R" in Standardese), where the first
+character is a base character and subsequent characters are mark
+characters that apply to the base character.  It is equivalent to
+\f(CW(?:\ePM\epM*)\fR.
+.Ip "\(bu" 4
+The \f(CWtr///\fR operator translates characters instead of bytes.  It can also
+be forced to translate between 8-bit codes and \s-1UTF\s0\-8 regardless of the
+surrounding utf8 state.  For instance, if you know your input in Latin-1,
+you can say:
+.Sp
+.Vb 5
+\&    use utf8;
+\&    while (<>) {
+\&        tr/\e0-\exff//CU;         # latin1 char to utf8
+\&        ...
+\&    }
+.Ve
+Similarly you could translate your output with
+.Sp
+.Vb 1
+\&    tr/\e0-\ex{ff}//UC;           # utf8 to latin1 char
+.Ve
+No, \f(CWs///\fR doesn't take /U or /C (yet?).
+.Ip "\(bu" 4
+Case translation operators use the Unicode case translation tables.
+Note that \f(CWuc()\fR translates to uppercase, while \f(CWucfirst\fR translates
+to titlecase (for languages that make the distinction).  Naturally
+the corresponding backslash sequences have the same semantics.
+.Ip "\(bu" 4
+Most operators that deal with positions or lengths in the string will
+automatically switch to using character positions, including \f(CWchop()\fR,
+\f(CWsubstr()\fR, \f(CWpos()\fR, \f(CWindex()\fR, \f(CWrindex()\fR, \f(CWsprintf()\fR,
+\f(CWwrite()\fR, and \f(CWlength()\fR.  Operators that specifically don't switch
+include \f(CWvec()\fR, \f(CWpack()\fR, and \f(CWunpack()\fR.  Operators that really
+don't care include \f(CWchomp()\fR, as well as any other operator that
+treats a string as a bucket of bits, such as \f(CWsort()\fR, and the
+operators dealing with filenames.
+.Ip "\(bu" 4
+The \f(CWpack()\fR/\f(CWunpack()\fR letters \*(L"\f(CWc\fR\*(R" and \*(L"\f(CWC\fR\*(R" do \fInot\fR change,
+since they're often used for byte-oriented formats.  (Again, think
+\*(L"\f(CWchar\fR\*(R" in the C language.)  However, there is a new \*(L"\f(CWU\fR\*(R" specifier
+that will convert between \s-1UTF\s0\-8 characters and integers.  (It works
+outside of the utf8 pragma too.)
+.Ip "\(bu" 4
+The \f(CWchr()\fR and \f(CWord()\fR functions work on characters.  This is like
+\f(CWpack("U")\fR and \f(CWunpack("U")\fR, not like \f(CWpack("C")\fR and
+\f(CWunpack("C")\fR.  In fact, the latter are how you now emulate
+byte-oriented \f(CWchr()\fR and \f(CWord()\fR under utf8.
+.Ip "\(bu" 4
+And finally, \f(CWscalar reverse()\fR reverses by character rather than by byte.
+.SH "CAVEATS"
+As of yet, there is no method for automatically coercing input and
+output to some encoding other than UTF\-8.  This is planned in the near
+future, however.
+.PP
+In any event, you'll need to keep track of whether interfaces to other
+modules expect UTF\-8 data or something else.  The utf8 pragma does not
+magically mark strings for you in order to remember their encoding, nor
+will any automatic coercion happen (other than that eventually planned
+for I/O).  If you want such automatic coercion, you can build yourself
+a set of pretty object-oriented modules.  Expect it to run considerably
+slower than than this low-level support.
+.PP
+Use of locales with utf8 may lead to odd results.  Currently there is
+some attempt to apply 8-bit locale info to characters in the range
+0..255, but this is demonstrably incorrect for locales that use
+characters above that range (when mapped into Unicode).  It will also
+tend to run slower.  Avoidance of locales is strongly encouraged.
+
+.rn }` ''
+.IX Title "utf8 3"
+.IX Name "utf8 - Perl pragma to turn on UTF-8 and Unicode support"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Header "CAVEATS"
+

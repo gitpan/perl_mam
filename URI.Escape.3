@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::URI::Escape 3 "perl 5.004, patch 55" "9/Apr/96" "User Contributed Perl Documentation"
+.TH lib::URI::Escape 3 "libwww-perl-5.36" "12/Jan/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,9 +188,7 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-uri_escape \- Escape unsafe characters
-.PP
-uri_unescape \- Unescape escaped characters
+URI::Escape \- Escape and unescape unsafe characters
 .SH "SYNOPSIS"
 .PP
 .Vb 4
@@ -204,31 +202,44 @@ This module provide functions to escape and unescape URI strings.
 Some characters are regarded as \*(L"unsafe\*(R" and must be escaped in
 accordance with RFC 1738.  Escaped characters are represented by a
 triplet consisting of the character \*(L"%\*(R" followed by two hexadecimal
-digits.
-.PP
+digits.  The following functions are provided (and exported by
+default):
+.Ip "uri_escape($string, [$unsafe])" 4
+This function replaces all unsafe characters in the \f(CW$string\fR with their
+escape sequence and return the result.
+.Sp
 The \fIuri_escape()\fR function takes an optional second argument that
 overrides the set of characters that are to be escaped.  The set is
 specified as a string that can be used in a regular expression
 character class (between [ ]).  E.g.:
-.PP
+.Sp
 .Vb 3
 \&  \ex00-\ex1f\ex7f-\exff          # all control and hi-bit characters
 \&  a-z                         # all lower case characters
 \&  ^A-Za-z                     # everything not a letter
 .Ve
 The default set of characters to be escaped is:
-.PP
+.Sp
 .Vb 1
-\&  \ex00-\ex20"#%;<>?{}|\e\e\e\e^~`\e[\e]\ex7F-\exFF
+\&  \ex00-\ex20"#%;<>?{}|\e\e^~`\e[\e]\ex7F-\exFF
 .Ve
+.Ip "uri_unescape($string)" 4
+Returns a string with all \f(CW%XX\fR sequences replaced with the actual
+character.
+.PP
 The module can also export the \f(CW%escapes\fR hash which contains the
 mapping from all characters to the corresponding escape code.
 .SH "SEE ALSO"
 the \fIURI::URL\fR manpage
+.SH "COPYRIGHT"
+Copyright 1995-1997 Gisle Aas.
+.PP
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::URI::Escape 3"
-.IX Name "uri_escape - Escape unsafe characters"
+.IX Name "URI::Escape - Escape and unescape unsafe characters"
 
 .IX Header "NAME"
 
@@ -236,5 +247,11 @@ the \fIURI::URL\fR manpage
 
 .IX Header "DESCRIPTION"
 
+.IX Item "uri_escape($string, [$unsafe])"
+
+.IX Item "uri_unescape($string)"
+
 .IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
 

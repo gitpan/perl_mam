@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::TreeBuilder 3 "perl 5.004, patch 55" "9/Jun/96" "User Contributed Perl Documentation"
+.TH File::Spec::Mac 3 "perl 5.005, patch 53" "20/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,56 +188,98 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-HTML::TreeBuilder \- Parser that builds a HTML syntax tree
+File::Spec::Mac \- File::Spec for MacOS
 .SH "SYNOPSIS"
-.PP
-.Vb 3
-\& $h = new HTML::TreeBuilder;
-\& $h->parse($document);
-\& #...
-.Ve
-.Vb 1
-\& print $h->as_HTML;  # or any other HTML::Element method
-.Ve
+\f(CWrequire File::Spec::Mac;\fR
 .SH "DESCRIPTION"
-This is a parser that builds (and actually itself is) a HTML syntax tree.
-.PP
-Objects of this class inherit the methods of both \f(CWHTML::Parser\fR and
-\f(CWHTML::Element\fR.  After parsing has taken place it can be regarded as
-the syntax tree itself.
-.PP
-The following method all control how parsing takes place.  You can set
-the attributes by passing a TRUE or FALSE value as argument.
-.Ip "$p->implicit_tags" 4
-Setting this attribute to true will instruct the parser to try to
-deduce implicit elements and implicit end tags.  If it is false you
-get a parse tree that just reflects the text as it stands.  Might be
-useful for quick & dirty parsing.  Default is true.
+Methods for manipulating file specifications.
+.SH "METHODS"
+.Ip "canonpath" 2
+On MacOS, there's nothing to be done.  Returns what it's given.
+.Ip "catdir" 2
+Concatenate two or more directory names to form a complete path ending with 
+a directory.  Put a trailing : on the end of the complete path if there 
+isn't one, because that's what's done in MacPerl's environment.
 .Sp
-Implicit elements have the \fIimplicit()\fR attribute set.
-.Ip "$p->ignore_unknown" 4
-This attribute controls whether unknown tags should be represented as
-elements in the parse tree.  Default is true.
-.Ip "$p->ignore_text" 4
-Do not represent the text content of elements.  This saves space if
-all you want is to examine the structure of the document.  Default is
-false.
-.Ip "$p->warn" 4
-Call \fIwarn()\fR with an appropriate message for syntax errors.  Default is
-false.
+The fundamental requirement of this routine is that
+.Sp
+.Vb 1
+\&          File::Spec->catdir(split(":",$path)) eq $path
+.Ve
+But because of the nature of Macintosh paths, some additional 
+possibilities are allowed to make using this routine give resonable results 
+for some common situations.  Here are the rules that are used.  Each 
+argument has its trailing \*(L":\*(R" removed.  Each argument, except the first,
+has its leading \*(L":\*(R" removed.  They are then joined together by a \*(L":\*(R".
+.Sp
+So
+.Sp
+.Vb 5
+\&          File::Spec->catdir("a","b") = "a:b:"
+\&          File::Spec->catdir("a:",":b") = "a:b:"
+\&          File::Spec->catdir("a:","b") = "a:b:"
+\&          File::Spec->catdir("a",":b") = "a:b"
+\&          File::Spec->catdir("a","","b") = "a::b"
+.Ve
+etc.
+.Sp
+To get a relative path (one beginning with :), begin the first argument with :
+or put a "" as the first argument.
+.Sp
+If you don't want to worry about these rules, never allow a \*(L":\*(R" on the ends 
+of any of the arguments except at the beginning of the first.
+.Sp
+Under MacPerl, there is an additional ambiguity.  Does the user intend that
+.Sp
+.Vb 1
+\&          File::Spec->catfile("LWP","Protocol","http.pm")
+.Ve
+be relative or absolute?  There's no way of telling except by checking for the
+existance of \s-1LWP\s0: or :\s-1LWP\s0, and even there he may mean a dismounted volume or
+a relative path in a different directory (like in \f(CW@INC\fR).   So those checks
+aren't done here. This routine will treat this as absolute.
+.Ip "catfile" 2
+Concatenate one or more directory names and a filename to form a
+complete path ending with a filename.  Since this uses catdir, the
+same caveats apply.  Note that the leading : is removed from the filename,
+so that 
+.Sp
+.Vb 1
+\&          File::Spec->catfile($ENV{HOME},"file");
+.Ve
+and
+.Sp
+.Vb 1
+\&          File::Spec->catfile($ENV{HOME},":file");
+.Ve
+give the same answer, as one might expect.
+.Ip "curdir" 2
+Returns a string representing of the current directory.
+.Ip "rootdir" 2
+Returns a string representing the root directory.  Under MacPerl,
+returns the name of the startup volume, since that's the closest in
+concept, although other volumes aren't rooted there.  On any other
+platform returns \*(L'\*(R', since there's no common way to indicate \*(L"root
+directory\*(R" across all Macs.
+.Ip "updir" 2
+Returns a string representing the parent directory.
+.Ip "file_name_is_absolute" 2
+Takes as argument a path and returns true, if it is an absolute path.  In 
+the case where a name can be either relative or absolute (for example, a 
+folder named \*(L"\s-1HD\s0\*(R" in the current working directory on a drive named \*(L"\s-1HD\s0"), 
+relative wins.  Use \*(L":\*(R" in the appropriate place in the path if you want to
+distinguish unambiguously.
+.Ip "path" 2
+Returns the null list for the MacPerl application, since the concept is 
+usually meaningless under MacOS. But if you're using the MacPerl tool under 
+\s-1MPW\s0, it gives back \f(CW$ENV\fR{Commands} suitably split, as is done in 
+:lib:ExtUtils:MM_Mac.pm.
 .SH "SEE ALSO"
-the \fIHTML::Parser\fR manpage, the \fIHTML::Element\fR manpage
-.SH "COPYRIGHT"
-Copyright 1995-1996 Gisle Aas. All rights reserved.
-.PP
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-.SH "AUTHOR"
-Gisle Aas <aas@sn.no>
+the \fIFile::Spec\fR manpage
 
 .rn }` ''
-.IX Title "lib::HTML::TreeBuilder 3"
-.IX Name "HTML::TreeBuilder - Parser that builds a HTML syntax tree"
+.IX Title "File::Spec::Mac 3"
+.IX Name "File::Spec::Mac - File::Spec for MacOS"
 
 .IX Header "NAME"
 
@@ -245,17 +287,23 @@ Gisle Aas <aas@sn.no>
 
 .IX Header "DESCRIPTION"
 
-.IX Item "$p->implicit_tags"
+.IX Header "METHODS"
 
-.IX Item "$p->ignore_unknown"
+.IX Item "canonpath"
 
-.IX Item "$p->ignore_text"
+.IX Item "catdir"
 
-.IX Item "$p->warn"
+.IX Item "catfile"
+
+.IX Item "curdir"
+
+.IX Item "rootdir"
+
+.IX Item "updir"
+
+.IX Item "file_name_is_absolute"
+
+.IX Item "path"
 
 .IX Header "SEE ALSO"
-
-.IX Header "COPYRIGHT"
-
-.IX Header "AUTHOR"
 

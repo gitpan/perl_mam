@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::UserAgent 3 "perl 5.004, patch 55" "2/Oct/97" "User Contributed Perl Documentation"
+.TH lib::LWP::UserAgent 3 "libwww-perl-5.36" "4/Aug/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -263,128 +263,104 @@ The library also accepts that you put a subroutine reference as
 content in the request object.  This subroutine should return the
 content (possibly in pieces) when called.  It should return an empty
 string when there is no more content.
-.PP
-The user of this module can finetune timeouts and error handling by
-calling the \fIuse_alarm()\fR and \fIuse_eval()\fR methods.
-.PP
-By default the library uses \fIalarm()\fR to implement timeouts, dying if
-the timeout occurs. If this is not the prefered behaviour or it
-interferes with other parts of the application one can disable the use
-alarms. When alarms are disabled timeouts can still occur for example
-when reading data, but other cases like name lookups etc will not be
-timed out by the library itself.
-.PP
-The library catches errors (such as internal errors and timeouts) and
-present them as HTTP error responses. Alternatively one can switch off
-this behaviour, and let the application handle dies.
-.SH "SEE ALSO"
-See the \fILWP\fR manpage for a complete overview of libwww-perl5.  See the \fIrequest\fR manpage and
-the \fImirror\fR manpage for examples of usage.
 .SH "METHODS"
-.Sh "\f(CW$ua\fR = new \s-1LWP::\s0UserAgent;"
+The following methods are available:
+.Ip "$ua = new \s-1LWP::\s0UserAgent;" 4
 Constructor for the UserAgent.  Returns a reference to a
 \s-1LWP::\s0UserAgent object.
-.Sh "\f(CW$ua\fR\->\fIsimple_request\fR\|($request, [$arg [, \f(CW$size\fR]])"
+.Ip "$ua->simple_request($request, [$arg [, $size]])" 4
 This method dispatches a single \s-1WWW\s0 request on behalf of a user, and
 returns the response received.  The \f(CW$request\fR should be a reference
 to a \f(CWHTTP::Request\fR object with values defined for at least the
 \fImethod()\fR and \fIurl()\fR attributes.
-.PP
+.Sp
 If \f(CW$arg\fR is a scalar it is taken as a filename where the content of
 the response is stored.
-.PP
+.Sp
 If \f(CW$arg\fR is a reference to a subroutine, then this routine is called
 as chunks of the content is received.  An optional \f(CW$size\fR argument
 is taken as a hint for an appropriate chunk size.
-.PP
+.Sp
 If \f(CW$arg\fR is omitted, then the content is stored in the response
 object itself.
-.Sh "\f(CW$ua\fR\->\fIrequest\fR\|($request, \f(CW$arg\fR [, \f(CW$size\fR])"
+.Ip "$ua->request($request, $arg [, $size])" 4
 Process a request, including redirects and security.  This method may
 actually send several different simple reqeusts.
-.PP
+.Sp
 The arguments are the same as for \f(CWsimple_request()\fR.
-.Sh "\f(CW$ua\fR\->redirect_ok"
+.Ip "$ua->redirect_ok" 4
 This method is called by \fIrequest()\fR before it tries to do any
 redirects.  It should return a true value if the redirect is allowed
 to be performed. Subclasses might want to override this.
-.PP
+.Sp
 The default implementation will return \s-1FALSE\s0 for \s-1POST\s0 request and \s-1TRUE\s0
 for all others.
-.Sh "\f(CW$ua\fR\->\fIcredentials\fR\|($netloc, \f(CW$realm\fR, \f(CW$uname\fR, \f(CW$pass\fR)"
+.Ip "$ua->credentials($netloc, $realm, $uname, $pass)" 4
 Set the user name and password to be used for a realm.  It is often more
 useful to specialize the \fIget_basic_credentials()\fR method instead.
-.Sh "\f(CW$ua\fR\->\fIget_basic_credentials\fR\|($realm, \f(CW$uri\fR)"
+.Ip "$ua->get_basic_credentials($realm, $uri, [$proxy])" 4
 This is called by \fIrequest()\fR to retrieve credentials for a Realm
 protected by Basic Authentication or Digest Authentication.
-.PP
+.Sp
 Should return username and password in a list.  Return undef to abort
 the authentication resolution atempts.
-.PP
+.Sp
 This implementation simply checks a set of pre-stored member
 variables. Subclasses can override this method to e.g. ask the user
 for a username/password.  An example of this can be found in
 \f(CWlwp-request\fR program distributed with this library.
-.Sh "\f(CW$ua\fR\->\fIagent\fR\|([$product_id])"
+.Ip "$ua->agent([$product_id])" 4
 Get/set the product token that is used to identify the user agent on
 the network.  The agent value is sent as the \*(L"User-Agent\*(R" header in
 the requests. The default agent name is \*(L"libwww-perl/#.##\*(R", where
 \*(L"#.##\*(R" is substitued with the version numer of this library.
-.PP
+.Sp
 The user agent string should be one or more simple product identifiers
 with an optional version number separated by the \*(L"/\*(R" character.
 Examples are:
-.PP
+.Sp
 .Vb 2
 \&  $ua->agent('Checkbot/0.4 ' . $ua->agent);
 \&  $ua->agent('Mozilla/5.0');
 .Ve
-.Sh "\f(CW$ua\fR\->\fIfrom\fR\|([$email_address])"
+.Ip "$ua->from([$email_address])" 4
 Get/set the Internet e-mail address for the human user who controls
 the requesting user agent.  The address should be machine-usable, as
 defined in \s-1RFC\s0 822.  The from value is send as the \*(L"From\*(R" header in
 the requests.  There is no default.  Example:
-.PP
+.Sp
 .Vb 1
 \&  $ua->from('aas@sn.no');
 .Ve
-.Sh "\f(CW$ua\fR\->\fItimeout\fR\|([$secs])"
+.Ip "$ua->timeout([$secs])" 4
 Get/set the timeout value in seconds. The default \fItimeout()\fR value is
 180 seconds, i.e. 3 minutes.
-.Sh "\f(CW$ua\fR\->\fIcookie_jar\fR\|([$cookies])"
+.Ip "$ua->cookie_jar([$cookies])" 4
 Get/set the \fI\s-1HTTP::\s0Cookies\fR object to use.  The default is to have no
 cookie_jar, i.e. never automatically add \*(L"Cookie\*(R" headers to the
 requests.
-.Sh "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
-Get/set a value indicating wether to use \fIalarm()\fR when implementing
-timeouts.  The default is \s-1TRUE\s0, if your system supports it.  You can
-disable it if it interfers with other uses of alarm in your application.
-.Sh "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
-Get/set a value indicating wether to handle internal errors internally
-by trapping with eval.  The default is \s-1TRUE\s0, i.e. the \f(CW$ua\fR\->\fIrequest()\fR
-will never die.
-.Sh "\f(CW$ua\fR\->\fIparse_head\fR\|([$boolean])"
+.Ip "$ua->parse_head([$boolean])" 4
 Get/set a value indicating wether we should initialize response
 headers from the <head> section of \s-1HTML\s0 documents. The default is
 \s-1TRUE\s0.  Do not turn this off, unless you know what you are doing.
-.Sh "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
+.Ip "$ua->max_size([$bytes])" 4
 Get/set the size limit for response content.  The default is undef,
 which means that there is not limit.  If the returned response content
 is only partial, because the size limit was exceeded, then a
 \*(L"X\-Content-Range\*(R" header will be added to the response.
-.Sh "\f(CW$ua\fR\->clone;"
+.Ip "$ua->clone;" 4
 Returns a copy of the \s-1LWP::\s0UserAgent object
-.Sh "\f(CW$ua\fR\->\fIis_protocol_supported\fR\|($scheme)"
+.Ip "$ua->is_protocol_supported($scheme)" 4
 You can use this method to query if the library currently support the
 specified \f(CWscheme\fR.  The \f(CWscheme\fR might be a string (like \*(L'http\*(R' or
 \&'ftp') or it might be an \s-1URI::URL\s0 object reference.
-.Sh "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
+.Ip "$ua->mirror($url, $file)" 4
 Get and store a document identified by a \s-1URL\s0, using If-Modified-Since,
 and checking of the Content-Length.  Returns a reference to the
 response object.
-.Sh "\f(CW$ua\fR\->\fIproxy\fR\|(...)"
+.Ip "$ua->proxy(...)" 4
 Set/retrieve proxy \s-1URL\s0 for a scheme:
-.PP
+.Sp
 .Vb 2
 \& $ua->proxy(['http', 'ftp'], 'http://proxy.sn.no:8001/');
 \& $ua->proxy('gopher', 'http://proxy.sn.no:8001/');
@@ -392,13 +368,13 @@ Set/retrieve proxy \s-1URL\s0 for a scheme:
 The first form specifies that the \s-1URL\s0 is to be used for proxying of
 access methods listed in the list in the first method argument,
 i.e. \*(L'http\*(R' and \*(L'ftp\*(R'.
-.PP
+.Sp
 The second form shows a shorthand form for specifying
 proxy \s-1URL\s0 for a single access scheme.
-.Sh "\f(CW$ua\fR\->\fIenv_proxy()\fR"
+.Ip "$ua->env_proxy()" 4
 Load proxy settings from *_proxy environment variables.  You might
 specify proxies like this (sh-syntax):
-.PP
+.Sp
 .Vb 4
 \&  gopher_proxy=http://proxy.my.place/
 \&  wais_proxy=http://proxy.my.place/
@@ -407,13 +383,21 @@ specify proxies like this (sh-syntax):
 .Ve
 Csh or tcsh users should use the \f(CWsetenv\fR command to define these
 envirionment variables.
-.Sh "\f(CW$ua\fR\->\fIno_proxy\fR\|($domain,...)"
+.Ip "$ua->no_proxy($domain,...)" 4
 Do not proxy requests to the given domains.  Calling no_proxy without
 any domains clears the list of domains. Eg:
-.PP
+.Sp
 .Vb 1
 \& $ua->no_proxy('localhost', 'no', ...);
 .Ve
+.SH "SEE ALSO"
+See the \fILWP\fR manpage for a complete overview of libwww-perl5.  See \fIlwp-request\fR and
+\fIlwp-mirror\fR for examples of usage.
+.SH "COPYRIGHT"
+Copyright 1995-1997 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::LWP::UserAgent 3"
@@ -425,47 +409,45 @@ any domains clears the list of domains. Eg:
 
 .IX Header "DESCRIPTION"
 
-.IX Header "SEE ALSO"
-
 .IX Header "METHODS"
 
-.IX Subsection "\f(CW$ua\fR = new \s-1LWP::\s0UserAgent;"
+.IX Item "$ua = new \s-1LWP::\s0UserAgent;"
 
-.IX Subsection "\f(CW$ua\fR\->\fIsimple_request\fR\|($request, [$arg [, \f(CW$size\fR]])"
+.IX Item "$ua->simple_request($request, [$arg [, $size]])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIrequest\fR\|($request, \f(CW$arg\fR [, \f(CW$size\fR])"
+.IX Item "$ua->request($request, $arg [, $size])"
 
-.IX Subsection "\f(CW$ua\fR\->redirect_ok"
+.IX Item "$ua->redirect_ok"
 
-.IX Subsection "\f(CW$ua\fR\->\fIcredentials\fR\|($netloc, \f(CW$realm\fR, \f(CW$uname\fR, \f(CW$pass\fR)"
+.IX Item "$ua->credentials($netloc, $realm, $uname, $pass)"
 
-.IX Subsection "\f(CW$ua\fR\->\fIget_basic_credentials\fR\|($realm, \f(CW$uri\fR)"
+.IX Item "$ua->get_basic_credentials($realm, $uri, [$proxy])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIagent\fR\|([$product_id])"
+.IX Item "$ua->agent([$product_id])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIfrom\fR\|([$email_address])"
+.IX Item "$ua->from([$email_address])"
 
-.IX Subsection "\f(CW$ua\fR\->\fItimeout\fR\|([$secs])"
+.IX Item "$ua->timeout([$secs])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIcookie_jar\fR\|([$cookies])"
+.IX Item "$ua->cookie_jar([$cookies])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
+.IX Item "$ua->parse_head([$boolean])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
+.IX Item "$ua->max_size([$bytes])"
 
-.IX Subsection "\f(CW$ua\fR\->\fIparse_head\fR\|([$boolean])"
+.IX Item "$ua->clone;"
 
-.IX Subsection "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
+.IX Item "$ua->is_protocol_supported($scheme)"
 
-.IX Subsection "\f(CW$ua\fR\->clone;"
+.IX Item "$ua->mirror($url, $file)"
 
-.IX Subsection "\f(CW$ua\fR\->\fIis_protocol_supported\fR\|($scheme)"
+.IX Item "$ua->proxy(...)"
 
-.IX Subsection "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
+.IX Item "$ua->env_proxy()"
 
-.IX Subsection "\f(CW$ua\fR\->\fIproxy\fR\|(...)"
+.IX Item "$ua->no_proxy($domain,...)"
 
-.IX Subsection "\f(CW$ua\fR\->\fIenv_proxy()\fR"
+.IX Header "SEE ALSO"
 
-.IX Subsection "\f(CW$ua\fR\->\fIno_proxy\fR\|($domain,...)"
+.IX Header "COPYRIGHT"
 

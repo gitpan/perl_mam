@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Carp 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH CGI::Carp 3 "perl 5.005, patch 53" "15/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -280,6 +280,8 @@ accepted as well:
 .Vb 1
 \&    ... and so on
 .Ve
+FileHandle and other objects work as well.
+.PP
 Use of \fIcarpout()\fR is not great for performance, so it is recommended
 for debugging purposes or for moderate-use applications.  A future
 version of this module may delay redirecting STDERR until one of the
@@ -297,12 +299,51 @@ arranges to send a minimal HTTP header to the browser so that even errors that
 occur in the early compile phase will be seen.
 Nonfatal errors will still be directed to the log file only (unless redirected
 with carpout).
+.Sh "Changing the default message"
+By default, the software error message is followed by a note to
+contact the Webmaster by e-mail with the time and date of the error.
+If this message is not to your liking, you can change it using the
+\fIset_message()\fR routine.  This is not imported by default; you should
+import it on the \fIuse()\fR line:
+.PP
+.Vb 2
+\&    use CGI::Carp qw(fatalsToBrowser set_message);
+\&    set_message("It's not a bug, it's a feature!");
+.Ve
+You may also pass in a code reference in order to create a custom
+error message.  At run time, your code will be called with the text
+of the error message that caused the script to die.  Example:
+.PP
+.Vb 9
+\&    use CGI::Carp qw(fatalsToBrowser set_message);
+\&    BEGIN {
+\&       sub handle_errors {
+\&          my $msg = shift;
+\&          print "<h1>Oh gosh</h1>";
+\&          print "Got an error: $msg";
+\&      }
+\&      set_message(\e&handle_errors);
+\&    }
+.Ve
+In order to correctly intercept compile-time errors, you should call
+\fIset_message()\fR from within a \s-1BEGIN\s0{} block.
 .SH "CHANGE LOG"
 1.05 \fIcarpout()\fR added and minor corrections by Marc Hedlund
      <hedlund@best.com> on 11/26/95.
 .PP
 1.06 \fIfatalsToBrowser()\fR no longer aborts for fatal errors within
      \fIeval()\fR statements.
+.PP
+1.08 \fIset_message()\fR added and \fIcarpout()\fR expanded to allow for FileHandle
+     objects.
+.PP
+1.09 \fIset_message()\fR now allows users to pass a code REFERENCE for 
+     really custom error messages.  croak and carp are now
+     exported by default.  Thanks to Gunther Birznieks for the
+     patches.
+.PP
+1.10 Patch from Chris Dean (ctdean@cogit.com) to allow 
+     module to run correctly under mod_perl.
 .SH "AUTHORS"
 Lincoln D. Stein <lstein@genome.wi.mit.edu>.  Feel free to redistribute
 this under the Perl Artistic License.
@@ -323,6 +364,8 @@ CGI::Response
 .IX Header "REDIRECTING ERROR MESSAGES"
 
 .IX Header "MAKING PERL ERRORS APPEAR IN THE BROWSER WINDOW"
+
+.IX Subsection "Changing the default message"
 
 .IX Header "CHANGE LOG"
 

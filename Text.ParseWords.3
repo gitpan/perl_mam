@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Text::ParseWords 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Text::ParseWords 3 "perl 5.005, patch 53" "3/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,47 +188,115 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-Text::ParseWords \- parse text into an array of tokens
+Text::ParseWords \- parse text into an array of tokens or array of arrays
 .SH "SYNOPSIS"
 .PP
-.Vb 4
+.Vb 6
 \&  use Text::ParseWords;
+\&  @lists = &nested_quotewords($delim, $keep, @lines);
 \&  @words = &quotewords($delim, $keep, @lines);
 \&  @words = &shellwords(@lines);
-\&  @words = &old_shellwords(@lines);
+\&  @words = &parse_line($delim, $keep, $line);
+\&  @words = &old_shellwords(@lines); # DEPRECATED!
 .Ve
 .SH "DESCRIPTION"
-&\fIquotewords()\fR accepts a delimiter (which can be a regular expression)
+The &\fInested_quotewords()\fR and &\fIquotewords()\fR functions accept a delimiter 
+(which can be a regular expression)
 and a list of lines and then breaks those lines up into a list of
-words ignoring delimiters that appear inside quotes.
+words ignoring delimiters that appear inside quotes.  &\fIquotewords()\fR
+returns all of the tokens in a single long list, while &\fInested_quotewords()\fR
+returns a list of token lists corresponding to the elements of \f(CW@lines\fR.
+&\fIparse_line()\fR does tokenizing on a single string.  The &*\fIquotewords()\fR
+functions simply call &\fIparse_lines()\fR, so if you're only splitting
+one line you can call &\fIparse_lines()\fR directly and save a function
+call.
 .PP
-The \f(CW$keep\fR argument is a boolean flag.  If true, the quotes are kept
-with each word, otherwise quotes are stripped in the splitting process.
-\f(CW$keep\fR also defines whether unprotected backslashes are retained.
+The \f(CW$keep\fR argument is a boolean flag.  If true, then the tokens are
+split on the specified delimiter, but all other characters (quotes,
+backslashes, etc.) are kept in the tokens.  If \f(CW$keep\fR is false then the
+&*\fIquotewords()\fR functions remove all quotes and backslashes that are
+not themselves backslash-escaped or inside of single quotes (i.e.,
+&\fIquotewords()\fR tries to interpret these characters just like the Bourne
+shell).  NB: these semantics are significantly different from the
+original version of this module shipped with Perl 5.000 through 5.004.
+As an additional feature, \f(CW$keep\fR may be the keyword \*(L"delimiters\*(R" which
+causes the functions to preserve the delimiters in each string as
+tokens in the token lists, in addition to preserving quote and
+backslash characters.
 .PP
-A &\fIshellwords()\fR replacement is included to demonstrate the new package.
-This version differs from the original in that it will _NOT_ default
-to using \f(CW$_\fR if no arguments are given.  I personally find the old behavior
-to be a mis-feature.
+&\fIshellwords()\fR is written as a special case of &\fIquotewords()\fR, and it
+does token parsing with whitespace as a delimiter-- similar to most
+Unix shells.
+.SH "EXAMPLES"
+The sample program:
 .PP
-&\fIquotewords()\fR works by simply jamming all of \f(CW@lines\fR into a single
-string in \f(CW$_\fR and then pulling off words a bit at a time until \f(CW$_\fR
-is exhausted.
+.Vb 7
+\&  use Text::ParseWords;
+\&  @words = &quotewords('\es+', 0, q{this   is "a test" of\e quotewords \e"for you});
+\&  $i = 0;
+\&  foreach (@words) {
+\&      print "$i: <$_>\en";
+\&      $i++;
+\&  }
+.Ve
+produces:
+.PP
+.Vb 6
+\&  0: <this>
+\&  1: <is>
+\&  2: <a test>
+\&  3: <of quotewords>
+\&  4: <"for>
+\&  5: <you>
+.Ve
+demonstrating:
+.Ip "0 a simple word" 4
+.Ip "1 multiple spaces are skipped because of our $delim" 4
+.Ip "2 use of quotes to include a space in a word" 4
+.Ip "3 use of a backslash to include a space in a word" 4
+.Ip "4 use of a backslash to remove the special meaning of a double-quote" 4
+.Ip "5 another simple word (note the lack of effect of the backslashed double-quote)" 4
+.PP
+Replacing \f(CW&quotewords('\es+', 0, q{this   is...})\fR
+with \f(CW&shellwords(q{this   is...})\fR
+is a simpler way to accomplish the same thing.
 .SH "AUTHORS"
-Hal Pomeranz (pomeranz@netcom.com), 23 March 1994
+Maintainer is Hal Pomeranz <pomeranz@netcom.com>, 1994-1997 (Original
+author unknown).  Much of the code for &\fIparse_line()\fR (including the
+primary regexp) from Joerk Behrends <jbehrends@multimediaproduzenten.de>.
 .PP
-Basically an update and generalization of the old shellwords.pl.
-Much code shamelessly stolen from the old version (author unknown).
+Examples section another documentation provided by John Heidemann 
+<johnh@ISI.EDU>
+.PP
+Bug reports, patches, and nagging provided by lots of folks-- thanks
+everybody!  Special thanks to Michael Schwern <schwern@envirolink.org>
+for assuring me that a &\fInested_quotewords()\fR would be useful, and to 
+Jeff Friedl <jfriedl@yahoo-inc.com> for telling me not to worry about
+error-checking (sort of-- you had to be there).
 
 .rn }` ''
 .IX Title "Text::ParseWords 3"
-.IX Name "Text::ParseWords - parse text into an array of tokens"
+.IX Name "Text::ParseWords - parse text into an array of tokens or array of arrays"
 
 .IX Header "NAME"
 
 .IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Item "0 a simple word"
+
+.IX Item "1 multiple spaces are skipped because of our $delim"
+
+.IX Item "2 use of quotes to include a space in a word"
+
+.IX Item "3 use of a backslash to include a space in a word"
+
+.IX Item "4 use of a backslash to remove the special meaning of a double-quote"
+
+.IX Item "5 another simple word (note the lack of effect of the backslashed double-quote)"
 
 .IX Header "AUTHORS"
 

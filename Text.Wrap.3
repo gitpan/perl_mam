@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Text::Wrap 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Text::Wrap 3 "perl 5.005, patch 53" "14/May/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -198,10 +198,15 @@ Text::Wrap \- line wrapping to form simple paragraphs
 \&        print wrap($initial_tab, $subsequent_tab, @text);
 .Ve
 .Vb 1
-\&        use Text::Wrap qw(wrap $columns);
+\&        use Text::Wrap qw(wrap $columns $tabstop fill);
 .Ve
-.Vb 1
+.Vb 2
 \&        $columns = 132;
+\&        $tabstop = 4;
+.Ve
+.Vb 2
+\&        print fill($initial_tab, $subsequent_tab, @text);
+\&        print fill("", "", `cat book`);
 .Ve
 .SH "DESCRIPTION"
 \fIText::Wrap::wrap()\fR is a very simple paragraph formatter.  It formats a
@@ -209,6 +214,12 @@ single paragraph at a time by breaking lines at word boundries.
 Indentation is controlled for the first line ($initial_tab) and
 all subsquent lines ($subsequent_tab) independently.  \f(CW$Text::Wrap::columns\fR
 should be set to the full width of your output device.
+.PP
+\fIText::Wrap::fill()\fR is a simple multi-paragraph formatter.  It formats
+each paragraph separately and then joins them together when it's done.  It
+will destory any whitespace in the original text.  It breaks text into
+paragraphs by looking for whitespace after a newline.  In other respects
+it acts like \fIwrap()\fR.
 .SH "EXAMPLE"
 .PP
 .Vb 2
@@ -218,10 +229,10 @@ should be set to the full width of your output device.
 .SH "BUGS"
 It's not clear what the correct behavior should be when \fIWrap()\fR is
 presented with a word that is longer than a line.  The previous 
-behavior was to die.  Now the word is split at line-length.
+behavior was to die.  Now the word is now split at line-length.
 .SH "AUTHOR"
 David Muir Sharnoff <muir@idiom.com> with help from Tim Pierce and
-others.
+others. Updated by Jacqui Caren.
 
 .rn }` ''
 .IX Title "Text::Wrap 3"

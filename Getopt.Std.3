@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Getopt::Std 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Getopt::Std 3 "perl 5.005, patch 53" "3/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -211,6 +211,13 @@ switch name) to the value of the argument, or 1 if no argument.  Switches
 which take an argument don't care whether there is a space between the
 switch and the argument.
 .PP
+Note that, if your code is running under the recommended \f(CWuse strict
+\&'vars'\fR pragma, it may be helpful to declare these package variables
+via \f(CWuse vars\fR perhaps something like this:
+.PP
+.Vb 1
+\&    use vars qw/ $opt_foo $opt_bar /;
+.Ve
 For those of you who don't like additional variables being created, \fIgetopt()\fR
 and \fIgetopts()\fR will also accept a hash reference as an optional second argument. 
 Hash keys will be x (where x is the switch name) with key values the value of

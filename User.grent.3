@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH User::grent 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH User::grent 3 "perl 5.005, patch 53" "19/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -219,9 +219,9 @@ return scalars, the last an array reference.
 You may also import all the structure fields directly into your namespace
 as regular variables using the :FIELDS import tag.  (Note that this still
 overrides your core functions.)  Access these fields as variables named
-with a preceding \f(CWgr_\fR.  Thus, \f(CW$group_obj->\fIgid()\fR\fR corresponds
+with a preceding \f(CWgr_\fR.  Thus, \f(CW$group_obj->gid()\fR corresponds
 to \f(CW$gr_gid\fR if you import the fields.  Array references are available as
-regular array variables, so \f(CW@{ \f(CW$group_obj\fR->\fImembers()\fR }\fR would be
+regular array variables, so \f(CW@{ $group_obj->members() }\fR would be
 simply \f(CW@gr_members\fR.
 .PP
 The \fIgetpw()\fR funtion is a simple front-end that forwards

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Cwd 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Cwd 3 "perl 5.005, patch 53" "23/Sep/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -208,9 +208,21 @@ getcwd \- get pathname of current working directory
 \&    chdir "/tmp";
 \&    print $ENV{'PWD'};
 .Ve
+.Vb 2
+\&    use Cwd 'abs_path';
+\&    print abs_path($ENV{'PWD'});
+.Ve
+.Vb 2
+\&    use Cwd 'fast_abs_path';
+\&    print fast_abs_path($ENV{'PWD'});
+.Ve
 .SH "DESCRIPTION"
 The \fIgetcwd()\fR function re-implements the \fIgetcwd\fR\|(3) (or \fIgetwd\fR\|(3)) functions
 in Perl.
+.PP
+The \fIabs_path()\fR function takes a single argument and returns the
+absolute pathname for that argument. It uses the same algoritm as
+\fIgetcwd()\fR. (actually \fIgetcwd()\fR is \fIabs_path\fR\|(\*(R"."))
 .PP
 The \fIfastcwd()\fR function looks the same as \fIgetcwd()\fR, but runs faster.
 It's also more dangerous because it might conceivably \fIchdir()\fR you out
@@ -221,6 +233,9 @@ everything appears to have worked, the \fIfastcwd()\fR function will check
 that it leaves you in the same directory that it started in. If it has
 changed it will \f(CWdie\fR with the message \*(L"Unstable directory path,
 current directory changed unexpectedly\*(R". That should never happen.
+.PP
+The \fIfast_abs_path()\fR function looks the same as \fIabs_path()\fR, but runs faster.
+And like \fIfastcwd()\fR is more dangerous.
 .PP
 The \fIcwd()\fR function looks the same as getcwd and fastgetcwd but is
 implemented using the most natural and safe form for the current

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Message 3 "perl 5.004, patch 55" "5/Apr/97" "User Contributed Perl Documentation"
+.TH lib::HTTP::Message 3 "libwww-perl-5.36" "6/Jan/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -201,52 +201,60 @@ A \f(CWHTTP::Message\fR object contains some headers and a content (body).
 The class is abstract, i.e. it only used as a base class for
 \f(CWHTTP::Request\fR and \f(CWHTTP::Response\fR and should never instantiated
 as itself.
-.SH "METHODS"
-.Sh "\f(CW$mess\fR = new \s-1HTTP::\s0Message;"
+.PP
+The following methods are available:
+.Ip "$mess = new \s-1HTTP::\s0Message;" 4
 This is the object constructor.  It should only be called internally
 by this library.  External code should construct \f(CWHTTP::Request\fR or
 \f(CWHTTP::Response\fR objects.
-.Sh "\f(CW$mess\fR\->\fIclone()\fR"
+.Ip "$mess->clone()" 4
 Returns a copy of the object.
-.Sh "\f(CW$mess\fR\->\fIprotocol\fR\|([$proto])"
+.Ip "$mess->protocol([$proto])" 4
 Sets the \s-1HTTP\s0 protocol used for the message.  The \fIprotocol()\fR is a string
 like \*(L"\s-1HTTP/1\s0.0\*(R" or \*(L"\s-1HTTP/1\s0.1\*(R".
-.Sh "\f(CW$mess\fR\->\fIcontent\fR\|([$content])"
+.Ip "$mess->content([$content])" 4
 The \fIcontent()\fR method sets the content if an argument is given.  If no
 argument is given the content is not touched.  In either case the
 previous content is returned.
-.Sh "\f(CW$mess\fR\->\fIadd_content\fR\|($data)"
+.Ip "$mess->add_content($data)" 4
 The \fIadd_content()\fR methods appends more data to the end of the previous
 content.
-.Sh "\f(CW$mess\fR\->content_ref"
+.Ip "$mess->content_ref" 4
 The \fIcontent_ref()\fR method will return a reference to content string.
 It can be more efficient to access the content this way if the content
 is huge, and it can be used for direct manipulation of the content,
 for instance:
-.PP
+.Sp
 .Vb 1
 \&  ${$res->content_ref} =~ s/\ebfoo\eb/bar/g;
 .Ve
-.SH "HEADER METHODS"
+.Ip "$mess->headers;" 4
+Return the embedded \s-1HTTP::\s0Headers object.
+.Ip "$mess->headers_as_string([$endl])" 4
+Call the \s-1HTTP::\s0Headers->\fIas_string()\fR method for the headers in the
+message.
+.PP
 All unknown \f(CWHTTP::Message\fR methods are delegated to the
 \f(CWHTTP::Headers\fR object that is part of every message.  This allows
-convenient access to these methods.  Refer to the \fIHTTP::Headers\fR manpage for
+convenient access to these methods.  Refer to the \fI\s-1HTTP::\s0Headers\fR manpage for
 details of these methods:
 .PP
 .Vb 4
 \&  $mess->header($field => $val);
-\&  $mess->scan(&doit);
+\&  $mess->scan(\e&doit);
 \&  $mess->push_header($field => $val);
 \&  $mess->remove_header($field);
 .Ve
-.Vb 15
+.Vb 19
 \&  $mess->date;
 \&  $mess->expires;
 \&  $mess->if_modified_since;
+\&  $mess->if_unmodified_since;
 \&  $mess->last_modified;
 \&  $mess->content_type;
 \&  $mess->content_encoding;
 \&  $mess->content_length;
+\&  $mess->content_language
 \&  $mess->title;
 \&  $mess->user_agent;
 \&  $mess->server;
@@ -254,11 +262,15 @@ details of these methods:
 \&  $mess->referer;
 \&  $mess->www_authenticate;
 \&  $mess->authorization;
+\&  $mess->proxy_authorization;
 \&  $mess->authorization_basic;
+\&  $mess->proxy_authorization_basic;
 .Ve
-.Sh "\f(CW$mess\fR\->\fIheaders_as_string\fR\|([$endl])"
-Call the \s-1HTTP::\s0Headers->\fIas_string()\fR method for the headers in the
-message.
+.SH "COPYRIGHT"
+Copyright 1995-1997 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::HTTP::Message 3"
@@ -270,21 +282,21 @@ message.
 
 .IX Header "DESCRIPTION"
 
-.IX Header "METHODS"
+.IX Item "$mess = new \s-1HTTP::\s0Message;"
 
-.IX Subsection "\f(CW$mess\fR = new \s-1HTTP::\s0Message;"
+.IX Item "$mess->clone()"
 
-.IX Subsection "\f(CW$mess\fR\->\fIclone()\fR"
+.IX Item "$mess->protocol([$proto])"
 
-.IX Subsection "\f(CW$mess\fR\->\fIprotocol\fR\|([$proto])"
+.IX Item "$mess->content([$content])"
 
-.IX Subsection "\f(CW$mess\fR\->\fIcontent\fR\|([$content])"
+.IX Item "$mess->add_content($data)"
 
-.IX Subsection "\f(CW$mess\fR\->\fIadd_content\fR\|($data)"
+.IX Item "$mess->content_ref"
 
-.IX Subsection "\f(CW$mess\fR\->content_ref"
+.IX Item "$mess->headers;"
 
-.IX Header "HEADER METHODS"
+.IX Item "$mess->headers_as_string([$endl])"
 
-.IX Subsection "\f(CW$mess\fR\->\fIheaders_as_string\fR\|([$endl])"
+.IX Header "COPYRIGHT"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::FormatPS 3 "perl 5.004, patch 55" "12/Oct/97" "User Contributed Perl Documentation"
+.TH B::Deparse 3 "perl 5.005, patch 53" "21/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,72 +188,97 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-HTML::FormatPS \- Format HTML as postscript
+B::Deparse \- Perl compiler backend to produce perl code
 .SH "SYNOPSIS"
-.PP
-.Vb 6
-\&  require HTML::FormatPS;
-\&  $html = parse_htmlfile("test.html");
-\&  $formatter = new HTML::FormatPS
-\&                   FontFamily => 'Helvetica',
-\&                   PaperSize  => 'Letter';
-\&  print $formatter->format($html);
-.Ve
+\fBperl\fR \fB\-MO=Deparse\fR[\fB,\-u\fR\fIPACKAGE\fR][\fB,\-p\fR][\fB,\-l\fR][\fB,\-s\fR\fILETTERS\fR] \fIprog.pl\fR
 .SH "DESCRIPTION"
-The HTML::FormatPS is a formatter that outputs PostScript code.
-Formatting of HTML tables and forms is not implemented.
+B::Deparse is a backend module for the Perl compiler that generates
+perl source code, based on the internal compiled structure that perl
+itself creates after parsing a program. The output of B::Deparse won't
+be exactly the same as the original source, since perl doesn't keep
+track of comments or whitespace, and there isn't a one-to-one
+correspondence between perl's syntactical constructions and their
+compiled form, but it will often be close. When you use the \fB\-p\fR
+option, the output also includes parentheses even when they are not
+required by precedence, which can make it easy to see if perl is
+parsing your expressions the way you intended.
 .PP
-You might specify the following parameters when constructing the formatter:
-.Ip "PaperSize" 4
-What kind of paper should we format for.  The value can be one of
-these: A3, A4, A5, B4, B5, Letter, Legal, Executive, Tabloid,
-Statement, Folio, 10x14, Quarto.
+Please note that this module is mainly new and untested code and is
+still under development, so it may change in the future.
+.SH "OPTIONS"
+As with all compiler backend options, these must follow directly after
+the \*(L'\-MO=Deparse\*(R', separated by a comma but not any white space.
+.Ip "\fB\-p\fR" 4
+Print extra parentheses. Without this option, B::Deparse includes
+parentheses in its output only when they are needed, based on the
+structure of your program. With \fB\-p\fR, it uses parentheses (almost)
+whenever they would be legal. This can be useful if you are used to
+\s-1LISP\s0, or if you want to see how perl parses your input. If you say
 .Sp
-The default is \*(L"A4\*(R".
-.Ip "PaperWidth" 4
-The width of the paper in points.  Setting PaperSize also defines this
-value.
-.Ip "PaperHeight" 4
-The height of the paper in points.  Setting PaperSize also defines
-this value.
-.Ip "LeftMargin" 4
-The left margin in points.
-.Ip "RightMargin" 4
-The right margin in points.
-.Ip "HorizontalMargin" 4
-Both left and right margin at the same time.  The default value is 4 cm.
-.Ip "TopMargin" 4
-The top margin in points.
-.Ip "BottomMargin" 4
-The bottom margin in points.
-.Ip "VerticalMargin" 4
-Both top and bottom margin at the same time.  The default value is 2 cm.
-.Ip "PageNo" 4
-The parameter determines if we should put page numbers on the pages.
-The default is yes, so you have to set this value to 0 in order to
-suppress page numbers.
-.Ip "FontFamily" 4
-The parameter specifies which family of fonts to use for the formatting.
-Legal values are \*(L"Courier\*(R", \*(L"Helvetica\*(R" and \*(L"Times\*(R".  The default is
-\*(L"Times\*(R".
-.Ip "FontScale" 4
-All fontsizes might be scaled by this factor.
-.Ip "Leading" 4
-How much space between lines.  This is a factor of the fontsize used
-for that line.  Default is 0.1.
-.SH "SEE ALSO"
-the \fIHTML::Formatter\fR manpage
-.SH "COPYRIGHT"
-Copyright (c) 1995-1997 Gisle Aas. All rights reserved.
-.PP
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+.Vb 3
+\&    if ($var & 0x7f == 65) {print "Gimme an A!"} 
+\&    print ($which ? $a : $b), "\en";
+\&    $name = $ENV{USER} or "Bob";
+.Ve
+\f(CWB::Deparse,-p\fR will print
+.Sp
+.Vb 5
+\&    if (($var & 0)) {
+\&        print('Gimme an A!')
+\&    };
+\&    (print(($which ? $a : $b)), '???');
+\&    (($name = $ENV{'USER'}) or '???')
+.Ve
+which probably isn't what you intended (the \f(CW'???'\fR is a sign that
+perl optimized away a constant value).
+.Ip "\fB\-u\fR\fI\s-1PACKAGE\s0\fR" 4
+Normally, B::Deparse deparses the main code of a program, all the subs
+called by the main program (and all the subs called by them,
+recursively), and any other subs in the main:: package. To include
+subs in other packages that aren't called directly, such as \s-1AUTOLOAD\s0,
+\s-1DESTROY\s0, other subs called automatically by perl, and methods, which
+aren't resolved to subs until runtime, use the \fB\-u\fR option. The
+argument to \fB\-u\fR is the name of a package, and should follow directly
+after the \*(L'u\*(R'. Multiple \fB\-u\fR options may be given, separated by
+commas.  Note that unlike some other backends, B::Deparse doesn't
+(yet) try to guess automatically when \fB\-u\fR is needed -- you must
+invoke it yourself.
+.Ip "\fB\-l\fR" 4
+Add \*(L'#line\*(R' declarations to the output based on the line and file
+locations of the original code.
+.Ip "\fB\-s\fR\fI\s-1LETTERS\s0\fR" 4
+Tweak the style of B::Deparse's output. At the moment, only one style
+option is implemented:
+.Ip "\fBC\fR" 8
+Cuddle \f(CWelsif\fR, \f(CWelse\fR, and \f(CWcontinue\fR blocks. For example, print
+.Sp
+.Vb 5
+\&    if (...) {
+\&         ...
+\&    } else {
+\&         ...
+\&    }
+.Ve
+instead of
+.Sp
+.Vb 6
+\&    if (...) {
+\&         ...
+\&    }
+\&    else {
+\&         ...
+\&    }
+.Ve
+The default is not to cuddle.
+.SH "BUGS"
+See the \*(L'to do\*(R' list at the beginning of the module file.
 .SH "AUTHOR"
-Gisle Aas <aas@oslonett.no>
+Stephen McCamant <alias@mcs.com>, based on an earlier version by
+Malcolm Beattie <mbeattie@sable.ox.ac.uk>.
 
 .rn }` ''
-.IX Title "lib::HTML::FormatPS 3"
-.IX Name "HTML::FormatPS - Format HTML as postscript"
+.IX Title "B::Deparse 3"
+.IX Name "B::Deparse - Perl compiler backend to produce perl code"
 
 .IX Header "NAME"
 
@@ -261,35 +286,19 @@ Gisle Aas <aas@oslonett.no>
 
 .IX Header "DESCRIPTION"
 
-.IX Item "PaperSize"
+.IX Header "OPTIONS"
 
-.IX Item "PaperWidth"
+.IX Item "\fB\-p\fR"
 
-.IX Item "PaperHeight"
+.IX Item "\fB\-u\fR\fI\s-1PACKAGE\s0\fR"
 
-.IX Item "LeftMargin"
+.IX Item "\fB\-l\fR"
 
-.IX Item "RightMargin"
+.IX Item "\fB\-s\fR\fI\s-1LETTERS\s0\fR"
 
-.IX Item "HorizontalMargin"
+.IX Item "\fBC\fR"
 
-.IX Item "TopMargin"
-
-.IX Item "BottomMargin"
-
-.IX Item "VerticalMargin"
-
-.IX Item "PageNo"
-
-.IX Item "FontFamily"
-
-.IX Item "FontScale"
-
-.IX Item "Leading"
-
-.IX Header "SEE ALSO"
-
-.IX Header "COPYRIGHT"
+.IX Header "BUGS"
 
 .IX Header "AUTHOR"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::FormatText 3 "perl 5.004, patch 55" "12/Oct/97" "User Contributed Perl Documentation"
+.TH File::Spec 3 "perl 5.005, patch 53" "23/Sep/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,39 +188,66 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-HTML::FormatText \- Format HTML as text
+File::Spec \- portably perform operations on file names
 .SH "SYNOPSIS"
+\f(CWuse File::Spec;\fR
 .PP
-.Vb 4
-\& require HTML::FormatText;
-\& $html = parse_htmlfile("test.html");
-\& $formatter = HTML::FormatText->new(leftmargin => 0, rightmargin => 50);
-\& print $formatter->format($html);
-.Ve
+\f(CW$x=File::Spec->catfile('a','b','c');\fR
+.PP
+which returns \*(L'a/b/c\*(R' under Unix.
 .SH "DESCRIPTION"
-The HTML::FormatText is a formatter that outputs plain latin1 text.
-All character attributes (bold/italic/underline) are ignored.
-Formatting of HTML tables and forms is not implemented.
+This module is designed to support operations commonly performed on file
+specifications (usually called \*(L"file names\*(R", but not to be confused with the
+contents of a file, or Perl's file handles), such as concatenating several
+directory and file names into a single path, or determining whether a path
+is rooted. It is based on code directly taken from MakeMaker 5.17, code
+written by Andreas Ko\*:nig, Andy Dougherty, Charles Bailey, Ilya
+Zakharevich, Paul Schinder, and others.
 .PP
-You might specify the following parameters when constructing the
-formatter:
-.Ip "\fIleftmargin\fR (alias \fIlm\fR)" 4
-The column of the left margin. The default is 3.
-.Ip "\fIrightmargin\fR (alias \fIrm\fR)" 4
-The column of the right margin. The default is 72.
+Since these functions are different for most operating systems, each set of
+OS specific routines is available in a separate module, including:
+.PP
+.Vb 5
+\&        File::Spec::Unix
+\&        File::Spec::Mac
+\&        File::Spec::OS2
+\&        File::Spec::Win32
+\&        File::Spec::VMS
+.Ve
+The module appropriate for the current OS is automatically loaded by
+File::Spec. Since some modules (like VMS) make use of OS specific
+facilities, it may not be possible to load all modules under all operating
+systems.
+.PP
+Since File::Spec is object oriented, subroutines should not called directly,
+as in:
+.PP
+.Vb 3
+\&        File::Spec::catfile('a','b');
+\&        
+\&but rather as class methods:
+.Ve
+.Vb 1
+\&        File::Spec->catfile('a','b');
+.Ve
+For a reference of available functions, pleaes consult the \fIFile::Spec::Unix\fR manpage,
+which contains the entire set, and inherited by the modules for other
+platforms. For further information, please see the \fIFile::Spec::Mac\fR manpage,
+the \fIFile::Spec::OS2\fR manpage, the \fIFile::Spec::Win32\fR manpage, or the \fIFile::Spec::VMS\fR manpage.
 .SH "SEE ALSO"
-the \fIHTML::Formatter\fR manpage
-.SH "COPYRIGHT"
-Copyright (c) 1995-1997 Gisle Aas. All rights reserved.
-.PP
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-.SH "AUTHOR"
-Gisle Aas <aas@oslonett.no>
+File::Spec::Unix, File::Spec::Mac, File::Spec::OS2, File::Spec::Win32,
+File::Spec::VMS, ExtUtils::MakeMaker
+.SH "AUTHORS"
+Kenneth Albanowski <\fIkjahds@kjahds.com\fR>, Andy Dougherty
+<\fIdoughera@lafcol.lafayette.edu\fR>, Andreas Ko\*:nig
+<\fIA.Koenig@franz.ww.TU\-Berlin.DE\fR>, Tim Bunce <\fITim.Bunce@ig.co.uk\fR>. VMS
+support by Charles Bailey <\fIbailey@newman.upenn.edu\fR>.  OS/2 support by
+Ilya Zakharevich <\fIilya@math.ohio-state.edu\fR>. Mac support by Paul Schinder
+<\fIschinder@pobox.com\fR>.
 
 .rn }` ''
-.IX Title "lib::HTML::FormatText 3"
-.IX Name "HTML::FormatText - Format HTML as text"
+.IX Title "File::Spec 3"
+.IX Name "File::Spec - portably perform operations on file names"
 
 .IX Header "NAME"
 
@@ -228,13 +255,7 @@ Gisle Aas <aas@oslonett.no>
 
 .IX Header "DESCRIPTION"
 
-.IX Item "\fIleftmargin\fR (alias \fIlm\fR)"
-
-.IX Item "\fIrightmargin\fR (alias \fIrm\fR)"
-
 .IX Header "SEE ALSO"
 
-.IX Header "COPYRIGHT"
-
-.IX Header "AUTHOR"
+.IX Header "AUTHORS"
 

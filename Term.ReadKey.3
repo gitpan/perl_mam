@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ReadKey 3 "perl 5.004, patch 55" "7/Oct/97" "User Contributed Perl Documentation"
+.TH ReadKey 3 "perl 5.005, patch 53" "7/Jan/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -235,7 +235,8 @@ handle is supplied. Modes 0 and 5 have some special properties worth
 mentioning: not only will mode 0 restore original settings, but it cause the
 next ReadMode call to save a new set of default settings. Mode 5 is similar
 to mode 4, except no \s-1CR/LF\s0 translation is performed, and if possible, parity
-will be disabled (only if not being used by the terminal, however.)
+will be disabled (only if not being used by the terminal, however. It is no different
+from mode 4 under Windows.)
 .Sp
 If you are executing another program that may be changing the terminal mode,
 you will either want to say
@@ -277,6 +278,10 @@ that time expires. (Note, again, that some \s-1OS\s0's may not support this time
 behaviour.) If \s-1MODE\s0 is less then zero, then this is treated as a timeout
 of zero, and thus will return immediately if no character is waiting. A \s-1MODE\s0
 of zero, however, will act like a normal getc.
+.Sp
+There are currently some limitations with this call under Windows. It may be
+possible that non-blocking reads will fail when reading repeating keys from
+more then one console.
 .Ip "ReadLine \s-1MODE\s0 [, Filehandle]" 8
 Takes an integer argument, which can currently be one of the following 
 values:
@@ -295,27 +300,34 @@ This call will probably \fBnot\fR do what you assume, especially with
 ReadMode's higher then 1. For example, pressing Space and then Backspace
 would appear to leave you where you started, but any timeouts would now
 be suspended.
+.Sp
+This call is currently not available under Windows.
 .Ip "GetTerminalSize [Filehandle]" 8
-Returns either an empty array if this operation is
-unsupported, or a four element array containing: the width of the terminal in
-characters, the height of the terminal in character, the width in pixels,
-and the height in pixels.
+Returns either an empty array if this operation is unsupported, or a four
+element array containing: the width of the terminal in characters, the
+height of the terminal in character, the width in pixels, and the height in
+pixels. (The pixel size will only be valid in some environments.)
+.Sp
+Under Windows, this function must be called with an \*(L"output\*(R" filehandle,
+such as \s-1STDOUT\s0, or a handle opened to \s-1CONOUT\s0$.
 .Ip "SetTerminalSize \s-1WIDTH\s0,\s-1HEIGHT\s0,\s-1XPIX\s0,\s-1YPIX\s0 [, Filehandle]" 8
 Return \-1 on failure, 0 otherwise. Note that this terminal size is only for
 \fBinformative\fR value, and changing the size via this mechanism will \fBnot\fR
 change the size of the screen. For example, XTerm uses a call like this when
 it resizes the screen. If any of the new measurements vary from the old, the
 \s-1OS\s0 will probably send a \s-1SIGWINCH\s0 signal to anything reading that tty or pty.
+.Sp
+This call does not work under Windows.
 .Ip "GetSpeeds [, Filehandle]" 8
 Returns either an empty array if the operation is unsupported, or a two
 value array containing the terminal in and out speeds, in \fBdecimal\fR. E.g,
 an in speed of 9600 baud and an out speed of 4800 baud would be returned as
 (9600,4800). Note that currently the in and out speeds will always be
-identical in some \s-1OS\s0's.
+identical in some \s-1OS\s0's. No speeds are reported under Windows.
 .Ip "GetControlChars [, Filehandle]" 8
 Returns an array containing key/value pairs suitable for a hash. The pairs
 consist of a key, the name of the control character/signal, and the value
-of that character, as a single character.
+of that character, as a single character. This call does nothing under Windows.
 .Sp
 Each key will be an entry from the following list:
 .Sp
@@ -359,6 +371,9 @@ settings. The list of valid names is easily available via
 \&        %cchars = GetControlChars();
 \&        @cnames = keys %cchars;
 .Ve
+This call does nothing under Windows.
+.SH "AUTHOR"
+Kenneth Albanowski <kjahds@kjahds.com>
 
 .rn }` ''
 .IX Title "ReadKey 3"
@@ -385,4 +400,6 @@ settings. The list of valid names is easily available via
 .IX Item "GetControlChars [, Filehandle]"
 
 .IX Item "SetControlChars [, Filehandle]"
+
+.IX Header "AUTHOR"
 

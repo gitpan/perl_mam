@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MakeMaker 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::MakeMaker 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -192,11 +192,11 @@ ExtUtils::MakeMaker \- create an extension Makefile
 .SH "SYNOPSIS"
 \f(CWuse ExtUtils::MakeMaker;\fR
 .PP
-\f(CW\fIWriteMakefile\fR\|( ATTRIBUTE => VALUE [, ...] );\fR
+\f(CWWriteMakefile( ATTRIBUTE => VALUE [, ...] );\fR
 .PP
 which is really
 .PP
-\f(CWMM->\fInew\fR\|(\e%att)->flush;\fR
+\f(CWMM->new(\e%att)->flush;\fR
 .SH "DESCRIPTION"
 This utility is designed to write a Makefile for an extension module
 from a Makefile.PL. It is based on the Makefile.SH model provided by
@@ -493,10 +493,31 @@ recommends it (or you know what you're doing).
 .Sh "Using Attributes and Parameters"
 The following attributes can be specified as arguments to \fIWriteMakefile()\fR
 or as \s-1NAME\s0=\s-1VALUE\s0 pairs on the command line:
+.Ip "\s-1AUTHOR\s0" 2
+String containing name (and email address) of package \fIauthor\fR\|(s). Is used
+in \s-1PPD\s0 (Perl Package Description) files for \s-1PPM\s0 (Perl Package Manager).
+.Ip "\s-1ABSTRACT\s0" 2
+One line description of the module. Will be included in \s-1PPD\s0 file.
+.Ip "\s-1ABSTRACT_FROM\s0" 2
+Name of the file that contains the package description. MakeMaker looks
+for a line in the \s-1POD\s0 matching /^($package\es-\es)(.*)/. This is typically
+the first line in the \*(L"=head1 \s-1NAME\s0\*(R" section. \f(CW$2\fR becomes the abstract.
+.Ip "\s-1BINARY_LOCATION\s0" 2
+Used when creating \s-1PPD\s0 files for binary packages.  It can be set to a
+full or relative path or \s-1URL\s0 to the binary archive for a particular
+architecture.  For example:
+.Sp
+.Vb 1
+\&        perl Makefile.PL BINARY_LOCATION=x86/Agent.tar.gz
+.Ve
+builds a \s-1PPD\s0 package that references a binary of the \f(CWAgent\fR package,
+located in the \f(CWx86\fR directory relative to the \s-1PPD\s0 itself.
 .Ip "C" 2
 Ref to array of *.c file names. Initialised from a directory scan
 and the values portion of the \s-1XS\s0 attribute hash. This is not
 currently used by MakeMaker but may be handy in Makefile.PLs.
+.Ip "\s-1CAPI\s0" 2
+Switch to force usage of the Perl C \s-1API\s0 even when compiling for \s-1PERL_OBJECT\s0.
 .Ip "\s-1CCFLAGS\s0" 2
 String that will be included in the compiler call command line between
 the arguments \s-1INC\s0 and \s-1OPTIMIZE\s0.
@@ -532,12 +553,12 @@ Ref to array of subdirectories containing Makefile.PLs e.g. [ \*(L'sdbm\*(R'
 Your name for distributing the package (by tar file). This defaults to
 \s-1NAME\s0 above.
 .Ip "\s-1DL_FUNCS\s0" 2
-Hashref of symbol names for routines to be made available as
-universal symbols.  Each key/value pair consists of the package name
-and an array of routine names in that package.  Used only under \s-1AIX\s0
-(export lists) and \s-1VMS\s0 (linker options) at present.  The routine
-names supplied will be expanded in the same way as \s-1XSUB\s0 names are
-expanded by the \fI\s-1XS\s0()\fR macro.  Defaults to
+Hashref of symbol names for routines to be made available as universal
+symbols.  Each key/value pair consists of the package name and an
+array of routine names in that package.  Used only under \s-1AIX\s0, \s-1OS/2\s0,
+\s-1VMS\s0 and Win32 at present.  The routine names supplied will be expanded
+in the same way as \s-1XSUB\s0 names are expanded by the \fI\s-1XS\s0()\fR macro.
+Defaults to
 .Sp
 .Vb 1
 \&  {"$(NAME)" => ["boot_$(NAME)" ] }
@@ -548,11 +569,12 @@ e.g.
 \&  {"RPC" => [qw( boot_rpcb rpcb_gettime getnetconfigent )],
 \&   "NetconfigPtr" => [ 'DESTROY'] }
 .Ve
+Please see the the \fIExtUtils::Mksymlists\fR manpage documentation for more information
+about the \s-1DL_FUNCS\s0, \s-1DL_VARS\s0 and \s-1FUNCLIST\s0 attributes.
 .Ip "\s-1DL_VARS\s0" 2
-Array of symbol names for variables to be made available as
-universal symbols.  Used only under \s-1AIX\s0 (export lists) and \s-1VMS\s0
-(linker options) at present.  Defaults to [].  (e.g. [ \fIqw\fR\|(
-Foo_version Foo_numstreams Foo_tree ) ])
+Array of symbol names for variables to be made available as universal symbols.
+Used only under \s-1AIX\s0, \s-1OS/2\s0, \s-1VMS\s0 and Win32 at present.  Defaults to [].
+(e.g. [ \fIqw\fR\|(Foo_version Foo_numstreams Foo_tree ) ])
 .Ip "\s-1EXCLUDE_EXT\s0" 2
 Array of extension names to exclude when doing a static build.  This
 is ignored if \s-1INCLUDE_EXT\s0 is present.  Consult \s-1INCLUDE_EXT\s0 for more
@@ -564,21 +586,22 @@ commandline:  perl Makefile.\s-1PL\s0 \s-1EXCLUDE_EXT\s0='Socket Safe\*(R'
 Ref to array of executable files. The files will be copied to the
 \s-1INST_SCRIPT\s0 directory. Make realclean will delete them from there
 again.
-.Ip "\s-1NO_VC\s0" 2
-In general any generated Makefile checks for the current version of
-MakeMaker and the version the Makefile was built under. If \s-1NO_VC\s0 is
-set, the version check is neglected. Do not write this into your
-Makefile.\s-1PL\s0, use it interactively instead.
 .Ip "\s-1FIRST_MAKEFILE\s0" 2
 The name of the Makefile to be produced. Defaults to the contents of
 \s-1MAKEFILE\s0, but can be overridden. This is used for the second Makefile
 that will be produced for the \s-1MAP_TARGET\s0.
 .Ip "\s-1FULLPERL\s0" 2
 Perl binary able to run this extension.
+.Ip "\s-1FUNCLIST\s0" 2
+This provides an alternate means to specify function names to be
+exported from the extension.  Its value is a reference to an
+array of function names to be exported by the extension.  These
+names are passed through unaltered to the linker options file.
 .Ip "H" 2
 Ref to array of *.h file names. Similar to C.
 .Ip "\s-1IMPORTS\s0" 2
-\s-1IMPORTS\s0 is only used on \s-1OS/2\s0.
+This attribute is used to specify names to be imported into the
+extension. It is only used on \s-1OS/2\s0 and Win32.
 .Ip "\s-1INC\s0" 2
 Include file dirs eg: \f(CW"-I/usr/5include -I/path/to/inc"\fR
 .Ip "\s-1INCLUDE_EXT\s0" 2
@@ -616,11 +639,11 @@ directory if \s-1INSTALLDIRS\s0 is set to perl.
 .Ip "\s-1INSTALLSCRIPT\s0" 2
 Used by \*(L'make install\*(R' which copies files from \s-1INST_SCRIPT\s0 to this
 directory.
-.Ip "\s-1INSTALLSITELIB\s0" 2
-Used by \*(L'make install\*(R', which copies files from \s-1INST_LIB\s0 to this
-directory if \s-1INSTALLDIRS\s0 is set to site (default).
 .Ip "\s-1INSTALLSITEARCH\s0" 2
 Used by \*(L'make install\*(R', which copies files from \s-1INST_ARCHLIB\s0 to this
+directory if \s-1INSTALLDIRS\s0 is set to site (default).
+.Ip "\s-1INSTALLSITELIB\s0" 2
+Used by \*(L'make install\*(R', which copies files from \s-1INST_LIB\s0 to this
 directory if \s-1INSTALLDIRS\s0 is set to site (default).
 .Ip "\s-1INST_ARCHLIB\s0" 2
 Same as \s-1INST_LIB\s0 for architecture dependent files.
@@ -646,12 +669,12 @@ testing. make install will copy the files in \s-1INST_SCRIPT\s0 to
 defaults to \*(L"$(\s-1OBJECT\s0)\*(R" and is used in the ld command to specify
 what files to link/load from (also see dynamic_lib below for how to
 specify ld flags)
-.Ip "\s-1LIBPERL_A\s0" 2
-The filename of the perllibrary that will be used together with this
-extension. Defaults to libperl.a.
 .Ip "\s-1LIB\s0" 2
 \s-1LIB\s0 can only be set at \f(CWperl Makefile.PL\fR time. It has the effect of
 setting both \s-1INSTALLPRIVLIB\s0 and \s-1INSTALLSITELIB\s0 to that value regardless any
+.Ip "\s-1LIBPERL_A\s0" 2
+The filename of the perllibrary that will be used together with this
+extension. Defaults to libperl.a.
 .Ip "\s-1LIBS\s0" 2
 An anonymous array of alternative library
 specifications to be searched for (in order) until
@@ -715,6 +738,11 @@ Makefile that echos all commands. Mainly used in debugging MakeMaker
 itself.
 .Ip "\s-1NORECURS\s0" 2
 Boolean.  Attribute to inhibit descending into subdirectories.
+.Ip "\s-1NO_VC\s0" 2
+In general any generated Makefile checks for the current version of
+MakeMaker and the version the Makefile was built under. If \s-1NO_VC\s0 is
+set, the version check is neglected. Do not write this into your
+Makefile.\s-1PL\s0, use it interactively instead.
 .Ip "\s-1OBJECT\s0" 2
 List of object files, defaults to \*(L'$(\s-1BASEEXT\s0)$(\s-1OBJ_EXT\s0)\*(R', but can be a long
 string containing all object files, e.g. \*(L"tkpBind.o
@@ -734,6 +762,12 @@ Directory containing the Perl library to use.
 .Ip "\s-1PERL_SRC\s0" 2
 Directory containing the Perl source code (use of this should be
 avoided, it may be undefined)
+.Ip "\s-1PERM_RW\s0" 2
+Desired Permission for read/writable files. Defaults to \f(CW644\fR.
+See also the \f(CWperm_rw\fR entry in the \fIMM_Unix\fR manpage.
+.Ip "\s-1PERM_RWX\s0" 2
+Desired permission for executable files. Defaults to \f(CW755\fR.
+See also the \f(CWperm_rwx\fR entry in the \fIMM_Unix\fR manpage.
 .Ip "\s-1PL_FILES\s0" 2
 Ref to hash of files to be processed as perl programs. MakeMaker
 will default to any found *.\s-1PL\s0 file (except Makefile.\s-1PL\s0) being keys
@@ -750,16 +784,20 @@ Hashref of .pm files and *.pl files to be installed.  e.g.
 .Vb 1
 \&  {'name_of_file.pm' => '$(INST_LIBDIR)/install_as.pm'}
 .Ve
-By default this will include *.pm and *.pl. If a lib directory
-exists and is not listed in \s-1DIR\s0 (above) then any *.pm and *.pl files
-it contains will also be included by default.  Defining \s-1PM\s0 in the
+By default this will include *.pm and *.pl and the files found in
+the \s-1PMLIBDIRS\s0 directories.  Defining \s-1PM\s0 in the
 Makefile.\s-1PL\s0 will override \s-1PMLIBDIRS\s0.
 .Ip "\s-1PMLIBDIRS\s0" 2
 Ref to array of subdirectories containing library files.  Defaults to
-[ \*(L'lib\*(R', $(\s-1BASEEXT\s0) ]. The directories will be scanned and any files
+[ \*(L'lib\*(R', $(\s-1BASEEXT\s0) ]. The directories will be scanned and \fIany\fR files
 they contain will be installed in the corresponding location in the
 library.  A \fIlibscan()\fR method can be used to alter the behaviour.
 Defining \s-1PM\s0 in the Makefile.\s-1PL\s0 will override \s-1PMLIBDIRS\s0.
+.Ip "\s-1PPM_INSTALL_EXEC\s0" 2
+Name of the executable used to run \f(CWPPM_INSTALL_SCRIPT\fR below. (e.g. perl)
+.Ip "\s-1PPM_INSTALL_SCRIPT\s0" 2
+Name of the script that gets executed by the Perl Package Manager after
+the installation of a package.
 .Ip "\s-1PREFIX\s0" 2
 Can be used to set the three \s-1INSTALL\s0* attributes in one go (except for
 probably \s-1INSTALLMAN1DIR\s0, if it is not below \s-1PREFIX\s0 according to
@@ -804,7 +842,7 @@ MakeMaker object. The following lines will be parsed o.k.:
 .Vb 5
 \&    $VERSION = '1.00';
 \&    *VERSION = \e'1.01';
-\&    ( $VERSION ) = '$Revision: 1.216 $ ' =~ /\e$Revision:\es+([^\es]+)/;
+\&    ( $VERSION ) = '$Revision: 1.222 $ ' =~ /\e$Revision:\es+([^\es]+)/;
 \&    $FOO::VERSION = '1.10';
 \&    *FOO::VERSION = \e'1.11';
 .Ve
@@ -861,7 +899,7 @@ part of the Makefile.
 .Ip "dist" 2
 .Sp
 .Vb 3
-\&  {TARFLAGS => 'cvfF', COMPRESS => 'gzip', SUFFIX => 'gz',
+\&  {TARFLAGS => 'cvfF', COMPRESS => 'gzip', SUFFIX => '.gz',
 \&  SHAR => 'shar -m', DIST_CP => 'ln', ZIP => '/bin/zip',
 \&  ZIPFLAGS => '-rl', DIST_DEFAULT => 'private tardist' }
 .Ve
@@ -876,8 +914,6 @@ links the rest. Default is \*(L'best\*(R'.
 .Vb 1
 \&  {ARMAYBE => 'ar', OTHERLDFLAGS => '...', INST_DYNAMIC_DEP => '...'}
 .Ve
-.Ip "installpm" 2
-Deprecated as of MakeMaker 5.23. See the \f(CWpm_to_blib\fR entry in the \fIExtUtils::MM_Unix\fR manpage.
 .Ip "linkext" 2
 .Sp
 .Vb 1
@@ -926,14 +962,14 @@ or you can edit the default by saying something like:
 \&            $inherited;
 \&        }
 .Ve
-If you running experiments with embedding perl as a library into other
-applications, you might find MakeMaker not sufficient. You'd better
-have a look at ExtUtils::embed which is a collection of utilities for
-embedding.
+If you are running experiments with embedding perl as a library into
+other applications, you might find MakeMaker is not sufficient. You'd
+better have a look at ExtUtils::Embed which is a collection of utilities
+for embedding.
 .PP
 If you still need a different solution, try to develop another
-subroutine, that fits your needs and submit the diffs to
-\fIperl5-porters@nicoh.com\fR or \fIcomp.lang.perl.misc\fR as appropriate.
+subroutine that fits your needs and submit the diffs to
+\fIperl5-porters@perl.org\fR or \fIcomp.lang.perl.moderated\fR as appropriate.
 .PP
 For a complete description of all MakeMaker methods see the \fIExtUtils::MM_Unix\fR manpage.
 .PP
@@ -1023,13 +1059,13 @@ following parameters are recognized:
 .PP
 .Vb 12
 \&    CI           ('ci -u')
-\&    COMPRESS     ('compress')
+\&    COMPRESS     ('gzip --best')
 \&    POSTOP       ('@ :')
 \&    PREOP        ('@ :')
 \&    TO_UNIX      (depends on the system)
 \&    RCS_LABEL    ('rcs -q -Nv$(VERSION_SYM):')
 \&    SHAR         ('shar')
-\&    SUFFIX       ('Z')
+\&    SUFFIX       ('.gz')
 \&    TAR          ('tar')
 \&    TARFLAGS     ('cvf')
 \&    ZIP          ('zip')
@@ -1038,15 +1074,36 @@ following parameters are recognized:
 An example:
 .PP
 .Vb 1
-\&    WriteMakefile( 'dist' => { COMPRESS=>"gzip", SUFFIX=>"gz" })
+\&    WriteMakefile( 'dist' => { COMPRESS=>"bzip2", SUFFIX=>".bz2" })
 .Ve
+.Sh "Disabling an extension"
+If some events detected in \fIMakefile.\s-1PL\s0\fR imply that there is no way
+to create the Module, but this is a normal state of things, then you
+can create a \fIMakefile\fR which does nothing, but succeeds on all the
+\*(L"usual\*(R" build targets.  To do so, use
+.PP
+.Vb 1
+\&   ExtUtils::MakeMaker::WriteEmptyMakefile();
+.Ve
+instead of \fIWriteMakefile()\fR.
+.PP
+This may be useful if other modules expect this module to be \fIbuilt\fR
+\s-1OK\s0, as opposed to \fIwork\fR \s-1OK\s0 (say, this system-dependent module builds
+in a subdirectory of some other distribution, or is listed as a
+dependency in a \s-1CPAN::\s0Bundle, but the functionality is supported by
+different means on the current architecture).
+.SH "ENVIRONMENT"
+.Ip "\s-1PERL_MM_OPT\s0" 8
+Command line options used by \f(CWMakeMaker->new()\fR, and thus by
+\f(CWWriteMakefile()\fR.  The string is split on whitespace, and the result
+is processed before any actual command line arguments are processed.
 .SH "SEE ALSO"
 ExtUtils::MM_Unix, ExtUtils::Manifest, ExtUtils::testlib,
-ExtUtils::Install, ExtUtils::embed
+ExtUtils::Install, ExtUtils::Embed
 .SH "AUTHORS"
 Andy Dougherty <\fIdoughera@lafcol.lafayette.edu\fR>, Andreas Ko\*:nig
 <\fIA.Koenig@franz.ww.TU\-Berlin.DE\fR>, Tim Bunce <\fITim.Bunce@ig.co.uk\fR>.
-VMS support by Charles Bailey <\fIbailey@genetics.upenn.edu\fR>.  OS/2
+VMS support by Charles Bailey <\fIbailey@newman.upenn.edu\fR>.  OS/2
 support by Ilya Zakharevich <\fIilya@math.ohio-state.edu\fR>.  Contact the
 makemaker mailing list \f(CWmailto:makemaker@franz.ww.tu-berlin.de\fR, if
 you have any questions.
@@ -1083,7 +1140,17 @@ you have any questions.
 
 .IX Subsection "Using Attributes and Parameters"
 
+.IX Item "\s-1AUTHOR\s0"
+
+.IX Item "\s-1ABSTRACT\s0"
+
+.IX Item "\s-1ABSTRACT_FROM\s0"
+
+.IX Item "\s-1BINARY_LOCATION\s0"
+
 .IX Item "C"
+
+.IX Item "\s-1CAPI\s0"
 
 .IX Item "\s-1CCFLAGS\s0"
 
@@ -1105,11 +1172,11 @@ you have any questions.
 
 .IX Item "\s-1EXE_FILES\s0"
 
-.IX Item "\s-1NO_VC\s0"
-
 .IX Item "\s-1FIRST_MAKEFILE\s0"
 
 .IX Item "\s-1FULLPERL\s0"
+
+.IX Item "\s-1FUNCLIST\s0"
 
 .IX Item "H"
 
@@ -1133,9 +1200,9 @@ you have any questions.
 
 .IX Item "\s-1INSTALLSCRIPT\s0"
 
-.IX Item "\s-1INSTALLSITELIB\s0"
-
 .IX Item "\s-1INSTALLSITEARCH\s0"
+
+.IX Item "\s-1INSTALLSITELIB\s0"
 
 .IX Item "\s-1INST_ARCHLIB\s0"
 
@@ -1153,9 +1220,9 @@ you have any questions.
 
 .IX Item "\s-1LDFROM\s0"
 
-.IX Item "\s-1LIBPERL_A\s0"
-
 .IX Item "\s-1LIB\s0"
+
+.IX Item "\s-1LIBPERL_A\s0"
 
 .IX Item "\s-1LIBS\s0"
 
@@ -1181,6 +1248,8 @@ you have any questions.
 
 .IX Item "\s-1NORECURS\s0"
 
+.IX Item "\s-1NO_VC\s0"
+
 .IX Item "\s-1OBJECT\s0"
 
 .IX Item "\s-1OPTIMIZE\s0"
@@ -1195,11 +1264,19 @@ you have any questions.
 
 .IX Item "\s-1PERL_SRC\s0"
 
+.IX Item "\s-1PERM_RW\s0"
+
+.IX Item "\s-1PERM_RWX\s0"
+
 .IX Item "\s-1PL_FILES\s0"
 
 .IX Item "\s-1PM\s0"
 
 .IX Item "\s-1PMLIBDIRS\s0"
+
+.IX Item "\s-1PPM_INSTALL_EXEC\s0"
+
+.IX Item "\s-1PPM_INSTALL_SCRIPT\s0"
 
 .IX Item "\s-1PREFIX\s0"
 
@@ -1230,8 +1307,6 @@ you have any questions.
 .IX Item "dist"
 
 .IX Item "dynamic_lib"
-
-.IX Item "installpm"
 
 .IX Item "linkext"
 
@@ -1270,6 +1345,12 @@ you have any questions.
 .IX Item "make zipdist"
 
 .IX Item "make ci"
+
+.IX Subsection "Disabling an extension"
+
+.IX Header "ENVIRONMENT"
+
+.IX Item "\s-1PERL_MM_OPT\s0"
 
 .IX Header "SEE ALSO"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH POSIX 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH POSIX 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -873,13 +873,14 @@ Convert date and time information to string.  Returns the string.
 Synopsis:
 .Sp
 .Vb 1
-\&        strftime(fmt, sec, min, hour, mday, mon, year, wday = 0, yday = 0, isdst = 0)
+\&        strftime(fmt, sec, min, hour, mday, mon, year, wday = -1, yday = -1, isdst = -1)
 .Ve
 The month (\f(CWmon\fR), weekday (\f(CWwday\fR), and yearday (\f(CWyday\fR) begin at zero.
 I.e. January is 0, not 1; Sunday is 0, not 1; January 1st is 0, not 1.  The
-year (\f(CWyear\fR) is given in years since 1900.  I.e. The year 1995 is 95; the
+year (\f(CWyear\fR) is given in years since 1900.  I.e., the year 1995 is 95; the
 year 2001 is 101.  Consult your system's \f(CWstrftime()\fR manpage for details
-about these and the other arguments.
+about these and the other arguments.  The given arguments are made consistent
+by calling \f(CWmktime()\fR before calling your system's \f(CWstrftime()\fR function.
 .Sp
 The string for Tuesday, December 12, 1995.
 .Sp
@@ -1161,7 +1162,9 @@ Tests the SigSet object to see if it contains a specific signal.
 .Sh "\s-1POSIX::\s0Termios"
 .Ip "new" 8
 Create a new Termios object.  This object will be destroyed automatically
-when it is no longer needed.
+when it is no longer needed.  A Termios object corresponds to the termios
+C struct.  \fInew()\fR mallocs a new one, \fIgetattr()\fR fills it from a file descriptor,
+and \fIsetattr()\fR sets a file descriptor's parameters to match Termios\*(R' contents.
 .Sp
 .Vb 1
 \&        $termios = POSIX::Termios->new;
@@ -1243,13 +1246,13 @@ array so an index must be specified.
 Set the c_cflag field of a termios object.
 .Sp
 .Vb 1
-\&        $termios->setcflag( &POSIX::CLOCAL );
+\&        $termios->setcflag( $c_cflag | &POSIX::CLOCAL );
 .Ve
 .Ip "setiflag" 8
 Set the c_iflag field of a termios object.
 .Sp
 .Vb 1
-\&        $termios->setiflag( &POSIX::BRKINT );
+\&        $termios->setiflag( $c_iflag | &POSIX::BRKINT );
 .Ve
 .Ip "setispeed" 8
 Set the input baud rate.
@@ -1262,13 +1265,13 @@ Returns \f(CWundef\fR on failure.
 Set the c_lflag field of a termios object.
 .Sp
 .Vb 1
-\&        $termios->setlflag( &POSIX::ECHO );
+\&        $termios->setlflag( $c_lflag | &POSIX::ECHO );
 .Ve
 .Ip "setoflag" 8
 Set the c_oflag field of a termios object.
 .Sp
 .Vb 1
-\&        $termios->setoflag( &POSIX::OPOST );
+\&        $termios->setoflag( $c_oflag | &POSIX::OPOST );
 .Ve
 .Ip "setospeed" 8
 Set the output baud rate.

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH CPAN 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH CPAN 3 "perl 5.005, patch 53" "23/Sep/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -224,7 +224,15 @@ session. The cache manager keeps track of the disk space occupied by
 the make processes and deletes excess space according to a simple FIFO
 mechanism.
 .PP
-All methods provided are accessible in a programmer style and in an
+For extended searching capabilities there's a plugin for CPAN available,
+the \fICPAN::WAIT\fR manpage. \f(CWCPAN::WAIT\fR is a full-text search engine that indexes
+all documents available in CPAN authors directories. If \f(CWCPAN::WAIT\fR
+is installed on your system, the interactive shell of <CPAN.pm> will
+enable the \f(CWwq\fR, \f(CWwr\fR, \f(CWwd\fR, \f(CWwl\fR, and \f(CWwh\fR commands which send
+queries to the WAIT server that has been configured for your
+installation.
+.PP
+All other methods provided are accessible in a programmer style and in an
 interactive shell style.
 .Sh "Interactive Mode"
 The interactive mode is entered by running
@@ -232,9 +240,9 @@ The interactive mode is entered by running
 .Vb 1
 \&    perl -MCPAN -e shell
 .Ve
-which puts you into a readline interface. You will have most fun if
+which puts you into a readline interface. You will have the most fun if
 you install Term::ReadKey and Term::ReadLine to enjoy both history and
-completion.
+command completion.
 .PP
 Once you are on the command line, type \*(L'h\*(R' and the rest should be
 self-explanatory.
@@ -246,15 +254,15 @@ for each of the four categories and another, \f(CWi\fR for any of the
 mentioned four. Each of the four entities is implemented as a class
 with slightly differing methods for displaying an object.
 .Sp
-Arguments you pass to these commands are either strings matching exact
+Arguments you pass to these commands are either strings exactly matching
 the identification string of an object or regular expressions that are
 then matched case-insensitively against various attributes of the
-objects. The parser recognizes a regualar expression only if you
+objects. The parser recognizes a regular expression only if you
 enclose it between two slashes.
 .Sp
 The principle is that the number of found objects influences how an
-item is displayed. If the search finds one item, we display the result
-of object->as_string, but if we find more than one, we display
+item is displayed. If the search finds one item, the result is displayed
+as object->as_string, but if we find more than one, we display
 each as object->as_glimpse. E.g.
 .Sp
 .Vb 4
@@ -275,29 +283,30 @@ each as object->as_glimpse. E.g.
 \&    Author          MERLYN (Randal L. Schwartz)
 .Ve
 .Ip "make, test, install, clean  modules or distributions" 2
-These commands do indeed exist just as written above. Each of them
-takes any number of arguments and investigates for each what it might
-be. Is it a distribution file (recognized by embedded slashes), this
-file is being processed. Is it a module, \s-1CPAN\s0 determines the
-distribution file where this module is included and processes that.
+These commands take any number of arguments and investigate what is
+necessary to perform the action. If the argument is a distribution
+file name (recognized by embedded slashes), it is processed. If it is a
+module, \s-1CPAN\s0 determines the distribution file in which this module is
+included and processes that.
 .Sp
-Any \f(CWmake\fR, \f(CWtest\fR, and \f(CWreadme\fR are run unconditionally. A
+Any \f(CWmake\fR or \f(CWtest\fR are run unconditionally. An
 .Sp
 .Vb 1
 \&  install <distribution_file>
 .Ve
-also is run unconditionally.  But for
+also is run unconditionally. But for
 .Sp
 .Vb 1
 \&  install <module>
 .Ve
 \s-1CPAN\s0 checks if an install is actually needed for it and prints
-\fIFoo up to date\fR in case the module doesn't need to be updated.
+\fImodule up to date\fR in the case that the distribution file containing
+the module doesn't need to be updated.
 .Sp
 \s-1CPAN\s0 also keeps track of what it has done within the current session
 and doesn't try to build a package a second time regardless if it
-succeeded or not. The \f(CWforce \fR command takes as first argument the
-method to invoke (currently: make, test, or install) and executes the
+succeeded or not. The \f(CWforce\fR command takes as a first argument the
+method to invoke (currently: \f(CWmake\fR, \f(CWtest\fR, or \f(CWinstall\fR) and executes the
 command from scratch.
 .Sp
 Example:
@@ -311,12 +320,28 @@ Example:
 \&    OpenGL-0.4/COPYRIGHT
 \&    [...]
 .Ve
+A \f(CWclean\fR command results in a 
+.Sp
+.Vb 1
+\&  make clean
+.Ve
+being executed within the distribution file's working directory.
 .Ip "readme, look module or distribution" 2
 These two commands take only one argument, be it a module or a
-distribution file. \f(CWreadme\fR displays the \s-1README\s0 of the associated
-distribution file. \f(CWLook\fR gets and untars (if not yet done) the
-distribution file, changes to the appropriate directory and opens a
-subshell process in that directory.
+distribution file. \f(CWreadme\fR unconditionally runs, displaying the
+\s-1README\s0 of the associated distribution file. \f(CWLook\fR gets and
+untars (if not yet done) the distribution file, changes to the
+appropriate directory and opens a subshell process in that directory.
+.Ip "Signals" 2
+\s-1CPAN\s0.pm installs signal handlers for \s-1SIGINT\s0 and \s-1SIGTERM\s0. While you are
+in the cpan-shell it is intended that you can press \f(CW^C\fR anytime and
+return to the cpan-shell prompt. A \s-1SIGTERM\s0 will cause the cpan-shell
+to clean up and leave the shell loop. You can emulate the effect of a
+\s-1SIGTERM\s0 by sending two consecutive SIGINTs, which usually means by
+pressing \f(CW^C\fR twice.
+.Sp
+\s-1CPAN\s0.pm ignores a \s-1SIGPIPE\s0. If the user sets inactivity_timeout, a
+\s-1SIGALRM\s0 is used during the run of the \f(CWperl Makefile.PL\fR subprocess.
 .Sh "\s-1CPAN::\s0Shell"
 The commands that are available in the shell interface are methods in
 the package \s-1CPAN::\s0Shell. If you enter the shell command, all your
@@ -335,28 +360,27 @@ current date and a counter.
 \fIrecompile()\fR is a very special command in that it takes no argument and
 runs the make/test/install cycle with brute force over all installed
 dynamically loadable extensions (aka \s-1XS\s0 modules) with \*(L'force\*(R' in
-effect. Primary purpose of this command is to finish a network
+effect. The primary purpose of this command is to finish a network
 installation. Imagine, you have a common source tree for two different
 architectures. You decide to do a completely independent fresh
 installation. You start on one architecture with the help of a Bundle
 file produced earlier. \s-1CPAN\s0 installs the whole Bundle for you, but
 when you try to repeat the job on the second architecture, \s-1CPAN\s0
 responds with a \f(CW"Foo up to date"\fR message for all modules. So you
-will be glad to run recompile in the second architecture and
-you're done.
+invoke \s-1CPAN\s0's recompile on the second architecture and you're done.
 .PP
 Another popular use for \f(CWrecompile\fR is to act as a rescue in case your
 perl breaks binary compatibility. If one of the modules that \s-1CPAN\s0 uses
 is in turn depending on binary compatibility (so you cannot run \s-1CPAN\s0
 commands), then you should try the \s-1CPAN::\s0Nox module for recovery.
 .Sh "The four \f(CWCPAN::*\fR Classes: Author, Bundle, Module, Distribution"
-Although it may be considered internal, the class hierarchie does
-matter for both users and programmer. \s-1CPAN\s0.pm deals with above
-mentioned four classes, and all those classes share a set of
-methods. It is a classical single polymorphism that is in effect.  A
-metaclass object registers all objects of all kinds and indexes them
-with a string. The strings referencing objects have a separated
-namespace (well, not completely separated):
+Although it may be considered internal, the class hierarchy does matter
+for both users and programmer. \s-1CPAN\s0.pm deals with above mentioned four
+classes, and all those classes share a set of methods. A classical
+single polymorphism is in effect. A metaclass object registers all
+objects of all kinds and indexes them with a string. The strings
+referencing objects have a separated namespace (well, not completely
+separated):
 .PP
 .Vb 1
 \&         Namespace                         Class
@@ -367,21 +391,21 @@ namespace (well, not completely separated):
 \&          everything else            Module or Author
 .Ve
 Modules know their associated Distribution objects. They always refer
-to the most recent official release. Developers may mark their
-releases as unstable development versions (by inserting an underbar
-into the visible version number), so not always is the default
-distribution for a given module the really hottest and newest. If a
-module Foo circulates on \s-1CPAN\s0 in both version 1.23 and 1.23_90,
-\s-1CPAN\s0.pm offers a convenient way to install version 1.23 by saying
+to the most recent official release. Developers may mark their releases
+as unstable development versions (by inserting an underbar into the
+visible version number), so the really hottest and newest distribution
+file is not always the default.  If a module Foo circulates on \s-1CPAN\s0 in
+both version 1.23 and 1.23_90, \s-1CPAN\s0.pm offers a convenient way to
+install version 1.23 by saying
 .PP
 .Vb 1
 \&    install Foo
 .Ve
 This would install the complete distribution file (say
-\s-1BAR/\s0Foo-1.23.tar.gz) with all accompanying material in there. But if
-you would like to install version 1.23_90, you need to know where the
+\s-1BAR/\s0Foo-1.23.tar.gz) with all accompanying material. But if you would
+like to install version 1.23_90, you need to know where the
 distribution file resides on \s-1CPAN\s0 relative to the authors/id/
-directory. If the author is \s-1BAR\s0, this might be \s-1BAR/\s0Foo-1.23_90.tar.gz,
+directory. If the author is \s-1BAR\s0, this might be \s-1BAR/\s0Foo-1.23_90.tar.gz;
 so you would have to say
 .PP
 .Vb 1
@@ -391,10 +415,10 @@ The first example will be driven by an object of the class
 \s-1CPAN::\s0Module, the second by an object of class \s-1CPAN::\s0Distribution.
 .Sh "Programmer's interface"
 If you do not enter the shell, the available shell commands are both
-available as methods (\f(CWCPAN::Shell->\fIinstall\fR\|(...)\fR) and as
+available as methods (\f(CWCPAN::Shell->install(...)\fR) and as
 functions in the calling package (\f(CWinstall(...)\fR).
 .PP
-There's currently only one class that has a stable interface,
+There's currently only one class that has a stable interface \-
 \s-1CPAN::\s0Shell. All commands that are available in the \s-1CPAN\s0 shell are
 methods of the class \s-1CPAN::\s0Shell. Each of the commands that produce
 listings of modules (\f(CWr\fR, \f(CWautobundle\fR, \f(CWu\fR) returns a list of the
@@ -402,7 +426,7 @@ IDs of all modules within the list.
 .Ip "expand($type,@things)" 2
 The IDs of all objects available within a program are strings that can
 be expanded to the corresponding real objects with the
-\f(CWCPAN::Shell->\fIexpand\fR\|("Module",@things)\fR method. Expand returns a
+\f(CWCPAN::Shell->expand("Module",@things)\fR method. Expand returns a
 list of \s-1CPAN::\s0Module objects according to the \f(CW@things\fR arguments
 given. In scalar context it only returns the first element of the
 list.
@@ -453,7 +477,7 @@ define any functions or methods. It usually only contains documentation.
 .PP
 It starts like a perl module with a package declaration and a \f(CW$VERSION\fR
 variable. After that the pod section looks like any other pod with the
-only difference, that \fIone special pod section\fR exists starting with
+only difference being that \fIone special pod section\fR exists starting with
 (verbatim):
 .PP
 .Vb 1
@@ -465,7 +489,7 @@ In this pod section each line obeys the format
 \&        Module_Name [Version_String] [- optional text]
 .Ve
 The only required part is the first field, the name of a module
-(eg. Foo::Bar, ie. \fInot\fR the name of the distribution file). The rest
+(e.g. Foo::Bar, ie. \fInot\fR the name of the distribution file). The rest
 of the line is optional. The comment part is delimited by a dash just
 as in the man page header.
 .PP
@@ -474,7 +498,7 @@ other distributions.
 .PP
 Bundles are treated specially in the \s-1CPAN\s0 package. If you say \*(L'install
 Bundle::Tkkit\*(R' (assuming such a bundle exists), \s-1CPAN\s0 will install all
-the modules in the \s-1CONTENTS\s0 section of the pod.  You can install your
+the modules in the \s-1CONTENTS\s0 section of the pod. You can install your
 own Bundles locally by placing a conformant Bundle file somewhere into
 your \f(CW@INC\fR path. The \fIautobundle()\fR command which is available in the
 shell interface does that for you by including all currently installed
@@ -489,24 +513,24 @@ associated with an \s-1URL\s0 that is not \f(CWftp:\fR.
 If you have neither Net::\s-1FTP\s0 nor \s-1LWP\s0, there is a fallback mechanism
 implemented for an external ftp command or for an external lynx
 command.
-.PP
+.Sh "Finding packages and \s-1VERSION\s0"
 This module presumes that all packages on \s-1CPAN\s0
 .Ip "\(bu" 2
 declare their \f(CW$VERSION\fR variable in an easy to parse manner. This
-prerequisite can hardly be relaxed because it consumes by far too much
+prerequisite can hardly be relaxed because it consumes far too much
 memory to load all packages into the running program just to determine
-the \f(CW$VERSION\fR variable . Currently all programs that are dealing with
+the \f(CW$VERSION\fR variable. Currently all programs that are dealing with
 version use something like this
 .Sp
 .Vb 2
 \&    perl -MExtUtils::MakeMaker -le \e
-\&        'print MM->parse_version($ARGV[0])' filename
+\&        'print MM->parse_version(shift)' filename
 .Ve
 If you are author of a package and wonder if your \f(CW$VERSION\fR can be
 parsed, please try the above method.
 .Ip "\(bu" 2
 come as compressed or gzipped tarfiles or as zip files and contain a
-Makefile.\s-1PL\s0 (well we try to handle a bit more, but without much
+Makefile.\s-1PL\s0 (well, we try to handle a bit more, but without much
 enthusiasm).
 .Sh "Debugging"
 The debugging of this module is pretty difficult, because we have
@@ -516,7 +540,7 @@ synchronicity, and of bugs within \s-1CPAN\s0.pm.
 .PP
 In interactive mode you can try \*(L"o debug\*(R" which will list options for
 debugging the various parts of the package. The output may not be very
-useful for you as it's just a byproduct of my own testing, but if you
+useful for you as it's just a by-product of my own testing, but if you
 have an idea which part of the package may have a bug, it's sometimes
 worth to give it a try and send me more specific output. You should
 know that \*(L"o debug\*(R" has built-in completion support.
@@ -530,7 +554,7 @@ machine. Then copy the \f(CW$CPAN::Config\fR\->{keep_source_where} (but not
 of a personal \s-1CPAN\s0. \s-1CPAN\s0.pm on the non-networked machines works nicely
 with this floppy.
 .SH "CONFIGURATION"
-When the CPAN module is installed a site wide configuration file is
+When the CPAN module is installed, a site wide configuration file is
 created as CPAN/Config.pm. The default values defined there can be
 overridden in another configuration file: CPAN/MyConfig.pm. You can
 store this file in \f(CW$HOME\fR/.cpan/CPAN/MyConfig.pm if you want, because
@@ -540,19 +564,19 @@ store this file in \f(CW$HOME\fR/.cpan/CPAN/MyConfig.pm if you want, because
 Currently the following keys in the hash reference \f(CW$CPAN::Config\fR are
 defined:
 .PP
-.Vb 19
+.Vb 20
 \&  build_cache        size of cache for directories to build modules
 \&  build_dir          locally accessible directory to build modules
-\&  index_expire       after how many days refetch index files
+\&  index_expire       after this many days refetch index files
 \&  cpan_home          local directory reserved for this package
 \&  gzip               location of external program gzip
-\&  inactivity_timeout breaks interactive Makefile.PLs after that
+\&  inactivity_timeout breaks interactive Makefile.PLs after this
 \&                     many seconds inactivity. Set to 0 to never break.
 \&  inhibit_startup_message
 \&                     if true, does not print the startup message
 \&  keep_source        keep the source in a local directory?
-\&  keep_source_where  where keep the source (if we do)
-\&  make               location of external program make
+\&  keep_source_where  directory in which to keep the source (if we do)
+\&  make               location of external make program
 \&  make_arg           arguments that should always be passed to 'make'
 \&  make_install_arg   same as make_arg for 'make install'
 \&  makepl_arg         arguments passed to 'perl Makefile.PL'
@@ -560,6 +584,7 @@ defined:
 \&  tar                location of external program tar
 \&  unzip              location of external program unzip
 \&  urllist            arrayref to nearby CPAN sites (or equivalent locations)
+\&  wait_list          arrayref to a wait server to try (See CPAN::WAIT)
 .Ve
 You can set and query each of these options interactively in the cpan
 shell with the command set defined within the \f(CWo conf\fR command:
@@ -574,7 +599,7 @@ neatvalue format.
 shifts or pops the array in the \fIlist option\fR variable
 .Ip "o conf <list option> [unshift|push|splice] <list>" 2
 works like the corresponding perl commands.
-.Sh "\s-1CD\s0\-\s-1ROM\s0 support"
+.Sh "urllist parameter has \s-1CD\s0\-\s-1ROM\s0 support"
 The \f(CWurllist\fR parameter of the configuration table contains a list of
 URLs that are to be used for downloading. If the list contains any
 \f(CWfile\fR URLs, \s-1CPAN\s0 always tries to get files from there first. This
@@ -588,6 +613,14 @@ outdated \s-1CD\s0\-\s-1ROM\s0 as a \f(CWfile\fR \s-1URL\s0 at the end of urllis
 \s-1CPAN\s0.pm will then fetch the index files from one of the \s-1CPAN\s0 sites
 that come at the beginning of urllist. It will later check for each
 module if there is a local copy of the most recent version.
+.PP
+Another peculiarity of urllist is that the site that we could
+successfully fetch the last file from automatically gets a preference
+token and is tried as the first site for the next request. So if you
+add a new site at runtime it may happen that the previously preferred
+site will be tried another time. This means that if you want to disallow
+a site for the next transfer, it must be explicitly removed from
+urllist.
 .SH "SECURITY"
 There's no strong security layer in CPAN.pm. CPAN.pm helps you to
 install foreign, unmasked, unsigned code on your machine. We compare
@@ -600,15 +633,20 @@ Most functions in package CPAN are exported per default. The reason
 for this is that the primary use is intended for the cpan shell or for
 oneliners.
 .SH "BUGS"
-we should give coverage for _all_ of the CPAN and not just the
-PAUSE part, right? In this discussion CPAN and PAUSE have become
-equal -- but they are not. PAUSE is authors/ and modules/. CPAN is
-PAUSE plus the clpa/, doc/, misc/, ports/, src/, scripts/.
+We should give coverage for _all_ of the CPAN and not just the PAUSE
+part, right? In this discussion CPAN and PAUSE have become equal --
+but they are not. PAUSE is authors/ and modules/. CPAN is PAUSE plus
+the clpa/, doc/, misc/, ports/, src/, scripts/.
 .PP
 Future development should be directed towards a better integration of
 the other parts.
+.PP
+If a Makefile.PL requires special customization of libraries, prompts
+the user for special input, etc. then you may find CPAN is not able to
+build the distribution. In that case, you should attempt the
+traditional method of building a Perl module package from a shell.
 .SH "AUTHOR"
-Andreas König <a.koenig@mind.de>
+Andreas König <a.koenig@kulturbox.de>
 .SH "SEE ALSO"
 \fIperl\fR\|(1), \fICPAN::Nox\fR\|(3)
 
@@ -629,6 +667,8 @@ Andreas König <a.koenig@mind.de>
 .IX Item "make, test, install, clean  modules or distributions"
 
 .IX Item "readme, look module or distribution"
+
+.IX Item "Signals"
 
 .IX Subsection "\s-1CPAN::\s0Shell"
 
@@ -652,6 +692,8 @@ Andreas König <a.koenig@mind.de>
 
 .IX Subsection "Prerequisites"
 
+.IX Subsection "Finding packages and \s-1VERSION\s0"
+
 .IX Item "\(bu"
 
 .IX Item "\(bu"
@@ -672,7 +714,7 @@ Andreas König <a.koenig@mind.de>
 
 .IX Item "o conf <list option> [unshift|push|splice] <list>"
 
-.IX Subsection "\s-1CD\s0\-\s-1ROM\s0 support"
+.IX Subsection "urllist parameter has \s-1CD\s0\-\s-1ROM\s0 support"
 
 .IX Header "SECURITY"
 

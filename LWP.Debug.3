@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Debug 3 "perl 5.004, patch 55" "9/Apr/96" "User Contributed Perl Documentation"
+.TH lib::LWP::Debug 3 "libwww-perl-5.36" "2/Dec/97" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -205,13 +205,14 @@ LWP::Debug provides tracing facilities. The \fItrace()\fR, \fIdebug()\fR and
 \fIconns()\fR function are called within the library and they log
 information at increasing levels of detail. Which level of detail is
 actually printed is controlled with the \f(CWlevel()\fR function.
-.SH "FUNCTIONS"
-.Sh "\fIlevel\fR\|(...)"
+.PP
+The following functions are available:
+.Ip "level(...)" 4
 The \f(CWlevel()\fR function controls the level of detail being
 logged. Passing \*(L'+\*(R' or \*(L'\-\*(R' indicates full and no logging
 respectively. Inidividual levels can switched on and of by passing the
 name of the level with a \*(L'+\*(R' or \*(L'\-\*(R' prepended.  The levels are:
-.PP
+.Sp
 .Vb 3
 \&  trace   : trace function calls
 \&  debug   : print debug messages
@@ -223,20 +224,20 @@ use argument start with \*(L'+\*(R' or \*(L'\-\*(R' then it is passed to the lev
 function, else the name is exported as usual.  The following two
 statements are thus equivalent (if you ignore that the second pollutes
 your namespace):
-.PP
+.Sp
 .Vb 2
 \&  use LWP::Debug qw(+);
 \&  use LWP::Debug qw(level); level('+');
 .Ve
-.Sh "\fItrace\fR\|($msg)"
+.Ip "trace($msg)" 4
 The \f(CWtrace()\fR function is used for tracing function
 calls. The package and calling subroutine name is
 printed along with the passed argument. This should
 be called at the start of every major function.
-.Sh "\fIdebug\fR\|($msg)"
+.Ip "debug($msg)" 4
 The \f(CWdebug()\fR function is used for high-granularity
 reporting of state in functions.
-.Sh "\fIconns\fR\|($msg)"
+.Ip "conns($msg)" 4
 The \f(CWconns()\fR function is used to show data being
 transferred over the connections. This may generate
 considerable output.
@@ -251,13 +252,11 @@ considerable output.
 
 .IX Header "DESCRIPTION"
 
-.IX Header "FUNCTIONS"
+.IX Item "level(...)"
 
-.IX Subsection "\fIlevel\fR\|(...)"
+.IX Item "trace($msg)"
 
-.IX Subsection "\fItrace\fR\|($msg)"
+.IX Item "debug($msg)"
 
-.IX Subsection "\fIdebug\fR\|($msg)"
-
-.IX Subsection "\fIconns\fR\|($msg)"
+.IX Item "conns($msg)"
 

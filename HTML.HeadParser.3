@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::HeadParser 3 "perl 5.004, patch 55" "26/Jun/97" "User Contributed Perl Documentation"
+.TH lib::HTML::HeadParser 3 "perl 5.005, patch 53" "22/Jun/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -203,20 +203,15 @@ HTML::HeadParser \- Parse <HEAD> section of a HTML document
 .Ve
 .SH "DESCRIPTION"
 The \fIHTML::HeadParser\fR is a specialized (and lightweight)
-\fIHTML::Parser\fR that will only parse the <HEAD>...</HEAD> section of a
-HTML document.  The \fIparse()\fR and \fIparse_file()\fR methods will return a
-FALSE value as soon as a <BODY> element is found, and should not be
-called again after this.
+\fIHTML::Parser\fR that will only parse the <HEAD>...</HEAD>
+section of an HTML document.  The \fIparse()\fR method
+will return a FALSE value as soon as some <BODY> element or body
+text are found, and should not be called again after this.
 .PP
-The \fIHTML::HeadParser\fR constructor takes an optional \fIHTTP::Headers\fR
-object reference as argument.  The parser will update this header
-object as the various <HEAD> elements are recognized.  If no
-header is given we will create an internal (and initially empty)
-header object.  This header object can be accessed with the \fIheader()\fR
-method.
-.PP
-The following header fields are initialized from elements found in the
-<HEAD> section of the HTML document:
+The \fIHTML::HeadParser\fR keeps a reference to a header object, and the
+parser will update this header object as the various elements of the
+<HEAD> section of the HTML document are recognized.  The following
+header fields are affected:
 .Ip "Content-Base:" 4
 The \fIContent-Base\fR header is initialized from the <base
 href=\*(R"..."> element.
@@ -228,24 +223,30 @@ The \fIIsindex\fR header will be added if there is a <isindex>
 element in the <head>.  The header value is initialized from the
 \fIprompt\fR attribute if it is present.  If not \fIprompt\fR attribute is
 given it will have \*(L'?\*(R' as the value.
-.Ip "X\-Meta-Foo" 4
+.Ip "X\-Meta-Foo:" 4
 All <meta> elements will initialize headers with the prefix
-\*(L"X\-Meta-\*(R".  If the element contains a \fIhttp-equiv\fR attribute, then it
-will be honored as the header name.
+\*(L"\f(CWX-Meta-\fR\*(R" on the name.  If the <meta> element contains a
+\f(CWhttp-equiv\fR attribute, then it will be honored as the header name.
 .SH "METHODS"
 The following methods (in addition to those provided by the
 superclass) are available:
 .Ip "$hp = \s-1HTML::\s0HeadParser->new( [$header] )" 4
+The object constructor.  The optional \f(CW$header\fR argument should be a
+reference to an object that implement the \fIheader()\fR and \fIpush_header()\fR
+methods as defined by the \fI\s-1HTTP::\s0Headers\fR class.  Normally it will be
+of some class that isa or delegates to the \fI\s-1HTTP::\s0Headers\fR class.
+.Sp
+If no \f(CW$header\fR is given \fI\s-1HTML::\s0HeadParser\fR will create an
+\fI\s-1HTTP::\s0Header\fR object by itself (initially empty).
 .Ip "$hp->parse( $text )" 4
 Parses some \s-1HTML\s0 text (see \s-1HTML::\s0Parser->\fIparse()\fR) but will return
 \s-1FALSE\s0 as soon as parsing should end.
 .Ip "$hp->header;" 4
-Returns a reference to the \s-1HTML::\s0Header object.
+Returns a reference to the header object.
 .Ip "$hp->header( $key )" 4
-Returns a header value.
-.Ip "$hp->as_string;" 4
-Same as \f(CW$hp\fR\->header->as_string
-.SH "EXAMPLES"
+Returns a header value.  It is just a shorter way to write
+\f(CW$hp->header->header($key)\fR.
+.SH "EXAMPLE"
 .Sp
 .Vb 9
 \& $h = HTTP::Headers->new;
@@ -260,8 +261,11 @@ Same as \f(CW$hp\fR\->header->as_string
 .Ve
 .SH "SEE ALSO"
 the \fIHTML::Parser\fR manpage, the \fIHTTP::Headers\fR manpage
+.Sp
+The \fIHTTP::Headers\fR class is distributed as part of the \fIlibwww-perl\fR
+package.
 .SH "COPYRIGHT"
-Copyright 1996-1997 Gisle Aas. All rights reserved.
+Copyright 1996-1998 Gisle Aas. All rights reserved.
 .Sp
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -284,7 +288,7 @@ Gisle Aas <aas@sn.no>
 
 .IX Item "Isindex:"
 
-.IX Item "X\-Meta-Foo"
+.IX Item "X\-Meta-Foo:"
 
 .IX Header "METHODS"
 
@@ -296,9 +300,7 @@ Gisle Aas <aas@sn.no>
 
 .IX Item "$hp->header( $key )"
 
-.IX Item "$hp->as_string;"
-
-.IX Header "EXAMPLES"
+.IX Header "EXAMPLE"
 
 .IX Header "SEE ALSO"
 

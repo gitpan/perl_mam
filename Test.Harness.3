@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Test::Harness 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
+.TH Test::Harness 3 "perl 5.005, patch 53" "23/Sep/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -194,6 +194,10 @@ use Test::Harness;
 .PP
 \fIruntests\fR\|(@tests);
 .SH "DESCRIPTION"
+(By using the the \fITest\fR manpage module, you can write test scripts without
+knowing the exact output this module expects.  However, if you need to
+know the specifics, read on!)
+.PP
 Perl test scripts print to standard output \f(CW"ok N"\fR for each single
 test, where \f(CWN\fR is an increasing sequence of integers. The first line
 output by a standard test script is \f(CW"1..M"\fR with \f(CWM\fR being the
@@ -258,8 +262,23 @@ printed in a message similar to the above.
 .Ip "\f(CWFailed %d/%d tests, %.2f%% okay. %s\fR" 4
 If not all tests were successful, the script dies with one of the
 above messages.
+.SH "ENVIRONMENT"
+Setting \f(CWHARNESS_IGNORE_EXITCODE\fR makes harness ignore the exit status
+of child processes.
+.PP
+If \f(CWHARNESS_FILELEAK_IN_DIR\fR is set to the name of a directory, harness
+will check after each test whether new files appeared in that directory,
+and report them as
+.PP
+.Vb 1
+\&  LEAKED FILES: scr.tmp 0 my.db
+.Ve
+If relative, directory name is with respect to the current directory at
+the moment \fIruntests()\fR was called.  Putting absolute path into 
+\f(CWHARNESS_FILELEAK_IN_DIR\fR may give more predicatable results.
 .SH "SEE ALSO"
-See the \fIBenchmark\fR manpage for the underlying timing routines.
+the \fITest\fR manpage for writing test scripts and also the \fIBenchmark\fR manpage for the
+underlying timing routines.
 .SH "AUTHORS"
 Either Tim Bunce or Andreas Koenig, we don't know. What we know for
 sure is, that it was inspired by Larry Wall's TEST script that came
@@ -297,6 +316,8 @@ absolute path to the perl binary or when $^X can be found in the path.
 .IX Item "\f(CWFailed 1 test, %.2f%% okay. %s\fR"
 
 .IX Item "\f(CWFailed %d/%d tests, %.2f%% okay. %s\fR"
+
+.IX Header "ENVIRONMENT"
 
 .IX Header "SEE ALSO"
 

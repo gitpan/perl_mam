@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Parser 3 "perl 5.004, patch 55" "21/Feb/97" "User Contributed Perl Documentation"
+.TH Parser 3 "perl 5.005, patch 53" "8/Jul/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -207,15 +207,32 @@ HTML::Parser \- SGML parser class
 \& $p->parse_file(\e*F);
 .Ve
 .SH "DESCRIPTION"
-The \f(CWHTML::Parser\fR will tokenize a HTML document when the \f(CW$p\fR\->\fIparse()\fR
-method is called.  The document to parse can be supplied in arbitrary
-chunks.  Call \f(CW$p\fR\->\fIeof()\fR the end of the document to flush any remaining
-text.  The return value from \fIparse()\fR is a reference to the parser
-object.
+The \f(CWHTML::Parser\fR will tokenize an HTML document when the \fIparse()\fR
+method is called by invoking various callback methods.  The document to
+be parsed can be supplied in arbitrary chunks.
 .PP
-The \f(CW$p\fR\->\fIparse_file()\fR method can be called to parse text from a file.
-The argument can be a filename or an already opened file handle. The
-return value from \fIparse_file()\fR is a reference to the parser object.
+The external interface the an \fIHTML::Parser\fR is:
+.Ip "$p = \s-1HTML::\s0Parser->new" 4
+The object constructor takes no arguments.
+.Ip "$p->parse( $string );" 4
+Parse the \f(CW$string\fR as an \s-1HTML\s0 document.  Can be called multiple times.
+The return value is a reference to the parser object.
+.Ip "$p->eof" 4
+Signals end of document.  Call \fIeof()\fR to flush any remaining buffered
+text.  The return value is a reference to the parser object.
+.Ip "$p->parse_file( $file );" 4
+This method can be called to parse text from a file.  The argument can
+be a filename or an already opened file handle. The return value from
+\fIparse_file()\fR is a reference to the parser object.
+.Ip "$p->strict_comment( [$bool] )" 4
+By default we parse comments similar to how the popular browsers (like
+Netscape and \s-1MSIE\s0) do it.  This means that comments will always be
+terminated by the first occurence of \*(L"\*(-->\*(R".  This is not correct
+according to the \*(L"official\*(R" \s-1HTML\s0 standards.  The official behaviour
+can be enabled by calling the \fIstrict_comment()\fR method with a \s-1TRUE\s0
+argument.
+.Sp
+The return value from \fIstrict_comment()\fR is the old attribute value.
 .PP
 In order to make the parser do anything interesting, you must make a
 subclass where you override one or more of the following methods as
@@ -225,7 +242,7 @@ This method is called when a \fImarkup declaration\fR has been
 recognized.  For typical \s-1HTML\s0 documents, the only declaration you are
 likely to find is <!\s-1DOCTYPE\s0 ...>.  The initial \*(L"<!\*(R" and ending \*(L">\*(R" is
 not part of the string passed as argument.  Comments are removed and
-entities have \fBnot\fR been expanded yet.
+entities will \fBnot\fR be expanded.
 .Ip "$self->start($tag, $attr, $attrseq, $origtext)" 4
 This method is called when a complete start tag has been recognized.
 The first argument is the tag name (in lower case) and the second
@@ -235,43 +252,52 @@ Entities found in the attribute values are already expanded.  The
 third argument is a reference to an array with the lower case
 attribute keys in the original order.  The fourth argument is the
 original \s-1HTML\s0 text.
-.Ip "$self->end($tag)" 4
+.Ip "$self->end($tag, $origtext)" 4
 This method is called when an end tag has been recognized.  The
-argument is the lower case tag name.
+first argument is the lower case tag name, the second the original
+\s-1HTML\s0 text of the tag.
 .Ip "$self->text($text)" 4
 This method is called when plain text in the document is recognized.
 The text is passed on unmodified and might contain multiple lines.
 Note that for efficiency reasons entities in the text are \fBnot\fR
 expanded.  You should call \fI\s-1HTML::\s0Entities::decode\fR\|($text) before you
 process the text any further.
+.Sp
+A sequence of text in the \s-1HTML\s0 document can be broken between several
+invokations of \f(CW$self\fR\->text.  The parser will make sure that it does
+not break a word or a sequence of spaces between two invokations of
+\f(CW$self\fR\->\fItext()\fR.
 .Ip "$self->comment($comment)" 4
 This method is called as comments are recognized.  The leading and
 trailing \*(L"--\*(R" sequences have been stripped off the comment text.
 .PP
-The default implementation of these methods does nothing, \fIi.e.,\fR the
+The default implementation of these methods do nothing, i.e., the
 tokens are just ignored.
 .PP
 There is really nothing in the basic parser that is \s-1HTML\s0 specific, so
-it is likely that the parser can parse many kinds of \s-1SGML\s0 documents,
-but \s-1SGML\s0 has many obscure features (not implemented by this module)
-that prevent us from renaming this module as \f(CWSGML::Parse\fR.
-.SH "BUGS"
-You can instruct the parser to parse comments the way Netscape does it
-by calling the \fInetscape_buggy_comment()\fR method with a TRUE argument.
-This means that comments will always be terminated by the first
-occurence of \*(L"\*(-->\*(R".
+it is likely that the parser can parse other kinds of \s-1SGML\s0 documents.
+\s-1SGML\s0 has many obscure features (not implemented by this module) that
+prevent us from renaming this module as \f(CWSGML::Parser\fR.
+.SH "EFFICIENCY"
+The parser is fairly inefficient if the chunks passed to \f(CW$p\fR\->\fIparse()\fR
+are too big.  The reason is probably that perl ends up with a lot of
+character copying when tokens are removed from the beginning of the
+strings.  A chunck size of about 256-512 bytes was optimal in a test I
+made with some real world HTML documents.  (The parser was about 3
+times slower with a chunck size of 20K).
 .SH "SEE ALSO"
-the \fIHTML::TreeBuilder\fR manpage, the \fIHTML::HeadParser\fR manpage, the \fIHTML::Entities\fR manpage
+the \fIHTML::Entities\fR manpage, the \fIHTML::TokeParser\fR manpage, the \fIHTML::Filter\fR manpage,
+the \fIHTML::HeadParser\fR manpage, the \fIHTML::LinkExtor\fR manpage
+.PP
+the \fIHTML::TreeBuilder\fR manpage (part of the \fIHTML\-Tree\fR distribution)
 .SH "COPYRIGHT"
-Copyright 1996 Gisle Aas. All rights reserved.
+Copyright 1996-1998 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
-.SH "AUTHOR"
-Gisle Aas <aas@sn.no>
 
 .rn }` ''
-.IX Title "lib::HTML::Parser 3"
+.IX Title "Parser 3"
 .IX Name "HTML::Parser - SGML parser class"
 
 .IX Header "NAME"
@@ -280,21 +306,29 @@ Gisle Aas <aas@sn.no>
 
 .IX Header "DESCRIPTION"
 
+.IX Item "$p = \s-1HTML::\s0Parser->new"
+
+.IX Item "$p->parse( $string );"
+
+.IX Item "$p->eof"
+
+.IX Item "$p->parse_file( $file );"
+
+.IX Item "$p->strict_comment( [$bool] )"
+
 .IX Item "$self->declaration($decl)"
 
 .IX Item "$self->start($tag, $attr, $attrseq, $origtext)"
 
-.IX Item "$self->end($tag)"
+.IX Item "$self->end($tag, $origtext)"
 
 .IX Item "$self->text($text)"
 
 .IX Item "$self->comment($comment)"
 
-.IX Header "BUGS"
+.IX Header "EFFICIENCY"
 
 .IX Header "SEE ALSO"
 
 .IX Header "COPYRIGHT"
-
-.IX Header "AUTHOR"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::LinkExtor 3 "perl 5.004, patch 55" "3/Sep/97" "User Contributed Perl Documentation"
+.TH lib::HTML::LinkExtor 3 "perl 5.005, patch 53" "12/Jun/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -201,39 +201,39 @@ HTML::LinkExtor \- Extract links from an HTML document
 \& $p->parse_file("index.html");
 .Ve
 .SH "DESCRIPTION"
-The \fIHTML::LinkExtor\fR (link extractor) is an HTML parser that takes a
-callback routine as parameter.  This routine is then called as the
-various link attributes are recognized.
-.PP
-The \fIHTML::LinkExtor\fR is a subclass of \fIHTML::Parser\fR. This means
-that the document should be given to the parser by calling the
-\f(CW$p\fR\->\fIparse()\fR or \f(CW$p\fR\->\fIparse_file()\fR methods.
-.Sh "\f(CW$p\fR = \s-1HTML::\s0LinkExtor->\fInew\fR\|([$callback[, \f(CW$base\fR]])"
+The \fIHTML::LinkExtor\fR is an HTML parser that extract links from an
+HTML document.  The \fIHTML::LinkExtor\fR is a subclass of
+\fIHTML::Parser\fR. This means that the document should be given to the
+parser by calling the \f(CW$p\fR\->\fIparse()\fR or \f(CW$p\fR\->\fIparse_file()\fR methods.
+.Ip "$p = \s-1HTML::\s0LinkExtor->new([$callback[, $base]])" 4
 The constructor takes two optional argument. The first is a reference
 to a callback routine. It will be called as links are found. If a
 callback is not provided, then links are just accumulated internally
-and can be retrieved by calling the \f(CW$p\fR\->\fIlinks()\fR method. The \f(CW$base\fR is
-an optional base \s-1URL\s0 used to absolutize all URLs found.
-.PP
+and can be retrieved by calling the \f(CW$p\fR\->\fIlinks()\fR method.
+.Sp
+The \f(CW$base\fR is an optional base \s-1URL\s0 used to absolutize all URLs found.
+You need to have the \fI\s-1URI::URL\s0\fR module installed if you provide
+\f(CW$base\fR.
+.Sp
 The callback is called with the lowercase tag name as first argument,
 and then all link attributes as separate key/value pairs.  All
 non-link attributes are removed.
-.Sh "\f(CW$p\fR\->links"
+.Ip "$p->links" 4
 Returns a list of all links found in the document.  The returned
 values will be anonymous arrays with the follwing elements:
-.PP
+.Sp
 .Vb 1
 \&  [$tag, $attr => $url1, $attr2 => $url2,...]
 .Ve
 The \f(CW$p\fR\->links method will also truncate the internal link list.  This
 means that if the method is called twice without any parsing in
 between then the second call will return an empty list.
-.PP
+.Sp
 Also note that \f(CW$p\fR\->links will always be empty if a callback routine
-was provided when the the \fI\s-1HTML::\s0LinkExtor\fR manpage was created.
+was provided when the \fI\s-1HTML::\s0LinkExtor\fR was created.
 .SH "EXAMPLE"
-This is an example showing how you can extract links as a document
-is received using LWP:
+This is an example showing how you can extract links from a document
+received using LWP:
 .PP
 .Vb 3
 \&  use LWP::UserAgent;
@@ -254,13 +254,14 @@ is received using LWP:
 \&  }
 .Ve
 .Vb 3
-\&  # Make the parser.  Unfortunately, we don't know the base yet (it might
-\&  # be diffent from $url)
+\&  # Make the parser.  Unfortunately, we don't know the base yet
+\&  # (it might be diffent from $url)
 \&  $p = HTML::LinkExtor->new(\e&callback);
 .Ve
-.Vb 2
+.Vb 3
 \&  # Request document and parse it as it arrives
-\&  $res = $ua->request(HTTP::Request->new(GET => $url), sub {$p->parse($_[0])});
+\&  $res = $ua->request(HTTP::Request->new(GET => $url),
+\&                      sub {$p->parse($_[0])});
 .Ve
 .Vb 3
 \&  # Expand all image URLs to absolute ones
@@ -272,9 +273,12 @@ is received using LWP:
 \&  print join("\en", @imgs), "\en";
 .Ve
 .SH "SEE ALSO"
-the \fIHTML::Parser\fR manpage
-.SH "AUTHOR"
-Gisle Aas <aas@sn.no>
+the \fIHTML::Parser\fR manpage, the \fILWP\fR manpage, the \fIURI::URL\fR manpage
+.SH "COPYRIGHT"
+Copyright 1996-1998 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::HTML::LinkExtor 3"
@@ -286,13 +290,13 @@ Gisle Aas <aas@sn.no>
 
 .IX Header "DESCRIPTION"
 
-.IX Subsection "\f(CW$p\fR = \s-1HTML::\s0LinkExtor->\fInew\fR\|([$callback[, \f(CW$base\fR]])"
+.IX Item "$p = \s-1HTML::\s0LinkExtor->new([$callback[, $base]])"
 
-.IX Subsection "\f(CW$p\fR\->links"
+.IX Item "$p->links"
 
 .IX Header "EXAMPLE"
 
 .IX Header "SEE ALSO"
 
-.IX Header "AUTHOR"
+.IX Header "COPYRIGHT"
 

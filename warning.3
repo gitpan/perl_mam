@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Socket 3 "perl 5.004, patch 55" "27/Jan/97" "User Contributed Perl Documentation"
+.TH warning 3 "perl 5.005, patch 53" "11/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,79 +188,37 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-LWP::Socket \- TCP/IP socket interface
+warning \- Perl pragma to control 
 .SH "SYNOPSIS"
 .PP
-.Vb 7
-\& $socket = new LWP::Socket;
-\& $socket->connect('localhost', 7); # echo
-\& $quote = 'I dunno, I dream in Perl sometimes...';
-\& $socket->write("$quote\en");
-\& $socket->read_until("\en", \e$buffer);
-\& $socket->read(\e$buffer);
-\& $socket = undef;  # close
+.Vb 1
+\&    use warning;
+.Ve
+.Vb 2
+\&    use warning "all";
+\&    use warning "deprecated";
+.Ve
+.Vb 2
+\&    use warning;
+\&    no warning "unsafe";
 .Ve
 .SH "DESCRIPTION"
-This class implements TCP/IP sockets.  It groups socket generation,
-TCP address manipulation and buffered reading. Errors are handled by
-dying (throws exceptions).
+If no import list is supplied, all possible restrictions are assumed.
+(This is the safest mode to operate in, but is sometimes too strict for
+casual programming.)  Currently, there are three possible things to be
+strict about:  
+.Ip "\f(CWwarning deprecated\fR" 6
+This generates a runtime error if you use deprecated 
+.Sp
+.Vb 1
+\&    use warning 'deprecated';
+.Ve
 .PP
-This class should really not be required, something like this should
-be part of the standard Perl5 library.
-.PP
-Running this module standalone executes a self test which requires
-localhost to serve chargen and echo protocols.
-.SH "METHODS"
-.Sh "\f(CW$sock\fR = new \fI\s-1LWP::\s0Socket()\fR"
-Constructs a new socket object.
-.Sh "\f(CW$sock\fR\->\fIconnect\fR\|($host, \f(CW$port\fR)"
-Connect the socket to given host and port.
-.Sh "\f(CW$sock\fR\->\fIshutdown()\fR"
-Shuts down the connection.
-.Sh "\f(CW$sock\fR\->\fIbind\fR\|($host, \f(CW$port\fR)"
-Binds a name to the socket.
-.Sh "\f(CW$sock\fR\->\fIlisten\fR\|($queuesize)"
-Set up listen queue for socket.
-.Sh "\f(CW$sock\fR\->\fIaccept\fR\|($timeout)"
-Accepts a new connection.  Returns a new \s-1LWP::\s0Socket object if successful.
-Timeout not implemented yet.
-.Sh "\f(CW$sock\fR\->\fIgetsockname()\fR"
-Returns a 2 element array ($host, \f(CW$port\fR)
-.Sh "\f(CW$sock\fR\->\fIread_until\fR\|($delim, \f(CW$data_ref\fR, \f(CW$size\fR, \f(CW$timeout\fR)"
-Reads data from the socket, up to a delimiter specified by a regular
-expression.  If \f(CW$delim\fR is undefined all data is read.  If \f(CW$size\fR is
-defined, data will be read internally in chunks of \f(CW$size\fR bytes.  This
-does not mean that we will return the data when size bytes are read.
-.PP
-Note that \f(CW$delim\fR is discarded from the data returned.
-.Sh "\f(CW$sock\fR\->\fIread\fR\|($bufref, [$size, \f(CW$timeout\fR])"
-Reads data of the socket.  Not more than \f(CW$size\fR bytes.  Might return
-less if the data is available.  Dies on timeout.
-.Sh "\f(CW$sock\fR\->\fIpushback\fR\|($data)"
-Put data back into the socket.  Data will returned next time you
-\fIread()\fR.  Can be used if you find out that you have read too much.
-.Sh "\f(CW$sock\fR\->\fIwrite\fR\|($data, [$timeout])"
-Write data to socket.  The \f(CW$data\fR argument might be a scalar or code.
-.PP
-If data is a reference to a subroutine, then we will call this routine
-to obtain the data to be written.  The routine will be called until it
-returns undef or empty data.  Data might be returned from the callback
-as a scalar or as a reference to a scalar.
-.PP
-Write returns the number of bytes written to the socket.
-.Sh "\fI_getaddress\fR\|($h, \f(CW$p\fR)"
-Given a host and a port, it will return the address (sockaddr_in)
-suitable as the \f(CWname\fR argument for \fIconnect()\fR or \fIbind()\fR. Might return
-several addresses in array context if the hostname is bound to several
-\s-1IP\s0 addresses.
-.SH "SELF TEST"
-This self test is only executed when this file is run standalone. It
-tests its functions against some standard TCP services implemented by
-inetd. If you do not have them around the tests will fail.
+See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.
 
 .rn }` ''
-.IX Title "lib::LWP::Socket 3"
-.IX Name "LWP::Socket - TCP/IP socket interface"
+.IX Title "warning 3"
+.IX Name "warning - Perl pragma to control"
 
 .IX Header "NAME"
 
@@ -268,31 +226,5 @@ inetd. If you do not have them around the tests will fail.
 
 .IX Header "DESCRIPTION"
 
-.IX Header "METHODS"
-
-.IX Subsection "\f(CW$sock\fR = new \fI\s-1LWP::\s0Socket()\fR"
-
-.IX Subsection "\f(CW$sock\fR\->\fIconnect\fR\|($host, \f(CW$port\fR)"
-
-.IX Subsection "\f(CW$sock\fR\->\fIshutdown()\fR"
-
-.IX Subsection "\f(CW$sock\fR\->\fIbind\fR\|($host, \f(CW$port\fR)"
-
-.IX Subsection "\f(CW$sock\fR\->\fIlisten\fR\|($queuesize)"
-
-.IX Subsection "\f(CW$sock\fR\->\fIaccept\fR\|($timeout)"
-
-.IX Subsection "\f(CW$sock\fR\->\fIgetsockname()\fR"
-
-.IX Subsection "\f(CW$sock\fR\->\fIread_until\fR\|($delim, \f(CW$data_ref\fR, \f(CW$size\fR, \f(CW$timeout\fR)"
-
-.IX Subsection "\f(CW$sock\fR\->\fIread\fR\|($bufref, [$size, \f(CW$timeout\fR])"
-
-.IX Subsection "\f(CW$sock\fR\->\fIpushback\fR\|($data)"
-
-.IX Subsection "\f(CW$sock\fR\->\fIwrite\fR\|($data, [$timeout])"
-
-.IX Subsection "\fI_getaddress\fR\|($h, \f(CW$p\fR)"
-
-.IX Header "SELF TEST"
+.IX Item "\f(CWwarning deprecated\fR"
 

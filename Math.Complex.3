@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::Complex 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Math::Complex 3 "perl 5.005, patch 53" "8/Aug/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -324,6 +324,8 @@ number) and the above definition states that
 \&        sqrt([x,pi]) = sqrt(x) * exp(i*pi/2) = [sqrt(x),pi/2] = sqrt(x)*i
 .Ve
 which is exactly what we had defined for negative real numbers above.
+The \f(CWsqrt\fR returns only one of the solutions: if you want the both,
+use the \f(CWroot\fR function.
 .PP
 All the common mathematical functions defined on real numbers that
 are extended to complex numbers share that same property of working
@@ -381,22 +383,23 @@ the following (overloaded) operations are supported on complex numbers:
 \&        z1 * z2 = (r1 * r2) * exp(i * (t1 + t2))
 \&        z1 / z2 = (r1 / r2) * exp(i * (t1 - t2))
 \&        z1 ** z2 = exp(z2 * log z1)
-\&        ~z1 = a - bi
-\&        abs(z1) = r1 = sqrt(a*a + b*b)
-\&        sqrt(z1) = sqrt(r1) * exp(i * t1/2)
-\&        exp(z1) = exp(a) * exp(i * b)
-\&        log(z1) = log(r1) + i*t1
-\&        sin(z1) = 1/2i (exp(i * z1) - exp(-i * z1))
-\&        cos(z1) = 1/2 (exp(i * z1) + exp(-i * z1))
+\&        ~z = a - bi
+\&        abs(z) = r1 = sqrt(a*a + b*b)
+\&        sqrt(z) = sqrt(r1) * exp(i * t/2)
+\&        exp(z) = exp(a) * exp(i * b)
+\&        log(z) = log(r1) + i*t
+\&        sin(z) = 1/2i (exp(i * z1) - exp(-i * z))
+\&        cos(z) = 1/2 (exp(i * z1) + exp(-i * z))
 \&        atan2(z1, z2) = atan(z1/z2)
 .Ve
 The following extra operations are supported on both real and complex
 numbers:
 .PP
-.Vb 3
+.Vb 4
 \&        Re(z) = a
 \&        Im(z) = b
 \&        arg(z) = t
+\&        abs(z) = r
 .Ve
 .Vb 3
 \&        cbrt(z) = z ** (1/3)
@@ -441,10 +444,13 @@ numbers:
 \&        asech(z) = acosh(1 / z)
 \&        acoth(z) = atanh(1 / z) = 1/2 * log((1+z) / (z-1))
 .Ve
-\fIlog\fR, \fIcsc\fR, \fIcot\fR, \fIacsc\fR, \fIacot\fR, \fIcsch\fR, \fIcoth\fR,
-\fIacosech\fR, \fIacotanh\fR, have aliases \fIln\fR, \fIcosec\fR, \fIcotan\fR,
-\fIacosec\fR, \fIacotan\fR, \fIcosech\fR, \fIcotanh\fR, \fIacosech\fR, \fIacotanh\fR,
-respectively.
+\fIarg\fR, \fIabs\fR, \fIlog\fR, \fIcsc\fR, \fIcot\fR, \fIacsc\fR, \fIacot\fR, \fIcsch\fR,
+\fIcoth\fR, \fIacosech\fR, \fIacotanh\fR, have aliases \fIrho\fR, \fItheta\fR, \fIln\fR,
+\fIcosec\fR, \fIcotan\fR, \fIacosec\fR, \fIacotan\fR, \fIcosech\fR, \fIcotanh\fR,
+\fIacosech\fR, \fIacotanh\fR, respectively.  \f(CWRe\fR, \f(CWIm\fR, \f(CWarg\fR, \f(CWabs\fR,
+\f(CWrho\fR, and \f(CWtheta\fR can be used also also mutators.  The \f(CWcbrt\fR
+returns only one of the solutions: if you want all three, use the
+\f(CWroot\fR function.
 .PP
 The \fIroot\fR function is available to compute all the \fIn\fR
 roots of some complex, where \fIn\fR is a strictly positive integer.
@@ -499,6 +505,15 @@ It is possible to write:
 but that will be silently converted into \f(CW[3,-3pi/4]\fR, since the modulus
 must be non-negative (it represents the distance to the origin in the complex
 plane).
+.PP
+It is also possible to have a complex number as either argument of
+either the \f(CWmake\fR or \f(CWemake\fR: the appropriate component of
+the argument will be used.
+.PP
+.Vb 2
+\&        $z1 = cplx(-2,  1);
+\&        $z2 = cplx($z1, 4);
+.Ve
 .SH "STRINGIFICATION"
 When printed, a complex number is usually shown under its cartesian
 form \fIa+bi\fR, but there are legitimate cases where the polar format
@@ -550,26 +565,20 @@ Here are some examples:
 \&        $k = exp(i * 2*pi/3);
 \&        print "$j - $k = ", $j - $k, "\en";
 .Ve
-.SH "ERRORS DUE TO DIVISION BY ZERO"
+.Vb 3
+\&        $z->Re(3);                      # Re, Im, arg, abs,
+\&        $j->arg(2);                     # (the last two aka rho, theta)
+\&                                        # can be used also as mutators.
+.Ve
+.SH "ERRORS DUE TO DIVISION BY ZERO OR LOGARITHM OF ZERO"
 The division (/) and the following functions
 .PP
-.Vb 16
-\&        tan
-\&        sec
-\&        csc
-\&        cot
-\&        asec
-\&        acsc
-\&        atan
-\&        acot
-\&        tanh
-\&        sech
-\&        csch
-\&        coth
-\&        atanh
-\&        asech
-\&        acsch
-\&        acoth
+.Vb 5
+\&        log     ln      log10   logn
+\&        tan     sec     csc     cot
+\&        atan    asec    acsc    acot
+\&        tanh    sech    csch    coth
+\&        atanh   asech   acsch   acoth
 .Ve
 cannot be computed for all arguments because that would mean dividing
 by zero or taking logarithm of zero. These situations cause fatal
@@ -587,13 +596,30 @@ or
 \&        Died at...
 .Ve
 For the \f(CWcsc\fR, \f(CWcot\fR, \f(CWasec\fR, \f(CWacsc\fR, \f(CWacot\fR, \f(CWcsch\fR, \f(CWcoth\fR,
-\f(CWasech\fR, \f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero).  For the
-\f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be \f(CW1\fR (one).  For the
-\f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be \f(CW-1\fR (minus one).  For the
-\f(CWatan\fR, \f(CWacot\fR, the argument cannot be \f(CWi\fR (the imaginary unit).
-For the \f(CWatan\fR, \f(CWacoth\fR, the argument cannot be \f(CW-i\fR (the negative
-imaginary unit).  For the \f(CWtan\fR, \f(CWsec\fR, \f(CWtanh\fR, \f(CWsech\fR, the
-argument cannot be \fIpi/2 + k * pi\fR, where \fIk\fR is any integer.
+\f(CWasech\fR, \f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero).  For the the
+logarithmic functions and the \f(CWatanh\fR, \f(CWacoth\fR, the argument cannot
+be \f(CW1\fR (one).  For the \f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be
+\f(CW-1\fR (minus one).  For the \f(CWatan\fR, \f(CWacot\fR, the argument cannot be
+\f(CWi\fR (the imaginary unit).  For the \f(CWatan\fR, \f(CWacoth\fR, the argument
+cannot be \f(CW-i\fR (the negative imaginary unit).  For the \f(CWtan\fR,
+\f(CWsec\fR, \f(CWtanh\fR, the argument cannot be \fIpi/2 + k * pi\fR, where \fIk\fR
+is any integer.
+.PP
+Note that because we are operating on approximations of real numbers,
+these errors can happen when merely `too close\*(R' to the singularities
+listed above.  For example \f(CWtan(2*atan2(1,1)+1e-15)\fR will die of
+division by zero.
+.SH "ERRORS DUE TO INDIGESTIBLE ARGUMENTS"
+The \f(CWmake\fR and \f(CWemake\fR accept both real and complex arguments.
+When they cannot recognize the arguments they will die with error
+messages like the following
+.PP
+.Vb 4
+\&    Math::Complex::make: Cannot take real part of ...
+\&    Math::Complex::make: Cannot take real part of ...
+\&    Math::Complex::emake: Cannot take rho of ...
+\&    Math::Complex::emake: Cannot take theta of ...
+.Ve
 .SH "BUGS"
 Saying \f(CWuse Math::Complex;\fR exports many mathematical routines in the
 caller environment and even overrides some (\f(CWsqrt\fR, \f(CWlog\fR).
@@ -602,6 +628,11 @@ This is construed as a feature by the Authors, actually... ;\-)
 All routines expect to be given real or complex numbers. Don't attempt to
 use BigFloat, since Perl has currently no rule to disambiguate a \*(L'+\*(R'
 operation (for instance) between two overloaded entities.
+.PP
+In Cray UNICOS there is some strange numerical instability that results
+in \fIroot()\fR, \fIcos()\fR, \fIsin()\fR, \fIcosh()\fR, \fIsinh()\fR, losing accuracy fast.  Beware.
+The bug may be in UNICOS math libs, in UNICOS C compiler, in Math::Complex.
+Whatever it is, it does not manifest itself anywhere else where Perl runs.
 .SH "AUTHORS"
 Raphael Manfredi <\fIRaphael_Manfredi@grenoble.hp.com\fR> and
 Jarkko Hietaniemi <\fIjhi@iki.fi\fR>.
@@ -626,7 +657,9 @@ Extensive patches by Daniel S. Lewart <\fId-lewart@uiuc.edu\fR>.
 
 .IX Header "USAGE"
 
-.IX Header "ERRORS DUE TO DIVISION BY ZERO"
+.IX Header "ERRORS DUE TO DIVISION BY ZERO OR LOGARITHM OF ZERO"
+
+.IX Header "ERRORS DUE TO INDIGESTIBLE ARGUMENTS"
 
 .IX Header "BUGS"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Opcode 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Opcode 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -222,7 +222,7 @@ of this software.
 Your mileage will vary. If in any doubt \fBdo not use it\fR.
 .SH "Operator Names and Operator Lists"
 The canonical list of operator names is the contents of the array
-op_name defined and initialised in file \fIopcode.h\fR of the Perl
+PL_op_name defined and initialised in file \fIopcode.h\fR of the Perl
 source distribution (and installed into the perl library).
 .PP
 Each operator has both a terse name (its opname) and a more verbose or
@@ -238,7 +238,7 @@ leaveloop, last, next, redo etc. Sometimes they are rather cryptic
 like gv2cv, i_ncmp and ftsvtx.
 .Ip "an operator tag name (optag)" 8
 Operator tags can be used to refer to groups (or sets) of operators.
-Tag names always being with a colon. The Opcode module defines several
+Tag names always begin with a colon. The Opcode module defines several
 optags and the user can define others using the define_optag function.
 .Ip "a negated opname or optag" 8
 An opname or optag can be prefixed with an exclamation mark, e.g., !mkdir.
@@ -377,7 +377,7 @@ invert_opset function.
 \&    ucfirst lcfirst uc lc quotemeta trans chop schop chomp schomp
 .Ve
 .Vb 1
-\&    match split
+\&    match split qr
 .Ve
 .Vb 1
 \&    list lslice splice push pop shift unshift reverse
@@ -463,7 +463,7 @@ These are a hotchpotch of opcodes still waiting to be considered
 \&    bless -- could be used to change ownership of objects (reblessing)
 .Ve
 .Vb 1
-\&    pushre regcmaybe regcomp subst substcont
+\&    pushre regcmaybe regcreset regcomp subst substcont
 .Ve
 .Vb 1
 \&    sprintf prtf -- can core dump
@@ -660,7 +660,7 @@ Originally designed and implemented by Malcolm Beattie,
 mbeattie@sable.ox.ac.uk as part of Safe version 1.
 .PP
 Split out from Safe module version 1, named opcode tags and other
-changes added by Tim Bunce <\fITim.Bunce@ig.co.uk\fR>.
+changes added by Tim Bunce.
 
 .rn }` ''
 .IX Title "Opcode 3"

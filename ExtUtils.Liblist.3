@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Liblist 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::Liblist 3 "perl 5.005, patch 53" "8/Aug/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -255,8 +255,10 @@ For each library that is found, an appropriate directive for a linker options
 file is generated.  The return values are space-separated strings of
 these directives, rather than elements used on the linker command line.
 .Ip "\(bu" 2
-\s-1LDLOADLIBS\s0 and \s-1EXTRALIBS\s0 are always identical under \s-1VMS\s0, and \s-1BSLOADLIBS\s0
-and \s-1LD_RIN_PATH\s0 are always empty.
+\s-1LDLOADLIBS\s0 contains both the libraries found based on \f(CW$potential_libs\fR and
+the CRTLs, if any, specified in Config.pm.  \s-1EXTRALIBS\s0 contains just those
+libraries found based on \f(CW$potential_libs\fR.  \s-1BSLOADLIBS\s0 and \s-1LD_RUN_PATH\s0
+are always empty.
 .PP
 In addition, an attempt is made to recognize several common Unix library
 names, and filter them out or convert them to their \s-1VMS\s0 equivalents, as
@@ -270,29 +272,55 @@ please let us know.
 The version of \fIext()\fR which is executed under Win32 differs from the
 Unix-\s-1OS/2\s0 version in several respects:
 .Ip "\(bu" 2
-Input library and path specifications are accepted with or without the
-\f(CW-l\fR and \f(CW-L\fR prefices used by Unix linkers.  \f(CW-lfoo\fR specifies the
-library \f(CWfoo.lib\fR and \f(CW-Ls:ome\edir\fR specifies a directory to look for
-the libraries that follow.  If neither prefix is present, a token is
-considered a directory to search if it is in fact a directory, and a
-library to search for otherwise.  The \f(CW$Config{lib_ext}\fR suffix will
-be appended to any entries that are not directories and don't already
-have the suffix.  Authors who wish their extensions to be portable to
-Unix or \s-1OS/2\s0 should use the Unix prefixes, since the Unix-\s-1OS/2\s0 version
-of \fIext()\fR requires them.
-.Ip "\(bu" 2
-Entries cannot be plain object files, as many Win32 compilers will
-not handle object files in the place of libraries.
-.Ip "\(bu" 2
 If \f(CW$potential_libs\fR is empty, the return value will be empty.
 Otherwise, the libraries specified by \f(CW$Config{libs}\fR (see Config.pm)
 will be appended to the list of \f(CW$potential_libs\fR.  The libraries
 will be searched for in the directories specified in \f(CW$potential_libs\fR
 as well as in \f(CW$Config{libpth}\fR. For each library that is found,  a
 space-separated list of fully qualified library pathnames is generated.
-You may specify an entry that matches \f(CW/:nodefault/i\fR in
-\f(CW$potential_libs\fR to disable the appending of default libraries
-found in \f(CW$Config{libs}\fR (this should be only needed very rarely).
+.Ip "\(bu" 2
+Input library and path specifications are accepted with or without the
+\f(CW-l\fR and \f(CW-L\fR prefices used by Unix linkers.
+.Sp
+An entry of the form \f(CW-La:\efoo\fR specifies the \f(CWa:\efoo\fR directory to look
+for the libraries that follow.
+.Sp
+An entry of the form \f(CW-lfoo\fR specifies the library \f(CWfoo\fR, which may be
+spelled differently depending on what kind of compiler you are using.  If
+you are using \s-1GCC\s0, it gets translated to \f(CWlibfoo.a\fR, but for other win32
+compilers, it becomes \f(CWfoo.lib\fR.  If no files are found by those translated
+names, one more attempt is made to find them using either \f(CWfoo.a\fR or
+\f(CWlibfoo.lib\fR, depending on whether \s-1GCC\s0 or some other win32 compiler is
+being used, respectively.
+.Sp
+If neither the \f(CW-L\fR or \f(CW-l\fR prefix is present in an entry, the entry is
+considered a directory to search if it is in fact a directory, and a
+library to search for otherwise.  The \f(CW$Config{lib_ext}\fR suffix will
+be appended to any entries that are not directories and don't already have
+the suffix.
+.Sp
+Note that the \f(CW-L\fR and <\-l> prefixes are \fBnot required\fR, but authors
+who wish their extensions to be portable to Unix or \s-1OS/2\s0 should use the
+prefixes, since the Unix-\s-1OS/2\s0 version of \fIext()\fR requires them.
+.Ip "\(bu" 2
+Entries cannot be plain object files, as many Win32 compilers will
+not handle object files in the place of libraries.
+.Ip "\(bu" 2
+Entries in \f(CW$potential_libs\fR beginning with a colon and followed by
+alphanumeric characters are treated as flags.  Unknown flags will be ignored.
+.Sp
+An entry that matches \f(CW/:nodefault/i\fR disables the appending of default
+libraries found in \f(CW$Config{libs}\fR (this should be only needed very rarely).
+.Sp
+An entry that matches \f(CW/:nosearch/i\fR disables all searching for
+the libraries specified after it.  Translation of \f(CW-Lfoo\fR and
+\f(CW-lfoo\fR still happens as appropriate (depending on compiler being used,
+as reflected by \f(CW$Config{cc}\fR), but the entries are not verified to be
+valid files or directories.
+.Sp
+An entry that matches \f(CW/:search/i\fR reenables searching for
+the libraries specified after it.  You can put it at the end to
+enable searching for default libraries specified by \f(CW$Config{libs}\fR.
 .Ip "\(bu" 2
 The libraries specified may be a mixture of static libraries and
 import libraries (to link with DLLs).  Since both kinds are used
@@ -301,6 +329,55 @@ distinguish between them.
 .Ip "\(bu" 2
 \s-1LDLOADLIBS\s0 and \s-1EXTRALIBS\s0 are always identical under Win32, and \s-1BSLOADLIBS\s0
 and \s-1LD_RUN_PATH\s0 are always empty (this may change in future).
+.Ip "\(bu" 2
+You must make sure that any paths and path components are properly
+surrounded with double-quotes if they contain spaces. For example,
+\f(CW$potential_libs\fR could be (literally):
+.Sp
+.Vb 1
+\&        "-Lc:\eProgram Files\evc\elib" msvcrt.lib "la test\efoo bar.lib"
+.Ve
+Note how the first and last entries are protected by quotes in order
+to protect the spaces.
+.Ip "\(bu" 2
+Since this module is most often used only indirectly from extension
+\f(CWMakefile.PL\fR files, here is an example \f(CWMakefile.PL\fR entry to add
+a library to the build process for an extension:
+.Sp
+.Vb 1
+\&        LIBS => ['-lgl']
+.Ve
+When using \s-1GCC\s0, that entry specifies that MakeMaker should first look
+for \f(CWlibgl.a\fR (followed by \f(CWgl.a\fR) in all the locations specified by
+\f(CW$Config{libpth}\fR.
+.Sp
+When using a compiler other than \s-1GCC\s0, the above entry will search for
+\f(CWgl.lib\fR (followed by \f(CWlibgl.lib\fR).
+.Sp
+If the library happens to be in a location not in \f(CW$Config{libpth}\fR,
+you need:
+.Sp
+.Vb 1
+\&        LIBS => ['-Lc:\egllibs -lgl']
+.Ve
+Here is a less often used example:
+.Sp
+.Vb 1
+\&        LIBS => ['-lgl', ':nosearch -Ld:\emesalibs -lmesa -luser32']
+.Ve
+This specifies a search for library \f(CWgl\fR as before.  If that search
+fails to find the library, it looks at the next item in the list. The
+\f(CW:nosearch\fR flag will prevent searching for the libraries that follow,
+so it simply returns the value as \f(CW-Ld:\emesalibs -lmesa -luser32\fR,
+since \s-1GCC\s0 can use that value as is with its linker.
+.Sp
+When using the Visual C compiler, the second item is returned as
+\f(CW-libpath:d:\emesalibs mesa.lib user32.lib\fR.
+.Sp
+When using the Borland compiler, the second item is returned as
+\f(CW-Ld:\emesalibs mesa.lib user32.lib\fR, and MakeMaker takes care of
+moving the \f(CW-Ld:\emesalibs\fR to the correct place in the linker
+command line.
 .SH "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage
 
@@ -339,6 +416,12 @@ the \fIExtUtils::MakeMaker\fR manpage
 .IX Item "\(bu"
 
 .IX Subsection "Win32 implementation"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
 
 .IX Item "\(bu"
 

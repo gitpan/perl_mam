@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Base64 3 "perl 5.004, patch 55" "2/Dec/97" "User Contributed Perl Documentation"
+.TH Base64 3 "perl 5.005, patch 53" "21/Oct/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -218,8 +218,15 @@ broken into lines.
 .Ip "decode_base64($str)" 4
 Decode a base64 string by calling the \fIdecode_base64()\fR function.  This
 function takes a single argument which is the string to decode and
-returns the decoded data.  Any character not part of the legal base64
-chars is ignored.
+returns the decoded data.
+.Sp
+Any character not part of the 65-character base64 subset set is
+silently ignored.  Characters occuring after a \*(L'=\*(R' padding character
+are never decoded.
+.Sp
+If the length of the string to decode (after ignoring
+non-base64 chars) is not a multiple of 4 or padding occurs too ealy,
+then a warning is generated if perl is running under \f(CW-w\fR.
 .PP
 If you prefer not to import these routines into your namespace you can
 call them as:
@@ -229,6 +236,17 @@ call them as:
 \&    $encoded = MIME::Base64::encode($decoded);
 \&    $decoded = MIME::Base64::decode($encoded);
 .Ve
+.SH "DIAGNOSTICS"
+The following warnings might be generated if perl is invoked with the
+\f(CW-w\fR switch:
+.Ip "Premature end of base64 data" 4
+The number of characters to decode is not a multiple of 4.  Legal
+base64 data should be padded with one or two \*(L"=\*(R" characters to make
+its length a multiple of 4.  The decoded result will anyway be as if
+the padding was there.
+.Ip "Premature padding of base64 data" 4
+The \*(L'=\*(R' padding character occurs as the first or second character
+in a base64 quartet.
 .SH "EXAMPLES"
 If you want to encode a large file, you should encode it in chunks
 that are a multiple of 57 bytes.  This ensures that the base64 lines
@@ -252,7 +270,7 @@ or if you know you have enough memory
 \&   print encode_base64(<STDIN>);
 .Ve
 .SH "COPYRIGHT"
-Copyright 1995-1997 Gisle Aas.
+Copyright 1995-1998 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -278,6 +296,12 @@ Communications Research, Inc. (Bellcore)
 .IX Item "encode_base64($str, [$eol])"
 
 .IX Item "decode_base64($str)"
+
+.IX Header "DIAGNOSTICS"
+
+.IX Item "Premature end of base64 data"
+
+.IX Item "Premature padding of base64 data"
 
 .IX Header "EXAMPLES"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::AsSubs 3 "perl 5.004, patch 55" "6/Nov/97" "User Contributed Perl Documentation"
+.TH re 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,77 +188,85 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-HTML::AsSubs \- functions that construct a HTML syntax tree
+re \- Perl pragma to alter regular expression behaviour
 .SH "SYNOPSIS"
 .PP
-.Vb 11
-\& use HTML::AsSubs;
-\& $h = body(
-\&           h1("This is the heading"),
-\&           p("This is the first paragraph which contains a ",
-\&             a({href=>'link.html'}, "link"),
-\&             " and an ",
-\&             img({src=>'img.gif', alt=>'image'}),
-\&             "."
-\&            ),
-\&          );
-\& print $h->as_HTML;
-.Ve
-.SH "DESCRIPTION"
-This module exports functions that can be used to construct various
-HTML elements. The functions are named after the tags of the
-correponding HTML element and are all written in lower case. If the
-first argument is a \fIhash\fR then it will be used to initialize the
-attributes of this element. The remaining arguments are regarded as
-content.
-.SH "ACKNOWLEDGEMENT"
-This module was inspired by the following message:
-.PP
 .Vb 2
-\& Date: Tue, 4 Oct 1994 16:11:30 +0100
-\& Subject: Wow! I have a large lightbulb above my head!
-.Ve
-.Vb 1
-\& Take a moment to consider these lines:
-.Ve
-.Vb 1
-\& %OVERLOAD=( '""' => sub { join("", @{$_[0]}) } );
-.Ve
-.Vb 1
-\& sub html { my($type)=shift; bless ["<$type>", @_, "</$type>"]; }
-.Ve
-.Vb 1
-\& :-)  I *love* Perl 5!  Thankyou Larry and Ilya.
-.Ve
-.Vb 2
-\& Regards,
-\& Tim Bunce.
+\&    use re 'taint';
+\&    ($x) = ($^X =~ /^(.*)$/s);     # $x is tainted here
 .Ve
 .Vb 3
-\& p.s. If you didn't get it, think about recursive data types: html(html())
-\& p.p.s. I'll turn this into a much more practical example in a day or two.
-\& p.p.p.s. It's a pity that overloads are not inherited. Is this a bug?
+\&    $pat = '(?{ $foo = 1 })';
+\&    use re 'eval';
+\&    /foo${pat}bar/;                # won't fail (when not under -T switch)
 .Ve
-.SH "BUGS"
-The exported \fIlink()\fR function overrides the builtin \fIlink()\fR function.
-The exported \fItr()\fR function must be called using &\fItr\fR\|(...) syntax
-because it clashes with the builtin tr/../../ operator.
-.SH "SEE ALSO"
-the \fIHTML::Element\fR manpage
+.Vb 3
+\&    {
+\&        no re 'taint';             # the default
+\&        ($x) = ($^X =~ /^(.*)$/s); # $x is not tainted here
+.Ve
+.Vb 3
+\&        no re 'eval';              # the default
+\&        /foo${pat}bar/;            # disallowed (with or without -T switch)
+\&    }
+.Ve
+.Vb 3
+\&    use re 'debug';                # NOT lexically scoped (as others are)
+\&    /^(.*)$/s;                     # output debugging info during
+\&                                   #     compile and run time
+.Ve
+.Vb 2
+\&    use re 'debugcolor';           # same as 'debug', but with colored output
+\&    ...
+.Ve
+(We use $^X in these examples because it's tainted by default.)
+.SH "DESCRIPTION"
+When \f(CWuse re 'taint'\fR is in effect, and a tainted string is the target
+of a regex, the regex memories (or values returned by the m// operator
+in list context) are tainted.  This feature is useful when regex operations
+on tainted data aren't meant to extract safe substrings, but to perform
+other transformations.
+.PP
+When \f(CWuse re 'eval'\fR is in effect, a regex is allowed to contain
+\f(CW(?{ ... })\fR zero-width assertions even if regular expression contains
+variable interpolation.  That is normally disallowed, since it is a 
+potential security risk.  Note that this pragma is ignored when the regular
+expression is obtained from tainted data, i.e.  evaluation is always
+disallowed with tainted regular expresssions.  See the section on \fI(?{ code })\fR in the \fIperlre\fR manpage.
+.PP
+For the purpose of this pragma, interpolation of precompiled regular 
+expressions (i.e., the result of \f(CWqr//\fR) is \fInot\fR considered variable
+interpolation.  Thus:
+.PP
+.Vb 1
+\&    /foo${pat}bar/
+.Ve
+\fIis\fR allowed if \f(CW$pat\fR is a precompiled regular expression, even 
+if \f(CW$pat\fR contains \f(CW(?{ ... })\fR assertions.
+.PP
+When \f(CWuse re 'debug'\fR is in effect, perl emits debugging messages when 
+compiling and using regular expressions.  The output is the same as that
+obtained by running a \f(CW-DDEBUGGING\fR\-enabled perl interpreter with the
+\fB\-Dr\fR switch. It may be quite voluminous depending on the complexity
+of the match.  Using \f(CWdebugcolor\fR instead of \f(CWdebug\fR enables a
+form of output that can be used to get a colorful display on terminals
+that understand termcap color sequences.  Set \f(CW$ENV{PERL_RE_TC}\fR to a
+comma-separated list of \f(CWtermcap\fR properties to use for highlighting
+strings on/off, pre-point part on/off.  
+See the section on \fIDebugging regular expressions\fR in the \fIperldebug\fR manpage for additional info.
+.PP
+The directive \f(CWuse re 'debug'\fR is \fInot lexically scoped\fR, as the
+other directives are.  It has both compile-time and run-time effects.
+.PP
+See the section on \fIPragmatic Modules\fR in the \fIperlmodlib\fR manpage.
 
 .rn }` ''
-.IX Title "lib::HTML::AsSubs 3"
-.IX Name "HTML::AsSubs - functions that construct a HTML syntax tree"
+.IX Title "re 3"
+.IX Name "re - Perl pragma to alter regular expression behaviour"
 
 .IX Header "NAME"
 
 .IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
-
-.IX Header "ACKNOWLEDGEMENT"
-
-.IX Header "BUGS"
-
-.IX Header "SEE ALSO"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::TkIO 3 "perl 5.004, patch 55" "7/Apr/96" "User Contributed Perl Documentation"
+.TH lib::Digest::HMAC 3 "perl 5.005, patch 53" "4/Nov/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,29 +188,56 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-LWP::TkIO \- Tk I/O routines for the LWP library
+Digest::HMAC \- Keyed-Hashing for Message Authentication
 .SH "SYNOPSIS"
 .PP
+.Vb 4
+\& # Functional style
+\& use Digest::HMAC qw(hmac hmac_hex);
+\& $digest = hmac($data, $key, \e&myhash);
+\& print hmac_hex($data, $key, \e&myhash);
+.Ve
 .Vb 3
-\& use Tk;
-\& require LWP::TkIO;
-\& require LWP::UserAgent;
+\& # OO style
+\& use Digest::HMAC;
+\& $hmac = Digest::HMAC->new($key, "Digest::MyHash");
+.Ve
+.Vb 2
+\& $hmac->add($data);
+\& $hmac->addfile(*FILE);
+.Ve
+.Vb 3
+\& $digest = $hmac->digest;
+\& $digest = $hmac->hexdigest;
+\& $digest = $hmac->b64digest;
 .Ve
 .SH "DESCRIPTION"
-This module provide replacement functions for the LWP::IO
-functions. Require this module if you use Tk and want non exclusive IO
-behaviour from LWP.  This does not allow LWP to run simultaneous
-requests though.
+HMAC is used for message integrity checks between two parties that
+share a secret key, and works in combination with some other Digest
+algorithm, usually MD5 or SHA\-1.  The HMAC mechanism is described in
+RFC 2104.
 .PP
-See also the \fILWP::IO\fR manpage.
+HMAC follow the common \f(CWDigest::\fR interface, but the constructor
+takes the secret key and the name of some other simple \f(CWDigest::\fR
+as argument.
+.SH "SEE ALSO"
+the \fIDigest::HMAC_MD5\fR manpage, the \fIDigest::HMAC_SHA1\fR manpage
+.PP
+RFC 2104
+.SH "AUTHORS"
+Graham Barr <gbarr@ti.com>, Gisle Aas <gisle@aas.no>
 
 .rn }` ''
-.IX Title "lib::LWP::TkIO 3"
-.IX Name "LWP::TkIO - Tk I/O routines for the LWP library"
+.IX Title "lib::Digest::HMAC 3"
+.IX Name "Digest::HMAC - Keyed-Hashing for Message Authentication"
 
 .IX Header "NAME"
 
 .IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHORS"
 

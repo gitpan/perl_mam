@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH FileHandle 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH FileHandle 3 "perl 5.005, patch 53" "28/May/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -196,7 +196,7 @@ FileHandle \- supply object methods for filehandles
 .Ve
 .Vb 5
 \&    $fh = new FileHandle;
-\&    if ($fh->open "< file") {
+\&    if ($fh->open("< file")) {
 \&        print <$fh>;
 \&        $fh->close;
 \&    }
@@ -328,6 +328,10 @@ array context but still returns just one line.
 This works like <$fh> when called in an array context to
 read all the remaining lines in a file, except that it's more readable.
 It will also \fIcroak()\fR if accidentally called in a scalar context.
+.PP
+There are many other functions available since FileHandle is descended
+from \s-1IO::\s0File, \s-1IO::\s0Seekable, and \s-1IO::\s0Handle.  Please see those
+respective pages for documentation on more functions.
 .SH "SEE ALSO"
 The \fBIO\fR extension,
 the \fIperlfunc\fR manpage, 

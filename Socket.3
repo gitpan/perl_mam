@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Socket 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Socket 3 "perl 5.005, patch 53" "29/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -205,7 +205,7 @@ Socket, sockaddr_in, sockaddr_un, inet_aton, inet_ntoa \- load the C socket.h de
 .Vb 7
 \&    $proto = getprotobyname('tcp');
 \&    socket(Socket_Handle, PF_INET, SOCK_STREAM, $proto);
-\&    $port = getservbyname('smtp');
+\&    $port = getservbyname('smtp', 'tcp');
 \&    $sin = sockaddr_in($port,inet_aton("127.1"));
 \&    $sin = sockaddr_in(7,inet_aton("localhost"));
 \&    $sin = sockaddr_in(7,INADDR_LOOPBACK);
@@ -231,6 +231,16 @@ and your native C compiler.  This means that it has a
 far more likely chance of getting the numbers right.  This includes
 all of the commonly used pound-defines like AF_INET, SOCK_STREAM, etc.
 .PP
+Also, some common socket \*(L"newline\*(R" constants are provided: the
+constants \f(CWCR\fR, \f(CWLF\fR, and \f(CWCRLF\fR, as well as \f(CW$CR\fR, \f(CW$LF\fR, and
+\f(CW$CRLF\fR, which map to \f(CW\e015\fR, \f(CW\e012\fR, and \f(CW\e015\e012\fR.  If you do
+not want to use the literal characters in your programs, then use
+the constants provided here.  They are not exported by default, but can
+be imported individually, and with the \f(CW:crlf\fR export tag:
+.PP
+.Vb 1
+\&    use Socket qw(:DEFAULT :crlf);
+.Ve
 In addition, some structure manipulation functions are available:
 .Ip "inet_aton \s-1HOSTNAME\s0" 5
 Takes a string giving the name of a host, and translates that

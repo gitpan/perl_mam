@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Benchmark 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Benchmark 3 "perl 5.005, patch 53" "8/Aug/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -256,6 +256,32 @@ code reference; either way the \s-1CODE\s0 will run in the caller's package.
 Results will be printed to \s-1STDOUT\s0 as \s-1TITLE\s0 followed by the times.
 \s-1TITLE\s0 defaults to \*(L"timethis \s-1COUNT\s0\*(R" if none is provided. \s-1STYLE\s0
 determines the format of the output, as described for \fItimestr()\fR below.
+.Sp
+The \s-1COUNT\s0 can be zero or negative: this means the \fIminimum number of
+\s-1CPU\s0 seconds\fR to run.  A zero signifies the default of 3 seconds.  For
+example to run at least for 10 seconds:
+.Sp
+.Vb 1
+\&        timethis(-10, $code)
+.Ve
+or to run two pieces of code tests for at least 3 seconds:
+.Sp
+.Vb 1
+\&        timethese(0, { test1 => '...', test2 => '...'})
+.Ve
+\s-1CPU\s0 seconds is, in \s-1UNIX\s0 terms, the user time plus the system time of
+the process itself, as opposed to the real (wallclock) time and the
+time spent by the child processes.  Less than 0.1 seconds is not
+accepted (\-0.01 as the count, for example, will cause a fatal runtime
+exception).
+.Sp
+Note that the \s-1CPU\s0 seconds is the \fBminimum\fR time: \s-1CPU\s0 scheduling and
+other operating system factors may complicate the attempt so that a
+little bit more time is spent.  The benchmark output will, however,
+also tell the number of \f(CW$code\fR runs/second, which should be a more
+interesting number than the actually spent seconds.
+.Sp
+Returns a Benchmark object.
 .Ip "timethese ( \s-1COUNT\s0, \s-1CODEHASHREF\s0, [ \s-1STYLE\s0 ] )" 10
 The \s-1CODEHASHREF\s0 is a reference to a hash containing names as keys
 and either a string to eval or a code reference for each value.
@@ -265,10 +291,13 @@ call
 .Vb 1
 \&        timethis(COUNT, VALUE, KEY, STYLE)
 .Ve
+The routines are called in string comparison order of \s-1KEY\s0.
+.Sp
+The \s-1COUNT\s0 can be zero or negative, see \fItimethis()\fR.
 .Ip "timediff ( T1, T2 )" 10
 Returns the difference between two Benchmark times as a Benchmark
 object suitable for passing to \fItimestr()\fR.
-.Ip "timestr ( \s-1TIMEDIFF\s0, [ \s-1STYLE\s0, [ \s-1FORMAT\s0 ]] )" 10
+.Ip "timestr ( \s-1TIMEDIFF\s0, [ \s-1STYLE\s0, [ \s-1FORMAT\s0 ] ] )" 10
 Returns a string that formats the times in the \s-1TIMEDIFF\s0 object in
 the requested \s-1STYLE\s0. \s-1TIMEDIFF\s0 is expected to be a Benchmark object
 similar to that returned by \fItimediff()\fR.
@@ -354,6 +383,9 @@ September 8th, 1994; by Tim Bunce.
 March 28th, 1997; by Hugo van der Sanden: added support for code
 references and the already documented \*(L'debug\*(R' method; revamped
 documentation.
+.PP
+April 04-07th, 1997: by Jarkko Hietaniemi, added the run-for-some-time
+functionality.
 
 .rn }` ''
 .IX Title "Benchmark 3"
@@ -381,7 +413,7 @@ documentation.
 
 .IX Item "timediff ( T1, T2 )"
 
-.IX Item "timestr ( \s-1TIMEDIFF\s0, [ \s-1STYLE\s0, [ \s-1FORMAT\s0 ]] )"
+.IX Item "timestr ( \s-1TIMEDIFF\s0, [ \s-1STYLE\s0, [ \s-1FORMAT\s0 ] ] )"
 
 .IX Subsection "Optional Exports"
 

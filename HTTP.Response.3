@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Response 3 "perl 5.004, patch 55" "18/Nov/97" "User Contributed Perl Documentation"
+.TH lib::HTTP::Response 3 "libwww-perl-5.36" "6/Jan/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -204,7 +204,7 @@ Instances of this class are usually created and returned by the
 \f(CWrequest()\fR method of an \f(CWLWP::UserAgent\fR object:
 .PP
 .Vb 7
-\& ...
+\& #...
 \& $response = $ua->request($request)
 \& if ($response->is_success) {
 \&     print $response->content;
@@ -212,90 +212,102 @@ Instances of this class are usually created and returned by the
 \&     print $response->error_as_HTML;
 \& }
 .Ve
-.SH "METHODS"
 \f(CWHTTP::Response\fR is a subclass of \f(CWHTTP::Message\fR and therefore
-inherits its methods.  The inherited methods are \fIheader()\fR,
+inherits its methods.  The inherited methods often used are \fIheader()\fR,
 \fIpush_header()\fR, \fIremove_header()\fR, \fIheaders_as_string()\fR, and \fIcontent()\fR.
 The header convenience methods are also available.  See
 the \fIHTTP::Message\fR manpage for details.
-.Sh "\f(CW$r\fR = new \s-1HTTP::\s0Response ($rc, [$msg, [$header, [$content]]])"
+.PP
+The following additional methods are available:
+.Ip "$r = \s-1HTTP::\s0Response->new($rc, [$msg, [$header, [$content]]])" 4
 Constructs a new \f(CWHTTP::Response\fR object describing a response with
-response code \f(CW$rc\fR and optional message \f(CW$msg\fR.
-.Sh "\f(CW$r\fR\->\fIcode\fR\|([$code])"
-.Sh "\f(CW$r\fR\->\fImessage\fR\|([$message])"
-.Sh "\f(CW$r\fR\->\fIrequest\fR\|([$request])"
-.Sh "\f(CW$r\fR\->\fIprevious\fR\|([$previousResponse])"
+response code \f(CW$rc\fR and optional message \f(CW$msg\fR.  The message is a
+short human readable single line string that explains the response
+code.
+.Ip "$r->code([$code])" 4
+.Ip "$r->message([$message])" 4
+.Ip "$r->request([$request])" 4
+.Ip "$r->previous([$previousResponse])" 4
 These methods provide public access to the member variables.  The
 first two containing respectively the response code and the message
 of the response.
-.PP
+.Sp
 The request attribute is a reference the request that gave this
 response.  It does not have to be the same request as passed to the
 \f(CW$ua\fR\->\fIrequest()\fR method, because there might have been redirects and
 authorization retries in between.
-.PP
+.Sp
 The previous attribute is used to link together chains of responses.
 You get chains of responses if the first response is redirect or
 unauthorized.
-.Sh "\f(CW$r\fR\->base"
+.Ip "$r->status_line" 4
+Returns the string \*(L"<code> <message>\*(R".  If the message attribute
+is not set then the official name of <code> (see the \fI\s-1HTTP::\s0Status\fR manpage)
+is substituted.
+.Ip "$r->base" 4
 Returns the base \s-1URL\s0 for this response.  The return value will be a
 reference to a \s-1URI::URL\s0 object.
-.PP
+.Sp
 The base \s-1URL\s0 is obtained from one the following sources (in priority
 order):
-.Ip "1." 4
+.Ip "1." 8
 Embedded in the document content, for instance <\s-1BASE\s0 \s-1HREF\s0=\*(R"...">
 in \s-1HTML\s0 documents.
-.Ip "2." 4
+.Ip "2." 8
 A \*(L"Content-Base:\*(R" or a \*(L"Content-Location:\*(R" header in the response.
 .Sp
 For backwards compatability with older \s-1HTTP\s0 implementations we will
 also look for the \*(L"Base:\*(R" header.
-.Ip "3." 4
+.Ip "3." 8
 The \s-1URL\s0 used to request this response. This might not be the original
 \s-1URL\s0 that was passed to \f(CW$ua\fR\->\fIrequest()\fR method, because we might have
 received some redirect responses first.
-.PP
+.Sp
 When the \s-1LWP\s0 protocol modules produce the \s-1HTTP::\s0Response object, then
 any base \s-1URL\s0 embedded in the document (step 1) will already have
 initialized the \*(L"Content-Base:\*(R" header. This means that this method
 only perform the last 2 steps (the content is not always available
 either).
-.Sh "\f(CW$r\fR\->\fIas_string()\fR"
-Method returning a textual representation of the request.  Mainly
+.Ip "$r->as_string" 4
+Method returning a textual representation of the response.  Mainly
 useful for debugging purposes. It takes no arguments.
-.Sh "\f(CW$r\fR\->is_info"
-.Sh "\f(CW$r\fR\->is_success"
-.Sh "\f(CW$r\fR\->is_redirect"
-.Sh "\f(CW$r\fR\->is_error"
+.Ip "$r->is_info" 4
+.Ip "$r->is_success" 4
+.Ip "$r->is_redirect" 4
+.Ip "$r->is_error" 4
 These methods indicate if the response was informational, sucessful, a
 redirection, or an error.
-.Sh "\f(CW$r\fR\->\fIerror_as_HTML()\fR"
+.Ip "$r->error_as_HTML()" 4
 Return a string containing a complete \s-1HTML\s0 document indicating what
 error occurred.  This method should only be called when \f(CW$r\fR\->is_error
 is \s-1TRUE\s0.
-.Sh "\f(CW$r\fR\->current_age"
+.Ip "$r->current_age" 4
 This function will calculate the \*(L"current age\*(R" of the response as
 specified by <draft-ietf-http-v11-spec-07> section 13.2.3.  The
 age of a response is the time since it was sent by the origin server.
 The returned value is a number representing the age in seconds.
-.Sh "\f(CW$r\fR\->freshness_lifetime"
+.Ip "$r->freshness_lifetime" 4
 This function will calculate the \*(L"freshness lifetime\*(R" of the response
 as specified by <draft-ietf-http-v11-spec-07> section 13.2.4.  The
 \*(L"freshness lifetime\*(R" is the length of time between the generation of a
 response and its expiration time.  The returned value is a number
 representing the freshness lifetime in seconds.
-.PP
+.Sp
 If the response does not contain an \*(L"Expires\*(R" or a \*(L"Cache-Control\*(R"
 header, then this function will apply some simple heuristic based on
 \&'Last-Modified\*(R' to determine a suitable lifetime.
-.Sh "\f(CW$r\fR\->is_fresh"
+.Ip "$r->is_fresh" 4
 Returns \s-1TRUE\s0 if the response is fresh, based on the values of
 \fIfreshness_lifetime()\fR and \fIcurrent_age()\fR.  If the response is not longer
 fresh, then it has to be refetched or revalidated by the origin
 server.
-.Sh "\f(CW$r\fR\->fresh_until"
+.Ip "$r->fresh_until" 4
 Returns the time when this entiy is no longer fresh.
+.SH "COPYRIGHT"
+Copyright 1995-1997 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::HTTP::Response 3"
@@ -307,19 +319,19 @@ Returns the time when this entiy is no longer fresh.
 
 .IX Header "DESCRIPTION"
 
-.IX Header "METHODS"
+.IX Item "$r = \s-1HTTP::\s0Response->new($rc, [$msg, [$header, [$content]]])"
 
-.IX Subsection "\f(CW$r\fR = new \s-1HTTP::\s0Response ($rc, [$msg, [$header, [$content]]])"
+.IX Item "$r->code([$code])"
 
-.IX Subsection "\f(CW$r\fR\->\fIcode\fR\|([$code])"
+.IX Item "$r->message([$message])"
 
-.IX Subsection "\f(CW$r\fR\->\fImessage\fR\|([$message])"
+.IX Item "$r->request([$request])"
 
-.IX Subsection "\f(CW$r\fR\->\fIrequest\fR\|([$request])"
+.IX Item "$r->previous([$previousResponse])"
 
-.IX Subsection "\f(CW$r\fR\->\fIprevious\fR\|([$previousResponse])"
+.IX Item "$r->status_line"
 
-.IX Subsection "\f(CW$r\fR\->base"
+.IX Item "$r->base"
 
 .IX Item "1."
 
@@ -327,23 +339,25 @@ Returns the time when this entiy is no longer fresh.
 
 .IX Item "3."
 
-.IX Subsection "\f(CW$r\fR\->\fIas_string()\fR"
+.IX Item "$r->as_string"
 
-.IX Subsection "\f(CW$r\fR\->is_info"
+.IX Item "$r->is_info"
 
-.IX Subsection "\f(CW$r\fR\->is_success"
+.IX Item "$r->is_success"
 
-.IX Subsection "\f(CW$r\fR\->is_redirect"
+.IX Item "$r->is_redirect"
 
-.IX Subsection "\f(CW$r\fR\->is_error"
+.IX Item "$r->is_error"
 
-.IX Subsection "\f(CW$r\fR\->\fIerror_as_HTML()\fR"
+.IX Item "$r->error_as_HTML()"
 
-.IX Subsection "\f(CW$r\fR\->current_age"
+.IX Item "$r->current_age"
 
-.IX Subsection "\f(CW$r\fR\->freshness_lifetime"
+.IX Item "$r->freshness_lifetime"
 
-.IX Subsection "\f(CW$r\fR\->is_fresh"
+.IX Item "$r->is_fresh"
 
-.IX Subsection "\f(CW$r\fR\->fresh_until"
+.IX Item "$r->fresh_until"
+
+.IX Header "COPYRIGHT"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::BigInt 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Math::BigInt 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -235,6 +235,18 @@ are not numbers, as well as the result of dividing by zero.
 \&   '   -123 123 123'               canonical value '-123123123'
 \&   '1 23 456 7890'                 canonical value '+1234567890'
 .Ve
+.SH "Autocreating constants"
+After \f(CWuse Math::BigInt ':constant'\fR all the integer decimal constants
+in the given scope are converted to \f(CWMath::BigInt\fR.  This conversion
+happens at compile time.
+.PP
+In particular
+.PP
+.Vb 1
+\&  perl -MMath::BigInt=:constant -e 'print 2**100'
+.Ve
+print the integer value of \f(CW2**100\fR.  Note that without convertion of 
+constants the expression 2**100 will be calculatted as floating point number.
 .SH "BUGS"
 The current version of this module is a preliminary version of the
 real thing that is currently (as of perl5.002) under development.
@@ -258,6 +270,8 @@ Mark Biggar, overloaded interface by Ilya Zakharevich.
 .IX Item "Output"
 
 .IX Header "EXAMPLES"
+
+.IX Header "Autocreating constants"
 
 .IX Header "BUGS"
 

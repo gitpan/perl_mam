@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH constant 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH constant 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -206,6 +206,20 @@ constant \- Perl pragma to declare constants
 .Vb 1
 \&    print "This line does nothing"              unless DEBUGGING;
 .Ve
+.Vb 5
+\&    # references can be declared constant
+\&    use constant CHASH          => { foo => 42 };
+\&    use constant CARRAY         => [ 1,2,3,4 ];
+\&    use constant CPSEUDOHASH    => [ { foo => 1}, 42 ];
+\&    use constant CCODE          => sub { "bite $_[0]\en" };
+.Ve
+.Vb 5
+\&    print CHASH->{foo};
+\&    print CARRAY->[$i];
+\&    print CPSEUDOHASH->{foo};
+\&    print CCODE->("me");
+\&    print CHASH->[10];                          # compile-time error
+.Ve
 .SH "DESCRIPTION"
 This will declare a symbol to be a constant with the given scalar
 or list value.
@@ -273,6 +287,7 @@ constants at compile time, allowing for way cool stuff like this.
 \&    print   E2BIG, "\en";        # something like "Arg list too long"
 \&    print 0+E2BIG, "\en";        # "7"
 .Ve
+Errors in dereferencing constant references are trapped at compile-time.
 .SH "TECHNICAL NOTE"
 In the current implementation, scalar constants are actually
 inlinable subroutines. As of version 5.004 of Perl, the appropriate
@@ -289,6 +304,15 @@ name as a constant. This is probably a Good Thing.
 .PP
 Unlike constants in some languages, these cannot be overridden
 on the command line or via environment variables.
+.PP
+You can get into trouble if you use constants in a context which
+automatically quotes barewords (as is true for any subroutine call).
+For example, you can't say \f(CW$hash{CONSTANT}\fR because \f(CWCONSTANT\fR will
+be interpreted as a string.  Use \f(CW$hash{CONSTANT()}\fR or
+\f(CW$hash{+CONSTANT}\fR to prevent the bareword quoting mechanism from
+kicking in.  Similarly, since the \f(CW=>\fR operator quotes a bareword
+immediately to its left you have to say \f(CWCONSTANT() => 'value'\fR
+instead of \f(CWCONSTANT => 'value'\fR.
 .SH "AUTHOR"
 Tom Phoenix, <\fIrootbeer@teleport.com\fR>, with help from
 many other folks.

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH OS2::Process 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
+.TH OS2::Process 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -230,8 +230,102 @@ and optionally add PM and session option bits:
 \&        P_TILDE         = MKS argument passing convention
 \&        P_UNRELATED     = do not kill child when father terminates
 .Ve
+.Sh "Access to process properties"
+Additionaly, subroutines \fImy_type()\fR, \fIprocess_entry()\fR and
+\f(CWfile_type(file)\fR, \fIget_title()\fR and \f(CWset_title(newtitle)\fR are implemented.  
+\fImy_type()\fR returns the type of the current process (one of 
+\*(L"\s-1FS\s0\*(R", \*(L"\s-1DOS\s0\*(R", \*(L"\s-1VIO\s0\*(R", \*(L"\s-1PM\s0\*(R", \*(L"\s-1DETACH\s0\*(R" and \*(L"\s-1UNKNOWN\s0"), or \f(CWundef\fR on error.
+.Ip "\f(CWfile_type(file)\fR " 5
+returns the type of the executable file \f(CWfile\fR, or
+dies on error.  The bits 0-2 of the result contain one of the values
+.Ip "\f(CWT_NOTSPEC\fR (0)" 10
+Application type is not specified in the executable header. 
+.Ip "\f(CWT_NOTWINDOWCOMPAT\fR (1)" 10
+Application type is not-window-compatible. 
+.Ip "\f(CWT_WINDOWCOMPAT\fR (2)" 10
+Application type is window-compatible. 
+.Ip "\f(CWT_WINDOWAPI\fR (3)" 10
+Application type is window-\s-1API\s0.
+.Sp
+The remaining bits should be masked with the following values to
+determine the type of the executable:
+.Ip "\f(CWT_BOUND\fR (8)" 10
+Set to 1 if the executable file has been \*(L"bound\*(R" (by the \s-1BIND\s0 command)
+as a Family \s-1API\s0 application. Bits 0, 1, and 2 still apply.
+.Ip "\f(CWT_DLL\fR (0x10)" 10
+Set to 1 if the executable file is a dynamic link library (\s-1DLL\s0)
+module. Bits 0, 1, 2, 3, and 5 will be set to 0.
+.Ip "\f(CWT_DOS\fR (0x20)" 10
+Set to 1 if the executable file is in \s-1PC/DOS\s0 format. Bits 0, 1, 2, 3,
+and 4 will be set to 0.
+.Ip "\f(CWT_PHYSDRV\fR (0x40)" 10
+Set to 1 if the executable file is a physical device driver. 
+.Ip "\f(CWT_VIRTDRV\fR (0x80)" 10
+Set to 1 if the executable file is a virtual device driver. 
+.Ip "\f(CWT_PROTDLL\fR (0x100)" 10
+Set to 1 if the executable file is a protected-memory dynamic link
+library module.
+.Ip "\f(CWT_32BIT\fR (0x4000)" 10
+Set to 1 for 32-bit executable files. 
+.Sp
+\fIfile_type()\fR may croak with one of the strings \f(CW"Invalid EXE
+signature"\fR or \f(CW"EXE marked invalid"\fR to indicate typical error
+conditions.  If given non-absolute path, will look on \f(CWPATH\fR, will
+add extention \fI.exe\fR if no extension is present (add extension \fI.\fR
+to suppress).
+.Ip "process_entry()" 5
+returns a list of the following data:
+.Ip "" 10
+Title of the process (in the \f(CWCtrl-Esc\fR list);
+.Ip "" 10
+window handle of switch entry of the process (in the \f(CWCtrl-Esc\fR list);
+.Ip "" 10
+window handle of the icon of the process;
+.Ip "" 10
+process handle of the owner of the entry in \f(CWCtrl-Esc\fR list;
+.Ip "" 10
+process id of the owner of the entry in \f(CWCtrl-Esc\fR list;
+.Ip "" 10
+session id of the owner of the entry in \f(CWCtrl-Esc\fR list;
+.Ip "" 10
+whether visible in \f(CWCtrl-Esc\fR list;
+.Ip "" 10
+whether item cannot be switched to (note that it is not actually
+grayed in the \f(CWCtrl-Esc\fR list));
+.Ip "" 10
+whether participates in jump sequence;
+.Ip "" 10
+program type.  Possible values are: 
+.Sp
+.Vb 6
+\&     PROG_DEFAULT                       0 
+\&     PROG_FULLSCREEN                    1 
+\&     PROG_WINDOWABLEVIO                 2 
+\&     PROG_PM                            3 
+\&     PROG_VDM                           4 
+\&     PROG_WINDOWEDVDM                   7 
+.Ve
+Although there are several other program types for \s-1WIN\s0\-\s-1OS/2\s0 programs,
+these do not show up in this field. Instead, the \s-1PROG_VDM\s0 or
+\s-1PROG_WINDOWEDVDM\s0 program types are used. For instance, for
+\s-1PROG_31_STDSEAMLESSVDM\s0, \s-1PROG_WINDOWEDVDM\s0 is used. This is because all
+the \s-1WIN\s0\-\s-1OS/2\s0 programs run in \s-1DOS\s0 sessions. For example, if a program
+is a windowed \s-1WIN\s0\-\s-1OS/2\s0 program, it runs in a \s-1PROG_WINDOWEDVDM\s0
+session. Likewise, if it's a full-screen \s-1WIN\s0\-\s-1OS/2\s0 program, it runs in
+a \s-1PROG_VDM\s0 session.
+.Ip "\f(CWset_title(newtitle)\fR " 5
+- does not work with some windows (if the title is set from the start).  
+This is a limitation of \s-1OS/2\s0, in such a case $^E is set to 372 (type
+.Sp
+.Vb 1
+\&  help 372
+.Ve
+for a funny \- and wrong  \- explanation ;\-).
+.Ip "get_title() " 5
+is a shortcut implemented via \fIprocess_entry()\fR.
 .SH "AUTHOR"
-Andreas Kaiser <ak@ananke.s.bawue.de>.
+Andreas Kaiser <ak@ananke.s.bawue.de>, 
+Ilya Zakharevich <ilya@math.ohio-state.edu>.
 .SH "SEE ALSO"
 \f(CWspawn*\fR() system calls.
 
@@ -244,6 +338,58 @@ Andreas Kaiser <ak@ananke.s.bawue.de>.
 .IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
+
+.IX Subsection "Access to process properties"
+
+.IX Item "\f(CWfile_type(file)\fR "
+
+.IX Item "\f(CWT_NOTSPEC\fR (0)"
+
+.IX Item "\f(CWT_NOTWINDOWCOMPAT\fR (1)"
+
+.IX Item "\f(CWT_WINDOWCOMPAT\fR (2)"
+
+.IX Item "\f(CWT_WINDOWAPI\fR (3)"
+
+.IX Item "\f(CWT_BOUND\fR (8)"
+
+.IX Item "\f(CWT_DLL\fR (0x10)"
+
+.IX Item "\f(CWT_DOS\fR (0x20)"
+
+.IX Item "\f(CWT_PHYSDRV\fR (0x40)"
+
+.IX Item "\f(CWT_VIRTDRV\fR (0x80)"
+
+.IX Item "\f(CWT_PROTDLL\fR (0x100)"
+
+.IX Item "\f(CWT_32BIT\fR (0x4000)"
+
+.IX Item "process_entry()"
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item "\f(CWset_title(newtitle)\fR "
+
+.IX Item "get_title() "
 
 .IX Header "AUTHOR"
 

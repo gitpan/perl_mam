@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MM_VMS 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::MM_VMS 3 "perl 5.005, patch 53" "23/Sep/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -211,8 +211,10 @@ are all macro, so that we can tell how long the expansion is, and avoid
 overrunning \s-1DCL\s0's command buffer when \s-1MM\s0[\s-1KS\s0] is running.
 .Sp
 If optional second argument has a \s-1TRUE\s0 value, then the return string is
-a \s-1VMS\s0\-syntax directory specification, otherwise it is a \s-1VMS\s0\-syntax file
-specification.
+a \s-1VMS\s0\-syntax directory specification, if it is \s-1FALSE\s0, the return string
+is a \s-1VMS\s0\-syntax file specification, and if it is not specified, \fIfixpath()\fR
+checks to see whether it matches the name of a directory in the current
+default directory, and returns a directory or file specification accordingly.
 .Ip "catdir" 5
 Concatenates a list of file specifications, and returns the result as a
 \s-1VMS\s0\-syntax directory specification.
@@ -352,9 +354,7 @@ Work around \s-1DCL\s0's 255 character limit several times,and use
 \s-1VMS\s0\-style command line quoting in a few cases.
 .Ip "perldepend (override)" 5
 Use \s-1VMS\s0\-style syntax for files; it's cheaper to just do it directly here
-than to have the MM_Unix method call \f(CWcatfile\fR repeatedly.  Also use
-config.vms as source of original config data if the Perl distribution
-is available; config.sh is an ancillary file under \s-1VMS\s0.  Finally, if
+than to have the MM_Unix method call \f(CWcatfile\fR repeatedly.  Also, if
 we have to rebuild Config.pm, use \s-1MM\s0[\s-1SK\s0] to do it.
 .Ip "makefile (override)" 5
 Use \s-1VMS\s0 commands and quoting.

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH strict 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH strict 3 "perl 5.005, patch 53" "15/May/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -221,6 +221,7 @@ use symbolic references (see the \fIperlref\fR manpage).
 .Ve
 .Ip "\f(CWstrict vars\fR" 6
 This generates a compile-time error if you access a variable that wasn't
+declared via \f(CWuse vars\fR,
 localized via \f(CWmy()\fR or wasn't fully qualified.  Because this is to avoid
 variable suicide problems and subtle dynamic scoping issues, a merely
 \fIlocal()\fR variable isn't good enough.  See the \f(CWmy\fR entry in the \fIperlfunc\fR manpage and
@@ -231,6 +232,11 @@ the \f(CWlocal\fR entry in the \fIperlfunc\fR manpage.
 \&    $X::foo = 1;         # ok, fully qualified
 \&    my $foo = 10;        # ok, my() var
 \&    local $foo = 9;      # blows up
+.Ve
+.Vb 3
+\&    package Cinna;
+\&    use vars qw/ $bar /;        # Declares $bar in current package
+\&    $bar = 'HgS';               # ok, global declared via pragma
 .Ve
 The \fIlocal()\fR generated a compile-time error because you just touched a global
 name without fully qualifying it.
@@ -246,7 +252,7 @@ appears in curly braces or on the left hand side of the \*(L"=>\*(R" symbol.
 \&    $SIG{PIPE} = \e&Plumber;     # preferred form
 .Ve
 .PP
-See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.
+See the section on \fIPragmatic Modules\fR in the \fIperlmodlib\fR manpage.
 
 .rn }` ''
 .IX Title "strict 3"

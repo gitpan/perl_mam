@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MM_Unix 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::MM_Unix 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -331,7 +331,7 @@ Initializes \s-1EXTRALIBS\s0, \s-1BSLOADLIBS\s0, \s-1LDLOADLIBS\s0, \s-1LIBS\s0,
 .Ip "install (o)" 2
 Defines the install target.
 .Ip "installbin (o)" 2
-Defines targets to install \s-1EXE_FILES\s0.
+Defines targets to make and to install \s-1EXE_FILES\s0.
 .Ip "libscan (o)" 2
 Takes a path to a file that is found by init_dirscan and returns false
 if we don't want to include this file in the library. Mainly used to
@@ -373,6 +373,8 @@ to distinguish the target delimiter from a colon appearing as part of
 a filespec.
 .Ip "parse_version" 2
 parse a file and return what you think is \f(CW$VERSION\fR in this file set to
+.Ip "parse_abstract" 2
+parse a file and return what you think is the \s-1ABSTRACT\s0
 .Ip "pasthru (o)" 2
 Defines the string that is passed to recursive make calls in
 subdirectories.
@@ -385,6 +387,22 @@ any ordinary, readable file.
 .Ip "perldepend (o)" 2
 Defines the dependency from all *.h files that come with the perl
 distribution.
+.Ip "ppd" 2
+Defines target that creates a \s-1PPD\s0 (Perl Package Description) file
+for a binary distribution.
+.Ip "perm_rw (o)" 2
+Returns the attribute \f(CWPERM_RW\fR or the string \f(CW644\fR.
+Used as the string that is passed
+to the \f(CWchmod\fR command to set the permissions for read/writeable files.
+MakeMaker chooses \f(CW644\fR because it has turned out in the past that
+relying on the umask provokes hard-to-track bugreports.
+When the return value is used by the perl function \f(CWchmod\fR, it is
+interpreted as an octal value.
+.Ip "perm_rwx (o)" 2
+Returns the attribute \f(CWPERM_RWX\fR or the string \f(CW755\fR,
+i.e. the string that is passed
+to the \f(CWchmod\fR command to set the permissions for executable files.
+See also perl_rw.
 .Ip "pm_to_blib" 2
 Defines target that copies all files in the hash \s-1PM\s0 to their
 destination and autosplits them. See the \f(CWDESCRIPTION\fR entry in the \fIExtUtils::Install\fR manpage
@@ -441,6 +459,8 @@ Defines the targets all, subdirs, config, and O_FILES
 Obsolete, depecated method. Not used since Version 5.21.
 .Ip "xs_c (o)" 2
 Defines the suffix rules to compile \s-1XS\s0 files to C.
+.Ip "xs_cpp (o)" 2
+Defines the suffix rules to compile \s-1XS\s0 files to \*(C+.
 .Ip "xs_o (o)" 2
 Defines suffix rules to go from \s-1XS\s0 to object files directly. This is
 only intended for broken make implementations.
@@ -573,6 +593,8 @@ the \fIExtUtils::MakeMaker\fR manpage
 
 .IX Item "parse_version"
 
+.IX Item "parse_abstract"
+
 .IX Item "pasthru (o)"
 
 .IX Item "path"
@@ -580,6 +602,12 @@ the \fIExtUtils::MakeMaker\fR manpage
 .IX Item "perl_script"
 
 .IX Item "perldepend (o)"
+
+.IX Item "ppd"
+
+.IX Item "perm_rw (o)"
+
+.IX Item "perm_rwx (o)"
 
 .IX Item "pm_to_blib"
 
@@ -624,6 +652,8 @@ the \fIExtUtils::MakeMaker\fR manpage
 .IX Item "writedoc"
 
 .IX Item "xs_c (o)"
+
+.IX Item "xs_cpp (o)"
 
 .IX Item "xs_o (o)"
 

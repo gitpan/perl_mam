@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Sys::Syslog 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Sys::Syslog 3 "perl 5.005, patch 53" "22/Jul/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -191,10 +191,12 @@
 Sys::Syslog, openlog, closelog, setlogmask, syslog \- Perl interface to the UNIX \fIsyslog\fR\|(3) calls
 .SH "SYNOPSIS"
 .PP
-.Vb 1
-\&    use Sys::Syslog;
+.Vb 2
+\&    use Sys::Syslog;                          # all except setlogsock, or:
+\&    use Sys::Syslog qw(:DEFAULT setlogsock);  # default set, plus setlogsock
 .Ve
-.Vb 4
+.Vb 5
+\&    setlogsock $sock_type;
 \&    openlog $ident, $logopt, $facility;
 \&    syslog $priority, $format, @args;
 \&    $oldmask = setlogmask $mask_priority;
@@ -208,7 +210,7 @@ just like \f(CWsyslog(3)\fR.
 Syslog provides the functions:
 .Ip "openlog $ident, $logopt, $facility" 5
 \fI$ident\fR is prepended to every message.
-\fI$logopt\fR contains one or more of the words \fIpid\fR, \fIndelay\fR, \fIcons\fR, \fInowait\fR.
+\fI$logopt\fR contains zero or more of the words \fIpid\fR, \fIndelay\fR, \fIcons\fR, \fInowait\fR.
 \fI$facility\fR specifies the part of the system
 .Ip "syslog $priority, $format, @args" 5
 If \fI$priority\fR permits, logs \fI($format, @args)\fR
@@ -216,7 +218,15 @@ printed as by \f(CWprintf(3V)\fR, with the addition that \fI%m\fR
 is replaced with \f(CW"$!"\fR (the latest error message).
 .Ip "setlogmask $mask_priority" 5
 Sets log mask \fI$mask_priority\fR and returns the old mask.
-.Ip "setlogsock $sock_type (added in 5.004_03)   Sets the socket type to be used for the next call to \f(CWopenlog()\fR or \f(CWsyslog()\fR.   A value of \*(N'unix\*(T' will connect to the \s-1UNIX\s0 domain socket returned by \f(CW_PATH_LOG\fR in \fIsyslog.ph\fR. If \fIsyslog.ph\fR fails to define \f(CW_PATH_LOG\fR, \f(CWsetlogsock\fR returns \f(CWundef\fR; otherwise a true value is returned. A value of \*(N'inet\*(T' will connect to an \s-1INET\s0 socket returned by getservbyname().  Any other value croaks." 5
+.Ip "setlogsock $sock_type (added in 5.004_02)" 5
+Sets the socket type to be used for the next call to
+\f(CWopenlog()\fR or \f(CWsyslog()\fR and returns \s-1TRUE\s0 on success,
+undef on failure.
+.Sp
+A value of \*(L'unix\*(R' will connect to the \s-1UNIX\s0 domain socket returned by
+\f(CW_PATH_LOG\fR in \fIsyslog.ph\fR.  A value of \*(L'inet\*(R' will connect to an
+\s-1INET\s0 socket returned by \fIgetservbyname()\fR.  Any other value croaks.
+.Sp
 The default is for the \s-1INET\s0 socket to be used.
 .Ip "closelog" 5
 Closes the log file.
@@ -268,7 +278,7 @@ with support from Tim Bunce <Tim.Bunce@ig.co.uk> and the perl5-porters mailing l
 
 .IX Item "setlogmask $mask_priority"
 
-.IX Item "setlogsock $sock_type (added in 5.004_03)   Sets the socket type to be used for the next call to \f(CWopenlog()\fR or \f(CWsyslog()\fR.   A value of \*(N'unix\*(T' will connect to the \s-1UNIX\s0 domain socket returned by \f(CW_PATH_LOG\fR in \fIsyslog.ph\fR. If \fIsyslog.ph\fR fails to define \f(CW_PATH_LOG\fR, \f(CWsetlogsock\fR returns \f(CWundef\fR; otherwise a true value is returned. A value of \*(N'inet\*(T' will connect to an \s-1INET\s0 socket returned by getservbyname().  Any other value croaks."
+.IX Item "setlogsock $sock_type (added in 5.004_02)"
 
 .IX Item "closelog"
 

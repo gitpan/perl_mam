@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Status 3 "perl 5.004, patch 55" "20/May/97" "User Contributed Perl Documentation"
+.TH lib::HTTP::Status 3 "libwww-perl-5.36" "23/Mar/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -208,7 +208,8 @@ HTTP::Status \- HTTP Status code processing
 \fIHTTP::Status\fR is a library of routines for defining and
 classification of HTTP status codes for libwww-perl.  Status codes are
 used to encode the overall outcome of a HTTP response message.  Codes
-correspond to those defined in RFC 2068.
+correspond to those defined in \fIdraft-ietf-http-v11-spec-rev-03\fR (an
+update to RFC 2068).
 .SH "CONSTANTS"
 The following constant functions can be used as mnemonic status code
 names:
@@ -226,15 +227,16 @@ names:
 \&   RC_RESET_CONTENT                     (205)
 \&   RC_PARTIAL_CONTENT                   (206)
 .Ve
-.Vb 6
+.Vb 7
 \&   RC_MULTIPLE_CHOICES                  (300)
 \&   RC_MOVED_PERMANENTLY                 (301)
-\&   RC_MOVED_TEMPORARILY                 (302)
+\&   RC_FOUND                             (302)
 \&   RC_SEE_OTHER                         (303)
 \&   RC_NOT_MODIFIED                      (304)
 \&   RC_USE_PROXY                         (305)
+\&   RC_TEMPORARY_REDIRECT                (307)
 .Ve
-.Vb 16
+.Vb 18
 \&   RC_BAD_REQUEST                       (400)
 \&   RC_UNAUTHORIZED                      (401)
 \&   RC_PAYMENT_REQUIRED                  (402)
@@ -251,6 +253,8 @@ names:
 \&   RC_REQUEST_ENTITY_TOO_LARGE          (413)
 \&   RC_REQUEST_URI_TOO_LARGE             (414)
 \&   RC_UNSUPPORTED_MEDIA_TYPE            (415)
+\&   RC_REQUEST_RANGE_NOT_SATISFIABLE     (416)
+\&   RC_EXPECTATION_FAILED                (417)
 .Ve
 .Vb 6
 \&   RC_INTERNAL_SERVER_ERROR             (500)
@@ -266,22 +270,35 @@ exported by default.
 .Ip "status_message($code)" 4
 The \fIstatus_message()\fR function will translate status codes to human
 readable strings. The string is the same as found in the constant
-names above.
+names above.  If the \f(CW$code\fR is unknown, then \f(CWundef\fR is returned.
 .Ip "is_info($code)" 4
-Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIInformational\fR status code.
+Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIInformational\fR status code.  This
+class of status code indicates a provisional response which can't have
+any content.
 .Ip "is_success($code)" 4
 Return \s-1TRUE\s0 if \f(CW$code\fR is a \fISuccessful\fR status code.
 .Ip "is_redirect($code)" 4
-Return \s-1TRUE\s0 if \f(CW$code\fR is a \fIRedirection\fR status code.
+Return \s-1TRUE\s0 if \f(CW$code\fR is a \fIRedirection\fR status code. This class of
+status code indicates that further action needs to be taken by the
+user agent in order to fulfill the request.
 .Ip "is_error($code)" 4
 Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIError\fR status code.  The function
 return \s-1TRUE\s0 for both client error or a server error status codes.
 .Ip "is_client_error($code)" 4
-Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIClient Error\fR status code.  This
-function is \fBnot\fR exported by default.
+Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIClient Error\fR status code. This class
+of status code is intended for cases in which the client seems to have
+erred.
+.Sp
+This function is \fBnot\fR exported by default.
 .Ip "is_server_error($code)" 4
-Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIServer Error\fR status code.   This
-function is \fBnot\fR exported by default.
+Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIServer Error\fR status code. This class
+of status codes is intended for cases in which the server is aware
+that it has erred or is incapable of performing the request.
+.Sp
+This function is \fBnot\fR exported by default.
+.SH "BUGS"
+Wished \f(CW@EXPORT_OK\fR had been used instead of \f(CW@EXPORT\fR in the beginning.
+Now too much is exported by default.
 
 .rn }` ''
 .IX Title "lib::HTTP::Status 3"
@@ -310,4 +327,6 @@ function is \fBnot\fR exported by default.
 .IX Item "is_client_error($code)"
 
 .IX Item "is_server_error($code)"
+
+.IX Header "BUGS"
 

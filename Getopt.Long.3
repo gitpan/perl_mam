@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Getopt::Long 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH Getopt::Long 3 "perl 5.005, patch 53" "24/Sep/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -251,15 +251,24 @@ of GetOptions, \f(CW@ARGV\fR will contain the rest (i.e. the non-options) of
 the command line.
  
 Each option specifier designates the name of the option, optionally
-followed by an argument specifier. Values for argument specifiers are:
-.Ip "<none>" 8
-Option does not take an argument. 
-The option variable will be set to 1.
+followed by an argument specifier.
+.PP
+Options that do not take arguments will have no argument specifier. 
+The option variable will be set to 1 if the option is used.
+.PP
+For the other options, the values for argument specifiers are:
 .Ip "!" 8
 Option does not take an argument and may be negated, i.e. prefixed by
 \*(L"no\*(R". E.g. \*(L"foo!\*(R" will allow \fB--foo\fR (with value 1) and \fB\-nofoo\fR
 (with value 0).
 The option variable will be set to 1, or 0 if negated.
+.Ip "+" 8
+Option does not take an argument and will be incremented by 1 every
+time it appears on the command line. E.g. \*(L"more+\*(R", when used with
+\fB--more --more --more\fR, will set the option variable to 3 (provided
+it was 0 or undefined at first).
+.Sp
+The \fB+\fR specifier is ignored if the option destination is not a \s-1SCALAR\s0.
 .Ip "=s" 8
 Option takes a mandatory string argument.
 This string will be assigned to the option variable.
@@ -360,6 +369,13 @@ identifier is \f(CW$opt_\fR .
 The linkage specifier can be a reference to a scalar, a reference to
 an array, a reference to a hash or a reference to a subroutine.
 .PP
+Note that, if your code is running under the recommended \f(CWuse strict
+\&'vars'\fR pragma, it may be helpful to declare these package variables
+via \f(CWuse vars\fR perhaps something like this:
+.PP
+.Vb 1
+\&  use vars qw/ $opt_size @opt_sizes $opt_bar /;
+.Ve
 If a \s-1REF\s0 \s-1SCALAR\s0 is supplied, the new value is stored in the referenced
 variable. If the option occurs more than once, the previous value is
 overwritten. 
@@ -379,7 +395,8 @@ The option name is always the true name, not an abbreviation or alias.
 The option name may actually be a list of option names, separated by
 \*(L"|"s, e.g. \*(L"foo|bar|blech=s\*(R". In this example, \*(L"foo\*(R" is the true name
 of this option. If no linkage is specified, options \*(L"foo\*(R", \*(L"bar\*(R" and
-\*(L"blech\*(R" all will set \f(CW$opt_foo\fR.
+\*(L"blech\*(R" all will set \f(CW$opt_foo\fR. For convenience, the single character
+\*(L"?\*(R" is allowed as an alias, e.g. \*(L"help|?\*(R".
 .PP
 Option names may be abbreviated to uniqueness, depending on
 configuration option \fBauto_abbrev\fR.
@@ -400,9 +417,19 @@ defined.
 .PP
 Options that start with \*(L"--\*(R" may have an argument appended, separated
 with an \*(L"=\*(R", e.g. \*(L"\*(--foo=bar\*(R".
-.Sh "Return value"
-A return status of 0 (false) indicates that the function detected
-one or more errors.
+.Sh "Return values and Errors"
+Configuration errors and errors in the option definitions are
+signalled using \f(CWdie()\fR and will terminate the calling
+program unless the call to \f(CWGetopt::Long::GetOptions()\fR was embedded
+in \f(CWeval { ... }\fR or \f(CWdie()\fR was trapped using \f(CW$SIG{__DIE__}\fR.
+.PP
+A return value of 1 (true) indicates success.
+.PP
+A return status of 0 (false) indicates that the function detected one
+or more errors during option parsing. These errors are signalled using
+\f(CWwarn()\fR and can be trapped with \f(CW$SIG{__WARN__}\fR.
+.PP
+Errors that can't happen are signalled using \f(CWCarp::croak()\fR.
 .SH "COMPATIBILITY"
 \fIGetopt::Long::GetOptions()\fR is the successor of
 \fBnewgetopt.pl\fR that came with Perl 4. It is fully upward compatible.
@@ -498,7 +525,7 @@ This will leave the non-options in \f(CW@ARGV:\fR
 .Ve
 .SH "CONFIGURATION OPTIONS"
 \fBGetOptions\fR can be configured by calling subroutine
-\fBGetopt::Long::config\fR. This subroutine takes a list of quoted
+\fBGetopt::Long::Configure\fR. This subroutine takes a list of quoted
 strings, each specifying a configuration option to be set, e.g.
 \fBignore_case\fR. Options can be reset by prefixing with \fBno_\fR, e.g.
 \fBno_ignore_case\fR. Case does not matter. Multiple calls to \fBconfig\fR
@@ -583,11 +610,12 @@ would be equivalent to
 provided \*(L"vax\*(R", \*(L"v\*(R", \*(L"a\*(R" and \*(L"x\*(R" have been defined to be valid
 options. 
 .Sp
-Bundled options can also include a value in the bundle; this value has
-to be the last part of the bundle, e.g.
+Bundled options can also include a value in the bundle; for strings
+this value is the rest of the bundle, but integer and floating values
+may be combined in the bundle, e.g.
 .Sp
 .Vb 1
-\&    scale -h24 -w80
+\&    scale -h24w80
 .Ve
 is equivalent to
 .Sp
@@ -621,6 +649,12 @@ process only part of the user supplied options, and passes the
 remaining options to some other program.
 .Sp
 This can be very confusing, especially when \fBpermute\fR is also set.
+.Ip "prefix" 12
+The string that starts options. See also \fBprefix_pattern\fR.
+.Ip "prefix_pattern" 12
+A Perl pattern that identifies the strings that introduce options.
+Default is \f(CW(--|-|\e+)\fR unless environment variable
+\s-1POSIXLY_CORRECT\s0 has been set, in which case it is \f(CW(--|-)\fR.
 .Ip "debug (default: reset)" 12
 Enable copious debugging output.
 .SH "OTHER USEFUL VARIABLES"
@@ -637,6 +671,23 @@ You can inspect \f(CW$Getopt::Long::major_version\fR and
 .Ip "$Getopt::Long::error" 12
 Internal error flag. May be incremented from a call-back routine to
 cause options parsing to fail.
+.SH "AUTHOR"
+Johan Vromans <jvromans@squirrel.nl>
+.SH "COPYRIGHT AND DISCLAIMER"
+This program is Copyright 1990,1998 by Johan Vromans.
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+.PP
+If you do not have a copy of the GNU General Public License write to
+the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+MA 02111-1307, USA.
 
 .rn }` ''
 .IX Title "Getopt::Long 3"
@@ -648,9 +699,9 @@ cause options parsing to fail.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "<none>"
-
 .IX Item "!"
+
+.IX Item "+"
 
 .IX Item "=s"
 
@@ -672,7 +723,7 @@ cause options parsing to fail.
 
 .IX Subsection "Option starters"
 
-.IX Subsection "Return value"
+.IX Subsection "Return values and Errors"
 
 .IX Header "COMPATIBILITY"
 
@@ -700,6 +751,10 @@ cause options parsing to fail.
 
 .IX Item "pass_through (default: reset)"
 
+.IX Item "prefix"
+
+.IX Item "prefix_pattern"
+
 .IX Item "debug (default: reset)"
 
 .IX Header "OTHER USEFUL VARIABLES"
@@ -707,4 +762,8 @@ cause options parsing to fail.
 .IX Item "$Getopt::Long::\s-1VERSION\s0"
 
 .IX Item "$Getopt::Long::error"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT AND DISCLAIMER"
 

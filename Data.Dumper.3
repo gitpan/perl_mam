@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Dumper 3 "perl 5.004, patch 55" "7/Dec/96" "User Contributed Perl Documentation"
+.TH Data::Dumper 3 "perl 5.005, patch 53" "5/Nov/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -209,45 +209,47 @@ Data::Dumper \- stringified perl data structures, suitable for both printing and
 \&      eval Data::Dumper->Dump([$foo, $bar], [qw(foo *ary)]);
 \&    }
 .Ve
-.Vb 9
+.Vb 7
 \&    # OO usage
 \&    $d = Data::Dumper->new([$foo, $bar], [qw(foo *ary)]);
 \&       ...
 \&    print $d->Dump;
 \&       ...
-\&    $d->Purity(1);
-\&    $d->Terse(1);
-\&    $d->Deepcopy(1);
+\&    $d->Purity(1)->Terse(1)->Deepcopy(1);
 \&    eval $d->Dump;
 .Ve
 .SH "DESCRIPTION"
 Given a list of scalars or reference variables, writes out their contents in
 perl syntax. The references can also be objects.  The contents of each
-variable is output in a single Perl statement.
+variable is output in a single Perl statement.  Handles self-referential
+structures correctly.
 .PP
-The return value can be \f(CWeval\fRed to get back the original reference
-structure. Bear in mind that a reference so created will not preserve
-pointer equalities with the original reference.
+The return value can be \f(CWeval\fRed to get back an identical copy of the
+original reference structure.
 .PP
-Handles self-referential structures correctly.  Any references that are the
-same as one of those passed in will be marked \f(CW$VAR\fR\fIn\fR (where \fIn\fR is a
-numeric suffix), and other duplicate references to substructures within 
-\f(CW$VAR\fR\fIn\fR will be appropriately labeled using arrow notation.  You can
-specify names for individual values to be dumped if you use the \f(CWDump()\fR
-method, or you can change the default \f(CW$VAR\fR prefix to something else.  See
-the section on \fI$Data::Dumper::Varname\fR and the section on \fI$Data::Dumper::Terse\fR below.
+Any references that are the same as one of those passed in will be named
+\f(CW$VAR\fR\fIn\fR (where \fIn\fR is a numeric suffix), and other duplicate references
+to substructures within \f(CW$VAR\fR\fIn\fR will be appropriately labeled using arrow
+notation.  You can specify names for individual values to be dumped if you
+use the \f(CWDump()\fR method, or you can change the default \f(CW$VAR\fR prefix to
+something else.  See \f(CW$Data::Dumper::Varname\fR and \f(CW$Data::Dumper::Terse\fR
+below.
 .PP
 The default output of self-referential structures can be \f(CWeval\fRed, but the
 nested references to \f(CW$VAR\fR\fIn\fR will be undefined, since a recursive
-structure cannot be constructed using one Perl statement.  You can set the
+structure cannot be constructed using one Perl statement.  You should set the
 \f(CWPurity\fR flag to 1 to get additional statements that will correctly fill in
 these references.
 .PP
 In the extended usage form, the references to be dumped can be given
 user-specified names.  If a name begins with a \f(CW*\fR, the output will 
 describe the dereferenced type of the supplied reference for hashes and
-arrays.  Output of names will be avoided where possible if the \f(CWTerse\fR
-flag is set.
+arrays, and coderefs.  Output of names will be avoided where possible if
+the \f(CWTerse\fR flag is set.
+.PP
+In many cases, methods that are used to set the internal state of the
+object will return the object itself, so method calls can be conveniently
+chained together.
 .PP
 Several styles of output are possible, all controlled by setting
 the \f(CWIndent\fR flag.  See the section on \fIConfiguration Variables or Methods\fR below 
@@ -286,18 +288,24 @@ above, only about 4 to 5 times faster, since it is written entirely in C.
 Queries or adds to the internal table of already encountered references.
 You must use \f(CWReset\fR to explicitly clear the table if needed.  Such
 references are not dumped; instead, their names are inserted wherever they
-are encountered subsequently.
+are encountered subsequently.  This is useful especially for properly
+dumping subroutine references.
 .Sp
 Expects a anonymous hash of name => value pairs.  Same rules apply for names
 as in \f(CWnew\fR.  If no argument is supplied, will return the \*(L"seen\*(R" list of
-name => value pairs, in an array context.
+name => value pairs, in an array context.  Otherwise, returns the object
+itself.
 .Ip "\fI$\s-1OBJ\s0\fR\->Values(\fI[\s-1ARRAYREF\s0]\fR)" 4
 Queries or replaces the internal array of values that will be dumped.
+When called without arguments, returns the values.  Otherwise, returns the
+object itself.
 .Ip "\fI$\s-1OBJ\s0\fR\->Names(\fI[\s-1ARRAYREF\s0]\fR)" 4
 Queries or replaces the internal array of user supplied names for the values
-that will be dumped.
+that will be dumped.  When called without arguments, returns the names.
+Otherwise, returns the object itself.
 .Ip "\fI$\s-1OBJ\s0\fR\->Reset" 4
-Clears the internal table of \*(L"seen\*(R" references.
+Clears the internal table of \*(L"seen\*(R" references and returns the object
+itself.
 .Sh "Functions"
 .Ip "Dumper(\fI\s-1LIST\s0\fR)" 4
 Returns the stringified form of the values in the list, subject to the
@@ -318,6 +326,9 @@ These variables determine the default state of the object created by calling
 the \f(CWnew\fR method, but cannot be used to alter the state of the object
 thereafter.  The equivalent method names should be used instead to query
 or set the internal state of the object.
+.PP
+The method forms return the object itself when called with arguments,
+so that they can be chained together nicely.
 .Ip "$Data::Dumper::Indent  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Indent(\fI[\s-1NEWVAL\s0]\fR)" 4
 Controls the style of indentation.  It can be set to 0, 1, 2 or 3.  Style 0
 spews output without any newlines, indentation, or spaces between list
@@ -374,9 +385,18 @@ object.  Defaults to an empty string.
 Can be set to a boolean value to enable deep copies of structures.
 Cross-referencing will then only be done when absolutely essential
 (i.e., to break reference cycles).  Default is 0.
+.Ip "$Data::Dumper::Quotekeys  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Quotekeys(\fI[\s-1NEWVAL\s0]\fR)" 4
+Can be set to a boolean value to control whether hash keys are quoted.
+A false value will avoid quoting hash keys when it looks like a simple
+string.  Default is 1, which will always enclose hash keys in quotes.
+.Ip "$Data::Dumper::Bless  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Bless(\fI[\s-1NEWVAL\s0]\fR)" 4
+Can be set to a string that specifies an alternative to the \f(CWbless\fR
+builtin operator used to create objects.  A function with the specified
+name should exist, and should accept the same arguments as the builtin.
+Default is \f(CWbless\fR.
 .Sh "Exports"
-.Ip "Dumper" 0
-.SH "EXAMPLE"
+.Ip "Dumper" 4
+.SH "EXAMPLES"
 Run these code snippets to get a quick feel for the behavior of this
 module.  When you are through with these examples, you may want to
 add or change the various configuration variables described above,
@@ -424,7 +444,7 @@ distribution for more examples.)
 \&    $Data::Dumper::Indent = 3;         # pretty print with array indices
 \&    print Dumper($boo);
 .Ve
-.Vb 78
+.Vb 86
 \&    $Data::Dumper::Useqq = 1;          # print strings in double quotes
 \&    print Dumper($boo);
 \&    
@@ -432,7 +452,6 @@ distribution for more examples.)
 \&    ########
 \&    # recursive structures
 \&    ########
-\&    
 \&    
 \&    @c = ('c');
 \&    $c = \e@c;
@@ -461,20 +480,17 @@ distribution for more examples.)
 \&    # object-oriented usage
 \&    ########
 \&    
-\&    
 \&    $d = Data::Dumper->new([$a,$b], [qw(a b)]);
 \&    $d->Seen({'*c' => $c});            # stash a ref without printing it
 \&    $d->Indent(3);
 \&    print $d->Dump;
-\&    $d->Reset;                         # empty the seen cache
-\&    $d->Purity(0);
+\&    $d->Reset->Purity(0);              # empty the seen cache
 \&    print join "----\en", $d->Dump;
 \&    
 \&    
 \&    ########
 \&    # persistence
 \&    ########
-\&    
 \&    
 \&    package Foo;
 \&    sub new { bless { state => 'awake' }, shift }
@@ -495,14 +511,26 @@ distribution for more examples.)
 \&    
 \&    package Foo;
 \&    use Data::Dumper;
-\&    my $a = Foo->new;
-\&    my $b = Data::Dumper->new([$a], ['c']);
+\&    $a = Foo->new;
+\&    $b = Data::Dumper->new([$a], ['c']);
 \&    $b->Freezer('Freeze');
 \&    $b->Toaster('Thaw');
-\&    my $c = $b->Dump;
+\&    $c = $b->Dump;
 \&    print $c;
-\&    my $d = eval $c;
+\&    $d = eval $c;
 \&    print Data::Dumper->Dump([$d], ['d']);
+\&    
+\&    
+\&    ########
+\&    # symbol substitution (useful for recreating CODE refs)
+\&    ########
+\&    
+\&    sub foo { print "foo speaking\en" }
+\&    *other = \e&foo;
+\&    $bar = [ \e&other ];
+\&    $d = Data::Dumper->new([\e&other,$bar],['*other','bar']);
+\&    $d->Seen({ '*foo' => \e&foo });
+\&    print $d->Dump;
 .Ve
 .SH "BUGS"
 Due to limitations of Perl subroutine call semantics, you cannot pass an
@@ -517,7 +545,11 @@ contains the string \*(L'"DUMMY"\*(R' will be inserted in its place, and a warni
 will be printed if \f(CWPurity\fR is set.  You can \f(CWeval\fR the result, but bear
 in mind that the anonymous sub that gets created is just a placeholder.
 Someday, perl will have a switch to cache-on-demand the string
-representation of a compiled piece of code, I hope.
+representation of a compiled piece of code, I hope.  If you have prior
+knowledge of all the code refs that your data structures are likely
+to have, you can use the \f(CWSeen\fR method to pre-seed the internal reference
+table and make the dumped output point to them, instead.  See the \fIEXAMPLES\fR manpage
+above.
 .PP
 The \f(CWUseqq\fR flag is not honored by \f(CWDumpxs()\fR (it always outputs
 strings in single quotes).
@@ -526,16 +558,16 @@ SCALAR objects have the weirdest looking \f(CWbless\fR workaround.
 .SH "AUTHOR"
 Gurusamy Sarathy        gsar@umich.edu
 .PP
-Copyright (c) 1996 Gurusamy Sarathy. All rights reserved.
+Copyright (c) 1996-98 Gurusamy Sarathy. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "VERSION"
-Version 2.07    (7 December 1996)
+Version 2.10    (31 Oct 1998)
 .SH "SEE ALSO"
 \fIperl\fR\|(1)
 
 .rn }` ''
-.IX Title "Dumper 3"
+.IX Title "Data::Dumper 3"
 .IX Name "Data::Dumper - stringified perl data structures, suitable for both printing and C<eval>"
 
 .IX Header "NAME"
@@ -586,11 +618,15 @@ Version 2.07    (7 December 1996)
 
 .IX Item "$Data::Dumper::Deepcopy  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Deepcopy(\fI[\s-1NEWVAL\s0]\fR)"
 
+.IX Item "$Data::Dumper::Quotekeys  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Quotekeys(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Bless  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Bless(\fI[\s-1NEWVAL\s0]\fR)"
+
 .IX Subsection "Exports"
 
 .IX Item "Dumper"
 
-.IX Header "EXAMPLE"
+.IX Header "EXAMPLES"
 
 .IX Header "BUGS"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH AutoLoader 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH AutoLoader 3 "perl 5.005, patch 53" "18/Jun/98" "Perl Programmers Reference Guide"
 .UC
 .if n .hy 0
 .if n .na
@@ -323,6 +323,10 @@ On systems with restrictions on file name length, the file corresponding
 to a subroutine may have a shorter name that the routine itself.  This
 can lead to conflicting file names.  The \fIAutoSplit\fR package warns of
 these potential conflicts when used to split a module.
+.PP
+AutoLoader may fail to find the autosplit files (or even find the wrong
+ones) in cases where \f(CW@INC\fR contains relative paths, \fBand\fR the program
+does \f(CWchdir\fR.
 .SH "SEE ALSO"
 the \fISelfLoader\fR manpage \- an autoloader that doesn't use external files.
 

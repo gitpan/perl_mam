@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Bundle::CPAN 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
+.TH lib::Digest::HMAC_SHA1 3 "perl 5.005, patch 53" "26/Oct/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,43 +188,47 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-Bundle::CPAN \- A bundle to play with all the other modules on CPAN
+Digest::HMAC_SHA1 \- Keyed-Hashing for Message Authentication
 .SH "SYNOPSIS"
-\f(CWperl -MCPAN -e 'install Bundle::CPAN'\fR
-.SH "CONTENTS"
-MD5
 .PP
-Data::Dumper  # Bundle::libnet may have problems to work without it
-.PP
-Bundle::libnet
-.PP
-Term::ReadKey
-.PP
-Term::ReadLine::Perl # sorry, I'm discriminating the ::Gnu module
-.PP
-CPAN::WAIT
-.PP
-CPAN
+.Vb 4
+\& # Functional style
+\& use Digest::HMAC_SHA1 qw(hmac_sha1 hmac_sha1_hex);
+\& $digest = hmac_sha1($data, $key);
+\& print hmac_sha1_hex($data, $key);
+.Ve
+.Vb 3
+\& # OO style
+\& use Digest::HMAC_SHA1;
+\& $hmac = Digest::HMAC_SHA1->new($key);
+.Ve
+.Vb 2
+\& $hmac->add($data);
+\& $hmac->addfile(*FILE);
+.Ve
+.Vb 3
+\& $digest = $hmac->digest;
+\& $digest = $hmac->hexdigest;
+\& $digest = $hmac->b64digest;
+.Ve
 .SH "DESCRIPTION"
-This bundle includes CPAN.pm as the base module and CPAN::WAIT, the
-first plugin for CPAN that was developed even before there was an API.
-.PP
-After installing this bundle, it is recommended to quit the current
-session and start again in a new process to enable Term::ReadLine.
+This module provide HMAC\-SHA\-1 hashing.
+.SH "SEE ALSO"
+the \fIDigest::HMAC\fR manpage, the \fIDigest::SHA1\fR manpage, the \fIDigest::HMAC_MD5\fR manpage
 .SH "AUTHOR"
-Andreas König
+Gisle Aas <gisle@aas.no>
 
 .rn }` ''
-.IX Title "Bundle::CPAN 3"
-.IX Name "Bundle::CPAN - A bundle to play with all the other modules on CPAN"
+.IX Title "lib::Digest::HMAC_SHA1 3"
+.IX Name "Digest::HMAC_SHA1 - Keyed-Hashing for Message Authentication"
 
 .IX Header "NAME"
 
 .IX Header "SYNOPSIS"
 
-.IX Header "CONTENTS"
-
 .IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
 
 .IX Header "AUTHOR"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::WWW::RobotRules 3 "perl 5.004, patch 55" "26/Jan/97" "User Contributed Perl Documentation"
+.TH lib::WWW::RobotRules 3 "libwww-perl-5.36" "9/Jun/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -226,16 +226,17 @@ robots access to parts of their WWW server.
 The parsed file is kept in the WWW::RobotRules object, and this object
 provide methods to check if access to a given URL is prohibited.  The
 same WWW::RobotRules object can parse multiple \fIrobots.txt\fR files.
-.SH "METHODS"
-.Sh "\f(CW$rules\fR = new \s-1WWW::\s0RobotRules \*(M'MOMspider/1.0\*(S'"
+.PP
+The following methods are provided:
+.Ip "$rules = new \s-1WWW::\s0RobotRules \*(N'MOMspider/1.0\*(T'" 4
 This is the constructor for \s-1WWW::\s0RobotRules objects.  The first 
 argument given to \fInew()\fR is the name of the robot. 
-.Sh "\f(CW$rules\fR\->\fIparse\fR\|($url, \f(CW$content\fR, \f(CW$fresh_until\fR)"
+.Ip "$rules->parse($url, $content, $fresh_until)" 4
 The \fIparse()\fR method takes as arguments the \s-1URL\s0 that was used to
 retrieve the \fI/robots.txt\fR file, and the contents of the file.
-.Sh "\f(CW$rules\fR\->\fIallowed\fR\|($url)"
+.Ip "$rules->allowed($url)" 4
 Returns \s-1TRUE\s0 if this robot is allowed to retrieve this \s-1URL\s0.
-.Sh "\f(CW$rules\fR\->\fIagent\fR\|([$name])"
+.Ip "$rules->agent([$name])" 4
 Get/set the agent name. \s-1NOTE\s0: Changing the agent name will clear the robots.txt
 rules and expire times out of the cache.
 .SH "ROBOTS.TXT"
@@ -263,25 +264,19 @@ robot that has not not matched any of the other records.
 The value of this field specifies a partial \s-1URL\s0 that is not to be
 visited. This can be a full path, or a partial path; any \s-1URL\s0 that
 starts with this value will not be retrieved
-.Sh "Examples"
+.SH "ROBOTS.TXT EXAMPLES"
 The following example \*(L"/robots.txt\*(R" file specifies that no robots
-should visit any \s-1URL\s0 starting with \*(L"/cyberworld/map/\*(R" or \*(L"/tmp/":
+should visit any URL starting with \*(L"/cyberworld/map/\*(R" or \*(L"/tmp/":
 .PP
-.Vb 1
-\&  # robots.txt for http://www.site.com/
-.Ve
 .Vb 3
 \&  User-agent: *
 \&  Disallow: /cyberworld/map/ # This is an infinite virtual URL space
 \&  Disallow: /tmp/ # these will soon disappear
 .Ve
 This example \*(L"/robots.txt\*(R" file specifies that no robots should visit
-any \s-1URL\s0 starting with \*(L"/cyberworld/map/\*(R", except the robot called
+any URL starting with \*(L"/cyberworld/map/\*(R", except the robot called
 \*(L"cybermapper":
 .PP
-.Vb 1
-\&  # robots.txt for http://www.site.com/
-.Ve
 .Vb 2
 \&  User-agent: *
 \&  Disallow: /cyberworld/map/ # This is an infinite virtual URL space
@@ -311,15 +306,13 @@ the \fILWP::RobotUA\fR manpage, the \fIWWW::RobotRules::AnyDBM_File\fR manpage
 
 .IX Header "DESCRIPTION"
 
-.IX Header "METHODS"
+.IX Item "$rules = new \s-1WWW::\s0RobotRules \*(N'MOMspider/1.0\*(T'"
 
-.IX Subsection "\f(CW$rules\fR = new \s-1WWW::\s0RobotRules \*(M'MOMspider/1.0\*(S'"
+.IX Item "$rules->parse($url, $content, $fresh_until)"
 
-.IX Subsection "\f(CW$rules\fR\->\fIparse\fR\|($url, \f(CW$content\fR, \f(CW$fresh_until\fR)"
+.IX Item "$rules->allowed($url)"
 
-.IX Subsection "\f(CW$rules\fR\->\fIallowed\fR\|($url)"
-
-.IX Subsection "\f(CW$rules\fR\->\fIagent\fR\|([$name])"
+.IX Item "$rules->agent([$name])"
 
 .IX Header "ROBOTS.TXT"
 
@@ -327,7 +320,7 @@ the \fILWP::RobotUA\fR manpage, the \fIWWW::RobotRules::AnyDBM_File\fR manpage
 
 .IX Item "Disallow"
 
-.IX Subsection "Examples"
+.IX Header "ROBOTS.TXT EXAMPLES"
 
 .IX Header "SEE ALSO"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::URI::URL 3 "perl 5.004, patch 55" "5/Oct/97" "User Contributed Perl Documentation"
+.TH lib::URI::URL 3 "libwww-perl-5.36" "17/Jul/98" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -402,7 +402,7 @@ that are described in the sections to follow.
 Attribute access methods marked with (*) can take an optional argument
 to set the value of the attribute, and they always return the old
 value.
-.Ip "$url->abs([$base, [$allow_scheme_in_relative_urls]])" 3
+.Ip "$url->abs([$base])" 3
 The \fIabs()\fR method attempts to return a new absolute \s-1URI::URL\s0 object
 for a given \s-1URL\s0.  In order to convert a relative \s-1URL\s0 into an absolute
 one, a \fIbase\fR \s-1URL\s0 is required. You can associate a default base with a
@@ -411,17 +411,33 @@ one, a \fIbase\fR \s-1URL\s0 is required. You can associate a default base with 
 Alternatively you can specify a one-off base as a parameter to the
 \fIabs()\fR method.
 .Sp
+The \fIrel()\fR method will do the opposite transformation.
+.Sp
 Some older parsers used to allow the scheme name to be present in the
 relative \s-1URL\s0 if it was the same as the base \s-1URL\s0 scheme.  \s-1RFC1808\s0 says
 that this should be avoided, but you can enable this old behaviour by
-passing a \s-1TRUE\s0 value as the second argument to the \fIabs()\fR method.  The
-difference is demonstrated by the following examples:
+setting the \f(CW$URI::URL::ABS_ALLOW_RELATIVE_SCHEME\fR variable to a \s-1TRUE\s0
+value.  The difference is demonstrated by the following examples:
 .Sp
-.Vb 2
+.Vb 1
 \&  url("http:foo")->abs("http://host/a/b")     ==>  "http:foo"
-\&  url("http:foo")->abs("http://host/a/b", 1)  ==>  "http:/host/a/foo"
 .Ve
-The \fIrel()\fR method will do the opposite transformation.
+.Vb 2
+\&  local $URI::URL::ABS_ALLOW_RELATIVE_SCHEME = 1;
+\&  url("http:foo")->abs("http://host/a/b")     ==>  "http:/host/a/foo"
+.Ve
+You can also have the \fIabs()\fR method ignore if there is too many \*(L"..\*(R"
+segments in the relative \s-1URL\s0 by setting
+\f(CW$URI::URL::ABS_REMOTE_LEADING_DOTS\fR to a \s-1TRUE\s0 value.  The difference is
+demonstrated by the following examples:
+.Sp
+.Vb 1
+\&  url("../../../foo")->abs("http://host/a/b")   ==> "http://host/../../foo"
+.Ve
+.Vb 2
+\&  local $URI::URL::ABS_REMOTE_LEADING_DOTS = 1;
+\&  url("../../../foo")->abs("http://host/a/b")   ==> "http://host/foo"
+.Ve
 .Ip "$url->as_string" 3
 Returns a string representing the \s-1URL\s0 in its canonical form.  All
 unsafe characters will be escaped.  This method is overloaded as the
@@ -646,7 +662,7 @@ it under the same terms as Perl itself.
 
 .IX Header "METHODS"
 
-.IX Item "$url->abs([$base, [$allow_scheme_in_relative_urls]])"
+.IX Item "$url->abs([$base])"
 
 .IX Item "$url->as_string"
 
