@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Request 3 "libwww-perl-5.36" "1/Apr/98" "User Contributed Perl Documentation"
+.TH lib::HTTP::Request 3 "libwww-perl-5.64" "14/Nov/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -193,7 +193,7 @@ HTTP::Request \- Class encapsulating HTTP Requests
 .PP
 .Vb 2
 \& require HTTP::Request;
-\& $request = HTTP::Request->new(GET => 'http://www.oslonett.no/');
+\& $request = HTTP::Request->new(GET => 'http://www.oslo.net/');
 .Ve
 .SH "DESCRIPTION"
 \f(CWHTTP::Request\fR is a class encapsulating HTTP style requests,
@@ -206,40 +206,44 @@ of an \f(CWLWP::UserAgent\fR object:
 .PP
 .Vb 3
 \& $ua = LWP::UserAgent->new;
-\& $request = HTTP::Request->new(GET => 'http://www.oslonett.no/');
+\& $request = HTTP::Request->new(GET => 'http://www.oslo.net/');
 \& $response = $ua->request($request);
 .Ve
 \f(CWHTTP::Request\fR is a subclass of \f(CWHTTP::Message\fR and therefore
-inherits its methods.  The inherited methods often used are \fIheader()\fR,
-\fIpush_header()\fR, \fIremove_header()\fR, \fIheaders_as_string()\fR and \fIcontent()\fR.
-See the \fIHTTP::Message\fR manpage for details.
+inherits its methods.  The inherited methods most often used are \fIheader()\fR,
+\fIpush_header()\fR, \fIremove_header()\fR, and \fIcontent()\fR. See the \fIHTTP::Message\fR manpage for details.
 .PP
 The following additional methods are available:
-.Ip "$r = \s-1HTTP::\s0Request->new($method, $url, [$header, [$content]])" 4
+.Ip "$r = \s-1HTTP::\s0Request->new($method, $uri)" 4
+.Ip "$r = \s-1HTTP::\s0Request->new($method, $uri, $header)" 4
+.Ip "$r = \s-1HTTP::\s0Request->new($method, $uri, $header, $content)" 4
 Constructs a new \f(CWHTTP::Request\fR object describing a request on the
-object \f(CW$url\fR using method \f(CW$method\fR.  The \f(CW$url\fR argument can be
-either a string, or a reference to a \f(CWURI::URL\fR object.  The \f(CW$header\fR
+object \f(CW$uri\fR using method \f(CW$method\fR.  The \f(CW$uri\fR argument can be
+either a string, or a reference to a \f(CWURI\fR object.  The optional \f(CW$header\fR
 argument should be a reference to an \f(CWHTTP::Headers\fR object.
+The optional \f(CW$content\fR argument should be a string.
 .Ip "$r->method([$val])" 4
-.Ip "$r->url([$val])" 4
-These methods provide public access to the member variables containing
-respectively the method of the request and the \s-1URL\s0 object of the
+.Ip "$r->uri([$val])" 4
+These methods provide public access to the attributes containing
+respectively the method of the request and the \s-1URI\s0 object of the
 request.
 .Sp
-If an argument is given the member variable is given that as its new
+If an argument is given the attribute is given that as its new
 value. If no argument is given the value is not touched. In either
 case the previous value is returned.
 .Sp
-The \fIurl()\fR method accept both a reference to a \s-1URI::URL\s0 object and a
+The \fImethod()\fR method argument should be a string.
+.Sp
+The \fIuri()\fR method accept both a reference to a \s-1URI\s0 object and a
 string as its argument.  If a string is given, then it should be
-parseable as an absolute \s-1URL\s0.
+parseable as an absolute \s-1URI\s0.
 .Ip "$r->as_string()" 4
 Method returning a textual representation of the request.
 Mainly useful for debugging purposes. It takes no arguments.
 .SH "SEE ALSO"
 the \fIHTTP::Headers\fR manpage, the \fIHTTP::Message\fR manpage, the \fIHTTP::Request::Common\fR manpage
 .SH "COPYRIGHT"
-Copyright 1995-1998 Gisle Aas.
+Copyright 1995-2001 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -254,11 +258,15 @@ modify it under the same terms as Perl itself.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "$r = \s-1HTTP::\s0Request->new($method, $url, [$header, [$content]])"
+.IX Item "$r = \s-1HTTP::\s0Request->new($method, $uri)"
+
+.IX Item "$r = \s-1HTTP::\s0Request->new($method, $uri, $header)"
+
+.IX Item "$r = \s-1HTTP::\s0Request->new($method, $uri, $header, $content)"
 
 .IX Item "$r->method([$val])"
 
-.IX Item "$r->url([$val])"
+.IX Item "$r->uri([$val])"
 
 .IX Item "$r->as_string()"
 

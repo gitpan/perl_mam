@@ -1,0 +1,471 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH XSLT 3 "perl 5.007, patch 00" "17/Mar/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::XSLT \- A perl module for processing XSLT
+.SH "SYNOPSIS"
+use XML::XSLT;
+.PP
+$XSLT::Parser->open_project ($xmlfile, \f(CW$xslfile\fR);
+\f(CW$XSLT::Parser\fR\->process_project;
+\f(CW$XSLT::Parser\fR\->print_result;
+.PP
+.Vb 2
+\&        The variables $xmlfile and $xslfile are filenames, e.g. "filename",
+\&        or regular Perl filehandles, pass those with *FILEHANDLE.
+.Ve
+# Alternatives for \fIopen_project()\fR
+.PP
+$XSLT::Parser->open_project ($xmlstring, \f(CW$xslstring\fR, \*(L"STRING\*(R", \*(L"STRING");
+.PP
+.Vb 2
+\&        The variables $xmlstring and $xslstring are regular Perl scalars
+\&        variables or references to these, pass the latter with \e$string.
+.Ve
+$XSLT::Parser->open_project ($xmldom, \f(CW$xsldom\fR, \*(L"DOM\*(R", \*(L"DOM");
+.PP
+.Vb 2
+\&        The variables $xmldom and $xsldom are XML::DOM trees. The Document Node
+\&        should be passed here.
+.Ve
+# String, file and DOM input can be intermingled
+.PP
+$XSLT::Parser->open_project ($xmlfile_or_handle, \f(CW$xslstring_or_ref\fR, \*(L"FILE\*(R", \*(L"STRING");
+.PP
+$XSLT::Parser->open_project ($xmlDOMtree, \f(CW$xslfile_or_handle\fR, \*(L"DOM\*(R", \*(L"FILE");
+.PP
+# Alternatives for \fIprint_result()\fR
+.PP
+$XSLT::Parser->\fIprint_result\fR\|($outputfile);
+.PP
+.Vb 2
+\&        The variable $outputfile is a filename, e.g. "filename" or a regular
+\&        Perl filehandle. Pass the latter with *FILEHANDLE.
+.Ve
+.SH "DESCRIPTION"
+This module implements the W3C's XSLT specification. The goal
+is full implementation of this spec, but it isn't yet. However,
+it already works well. Below is given the set of working xslt
+commands.
+.PP
+XML::XSLT makes use of XML::DOM and LWP::UserAgent, while XML::DOM uses XML::Parser.
+Therefore XML::Parser, XML::DOM and LWP::UserAgent have to be installed properly
+for XML::XSLT to run.
+.SH "LICENCE"
+Copyright (c) 1999 Geert Josten & Egon Willighagen. All Rights Reserverd.
+This module is free software, and may be distributed under the
+same terms and conditions as Perl.
+.SH "XML::XSLT Commands"
+.Sh "xsl:apply-imports		no"
+Not supported yet.
+.Sh "xsl:apply-templates		limited"
+Attribute \*(L'select\*(R' is supported to the same extent as xsl:value-of
+supports path selections.
+.PP
+Not supported yet:
+\- attribute \*(L'mode\*(R'
+\- xsl:sort and xsl:with-param in content
+.Sh "xsl:attribute			partially"
+Adds an attribute named to the value of the attribute \*(L'name\*(R' and as value
+the stringified content-template.
+.PP
+Not supported yet:
+\- attribute \*(L'namespace\*(R'
+.Sh "xsl:attribute-set		no"
+Not supported yet.
+.Sh "xsl:call-template		yes"
+Takes attribute \*(L'name\*(R' which selects xsl:template by name.
+.PP
+Not supported yet:
+\- xsl:sort and xsl:with-param in content
+.Sh "xsl:choose			yes"
+Tests sequentially all xsl:whens until one succeeds or
+until an xsl:otherwise is found. Limited test support, see xsl:when
+.Sh "xsl:comment			experimental"
+It is implemented, but it does not appear in the result
+.Sh "xsl:copy				partially"
+Not supported yet:
+\- attribute \*(L'use-attribute-sets\*(R'
+.Sh "xsl:copy-of			limited"
+Attribute \*(L'select\*(R' functions as well as with
+xsl:value-of
+.Sh "xsl:decimal-format		no"
+Not supported yet.
+.Sh "xsl:element			no"
+Not supported yet.
+.Sh "xsl:fallback			no"
+Not supported yet.
+.Sh "xsl:for-each			limited"
+Attribute \*(L'select\*(R' functions as well as with
+xsl:value-of
+.PP
+Not supported yet:
+\- xsl:sort in content
+.Sh "xsl:if				limited"
+Identical to xsl:when, but outside xsl:choose context.
+.Sh "xsl:import			no"
+Not supported yet.
+.Sh "xsl:include			yes"
+Takes attribute href, which can be relative-local, 
+absolute-local as well as an \s-1URL\s0 (preceded by
+identifier http:).
+.Sh "xsl:key				no"
+Not supported yet.
+.Sh "xsl:message			no"
+Not supported yet.
+.Sh "xsl:namespace-alias		no"
+Not supported yet.
+.Sh "xsl:number			no"
+Not supported yet.
+.Sh "xsl:otherwise			yes"
+Supported.
+.Sh "xsl:output			no"
+Not supported yet.
+.Sh "xsl:param			no"
+Not supported yet.
+.Sh "xsl:preserve-space		no"
+Not supported yet. Whitespace is always preserved.
+.Sh "xsl:processing-instruction	yes"
+Supported.
+.Sh "xsl:sort				no"
+Not supported yet.
+.Sh "xsl:strip-space			no"
+Not supported yet. No whitespace is stripped.
+.Sh "xsl:stylesheet			limited"
+Has to be present. None of the attributes supported yet.
+.Sh "xsl:template			limited"
+Attribute \*(L'name\*(R' and \*(L'match\*(R' are supported to minor extend.
+('name\*(R' must match exactly and \*(L'match\*(R' must match with full
+path or no path)
+.PP
+Not supported yet:
+\- attributes \*(L'priority\*(R' and \*(L'mode\*(R'
+.Sh "xsl:text				partially"
+Not supported yet:
+\- attribute \*(L'disable-output-escaping\*(R'
+.Sh "xsl:transform			no"
+Not supported yet.
+.Sh "xsl:value-of			limited"
+Inserts attribute or element values. Limited support:
+.PP
+<xsl:value-of select=\*(R"."/>
+.PP
+<xsl:value-of select="/root-elem"/>
+.PP
+<xsl:value-of select="elem"/>
+.PP
+<xsl:value-of select="//elem"/>
+.PP
+<xsl:value-of select="elem[n]"/>
+.PP
+<xsl:value-of select="//elem[n]"/>
+.PP
+<xsl:value-of select="@attr"/>
+.PP
+and combinations of these;
+.PP
+Not supported yet:
+\- attribute \*(L'disable-output-escaping\*(R'
+.Sh "xsl:variable			no"
+Not supported yet.
+.Sh "xsl:when				limited"
+Only inside xsl:choose. Limited test support:
+.PP
+<xsl:when test="@attr='value'">
+.PP
+<xsl:when test="elem='value'">
+.PP
+<xsl:when test="path/[@attr='value']">
+.PP
+<xsl:when test="path/[elem='value']">
+.PP
+<xsl:when test="path/elem">
+.PP
+<xsl:when test="path/@attr">
+.Sh "xsl:with-param			no"
+Not supported yet.
+.SH "SUPPORT"
+Support can be obtained from the XML::XSLT mailling list:
+.PP
+.Vb 1
+\&  http://xmlxslt.listbot.com/
+.Ve
+General information, like bugs and current functionality, can
+be found at the XML::XSLT homepage:
+.PP
+.Vb 1
+\&  http://www.sci.kun.nl/sigma/Persoonlijk/egonw/xslt/
+.Ve
+
+.rn }` ''
+.IX Title "XSLT 3"
+.IX Name "XML::XSLT - A perl module for processing XSLT"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "LICENCE"
+
+.IX Header "XML::XSLT Commands"
+
+.IX Subsection "xsl:apply-imports		no"
+
+.IX Subsection "xsl:apply-templates		limited"
+
+.IX Subsection "xsl:attribute			partially"
+
+.IX Subsection "xsl:attribute-set		no"
+
+.IX Subsection "xsl:call-template		yes"
+
+.IX Subsection "xsl:choose			yes"
+
+.IX Subsection "xsl:comment			experimental"
+
+.IX Subsection "xsl:copy				partially"
+
+.IX Subsection "xsl:copy-of			limited"
+
+.IX Subsection "xsl:decimal-format		no"
+
+.IX Subsection "xsl:element			no"
+
+.IX Subsection "xsl:fallback			no"
+
+.IX Subsection "xsl:for-each			limited"
+
+.IX Subsection "xsl:if				limited"
+
+.IX Subsection "xsl:import			no"
+
+.IX Subsection "xsl:include			yes"
+
+.IX Subsection "xsl:key				no"
+
+.IX Subsection "xsl:message			no"
+
+.IX Subsection "xsl:namespace-alias		no"
+
+.IX Subsection "xsl:number			no"
+
+.IX Subsection "xsl:otherwise			yes"
+
+.IX Subsection "xsl:output			no"
+
+.IX Subsection "xsl:param			no"
+
+.IX Subsection "xsl:preserve-space		no"
+
+.IX Subsection "xsl:processing-instruction	yes"
+
+.IX Subsection "xsl:sort				no"
+
+.IX Subsection "xsl:strip-space			no"
+
+.IX Subsection "xsl:stylesheet			limited"
+
+.IX Subsection "xsl:template			limited"
+
+.IX Subsection "xsl:text				partially"
+
+.IX Subsection "xsl:transform			no"
+
+.IX Subsection "xsl:value-of			limited"
+
+.IX Subsection "xsl:variable			no"
+
+.IX Subsection "xsl:when				limited"
+
+.IX Subsection "xsl:with-param			no"
+
+.IX Header "SUPPORT"
+

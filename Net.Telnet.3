@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Net::Telnet 3 "perl 5.005, patch 53" "27/Dec/97" "User Contributed Perl Documentation"
+.TH lib::Net::Telnet 3 "perl 5.007, patch 00" "27/May/100" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -200,7 +200,7 @@ I/O methods such as print, get, and getline are provided.  More
 sophisticated interactive features are provided because connecting to
 a TELNET port ultimately means communicating with a program designed
 for human interaction.  These interactive features include the ability
-to specify a timeout and to wait for patterns to appear in the input
+to specify a time-out and to wait for patterns to appear in the input
 stream, such as the prompt from a shell.
 .PP
 Other reasons to use this module than strictly with a TELNET port are:
@@ -229,10 +229,16 @@ the user's shell prompt, which for this example is \f(CWbash$\fR
 \&    print @lines;
 .Ve
 More examples are in the \fB\s-1EXAMPLES\s0\fR section below.
+.PP
+Usage questions should be directed to the Usenet newsgroup
+comp.lang.perl.modules.
+.PP
+Contact me, Jay Rogers <jay@rgrs.com>, if you find any bugs or have
+suggestions for improvement.
 .Sh "What To Know Before Using"
 .Ip "\(bu" 2
 All output is flushed while all input is buffered.  Each object
-contains an input buffer.
+contains its own input buffer.
 .Ip "\(bu" 2
 The output record separator for \f(CWprint()\fR and \f(CWcmd()\fR is set to
 \f(CW"\en"\fR by default, so that you don't have to append all your commands
@@ -244,6 +250,14 @@ object to determine when a login or remote command is complete.  The
 method will fail with a time-out if you don't set the prompt
 correctly.
 .Ip "\(bu" 2
+Use a combination of \f(CWprint()\fR and \f(CWwaitfor()\fR as an alternative to
+\f(CWlogin()\fR or \f(CWcmd()\fR when they don't do what you want.
+.Ip "\(bu" 2
+Errors such as timing-out are handled according to the \fIerrmode\fR
+action.  The default action is to print an error message to standard
+error and have the program die.  See \f(CWerrmode()\fR for more
+information.
+.Ip "\(bu" 2
 To avoid unexpected backslash interpretation, always use single quotes
 instead of double quotes to construct a match operator argument for
 \f(CWprompt()\fR and \f(CWwaitfor()\fR (e.g. \f(CW'/bash\e$ $/'\fR).  If you're
@@ -253,23 +267,6 @@ to represent one (e.g. \f(CW'/c:\e\e\e\eusers\e\e\e\ebill>$/i'\fR).
 Of course don't forget about regexp metacharacters like \f(CW.\fR, \f(CW[\fR, or
 \f(CW$\fR.  You'll only need a single backslash to quote them.  The anchor
 metacharacters \f(CW^\fR and \f(CW$\fR refer to positions in the input buffer.
-.Ip "\(bu" 2
-Errors such as timing-out are handled according to the \fIerrmode\fR
-action.  The default action is to print an error message to standard
-error and have the program die.  Use \f(CWerrmode()\fR to change the
-action.
-.Sp
-Using an \fIerrmode\fR of \f(CW"return"\fR arranges for the error message to
-be saved and the offending method to return with an undefined value.
-You can obtain the error message using \f(CWerrmsg()\fR.
-.Ip "\(bu" 2
-You'll need to be running at least Perl version 5.002 to use this
-module.  This module does not require any libraries that don't already
-come with a standard Perl distribution.
-.Sp
-If you have the \s-1IO\s0:: libraries installed then \s-1IO::\s0Socket::\s-1INET\s0 is used
-as a base class, otherwise FileHandle is used.  The \s-1IO\s0:: libraries now
-come standard starting with perl5.004.
 .Ip "\(bu" 2
 In the input stream, each sequence of \fIcarriage return\fR and \fIline
 feed\fR (i.e. \f(CW"\e015\e012"\fR or \s-1CR\s0 \s-1LF\s0) is converted to \f(CW"\en"\fR.  In the
@@ -285,11 +282,18 @@ Win32 machines.
 More universal support for connection time-outs will be in a later
 release.
 .Ip "\(bu" 2
-This is an alpha version \- meaning that the interface may change in
-future versions.  Contact me, Jay Rogers <jay@rgrs.com>, if you find
-any bugs or have suggestions for improvement.
+You'll need to be running at least Perl version 5.002 to use this
+module.  This module does not require any libraries that don't already
+come with a standard Perl distribution.
+.Sp
+If you have the \s-1IO\s0:: libraries installed (they come standard with
+perl5.004 and later) then \s-1IO::\s0Socket::\s-1INET\s0 is used as a base class,
+otherwise FileHandle is used.
+.Ip "\(bu" 2
+Contact me, Jay Rogers <jay@rgrs.com>, if you find any bugs or have
+suggestions for improvement.
 .Sh "Debugging"
-The typical bug causes a timeout error because you've made incorrect
+The typical bug causes a time-out error because you've made incorrect
 assumptions about what the remote side actually sends.  The easiest
 way to reconcile what the remote side sends with your expectations is
 to use \f(CWinput_log()\fR or \f(CWdump_log()\fR.
@@ -323,6 +327,8 @@ make your job of parsing the data much more difficult.  You can
 sometimes avoid this with a server that prompts you for \fIconsole
 mode\fR.  Choose \fIno\fR to console mode.
 .SH "METHODS"
+In the calling sequences below, square brackets \fB[]\fR represent
+optional parameters.
 .Ip "\fBnew\fR \- create a new Net::Telnet object" 4
 .Sp
 .Vb 15
@@ -467,6 +473,10 @@ for more control over this feature.
 .Sp
 Use \f(CWdump_log()\fR to debug when this method keeps timing-out and you
 don't think it should.
+.Sp
+Consider using a combination of \f(CWprint()\fR and \f(CWwaitfor()\fR as an
+alternative to this method when it doesn't do what you want, e.g. the
+command you run prompts for input.
 .Sp
 Optional named arguments are provided to override the current settings
 of prompt, timeout, and cmd_remove_mode.
@@ -640,11 +650,11 @@ You can use \f(CWinput_record_separator()\fR to change the notion of what
 separates a line.  The default is \f(CW"\en"\fR.
 .Sp
 If a line isn't immediately available, this method blocks waiting for
-a line or the timeout.  You can override the object's timeout for this
-method using \fI$secs\fR.  Also see \f(CWtimeout()\fR.
+a line or the time-out.  You can override the object's timeout for
+this method using \fI$secs\fR.  Also see \f(CWtimeout()\fR.
 .Sp
-On eof an undefined value is returned.  On timeout or other errors the
-error mode action is performed.
+On eof an undefined value is returned.  On time-out or other errors
+the error mode action is performed.
 .Sp
 An undefined value is returned for both eof and time-out when
 \fIerrmode\fR is not set to \f(CW"die"\fR.  Use \f(CWeof()\fR and \f(CWtimed_out()\fR to
@@ -659,11 +669,11 @@ the object.  You can use \f(CWinput_record_separator()\fR to change the
 notion of what separates a line.  The default is \f(CW"\en"\fR.
 .Sp
 If a line isn't immediately available, this method blocks waiting for
-one or more lines, or the timeout.  You can override the object's
-timeout for this method using \fI$secs\fR.  Also see \f(CWtimeout()\fR.
+one or more lines, or time-out.  You can override the object's timeout
+for this method using \fI$secs\fR.  Also see \f(CWtimeout()\fR.
 .Sp
-On eof a null array is returned.  On timeout or other errors the error
-mode action is performed.
+On eof a null array is returned.  On time-out or other errors, the
+error mode action is performed.
 .Sp
 A null array is returned for both eof and time-out when \fIerrmode\fR is
 not set to \f(CW"die"\fR.  Use \f(CWeof()\fR and \f(CWtimed_out()\fR to distinguish.
@@ -752,16 +762,16 @@ This method performs a standard login by waiting for a login prompt
 and responding with \fI$username\fR, then waiting for the password prompt
 and responding with \fI$password\fR, and then waiting for the command
 interpreter prompt.  If any of those prompts sent by the remote side
-don't match what's expected, this method will timeout \- unless timeout
-is turned off.
+don't match what's expected, this method will time-out \- unless
+timeout is turned off.
 .Sp
-Login prompts must match either of the patterns:
+Login prompts must match either of the case insensitive patterns:
 .Sp
 .Vb 2
 \&    /login[: ]*$/i
 \&    /username[: ]*$/i
 .Ve
-Password prompts must match the pattern:
+Password prompts must match the case insensitive pattern:
 .Sp
 .Vb 1
 \&    /password[: ]*$/i
@@ -771,6 +781,10 @@ prompt.
 .Sp
 Use \f(CWdump_log()\fR to debug when this method keeps timing-out and you
 don't think it should.
+.Sp
+Consider using a combination of \f(CWprint()\fR and \f(CWwaitfor()\fR as an
+alternative to this method when it doesn't do what you want, e.g. the
+remote host doesn't send a username prompt.
 .Sp
 Optional named arguments are provided to override the current settings
 of prompt and timeout.
@@ -810,7 +824,7 @@ current setting of timeout.
 On time-out or other connection errors, the error mode action is
 performed.
 .Sp
-Timeouts don't work for this method on machines that don't implement
+Time-outs don't work for this method on machines that don't implement
 \s-1SIGALRM\s0 \- most notably Win32 machines.  For those machines, an error
 is returned when the system reaches its own time-out while trying to
 connect.
@@ -1154,11 +1168,11 @@ performed.
 .Sp
 The timeout may be expressed as a relative or absolute value.  If
 \fI$secs\fR is greater than or equal to the time the program was started,
-as determined by $^T, then it's the absolute time when timeout occurs.
-Also see the perl function \f(CWtime()\fR.  A relative timeout happens
-\fI$secs\fR from when the I/O method begins.
+as determined by $^T, then it's the absolute time when time-out
+occurs.  Also see the perl function \f(CWtime()\fR.  A relative time-out
+happens \fI$secs\fR from when the I/O method begins.
 .Sp
-If \fI$secs\fR is \f(CW0\fR then timeout occurs if the data cannot be
+If \fI$secs\fR is \f(CW0\fR then time-out occurs if the data cannot be
 immediately read or written.  Use the undefined value to turn off
 timing-out.
 .Sp
@@ -1222,7 +1236,7 @@ ftp://ftp.isi.edu/in-notes/iana/assignments/telnet-options
 This example gets the current weather forecast for Brainerd, Minnesota.
 .PP
 .Vb 1
-\&    my($forecast, $t);
+\&    my ($forecast, $t);
 .Ve
 .Vb 3
 \&    use Net::Telnet ();
@@ -1250,7 +1264,7 @@ This example gets the current weather forecast for Brainerd, Minnesota.
 This example checks a POP server to see if you have mail.
 .PP
 .Vb 1
-\&    my($hostname, $line, $passwd, $pop, $username);
+\&    my ($hostname, $line, $passwd, $pop, $username);
 .Ve
 .Vb 3
 \&    $hostname = "your_destination_host_here";
@@ -1297,9 +1311,9 @@ because some shells, notably tcsh, prevent changing tty modes.  Upon
 completion, FTP style statistics are printed to stderr.
 .PP
 .Vb 3
-\&    my($block, $filename, $host, $hostname, $k_per_sec, $line,
-\&       $num_read, $passwd, $prevblock, $prompt, $size, $size_bsd,
-\&       $size_sysv, $start_time, $total_time, $username);
+\&    my ($block, $filename, $host, $hostname, $k_per_sec, $line,
+\&        $num_read, $passwd, $prevblock, $prompt, $size, $size_bsd,
+\&        $size_sysv, $start_time, $total_time, $username);
 .Ve
 .Vb 4
 \&    $hostname = "your_destination_host_here";
@@ -1323,7 +1337,7 @@ completion, FTP style statistics are printed to stderr.
 .Ve
 .Vb 12
 \&    ## Get size of file.
-\&    ($line) = $host->cmd("/usr/bin/ls -l $filename");
+\&    ($line) = $host->cmd("/bin/ls -l $filename");
 \&    ($size_bsd, $size_sysv) = (split ' ', $line)[3,4];
 \&    if ($size_sysv =~ /^\ed+$/) {
 \&        $size = $size_sysv;
@@ -1339,7 +1353,7 @@ completion, FTP style statistics are printed to stderr.
 \&    ## Start sending the file.
 \&    binmode STDOUT;
 \&    $host->binmode(1);
-\&    $host->print("/usr/bin/sh -c 'stty raw; cat $filename'");
+\&    $host->print("/bin/sh -c 'stty raw; cat $filename'");
 \&    $host->getline;    # discard echoed back line
 .Ve
 .Vb 13
@@ -1381,93 +1395,12 @@ completion, FTP style statistics are printed to stderr.
 .Vb 1
 \&    exit;
 .Ve
-Here's an example that shows how to talk to a program that
-must communicate via a terminal.  In this case we're talking
-to the telnet program via a pseudo-terminal.  We use the
-Comm package to start the telnet program and return a
-filehandle to the pseudo-terminal.  This example sends some
-initial commands and then allows the user to type commands
-to the telnet session.
-.PP
-.Vb 2
-\&    my($comm_pty, $host, $hostname, $passwd, $pty,
-\&       $username, @lines);
-.Ve
-.Vb 3
-\&    $hostname = "your_host_here";
-\&    $username = "your_name_here";
-\&    $passwd = "your_passwd_here";
-.Ve
-.Vb 4
-\&    ## Start the telnet program so we can talk to it via a
-\&    ## pseudo-terminal.
-\&    {
-\&        local $^W = 0;  # Comm.pl isn't warning clean
-.Ve
-.Vb 5
-\&        require "Comm.pl";
-\&        &Comm::init("close_it", "interact",
-\&                    "open_proc", "stty_raw", "stty_sane");
-\&        $comm_pty = &open_proc("telnet $hostname")
-\&            or die "open_proc failed";
-.Ve
-.Vb 8
-\&        ## Unfortunately the Comm package doesn't
-\&        ## return us a fully qualified filehandle.  We
-\&        ## must keep the filehandle Comm returned for
-\&        ## its use and we must build another filehandle
-\&        ## qualified with the current package for our
-\&        ## use.
-\&        $pty = "main::" . $comm_pty;
-\&    }
-.Ve
-.Vb 15
-\&    ## Obtain a new Net::Telnet object that does I/O to the
-\&    ## pseudo-terminal attached to the running telnet
-\&    ## program.  The "Telnetmode" is "off" because we're
-\&    ## not talking directly to a telnet port as we normally
-\&    ## do, we're talking to a pseudo-terminal.  The
-\&    ## "Output_record_separator" is now a carriage return
-\&    ## because that's what you'd normally hit when you get
-\&    ## done typing a line at a terminal.
-\&    use Net::Telnet ();
-\&    $host = new Net::Telnet (Fhopen => $pty,
-\&                             Timeout => 10,
-\&                             Prompt => '/[\e$%#>] $/',
-\&                             Output_record_separator => "\er",
-\&                             Telnetmode => 0,
-\&                             Cmd_remove_mode => 1);
-.Ve
-.Vb 4
-\&    ## Issue some commands.
-\&    $host->login($username, $passwd);
-\&    $host->cmd("setenv DISPLAY $ENV{DISPLAY}");
-\&    print $host->cmd("who");
-.Ve
-.Vb 5
-\&    ## Allow the user to interact with telnet program until
-\&    ## they exit.
-\&    {
-\&        no strict 'subs';  # so we can refer to STDIN
-\&        local $^W = 0;     # Comm.pl isn't warning clean
-.Ve
-.Vb 5
-\&        &stty_raw(STDIN);
-\&        &interact($comm_pty);
-\&        &stty_sane(STDIN);
-\&        &close_it($comm_pty);
-\&    }
-.Ve
-.Vb 2
-\&    print "Exited telnet\en";
-\&    exit;
-.Ve
 .SH "AUTHOR"
 Jay Rogers <jay@rgrs.com>
 .SH "COPYRIGHT"
-Copyright (c) 1997 Jay Rogers. All rights reserved.  This program is
-free software; you can redistribute it and/or modify it under the same
-terms as Perl itself.
+Copyright 1997, 2000 by Jay Rogers.  All rights reserved.
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "lib::Net::Telnet 3"
@@ -1486,6 +1419,8 @@ terms as Perl itself.
 .IX Item "\(bu"
 
 .IX Subsection "What To Know Before Using"
+
+.IX Item "\(bu"
 
 .IX Item "\(bu"
 

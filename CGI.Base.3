@@ -1,0 +1,461 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH CGI::Base 3 "perl 5.007, patch 00" "4/Apr/97" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+CGI::Base \- HTTP Daemon Common Gateway Interface (CGI) Base Class
+.SH "SYNOPSIS"
+.PP
+.Vb 28
+\&    use CGI::Base;
+\&        
+\&    $cgi = new CGI::Base;       # reads vars from environment
+\&        
+\&    $cgi->var($name);           # get CGI variable value
+\&    $cgi->var($name, $value);   # set CGI variable value
+\&        
+\&    @names  = $cgi->vars;       # lists standard CGI variables
+\&        
+\&    $mime_type  = $cgi->accept_best(@mime_types);
+\&    $preference = $cgi->accept_type($mime_type);
+\&        
+\&    $cgi->pass_thru($host, $port); # forward request to server
+\&    $cgi->redirect($url);          # redirect client
+\&        
+\&    $cgi->done($dump);     # end response, does NOT send </BODY>
+\&        
+\&    $cgi->exit(@log_msgs); # exit, optionally logging messages
+\&        
+\&        
+\&    # Other functions:
+\&        
+\&    @escaped_texts = html_escape(@texts);   # '>' -> '&lt;' etc
+\&    @texts         = html_br_lines(@texts); #  \en -> '<BR>'
+\&        
+\&    SendHeaders();  # send and flush HTTP header(s)
+\&        
+\&    CGI::Base::Debug($level);
+.Ve
+.SH "DESCRIPTION"
+This module implements a CGI::Base object. This object represents the
+\fIinterface\fR between the application and an HTTP deamon.
+.PP
+In a typical CGI scenario the \fIinterface\fR is just a collection of
+environment variables. This module makes those variables available
+either via a \f(CW$cgi\fR\->\fIvar()\fR method or optionally as plain perl variables
+(see IMPORTING CGI VARIABLES below).  Small scripts will tend to use
+the imported variables, larger scripts may prefer to use the var
+method.
+.PP
+By default the CGI::Base class will transparently deal with POST and
+PUT submissions by reading STDIN into \f(CW$QUERY_STRING\fR.
+.PP
+The CGI::Base module simplifies CGI debugging by providing logging
+methods (which redirect STDERR to a file) and a very handy test mode.
+The test mode automatically detects that the script is not being run by
+a HTTP server and requests test input from the user (or command line).
+.Sh "\s-1IMPORTING\s0 \s-1CGI\s0 \s-1VARIABLES\s0"
+Users of this module can optionally import the \s-1CGI\s0 values as ordinary
+perl variables of the same name into their package. For example,
+saying:
+.PP
+.Vb 1
+\&    use CGI::Base qw(:DEFAULT QUERY_STRING REQUEST_METHOD);
+.Ve
+will allow you to refer to the \s-1CGI\s0 query string and request method as
+simply \f(CW$QUERY_STRING\fR and \f(CW$REQUEST_METHOD\fR.  Any changes made to these
+variables will be reflected in the values returned by the \fIvar()\fR method.
+.PP
+To import all the fixed \s-1CGI\s0 variables (excludes optional variables
+string with \s-1HTTP_\s0) use:
+.PP
+.Vb 1
+\&    use CGI::Base qw(:DEFAULT :CGI);
+.Ve
+.Sh "\s-1NOTES\s0"
+The \s-1CGI::\s0Base class has been specifically designed to enable it to be
+subclassed to implement alternative interfaces. For example the
+\s-1CGI::\s0MiniSvr class implements a \*(L'mini http daemon\*(R' which can be spawned
+from a \s-1CGI\s0 script in order, for example, to maintain state information
+for a client \*(L'session\*(R'.
+.PP
+The \s-1CGI::\s0Base class (and classes derived from it) are not designed to
+understand the contents of the data they are handling. Only basic data
+acquisition tasks and basic metadata parsing are performed by
+\s-1CGI::\s0Base. The \s-1QUERY_STRING\s0 is not parsed.
+.PP
+Higher level query processing (parsing of \s-1QUERY_STRING\s0 and handling of
+form fields etc) is performed by the \s-1CGI::\s0Request module.
+.PP
+Note that \s-1CGI\s0 application developers will generally deal with the
+\s-1CGI::\s0Request class and not directly with the \s-1CGI::\s0Base class.
+.Sh "\s-1FEATURES\s0"
+Object oriented and sub-classable.
+.PP
+Exporting of \s-1CGI\s0 environment variables as plain perl variables.
+.PP
+Supports pass_thru and redirection of \s-1URL\s0's.
+.PP
+Extensible attribute system for \s-1CGI\s0 environment variables.
+.PP
+Very handy automatic test mode if script is run manually.
+.Sh "\s-1PRINCIPLES\s0 and \s-1ASSUMPTIONS\s0"
+These basic principles and assumptions apply to \s-1CGI::\s0Base and can be
+built into any application using \s-1CGI::\s0Base. Any subclass of \s-1CGI::\s0Base,
+such as \s-1CGI::\s0MiniSvr, must uphold these principles.
+.PP
+\s-1STDIN\s0, \s-1STDOUT\s0 are connected to the client, possibly via a server.
+.PP
+\s-1STDERR\s0 can be used for error logging (see open_log method).
+.PP
+%\s-1ENV\s0 should not be used to access \s-1CGI\s0 parameters. See \s-1ENVIRONMENT\s0
+section below.
+.Sh "\s-1ENVIRONMENT\s0"
+The \s-1CGI::\s0Base module copies all the \s-1CGI/1\s0.1 standard environment
+variables into internal storage. See the definition of \f(CW%CgiEnv\fR and
+\f(CW@CgiObj\fR. The stored values are available either via the var method
+or as exported variables.
+.PP
+It is recommended that \f(CW$ENV\fR{...} is not used to access the \s-1CGI\s0
+variables because alternative \s-1CGI\s0 interfaces, such as \s-1CGI::\s0MiniSvr, may
+not bother to maintain \f(CW%ENV\fR consistent with the internal values. The
+simple scalar variables are also much faster to access.
+.Sh "\s-1RECENT\s0 \s-1CHANGES\s0"
+.Ip "2.6" 5
+Changes to create compatability with \s-1CGI::\s0Form.
+.Ip "2.5" 5
+Miscellaneous small bug fixes.
+.Ip "2.4" 5
+\fIget_url()\fR now adds \s-1SERVER_PORT\s0 to the url. \fIpass_thru()\fR split into
+component methods \fIforward_request()\fR and \fIpass_back()\fR.  The new
+forward_request method can \fIshutdown()\fR the sending side of the socket.
+SendHeaders does nothing and returns undef if called more than once.
+All these changes are useful for sophisticated applications.
+.Ip "2.2 and 2.3" 5
+Slightly improved documentation. Added \fIhtml_br_lines()\fR to purify
+\fIhtml_escape()\fR.  Added \s-1SIGPIPE\s0 handling (not used by default).
+Documented the automatic test mode. Assorted other minor clean ups.
+.Ip "2.1" 5
+Added support for any letter case in \s-1HTTP\s0 headers. Fixed (worked
+around) a perl/stdio bug which affected \s-1POST\s0 handling in the MiniSvr.
+Added \f(CW$ENTITY_BODY\fR to hold the Entity-Body for \s-1PUT\s0, \s-1POST\s0 and \s-1CHECKIN\s0
+methods. \f(CW$QUERY_STRING\fR now only set from \f(CW$ENTITY_BODY\fR if \s-1CONTENT_TYPE\s0
+is application/x-www-form-urlencoded. Changed some uses of map to foreach.
+Slight improved performance of pass_thru.
+.Ip "2.0" 5
+A major overhaul. Now much more object oriented but retaining the
+ability to export \s-1CGI\s0 variables. A new \fIvar()\fR method provides access
+to \s-1CGI\s0 variables in a controlled manner. Some rather fancy footwork
+with globs and references to hash elements enables the global variables
+and hash elements to be automatically kept in sync with each other.
+Take a look at the link_global_vars method. An export tag is provided
+to simplify importing the \s-1CGI\s0 variables.
+.Sp
+The new code is also much faster, mainly because it does less. Less
+work is done up front, more is defered until actually used. I have
+removed the \*(L'expand variables\*(R' concept for now. It might return later.
+The code for \fIread_entity_body()\fR, \fIget_vars_from_env()\fR and \fIaccept_best()\fR
+and many others has been revised. All the code now compiles with use
+strict;
+.Sp
+SendHeaders can now be told to automatically add a server Status-Line
+header if one is not included in the headers to be output. This greatly
+simplifies header handling in the MiniSvr and fixes the \fIredirect()\fR method.
+.Sp
+The module file can be run as a cgi script to execute a demo/test. You
+may need to chmod +x this file and teach your httpd that it can execute
+*.pm files.
+.Ip "1.17" 5
+The done method no longer sends </\s-1BODY\s0>. It was appealing but
+inappropriate for it to do so.  Added html_escape function and exported
+it by default (this should be moved into an \s-1HTML\s0 module once we have
+one). Applied html_escape to as_string.  ContentTypeHdr, LocationHdr,
+StatusHdr and ServerHdr no longer exported by default. Added Debug
+function.  Set default Debug level to 0 (off). Code to set \f(CW$URI\fR is no
+longer invoked by default and has been moved to a new get_uri method.
+This avoids the overhead for setting \f(CW$URI\fR which few people used.
+Methods like as_string which make use of \f(CW$URI\fR now call get_uri if
+needed.
+.Ip "1.16" 5
+\s-1POST\s0 data read more robust. \fIfmt()\fR renamed to \fIas_string()\fR. \fIpass_thru()\fR
+now takes host and port parameters, applies a timeout and has better
+logging.  \s-1HTTP_REFERER\s0 defined by default. Assorted fixes and tidyups.
+.Sh "\s-1FUTURE\s0 \s-1DEVELOPMENTS\s0"
+Full pod documentation.
+.PP
+None of this is perfect. All suggestions welcome.
+.PP
+How reliable is \s-1CONTENT_LENGTH\s0?
+.PP
+Pod documentation for the methods needs to be added.
+.PP
+Header handling is not ideal (but it's getting better).
+Header handling should be moved into an \s-1HTTP\s0 specific module.
+.PP
+Need mechanism to identify a \*(L'session\*(R'. This may come out of the
+ongoing \s-1HTTP\s0 security work. A session-id would be very useful for any
+advanced form of inter-query state maintenance.  The \s-1CGI::\s0Base module
+may have a hand in providing some form of session-id but would not be
+involved in any further use of it.
+.PP
+For very large \s-1POST\s0's we may need some mechanism to replace
+read_entity_body on a per call basis or at least prevent its automatic
+use. Subclassing is probably the \*(L'right\*(R' way to do this.
+.PP
+These functions should be moved out into a \s-1CGI::\s0BasePlus module since
+few simple \s-1CGI\s0 applications need them:  pass_thru, forward_request,
+pass_back, new_server_link, pass_thru_headers. The \s-1CGI::\s0BasePlus module
+would still be a \*(L'package \s-1CGI::\s0Base;\*(R'.
+.Sh "\s-1AUTHOR\s0, \s-1COPYRIGHT\s0 and \s-1ACKNOWLEDGEMENTS\s0"
+This code is Copyright (C) Tim Bunce 1995. All rights reserved.  This
+code is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+.PP
+This code includes ideas from the work of Steven E. Brenner
+<S.E.Brenner@bioc.cam.ac.uk> (cgi-lib), Lincoln Stein
+<lstein@genome.wi.mit.edu> (\s-1CGI\s0.pm), Pratap Pereira
+<pereira@ee.eng.ohio-state.edu> (phttpd) and possibly others.
+.PP
+\s-1IN\s0 \s-1NO\s0 \s-1EVENT\s0 \s-1SHALL\s0 \s-1THE\s0 \s-1AUTHORS\s0 \s-1BE\s0 \s-1LIABLE\s0 \s-1TO\s0 \s-1ANY\s0 \s-1PARTY\s0 \s-1FOR\s0 \s-1DIRECT\s0,
+\s-1INDIRECT\s0, \s-1SPECIAL\s0, \s-1INCIDENTAL\s0, \s-1OR\s0 \s-1CONSEQUENTIAL\s0 \s-1DAMAGES\s0 \s-1ARISING\s0 \s-1OUT\s0
+\s-1OF\s0 \s-1THE\s0 \s-1USE\s0 \s-1OF\s0 \s-1THIS\s0 \s-1SOFTWARE\s0 \s-1AND\s0 \s-1ITS\s0 \s-1DOCUMENTATION\s0 (\s-1INCLUDING\s0, \s-1BUT\s0 \s-1NOT\s0
+\s-1LIMITED\s0 \s-1TO\s0, \s-1LOST\s0 \s-1PROFITS\s0) \s-1EVEN\s0 \s-1IF\s0 \s-1THE\s0 \s-1AUTHORS\s0 \s-1HAVE\s0 \s-1BEEN\s0 \s-1ADVISED\s0 \s-1OF\s0
+\s-1THE\s0 \s-1POSSIBILITY\s0 \s-1OF\s0 \s-1SUCH\s0 \s-1DAMAGE\s0.
+.Sh "\s-1SEE\s0 \s-1ALSO\s0"
+\s-1URI::URL\s0, \s-1CGI::\s0Request, \s-1CGI::\s0MiniSvr
+.Sh "\s-1SUPPORT\s0"
+Please use comp.infosystems.www.* and comp.lang.perl.misc for support.
+Please do _NOT_ contact the author directly. I'm sorry but I just don't
+have the time.
+
+.rn }` ''
+.IX Title "CGI::Base 3"
+.IX Name "CGI::Base - HTTP Daemon Common Gateway Interface (CGI) Base Class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\s-1IMPORTING\s0 \s-1CGI\s0 \s-1VARIABLES\s0"
+
+.IX Subsection "\s-1NOTES\s0"
+
+.IX Subsection "\s-1FEATURES\s0"
+
+.IX Subsection "\s-1PRINCIPLES\s0 and \s-1ASSUMPTIONS\s0"
+
+.IX Subsection "\s-1ENVIRONMENT\s0"
+
+.IX Subsection "\s-1RECENT\s0 \s-1CHANGES\s0"
+
+.IX Item "2.6"
+
+.IX Item "2.5"
+
+.IX Item "2.4"
+
+.IX Item "2.2 and 2.3"
+
+.IX Item "2.1"
+
+.IX Item "2.0"
+
+.IX Item "1.17"
+
+.IX Item "1.16"
+
+.IX Subsection "\s-1FUTURE\s0 \s-1DEVELOPMENTS\s0"
+
+.IX Subsection "\s-1AUTHOR\s0, \s-1COPYRIGHT\s0 and \s-1ACKNOWLEDGEMENTS\s0"
+
+.IX Subsection "\s-1SEE\s0 \s-1ALSO\s0"
+
+.IX Subsection "\s-1SUPPORT\s0"
+

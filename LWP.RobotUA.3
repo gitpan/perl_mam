@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::RobotUA 3 "libwww-perl-5.36" "6/Jan/98" "User Contributed Perl Documentation"
+.TH lib::LWP::RobotUA 3 "libwww-perl-5.64" "27/Apr/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -202,8 +202,8 @@ LWP::RobotUA \- A class for Web Robots
 .SH "DESCRIPTION"
 This class implements a user agent that is suitable for robot
 applications.  Robots should be nice to the servers they visit.  They
-should consult the \fIrobots.txt\fR file to ensure that they are welcomed
-and they should not send too frequent requests.
+should consult the \fI/robots.txt\fR file to ensure that they are welcomed
+and they should not make requests too frequently.
 .PP
 But, before you consider writing a robot take a look at
 <URL:http://info.webcrawler.com/mak/projects/robots/robots.html>.
@@ -217,7 +217,7 @@ The LWP::RobotUA is a sub-class of LWP::UserAgent and implements the
 same methods. In addition the following methods are provided:
 .Ip "$ua = \s-1LWP::\s0RobotUA\->new($agent_name, $from, [$rules])" 4
 Your robot's name and the mail address of the human responsible for
-the robot (i.e. you) is required by the constructor.
+the robot (i.e. you) are required by the constructor.
 .Sp
 Optionally it allows you to specify the \fI\s-1WWW::\s0RobotRules\fR object to
 use.
@@ -225,27 +225,27 @@ use.
 Set the minimum delay between requests to the same server.  The
 default is 1 minute.
 .Ip "$ua->use_sleep([$boolean])" 4
-Get/set a value indicating wether the \s-1UA\s0 should \fIsleep()\fR if request
-arrive to fast (before \f(CW$ua\fR\->delay minutes has passed).  The default is
+Get/set a value indicating whether the \s-1UA\s0 should \fIsleep()\fR if requests
+arrive too fast (before \f(CW$ua\fR\->delay minutes has passed).  The default is
 \s-1TRUE\s0.  If this value is \s-1FALSE\s0 then an internal \s-1SERVICE_UNAVAILABLE\s0
 response will be generated.  It will have an Retry-After header that
-indicate when it is \s-1OK\s0 to send another request to this server.
+indicates when it is \s-1OK\s0 to send another request to this server.
 .Ip "$ua->rules([$rules])" 4
 Set/get which \fI\s-1WWW::\s0RobotRules\fR object to use. 
 .Ip "$ua->no_visits($netloc)" 4
 Returns the number of documents fetched from this server host. Yes I
 know, this method should probably have been named \fInum_visits()\fR or
-something like that :\-(
+something like that. :\-(
 .Ip "$ua->host_wait($netloc)" 4
 Returns the number of seconds (from now) you must wait before you can
 make a new request to this host.
 .Ip "$ua->as_string" 4
-Returns a text that describe the state of the \s-1UA\s0.
+Returns a string that describes the state of the \s-1UA\s0.
 Mainly useful for debugging.
 .SH "SEE ALSO"
 the \fILWP::UserAgent\fR manpage, the \fIWWW::RobotRules\fR manpage
 .SH "COPYRIGHT"
-Copyright 1996-1997 Gisle Aas.
+Copyright 1996-2000 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

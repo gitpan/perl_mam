@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP 3 "libwww-perl-5.36" "4/Aug/98" "User Contributed Perl Documentation"
+.TH lib::LWP 3 "libwww-perl-5.64" "9/Feb/102" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,7 +188,7 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-LWP \- Library for WWW access in Perl
+LWP \- The World-Wide Web library for Perl
 .SH "SYNOPSIS"
 .PP
 .Vb 2
@@ -196,18 +196,18 @@ LWP \- Library for WWW access in Perl
 \&  print "This is libwww-perl-$LWP::VERSION\en";
 .Ve
 .SH "DESCRIPTION"
-Libwww-perl is a collection of Perl modules which provides a simple
-and consistent programming interface (API) to the World-Wide Web.  The
-main focus of the library is to provide classes and functions that
-allow you to write WWW clients, thus libwww-perl said to be a WWW
-client library. The library also contain modules that are of more
-general use.
+The libwww-perl collection is a set of Perl modules which provides a
+simple and consistent application programming interface (API) to the
+World-Wide Web.  The main focus of the library is to provide classes
+and functions that allow you to write WWW clients. The library also
+contain modules that are of more general use and even classes that
+help you implement simple HTTP servers.
 .PP
-Most modules in this library are object oriented.  The user
+Most modules in this library provide an object oriented API.  The user
 agent, requests sent and responses received from the WWW server are
 all represented by objects.  This makes a simple and powerful
-interface to these services.  The interface should be easy to extend
-and customize for your needs.
+interface to these services.  The interface is easy to extend
+and customize for your own needs.
 .PP
 The main features of the library are:
 .Ip "\(bu" 3
@@ -218,32 +218,27 @@ Provides an object oriented model of \s-1HTTP\s0\-style communication.  Within
 this framework we currently support access to http, https, gopher, ftp, news,
 file, and mailto resources.
 .Ip "\(bu" 3
-The library be used through the full object oriented interface or
-through a very simple procedural interface.
+Provides a full object oriented interface or
+a very simple procedural interface.
 .Ip "\(bu" 3
-Support the basic and digest authorization schemes.
+Supports the basic and digest authorization schemes.
 .Ip "\(bu" 3
-Transparent redirect handling.
+Supports transparent redirect handling.
 .Ip "\(bu" 3
 Supports access through proxy servers.
 .Ip "\(bu" 3
-\s-1URL\s0 handling (both absolute and relative URLs are supported).
+Provides parser for \fIrobots.txt\fR files and a framework for constructing robots.
 .Ip "\(bu" 3
-A parser for \fIrobots.txt\fR files and a framework for constructing robots.
-.Ip "\(bu" 3
-The library can cooperate with Tk.  A simple Tk-based \s-1GUI\s0 browser
-called \*(L'tkweb\*(R' is distributed with the Tk extension for perl.
-.Ip "\(bu" 3
-An implementation of the \s-1HTTP\s0 content negotiation algorithm that can
+Implements \s-1HTTP\s0 content negotiation algorithm that can
 be used both in protocol modules and in server scripts (like \s-1CGI\s0
 scripts).
 .Ip "\(bu" 3
-It can deal with \s-1HTTP\s0 cookies.
+Supports \s-1HTTP\s0 cookies.
 .Ip "\(bu" 3
 A simple command line client application called \f(CWlwp-request\fR.
 .SH "HTTP STYLE COMMUNICATION"
 The libwww-perl library is based on HTTP style communication. This
-section try to describe what that means.
+section tries to describe what that means.
 .PP
 Let us start with this quote from the HTTP specification document
 <URL:http://www.w3.org/pub/WWW/Protocols/>:
@@ -277,9 +272,9 @@ accepted and will be forwarded to the \fIrecipient\fR\|(s).
 .PP
 It is as simple as that!
 .Sh "The Request Object"
-The request object has the class name \f(CWHTTP::Request\fR in
-libwww-perl. The fact that the class name use \f(CWHTTP::\fR as a name
-prefix only implies that we use the \s-1HTTP\s0 model of communication. It
+The libwww-perl request object has the class name \f(CWHTTP::Request\fR.
+The fact that the class name uses \f(CWHTTP::\fR as a
+prefix only implies that we use the \s-1HTTP\s0 model of communication.  It
 does not limit the kind of services we can try to pass this \fIrequest\fR
 to.  For instance, we will send \f(CWHTTP::Request\fRs both to ftp and
 gopher servers, as well as to the local file system.
@@ -287,35 +282,35 @@ gopher servers, as well as to the local file system.
 The main attributes of the request objects are:
 .Ip "\(bu" 3
 The \fBmethod\fR is a short string that tells what kind of
-request this is.  The most used methods are \fB\s-1GET\s0\fR, \fB\s-1PUT\s0\fR,
+request this is.  The most common methods are \fB\s-1GET\s0\fR, \fB\s-1PUT\s0\fR,
 \fB\s-1POST\s0\fR and \fB\s-1HEAD\s0\fR.
 .Ip "\(bu" 3
-The \fBurl\fR is a string denoting the protocol, server and
-the name of the \*(L"document\*(R" we want to access.  The \fBurl\fR might
+The \fBuri\fR is a string denoting the protocol, server and
+the name of the \*(L"document\*(R" we want to access.  The \fBuri\fR might
 also encode various other parameters.
 .Ip "\(bu" 3
 The \fBheaders\fR contain additional information about the
 request and can also used to describe the content.  The headers
-is a set of keyword/value pairs.
+are a set of keyword/value pairs.
 .Ip "\(bu" 3
 The \fBcontent\fR is an arbitrary amount of data.
 .Sh "The Response Object"
-The response object has the class name \f(CWHTTP::Response\fR in
-libwww-perl.  The main attributes of objects of this class are:
+The libwww-perl response object has the class name \f(CWHTTP::Response\fR.
+The main attributes of objects of this class are:
 .Ip "\(bu" 3
-The \fBcode\fR is a numerical value that encode the overall
+The \fBcode\fR is a numerical value that indicates the overall
 outcome of the request.
 .Ip "\(bu" 3
-The \fBmessage\fR is a short (human readable) string that
+The \fBmessage\fR is a short, human readable string that
 corresponds to the \fIcode\fR.
 .Ip "\(bu" 3
 The \fBheaders\fR contain additional information about the
-response and they also describe the content.
+response and describe the content.
 .Ip "\(bu" 3
 The \fBcontent\fR is an arbitrary amount of data.
 .PP
 Since we don't want to handle all possible \fIcode\fR values directly in
-our programs, the libwww-perl response object have methods that can be
+our programs, a libwww-perl response object has methods that can be
 used to query what kind of response this is.  The most commonly used
 response classification methods are:
 .Ip "is_success()" 3
@@ -328,53 +323,51 @@ have failed for some reason.
 Let us assume that we have created a \fIrequest\fR object. What do we
 actually do with it in order to receive a \fIresponse\fR?
 .PP
-The answer is that you pass it on to a \fIuser agent\fR object and this
-object will take care of all the things that need to be done
-(low-level communication and error handling). The user agent will give
-you back a \fIresponse\fR object. The user agent represents your
-application on the network and it provides you with an interface that
-can accept \fIrequests\fR and will return \fIresponses\fR.
+The answer is that you pass it to a \fIuser agent\fR object and this
+object takes care of all the things that need to be done
+(like low-level communication and error handling) and returns
+a \fIresponse\fR object. The user agent represents your
+application on the network and provides you with an interface that
+can accept \fIrequests\fR and return \fIresponses\fR.
 .PP
-You should think about the user agent as an interface layer between
+The user agent is an interface layer between
 your application code and the network.  Through this interface you are
 able to access the various servers on the network.
 .PP
-The libwww-perl class name for the user agent is
-\f(CWLWP::UserAgent\fR. Every libwww-perl application that wants to
-communicate should create at least one object of this kind. The main
-method provided by this object is \fIrequest()\fR. This method takes an
-\f(CWHTTP::Request\fR object as argument and will (eventually) return a
-\f(CWHTTP::Response\fR object.
+The class name for the user agent is \f(CWLWP::UserAgent\fR.  Every
+libwww-perl application that wants to communicate should create at
+least one object of this class. The main method provided by this
+object is \fIrequest()\fR. This method takes an \f(CWHTTP::Request\fR object as
+argument and (eventually) returns a \f(CWHTTP::Response\fR object.
 .PP
-The user agent has many other attributes that lets you
+The user agent has many other attributes that let you
 configure how it will interact with the network and with your
-application code.
+application.
 .Ip "\(bu" 3
-The \fBtimeout\fR specify how much time we give remote servers in
-creating responses before the library disconnect and creates an
+The \fBtimeout\fR specifies how much time we give remote servers to
+respond before the library disconnects and creates an
 internal \fItimeout\fR response.
 .Ip "\(bu" 3
-The \fBagent\fR specify the name that your application should use when it
+The \fBagent\fR specifies the name that your application should use when it
 presents itself on the network.
 .Ip "\(bu" 3
 The \fBfrom\fR attribute can be set to the e-mail address of the person
 responsible for running the application.  If this is set, then the
 address will be sent to the servers with every request.
 .Ip "\(bu" 3
-The \fBparse_head\fR specify whether we should initialize response
+The \fBparse_head\fR specifies whether we should initialize response
 headers from the <head> section of \s-1HTML\s0 documents.
 .Ip "\(bu" 3
-The \fBproxy\fR and \fBno_proxy\fR specify if and when communication should
-go through a proxy server. <\s-1URL:\s0http://www.w3.org/pub/\s-1WWW/\s0Proxies/>
+The \fBproxy\fR and \fBno_proxy\fR attributes specify if and when to go through
+a proxy server. <\s-1URL:\s0http://www.w3.org/pub/\s-1WWW/\s0Proxies/>
 .Ip "\(bu" 3
 The \fBcredentials\fR provide a way to set up user names and
-passwords that is needed to access certain services.
+passwords needed to access certain services.
 .PP
-Many applications would want even more control over how they interact
-with the network and they get this by specializing the
-\f(CWLWP::UserAgent\fR by sub-classing.  The library provide a
-specialization called \f(CWLWP::RobotUA\fR that is used by robot
-applications.
+Many applications want even more control over how they interact
+with the network and they get this by sub-classing
+\f(CWLWP::UserAgent\fR.  The library includes a
+sub-class, \f(CWLWP::RobotUA\fR, for robot applications.
 .Sh "An Example"
 This example shows how the user agent, a request and a response are
 represented in actual perl code:
@@ -382,12 +375,12 @@ represented in actual perl code:
 .Vb 4
 \&  # Create a user agent object
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
-\&  $ua->agent("AgentName/0.1 " . $ua->agent);
+\&  $ua = LWP::UserAgent->new;
+\&  $ua->agent("MyApp/0.1 ");
 .Ve
 .Vb 4
 \&  # Create a request
-\&  my $req = new HTTP::Request POST => 'http://www.perl.com/cgi-bin/BugGlimpse';
+\&  my $req = HTTP::Request->new(POST => 'http://www.perl.com/cgi-bin/BugGlimpse');
 \&  $req->content_type('application/x-www-form-urlencoded');
 \&  $req->content('match=www&errors=0');
 .Ve
@@ -404,27 +397,26 @@ represented in actual perl code:
 \&  }
 .Ve
 The \f(CW$ua\fR is created once when the application starts up.  New request
-objects are normally created for each request sent.
+objects should normally created for each request sent.
 .SH "NETWORK SUPPORT"
-This section goes through the various protocol schemes and describe
-the HTTP style methods that are supported and the headers that might
-have any effect.
+This section discusses the various protocol schemes and
+the HTTP style methods that headers may be used for each.
 .PP
 For all requests, a \*(L"User-Agent\*(R" header is added and initialized from
-the \f(CW$ua\fR\->agent value before the request is handed to the network
+the \f(CW$ua\fR\->agent attribute before the request is handed to the network
 layer.  In the same way, a \*(L"From\*(R" header is initialized from the
-\f(CW$ua\fR\->from value.
+\f(CW$ua\fR\->from attribute.
 .PP
-For all responses, the library will add a header called \*(L"Client-Date\*(R".
-This header will encode the time when the response was received by
-your application.  This format and semantics of the header is just
-like the server created \*(L"Date\*(R" header.  You can also encounter other
+For all responses, the library adds a header called \*(L"Client-Date\*(R".
+This header holds the time when the response was received by
+your application.  The format and semantics of the header are the
+same as the server created \*(L"Date\*(R" header.  You may also encounter other
 \*(L"Client-XXX\*(R" headers.  They are all generated by the library
-internally and not something really passed on from the servers.
+internally and are not received from the servers.
 .Sh "\s-1HTTP\s0 Requests"
-\s-1HTTP\s0 request are really just handed off to an \s-1HTTP\s0 server and it will
-decide what happens.  Few servers implement methods beside the usual
-\*(L"\s-1GET\s0\*(R", \*(L"\s-1HEAD\s0\*(R", \*(L"\s-1POST\s0\*(R" and \*(L"\s-1PUT\s0\*(R" but \s-1CGI\s0\-scripts can really implement
+\s-1HTTP\s0 requests are just handed off to an \s-1HTTP\s0 server and it
+decides what happens.  Few servers implement methods beside the usual
+\*(L"\s-1GET\s0\*(R", \*(L"\s-1HEAD\s0\*(R", \*(L"\s-1POST\s0\*(R" and \*(L"\s-1PUT\s0\*(R", but \s-1CGI\s0\-scripts may implement
 any method they like.
 .PP
 If the server is not available then the library will generate an
@@ -433,16 +425,16 @@ internal error response.
 The library automatically adds a \*(L"Host\*(R" and a \*(L"Content-Length\*(R" header
 to the \s-1HTTP\s0 request before it is sent over the network.
 .PP
-For \s-1GET\s0 request you might want to add the \*(L"If-Modified-Since\*(R" header
-to make the request conditional.
+For \s-1GET\s0 request you might want to add a \*(L"If-Modified-Since\*(R" or
+\*(L"If-None-Match\*(R" header to make the request conditional.
 .PP
 For \s-1POST\s0 request you should add the \*(L"Content-Type\*(R" header.  When you
 try to emulate \s-1HTML\s0 <\s-1FORM\s0> handling you should usually let the value
 of the \*(L"Content-Type\*(R" header be \*(L"application/x-www-form-urlencoded\*(R".
 See the \fIlwpcook\fR manpage for examples of this.
 .PP
-The libwww-perl \s-1HTTP\s0 implementation currently support the \s-1HTTP/1\s0.0
-protocol.  \s-1HTTP/0\s0.9 servers are also handled correctly.
+The libwww-perl \s-1HTTP\s0 implementation currently support the \s-1HTTP/1\s0.1
+and \s-1HTTP/1\s0.0 protocol.
 .PP
 The library allows you to access proxy server through \s-1HTTP\s0.  This
 means that you can set up the library to forward all types of request
@@ -451,7 +443,7 @@ documentation of this.
 .Sh "\s-1HTTPS\s0 Requests"
 \s-1HTTPS\s0 requests are \s-1HTTP\s0 requests over an encrypted network connection
 using the \s-1SSL\s0 protocol developed by Netscape.  Everything about \s-1HTTP\s0
-requests above also hold for \s-1HTTPS\s0 requests.  In addition the library
+requests above also apply to \s-1HTTPS\s0 requests.  In addition the library
 will add the headers \*(L"Client-\s-1SSL\s0\-Cipher\*(R", \*(L"Client-\s-1SSL\s0\-Cert-Subject\*(R" and
 \*(L"Client-\s-1SSL\s0\-Cert-Issuer\*(R" to the response.  These headers denote the
 encryption method used and the name of the server owner.
@@ -463,25 +455,26 @@ server and an internally generated error response is returned.  The
 value of the \*(L"If-\s-1SSL\s0\-Cert-Subject\*(R" header is interpreted as a Perl
 regular expression.
 .Sh "\s-1FTP\s0 Requests"
-The library currently support \s-1GET\s0, \s-1HEAD\s0 and \s-1PUT\s0 requests.  \s-1GET\s0 will
-retrieve a file or a directory listing from an \s-1FTP\s0 server.  \s-1PUT\s0 will
-store a file on a ftp server.
+The library currently supports \s-1GET\s0, \s-1HEAD\s0 and \s-1PUT\s0 requests.  \s-1GET\s0
+retrieves a file or a directory listing from an \s-1FTP\s0 server.  \s-1PUT\s0
+stores a file on a ftp server.
 .PP
 You can specify a ftp account for servers that want this in addition
-user name and password.  This is specified by passing an \*(L"Account\*(R"
+to user name and password.  This is specified by including an \*(L"Account\*(R"
 header in the request.
 .PP
 User name/password can be specified using basic authorization or be
-encoded in the \s-1URL\s0.  Bad logins return an \s-1UNAUTHORIZED\s0 response with
-\*(L"\s-1WWW\s0\-Authenticate: Basic\*(R" and can be treated as basic authorization
+encoded in the \s-1URL\s0.  Failed logins return an \s-1UNAUTHORIZED\s0 response with
+\*(L"\s-1WWW\s0\-Authenticate: Basic\*(R" and can be treated like basic authorization
 for \s-1HTTP\s0.
 .PP
-The library support ftp \s-1ASCII\s0 transfer mode by specifying the \*(L"type=a\*(R"
-parameter in the \s-1URL\s0.
+The library supports ftp \s-1ASCII\s0 transfer mode by specifying the \*(L"type=a\*(R"
+parameter in the \s-1URL\s0. It also supports transfer of ranges for \s-1FTP\s0 transfers
+using the \*(L"Range\*(R" header.
 .PP
 Directory listings are by default returned unprocessed (as returned
 from the ftp server) with the content media type reported to be
-\*(L"text/ftp-dir-listing\*(R". The \f(CWFile::Listing\fR module provide functionality
+\*(L"text/ftp-dir-listing\*(R". The \f(CWFile::Listing\fR module provides methods
 for parsing of these directory listing.
 .PP
 The ftp module is also able to convert directory listings to \s-1HTML\s0 and
@@ -489,7 +482,7 @@ this can be requested via the standard \s-1HTTP\s0 content negotiation
 mechanisms (add an \*(L"Accept: text/html\*(R" header in the request if you
 want this).
 .PP
-The normal file retrievals, the \*(L"Content-Type\*(R" is guessed based on the
+For normal file retrievals, the \*(L"Content-Type\*(R" is guessed based on the
 file name suffix. See the \fI\s-1LWP::\s0MediaTypes\fR manpage.
 .PP
 The \*(L"If-Modified-Since\*(R" request header works for servers that implement
@@ -505,9 +498,9 @@ Example:
 Access to the \s-1USENET\s0 News system is implemented through the \s-1NNTP\s0
 protocol.  The name of the news server is obtained from the
 \s-1NNTP_SERVER\s0 environment variable and defaults to \*(L"news\*(R".  It is not
-possible to specify the hostname of the \s-1NNTP\s0 server in the news:\-URLs.
+possible to specify the hostname of the \s-1NNTP\s0 server in news: URLs.
 .PP
-The library support \s-1GET\s0 and \s-1HEAD\s0 to retrieve news articles through the
+The library supports \s-1GET\s0 and \s-1HEAD\s0 to retrieve news articles through the
 \s-1NNTP\s0 protocol.  You can also post articles to newsgroups by using
 (surprise!) the \s-1POST\s0 method.
 .PP
@@ -528,8 +521,8 @@ Examples:
 \&  EOT
 .Ve
 .Sh "Gopher Request"
-The library supports the \s-1GET\s0 and \s-1HEAD\s0 method for gopher request.  All
-request header values are ignored.  \s-1HEAD\s0 cheats and will return a
+The library supports the \s-1GET\s0 and \s-1HEAD\s0 methods for gopher requests.  All
+request header values are ignored.  \s-1HEAD\s0 cheats and returns a
 response without even talking to server.
 .PP
 Gopher menus are always converted to \s-1HTML\s0.
@@ -565,7 +558,7 @@ The \*(L"To\*(R" header is initialized from the mail address in the \s-1URL\s0.
 Example:
 .PP
 .Vb 3
-\&  $req = HTTP::Request->new(POST => 'mailto:libwww-perl-request@ics.uci.edu');
+\&  $req = HTTP::Request->new(POST => 'mailto:libwww@perl.org');
 \&  $req->header(Subject => "subscribe");
 \&  $req->content("Please subscribe me to the libwww-perl mailing list!\en");
 .Ve
@@ -594,16 +587,16 @@ library. Indentation shows class inheritance.
 \&   HTTP::Response   -- HTTP response
 \& HTTP::Daemon       -- A HTTP server class
 .Ve
-.Vb 1
-\& URI::URL           -- Uniform Resource Locators
-.Ve
 .Vb 2
 \& WWW::RobotRules    -- Parse robots.txt files
 \&   WWW::RobotRules::AnyDBM_File -- Persistent RobotRules
 .Ve
+.Vb 1
+\& Net::HTTP          -- Low level HTTP client
+.Ve
 The following modules provide various functions and definitions.
 .PP
-.Vb 8
+.Vb 9
 \& LWP                -- This file.  Library version number and documentation.
 \& LWP::MediaTypes    -- MIME types configuration (text/html etc.)
 \& LWP::Debug         -- Debug logging module
@@ -612,6 +605,7 @@ The following modules provide various functions and definitions.
 \& HTTP::Date         -- Date parsing module for HTTP date formats
 \& HTTP::Negotiate    -- HTTP content negotiation calculation
 \& File::Listing      -- Parse directory listings
+\& HTML::Form         -- Processing for <form>s in HTML documents
 .Ve
 .SH "MORE DOCUMENTATION"
 All modules contain detailed information on the interfaces they
@@ -619,6 +613,26 @@ provide.  The \fIlwpcook\fR manpage is the libwww-perl cookbook that contain
 examples of typical usage of the library.  You might want to take a
 look at how the scripts \f(CWlwp-request\fR, \f(CWlwp-rget\fR and \f(CWlwp-mirror\fR
 are implemented.
+.SH "ENVIRONMENT"
+The following environment variables are used by LWP:
+.Ip "\s-1HOME\s0" 5
+The \f(CWLWP::MediaTypes\fR functions will look for the \fI.media.types\fR and
+\&\fI.mime.types\fR files relative to you home directory.
+.Ip "http_proxy" 5
+.Ip "ftp_proxy" 5
+.Ip "xxx_proxy" 5
+.Ip "no_proxy" 5
+These environment variables can be set to enable communication through
+a proxy server.  See the description of the \f(CWenv_proxy\fR method in
+the \fI\s-1LWP::\s0UserAgent\fR manpage.
+.Ip "\s-1PERL_LWP_USE_HTTP_10\s0" 5
+Enable the old \s-1HTTP/1\s0.0 protocol driver instead of the new \s-1HTTP/1\s0.1
+driver.  You might want to set this to a \s-1TRUE\s0 value if you discover
+that your old \s-1LWP\s0 applications fails after you installed \s-1LWP\s0\-5.60 or
+better.
+.Ip "\s-1PERL_HTTP_URI_CLASS\s0" 5
+Used to decide what \s-1URI\s0 objects to instantiate.  The default is \f(CWURI\fR.
+You might want to set it to \f(CWURI::URL\fR for compatiblity with old times.
 .SH "BUGS"
 The library can not handle multiple simultaneous requests yet.  Also,
 check out what's left in the TODO file.
@@ -639,33 +653,30 @@ Koenig, Jared Rhine, and Jack Shirazi.
 .SH "COPYRIGHT"
 .PP
 .Vb 2
-\&  Copyright 1995-1998, Gisle Aas
+\&  Copyright 1995-2001, Gisle Aas
 \&  Copyright 1995, Martijn Koster
 .Ve
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AVAILABILITY"
-The latest version of this library is likely to be available from:
+The latest version of this library is likely to be available from CPAN
+as well as:
 .PP
 .Vb 1
-\& http://www.sn.no/libwww-perl/
+\& http://www.linpro.no/lwp/
 .Ve
-The best place to discuss this code is on the
-<libwww-perl@ics.uci.edu> mailing list.
+The best place to discuss this code is on the <libwww@perl.org>
+mailing list.
 
 .rn }` ''
 .IX Title "lib::LWP 3"
-.IX Name "LWP - Library for WWW access in Perl"
+.IX Name "LWP - The World-Wide Web library for Perl"
 
 .IX Header "NAME"
 
 .IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
-
-.IX Item "\(bu"
-
-.IX Item "\(bu"
 
 .IX Item "\(bu"
 
@@ -750,6 +761,22 @@ The best place to discuss this code is on the
 .IX Header "OVERVIEW OF CLASSES AND PACKAGES"
 
 .IX Header "MORE DOCUMENTATION"
+
+.IX Header "ENVIRONMENT"
+
+.IX Item "\s-1HOME\s0"
+
+.IX Item "http_proxy"
+
+.IX Item "ftp_proxy"
+
+.IX Item "xxx_proxy"
+
+.IX Item "no_proxy"
+
+.IX Item "\s-1PERL_LWP_USE_HTTP_10\s0"
+
+.IX Item "\s-1PERL_HTTP_URI_CLASS\s0"
 
 .IX Header "BUGS"
 

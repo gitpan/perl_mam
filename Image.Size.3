@@ -1,0 +1,484 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH Size 3 "perl 5.007, patch 00" "1/Mar/102" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+Image::Size \- read the dimensions of an image in several popular formats
+.SH "SYNOPSIS"
+.PP
+.Vb 4
+\&    use Image::Size;
+\&    # Get the size of globe.gif
+\&    ($globe_x, $globe_y) = imgsize("globe.gif");
+\&    # Assume X=60 and Y=40 for remaining examples
+.Ve
+.Vb 4
+\&    use Image::Size 'html_imgsize';
+\&    # Get the size as 'width="X" height="Y"' for HTML generation
+\&    $size = html_imgsize("globe.gif");
+\&    # $size == 'width="60" height="40"'
+.Ve
+.Vb 4
+\&    use Image::Size 'attr_imgsize';
+\&    # Get the size as a list passable to routines in CGI.pm
+\&    @attrs = attr_imgsize("globe.gif");
+\&    # @attrs == ('-width', 60, '-height', 40)
+.Ve
+.Vb 4
+\&    use Image::Size;
+\&    # Get the size of an in-memory buffer
+\&    ($buf_x, $buf_y) = imgsize(\e$buf);
+\&    # Assuming that $buf was the data, imgsize() needed a reference to a scalar
+.Ve
+.SH "DESCRIPTION"
+The \fBImage::Size\fR library is based upon the \f(CWwwwis\fR script written by
+Alex Knowles \fI(alex@ed.ac.uk)\fR, a tool to examine HTML and add \*(L'width\*(R' and
+\&'height\*(R' parameters to image tags. The sizes are cached internally based on
+file name, so multiple calls on the same file name (such as images used
+in bulleted lists, for example) do not result in repeated computations.
+.PP
+\fBImage::Size\fR provides three interfaces for possible import:
+.Ip "imgsize(\fIstream\fR)" 5
+Returns a three-item list of the X and Y dimensions (width and height, in
+that order) and image type of \fIstream\fR. Errors are noted by undefined
+(\fBundef\fR) values for the first two elements, and an error string in the third.
+The third element can be (and usually is) ignored, but is useful when
+sizing data whose type is unknown.
+.Ip "html_imgsize(\fIstream\fR)" 5
+Returns the width and height (X and Y) of \fIstream\fR pre-formatted as a single
+string \f(CW'width="X" height="Y"'\fR suitable for addition into generated \s-1HTML\s0 \s-1IMG\s0
+tags. If the underlying call to \f(CWimgsize\fR fails, \fBundef\fR is returned. The
+format returned should be dually suited to both \s-1HTML\s0 and \s-1XHTML\s0.
+.Ip "attr_imgsize(\fIstream\fR)" 5
+Returns the width and height of \fIstream\fR as part of a 4-element list useful
+for routines that use hash tables for the manipulation of named parameters,
+such as the Tk or \s-1CGI\s0 libraries. A typical return value looks like
+\f(CW("-width", X, "-height", Y)\fR. If the underlying call to \f(CWimgsize\fR fails,
+\fBundef\fR is returned.
+.PP
+By default, only \f(CWimgsize()\fR is exported. Any one or combination of the three
+may be explicitly imported, or all three may be with the tag \fB:all\fR.
+.Sh "Input Types"
+The sort of data passed as \fIstream\fR can be one of three forms:
+.Ip "string" 5
+If an ordinary scalar (string) is passed, it is assumed to be a file name
+(either absolute or relative to the current working directory of the
+process) and is searched for and opened (if found) as the source of data.
+Possible error messages (see \s-1DIAGNOSTICS\s0 below) may include file-access
+problems.
+.Ip "scalar reference" 5
+If the passed-in stream is a scalar reference, it is interpreted as pointing
+to an in-memory buffer containing the image data.
+.Sp
+.Vb 4
+\&        # Assume that &read_data gets data somewhere (WWW, etc.)
+\&        $img = &read_data;
+\&        ($x, $y, $id) = imgsize(\e$img);
+\&        # $x and $y are dimensions, $id is the type of the image
+.Ve
+.Ip "Open file handle" 5
+The third option is to pass in an open filehandle (such as an object of
+the \f(CWIO::File\fR class, for example) that has already been associated with
+the target image file. The file pointer will necessarily move, but will be
+restored to its original position before subroutine end.
+.Sp
+.Vb 3
+\&        # $fh was passed in, is IO::File reference:
+\&        ($x, $y, $id) = imgsize($fh);
+\&        # Same as calling with filename, but more abstract.
+.Ve
+.Sh "Recognized Formats"
+Image::Size understands and sizes data in the following formats:
+.Ip "\s-1GIF\s0" 4
+.Ip "\s-1JPG\s0" 4
+.Ip "\s-1XBM\s0" 4
+.Ip "\s-1XPM\s0" 4
+.Ip "\s-1PPM\s0 family (\s-1PPM/PGM/PBM\s0)" 4
+.Ip "\s-1XV\s0 thumbnails" 4
+.Ip "\s-1PNG\s0" 4
+.Ip "\s-1TIF\s0" 4
+.Ip "\s-1BMP\s0" 4
+.Ip "\s-1PSD\s0 (Adobe PhotoShop)" 4
+.Ip "\s-1SWF\s0 (ShockWave/Flash)" 4
+.Ip "\s-1PCD\s0 (Kodak PhotoCD, see notes below)" 4
+.PP
+When using the \f(CWimgsize\fR interface, there is a third, unused value returned
+if the programmer wishes to save and examine it. This value is the identity of
+the data type, expressed as a 2-3 letter abbreviation as listed above. This is
+useful when operating on open file handles or in-memory data, where the type
+is as unknown as the size.  The two support routines ignore this third return
+value, so those wishing to use it must use the base \f(CWimgsize\fR routine.
+.Sh "Information Cacheing and \f(CW$NO_CACHE\fR"
+When a filename is passed to any of the sizing routines, the default behavior
+of the library is to cache the resulting information. The modification-time of
+the file is also recorded, to determine whether the cache should be purged and
+updated. This was originally added due to the fact that a number of \s-1CGI\s0
+applications were using this library to generate attributes for pages that
+often used the same graphical element many times over.
+.PP
+However, the cacheing can lead to problems when the files are generated
+dynamically, at a rate that exceeds the resolution of the modification-time
+value on the filesystem. Thus, the optionally-importable control variable
+\f(CW$NO_CACHE\fR has been introduced. If this value is anything that evaluates to a
+non-false value (be that the value 1, any non-null string, etc.) then the
+cacheing is disabled until such time as the program re-enables it by setting
+the value to false.
+.PP
+The parameter \f(CW$NO_CACHE\fR may be imported as with the \fBimgsize\fR routine, and
+is also imported when using the import tag \fB\f(CW:all\fR\fR. If the programmer
+chooses not to import it, it is still accessible by the fully-qualified package
+name, \fB$Image::Size::\s-1NO_CACHE\s0\fR.
+.Sh "Sizing PhotoCD Images"
+With version 2.95, support for the Kodak PhotoCD image format is
+included. However, these image files are not quite like the others. One file
+is the source of the image in any of a range of pre-set resolutions (all with
+the same aspect ratio). Supporting this here is tricky, since there is nothing
+inherent in the file to limit it to a specific resolution.
+.PP
+The library addresses this by using a scale mapping, and requiring the user
+(you) to specify which scale is preferred for return. Like the \f(CW$NO_CACHE\fR
+setting described earlier, this is an importable scalar variable that may be
+used within the application that uses \fBImage::Size\fR. This parameter is called
+\f(CW$PCD_SCALE\fR, and is imported by the same name. It, too, is also imported
+when using the tag \fB\f(CW:all\fR\fR or may be referenced as
+\fB$Image::Size::\s-1PCD_SCALE\s0\fR.
+.PP
+The parameter should be set to one of the following values:
+.PP
+.Vb 6
+\&        base/16
+\&        base/4
+\&        base
+\&        base4
+\&        base16
+\&        base64
+.Ve
+Note that not all PhotoCD disks will have included the \f(CWbase64\fR
+resolution. The actual resolutions are not listed here, as they are constant
+and can be found in any documentation on the \s-1PCD\s0 format. The value of
+\f(CW$PCD_SCALE\fR is treated in a case-insensitive manner, so \f(CWbase\fR is the same
+as \f(CWBase\fR or \f(CWBaSe\fR. The default scale is set to \f(CWbase\fR.
+.PP
+Also note that the library makes no effort to read enough of the \s-1PCD\s0 file to
+verify that the requested resolution is available. The point of this library
+is to read as little as necessary so as to operate efficiently. Thus, the only
+real difference to be found is in whether the orientation of the image is
+portrait or landscape. That is in fact all that the library extracts from the
+image file.
+.SH "DIAGNOSTICS"
+The base routine, \f(CWimgsize\fR, returns \fBundef\fR as the first value in its list
+when an error has occured. The third element contains a descriptive
+error message.
+.PP
+The other two routines simply return \fBundef\fR in the case of error.
+.SH "MORE EXAMPLES"
+The \fBattr_imgsize\fR interface is also well-suited to use with the Tk
+extension:
+.PP
+.Vb 1
+\&    $image = $widget->Photo(-file => $img_path, attr_imgsize($img_path));
+.Ve
+Since the \f(CWTk::Image\fR classes use dashed option names as \f(CWCGI\fR does, no
+further translation is needed.
+.PP
+This package is also well-suited for use within an Apache web server context.
+File sizes are cached upon read (with a check against the modified time of
+the file, in case of changes), a useful feature for a \fBmod_perl\fR environment
+in which a child process endures beyond the lifetime of a single request.
+Other aspects of the \fBmod_perl\fR environment cooperate nicely with this
+module, such as the ability to use a sub-request to fetch the full pathname
+for a file within the server space. This complements the HTML generation
+capabilities of the \fBCGI\fR module, in which \f(CWCGI::img\fR wants a URL but
+\f(CWattr_imgsize\fR needs a file path:
+.PP
+.Vb 4
+\&    # Assume $Q is an object of class CGI, $r is an Apache request object.
+\&    # $imgpath is a URL for something like "/img/redball.gif".
+\&    $r->print($Q->img({ -src => $imgpath,
+\&                        attr_imgsize($r->lookup_uri($imgpath)->filename) }));
+.Ve
+The advantage here, besides not having to hard-code the server document root,
+is that Apache passes the sub-request through the usual request lifecycle,
+including any stages that would re-write the URL or otherwise modify it.
+.SH "CAVEATS"
+Caching of size data can only be done on inputs that are file names. Open
+file handles and scalar references cannot be reliably transformed into a
+unique key for the table of cache data. Buffers could be cached using the
+MD5 module, and perhaps in the future I will make that an option. I do not,
+however, wish to lengthen the dependancy list by another item at this time.
+.SH "SEE ALSO"
+\f(CWhttp://www.tardis.ed.ac.uk/~ark/wwwis/\fR for a description of \f(CWwwwis\fR
+and how to obtain it.
+.SH "AUTHORS"
+Perl module interface by Randy J. Ray \fI(rjray@blackperl.com)\fR, original
+image-sizing code by Alex Knowles \fI(alex@ed.ac.uk)\fR and Andrew Tong
+\fI(werdna@ugcs.caltech.edu)\fR, used with their joint permission.
+.PP
+Some bug fixes submitted by Bernd Leibing \fI(bernd.leibing@rz.uni-ulm.de)\fR.
+PPM/PGM/PBM sizing code contributed by Carsten Dominik
+\fI(dominik@strw.LeidenUniv.nl)\fR. Tom Metro \fI(tmetro@vl.com)\fR re-wrote the JPG
+and PNG code, and also provided a PNG image for the test suite. Dan Klein
+\fI(dvk@lonewolf.com)\fR contributed a re-write of the GIF code.  Cloyce Spradling
+\fI(cloyce@headgear.org)\fR contributed TIFF sizing code and test images. Aldo
+Calpini \fI(a.calpini@romagiubileo.it)\fR suggested support of BMP images (which
+I \fIreally\fR should have already thought of :\-) and provided code to work
+with. A patch to allow html_imgsize to produce valid output for XHTML, as
+well as some documentation fixes was provided by Charles Levert
+\fI(charles@comm.polymtl.ca)\fR. The ShockWave/Flash support was provided by
+Dmitry Dorofeev \fI(dima@yasp.com)\fR. Though I neglected to take note of who
+supplied the PSD (PhotoShop) code, a bug was identified by Alex Weslowski
+<aweslowski@rpinteractive.com>, who also provided a test image. PCD support
+was adapted from a script made available by Phil Greenspun, as guided to my
+attention by Matt Mueller \fImueller@wetafx.co.nz\fR. A thorough read of the
+documentation and source by Philip Newton \fIPhilip.Newton@datenrevision.de\fR
+found several typos and a small buglet.
+
+.rn }` ''
+.IX Title "Size 3"
+.IX Name "Image::Size - read the dimensions of an image in several popular formats"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "imgsize(\fIstream\fR)"
+
+.IX Item "html_imgsize(\fIstream\fR)"
+
+.IX Item "attr_imgsize(\fIstream\fR)"
+
+.IX Subsection "Input Types"
+
+.IX Item "string"
+
+.IX Item "scalar reference"
+
+.IX Item "Open file handle"
+
+.IX Subsection "Recognized Formats"
+
+.IX Item "\s-1GIF\s0"
+
+.IX Item "\s-1JPG\s0"
+
+.IX Item "\s-1XBM\s0"
+
+.IX Item "\s-1XPM\s0"
+
+.IX Item "\s-1PPM\s0 family (\s-1PPM/PGM/PBM\s0)"
+
+.IX Item "\s-1XV\s0 thumbnails"
+
+.IX Item "\s-1PNG\s0"
+
+.IX Item "\s-1TIF\s0"
+
+.IX Item "\s-1BMP\s0"
+
+.IX Item "\s-1PSD\s0 (Adobe PhotoShop)"
+
+.IX Item "\s-1SWF\s0 (ShockWave/Flash)"
+
+.IX Item "\s-1PCD\s0 (Kodak PhotoCD, see notes below)"
+
+.IX Subsection "Information Cacheing and \f(CW$NO_CACHE\fR"
+
+.IX Subsection "Sizing PhotoCD Images"
+
+.IX Header "DIAGNOSTICS"
+
+.IX Header "MORE EXAMPLES"
+
+.IX Header "CAVEATS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHORS"
+

@@ -1,0 +1,568 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH HTML 3 "perl 5.007, patch 00" "29/Oct/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+MIME::Lite::HTML \- Provide routine to transform a HTML page in a MIME\-Lite mail
+.SH "SYNOPSIS"
+.PP
+.Vb 17
+\&  #!/usr/bin/perl -w 
+\&  # A cgi program that do "Mail this page to a friend";
+\&  # Call this script like this :
+\&  # script.cgi?email=myfriend@isp.com&url=http://www.go.com
+\&  use strict;
+\&  use CGI qw/:standard/;
+\&  use CGI::Carp qw/fatalsToBrowser/;
+\&  use MIME::Lite::HTML;
+\&  
+\&  my $mailHTML = new MIME::Lite::HTML
+\&     From     => 'MIME-Lite@alianwebserver.com',
+\&     To       => param('email'),
+\&     Subject => 'Your url: '.param('url');
+\&  
+\&  my $MIMEmail = $mailHTML->parse(param('url'));
+\&  $MIMEmail->send; # or for win user : $mail->send_by_smtp('smtp.fai.com');
+\&  print header,"Mail envoye (", param('url'), " to ", param('email'),")<br>\en";
+.Ve
+.SH "VERSION"
+$Revision: 1.8 $
+.SH "DESCRIPTION"
+This module is a Perl mail client interface for sending message that 
+support HTML format and build them for you..
+This module provide routine to transform a HTML page in MIME::Lite mail.
+So you need this module to use MIME\-Lite-HTML possibilities
+.Sh "What's happen ?"
+The job done is:
+.Ip "\(bu" 5
+Get the file (\s-1LWP\s0) if needed
+.Ip "\(bu" 5
+Parse page to find include images
+.Ip "\(bu" 5
+Attach them to mail with adequat header if asked (default)
+.Ip "\(bu" 5
+Include external \s-1CSS\s0,Javascript file
+.Ip "\(bu" 5
+Replace relative url with absolute one
+.Ip "\(bu" 5
+Build the final \s-1MIME\s0\-Lite object with each part found
+.Sh "Usage"
+Did you alread see link like \*(L"Send this page to a friend\*(R" ?. With this module,
+you can do script that to this in 3 lines.
+.PP
+It can be used too in a \s-1HTML\s0 newsletter. You make a classic \s-1HTML\s0 page,
+and give just url to \s-1MIME::\s0Lite::\s-1HTML\s0.
+.Sh "Construction"
+\s-1MIME\s0\-Lite-\s-1HTML\s0 use a \s-1MIME\s0\-Lite object, and \s-1RFC2257\s0 construction:
+.PP
+If images and text are present, construction use is:
+.PP
+.Vb 5
+\&  --> multipart/alternative
+\&  ------> text/plain
+\&  ------> multipart/related
+\&  -------------> text/html
+\&  -------------> each images
+.Ve
+If no images but text is present, this is that:
+.PP
+.Vb 3
+\&  ---> multipart/alternative
+\&  -------> text/plain if present
+\&  -------> text/html
+.Ve
+If images but no text, this is:
+.PP
+.Vb 3
+\&  ---> multipart/related
+\&  -------> text/html
+\&  -------> each images
+.Ve
+If no images and no text, this is:
+.PP
+.Vb 1
+\&  ---> text/html
+.Ve
+.Sh "Documentation"
+Additionnal documentation can be found here:
+.Ip "\(bu" 5
+\s-1MIME\s0\-lite module
+.Ip "\(bu" 5
+\s-1RFC\s0 822, \s-1RFC\s0 1521, \s-1RFC\s0 1522 and specially \s-1RFC\s0 2257 (\s-1MIME\s0 Encapsulation
+of Aggregate Documents, such as \s-1HTML\s0)
+.Sh "Clients tested"
+\s-1HTML\s0 in mail is not full supported so this module can't work with all email
+clients. If some client recognize \s-1HTML\s0, they didn't support images include in
+\s-1HTML\s0. So in fact, they recognize multipart/relative but not multipart/related.
+.Ip "Netscape Messager (Linux-Windows)" 5
+100% ok
+.Ip "Outlook Express (Windows-Mac)" 5
+100% ok. Mac work only with Content-Location header. Thx to Steve Benbow for
+give mr this feedback and for his test.
+.Ip "Eudora (Windows)" 5
+If this module just send \s-1HTML\s0 and text, (without images), 100% ok.
+.Sp
+With images, Eudora didn't recognize multipart/related part as describe in
+\s-1RFC\s0 2257 even if he can read his own \s-1HTML\s0 mail. So if images are present in 
+\s-1HTML\s0 part, text and \s-1HTML\s0 part will be displayed both, text part in first. 
+Two additional headers will be displayed in \s-1HTML\s0 part too in this case. 
+Version 1.0 of this module correct major problem of headers displayed 
+with image include in \s-1HTML\s0 part.
+.Ip "KMail (Linux)" 5
+If this module just send \s-1HTML\s0 and text, (without images), 100% ok.
+.Sp
+In other case, Kmail didn't support image include in \s-1HTML\s0. So if you set in 
+KMail \*(L"Prefer \s-1HTML\s0 to text\*(R", it display \s-1HTML\s0 with images broken. Otherwise, 
+it display text part.
+.Ip "Pegasus (Windows)" 5
+If this module just send \s-1HTML\s0 and text, (without images), 100% ok.
+.Sp
+Pegasus didn't support images in \s-1HTML\s0. When it find a multipart/related 
+message, it ignore it, and display text part.
+.PP
+If you find others mail client who support (or not support) \s-1MIME\s0\-Lite-\s-1HTML\s0
+module, give me some feedback ! If you want be sure that your mail can be 
+read by maximum of people, (so not only \s-1OE\s0 and Netscape), don't include 
+images in your mail, and use a text buffer too. If multipart/related mail 
+is not recognize, multipart/alternative can be read by the most of mail client.
+.Sh "Install on WinX with ActiveState / \s-1PPM\s0"
+Just do in \s-1DOS\s0 \*(L"shell":
+.PP
+.Vb 4
+\&  c:\e ppm
+\&  > set repository alian http://www.alianwebserver.com/perl/CPAN
+\&  > install MIME-Lite-HTML
+\&  > quit
+.Ve
+.SH "Public Interface"
+.Ip "new(%hash)" 5
+Create a new instance of \s-1MIME::\s0Lite::\s-1HTML\s0.
+.Sp
+The hash can have this key : [Proxy], [Debug], [IncludeType], [HashTemplate], 
+[Charset], [TextEncoding]
+.Ip "Proxy" 10
+\&... is url of proxy to use. Ex: \*(L'Proxy\*(R' => \*(L'http://192.168.100.166:8080\*(R'
+.Ip "Debug " 10
+\&... is trace to stdout during parsing. Ex: \*(L'Debug\*(R' => 1 
+.Ip "IncludeType " 10
+\&... is method to use when finding images:
+.Ip "location" 15
+Default method is embed them in mail whith \*(L'Content-Location\*(R' header. 
+.Ip "cid" 15
+You use a \*(L'Content-\s-1CID\s0\*(R' header. 
+.Ip "extern" 15
+Images are not embed, relative url are just replace with absolute, 
+so images are fetch when user read mail. (Server must be reachable !)
+.Ip "$hash{'HashTemplate'} " 10
+\&... is a reference to a hash. If present, \s-1MIME::\s0Lite::\s-1HTML\s0 
+will substitute <? \f(CW$name\fR ?> with \f(CW$hash\fR{'HashTemplate'}{'name'} when parse url 
+to send. \f(CW$hash\fR{'HashTemplate'} can be used too for include data for subelement.
+Ex:
+\f(CW$hash\fR{'HashTemplate'}{'http://www.al.com/images/sommaire.gif'}=\e@data;
+or \f(CW$hash\fR{'HashTemplate'}{'http://www.al.com/script.js'}=\*(R"\fIalert\fR\|("Hello world");;
+.Sp
+When module find the image http://www.alianwebserver.com/images/sommaire.gif 
+in buffer, it don't get image with \s-1LWP\s0 but use data found in 
+\f(CW$hash\fR{'HashTemplate'}.
+.Ip "TextCharset " 10
+\&... is the character set to use for the text part. 
+I.E. \*(L'TextCharset\*(R' => \*(L'iso-8859-7\*(R' for Greek. If none specified, the default 
+is used (iso-8859-1).
+.Ip "HTMLCharset " 10
+\&... is the character set to use for the html part. 
+I.E. \*(L'HTMLCharset\*(R' => \*(L'iso-8859-7\*(R' for Greek. If none specified, the default 
+is used (iso-8859-1). Take care, as that option does \s-1NOT\s0 change the character 
+set of the \s-1HTML\s0 page, it only changes the character set of the mime part.
+.Ip "TextEncoding " 10
+\&... is the Encoding to be used for the text part (if such a part 
+exists). For example: \*(L'TextEncoding\*(R' => \*(L'base64\*(R'. If none specified, the 
+default is used (7bit).
+.Ip "HTMLEncoding " 10
+\&... is the Encoding to be used for the html part. 
+I.E : \*(L'HTMLEncoding\*(R' => \*(L'base64\*(R'. If none specified, the default is used 
+(quoted-printable).
+.Sp
+Others keys are use with \s-1MIME::\s0Lite constructor.
+.Sp
+This \s-1MIME\s0\-Lite keys are: Bcc, Encrypted, Received, Sender, Cc, From,
+References, Subject, Comments, Keywords, Reply-To To, Content-*,
+Message-\s-1ID\s0,Resent-*, X\-*,Date, \s-1MIME\s0\-Version, Return-Path,
+Organization
+.Ip "parse($html, [$url_txt], [$url_base])" 5
+Subroutine used for created \s-1HTML\s0 mail with \s-1MIME\s0\-Lite
+.Sp
+Parameters:
+.Ip "$html" 10
+Url of \s-1HTML\s0 file to send, can be a local file. If \f(CW$url\fR is not an
+url (http or https or ftp or file or nntp), \f(CW$url\fR is used as a buffer.
+Example : http://www.alianwebserver.com, file://c|/tmp/index.html
+or \*(L'<img src=toto.gif>\*(R'.
+.Ip "$url_txt" 10
+Url of text part to send for person who doesn't support \s-1HTML\s0 mail.
+As \f(CW$html\fR, \f(CW$url_txt\fR can be a simple buffer.
+.Ip "$url_base" 10
+$url_base is used if \f(CW$html\fR is a buffer, for get element found in \s-1HTML\s0 buffer.
+.Sp
+Return the \s-1MIME::\s0Lite part to send
+.Ip "size()" 5
+Display size of mail in characters (so octets) that will be send.
+(So use it *after* parse method). Use this method for control
+size of mail send, I personnaly hate receive 500k by mail.
+I pay for a 33k modem :\-(
+.SH "Private methods"
+.Ip "build_mime_object($html,[$txt],[@mail])" 5
+(private)
+.Sp
+Build the final \s-1MIME\s0\-Lite object to send with each part read before
+.Ip "$html" 10
+Buffer of \s-1HTML\s0 part
+.Ip "$txt" 10
+Buffer of text part
+.Ip "@mail" 10
+List of images attached to \s-1HTML\s0 part. Each item is a \s-1MIME\s0\-Lite object.
+.Sp
+See \*(L"Construction\*(R" in \*(L"Description\*(R" for know how \s-1MIME\s0\-Lite object is build.
+.Ip "include_css($gabarit,$root)" 5
+(private)
+.Sp
+Search in \s-1HTML\s0 buffer ($gabarit) to remplace call to extern \s-1CSS\s0 file
+with his content. \f(CW$root\fR is original absolute url where css file will
+be found.
+.Ip "include_javascript($gabarit,$root)" 5
+(private)
+.Sp
+Search in \s-1HTML\s0 buffer ($gabarit) to remplace call to extern javascript file
+with his content. \f(CW$root\fR is original absolute url where javascript file will
+be found.
+.Ip "input_image($gabarit,$root)" 5
+(private)
+.Sp
+Search in \s-1HTML\s0 buffer ($gabarit) to remplace input form image with his cid
+.Sp
+Return final buffer and list of \s-1MIME::\s0Lite part
+.Ip "link_form($gabarit,$root)" 5
+(private)
+.Sp
+Replace link to formulaire with absolute link
+.Ip "fill_template($masque,$vars)" 5
+.Sp
+.Vb 2
+\& $masque : Path of template
+\& $vars : hash ref with keys/val to substitue
+.Ve
+Give template with remplaced variables
+Ex: if $$vars{age}=12, and \f(CW$masque\fR have
+.Sp
+.Vb 1
+\&  J'ai <? $age ?> ans,
+.Ve
+this function give:
+.Sp
+.Vb 1
+\&  J'ai 12 ans,
+.Ve
+.SH "Error Handling"
+The set_err routine is used privately. You can ask for an array of all the 
+errors which occured inside the parse routine by calling:
+.PP
+@errors = \f(CW$mailHTML\fR\->errstr;
+.PP
+If no errors where found, it'll return undef.
+.SH "AUTHOR"
+Alain BARBET alian@alianwebserver.com , see file Changes for helpers.
+
+.rn }` ''
+.IX Title "HTML 3"
+.IX Name "MIME::Lite::HTML - Provide routine to transform a HTML page in a MIME-Lite mail"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "VERSION"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "What's happen ?"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "Usage"
+
+.IX Subsection "Construction"
+
+.IX Subsection "Documentation"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "Clients tested"
+
+.IX Item "Netscape Messager (Linux-Windows)"
+
+.IX Item "Outlook Express (Windows-Mac)"
+
+.IX Item "Eudora (Windows)"
+
+.IX Item "KMail (Linux)"
+
+.IX Item "Pegasus (Windows)"
+
+.IX Subsection "Install on WinX with ActiveState / \s-1PPM\s0"
+
+.IX Header "Public Interface"
+
+.IX Item "new(%hash)"
+
+.IX Item "Proxy"
+
+.IX Item "Debug "
+
+.IX Item "IncludeType "
+
+.IX Item "location"
+
+.IX Item "cid"
+
+.IX Item "extern"
+
+.IX Item "$hash{'HashTemplate'} "
+
+.IX Item "TextCharset "
+
+.IX Item "HTMLCharset "
+
+.IX Item "TextEncoding "
+
+.IX Item "HTMLEncoding "
+
+.IX Item "parse($html, [$url_txt], [$url_base])"
+
+.IX Item "$html"
+
+.IX Item "$url_txt"
+
+.IX Item "$url_base"
+
+.IX Item "size()"
+
+.IX Header "Private methods"
+
+.IX Item "build_mime_object($html,[$txt],[@mail])"
+
+.IX Item "$html"
+
+.IX Item "$txt"
+
+.IX Item "@mail"
+
+.IX Item "include_css($gabarit,$root)"
+
+.IX Item "include_javascript($gabarit,$root)"
+
+.IX Item "input_image($gabarit,$root)"
+
+.IX Item "link_form($gabarit,$root)"
+
+.IX Item "fill_template($masque,$vars)"
+
+.IX Header "Error Handling"
+
+.IX Header "AUTHOR"
+

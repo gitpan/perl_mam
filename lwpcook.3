@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH LWPCOOK 1 "libwww-perl-5.36" "12/Mar/98" "User Contributed Perl Documentation"
+.TH LWPCOOK 1 "libwww-perl-5.64" "15/Nov/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,7 +188,7 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-lwpcook \- libwww-perl cookbook
+lwpcook \- The libwww-perl cookbook
 .SH "DESCRIPTION"
 This document contain some examples that show typical usage of the
 libwww-perl library.  You should consult the documentation for the
@@ -203,12 +203,12 @@ the document specified by its URL argument:
 .PP
 .Vb 2
 \&  use LWP::Simple;
-\&  $doc = get 'http://www.sn.no/libwww-perl/';
+\&  $doc = get 'http://www.linpro.no/lwp/';
 .Ve
 or, as a perl one-liner using the \fIgetprint()\fR function:
 .PP
 .Vb 1
-\&  perl -MLWP::Simple -e 'getprint "http://www.sn.no/libwww-perl/"'
+\&  perl -MLWP::Simple -e 'getprint "http://www.linpro.no/lwp/"'
 .Ve
 or, how about fetching the latest perl by running this command:
 .PP
@@ -230,12 +230,12 @@ handle the response returned.
 .PP
 .Vb 4
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
+\&  $ua = LWP::UserAgent->new;
 \&  $ua->agent("$0/0.1 " . $ua->agent);
 \&  # $ua->agent("Mozilla/8.0") # pretend we are very capable browser
 .Ve
 .Vb 2
-\&  $req = new HTTP::Request 'GET' => 'http://www.sn.no/libwww-perl';
+\&  $req = HTTP::Request->new(GET => 'http://www.linpro.no/lwp');
 \&  $req->header('Accept' => 'text/html');
 .Ve
 .Vb 2
@@ -279,10 +279,10 @@ operation is to access a WWW form application:
 .PP
 .Vb 2
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
+\&  $ua = LWP::UserAgent->new;
 .Ve
 .Vb 3
-\&  my $req = new HTTP::Request 'POST','http://www.perl.com/cgi-bin/BugGlimpse';
+\&  my $req = HTTP::Request->new(POST => 'http://www.perl.com/cgi-bin/BugGlimpse');
 \&  $req->content_type('application/x-www-form-urlencoded');
 \&  $req->content('match=www&errors=0');
 .Ve
@@ -297,7 +297,7 @@ suitable default for the content_type:
 .Vb 3
 \&  use HTTP::Request::Common qw(POST);
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
+\&  $ua = LWP::UserAgent->new;
 .Ve
 .Vb 2
 \&  my $req = POST 'http://www.perl.com/cgi-bin/BugGlimpse',
@@ -319,7 +319,7 @@ requests:
 .PP
 .Vb 7
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
+\&  $ua = LWP::UserAgent->new;
 \&  $ua->env_proxy; # initialize from environment variables
 \&  # or
 \&  $ua->proxy(ftp  => 'http://proxy.myorg.com');
@@ -327,7 +327,7 @@ requests:
 \&  $ua->no_proxy(qw(no se fi));
 .Ve
 .Vb 2
-\&  my $req = new HTTP::Request 'wais://xxx.com/';
+\&  my $req = HTTP::Request->new(GET => 'wais://xxx.com/');
 \&  print $ua->request($req)->as_string;
 .Ve
 The LWP::Simple interface will call \fIenv_proxy()\fR for you automatically.
@@ -342,33 +342,76 @@ required header, with something like this:
 \& use LWP::UserAgent;
 .Ve
 .Vb 2
-\& $ua = new LWP::UserAgent;
-\& $ua->proxy(['http', 'ftp'] => 'http://proxy.myorg.com');
+\& $ua = LWP::UserAgent->new;
+\& $ua->proxy(['http', 'ftp'] => 'http://username:password@proxy.myorg.com');
 .Ve
-.Vb 2
-\& $req = new HTTP::Request 'GET',"http://www.perl.com";
-\& $req->proxy_authorization_basic("proxy_user", "proxy_password");
+.Vb 1
+\& $req = HTTP::Request->new('GET',"http://www.perl.com");
 .Ve
 .Vb 2
 \& $res = $ua->request($req);
 \& print $res->content if $res->is_success;
 .Ve
-Replace \f(CWproxy.myorg.com\fR, \f(CWproxy_user\fR and
-\f(CWproxy_password\fR with something suitable for your site.
+Replace \f(CWproxy.myorg.com\fR, \f(CWusername\fR and
+\f(CWpassword\fR with something suitable for your site.
 .SH "ACCESS TO PROTECTED DOCUMENTS"
 Documents protected by basic authorization can easily be accessed
 like this:
 .PP
 .Vb 5
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
-\&  $req = new HTTP::Request GET => 'http://www.sn.no/secret/';
+\&  $ua = LWP::UserAgent->new;
+\&  $req = HTTP::Request->new(GET => 'http://www.linpro.no/secret/');
 \&  $req->authorization_basic('aas', 'mypassword');
 \&  print $ua->request($req)->as_string;
 .Ve
 The other alternative is to provide a subclass of \fILWP::UserAgent\fR that
 overrides the \fIget_basic_credentials()\fR method. Study the \fIlwp-request\fR
 program for an example of this.
+.SH "COOKIES"
+Some sites like to play games with cookies.  By default LWP ignores
+cookies provided by the servers it visits.  LWP will collect cookies
+and respond to cookie requests if you set up a cookie jar.
+.PP
+.Vb 2
+\&  use LWP::UserAgent;
+\&  use HTTP::Cookies;
+.Ve
+.Vb 3
+\&  $ua = LWP::UserAgent->new;
+\&  $ua->cookie_jar(HTTP::Cookies->new(file => "lwpcookies.txt",
+\&                                     autosave => 1));
+.Ve
+.Vb 3
+\&  # and then send requests just as you used to do
+\&  $res = $ua->request(HTTP::Request->new(GET => "http://www.yahoo.no"));
+\&  print $res->status_line, "\en";
+.Ve
+As you visit sites that send you cookies to keep, then the file
+\fIlwpcookies.txt\*(R"\fR will grow.
+.SH "HTTPS"
+URLs with https scheme are accessed in exactly the same way as with
+http scheme, provided that an SSL interface module for LWP has been
+properly installed (see the \fIREADME.SSL\fR file found in the
+libwww-perl distribution for more details).  If no SSL interface is
+installed for LWP to use, then you will get \*(L"501 Protocol scheme
+\&'https\*(R' is not supported\*(R" errors when accessing such URLs.
+.PP
+Here's an example of fetching and printing a WWW page using SSL:
+.PP
+.Vb 1
+\&  use LWP::UserAgent;
+.Ve
+.Vb 8
+\&  my $ua = LWP::UserAgent->new;
+\&  my $req = HTTP::Request->new(GET => 'https://www.helsinki.fi/');
+\&  my $res = $ua->request($req);
+\&  if ($res->is_success) {
+\&      print $res->as_string;
+\&  } else {
+\&      print "Failed: ", $res->status_line, "\en";
+\&  }
+.Ve
 .SH "MIRRORING"
 If you want to mirror documents from a WWW server, then try to run
 code similar to this at regular intervals:
@@ -403,14 +446,17 @@ name):
 .PP
 .Vb 2
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
+\&  $ua = LWP::UserAgent->new;
 .Ve
-.Vb 6
-\&  my $req = new HTTP::Request 'GET',
-\&                'http://www.sn.no/~aas/perl/www/libwww-perl-5.00.tar.gz';
+.Vb 9
+\&  my $req = HTTP::Request->new(GET =>
+\&                'http://www.linpro.no/lwp/libwww-perl-5.46.tar.gz');
 \&  $res = $ua->request($req, "libwww-perl.tar.gz");
 \&  if ($res->is_success) {
 \&     print "ok\en";
+\&  }
+\&  else {
+\&     print $res->status_line, "\en";
 \&  }
 .Ve
 Or you can process the document as it arrives (second \f(CW$ua\fR\->\fIrequest()\fR
@@ -418,13 +464,14 @@ argument is a code reference):
 .PP
 .Vb 3
 \&  use LWP::UserAgent;
-\&  $ua = new LWP::UserAgent;
+\&  $ua = LWP::UserAgent->new;
 \&  $URL = 'ftp://ftp.unit.no/pub/rfc/rfc-index.txt';
 .Ve
-.Vb 14
+.Vb 15
 \&  my $expected_length;
 \&  my $bytes_received = 0;
-\&  $ua->request(HTTP::Request->new('GET', $URL),
+\&  my $res = 
+\&     $ua->request(HTTP::Request->new(GET => $URL),
 \&               sub {
 \&                   my($chunk, $res) = @_;
 \&                   $bytes_received += length($chunk);
@@ -437,103 +484,21 @@ argument is a code reference):
 \&                   }
 \&                   print STDERR "$bytes_received bytes received\en";
 .Ve
-.Vb 3
+.Vb 4
 \&                   # XXX Should really do something with the chunk itself
 \&                   # print $chunk;
 \&               });
-.Ve
-.SH "HTML FORMATTING"
-It is easy to convert HTML code to \*(L"readable\*(R" text.
-.PP
-.Vb 3
-\&  use LWP::Simple;
-\&  use HTML::Parse;
-\&  print parse_html(get 'http://www.sn.no/libwww-perl/')->format;
-.Ve
-.SH "PARSE URLS"
-To access individual elements of a URL, try this:
-.PP
-.Vb 2
-\&  use URI::URL;
-\&  $host = url("http://www.sn.no/")->host;
-.Ve
-or
-.PP
-.Vb 4
-\&  use URI::URL;
-\&  $u = url("ftp://ftp.sn.no/test/aas;type=i");
-\&  print "Protocol scheme is ", $u->scheme, "\en";
-\&  print "Host is ", $u->host, " at port ", $u->port, "\en";
-.Ve
-or even
-.PP
-.Vb 2
-\&  use URI::URL;
-\&  my($host,$port) = (url("ftp://ftp.sn.no/test/aas;type=i")->crack)[3,4];
-.Ve
-.SH "EXPAND RELATIVE URLS"
-This code reads URLs and print expanded version.
-.PP
-.Vb 5
-\&  use URI::URL;
-\&  $BASE = "http://www.sn.no/some/place?query";
-\&  while (<>) {
-\&     print url($_, $BASE)->abs->as_string, "\en";
-\&  }
-.Ve
-We can expand URLs in an HTML document by using the parser to build a
-tree that we then traverse:
-.PP
-.Vb 7
-\&  %link_elements =
-\&  (
-\&   'a'    => 'href',
-\&   'img'  => 'src',
-\&   'form' => 'action',
-\&   'link' => 'href',
-\&  );
-.Ve
-.Vb 2
-\&  use HTML::Parse;
-\&  use URI::URL;
-.Ve
-.Vb 3
-\&  $BASE = "http://somewhere/root/";
-\&  $h = parse_htmlfile("xxx.html");
-\&  $h->traverse(\e&expand_urls, 1);
-.Ve
-.Vb 1
-\&  print $h->as_HTML;
-.Ve
-.Vb 10
-\&  sub expand_urls
-\&  {
-\&     my($e, $start) = @_;
-\&     return 1 unless $start;
-\&     my $attr = $link_elements{$e->tag};
-\&     return 1 unless defined $attr;
-\&     my $url = $e->attr($attr);
-\&     return 1 unless defined $url;
-\&     $e->attr($attr, url($url, $BASE)->abs->as_string);
-\&  }
-.Ve
-.SH "BASE URL"
-If you want to resolve relative links in a page you will have to
-determine which base URL to use.  The HTTP::Response objects now has a
-\fIbase()\fR method.
-.PP
-.Vb 1
-\&  $BASE = $res->base;
+\&   print $res->status_line, "\en";
 .Ve
 .SH "COPYRIGHT"
-Copyright 1996-1997, Gisle Aas
+Copyright 1996-2001, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 .rn }` ''
 .IX Title "LWPCOOK 1"
-.IX Name "lwpcook - libwww-perl cookbook"
+.IX Name "lwpcook - The libwww-perl cookbook"
 
 .IX Header "NAME"
 
@@ -549,17 +514,13 @@ modify it under the same terms as Perl itself.
 
 .IX Header "ACCESS TO PROTECTED DOCUMENTS"
 
+.IX Header "COOKIES"
+
+.IX Header "HTTPS"
+
 .IX Header "MIRRORING"
 
 .IX Header "LARGE DOCUMENTS"
-
-.IX Header "HTML FORMATTING"
-
-.IX Header "PARSE URLS"
-
-.IX Header "EXPAND RELATIVE URLS"
-
-.IX Header "BASE URL"
 
 .IX Header "COPYRIGHT"
 

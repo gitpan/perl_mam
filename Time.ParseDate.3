@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Time::ParseDate 3 "perl 5.005, patch 53" "12/Aug/98" "User Contributed Perl Documentation"
+.TH lib::Time::ParseDate 3 "perl 5.007, patch 00" "21/Jun/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -199,7 +199,7 @@ Time::ParseDate -- date parsing both relative and absolute
 .SH "OPTIONS"
 Date parsing can also use options.  The options are as follows:
 .PP
-.Vb 12
+.Vb 15
 \&        FUZZY   -> it's okay not to parse the entire date string
 \&        NOW     -> the "current" time for relative times (defaults to time())
 \&        ZONE    -> local timezone (defaults to $ENV{TZ})
@@ -212,6 +212,9 @@ Date parsing can also use options.  The options are as follows:
 \&        TIMEFIRST -> try parsing time before date [not default]
 \&        PREFER_PAST -> when year or day of week is ambigueous, assume past
 \&        PREFER_FUTURE -> when year or day of week is ambigueous, assume future
+\&        SUBSECOND -> parse fraction seconds
+\&        VALIDATE -> only accept normal values for HHMMSS, YYMMDD.  Otherwise
+\&                days like -1 might give the last day of the previous month.
 .Ve
 .SH "DATE FORMATS RECOGNIZED"
 .Sh "Absolute date formats"
@@ -238,7 +241,7 @@ Date parsing can also use options.  The options are as follows:
 .Ve
 .Sh "Relative date formats:"
 .PP
-.Vb 17
+.Vb 18
 \&        count "days"
 \&        count "weeks"
 \&        count "months"
@@ -256,11 +259,12 @@ Date parsing can also use options.  The options are as follows:
 \&        "now" "-" count units
 \&        "+" count units
 \&        "-" count units
+\&        count units "ago"
 .Ve
 .Sh "Absolute time formats:"
 .PP
 .Vb 7
-\&        hh:mm:ss 
+\&        hh:mm:ss[.ddd] 
 \&        hh:mm 
 \&        hh:mm[AP]M
 \&        hh[AP]M
@@ -270,7 +274,7 @@ Date parsing can also use options.  The options are as follows:
 .Ve
 .Sh "Relative time formats:"
 .PP
-.Vb 7
+.Vb 8
 \&        count "minuts"
 \&        count "seconds"
 \&        count "hours"
@@ -278,6 +282,7 @@ Date parsing can also use options.  The options are as follows:
 \&        "+" count
 \&        "-" count units
 \&        "-" count
+\&        count units "ago"
 .Ve
 .Sh "Timezone formats:"
 .PP
@@ -299,25 +304,35 @@ date and a time are specified.  There are numerous options for
 controlling what is recognized and what is not.
 .PP
 The return code is always the time in seconds since January 1st, 1970
-or zero if it was unable to parse the time.
+or undef if it was unable to parse the time.
 .PP
 If a timezone is specified it must be after the time.  Year specifications
 can be tacked onto the end of absolute times.
+.PP
+If \f(CWparsedate()\fR is called from array contect, then it will return two
+elements.  On sucessful parses, it will return the seconds and what 
+remains of its input string.  On unsucessful parses, it will return
+\f(CWundef\fR and an error string.
 .SH "EXAMPLES"
 .PP
-.Vb 7
+.Vb 8
 \&        $seconds = parsedate("Mon Jan  2 04:24:27 1995");
 \&        $seconds = parsedate("Tue Apr 4 00:22:12 PDT 1995");
 \&        $seconds = parsedate("04.04.95 00:22", ZONE => PDT);
+\&        $seconds = parsedate("Jan 1 1999 11:23:34.578", SUBSECOND => 1);
 \&        $seconds = parsedate("122212 950404", ZONE => PDT, TIMEFIRST => 1);
 \&        $seconds = parsedate("+3 secs", NOW => 796978800);
 \&        $seconds = parsedate("2 months", NOW => 796720932);
 \&        $seconds = parsedate("last Tuesday");
 .Ve
+.Vb 2
+\&        ($seconds, $remaining) = parsedate("today is the day");
+\&        ($seconds, $error) = parsedate("today is", WHOLE=>1);
+.Ve
 .SH "AUTHOR"
-David Muir Sharnoff <muir@idiom.com>
-.PP
-Patch for UK\-style dates: Sam Yates <syates@maths.adelaide.edu.au>
+David Muir Sharnoff <muir@idiom.com>.  Copyright (C) 1996-1999 All
+Rights Reserved.  Use and redistribution allowed at user's own
+risk.
 
 .rn }` ''
 .IX Title "lib::Time::ParseDate 3"

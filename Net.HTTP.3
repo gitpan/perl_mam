@@ -1,0 +1,410 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::Net::HTTP 3 "libwww-perl-5.64" "3/Dec/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+Net::HTTP \- Low-level HTTP client connection
+.SH "NOTE"
+This module is experimental.  Details of its interface is likely to
+change in the future.
+.SH "SYNOPSIS"
+.PP
+.Vb 4
+\& use Net::HTTP;
+\& my $s = Net::HTTP->new(Host => "www.perl.com) || die $@;
+\& $s->write_request(GET => "/", 'User-Agent' => "Mozilla/5.0");
+\& my($code, $mess, %h) = $s->read_response_headers;
+.Ve
+.Vb 6
+\& while (1) {
+\&    my $buf;
+\&    my $n = $s->read_entity_body($buf, 1024);
+\&    last unless $n;
+\&    print $buf;
+\& }
+.Ve
+.SH "DESCRIPTION"
+The \f(CWNet::HTTP\fR class is a low-level HTTP client.  An instance of the
+\f(CWNet::HTTP\fR class represents a connection to an HTTP server.  The
+HTTP protocol is described in RFC 2616.
+.PP
+\f(CWNet::HTTP\fR is a sub-class of \f(CWIO::Socket::INET\fR.  You can mix the
+methods described below with reading and writing from the socket
+directly.  This is not necessary a good idea, unless you know what you
+are doing.
+.PP
+The following methods are provided (in addition to those of
+\f(CWIO::Socket::INET\fR):
+.Ip "$s = Net::\s-1HTTP\s0\->new( %options )" 5
+The \f(CWNet::HTTP\fR constructor takes the same options as
+\f(CWIO::Socket::INET\fR as well as these:
+.Sp
+.Vb 7
+\&  Host:            Initial host attribute value
+\&  KeepAlive:       Initial keep_alive attribute value
+\&  SendTE:          Initial send_te attribute_value
+\&  HTTPVersion:     Initial http_version attribute value
+\&  PeerHTTPVersion: Initial peer_http_version attribute value
+\&  MaxLineLength:   Initial max_line_length attribute value
+\&  MaxHeaderLines:  Initial max_header_lines attribute value
+.Ve
+.Ip "$s->host" 5
+Get/set the default value of the \f(CWHost\fR header to send.  The \f(CW$host\fR
+should not be set to an empty string (or \f(CWundef\fR).
+.Ip "$s->keep_alive" 5
+Get/set the \fIkeep-alive\fR value.  If this value is \s-1TRUE\s0 then the
+request will be sent with headers indicating that the server should try
+to keep the connection open so that multiple requests can be sent.
+.Sp
+The actual headers set will depend on the value of the \f(CWhttp_version\fR
+and \f(CWpeer_http_version\fR attributes.
+.Ip "$s->send_te" 5
+Get/set the a value indicating if the request will be sent with a \*(L"\s-1TE\s0\*(R"
+header to indicate the transfer encodings that the server can chose to
+use.  If the \f(CWCompress::Zlib\fR module is installed then this will
+annouce that this client accept both the \fIdeflate\fR and \fIgzip\fR
+encodings.
+.Ip "$s->http_version" 5
+Get/set the \s-1HTTP\s0 version number that this client should announce.
+This value can only be set to \*(L"1.0\*(R" or \*(L"1.1\*(R".  The default is \*(L"1.1\*(R".
+.Ip "$s->peer_http_version" 5
+Get/set the protocol version number of our peer.  This value will
+initially be \*(L"1.0\*(R", but will be updated by a successful
+\fIread_response_headers()\fR method call.
+.Ip "$s->max_line_length" 5
+Get/set a limit on the length of response line and response header
+lines.  The default is 4096.  A value of 0 means no limit.
+.Ip "$s->max_header_length" 5
+Get/set a limit on the number of headers lines that a response can
+have.  The default is 128.  A value of 0 means no limit.
+.Ip "$s->format_request($method, $uri, %headers, [$content])" 5
+Format a request message and return it as a string.  If the headers do
+not include a \f(CWHost\fR header, then a header is inserted with the value
+of the \f(CWhost\fR attribute.  Headers like \f(CWConnection\fR and
+\f(CWKeep-Alive\fR might also be added depending on the status of the
+\f(CWkeep_alive\fR attribute.
+.Sp
+If \f(CW$content\fR is given (and it is non-empty), then a \f(CWContent-Length\fR
+header is automatically added unless it was already present.
+.Ip "$s->write_request($method, $uri, %headers, [$content])" 5
+Format and send a request message.  Arguments are the same as for
+\fIformat_request()\fR.  Returns true if successful.
+.Ip "$s->write_chunk($data)" 5
+Will write a new chunk of request entity body data.  This method
+should only be used if the \f(CWTransfer-Encoding\fR header with a value of
+\f(CWchunked\fR was sent in the request.  Note, writing zero-length data is
+a no-op.  Use the \fIwrite_chunk_eof()\fR method to signal end of entity
+body data.
+.Sp
+Returns true if successful.
+.Ip "$s->format_chunk($data)" 5
+Returns the string to be written for the given chunk of data.
+.Ip "$s->write_chunk_eof(%trailers)" 5
+Will write eof marker for chunked data and optional trailers.  Note
+that trailers should not really be used unless is was signaled
+with a \f(CWTrailer\fR header.
+.Sp
+Returns true if successful.
+.Ip "$s->format_chunk_eof(%trailers)" 5
+Returns the string to be written for signaling \s-1EOF\s0.
+.Ip "($code, $mess, %headers) = $s->read_response_headers( %opts )" 5
+Read response headers from server.  The \f(CW$code\fR is the 3 digit \s-1HTTP\s0
+status code (see the \fI\s-1HTTP::\s0Status\fR manpage) and \f(CW$mess\fR is the textual message
+that came with it.  Headers are then returned as key/value pairs.
+Since key letter casing is not normalized and the same key can occur
+multiple times, assigning these values directly to a hash might be
+risky.
+.Sp
+As a side effect this method updates the \*(L'peer_http_version\*(R'
+attribute.
+.Sp
+The method will raise exceptions (die) if the server does not speak
+proper \s-1HTTP\s0.
+.Sp
+Options might be passed in as key/value pairs.  There are currently
+only two options supported; \f(CWlaxed\fR and \f(CWjunk_out\fR.
+.Sp
+The \f(CWlaxed\fR option will make \f(CWread_response_headers\fR more forgiving
+towards servers that have not learned how to speak \s-1HTTP\s0 properly.  The
+<laxed> option is a boolean flag, and is enabled by passing in a \s-1TRUE\s0
+value.  The \f(CWjunk_out\fR option can be used to capture bad header lines
+when \f(CWlaxed\fR is enabled.  The value should be an array reference.
+Bad header lines will be pushed onto the array.
+.Ip "$n = $s->read_entity_body($buf, $size);" 5
+Reads chunks of the entity body content.  Basically the same interface
+as for \fIread()\fR and \fIsysread()\fR, but buffer offset is not supported yet.
+This method should only be called after a successful
+\fIread_response_headers()\fR call.
+.Sp
+The return value will be \f(CWundef\fR on errors, 0 on \s-1EOF\s0, \-1 if no data
+could be returned this time, and otherwise the number of bytes added
+to \f(CW$buf\fR.
+.Sp
+This method might raise exceptions (die) if the server does not speak
+proper \s-1HTTP\s0.
+.Ip "%headers = $s->get_trailers" 5
+After \fIread_entity_body()\fR has returned 0 to indicate end of the entity
+body, you might call this method to pick up any trailers.
+.Ip "$s->_rbuf" 5
+Get/set the read buffer content.  The \fIread_response_headers()\fR and
+\fIread_entity_body()\fR methods use an internal buffer which they will look
+for data before they actually sysread more from the socket itself.  If
+they read too much, the remaining data will be left in this buffer.
+.Ip "$s->_rbuf_length" 5
+Returns the number of bytes in the read buffer.
+.SH "SUBCLASSING"
+The \fIread_response_headers()\fR and \fIread_entity_body()\fR will invoke the
+\fIsysread()\fR method when they need more data.  Subclasses might want to
+override this method to contol how reading takes place.
+.PP
+The object itself is a glob.  Subclasses should avoid using hash key
+names prefixed with \f(CWhttp_\fR and \f(CWio_\fR.
+.SH "SEE ALSO"
+the \fILWP\fR manpage, the \fIIO::Socket::INET\fR manpage, the \fINet::HTTP::NB\fR manpage
+.SH "COPYRIGHT"
+Copyright 2001 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+.rn }` ''
+.IX Title "lib::Net::HTTP 3"
+.IX Name "Net::HTTP - Low-level HTTP client connection"
+
+.IX Header "NAME"
+
+.IX Header "NOTE"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "$s = Net::\s-1HTTP\s0\->new( %options )"
+
+.IX Item "$s->host"
+
+.IX Item "$s->keep_alive"
+
+.IX Item "$s->send_te"
+
+.IX Item "$s->http_version"
+
+.IX Item "$s->peer_http_version"
+
+.IX Item "$s->max_line_length"
+
+.IX Item "$s->max_header_length"
+
+.IX Item "$s->format_request($method, $uri, %headers, [$content])"
+
+.IX Item "$s->write_request($method, $uri, %headers, [$content])"
+
+.IX Item "$s->write_chunk($data)"
+
+.IX Item "$s->format_chunk($data)"
+
+.IX Item "$s->write_chunk_eof(%trailers)"
+
+.IX Item "$s->format_chunk_eof(%trailers)"
+
+.IX Item "($code, $mess, %headers) = $s->read_response_headers( %opts )"
+
+.IX Item "$n = $s->read_entity_body($buf, $size);"
+
+.IX Item "%headers = $s->get_trailers"
+
+.IX Item "$s->_rbuf"
+
+.IX Item "$s->_rbuf_length"
+
+.IX Header "SUBCLASSING"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+

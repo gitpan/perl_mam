@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Entities 3 "perl 5.005, patch 53" "26/Mar/98" "User Contributed Perl Documentation"
+.TH lib::HTML::Entities 3 "perl 5.007, patch 00" "11/Apr/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -201,20 +201,20 @@ HTML::Entities \- Encode or decode strings with HTML entities
 .Ve
 .SH "DESCRIPTION"
 This module deals with encoding and decoding of strings with HTML
-character entites.  The module provide the following functions:
+character entities.  The module provides the following functions:
 .Ip "decode_entities($string)" 4
 This routine replaces \s-1HTML\s0 entities found in the \f(CW$string\fR with the
-corresponding \s-1ISO\s0\-8859/1 character.  Unrecognized entities are left
-alone.
-.Ip "endode_entities($string, [$unsafe_chars])" 4
+corresponding \s-1ISO\s0\-8859/1 (or with perl-5.7 or better Unicode)
+character.  Unrecognized entities are left alone.
+.Ip "encode_entities($string, [$unsafe_chars])" 4
 This routine replaces unsafe characters in \f(CW$string\fR with their entity
 representation.  A second argument can be given to specify which
 characters to concider as unsafe.  The default set of characters to
 expand are control chars, high-bit chars and the \*(L'<\*(R', \*(L'&\*(R', \*(L'>\*(R' and \*(L'"\*(R'
-character.
+characters.
 .PP
-Both routines modify the string passed in as the first argument if
-called in void context.  In scalar and array context the encoded or
+Both routines modify the string passed as the first argument if
+called in a void context.  In scalar and array contexts the encoded or
 decoded string is returned (and the argument string is left
 unchanged).
 .PP
@@ -227,10 +227,10 @@ call them as:
 \&  $decoded = HTML::Entities::decode($a);
 .Ve
 The module can also export the \f(CW%char2entity\fR and the \f(CW%entity2char\fR
-hashes which contains the mapping from all characters to the
+hashes which contain the mapping from all characters to the
 corresponding entities.
 .SH "COPYRIGHT"
-Copyright 1995-1998 Gisle Aas. All rights reserved.
+Copyright 1995-2001 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -247,7 +247,7 @@ modify it under the same terms as Perl itself.
 
 .IX Item "decode_entities($string)"
 
-.IX Item "endode_entities($string, [$unsafe_chars])"
+.IX Item "encode_entities($string, [$unsafe_chars])"
 
 .IX Header "COPYRIGHT"
 

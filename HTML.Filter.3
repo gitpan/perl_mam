@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Filter 3 "perl 5.005, patch 53" "26/Mar/98" "User Contributed Perl Documentation"
+.TH lib::HTML::Filter 3 "perl 5.007, patch 00" "9/Dec/99" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -189,6 +189,10 @@
 .rm #[ #] #H #V #F C
 .SH "NAME"
 HTML::Filter \- Filter HTML text through the parser
+.SH "NOTE"
+This module is deprecated. \f(CWHTML::Parser\fR now provides the
+functionally of \f(CWHTML::Filter\fR much more efficiently with the the
+\f(CWdefault\fR handler.
 .SH "SYNOPSIS"
 .PP
 .Vb 2
@@ -196,13 +200,13 @@ HTML::Filter \- Filter HTML text through the parser
 \& $p = HTML::Filter->new->parse_file("index.html");
 .Ve
 .SH "DESCRIPTION"
-The \fIHTML::Filter\fR is an HTML parser that by default prints the
-original text parsed (a slow version of \fIcat\fR\|(1) basically).  You can
-override the callback methods to modify the filtering for some of the
+\f(CWHTML::Filter\fR is an HTML parser that by default prints the
+original text of each HTML element (a slow version of \fIcat\fR\|(1) basically).
+The callback methods may be overridden to modify the filtering for some
 HTML elements and you can override \fIoutput()\fR method which is called to
 print the HTML text.
 .PP
-The \fIHTML::Filter\fR is a subclass of \fIHTML::Parser\fR. This means that
+\f(CWHTML::Filter\fR is a subclass of \f(CWHTML::Parser\fR. This means that
 the document should be given to the parser by calling the \f(CW$p\fR\->\fIparse()\fR
 or \f(CW$p\fR\->\fIparse_file()\fR methods.
 .SH "EXAMPLES"
@@ -230,7 +234,7 @@ table.
 \&     my $self = shift;
 \&     $self->{table_seen}++ if $_[0] eq "table";
 \&     $self->SUPER::start(@_);
-\&  }  
+\&  }
 .Ve
 .Vb 6
 \&  sub end
@@ -259,15 +263,10 @@ something like this:
 \&  sub output { push(@{$_[0]->{fhtml}}, $_[1]) }
 \&  sub filtered_html { join("", @{$_[0]->{fhtml}}) }
 .Ve
-.SH "BUGS"
-Comments in declarations are removed from the declarations and then
-inserted as separate comments after the declaration.  If you turn on
-\fIstrict_comment()\fR, then comments with embedded \*(L"--\*(R" are split into
-multiple comments.
 .SH "SEE ALSO"
 the \fIHTML::Parser\fR manpage
 .SH "COPYRIGHT"
-Copyright 1997-1998 Gisle Aas.
+Copyright 1997-1999 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -278,13 +277,13 @@ modify it under the same terms as Perl itself.
 
 .IX Header "NAME"
 
+.IX Header "NOTE"
+
 .IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
 
 .IX Header "EXAMPLES"
-
-.IX Header "BUGS"
 
 .IX Header "SEE ALSO"
 

@@ -1,0 +1,411 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::MIME::WordDecoder 3 "perl 5.007, patch 00" "22/Nov/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+MIME::WordDecoder \- decode RFC\-1522 encoded words to a local representation
+.SH "SYNOPSIS"
+See the \fIMIME::Words\fR manpage for the basics of encoded words.
+See the section on \fIDESCRIPTION\fR for how this class works.
+.PP
+.Vb 16
+\&    use MIME::WordDecoder;
+\&     
+\&    
+\&    ### Get the default word-decoder (used by unmime()):
+\&    $wd = default MIME::WordDecoder;
+\&      
+\&    ### Get a word-decoder which maps to ISO-8859-1 (Latin1):
+\&    $wd = supported MIME::WordDecoder "ISO-8859-1";
+\&    
+\&       
+\&    ### Decode a MIME string (e.g., into Latin1) via the default decoder:
+\&    $str = $wd->decode('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
+\&      
+\&    ### Decode a string using the default decoder, non-OO style:
+\&    $str = unmime('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
+\& 
+.Ve
+.SH "DESCRIPTION"
+A MIME::WordDecoder consists, fundamentally, of a hash which maps
+a character set name (US\-ASCII, ISO\-8859-1, etc.) to a subroutine which 
+knows how to take bytes in that character set and turn them into 
+the target string representation.  Ideally, this target representation 
+would be Unicode, but we don't want to overspecify the translation 
+that takes place: if you want to convert MIME strings directly to Big5, 
+that's your own decision.
+.PP
+The subroutine will be invoked with two arguments: DATA (the data in
+the given character set), and CHARSET (the upcased character set name).
+.PP
+For example:
+.PP
+.Vb 6
+\&    ### Keep 7-bit characters as-is, convert 8-bit characters to '#':
+\&    sub keep7bit {  
+\&        local $_ = shift;
+\&        tr/\ex00-\ex7F/#/c;
+\&        $_;
+\&    }
+.Ve
+Here's a decoder which uses that:
+.PP
+.Vb 11
+\&   ### Construct a decoder:
+\&   $wd = MIME::WordDecoder->new({'US-ASCII'   => "KEEP",   ### sub { $_[0] }
+\&                                 'ISO-8859-1' => \e&keep7bit,
+\&                                 'ISO-8859-2' => \e&keep7bit,
+\&                                 'Big5'       => "WARN",
+\&                                 '*'          => "DIE"});
+\&         
+\&   ### Convert some MIME text to a pure ASCII string...   
+\&   $ascii = $wd->decode('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
+\&      
+\&   ### ...which will now hold: "To: Keld J#rn Simonsen <keld>"
+.Ve
+.SH "PUBLIC INTERFACE"
+.Ip "default [\s-1DECODER\s0]" 5
+\fIClass method.\fR
+Get/set the default \s-1DECODER\s0 object.
+.Ip "supported \s-1CHARSET\s0, [\s-1DECODER\s0]" 5
+\fIClass method.\fR
+If just \s-1CHARSET\s0 is given, returns a decoder object which maps
+data into that character set (the character set is forced to
+all-uppercase).  
+.Sp
+.Vb 1
+\&    $wd = supported MIME::WordDecoder "ISO-8859-1";
+.Ve
+If \s-1DECODER\s0 is given, installs such an object:
+.Sp
+.Vb 2
+\&    MIME::WordDecoder->supported("ISO-8859-1" => 
+\&                                 (new MIME::WordDecoder::ISO_8859 "1"));
+.Ve
+You should not override this method.
+.Ip "new [\e@\s-1HANDLERS\s0]" 5
+\fIClass method, constructor.\fR
+If \e@\s-1HANDLERS\s0 is given, then \f(CW@HANDLERS\fR is passed to \fIhandler()\fR
+to initiallize the internal map.
+.Ip "handler \s-1CHARSET\s0=>\e&\s-1SUBREF\s0, ..." 5
+\fIInstance method.\fR
+Set the handler \s-1SUBREF\s0 for a given \s-1CHARSET\s0, for as many pairs
+as you care to supply.
+.Sp
+When performing the translation of a \s-1MIME\s0\-encoded string, a
+given \s-1SUBREF\s0 will be invoked when translating a block of text
+in character set \s-1CHARSET\s0.  The subroutine will be invoked with 
+the following arguments:
+.Sp
+.Vb 5
+\&    DATA    - the data in the given character set.
+\&    CHARSET - the upcased character set name, which may prove useful
+\&              if you are using the same SUBREF for multiple CHARSETs.
+\&    DECODER - the decoder itself, if it contains configuration information
+\&              that your handler function needs.
+.Ve
+For example:
+.Sp
+.Vb 5
+\&    $wd = new MIME::WordDecoder;
+\&    $wd->handler('US-ASCII'   => "KEEP");
+\&    $wd->handler('ISO-8859-1' => \e&handle_latin1,
+\&                 'ISO-8859-2' => \e&handle_latin1,
+\&                 '*'          => "DIE");
+.Ve
+Notice that, much as with \f(CW%SIG\fR, the \s-1SUBREF\s0 can also be taken from
+a set of special keywords:
+.Sp
+.Vb 4
+\&   KEEP     Pass data through unchanged.
+\&   IGNORE   Ignore data in this character set, without warning.
+\&   WARN     Ignore data in this character set, with warning.
+\&   DIE      Fatal exception with "can't handle character set" message.
+.Ve
+The subroutine for the special \s-1CHARSET\s0 of \*(L'raw\*(R' is used for raw
+(non-\s-1MIME\s0\-encoded) text, which is supposed to be \s-1US\s0\-\s-1ASCII\s0.  
+The handler for \*(L'raw\*(R' defaults to whatever was specified for \*(L'\s-1US\s0\-\s-1ASCII\s0\*(R'
+at the time of construction.
+.Sp
+The subroutine for the special \s-1CHARSET\s0 of \*(L'*\*(R' is used for any 
+unrecognized character set.  The default action for \*(L'*\*(R' is \s-1WARN\s0.
+.Ip "decode \s-1STRING\s0" 5
+\fIInstance method.\fR
+Decode a \s-1STRING\s0 which might contain \s-1MIME\s0\-encoded components into a
+local representation (e.g., \s-1UTF\s0\-8, etc.).
+.Ip "unmime \s-1STRING\s0" 5
+\fIFunction, exported.\fR
+Decode the given \s-1STRING\s0 using the \fIdefault()\fR decoder.
+See default().
+.SH "SUBCLASSES"
+.Ip "\s-1MIME::\s0WordDecoder::\s-1ISO_8859\s0" 5
+A simple decoder which keeps \s-1US\s0\-\s-1ASCII\s0 and the 7-bit characters
+of \s-1ISO\s0\-8859 character sets and \s-1UTF8\s0, and also keeps 8-bit
+characters from the indicated character set.
+.Sp
+.Vb 10
+\&    ### Construct:
+\&    $wd = new MIME::WordDecoder::ISO_8859 2;    ### ISO-8859-2
+\&       
+\&    ### What to translate unknown characters to (can also use empty):
+\&    ### Default is "?".
+\&    $wd->unknown("?");
+\&    
+\&    ### Collapse runs of unknown characters to a single unknown()?
+\&    ### Default is false.
+\&    $wd->collapse(1);
+.Ve
+According to \fBhttp://czyborra.com/charsets/iso8859.html\fR 
+(ca. November 2000):
+.Sp
+\s-1ISO\s0 8859 is a full series of 10 (and soon even more) standardized
+multilingual single-byte coded (8bit) graphic character sets for
+writing in alphabetic languages:
+.Sp
+.Vb 10
+\&    1. Latin1 (West European) 
+\&    2. Latin2 (East European) 
+\&    3. Latin3 (South European) 
+\&    4. Latin4 (North European) 
+\&    5. Cyrillic 
+\&    6. Arabic 
+\&    7. Greek 
+\&    8. Hebrew 
+\&    9. Latin5 (Turkish) 
+\&   10. Latin6 (Nordic) 
+.Ve
+The \s-1ISO\s0 8859 charsets are not even remotely as complete as the truly
+great Unicode but they have been around and usable for quite a while
+(first registered Internet charsets for use with \s-1MIME\s0) and have
+already offered a major improvement over the plain 7bit \s-1US\s0\-\s-1ASCII\s0.
+.Sp
+Characters 0 to 127 are always identical with \s-1US\s0\-\s-1ASCII\s0 and the
+positions 128 to 159 hold some less used control characters: the
+so-called C1 set from \s-1ISO\s0 6429.
+.Ip "\s-1MIME::\s0WordDecoder::\s-1US_ASCII\s0" 5
+A subclass of the \s-1ISO\s0\-8859-1 decoder which discards 8-bit characters.  
+You're probably better off using \s-1ISO\s0\-8859-1.
+.SH "AUTHOR"
+Eryq (\fIeryq@zeegee.com\fR), ZeeGee Software Inc (\fIhttp://www.zeegee.com\fR).
+.SH "VERSION"
+$Revision: 5.403 $ \f(CW$Date:\fR 2000/11/23 05:04:03 $
+
+.rn }` ''
+.IX Title "lib::MIME::WordDecoder 3"
+.IX Name "MIME::WordDecoder - decode RFC-1522 encoded words to a local representation"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "PUBLIC INTERFACE"
+
+.IX Item "default [\s-1DECODER\s0]"
+
+.IX Item "supported \s-1CHARSET\s0, [\s-1DECODER\s0]"
+
+.IX Item "new [\e@\s-1HANDLERS\s0]"
+
+.IX Item "handler \s-1CHARSET\s0=>\e&\s-1SUBREF\s0, ..."
+
+.IX Item "decode \s-1STRING\s0"
+
+.IX Item "unmime \s-1STRING\s0"
+
+.IX Header "SUBCLASSES"
+
+.IX Item "\s-1MIME::\s0WordDecoder::\s-1ISO_8859\s0"
+
+.IX Item "\s-1MIME::\s0WordDecoder::\s-1US_ASCII\s0"
+
+.IX Header "AUTHOR"
+
+.IX Header "VERSION"
+

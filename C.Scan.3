@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Scan 3 "perl 5.005, patch 53" "7/Mar/98" "User Contributed Perl Documentation"
+.TH Scan 3 "perl 5.005, patch 53" "23/Mar/100" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -191,11 +191,12 @@
 C::Scan \- scan C language files for easily recognized constructs.
 .SH "SYNOPSIS"
 .PP
-.Vb 5
+.Vb 3
 \&  $c = new C::Scan 'filename' => $filename, 'filename_filter' => $filter,
 \&                   'add_cppflags' => $addflags;
 \&  $c->set('includeDirs' => [$Config::Config{shrpdir}]);
-\&  
+.Ve
+.Vb 1
 \&  my $fdec = $c->get('parsed_fdecls');
 .Ve
 .SH "DESCRIPTION"
@@ -256,14 +257,33 @@ generated one if missing in the declaration), \f(CWargs\fR is \f(CWundef\fR, and
 \f(CWmod\fR is the string of array modifiers.
 .Ip "\f(CWtypedef_hash\fR" 14
 Value: a reference to a hash which contains known \f(CWtypedef\fRs as keys.
+Values of the hash are array references of length 2, with what should
+be put before/after the type for a standalone typedef declaration (but
+without the \f(CWtypedef\fR substring).
+.Sp
+Parse uses naive heuristics.
 .Ip "\f(CWtypedef_texts\fR" 14
 Value: a reference to a list which contains known expansions of
 \f(CWtypedef\fRs.
 .Ip "\f(CWtypedefs_maybe\fR" 14
-Value: a reference to a list of \f(CWtypedef\fRed names. (Syncronized with
-\f(CWtypedef_texts\fR).
+Value: a reference to a list of \f(CWtypedef\fRed names.  Heuristics are used.
 .Ip "\f(CWvdecls\fR" 14
 Value: a reference to a list of \f(CWextern\fR variable declarations.
+.Ip "\f(CWvdecl_hash\fR" 14
+Value: a reference to a hash of parsed \f(CWextern\fR variable declarations,
+containing the variable names as keys. Values of the hash are array
+references of length 2, with what should be put before/after the name
+for a standalone extern variable declaration (but without the \f(CWextern\fR
+substring).
+.Ip "\f(CWtypedef_structs\fR" 14
+Value: a reference to a hash of parsed struct declarations from typedefs.
+Keys are typedefed names, values are \f(CWundef\fR if not a struct or union,
+else an array reference of definitions of the elements of the structure;
+each definition is itself an array reference of length 3, consisting of
+what should be put before/after the name for a standalone variable
+declaration, followed by the name of the element. Anonymous structs and
+unions used within the definitions are given an arbitrary name including
+the string \f(CWANON\fR, and referred to using that name.
 
 .rn }` ''
 .IX Title "Scan 3"
@@ -296,4 +316,8 @@ Value: a reference to a list of \f(CWextern\fR variable declarations.
 .IX Item "\f(CWtypedefs_maybe\fR"
 
 .IX Item "\f(CWvdecls\fR"
+
+.IX Item "\f(CWvdecl_hash\fR"
+
+.IX Item "\f(CWtypedef_structs\fR"
 

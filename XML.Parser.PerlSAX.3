@@ -1,0 +1,545 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::XML::Parser::PerlSAX 3 "perl 5.007, patch 00" "22/Feb/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::Parser::PerlSAX \- Perl SAX parser using XML::Parser
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\& use XML::Parser::PerlSAX;
+.Ve
+.Vb 2
+\& $parser = XML::Parser::PerlSAX->new( [OPTIONS] );
+\& $result = $parser->parse( [OPTIONS] );
+.Ve
+.Vb 1
+\& $result = $parser->parse($string);
+.Ve
+.SH "DESCRIPTION"
+\f(CWXML::Parser::PerlSAX\fR is a PerlSAX parser using the XML::Parser
+module.  This man page summarizes the specific options, handlers, and
+properties supported by \f(CWXML::Parser::PerlSAX\fR; please refer to the
+PerlSAX standard in `\f(CWPerlSAX.pod\fR\*(R' for general usage information.
+.SH "METHODS"
+.Ip "new" 4
+Creates a new parser object.  Default options for parsing, described
+below, are passed as key-value pairs or as a single hash.  Options may
+be changed directly in the parser object unless stated otherwise.
+Options passed to `\f(CWparse()\fR\*(R' override the default options in the
+parser object for the duration of the parse.
+.Ip "parse" 4
+Parses a document.  Options, described below, are passed as key-value
+pairs or as a single hash.  Options passed to `\f(CWparse()\fR\*(R' override
+default options in the parser object.
+.Ip "location" 4
+Returns the location as a hash:
+.Sp
+.Vb 9
+\&  ColumnNumber    The column number of the parse.
+\&  LineNumber      The line number of the parse.
+\&  BytePosition    The current byte position of the parse.
+\&  PublicId        A string containing the public identifier, or undef
+\&                  if none is available.
+\&  SystemId        A string containing the system identifier, or undef
+\&                  if none is available.
+\&  Base            The current value of the base for resolving relative
+\&                  URIs.
+.Ve
+\s-1ALPHA\s0 \s-1WARNING\s0: The `\f(CWSystemId\fR\*(R' and `\f(CWPublicId\fR\*(R' properties returned
+are the system and public identifiers of the document passed to
+`\f(CWparse()\fR\*(R', not the identifiers of the currently parsing external
+entity.  The column, line, and byte positions \fIare\fR of the current
+entity being parsed.
+.SH "OPTIONS"
+The following options are supported by \f(CWXML::Parser::PerlSAX\fR:
+.Sp
+.Vb 9
+\& Handler          default handler to receive events
+\& DocumentHandler  handler to receive document events
+\& DTDHandler       handler to receive DTD events
+\& ErrorHandler     handler to receive error events
+\& EntityResolver   handler to resolve entities
+\& Locale           locale to provide localisation for errors
+\& Source           hash containing the input source for parsing
+\& UseAttributeOrder set to true to provide AttributeOrder and Defaulted
+\&                   properties in `start_element()'
+.Ve
+If no handlers are provided then all events will be silently ignored,
+except for `\f(CWfatal_error()\fR\*(R' which will cause a `\f(CWdie()\fR\*(R' to be
+called after calling `\f(CWend_document()\fR\*(R'.
+.Sp
+If a single string argument is passed to the `\f(CWparse()\fR\*(R' method, it
+is treated as if a `\f(CWSource\fR\*(R' option was given with a `\f(CWString\fR\*(R'
+parameter.
+.Sp
+The `\f(CWSource\fR\*(R' hash may contain the following parameters:
+.Sp
+.Vb 6
+\& ByteStream       The raw byte stream (file handle) containing the
+\&                  document.
+\& String           A string containing the document.
+\& SystemId         The system identifier (URI) of the document.
+\& PublicId         The public identifier.
+\& Encoding         A string describing the character encoding.
+.Ve
+If more than one of `\f(CWByteStream\fR\*(R', `\f(CWString\fR\*(R', or `\f(CWSystemId\fR\*(R',
+then preference is given first to `\f(CWByteStream\fR\*(R', then `\f(CWString\fR\*(R',
+then `\f(CWSystemId\fR\*(R'.
+.SH "HANDLERS"
+The following handlers and properties are supported by
+\f(CWXML::Parser::PerlSAX\fR:
+.Sh "DocumentHandler methods"
+.Ip "start_document" 8
+Receive notification of the beginning of a document.
+.Sp
+No properties defined.
+.Ip "end_document" 8
+Receive notification of the end of a document.
+.Sp
+No properties defined.
+.Ip "start_element" 8
+Receive notification of the beginning of an element.
+.Sp
+.Vb 3
+\& Name             The element type name.
+\& Attributes       A hash containing the attributes attached to the
+\&                  element, if any.
+.Ve
+The `\f(CWAttributes\fR\*(R' hash contains only string values.
+.Sp
+If the `\f(CWUseAttributeOrder\fR\*(R' parser option is true, the following
+properties are also passed to `\f(CWstart_element\fR':
+.Sp
+.Vb 7
+\& AttributeOrder   An array of attribute names in the order they were
+\&                  specified, followed by the defaulted attribute
+\&                  names.
+\& Defaulted        The index number of the first defaulted attribute in
+\&                  `AttributeOrder.  If this index is equal to the
+\&                  length of `AttributeOrder', there were no defaulted
+\&                  values.
+.Ve
+Note to \f(CWXML::Parser\fR users:  `\f(CWDefaulted\fR\*(R' will be half the value of
+\f(CWXML::Parser::Expat\fR's `\f(CWspecified_attr()\fR\*(R' function because only
+attribute names are provided, not their values.
+.Ip "end_element" 8
+Receive notification of the end of an element.
+.Sp
+.Vb 1
+\& Name             The element type name.
+.Ve
+.Ip "characters" 8
+Receive notification of character data.
+.Sp
+.Vb 1
+\& Data             The characters from the XML document.
+.Ve
+.Ip "processing_instruction" 8
+Receive notification of a processing instruction. 
+.Sp
+.Vb 2
+\& Target           The processing instruction target. 
+\& Data             The processing instruction data, if any.
+.Ve
+.Ip "comment" 8
+Receive notification of a comment.
+.Sp
+.Vb 1
+\& Data             The comment data, if any.
+.Ve
+.Ip "start_cdata" 8
+Receive notification of the start of a \s-1CDATA\s0 section.
+.Sp
+No properties defined.
+.Ip "end_cdata" 8
+Receive notification of the end of a \s-1CDATA\s0 section.
+.Sp
+No properties defined.
+.Ip "entity_reference" 8
+Receive notification of an internal entity reference.  If this handler
+is defined, internal entities will not be expanded and not passed to
+the `\f(CWcharacters()\fR\*(R' handler.  If this handler is not defined,
+internal entities will be expanded if possible and passed to the
+`\f(CWcharacters()\fR\*(R' handler.
+.Sp
+.Vb 2
+\& Name             The entity reference name
+\& Value            The entity reference value
+.Ve
+.Sh "DTDHandler methods"
+.Ip "notation_decl" 8
+Receive notification of a notation declaration event.
+.Sp
+.Vb 4
+\& Name             The notation name.
+\& PublicId         The notation's public identifier, if any.
+\& SystemId         The notation's system identifier, if any.
+\& Base             The base for resolving a relative URI, if any.
+.Ve
+.Ip "unparsed_entity_decl" 8
+Receive notification of an unparsed entity declaration event.
+.Sp
+.Vb 4
+\& Name             The unparsed entity's name.
+\& SystemId         The entity's system identifier.
+\& PublicId         The entity's public identifier, if any.
+\& Base             The base for resolving a relative URI, if any.
+.Ve
+.Ip "entity_decl" 8
+Receive notification of an entity declaration event.
+.Sp
+.Vb 5
+\& Name             The entity name.
+\& Value            The entity value, if any.
+\& PublicId         The notation's public identifier, if any.
+\& SystemId         The notation's system identifier, if any.
+\& Notation         The notation declared for this entity, if any.
+.Ve
+For internal entities, the `\f(CWValue\fR\*(R' parameter will contain the value
+and the `\f(CWPublicId\fR\*(R', `\f(CWSystemId\fR\*(R', and `\f(CWNotation\fR\*(R' will be
+undefined.  For external entities, the `\f(CWValue\fR\*(R' parameter will be
+undefined, the `\f(CWSystemId\fR\*(R' parameter will have the system id, the
+`\f(CWPublicId\fR\*(R' parameter will have the public id if it was provided (it
+will be undefined otherwise), the `\f(CWNotation\fR\*(R' parameter will contain
+the notation name for unparsed entities.  If this is a parameter entity
+declaration, then a \*(L'%\*(R' will be prefixed to the entity name.
+.Sp
+Note that `\f(CWentity_decl()\fR\*(R' and `\f(CWunparsed_entity_decl()\fR\*(R' overlap.
+If both methods are implemented by a handler, then this handler will
+not be called for unparsed entities.
+.Ip "element_decl" 8
+Receive notification of an element declaration event.
+.Sp
+.Vb 2
+\& Name             The element type name.
+\& Model            The content model as a string.
+.Ve
+.Ip "attlist_decl" 8
+Receive notification of an attribute list declaration event.
+.Sp
+This handler is called for each attribute in an \s-1ATTLIST\s0 declaration
+found in the internal subset. So an \s-1ATTLIST\s0 declaration that has
+multiple attributes will generate multiple calls to this handler.
+.Sp
+.Vb 4
+\& ElementName      The element type name.
+\& AttributeName    The attribute name.
+\& Type             The attribute type.
+\& Fixed            True if this is a fixed attribute.
+.Ve
+The default for `\f(CWType\fR\*(R' is the default value, which will either be
+\*(L"#\s-1REQUIRED\s0\*(R", \*(L"#\s-1IMPLIED\s0\*(R" or a quoted string (i.e. the returned string
+will begin and end with a quote character).
+.Ip "doctype_decl" 8
+Receive notification of a \s-1DOCTYPE\s0 declaration event.
+.Sp
+.Vb 4
+\& Name             The document type name.
+\& SystemId         The document's system identifier.
+\& PublicId         The document's public identifier, if any.
+\& Internal         The internal subset as a string, if any.
+.Ve
+Internal will contain all whitespace, comments, processing
+instructions, and declarations seen in the internal subset. The
+declarations will be there whether or not they have been processed by
+another handler (except for unparsed entities processed by the
+Unparsed handler).  However, comments and processing instructions will
+not appear if they've been processed by their respective handlers.
+.Ip "xml_decl" 8
+Receive notification of an \s-1XML\s0 declaration event.
+.Sp
+.Vb 3
+\& Version          The version.
+\& Encoding         The encoding string, if any.
+\& Standalone       True, false, or undefined if not declared.
+.Ve
+.Sh "EntityResolver"
+.Ip "resolve_entity" 8
+Allow the handler to resolve external entities.
+.Sp
+.Vb 4
+\& Name             The notation name.
+\& SystemId         The notation's system identifier.
+\& PublicId         The notation's public identifier, if any.
+\& Base             The base for resolving a relative URI, if any.
+.Ve
+`\f(CWresolve_entity()\fR\*(R' should return undef to request that the parser
+open a regular \s-1URI\s0 connection to the system identifier or a hash
+describing the new input source.  This hash has the same properties as
+the `\f(CWSource\fR\*(R' parameter to `\f(CWparse()\fR':
+.Sp
+.Vb 9
+\&  PublicId    The public identifier of the external entity being
+\&              referenced, or undef if none was supplied. 
+\&  SystemId    The system identifier of the external entity being
+\&              referenced.
+\&  String      String containing XML text
+\&  ByteStream  An open file handle.
+\&  CharacterStream
+\&              An open file handle.
+\&  Encoding    The character encoding, if known.
+.Ve
+.SH "AUTHOR"
+Ken MacLeod, ken@bitsko.slc.ut.us
+.SH "SEE ALSO"
+\fIperl\fR\|(1), PerlSAX.\fIpod\fR\|(3)
+.Sp
+.Vb 2
+\& Extensible Markup Language (XML) <http://www.w3c.org/XML/>
+\& SAX 1.0: The Simple API for XML <http://www.megginson.com/SAX/>
+.Ve
+
+.rn }` ''
+.IX Title "lib::XML::Parser::PerlSAX 3"
+.IX Name "XML::Parser::PerlSAX - Perl SAX parser using XML::Parser"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Item "new"
+
+.IX Item "parse"
+
+.IX Item "location"
+
+.IX Header "OPTIONS"
+
+.IX Header "HANDLERS"
+
+.IX Subsection "DocumentHandler methods"
+
+.IX Item "start_document"
+
+.IX Item "end_document"
+
+.IX Item "start_element"
+
+.IX Item "end_element"
+
+.IX Item "characters"
+
+.IX Item "processing_instruction"
+
+.IX Item "comment"
+
+.IX Item "start_cdata"
+
+.IX Item "end_cdata"
+
+.IX Item "entity_reference"
+
+.IX Subsection "DTDHandler methods"
+
+.IX Item "notation_decl"
+
+.IX Item "unparsed_entity_decl"
+
+.IX Item "entity_decl"
+
+.IX Item "element_decl"
+
+.IX Item "attlist_decl"
+
+.IX Item "doctype_decl"
+
+.IX Item "xml_decl"
+
+.IX Subsection "EntityResolver"
+
+.IX Item "resolve_entity"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

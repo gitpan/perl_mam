@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Cookies 3 "libwww-perl-5.36" "10/Apr/98" "User Contributed Perl Documentation"
+.TH lib::HTTP::Cookies 3 "libwww-perl-5.64" "7/Feb/102" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -202,27 +202,28 @@ HTTP::Cookies \- Cookie storage and management
 .SH "DESCRIPTION"
 Cookies are a general mechanism which server side connections can use
 to both store and retrieve information on the client side of the
-connection.  For more information about cookies referrer to
+connection.  For more information about cookies refer to
 <URL:http://www.netscape.com/newsref/std/cookie_spec.html> and
 <URL:http://www.cookiecentral.com/>.  This module also implements the
-new style cookies as described in \fIdraft-ietf-http-state-man-mec-08.txt\fR.
-The two variants of cookies is supposed to be able to coexist happily.
+new style cookies described in \fIRFC 2965\fR.
+The two variants of cookies are supposed to be able to coexist happily.
 .PP
 Instances of the class \fIHTTP::Cookies\fR are able to store a collection
-of Set-Cookie2: and Set-Cookie:\-headers and is able to use this
+of Set-Cookie2: and Set-Cookie: headers and are able to use this
 information to initialize Cookie-headers in \fIHTTP::Request\fR objects.
-The state of the \fIHTTP::Cookies\fR can be saved and restored from
+The state of a \fIHTTP::Cookies\fR object can be saved in and restored from
 files.
 .SH "METHODS"
 The following methods are provided:
 .Ip "$cookie_jar = \s-1HTTP::\s0Cookies->new;" 4
-The constructor.  Takes hash style parameters.  The following
+The constructor takes hash style parameters.  The following
 parameters are recognized:
 .Sp
-.Vb 3
-\&  file:            name of the file to restore and save cookies to
-\&  autosave:        should we save during destruction (bool)
+.Vb 4
+\&  file:            name of the file to restore cookies from and save cookies to
+\&  autosave:        save during destruction (bool)
 \&  ignore_discard:  save even cookies that are requested to be discarded (bool)
+\&  hide_cookie2:    don't add Cookie2 header to requests
 .Ve
 Future parameters might include (not yet implemented):
 .Sp
@@ -237,46 +238,51 @@ Future parameters might include (not yet implemented):
 .Ip "$cookie_jar->add_cookie_header($request);" 4
 The \fIadd_cookie_header()\fR method will set the appropriate Cookie:\-header
 for the \fI\s-1HTTP::\s0Request\fR object given as argument.  The \f(CW$request\fR must
-have a valid \fIurl()\fR attribute before this method is called.
+have a valid url attribute before this method is called.
 .Ip "$cookie_jar->extract_cookies($response);" 4
 The \fIextract_cookies()\fR method will look for Set-Cookie: and
-Set-Cookie2:\-headers in the \fI\s-1HTTP::\s0Response\fR object passed as
-argument.  If some of these headers are found they are used to update
+Set-Cookie2: headers in the \fI\s-1HTTP::\s0Response\fR object passed as
+argument.  Any of these headers that are found are used to update
 the state of the \f(CW$cookie_jar\fR.
 .Ip "$cookie_jar->set_cookie($version, $key, $val, $path, $domain, $port, $path_spec, $secure, $maxage, $discard, \e%rest)" 4
 The \fIset_cookie()\fR method updates the state of the \f(CW$cookie_jar\fR.  The
 \f(CW$key\fR, \f(CW$val\fR, \f(CW$domain\fR, \f(CW$port\fR and \f(CW$path\fR arguments are strings.  The
 \f(CW$path_spec\fR, \f(CW$secure\fR, \f(CW$discard\fR arguments are boolean values. The \f(CW$maxage\fR
 value is a number indicating number of seconds that this cookie will
-live.  A value <= 0 will delete this cookie.  The \f(CW%rest\fR are a place
-for various other attributes like \*(L"Comment\*(R" and \*(L"CommentURL\*(R".
+live.  A value <= 0 will delete this cookie.  \f(CW%rest\fR defines
+various other attributes like \*(L"Comment\*(R" and \*(L"CommentURL\*(R".
 .Ip "$cookie_jar->save( [$file] );" 4
-Calling this method file save the state of the \f(CW$cookie_jar\fR to a file.
+This method file saves the state of the \f(CW$cookie_jar\fR to a file.
 The state can then be restored later using the \fIload()\fR method.  If a
 filename is not specified we will use the name specified during
 construction.  If the attribute \fIignore_discared\fR is set, then we
 will even save cookies that are marked to be discarded.
 .Sp
-The default is to save a sequence of \*(L"Set-Cookie3\*(R" lines.  The
+The default is to save a sequence of \*(L"Set-Cookie3\*(R" lines.
 \*(L"Set-Cookie3\*(R" is a proprietary \s-1LWP\s0 format, not known to be compatible
-with any other browser.  The \fI\s-1HTTP::\s0Cookies::Netscape\fR sub-class can
+with any browser.  The \fI\s-1HTTP::\s0Cookies::Netscape\fR sub-class can
 be used to save in a format compatible with Netscape.
 .Ip "$cookie_jar->load( [$file] );" 4
-This method will read the cookies from the file and add them to the
+This method reads the cookies from the file and adds them to the
 \f(CW$cookie_jar\fR.  The file must be in the format written by the \fIsave()\fR
 method.
 .Ip "$cookie_jar->revert;" 4
-Will revert to the state of last save.
+This method empties the \f(CW$cookie_jar\fR and re-loads the \f(CW$cookie_jar\fR
+from the last save file.
 .Ip "$cookie_jar->clear( [$domain, [$path, [$key] ] ]);" 4
 Invoking this method without arguments will empty the whole
 \f(CW$cookie_jar\fR.  If given a single argument only cookies belonging to
 that domain will be removed.  If given two arguments, cookies
-belonging to the specified path within that domain is removed.  If
+belonging to the specified path within that domain are removed.  If
 given three arguments, then the cookie with the specified key, path
 and domain is removed.
+.Ip "$cookie_jar->clear_temporary_cookies( );" 4
+Discard all temporary cookies. Scans for all cookies in the jar 
+with either no expire field or a true \f(CWdiscard\fR flag. To be 
+called when the user agent shuts down according to \s-1RFC\s0 2965.
 .Ip "$cookie_jar->scan( \e&callback );" 4
 The argument is a subroutine that will be invoked for each cookie
-stored within the \f(CW$cookie_jar\fR.  The subroutine will be invoked with
+stored in the \f(CW$cookie_jar\fR.  The subroutine will be invoked with
 the following arguments:
 .Sp
 .Vb 11
@@ -295,11 +301,11 @@ the following arguments:
 .Ip "$cookie_jar->as_string( [$skip_discard] );" 4
 The \fIas_string()\fR method will return the state of the \f(CW$cookie_jar\fR
 represented as a sequence of \*(L"Set-Cookie3\*(R" header lines separated by
-\*(L"\en\*(R".  If given a argument that is \s-1TRUE\s0, it will not return lines for
+\*(L"\en\*(R".  If \f(CW$skip_discard\fR is \s-1TRUE\s0, it will not return lines for
 cookies with the \fIDiscard\fR attribute.
 .SH "SUB CLASSES"
-We also provide a subclass called \fIHTTP::Cookies::Netscape\fR which make
-cookie loading and saving compatible with Netscape cookie files.  You
+We also provide a subclass called \fIHTTP::Cookies::Netscape\fR which
+loads and saves Netscape compatible cookie files.  You
 should be able to have LWP share Netscape's cookies by constructing
 your \f(CW$cookie_jar\fR like this:
 .PP
@@ -311,9 +317,9 @@ your \f(CW$cookie_jar\fR like this:
 .Ve
 Please note that the Netscape cookie file format is not able to store
 all the information available in the Set-Cookie2 headers, so you will
-probably loose some information if you save using this format.
+probably loose some information if you save in this format.
 .SH "COPYRIGHT"
-Copyright 1997, Gisle Aas
+Copyright 1997-1999 Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -345,6 +351,8 @@ modify it under the same terms as Perl itself.
 .IX Item "$cookie_jar->revert;"
 
 .IX Item "$cookie_jar->clear( [$domain, [$path, [$key] ] ]);"
+
+.IX Item "$cookie_jar->clear_temporary_cookies( );"
 
 .IX Item "$cookie_jar->scan( \e&callback );"
 

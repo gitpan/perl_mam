@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Date::Format 3 "perl 5.005, patch 53" "2/Jan/98" "User Contributed Perl Documentation"
+.TH lib::Date::Format 3 "perl 5.007, patch 00" "28/Dec/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -194,7 +194,7 @@ Date::Format \- Date formating subroutines
 .Vb 15
 \&        use Date::Format;
 \&        
-\&        @lt = timelocal(time);
+\&        @lt = localtime(time);
 \&        
 \&        print time2str($template, time);
 \&        print strftime($template, @lt);
@@ -203,7 +203,7 @@ Date::Format \- Date formating subroutines
 \&        print strftime($template, @lt, $zone);
 \&        
 \&        print ctime(time);
-\&        print ascctime(@lt);
+\&        print asctime(@lt);
 \&        
 \&        print ctime(time, $zone);
 \&        print asctime(@lt, $zone);
@@ -247,15 +247,16 @@ characters   as   described  in  the  following  list.   The
 appropriate  characters  are  determined  by   the   LC_TIME
 category of the program's locale.
 .PP
-.Vb 35
+.Vb 38
 \&        %%      PERCENT
 \&        %a      day of the week abbr
 \&        %A      day of the week
 \&        %b      month abbr
 \&        %B      month
-\&        %c      ctime format: Sat Nov 19 21:05:57 1994
-\&        %d      numeric day of the month
-\&        %e      DD
+\&        %c      MM/DD/YY HH:MM:SS
+\&        %C      ctime format: Sat Nov 19 21:05:57 1994
+\&        %d      numeric day of the month, with leading zeros (eg 01..31)
+\&        %e      numeric day of the month, without leading zeros (eg 1..31)
 \&        %D      MM/DD/YY
 \&        %h      month abbr
 \&        %H      hour, 24 hour clock, leading 0's)
@@ -268,6 +269,8 @@ category of the program's locale.
 \&        %n      NEWLINE
 \&        %o      ornate day of month -- "1st", "2nd", "25th", etc.
 \&        %p      AM or PM 
+\&        %P      am or pm (Yes %p and %P are backwards :)
+\&        %q      Quarter number, starting with 1
 \&        %r      time format: 09:05:57 PM
 \&        %R      time format: 21:05
 \&        %s      seconds since the Epoch, UCT
@@ -284,15 +287,18 @@ category of the program's locale.
 \&        %Z      timezone in ascii. eg: PST
 \&        %z      timezone in format -/+0000
 .Ve
+\f(CW%d\fR, \f(CW%e\fR, \f(CW%H\fR, \f(CW%I\fR, \f(CW%j\fR, \f(CW%k\fR, \f(CW%l\fR, \f(CW%m\fR, \f(CW%M\fR, \f(CW%q\fR,
+\f(CW%y\fR and \f(CW%Y\fR can be output in Roman numerals by prefixing the letter
+with \f(CWO\fR, e.g. \f(CW%OY\fR will output the year as roman numerals.
 .SH "AUTHOR"
-Graham Barr <Graham.Barr@pobox.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-Copyright (c) 1995-8 Graham Barr. All rights reserved. This program is free
+Copyright (c) 1995-1999 Graham Barr. All rights reserved. This program is free
 software; you can redistribute it and/or modify it under the same terms
 as Perl itself.
 
 .rn }` ''
-.IX Title "Date::Format 3"
+.IX Title "lib::Date::Format 3"
 .IX Name "Date::Format - Date formating subroutines"
 
 .IX Header "NAME"

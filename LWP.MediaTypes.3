@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::MediaTypes 3 "libwww-perl-5.36" "9/Jul/98" "User Contributed Perl Documentation"
+.TH lib::LWP::MediaTypes 3 "libwww-perl-5.64" "16/Nov/99" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -196,33 +196,33 @@ LWP::MediaTypes \- guess media type for a file or a URL
 \& $type = guess_media_type("/tmp/foo.gif");
 .Ve
 .SH "DESCRIPTION"
-This module provides functions for handling of media (also known as
+This module provides functions for handling media (also known as
 MIME) types and encodings.  The mapping from file extentions to media
 types is defined by the \fImedia.types\fR file.  If the \fI~/.media.types\fR
-file exist it is used as a replacement.
+file exists it is used instead.
 For backwards compatability we will also look for \fI~/.mime.types\fR.
 .PP
 The following functions are exported by default:
 .Ip "guess_media_type($filename_or_url, [$header_to_modify])" 4
-This function tries to guess media type and encoding for given file.
+This function tries to guess media type and encoding for a file or url.
 It returns the content-type, which is a string like \f(CW"text/html"\fR.
 In array context it also returns any content-encodings applied (in the
-order used to encode the file).  You can pass a \s-1URI::URL\s0 object
-reference, instead of the file name, as the first parameter too.
+order used to encode the file).  You can pass a \s-1URI\s0 object
+reference, instead of the file name.
 .Sp
-If the type can not be deduced from looking at the file name only,
+If the type can not be deduced from looking at the file name,
 then \fIguess_media_type()\fR will let the \f(CW-T\fR Perl operator take a look.
 If this works (and \f(CW-T\fR returns a \s-1TRUE\s0 value) then we return
 \fItext/plain\fR as the type, otherwise we return
 \fIapplication/octet-stream\fR as the type.
 .Sp
 The optional second argument should be a reference to a \s-1HTTP::\s0Headers
-object (or any object that implement the \f(CW$obj\fR\->header method in a
-similar way).  When present we will set the values of the
-\&'Content-Type\*(R' and \*(L'Content-Encoding\*(R' for this header.
+object or any object that implements the \f(CW$obj\fR\->header method in a
+similar way.  When it is present the values of the
+\&'Content-Type\*(R' and \*(L'Content-Encoding\*(R' will be set for this header.
 .Ip "media_suffix($type,...)" 4
 This function will return all suffixes that can be used to denote the
-specified media \fItype\fR\|(s).  Wildcard types can be used.  In scalar
+specified media \fItype\fR\|(s).  Wildcard types can be used.  In a scalar
 context it will return the first suffix found.
 .Sp
 Examples:
@@ -242,7 +242,7 @@ Example:
 \&    add_type("x-world/x-vrml" => qw(wrl vrml));
 .Ve
 .Ip "add_encoding($type, @ext)" 4
-Associate a list of file extensions with and encoding type.
+Associate a list of file extensions with an encoding type.
 .Sp
 Example:
 .Sp
@@ -250,7 +250,7 @@ Example:
 \& add_encoding("x-gzip" => "gz");
 .Ve
 .Ip "read_media_types(@files)" 4
-Parse a media types file from disk and add the type mappings found there.
+Parse media types files and add the type mappings found there.
 .Sp
 Example:
 .Sp
@@ -258,7 +258,7 @@ Example:
 \&    read_media_types("conf/mime.types");
 .Ve
 .SH "COPYRIGHT"
-Copyright 1995-1998 Gisle Aas.
+Copyright 1995-1999 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

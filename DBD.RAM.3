@@ -1,0 +1,1431 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH RAM 3 "perl 5.007, patch 00" "25/May/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+DBD::RAM \- a DBI driver for files and data structures
+.SH "SYNOPSIS"
+.PP
+.Vb 14
+\& use DBI;
+\& my $dbh = DBI->connect('DBI:RAM:','usr','pwd',{RaiseError=>1});
+\& $dbh->func({
+\&    table_name  => 'my_phrases',
+\&    col_names   => 'id,phrase',
+\&    data_type   => 'PIPE',
+\&    data_source => [<DATA>],
+\& }, 'import' );
+\& print $dbh->selectcol_arrayref(qq[
+\&   SELECT phrase FROM my_phrases WHERE id = 1
+\& ])->[0];
+\& __END__
+\& 1 | Hello, New World
+\& 2 | Some other Phrase
+.Ve
+This sample creates a database table from data, uses SQL to make a
+selection from the database and prints out the results.  While this
+table is in-memory only and uses pipe \*(L"delimited\*(R" formating, many
+other options are available including local and remote file access and
+many different data formats.
+.SH "DESCRIPTION"
+DBD::RAM allows you to import almost any type of Perl data
+structure into an in-memory table and then use DBI and SQL
+to access and modify it.  It also allows direct access to
+almost any kind of file, supporting SQL manipulation
+of the file without converting the file out of its native
+format.
+.PP
+The module allows you to prototype a database without having an rdbms
+system or other database engine and can operate either with or without
+creating or reading disk files.  If you do use disk files, they may,
+in most cases, either be local files or any remote file accessible via
+HTTP or FTP.
+.SH "OVERVIEW"
+This modules allows you to work with a variety of data formats and to
+treat them like standard DBI/SQL accessible databases.  Currently
+supported formats include:
+.PP
+.Vb 1
+\&  FORMATS:
+.Ve
+.Vb 11
+\&    XML    Extended Markup Language (XML)
+\&    FIXED  fixed-width records
+\&    INI    name=value pairs
+\&    PIPE   pipe "delimited" text
+\&    TAB    tab "delimited" text
+\&    CSV    Comma Separated Values or other "delimited" text
+\&    MP3    MP3 music binary files
+\&    ARRAY  Perl array
+\&    HASH   Perl associative array
+\&    DBI    DBI database connection
+\&    USR    user defined formats
+.Ve
+The data you use may come form several kinds of sources: 
+.PP
+.Vb 1
+\&  SOURCES
+.Ve
+.Vb 3
+\&    DATA         Perl data structures: strings, arrays, hashes
+\&    LOCAL FILE   a file stored on your local computer hard disk
+\&    REMOTE FILE  a remote file accessible via HTTP or FTP
+.Ve
+If you modify the data in a table, the modifications may be stored in
+several ways.  The storage can be temporary, i.e. in memory only with
+no disk storage.  Or several modifications can be done in memory and
+then stored to disk once at the end of the processing.  Or
+modifications can be stored to disk continuously, similarly to the way
+other DBDs operate.
+.PP
+.Vb 1
+\&  STORAGE
+.Ve
+.Vb 3
+\&    RAM          in-memory processing only, no storage
+\&    ONE-TIME     processed in memory, stored to disk on command
+\&    CONTINUOUS   all modifications stored to disk as they occur
+.Ve
+Here is a summary of the SOURCES, FORMATS, and STORAGE capabilities of
+DBD::RAM. (x = currently supported, \- = notsupported, * = support in
+progress)
+.PP
+.Vb 10
+\&                                        FORMAT
+\&                    CSV PIPE TAB FIXED INI XML MP3 ARRAY HASH DBI USR
+\&INPUT
+\&  array/hash/string  x    x   x    x    x   x   -    x     x   -   x
+\&  local file         x    x   x    x    x   x   x    -     -   x   x
+\&  remote file        x    x   x    x    x   x   *    -     -   *   x
+\&OUTPUT
+\&  ram table          x    x   x    x    x   x   x    x     x   x   x
+\&  file (1-time)      x    x   x    x    x   x   -    -     -   *   *
+\&  file (continuous)  x    x   x    x    x   *   -    -     -   x   *
+.Ve
+Please note that any ram table, regardless of original source can be
+stored in any of the supported file output formats.  So, for example,
+a table of MP3 information could be stored as a CSV file, the \*(L"\-\*(R" in
+the MP3 column only indicates that the information from the MP3 table
+can not (for obvious reasons) be written back to an MP3 file.
+.SH "INSTALLATION & PREREQUISITES"
+This module should work on any any platform that DBI works on.
+.PP
+You don't need an external SQL engine or a running server, or a
+compiler.  All you need are Perl itself and installed versions of DBI
+and SQL::Statement. If you do not also have DBD::CSV installed you
+will need to either install it, or simply copy File.pm into your DBD
+directory.
+.PP
+You can either use the standard makefile method, or just copy RAM.pm
+into your DBD directory.
+.PP
+Some features require installation of extra modules.  If you wish to
+work with the XML format, you will need to install XML::Parser.  If
+you wish to use the ability to work with remote files, you will need
+to install the LWP (libnet) modules.  Other features of DBD::RAM work
+fine without these additional modules.
+.SH "SQL & DBI"
+This module, like other DBD database drivers, works with the DBI
+methods listed in DBI.pm and its documentation.  Please see the DBI
+documentation for details of methods such as connecting, preparing,
+executing, and fetching data.  Currently only a limited subset of SQL
+commands are supported.  Here is a brief synopsis, please see the
+documentation for SQL::Statement for a more comple description of
+these commands.
+.PP
+.Vb 3
+\&       CREATE  TABLE $table 
+\&                     ( $col1 $type1, ..., $colN $typeN,
+\&                     [ PRIMARY KEY ($col1, ... $colM) ] )
+.Ve
+.Vb 1
+\&        DROP  TABLE  $table
+.Ve
+.Vb 3
+\&        INSERT  INTO $table 
+\&                     [ ( $col1, ..., $colN ) ]
+\&                     VALUES ( $val1, ... $valN )
+.Ve
+.Vb 2
+\&        DELETE  FROM $table 
+\&                     [ WHERE $wclause ]
+.Ve
+.Vb 3
+\&             UPDATE  $table 
+\&                     SET $col1 = $val1, ... $colN = $valN
+\&                     [ WHERE $wclause ]
+.Ve
+.Vb 4
+\&  SELECT  [DISTINCT] $col1, ... $colN 
+\&                     FROM $table
+\&                     [ WHERE $wclause ] 
+\&                     [ ORDER BY $ocol1 [ASC|DESC], ... $ocolM [ASC|DESC] ]
+.Ve
+.Vb 2
+\&           $wclause  [NOT] $col $op $val|$col
+\&                     [ AND|OR $wclause2 ... AND|OR $wclauseN ]
+.Ve
+.Vb 2
+\&                $op  = |  <> |  < | > | <= | >= 
+\&                     | IS NULL | IS NOT NULL | LIKE | CLIKE
+.Ve
+.SH "WORKING WITH FILES & TABLES:"
+This module supports working with both in-memory and disk-based databases.  In order to allow quick testing and prototyping, the default behavior is for tables to be created in-memory from in-memory data but it is easy to change this behavior so that tables can also be created, manipulated, and stored on disk or so that there is a combination of in-memory and disk-based manipulation.  
+.PP
+There are three methods unique to the DBD::RAM module to allow you to specify which mode of operation you use for each table or operation:
+.PP
+.Vb 2
+\& 1) import()  imports data either from memory or from a file into an 
+\&              in-memory table
+.Ve
+.Vb 2
+\& 2) export()  exports data from an in-memory table to a file regardless of
+\&              the original source of the data
+.Ve
+.Vb 3
+\& 3) catalog() sets up an association between a file name and a table name
+\&               such that all operations on the table are done continuously
+\&               on the file
+.Ve
+With the \fIimport()\fR method, standard DBI/SQL commands like select,
+update, delete, etc. apply only to the data that is in-memory.  If you
+want to save the modifications to a file, you must explcitly call
+\fIexport()\fR after making the changes.
+.PP
+On the other hand, the \fIcatalog()\fR method sets up an association between
+a file and a tablename such that all DBI/SQL commands operate on the
+file continuously without needing to explicitly call \fIexport()\fR.  This
+method of operation is similar to other DBD drivers.
+.PP
+Here is a rough diagram of how the three methods operate:
+.PP
+.Vb 1
+\&   disk -> import() -> RAM
+.Ve
+.Vb 5
+\&                       select
+\&                       update
+\&                       delete
+\&                       insert
+\&                       (multiple times)
+.Ve
+.Vb 1
+\&   disk <- export() <- RAM
+.Ve
+.Vb 5
+\&   catlog()
+\&   disk <-> select
+\&   disk <-> update
+\&   disk <-> delete
+\&   disk <-> insert   
+.Ve
+Regardless of which method is chosen,  the same set of DBI and SQL commands may be applied to all tables.
+.PP
+See below for details of \fIimport()\fR, \fIexport()\fR and \fIcatalog()\fR and for
+specifics of naming files and directories.
+.Sh "Creating in-memory tables from data and files: \fIimport()\fR"
+In-memory tables may be created using standard \s-1CREATE/INSERT\s0
+statements, or using the \s-1DBD::RAM\s0 specific import method:
+.PP
+.Vb 1
+\&    $dbh->func( $args, 'import' );
+.Ve
+The \f(CW$args\fR parameter is a hashref which can contain several keys, most
+of which are optional and/or which contain common defaults.
+.PP
+These keys can either be specified or left to default behaviour:
+.PP
+.Vb 3
+\&  table_name   string: name of the table
+\&   col_names   string: column names for the table
+\&   data_type   string: format of the data (e.g. XML, CSV...)
+.Ve
+The table_name key to the \fIimport()\fR method is either a string, or if 
+it is omitted, a default table name will be automatically supplied, 
+starting at table1, then table2, etc.
+.PP
+.Vb 1
+\&     table_name => 'my_test_db',
+.Ve
+.Vb 1
+\&  OR simply omit the table_names key
+.Ve
+If the col_names key to the \fIimport()\fR method is omitted, the column
+names will be automatically supplied, starting at col1, then col2,
+etc.  If the col_names key is the string \*(L'first_line\*(R', the column
+names will be taken from the first line of the data.  If the col_names
+key is a comma separated list of column names, those will be taken (in
+order) as the names of the columns.
+.PP
+.Vb 1
+\&      col_names => 'first_line',
+.Ve
+.Vb 1
+\&  OR  col_names => 'name,address,phone',
+.Ve
+.Vb 1
+\&  OR  simply omit the col_names key
+.Ve
+If table_name or col_names are specified, they must comply with \s-1SQL\s0
+naming rules for identifiers: start with an alphabetic character;
+contain nothing but alphabetic characters, numbers, and/or
+underscores; be less than 128 characters long; not be the same as a
+\s-1SQL\s0 reserved keyword.  If the table refers to a file that has a period
+in its name (e.g. my_data.csv), this can be handled with the \fIcatalog()\fR
+method, see below.
+.PP
+The table_name and col_names, if specified, *are* case sensititive, so
+that \*(L"my_test_db\*(R" is not the same as \*(L"my_TEST_db\*(R".
+.PP
+The data_type key to the \fIimport()\fR method specifies the format of the
+data as already described above in the general description.  It must
+be one of:
+.PP
+.Vb 11
+\&    data_type => 'CSV',
+\&    data_type => 'TAB',
+\&    data_type => 'PIPE',
+\&    data_type => 'INI',
+\&    data_type => 'FIXED',
+\&    data_type => 'XML',
+\&    data_type => 'MP3',
+\&    data_type => 'DBI',
+\&    data_type => 'USR',
+\&    data_type => 'ARRAY',
+\&    data_type => 'HASH',
+.Ve
+.Vb 1
+\&  OR simply omit the data_type key
+.Ve
+If no data_type key is supplied, the default format \s-1CSV\s0 will be used.
+.PP
+The \fIimport()\fR keys must specify a source of the data for the table,
+which can be any of:
+.PP
+.Vb 3
+\&    file_source   string: name of local file to get data from
+\&  remote_source   string: url of remote file to get data from
+\&    data_source   string or arrayref: the actual data
+.Ve
+The file_source key is the name of local file.  It's location will be
+taken to be relative to the f_dir specified in the database
+connection, see the \fIconnect()\fR method above.  Whether or not the file
+name is case sensitive depends on the operating system the script is
+running on e.g. on Windows case is ignored and on \s-1UNIX\s0 it is not
+ignored.  For maximum portability, it is safest to assume that case
+matters.
+.PP
+.Vb 1
+\&    file_source => 'my_test_db.csv'
+.Ve
+The remote_source key is a \s-1URL\s0 (Uniform Resource Locator) to a file
+located on some other computer.  It may be any kind of \s-1URL\s0 that is
+supported by the \s-1LWP\s0 module includding http and \s-1FTP\s0.  If username and
+password are required, they can be included in the \s-1URL\s0.
+.PP
+.Vb 1
+\&     remote_source => 'http://myhost.com/mypath/myfile.myext'
+.Ve
+.Vb 1
+\&  OR remote_source => 'ftp://user:password@myhost.com/mypath/myfile.myext'
+.Ve
+The data_source key to the \fIimport()\fR tag contains the actual data for
+the table.  in cases where the data comes from the Perl script itself,
+rather than from a file.  The method of specifying the data_source
+depends entirely on the format of the data_type.  For example with
+data_type of \s-1XML\s0 or \s-1CSV\s0, the data_source is a string in \s-1XML\s0 or \s-1CSV\s0
+format but with data_type \s-1ARRAY\s0, the data_source is a reference to an
+array of arrayrefs.  See below under each data_type for details.
+.PP
+The following keys to the \fIimport()\fR method apply only to specific data
+formats, see the sections on the specific formats (listed in parens)
+for details:
+.PP
+.Vb 9
+\&        pattern   (FIXED only)
+\&       sep_char   (CSV only)
+\&            eol   (CSV only)
+\&       read_sub   (USR and XML only)
+\&           attr   (XML only)
+\&     record_tag   (XML only)
+\&       fold_col   (XML only)
+\&    col_mapping   (XML only)
+\&           dirs   (MP3 only)
+.Ve
+.Sh "Saving in-memory tables to disk: \fIexport()\fR"
+The \fIexport()\fR method creates a file from an in-memory table.  It takes
+a very similar set of keys as does the \fIimport()\fR method.  The data_type
+key specifies the format of the file to be created (\s-1CSV\s0, \s-1PIPE\s0, \s-1TAB\s0,
+\s-1XML\s0, \s-1FIXED\s0\-\s-1WIDTH\s0, etc.).  The same set of specifiers available for the
+import method for these various formats are also available
+(e.g. sep_char to set the field separator for \s-1CSV\s0 files, or pattern to
+set the fixed-width pattern).
+.PP
+The data_source key for the \fIexport()\fR method is a \s-1SQL\s0 select statement
+in relation to whatever in-memory table is chosen to export.  The
+data_target key specifies the name of the file to put the results in.
+Here is an example:
+.PP
+.Vb 11
+\&        $dbh->func( {
+\&            data_source => 'SELECT * FROM table1',
+\&            data_target => 'my_db.fix',
+\&            data_type => 'FIXED',
+\&            pattern   => 'A2 A19',
+\&        },'export' );
+\&               
+\&That statement creates a fixed-width record database file called
+\&"my_db.fix" and puts the entire contents of table1 into the file using
+\&the specified field widths and whatever column names alread exist in
+\&table1.
+.Ve
+See specific data formats below for details related to the \fIexport()\fR method.  
+.Sh "Continuous file access: \fIcatalog()\fR"
+The \fIcatalog()\fR method creates an association between a specific table
+name, a specific data type, and a specific file name.  You can create
+those associations for several files at once.  The parameter to the
+\fIcatalog()\fR method is a reference to an array of arrayrefs.  Each of the
+arrayrefs should contain a table name, a data type, and a file name
+and can optionally inlcude other paramtets specific to specific data
+types.  Here is an example:
+.PP
+.Vb 3
+\&    $dbh->func([
+\&        [ 'my_csv_table', 'CSV',   'test_db.csv'  ],
+\&     ],'catalog');
+.Ve
+This example creates an association to a \s-1CSV\s0 file.  Once the \fIcatalog()\fR
+statement has been issued, any \s-1DBI/SQL\s0 commands relating to
+\*(L"my_csv_table\*(R" will operate on the file \*(L"test_db.csv\*(R".  If the command
+is a \s-1SELECT\s0 statement, the file witll be opened and searched.  If the
+command is an \s-1INSERT\s0 statement, the file will be opened and the new
+data \fIrow\fR\|(s) inserted and saved into the file.
+.PP
+One can also pass additional information such as column names,
+fixed-width patterns, field and record separators to the export
+\fImethod()\fR.  See the \fIimport()\fR information above for the meanings of
+these additional parameters.  They should be passed as a hashref:
+.PP
+.Vb 4
+\&    $dbh->func([
+\&        [ 'table1', 'FIXED', 'test_db.fix',{pattern => 'A2 A19'} ],
+\&        [ 'table2', 'INI',   'test_db.ini',{col_names => 'id,phrase,name' ],
+\&     ],'catalog');
+.Ve
+In future releases, users will be able to store catalogs in files for permanent associations between files and data types.
+.Sh "Specifying file and directory names"
+All filenames are relative to a user-specified file directory: f_dir.
+The f_dir parameter may be set in the connect statement:
+.PP
+.Vb 1
+\&      my $dbh=DBI->connect("dbi:RAM:f_dir=/mypath/to-files/" ...
+.Ve
+The f_dir parameter may also be set or reset anywhere in the program
+after the database connection:
+.PP
+.Vb 1
+\&     $dbh->{f_dir} = '/mypath/to-files'
+.Ve
+If the f_dir parameter is not set explicitly, it defaults to \*(L"./\*(R"
+which will be wherever your script thinks it is running from (which,
+depending on server setup may or may not be the physical location of
+your script so use this only if you know what you are doing).
+.PP
+All filenames are relative to the f_dir directory.  It is not possible
+to use an absolute path to a file.
+.PP
+\s-1WARNING\s0: no taint checking is performed on the filename or f_dir, this
+is the responsiblity of the programmer.  Since the filename is
+relative to the f_dir directory, a filename starting with \*(L"../\*(R" will
+lead to files above or outside of the f_dir directory so you should
+exclude those from filenames if the filenames come from user input.
+.Sh "Using defaults for quick testing & prototyping"
+If no table_name is specified, a numbered table name will be supplied
+(table1, or if that exists table2, etc.).  The same also applies to
+column names (col1, col2, etc.).  If no data_type is supplied, \s-1CSV\s0
+will be assumed. If the entire hashref parameter to import is missing
+and an arrayref of data is supplied instead, then defaults for all
+values will be used, the source will be defaulted to data and the
+contents of the array will be treated as the data source.  For \s-1CSV\s0
+file, a field separator of comma and a record separator of newline are
+the default. Thus, assuming there are no already exiting in-memory
+tables, the two statements below have the same effect:
+.PP
+.Vb 1
+\&    $dbh->func( [<DATA>], 'import' );
+.Ve
+.Vb 8
+\&    $dbh->func({
+\&        table_name  => 'table1',
+\&        data_type   => 'CSV',
+\&        col_names   => 'col1,col2',
+\&        sep_char    => ',',
+\&        eol         => "\en",
+\&        data_source => [<DATA>],
+\&    },'import' );
+.Ve
+It is also possible to rely on some of the defaults, but not all of
+them.  For example:
+.PP
+.Vb 4
+\&    $dbh->func({
+\&        data_type   => 'PIPE',
+\&        file_source => 'my_db.pipe',
+\&    },'import' );
+.Ve
+.SH "DATA FORMATS"
+.Sh "\s-1CSV\s0 / \s-1PIPE\s0 / \s-1TAB\s0 / \s-1INI\s0 (Comma,Pipe,Tab,\s-1INI\s0 & other \*(M"delimited\*(S" formats)"
+\s-1DBD::RAM\s0 can import \s-1CSV\s0 (Comma Separated Values) from strings, from
+local files, or from remote files into database tables and export
+tables from any source to \s-1CSV\s0 files.  It can also store and update \s-1CSV\s0
+files continuously similarly to the way other \s-1DBD\s0 drivers operate.
+.PP
+If you wish to use remote \s-1CSV\s0 files, you also need the \s-1LWP\s0 module
+installed. It is available from www.activestate.com for windows, and
+from www.cpan.org for other platforms.
+.PP
+\s-1CSV\s0 is the format of files commonly exported by such programs as
+Excel, Access, and FileMakerPro.  Typically newlines separate records
+and commas separate fields.  Commas may also be included inside fields
+if the field itself is surrounded by quotation marks.  Quotation marks
+may be included in fields by doubling them.  Although some types of
+\s-1CSV\s0 formats allow newlines inside fields, \s-1DBD::RAM\s0 does not currently
+support that.  If you need that feature, you should use \s-1DBD::CSV\s0.
+.PP
+Here are some typical \s-1CSV\s0 fields:
+.PP
+.Vb 1
+\&   hello,1,"testing, ""george"", 1,2,3",junk
+.Ve
+Note that numbers and strings that don't contain commas do not need
+quotation marks around them.  That line would be parsed into four
+fields:
+.PP
+.Vb 4
+\&        hello
+\&        1
+\&        testing, "george", 1,2,3
+\&        junk
+.Ve
+To import that string of \s-1CSV\s0 into a \s-1DBD::RAM\s0 table:
+.PP
+.Vb 3
+\&  $dbh->func({ 
+\&      data_source => qq[hello,1,"testing, ""george"", 1,2,3",junk]
+\&  },'import');
+.Ve
+Of if one wanted to continuously update a file similarly to the way
+\s-1DBD::CSV\s0 works:
+.PP
+.Vb 1
+\&  $dbh->func([ 'table1', 'CSV',  'my_test.csv' ],'catalog');
+.Ve
+Or if that string and others like it were in a local file called
+\&'my_test.csv':
+.PP
+.Vb 1
+\&  $dbh->func({ file_source => 'my_test.csv' },'import');
+.Ve
+Or if that string and others like it were in a remote file at a known
+\s-1URL\s0:
+.PP
+.Vb 1
+\&  $dbh->func({ remote_source => 'http://www.foo.edu/my_test.csv' },'import');
+.Ve
+Note that these forms all use default behaviour since \s-1CSV\s0 is the
+default data_type.  These methods also use the default table_name
+(table1,table2,etc.) and default column_names (col1,col2, etc.).  The
+same functions can specify a table_name and can either specify a list
+of column names or specify that the column names should be taken from
+the first line of data:
+.PP
+.Vb 5
+\&  $dbh->func({ 
+\&      file_source => 'my_test.csv',
+\&       table_name => 'my_table',
+\&        col_names => 'name,phone,address',
+\&   },'import');
+.Ve
+It is also possible to define other field separators (e.g. a
+semicolon) with the \*(L"sep_char\*(R" key and define other record separators
+with the \*(L"eol\*(R" key.  For example:
+.PP
+.Vb 2
+\&   sep_char => ';',
+\&   eol      => '~',
+.Ve
+Adding those to the \fIimport()\fR hash would define data that has a
+semicolon between every field and a tilde between every record.
+.PP
+For convenience shortcuts have been provided for \s-1PIPE\s0 and \s-1TAB\s0
+separators. The data_type \*(L"\s-1PIPE\s0\*(R" indicates a separator of the pipe
+character \*(L'|\*(R' which may optionally have blank spaces before or afer
+it.  The \s-1TAB\s0 data_type indicates fields that are separated by tabs.
+In both cases newlines remain the default record separator unless
+specifically set to something else.
+.PP
+Another shortcut is the \s-1INI\s0 data_type.  This expects to see data in
+name=value pairs like this:
+.PP
+.Vb 2
+\&        resolution = 640x480
+\&        colors     = 256
+.Ve
+Currently the \s-1INI\s0 type does not support sections within the .ini file,
+but that will change in future releases of this module.
+.PP
+The \s-1PIPE\s0, \s-1TAB\s0, and \s-1INI\s0 formats all behave like the \s-1CSV\s0 format.
+Defaults may be used for assigning column names from the first line of
+data, in which case the column names should be separated by the
+appropriate symbol (e.g. col1|col2 for \s-1PIPE\s0, and col1=col2 for \s-1INI\s0,
+and column names separated by tabs for \s-1TAB\s0).
+.PP
+In the examples above using data_source the data was a string with
+newlines separating the records.  It is also possible to use an
+reference to an array of lines as the data_source.  This makes it
+easy to use the \s-1DATA\s0 segment of a script or to import an array from
+some other part of a script:
+.PP
+.Vb 1
+\&    $dbh->func({ data_source => [<DATA>] },'import' );
+.Ve
+.Sh "\s-1ARRAYS\s0 & \s-1HASHES\s0"
+\s-1DBD::RAM\s0 can import data directly from references to arrays of
+arrayrefs and references to arrays of hashrefs.  This allows you to
+easily import data from some other portion of a perl script into a
+database format and either save it to disk or simply manipulate it in
+memory.
+.PP
+.Vb 7
+\&    $dbh->func({
+\&        data_type   => 'ARRAY',
+\&        data_source =>  [
+\&           ['1','CSV:Hello New World!'],
+\&           ['2','CSV:Cool!']
+\&        ],
+\&    },'import');
+.Ve
+.Vb 7
+\&    $dbh->func({
+\&        data_type   => 'HASH',
+\&        data_source => [
+\&            {id=>1,phrase=>'Hello new world!'},
+\&            {id=>2,phrase=>'Junkity Junkity Junk'},
+\&        ],
+\&    },'import');
+.Ve
+.Sh "\s-1FIXED\s0\-\s-1WIDTH\s0 \s-1RECORDS\s0"
+Fixed-width records (also called fixed-length records) do not use
+character patterns to separate fields, rather they use a preset number
+of characters in each field to determine where one field begins and
+another ends.  \s-1DBD::RAM\s0 can import fixed-width records from strings,
+arrayrefs, local files, and remote files and can export data from any
+source to fixed-width record fields.  The module also allows
+continuous disk-based updating of fixed-width format files similarly
+to other DBDs.
+.PP
+The fixed-width format behaves exactly like the \s-1CSV\s0 formats mentioned
+above with the exception that the data_type is \*(L"\s-1FIXED\s0\*(R" and that one
+must supply a pattern key to describe the width of the fields.  The
+pattern should be in Perl unpack format e.g. \*(L"A2 A7 A14\*(R" would
+indicate a table with three columns with widths of 2,7,14 characters.
+When data is inserted or updated, it will be truncated or padded to
+fill exactly the amount of space alloted to each field.
+.PP
+.Vb 9
+\& $dbh->func({ 
+\&     table_name => 'phrases',
+\&     col_names  => 'id,phrase',
+\&     data_type  => 'FIXED',
+\&     pattern    => 'A1 A20',
+\&     data_source => [ '1Hello new world!    ',
+\&                      '2Junkity Junkity Junk',
+\&                    ],
+\&  },'import' );
+.Ve
+.Sh "\s-1XML\s0"
+\s-1DBD::RAM\s0 can import \s-1XML\s0 (Extended Markup Language) from strings, from
+local files, or from remote files into database tables and export
+tables from any source to \s-1XML\s0 files.
+.PP
+You must have \s-1XML::\s0Parser installed in order to use the \s-1XML\s0 feature of
+\s-1DBD::RAM\s0.  If you wish to use remote \s-1XML\s0 files, you also need the \s-1LWP\s0
+module installed.  Both are available from www.activestate.com for
+windows, and from www.cpan.org for other platforms.
+.PP
+Support is provided for information in tag attributes and tag text and
+for multiple levels of nested tags.  There are several options on how
+to treat tag names that occur multiple times in a single record
+including a variety of relationships between \s-1XML\s0 tags and database
+columns: one-to-one, one-to-many, and many-to-one.  Tag attributes can
+be made to apply to multiple records nested within the tag.  There is
+also support for alternate character encodings and other \s-1XML::\s0Parser
+parameter attributes.
+.PP
+See below for details.
+.Ip "\s-1XML\s0 Import" 4
+.Sp
+.Vb 1
+\& To start with a very simple example, consider this XML string:
+.Ve
+.Vb 6
+\&  <staff>
+\&      <person name='Joe' title='bottle washer'/>
+\&      <person name='Tom' title='flunky'/>
+\&      <person name='Bev' title='chief cook'/>
+\&      <person name='Sue' title='head honcho'/>
+\&  </staff>
+.Ve
+Assuming you have that \s-1XML\s0 structure in a variable \f(CW$str\fR, you can
+import it into a \s-1DBD::RAM\s0 table like this:
+.Sp
+.Vb 6
+\&  $dbh->func({
+\&      data_source => $str
+\&      data_type   => 'XML',
+\&      record_tag  => 'staff person',
+\&      col_names   => 'name,title'
+\&  },'import');
+.Ve
+Which would produce this \s-1SQL/DBI\s0 accessible table:
+.Sp
+.Vb 6
+\&  name | title
+\&  -----+--------------
+\&  Joe  | bottle washer
+\&  Tom  | flunky
+\&  Bev  | chief cook
+\&  Sue  | head honcho
+.Ve
+If the \s-1XML\s0 data is in a local or remote file, rather than a string,
+simply change the \*(L"data_source\*(R" to \*(L"file_source\*(R" (for local files) or
+\*(L"remote_source\*(R" (for remote files) an everything else mentioned in
+this section works the same as if the data was imported from a string.
+.Sp
+Notice that the \*(L"record_tag\*(R" is a space separated list of all of the
+tags that enclose the fields you want to capture starting at the
+highest level with the <staff> tag.  In this example there is only one
+level of nesting, but there could be many levels of nesting in actual
+practice.
+.Sp
+\s-1DBD::RAM\s0 can treat both text and tag attributes as fields. So the
+following three records could produce the same database row:
+.Sp
+.Vb 1
+\&      <person name='Tom' title='flunky'/>
+.Ve
+.Vb 3
+\&      <person name='Tom'> 
+\&         <title>flunky</title>
+\&      </person>
+.Ve
+.Vb 4
+\&      <person>
+\&        <name>Tom</name>
+\&        <title>flunky</title>
+\&      </person>
+.Ve
+The database column names should be specified as a comma-separated
+string, in the order you want them to appear in the database:
+.Sp
+.Vb 1
+\&       col_names => 'name,state,year'
+.Ve
+If you want the database column names to be the same as the \s-1XML\s0 tag
+names you do not need to do anything further.
+.Sp
+\s-1NOTE\s0: you *must* speficy the column names for \s-1XML\s0 data, you can not
+rely on automatic default column names (col1,col2,etc.) or on reading
+the column names from the \*(L"first line\*(R" of the data as you can with
+most other data types.
+.Ip "Alternate relationships between \s-1XML\s0 tags & database columns" 4
+If you want the database column names to be different from the \s-1XML\s0 tag
+names, you need to add a col_mapping parameter which should be a hash
+with the \s-1XML\s0 tag as the key and the database column as the value:
+.Sp
+.Vb 5
+\&       col_mapping => {
+\&           name  => 'Member_Name',
+\&           state => 'Location',
+\&           year =>  'Year',
+\&       }
+.Ve
+.Vb 1
+\&       ('name' is the XML tag, 'Member_Name' is the database column)
+.Ve
+If a given tag occurs more than once in an \s-1XML\s0 record, it can be
+mapped onto a single column name (in which case all of the values for
+it will be concatenated with spaces into the single column), or it can
+be mapped onto an array of column names (in which case each succeeding
+instance of the tag will be entered into the succeeding column in the
+array).
+.Sp
+For example, given this \s-1XML\s0 snippet:
+.Sp
+.Vb 9
+\&  <person name='Joe' state='OR'>
+\&      <year>1998</year>
+\&      <year>1999</year>
+\&  </person>
+\&  <person name='Sally' state='WA'>
+\&      <year>1998</year>
+\&      <year>1999</year>
+\&      <year>2000</year>
+\&  </person>
+.Ve
+This column mapping:
+.Sp
+.Vb 5
+\&  col_mapping => {
+\&      name  => 'Member_Name',
+\&      state => 'Location',
+\&      year =>  ['Year1','Year2','Year3'],
+\&  }
+.Ve
+Would produce this table:
+.Sp
+.Vb 4
+\&  Member_Name | Location | Year1 | Year2 | Year3
+\&  ------------+----------+-------+-------+------
+\&  Joe         | OR       | 1998  | 1999  |
+\&  Sally       | WA       | 1998  | 1999  | 2000
+.Ve
+And this column mapping:
+.Sp
+.Vb 5
+\&  col_mapping => {
+\&      name  => 'Member_Name',
+\&      state => 'Location',
+\&      year =>  'Year',
+\&  }
+.Ve
+Would produce this table:
+.Sp
+.Vb 4
+\&  Member_Name | Location | Year
+\&  ------------+----------+----------------
+\&  Joe         | OR       | 1998 1999
+\&  Sally       | WA       | 1998 1999 2000
+.Ve
+It is also possible to map several differnt tags into a single column,
+e.g:
+.Sp
+.Vb 9
+\&  <person name='Joe' state='OR'>
+\&    <year1>1998</year1>
+\&    <year2>1999</year2>
+\&  </person>
+\&  <person name='Sally' state='WA'>
+\&     <year1>1998</year1>
+\&     <year2>1999</year2>
+\&     <year3>2000</year3>
+\&  </person>
+.Ve
+.Vb 7
+\&  col_mapping => {
+\&      name  => 'Member_Name',
+\&      state => 'Location',
+\&      year1 => 'Year',
+\&      year2 => 'Year',
+\&      year3 => 'Year',
+\&  }
+.Ve
+.Vb 4
+\&  Member_Name | Location | Year
+\&  ------------+----------+----------------
+\&  Joe         | OR       | 1998 1999
+\&  Sally       | WA       | 1998 1999 2000
+.Ve
+.Ip "Nested attributes that apply to multiple records" 4
+It is also possible to use nested record attributes to create column
+values that apply to multiple records.  Consider the following \s-1XML\s0:
+.Sp
+.Vb 10
+\&  <staff>
+\&    <office location='Portland'>
+\&      <person name='Joe'>
+\&      <person name='Tom'/>
+\&    </office>
+\&    <office location='Seattle'>
+\&      <person name='Bev'/>
+\&      <person name='Sue'/>
+\&    </office>
+\&  </staff>
+.Ve
+One might like to associate the office location with all of the staff
+members in that office. This is how that would be done:
+.Sp
+.Vb 3
+\&    record_tag  => 'staff office person',
+\&    col_names   => 'location,name',
+\&    fold_col    => { 'staff office' => 'location' },
+.Ve
+That fold-col specification in the \fIimport()\fR method would \*(L"fold in\*(R"
+the attribute for location and apply it to all records nested within
+the office tag and produce the following table:
+.Sp
+.Vb 6
+\&   location | name
+\&   ---------+-----
+\&   Portland | Joe
+\&   Portland | Tom
+\&   Seattle  | Bev
+\&   Seattle  | Sue
+.Ve
+You may use several levels of folded columns, for example, to capture
+both the office location and title in this \s-1XML\s0:
+.Sp
+.Vb 16
+\&  <staff>
+\&    <office location='Portland'>
+\&      <title id='manager'>
+\&        <person name='Joe'/>
+\&      </title>
+\&      <title id='flunky'>
+\&        <person name='Tom'/>
+\&      </title>
+\&    </office>
+\&    <office location='Seattle'>
+\&      <title id='flunky'>
+\&        <person name='Bev'/>
+\&        <person name='Sue'/>
+\&      </title>
+\&    </office>
+\&  </staff>
+.Ve
+You would use this fold_col key:
+.Sp
+.Vb 3
+\&    fold_col => { 'staff office'       => 'location',
+\&                  'staff office title' => 'id',
+\&                },
+.Ve
+And obtain this table:
+.Sp
+.Vb 6
+\&  location | title   | name
+\&  ---------+---------+-----
+\&  Portland | manager | Joe
+\&  Portland | flunky  | Tom
+\&  Seattle  | flunky  | Bev
+\&  Seattle  | flunky  | Sue
+.Ve
+If you need to grab more than one attribute from a single tag, you
+need to put one or more carets (^) on the end of the fold_col key.
+For example:
+.Sp
+.Vb 1
+\&   <office type='branch' location='Portland' manager='Sue'> ...</office>
+.Ve
+.Vb 3
+\&   fold_col => { 'office'   => 'branch',
+\&                 'office^'  => 'location',
+\&                 'office^^' => 'manager',
+.Ve
+.Ip "Character Encoding and Unicode issues" 4
+The attr key can be used to pass extra information to \s-1XML::\s0Parser when
+it imports a database.  For example, if the \s-1XML\s0 file contains latin-1
+characters, one might like to pass the parser an encoding protocol
+like this:
+.Sp
+.Vb 1
+\&   attr => {ProtocolEncoding => 'ISO-8859-1'},
+.Ve
+Attributes passed in this manner are passed straight to the
+\s-1XML::\s0Parser.
+.Sp
+Since the results of \s-1XML::\s0Parser are returned as \s-1UTF\s0\-8, one might also
+like to translate from \s-1UTF\s0\-8 to something else when the data is
+entered into the database.  This can be done by passing a pointer to a
+subroutine in the read_sub key. For example:
+.Sp
+.Vb 1
+\&    read_sub    => \e&utf8_to_latin1,
+.Ve
+For this to work, there would need to be a subroutine utf8_to_latin1
+in the main module that takes a \s-1UTF8\s0 string as input and returns a
+latin-1 string as output.  Similar routines can be used to translate
+the \s-1UTF8\s0 characters into any other character encoding.
+.Sp
+Apologies for being Euro-centric, but I have included a short-cut for
+Latin-1.  One can omit the attr key and instead of passing a pointer
+to a subroutine in the read_sub key, if one simply puts the string
+\*(L"latin1\*(R", the module will automatically perform \s-1ISO\s0\-8859-1 protocol
+encoding on reading the \s-1XML\s0 file and automatically translate from
+\s-1UTF\s0\-8 to Latin-1 as the values are inserted in the database, that is
+to say, a shortcut for the two keys mentioned above.
+.Ip "Other features of \s-1XML\s0 import" 4
+* Tags, attributes, and text that are not specifically referred to in
+the \fIimport()\fR parameters are ignored when creating the database table.
+.Sp
+* If a column name is listed that is not mapped onto a tag that occurs
+in the \s-1XML\s0 source, a column will be created in the database for that
+name and it will be given a default value of \s-1NULL\s0 for each record
+created.
+.Ip "\s-1XML\s0 Export" 4
+Any \s-1DBD::RAM\s0 table, regardless of its original source or its original
+format, can be exported to an \s-1XML\s0 file.
+.Sp
+The \fIexport()\fR parameters are the same as for other types of \fIexport()\fR --
+see the above for details.  Additionally there are some export
+parameters specific to \s-1XML\s0 files which are the same as the \fIimport()\fR
+parameters for \s-1XML\s0 files mentioned above.  The col_names parameter is
+required, as is the record_tag parameter.  Additionally one may
+optionally pass a header and/or a footer parameter which will be
+material that goes above and below the records in the file.  If no
+header is passed, a default header consisting of
+.Sp
+.Vb 1
+\&   <?xml version="1.0" ?>
+.Ve
+will be created at the top of the file.  
+.Sp
+Given a datbase like this:
+.Sp
+.Vb 4
+\&   location | name
+\&   ---------+-----
+\&   Portland | Joe
+\&   Seattle  | Sue
+.Ve
+And an \fIexport()\fR call like this:
+.Sp
+.Vb 7
+\&  $dbh->func({
+\&      data_type   => 'XML',
+\&      data_target => 'test_db.new.xml',
+\&      data_source => 'SELECT * FROM table1',
+\&      record_tag  => 'staff person',
+\&      col_names   => 'name,location',
+\&  },'export');
+.Ve
+Would produce a file called \*(L'test_db.xml\*(R' containing text like this:
+.Sp
+.Vb 13
+\&  <?xml version="1.0" ?>
+\&  <staff>
+\&  <office>
+\&  <person>
+\&    <name>Joe</name>
+\&    <location>Portland</location>
+\&  </person>
+\&  <person>
+\&    <name>Sue</name>
+\&    <location>Seattle</location>
+\&  </person>
+\&  </office>
+\&  </staff>
+.Ve
+The module does not currently support exporting tag attributes or
+\*(L"folding out\*(R" nested column information, but those are planned for
+future releases.
+.Sp
+back
+.Sh "\s-1USER\s0\-\s-1DEFINED\s0 \s-1DATA\s0 \s-1STRUCTURES\s0"
+\s-1DBD::RAM\s0 can be extended to handle almost any type of structured
+information with the \s-1USR\s0 data type.  With this data type, you define a
+subroutine that parses your data and pass that to the \fIimport()\fR command
+and the module will use that routine to create a database from your
+data.  The routine can be as simple or as complex as you like.  It
+must accept a string and return an array with the fields of the array
+in the same order as the columns in your database.  Here is a simple
+example that works with data separated by double tildes.  In reality,
+you could just do this with the bulit-in \s-1CSV\s0 type, but here is how you
+could recreate it with the \s-1USR\s0 type:
+.Sp
+.Vb 5
+\& $dbh->func({
+\&      data_type   => 'USR',
+\&      data_source => "1~~2~~3\en4~~5~~6\en",
+\&      read_sub    => sub { split /~~/,shift },
+\& },'import' );
+.Ve
+That would build a table with two rows of three fields each.  The
+first row would contain the values 1,2,3 and the second row would
+contain the values 4,5,6.
+.Sp
+Here is a more complex example that handles a simplified address book.
+It assumes that your data is a series of addresses separated by blank
+lines and that the address has the name on the first line, the street
+on the second line and the town, state, and zipcode on the third line.
+(Apologies to those in countries that don't have states or zipcodes in
+this format).  Here is an example of the kind of data it would handle:
+.Sp
+.Vb 3
+\&    Fred Bloggs
+\&    123 Somewhere Lane
+\&    Sometown OR 97215
+.Ve
+.Vb 3
+\&    Joe Blow
+\&    567 Anywhere Street
+\&    OtherTown WA 98006
+.Ve
+Note that the end-of-line separator (eol) has been changed to be a
+blank line rather than a simple newline and that the parsing routine
+is more than a simple line by line parser, it splits the third line
+into three fields for town, state, and zip.
+.Sp
+.Vb 15
+\&  $dbh->func({
+\&    data_type   => 'USR',
+\&    data_source => join('',<DATA>),
+\&    col_names   => 'name,street,town,state,zip',
+\&    eol         => '^\es*\en',
+\&    read_sub    => sub {
+\&        my($name,$street,$stuff) = split "\en", $_[0];
+\&        my @ary   = split ' ',$stuff;
+\&        my $zip   = $ary[-1];
+\&        my $state = $ary[-2];
+\&        my $town  = $stuff;
+\&        $town =~ s/^(.*)\es+$state\es+$zip$/$1/;
+\&        return($name,$street,$town,$state,$zip);
+\&      },
+\&    },'import');
+.Ve
+.Vb 1
+\&  Given the data above, this routine would create a table like this:
+.Ve
+.Vb 4
+\&  name        | street              | town      | state | zip
+\&  ------------+---------------------+-----------+-------+------
+\&  Fred Bloggs | 123 Somewhere Lane  | Sometown  | OR    | 97215
+\&  Joe Blow    | 567 Anywhere Street | OtherTown | WA    | 98006
+.Ve
+These are just samples, the possiblities are fairly unlimited.
+.Sp
+\s-1PLEASE\s0 \s-1NOTE\s0: If you develop generally useful parser routines that
+others might also be able to use, send them to me and I can
+encorporate them into the \s-1DBD\s0 itself (with proper credit, of course).
+.Sh "\s-1DBI\s0 \s-1DATABASE\s0 \s-1RECORDS\s0"
+You can import information from any other \s-1DBI\s0 accessible database with
+the data_type set to \*(L'\s-1DBI\s0\*(R' in the \fIimport()\fR method.  First connect to
+the other database via \s-1DBI\s0 and get a database handle for it separate
+from the database handle for \s-1DBD::RAM\s0.  Then do a prepare and execute
+to get a statement handle for a \s-1SELECT\s0 statement into that database.
+Then pass the statement handle to the \s-1DBD::RAM\s0 \fIimport()\fR method as the
+data_source.  This will perform the fetch and insert the fetched
+fields and records into the \s-1DBD::RAM\s0 table.  After the \fIimport()\fR
+statement, you can then close the database connection to the other
+database if you are not going to be using it for anything else.
+.Sp
+Here's an example using \s-1DBD::\s0mysql --
+.Sp
+.Vb 10
+\& use DBI;
+\& my $dbh_ram   = DBI->connect('dbi:RAM:','','',{RaiseError=>1});
+\& my $dbh_mysql = DBI->connect('dbi:mysql:test','','',{RaiseError=>1});
+\& my $sth_mysql = $dbh_mysql->prepare("SELECT * FROM cars");
+\& $sth_mysql->execute;
+\& $dbh_ram->func({
+\&     data_type   => 'DBI',
+\&     data_source => $sth_mysql,
+\& },'import' );
+\& $dbh_mysql->disconnect;
+.Ve
+.Sh "\s-1MP3\s0 \s-1MUSIC\s0 \s-1FILES\s0"
+Most mp3 (mpeg three) music files contain a header describing the song
+name, artist, and other information about the music.  This shortcut
+will collect all of the header information in all mp3 files in a group
+of directories and turn it into a searchable database:
+.Sp
+.Vb 3
+\& $dbh->func(
+\&     { data_type => 'MP3', dirs => $dirlist }, 'import'
+\& );
+.Ve
+.Vb 7
+\& $dirlist should be a reference to an array of absolute paths to
+\& directories containing mp3 files.  Each file in those directories
+\& will become a record containing the fields:  file_name, song_name,
+\& artist, album, year, comment,genre. The fields will be filled
+\& in automatically from the ID3v1x header information in the mp3 file
+\& itself, assuming, of course, that the mp3 file contains a
+\& valid ID3v1x header.
+.Ve
+.SH "USING MULTIPLE TABLES"
+A single script can create as many tables as your RAM will support and
+you can have multiple statement handles open to the tables
+simultaneously. This allows you to simulate joins and multi-table
+operations by iterating over several statement handles at once.  You
+can also mix and match databases of different formats, for example
+gathering user info from .ini and .config files in many different
+formats and putting them all into a single table.
+.SH "TO DO"
+Lots of stuff.  Allow users to specify a file where catalog
+information is stored so that one could record file types once and
+thereafter automatically open the files with the correct data type. A
+\fIconvert()\fR function to go from one format to another. Support for a
+variety of other easily parsed formats such as Mail files, web logs,
+and for various DBM formats.  Support for HTML files with the
+directory considered as a table, each HTML file considered as a record
+and the filename, <TITLE> tag, and <BODY> tags considered as fields.
+More robust SQL (coming when I update Statement.pm) including RLIKE (a
+regex-based LIKE), joins, alter table, typed fields?, authorization
+mechanisms?  transactions?  Allow remote exports (e.g. with LWP
+POST/PUT).
+.Sp
+Let me know what else...
+.SH "AUTHOR"
+Jeff Zucker <jeff@vpservices.com>
+.Sp
+Copyright (c) 2000 Jeff Zucker. All rights reserved. This program is
+free software; you can redistribute it and/or modify it under the same
+terms as Perl itself as specified in the Perl README file.
+.Sp
+No warranty of any kind is implied, use at your own risk.
+.SH "SEE ALSO"
+.Sp
+.Vb 1
+\& DBI, SQL::Statement, DBD::File
+.Ve
+
+.rn }` ''
+.IX Title "RAM 3"
+.IX Name "DBD::RAM - a DBI driver for files and data structures"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "OVERVIEW"
+
+.IX Header "INSTALLATION & PREREQUISITES"
+
+.IX Header "SQL & DBI"
+
+.IX Header "WORKING WITH FILES & TABLES:"
+
+.IX Subsection "Creating in-memory tables from data and files: \fIimport()\fR"
+
+.IX Subsection "Saving in-memory tables to disk: \fIexport()\fR"
+
+.IX Subsection "Continuous file access: \fIcatalog()\fR"
+
+.IX Subsection "Specifying file and directory names"
+
+.IX Subsection "Using defaults for quick testing & prototyping"
+
+.IX Header "DATA FORMATS"
+
+.IX Subsection "\s-1CSV\s0 / \s-1PIPE\s0 / \s-1TAB\s0 / \s-1INI\s0 (Comma,Pipe,Tab,\s-1INI\s0 & other \*(M"delimited\*(S" formats)"
+
+.IX Subsection "\s-1ARRAYS\s0 & \s-1HASHES\s0"
+
+.IX Subsection "\s-1FIXED\s0\-\s-1WIDTH\s0 \s-1RECORDS\s0"
+
+.IX Subsection "\s-1XML\s0"
+
+.IX Item "\s-1XML\s0 Import"
+
+.IX Item "Alternate relationships between \s-1XML\s0 tags & database columns"
+
+.IX Item "Nested attributes that apply to multiple records"
+
+.IX Item "Character Encoding and Unicode issues"
+
+.IX Item "Other features of \s-1XML\s0 import"
+
+.IX Item "\s-1XML\s0 Export"
+
+.IX Subsection "\s-1USER\s0\-\s-1DEFINED\s0 \s-1DATA\s0 \s-1STRUCTURES\s0"
+
+.IX Subsection "\s-1DBI\s0 \s-1DATABASE\s0 \s-1RECORDS\s0"
+
+.IX Subsection "\s-1MP3\s0 \s-1MUSIC\s0 \s-1FILES\s0"
+
+.IX Header "USING MULTIPLE TABLES"
+
+.IX Header "TO DO"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

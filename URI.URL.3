@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::URI::URL 3 "libwww-perl-5.36" "17/Jul/98" "User Contributed Perl Documentation"
+.TH URI::URL 3 "perl 5.007, patch 00" "22/Jan/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,451 +188,70 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-URI::URL \- Uniform Resource Locators (absolute and relative)
+URI::URL \- Uniform Resource Locators
 .SH "SYNOPSIS"
 .PP
-.Vb 1
-\& use URI::URL;
-.Ve
-.Vb 7
-\& # Constructors
-\& $url1 = new URI::URL 'http://www.perl.com/%7Euser/gisle.gif';
-\& $url2 = new URI::URL 'gisle.gif', 'http://www.com/%7Euser';
-\& $url3 = url 'http://www.sn.no/'; # handy constructor
-\& $url4 = $url2->abs;       # get absolute url using base
-\& $url5 = $url2->abs('http:/other/path');
-\& $url6 = newlocal URI::URL 'test';
-.Ve
-.Vb 4
-\& # Stringify URL
-\& $str1 = $url->as_string;  # complete escaped URL string
-\& $str2 = $url->full_path;  # escaped path+params+query
-\& $str3 = "$url";           # use operator overloading
-.Ve
-.Vb 7
-\& # Retrieving Generic-RL components:
-\& $scheme   = $url->scheme;
-\& $netloc   = $url->netloc; # see user,password,host,port below
-\& $path     = $url->path;
-\& $params   = $url->params;
-\& $query    = $url->query;
-\& $frag     = $url->frag;
-.Ve
-.Vb 4
-\& # Accessing elements in their escaped form
-\& $path     = $url->epath;
-\& $params   = $url->eparams;
-\& $query    = $url->equery;
-.Ve
-.Vb 5
-\& # Retrieving Network location (netloc) components:
-\& $user     = $url->user;
-\& $password = $url->password;
-\& $host     = $url->host;
-\& $port     = $url->port;   # returns default if not defined
-.Ve
 .Vb 2
-\& # Retrieve escaped path components as an array
-\& @path     = $url->path_components;
-.Ve
-.Vb 3
-\& # HTTP query-string access methods
-\& @keywords = $url->keywords;
-\& @form     = $url->query_form;
-.Ve
-.Vb 6
-\& # All methods above can set the field values, e.g:
-\& $url->scheme('http');
-\& $url->host('www.w3.org');
-\& $url->port($url->default_port);
-\& $url->base($url5);                      # use string or object
-\& $url->keywords(qw(dog bones));
-.Ve
-.Vb 3
-\& # File methods
-\& $url = new URI::URL "file:/foo/bar";
-\& open(F, $url->local_path) or die;
-.Ve
-.Vb 2
-\& # Compare URLs
-\& if ($url->eq("http://www.sn.no")) or die;
+\& $u1 = URI::URL->new($str, $base);
+\& $u2 = $u1->abs;
 .Ve
 .SH "DESCRIPTION"
-This module implements the URI::URL class representing Uniform
-Resource Locators (URL). URLs provide a compact string representation
-for resources available via the Internet. Both absolute (RFC 1738) and
-relative (RFC 1808) URLs are supported.
+This module is provided for backwards compatibility with modules that
+depend on the interface provided by the \f(CWURI::URL\fR class that used to
+be distributed with the libwww-perl library.
 .PP
-URI::URL objects are created by calling \fInew()\fR, which takes as argument
-a string representation of the URL or an existing URL object reference
-to be cloned. Specific individual elements can then be accessed via
-the \fIscheme()\fR, \fIuser()\fR, \fIpassword()\fR, \fIhost()\fR, \fIport()\fR, \fIpath()\fR, \fIparams()\fR,
-\fIquery()\fR and \fIfrag()\fR methods.  In addition escaped versions of the path,
-params and query can be accessed with the \fIepath()\fR, \fIeparams()\fR and
-\fIequery()\fR methods.  Note that some URL schemes will support all these
-methods.
-.PP
-The object constructor \fInew()\fR must be able to determine the scheme for
-the URL.  If a scheme is not specified in the URL itself, it will use
-the scheme specified by the base URL. If no base URL scheme is defined
-then \fInew()\fR will croak if \fIURI::URL::strict\fR\|(1) has been invoked,
-otherwise \fIhttp\fR is silently assumed.  Once the scheme has been
-determined \fInew()\fR then uses the \fIimplementor()\fR function to determine
-which class implements that scheme.  If no implementor class is
-defined for the scheme then \fInew()\fR will croak if \fIURI::URL::strict\fR\|(1)
-has been invoked, otherwise the internal generic URL class is assumed.
-.PP
-Internally defined schemes are implemented by the
-URI::URL::\fIscheme_name\fR module.  The \fIURI::URL::implementor()\fR function
-can be used to explicitly set the class used to implement a scheme if
-you want to override this.
-.SH "HOW AND WHEN TO ESCAPE"
-.Ip "This is an edited extract from a \s-1URI\s0 specification:" 3
-The printability requirement has been met by specifying a safe set of
-characters, and a general escaping scheme for encoding \*(L"unsafe\*(R"
-characters. This \*(L"safe\*(R" set is suitable, for example, for use in
-electronic mail.  This is the canonical form of a \s-1URI\s0.
-.Sp
-There is a conflict between the need to be able to represent many
-characters including spaces within a \s-1URI\s0 directly, and the need to be
-able to use a \s-1URI\s0 in environments which have limited character sets
-or in which certain characters are prone to corruption. This conflict
-has been resolved by use of an hexadecimal escaping method which may
-be applied to any characters forbidden in a given context. When URLs
-are moved between contexts, the set of characters escaped may be
-enlarged or reduced unambiguously.  The canonical form for URIs has
-all white spaces encoded.
-.Ip "Notes:" 3
-A \s-1URL\s0 string \fImust\fR, by definition, consist of escaped
-components. Complete URLs are always escaped.
-.Sp
-The components of a \s-1URL\s0 string must be \fIindividually\fR escaped.  Each
-component of a \s-1URL\s0 may have a separate requirements regarding what
-must be escaped, and those requirements are also dependent on the \s-1URL\s0
-scheme.
-.Sp
-Never escape an already escaped component string.
-.PP
-This implementation expects an escaped \s-1URL\s0 string to be passed to
-\fInew()\fR and will return a fully escaped \s-1URL\s0 string from \fIas_string()\fR
-and \fIfull_path()\fR.
-.PP
-Individual components can be manipulated in unescaped or escaped
-form. The following methods return/accept unescaped strings:
-.PP
-.Vb 5
-\&    scheme                  path
-\&    user                    params
-\&    password                query
-\&    host                    frag
-\&    port
-.Ve
-The following methods return/accept partial \fIescaped\fR strings:
-.PP
-.Vb 2
-\&    netloc                  eparams
-\&    epath                   equery
-.Ve
-\fIPartial escaped\fR means that only reserved characters
-(i.e. \*(L':\*(R', \*(L'@\*(R', \*(L'/\*(R', \*(L';\*(R', \*(L'?\*(R', \*(L'=\*(R', \*(L'&\*(R' in addition to \*(L'%\*(R', \*(L'.\*(R' and \*(L'#')
-needs to be escaped when they are to be treated as normal characters.
-\fIFully escaped\fR means that all unsafe characters are escaped. Unsafe
-characters are all all control characters (%00-%1F and \f(CW%7F\fR), all 8-bit
-characters (%80-%\s-1FF\s0) as well
-as \*(L'{\*(R', \*(L'}\*(R', \*(L'|\*(R', \*(L'\e\*(R', \*(L'^\*(R', \*(L'[\*(R', \*(L']' \*(L'`\*(R', \*(L'"\*(R', \*(L'<\*(R' and \*(L'>\*(R'.
-Note that the character \*(L'~\*(R' is \fBnot\fR considered
-unsafe by this library as it is common practice to use it to reference
-personal home pages, but it is still unsafe according to \s-1RFC\s0 1738.
-.SH "ADDING NEW URL SCHEMES"
-New URL schemes or alternative implementations for existing schemes
-can be added to your own code. To create a new scheme class use code
-like:
-.PP
-.Vb 2
-\&   package MYURL::foo;
-\&   @ISA = (URI::URL::implementor());   # inherit from generic scheme
-.Ve
-The \*(L'\fIURI::URL::implementor()\fR\*(R' function call with no parameters returns
-the name of the class which implements the generic URL scheme
-behaviour (typically \f(CWURI::URL::_generic\fR). All hierarchical schemes
-should be derived from this class.
-.PP
-Your class can then define overriding methods (e.g., \fInew()\fR, \fI_parse()\fR
-as required).
-.PP
-To register your new class as the implementor for a specific scheme
-use code like:
-.PP
-.Vb 1
-\&   URI::URL::implementor('x-foo', 'MYURL::foo');
-.Ve
-Any new URL created for scheme \*(L'x-foo\*(R' will be implemented by your
-\f(CWMYURL::foo\fR class. Existing URLs will not be affected.
-.SH "FUNCTIONS"
-.Ip "$url = \s-1URI::URL\s0\->new( $url_string [, $base_url] )" 3
-This is the object constructor.  It will create a new \s-1URI::URL\s0 object,
-initialized from the \s-1URL\s0 string.
-.Ip "$url = \s-1URI::URL\s0\->newlocal($path);" 3
-Returns an \s-1URL\s0 object that denotes a path within the local filesystem.
-Paths not starting with \*(L'/\*(R' are interpreted relative to the current
-working directory.  This constructor always return an absolute \*(L'file\*(R'
-\s-1URL\s0.
-.Ip "$url = url($url_string, [, $base_url])" 3
-Alternative constructor function.  The \fIurl()\fR function is exported by
-the \s-1URI::URL\s0 module and is easier both to type and read than calling
-\f(CWURI::URL-\fRnew> directly.  Useful for constructs like this:
-.Sp
-.Vb 1
-\&   $h = url($str)->host;
-.Ve
-This function is just a wrapper for \s-1URI::URL\s0\->new.
-.Ip "\s-1URI::URL::\s0strict($bool)" 3
-If strict is true then we croak on errors.  The function returns the
-previous value.
-.Ip "\s-1URI::URL::\s0implementor([$scheme, [$class]])" 3
-Use this function to get or set implementor class for a scheme.
-Returns \*(L'\*(R' if specified scheme is not supported.  Returns generic \s-1URL\s0
-class if no scheme specified.
-.SH "METHODS"
-This section describes the methods available for an URI::URL object.
-Note that some URL schemes will disallow some of these methods and
-will croak if they are used.  Some URL schemes add additional methods
-that are described in the sections to follow.
-.PP
-Attribute access methods marked with (*) can take an optional argument
-to set the value of the attribute, and they always return the old
-value.
-.Ip "$url->abs([$base])" 3
-The \fIabs()\fR method attempts to return a new absolute \s-1URI::URL\s0 object
-for a given \s-1URL\s0.  In order to convert a relative \s-1URL\s0 into an absolute
-one, a \fIbase\fR \s-1URL\s0 is required. You can associate a default base with a
-\s-1URL\s0 either by passing a \fIbase\fR to the \fInew()\fR constructor when a
-\s-1URI::URL\s0 is created or using the \fIbase()\fR method on the object later.
-Alternatively you can specify a one-off base as a parameter to the
-\fIabs()\fR method.
-.Sp
-The \fIrel()\fR method will do the opposite transformation.
-.Sp
-Some older parsers used to allow the scheme name to be present in the
-relative \s-1URL\s0 if it was the same as the base \s-1URL\s0 scheme.  \s-1RFC1808\s0 says
-that this should be avoided, but you can enable this old behaviour by
-setting the \f(CW$URI::URL::ABS_ALLOW_RELATIVE_SCHEME\fR variable to a \s-1TRUE\s0
-value.  The difference is demonstrated by the following examples:
-.Sp
-.Vb 1
-\&  url("http:foo")->abs("http://host/a/b")     ==>  "http:foo"
-.Ve
-.Vb 2
-\&  local $URI::URL::ABS_ALLOW_RELATIVE_SCHEME = 1;
-\&  url("http:foo")->abs("http://host/a/b")     ==>  "http:/host/a/foo"
-.Ve
-You can also have the \fIabs()\fR method ignore if there is too many \*(L"..\*(R"
-segments in the relative \s-1URL\s0 by setting
-\f(CW$URI::URL::ABS_REMOTE_LEADING_DOTS\fR to a \s-1TRUE\s0 value.  The difference is
-demonstrated by the following examples:
-.Sp
-.Vb 1
-\&  url("../../../foo")->abs("http://host/a/b")   ==> "http://host/../../foo"
-.Ve
-.Vb 2
-\&  local $URI::URL::ABS_REMOTE_LEADING_DOTS = 1;
-\&  url("../../../foo")->abs("http://host/a/b")   ==> "http://host/foo"
-.Ve
-.Ip "$url->as_string" 3
-Returns a string representing the \s-1URL\s0 in its canonical form.  All
-unsafe characters will be escaped.  This method is overloaded as the
-perl \*(L"stringify\*(R" operator, which means that URLs can be used as
-strings in many contexts.
-.Ip "$url->base (*)" 3
-Get/set the base \s-1URL\s0 associated with the current \s-1URI::URL\s0 object.  The
-base \s-1URL\s0 matters when you call the \fIabs()\fR method.
-.Ip "$url->clone" 3
-Returns a copy of the current \s-1URI::URL\s0 object.
-.Ip "$url->crack" 3
-Return a 9 element array with the following content:
-.Sp
-.Vb 9
-\&   0: $url->scheme *)
-\&   1: $url->user
-\&   2: $url->password
-\&   3: $url->host
-\&   4: $url->port
-\&   5: $url->epath
-\&   6: $url->eparams
-\&   7: $url->equery
-\&   8: $url->frag
-.Ve
-All elements except \fIscheme\fR will be undefined if the corresponding
-\s-1URL\s0 part is not available.
-.Sp
-\fBNote:\fR The scheme (first element) returned by crack will aways be
-defined.  This is different from what the \f(CW$url\fR\->scheme returns, since
-it will return \fIundef\fR for relative URLs.
-.Ip "$url->default_port" 3
-Returns the default port number for the \s-1URL\s0 scheme that the \s-1URI::URL\s0
-belongs too.
-.Ip "$url->eparams (*)" 3
-Get/set the \s-1URL\s0 parameters in escaped form.
-.Ip "$url->epath (*)" 3
-Get/set the \s-1URL\s0 path in escaped form.
-.Ip "$url->eq($other_url)" 3
-Compare two URLs to decide if they match or not.  The rules for how
-comparison is made varies for different parts of the URLs; scheme and
-netloc comparison is case-insensitive, and escaped chars match their
-\f(CW%XX\fR encoding unless they are \*(L"reserved\*(R" or \*(L"unsafe\*(R".
-.Ip "$url->equery (*)" 3
-Get/set the \s-1URL\s0 query string in escaped form.
-.Ip "$url->full_path" 3
-Returns the string \*(L"/path;params?query\*(R".  This is the string that is
-passed to a remote server in order to access the document.
-.Ip "$url->frag (*)" 3
-Get/set the fragment (unescaped)
-.Ip "$url->host (*)" 3
-Get/set the host (unescaped)
-.Ip "$url->netloc (*)" 3
-Get/set the network location in escaped form.  Setting the network
-location will affect \*(L'user\*(R', \*(L'password\*(R', \*(L'host\*(R' and \*(L'port\*(R'.
-.Ip "$url->params (*)" 3
-Get/set the \s-1URL\s0 parameters (unescaped)
-.Ip "$url->password (*)" 3
-Get/set the password (unescaped)
-.Ip "$url->path (*)" 3
-Get/set the path (unescaped).  This method will croak if any of the
-path components in the return value contain the \*(L"/\*(R" character.  You
-should use the \fIepath()\fR method to be safe.
-.Ip "$url->path_components (*)" 3
-Get/set the path using a list of unescaped path components.  The
-return value will loose the distinction beween \*(L'.\*(R' and \*(L'%2E\*(R'.  When
-setting a value, a \*(L'.\*(R' is converted to be a literal \*(L'.\*(R' and is
-therefore encoded as \*(L'%2E\*(R'.
-.Ip "$url->port (*)" 3
-Get/set the network port (unescaped)
-.Ip "$url->rel([$base])" 3
-Return a relative \s-1URL\s0 if possible.  This is the opposite of what the
-\fIabs()\fR method does.  For instance:
-.Sp
-.Vb 2
-\&   url("http://www.math.uio.no/doc/mail/top.html",
-\&       "http://www.math.uio.no/doc/linux/")->rel
-.Ve
-will return a relative \s-1URL\s0 with path set to \*(L"../mail/top.html\*(R" and
-with the same base as the original \s-1URL\s0.
-.Sp
-If the original \s-1URL\s0 already is relative or the scheme or netloc does
-not match the base, then a copy of the original \s-1URL\s0 is returned.
-.Ip "$url->print_on(*\s-1FILEHANDLE\s0);" 3
-Prints a verbose presentation of the contents of the \s-1URL\s0 object to
-the specified file handle (default \s-1STDERR\s0).  Mainly useful for
-debugging.
-.Ip "$url->scheme (*)" 3
-Get/set the scheme for the \s-1URL\s0.
-.Ip "$url->query (*)" 3
-Get/set the query string (unescaped).  This method will croak if the
-string returned contains both \*(L'+\*(R' and \*(L'%2B\*(R' or \*(L'=\*(R' together with \*(L'%3D\*(R'
-or \*(L'%26\*(R'.  You should use the \fIequery()\fR method to be safe.
-.Ip "$url->user (*)" 3
-Get/set the \s-1URL\s0 user name (unescaped)
-.SH "HTTP METHODS"
-For \fIhttp\fR URLs you may also access the query string using the
-\fIkeywords()\fR and the \fIquery_form()\fR methods.  Both will croak if the query
-is not of the correct format.  The encodings look like this:
-.PP
-.Vb 2
-\&  word1+word2+word3..        # keywords
-\&  key1=val1&key2=val2...     # query_form
-.Ve
-Note: These functions does not return the old value when they are used
-to set a value of the query string.
-.Ip "$url->keywords (*)" 3
-The \fIkeywords()\fR method returns a list of unescaped strings.  The method
-can also be used to set the query string by passing in the keywords as
-individual arguments to the method.
-.Ip "$url->query_form (*)" 3
-The \fIquery_form()\fR method return a list of unescaped key/value pairs.
-If you assign the return value to a hash you might loose some values
-if the key is repeated (which it is allowed to do).
-.Sp
-This method can also be used to set the query sting of the \s-1URL\s0 like this:
-.Sp
-.Vb 1
-\&  $url->query_form(foo => 'bar', foo => 'baz', equal => '=');
-.Ve
-If the value part of a key/value pair is a reference to an array, then
-it will be converted to separate key/value pairs for each value.  This
-means that these two calls are equal:
-.Sp
-.Vb 2
-\&  $url->query_form(foo => 'bar', foo => 'baz');
-\&  $url->query_form(foo => ['bar', 'baz']);
-.Ve
-.SH "FILE METHODS"
-The \fIfile\fR URLs implement the \fIlocal_path()\fR method that returns a path
-suitable for access to files within the current filesystem.  These
-methods can \fBnot\fR be used to set the path of the URL.
-.Ip "$url->local_path" 3
-This method is really just an alias for one of the methods below
-depending on what system you run on.
-.Ip "$url->unix_path" 3
-Returns a path suitable for use on a Unix system.  This method will
-croak if any of the path segments contains a \*(L"/\*(R" or a \s-1NULL\s0 character.
-.Ip "$url->dos_path" 3
-Returns a path suitable for use on a \s-1MS\s0\-\s-1DOS\s0 or \s-1MS\s0\-Windows system.
-.Ip "$url->mac_path" 3
-Returns a path suitable for use on a Macintosh system.
-.Ip "$url->vms_path" 3
-Returns a path suitable for use on a \s-1VMS\s0 system.  \s-1VMS\s0 is a trademark
-of Digital.
-.SH "GOPHER METHODS"
-The methods access the parts that are specific for the gopher URLs.
-These methods access different parts of the \f(CW$url\fR\->path.
-.Ip "$url->gtype (*)" 3
-.Ip "$url->selector (*)" 3
-.Ip "$url->search (*)" 3
-.Ip "$url->string (*)" 3
-.SH "NEWS METHODS"
-.Ip "$url->group (*)" 3
-.Ip "$url->article (*)" 3
-.SH "WAIS METHODS"
-The methods access the parts that are specific for the wais URLs.
-These methods access different parts of the \f(CW$url\fR\->path.
-.Ip "$url->database (*)" 3
-.Ip "$url->wtype (*)" 3
-.Ip "$url->wpath (*)" 3
-.SH "MAILTO METHODS"
-.Ip "$url->address (*)" 3
-The mail address can also be accessed with the \fInetloc()\fR method.
-.SH "WHAT A URL IS NOT"
-URL objects do not, and should not, know how to \*(L'get\*(R' or \*(L'put\*(R' the
-resources they specify locations for, anymore than a postal address
-\&'knows\*(R' anything about the postal system. The actual access/transfer
-should be achieved by some form of transport agent class (see
-the \fILWP::UserAgent\fR manpage). The agent class can use the URL class, but should
-not be a subclass of it.
-.SH "AUTHORS / ACKNOWLEDGMENTS"
-This module is (distantly) based on the \f(CWwwwurl.pl\fR code in the
-libwww-perl distribution developed by Roy Fielding
-<fielding@ics.uci.edu>, as part of the Arcadia project at the
-University of California, Irvine, with contributions from Brooks
-Cutter.
-.PP
-Gisle Aas <aas@sn.no>, Tim Bunce <Tim.Bunce@ig.co.uk>, Roy Fielding
-<fielding@ics.uci.edu> and Martijn Koster <m.koster@webcrawler.com>
-(in English alphabetical order) have collaborated on the complete
-rewrite for Perl 5, with input from other people on the libwww-perl
-mailing list.
-.PP
-If you have any suggestions, bug reports, fixes, or enhancements, send
-them to the libwww-perl mailing list at <libwww-perl@ics.uci.edu>.
+The following differences compared to the \f(CWURI\fR class interface exist:
+.Ip "\(bu" 3
+The \s-1URI::URL\s0 module exports the \fIurl()\fR function as an alternate
+constructor interface.
+.Ip "\(bu" 3
+The constructor takes an optional \f(CW$base\fR argument.  See the \fI\s-1URI::\s0WithBase\fR manpage.
+.Ip "\(bu" 3
+The \s-1URI::URL\s0\->newlocal class method is the same as \s-1URI::\s0file->new_abs
+.Ip "\(bu" 3
+\fI\s-1URI::URL::\s0strict\fR\|(1)
+.Ip "\(bu" 3
+$url->print_on method
+.Ip "\(bu" 3
+$url->crack method
+.Ip "\(bu" 3
+$url->full_path; same as ($uri->abs_path || \*(L"/")
+.Ip "\(bu" 3
+$url->netloc; same as \f(CW$uri\fR\->authority
+.Ip "\(bu" 3
+$url->epath, \f(CW$url\fR\->equery; same as \f(CW$uri\fR\->path, \f(CW$uri\fR\->query
+.Ip "\(bu" 3
+$url->path and \f(CW$url\fR\->query pass unescaped strings.
+.Ip "\(bu" 3
+$url->path_components; same as \f(CW$uri\fR\->path_segments (if you don't
+consider path segment parameters).
+.Ip "\(bu" 3
+$url->params and \f(CW$url\fR\->eparams methods.
+.Ip "\(bu" 3
+$url->base method.  See the \fI\s-1URI::\s0WithBase\fR manpage.
+.Ip "\(bu" 3
+$url->abs and \f(CW$url\fR\->rel have an optional \f(CW$base\fR argument.  See
+the \fI\s-1URI::\s0WithBase\fR manpage.
+.Ip "\(bu" 3
+$url->frag; same as \f(CW$uri\fR\->fragment
+.Ip "\(bu" 3
+$url->keywords; same as \f(CW$uri\fR\->query_keywords;
+.Ip "\(bu" 3
+$url->localpath with friends map to \f(CW$uri\fR\->file
+.Ip "\(bu" 3
+$url->address and \f(CW$url\fR\->encoded822addr; same as \f(CW$uri\fR\->to for mailto \s-1URI\s0.
+.Ip "\(bu" 3
+$url->groupart method for news \s-1URI\s0.
+.Ip "\(bu" 3
+$url->article; same as \f(CW$uri\fR\->message
+.SH "SEE ALSO"
+the \fIURI\fR manpage, the \fIURI::WithBase\fR manpage
 .SH "COPYRIGHT"
-Copyright 1995-1997 Gisle Aas.
-Copyright 1995 Martijn Koster.
-.PP
-This program is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+Copyright 1998-2000 Gisle Aas.
 
 .rn }` ''
-.IX Title "lib::URI::URL 3"
-.IX Name "URI::URL - Uniform Resource Locators (absolute and relative)"
+.IX Title "URI::URL 3"
+.IX Name "URI::URL - Uniform Resource Locators"
 
 .IX Header "NAME"
 
@@ -640,125 +259,47 @@ it under the same terms as Perl itself.
 
 .IX Header "DESCRIPTION"
 
-.IX Header "HOW AND WHEN TO ESCAPE"
+.IX Item "\(bu"
 
-.IX Item "This is an edited extract from a \s-1URI\s0 specification:"
+.IX Item "\(bu"
 
-.IX Item "Notes:"
+.IX Item "\(bu"
 
-.IX Header "ADDING NEW URL SCHEMES"
+.IX Item "\(bu"
 
-.IX Header "FUNCTIONS"
+.IX Item "\(bu"
 
-.IX Item "$url = \s-1URI::URL\s0\->new( $url_string [, $base_url] )"
+.IX Item "\(bu"
 
-.IX Item "$url = \s-1URI::URL\s0\->newlocal($path);"
+.IX Item "\(bu"
 
-.IX Item "$url = url($url_string, [, $base_url])"
+.IX Item "\(bu"
 
-.IX Item "\s-1URI::URL::\s0strict($bool)"
+.IX Item "\(bu"
 
-.IX Item "\s-1URI::URL::\s0implementor([$scheme, [$class]])"
+.IX Item "\(bu"
 
-.IX Header "METHODS"
+.IX Item "\(bu"
 
-.IX Item "$url->abs([$base])"
+.IX Item "\(bu"
 
-.IX Item "$url->as_string"
+.IX Item "\(bu"
 
-.IX Item "$url->base (*)"
+.IX Item "\(bu"
 
-.IX Item "$url->clone"
+.IX Item "\(bu"
 
-.IX Item "$url->crack"
+.IX Item "\(bu"
 
-.IX Item "$url->default_port"
+.IX Item "\(bu"
 
-.IX Item "$url->eparams (*)"
+.IX Item "\(bu"
 
-.IX Item "$url->epath (*)"
+.IX Item "\(bu"
 
-.IX Item "$url->eq($other_url)"
+.IX Item "\(bu"
 
-.IX Item "$url->equery (*)"
-
-.IX Item "$url->full_path"
-
-.IX Item "$url->frag (*)"
-
-.IX Item "$url->host (*)"
-
-.IX Item "$url->netloc (*)"
-
-.IX Item "$url->params (*)"
-
-.IX Item "$url->password (*)"
-
-.IX Item "$url->path (*)"
-
-.IX Item "$url->path_components (*)"
-
-.IX Item "$url->port (*)"
-
-.IX Item "$url->rel([$base])"
-
-.IX Item "$url->print_on(*\s-1FILEHANDLE\s0);"
-
-.IX Item "$url->scheme (*)"
-
-.IX Item "$url->query (*)"
-
-.IX Item "$url->user (*)"
-
-.IX Header "HTTP METHODS"
-
-.IX Item "$url->keywords (*)"
-
-.IX Item "$url->query_form (*)"
-
-.IX Header "FILE METHODS"
-
-.IX Item "$url->local_path"
-
-.IX Item "$url->unix_path"
-
-.IX Item "$url->dos_path"
-
-.IX Item "$url->mac_path"
-
-.IX Item "$url->vms_path"
-
-.IX Header "GOPHER METHODS"
-
-.IX Item "$url->gtype (*)"
-
-.IX Item "$url->selector (*)"
-
-.IX Item "$url->search (*)"
-
-.IX Item "$url->string (*)"
-
-.IX Header "NEWS METHODS"
-
-.IX Item "$url->group (*)"
-
-.IX Item "$url->article (*)"
-
-.IX Header "WAIS METHODS"
-
-.IX Item "$url->database (*)"
-
-.IX Item "$url->wtype (*)"
-
-.IX Item "$url->wpath (*)"
-
-.IX Header "MAILTO METHODS"
-
-.IX Item "$url->address (*)"
-
-.IX Header "WHAT A URL IS NOT"
-
-.IX Header "AUTHORS / ACKNOWLEDGMENTS"
+.IX Header "SEE ALSO"
 
 .IX Header "COPYRIGHT"
 

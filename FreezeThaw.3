@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH FreezeThaw 3 "perl 5.005, patch 53" "14/Oct/96" "User Contributed Perl Documentation"
+.TH FreezeThaw 3 "perl 5.007, patch 00" "28/Mar/102" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -289,7 +289,7 @@ to find out whether the current freeze was initiated by \f(CWfreeze\fR or
 \f(CWsafeFreeze\fR command. Analogous method for thaw \f(CW$cooky\fR returns
 whether the current thaw operation is considered safe (i.e., either
 does not contain cached elsewhere data, or comes from the same
-application). You can use 
+application). You can use
 .PP
 .Vb 1
 \&  $cooky->makeSafe;
@@ -297,7 +297,7 @@ application). You can use
 to prohibit cached data for the duration of the rest of freezing or
 thawing of current object.
 .PP
-Two methods 
+Two methods
 .PP
 .Vb 2
 \&  $value = $cooky->repeatedOK;
@@ -322,7 +322,7 @@ in the second it is \f(CWinstantiate\fRd.
 .PP
 The restriction is that during the \fIallocation\fR step you cannot use any
 reference to any Perl object that can be referenced from any other
-place. This restriction is applied since that object may not exist yet. 
+place. This restriction is applied since that object may not exist yet.
 .PP
 Correspondingly, during \fIinstantiation\fR step the previosly \fIallocated\fR
 object should be \f(CWfilled\fR, i.e., it can be changed in any way such
@@ -336,7 +336,7 @@ The methods are called like this:
 \&  Package->Instantiate($pre_object_ref,$cooky);
 \&        # Converts into reference to blessed object
 .Ve
-The reverse operations are 
+The reverse operations are
 .PP
 .Vb 2
 \&  $object_ref->FreezeEmpty($cooky);
@@ -362,7 +362,7 @@ returns the value of \f(CW{}\fR it uses, it will be preserved by the
 engine.
 .PP
 The helper function \f(CWFreezeThaw::copyContents\fR is provided for
-simplification of instantiation. The syntax is 
+simplification of instantiation. The syntax is
 .PP
 .Vb 1
 \&  FreezeThaw::copyContents $to, $from;
@@ -381,10 +381,28 @@ Thaws what was frozen by \f(CWFreezeEmpty\fR.
 .Ip "\f(CWInstantiate\fR" 12
 Thaws what was frozen by \f(CWFreezeInstance\fR, uses \f(CWcopyContents\fR to
 transfer this to the \f(CW$pre_object\fR.
-.SH "BUGS/FEATURES"
+.SH "BUGS and LIMITATIONS"
 A lot of objects are blessed in some obscure packages by XSUB
 typemaps. It is not clear how to (automatically) prevent the
 \f(CWUNIVERSAL\fR methods to be called for objects in these packages.
+.PP
+The objects which can survive \fIfreeze()\fR/\fIthaw()\fR cycle must also survive a
+change of a \*(L"member\*(R" to an equal member.  Say, after
+.PP
+.Vb 2
+\&  $a = [a => 3];
+\&  $a->{b} = \e $a->{a};
+.Ve
+$a satisfies
+.PP
+.Vb 1
+\&  $a->{b} == \e $a->{a}
+.Ve
+This property will be broken by \fIfreeze()\fR/\fIthaw()\fR, but it is also broken by
+.PP
+.Vb 1
+\&  $a->{a} = delete $a->{a};
+.Ve
 
 .rn }` ''
 .IX Title "FreezeThaw 3"
@@ -426,5 +444,5 @@ typemaps. It is not clear how to (automatically) prevent the
 
 .IX Item "\f(CWInstantiate\fR"
 
-.IX Header "BUGS/FEATURES"
+.IX Header "BUGS and LIMITATIONS"
 

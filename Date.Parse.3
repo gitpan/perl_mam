@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Date::Parse 3 "perl 5.005, patch 53" "2/Jan/98" "User Contributed Perl Documentation"
+.TH lib::Date::Parse 3 "perl 5.007, patch 00" "9/Jan/102" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -227,15 +227,43 @@ This is only a first pass, I am considering changing this to be
 \&        $lang->str2time("25 Jun 1996 21:09:55 +0100");
 .Ve
 I am open to suggestions on this.
+.SH "EXAMPLE DATES"
+Below is a sample list of dates that are known to be parsable with Date::Parse
+.Sp
+.Vb 11
+\& 1995:01:24T09:08:17.1823213           ISO-8601
+\& 1995-01-24T09:08:17.1823213
+\& Wed, 16 Jun 94 07:29:35 CST           Comma and day name are optional 
+\& Thu, 13 Oct 94 10:13:13 -0700
+\& Wed, 9 Nov 1994 09:50:32 -0500 (EST)  Text in ()'s will be ignored.
+\& 21 dec 17:05                          Will be parsed in the current time zone
+\& 21-dec 17:05
+\& 21/dec 17:05
+\& 21/dec/93 17:05
+\& 1999 10:02:18 "GMT"
+\& 16 Nov 94 22:28:20 PST 
+.Ve
+.SH "BUGS"
+When both the month and the date are specified in the date as numbers
+they are always parsed assuming that the month number comes before the
+date. This is the usual format used in American dates.
+.Sp
+The reason why it is like this and not dynamic is that it must be
+deterministic. Several people have suggested using the current locale,
+but this will not work as the date being parsed may not be in the format
+of the current locale.
+.Sp
+My plans to address this, which will be in a future release, is to allow
+the programmer to state what order they want these values parsed in.
 .SH "AUTHOR"
-Graham Barr <Graham.Barr@pobox.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-Copyright (c) 1995-8 Graham Barr. All rights reserved. This program is free
+Copyright (c) 1995 Graham Barr. All rights reserved. This program is free
 software; you can redistribute it and/or modify it under the same terms
 as Perl itself.
 
 .rn }` ''
-.IX Title "Date::Parse 3"
+.IX Title "lib::Date::Parse 3"
 .IX Name "Date::Parse - Parse date strings into time values"
 
 .IX Header "NAME"
@@ -249,6 +277,10 @@ as Perl itself.
 .IX Item "strptime(\s-1DATE\s0 [, \s-1ZONE\s0])"
 
 .IX Header "MULTI\-LANGUAGE SUPPORT"
+
+.IX Header "EXAMPLE DATES"
+
+.IX Header "BUGS"
 
 .IX Header "AUTHOR"
 

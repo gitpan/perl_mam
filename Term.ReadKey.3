@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ReadKey 3 "perl 5.005, patch 53" "7/Jan/98" "User Contributed Perl Documentation"
+.TH ReadKey 3 "perl 5.007, patch 00" "28/Jan/102" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -230,13 +230,13 @@ values:
 \&    raw
 \&    ultra-raw
 .Ve
-These functions are automatically applied to the \s-1STDIN\s0 handle if no other
-handle is supplied. Modes 0 and 5 have some special properties worth
-mentioning: not only will mode 0 restore original settings, but it cause the
-next ReadMode call to save a new set of default settings. Mode 5 is similar
-to mode 4, except no \s-1CR/LF\s0 translation is performed, and if possible, parity
-will be disabled (only if not being used by the terminal, however. It is no different
-from mode 4 under Windows.)
+These functions are automatically applied to the \s-1STDIN\s0 handle if no
+other handle is supplied. Modes 0 and 5 have some special properties
+worth mentioning: not only will mode 0 restore original settings, but it
+cause the next ReadMode call to save a new set of default settings. Mode
+5 is similar to mode 4, except no \s-1CR/LF\s0 translation is performed, and if
+possible, parity will be disabled (only if not being used by the terminal,
+however. It is no different from mode 4 under Windows.)
 .Sp
 If you are executing another program that may be changing the terminal mode,
 you will either want to say
@@ -374,6 +374,8 @@ settings. The list of valid names is easily available via
 This call does nothing under Windows.
 .SH "AUTHOR"
 Kenneth Albanowski <kjahds@kjahds.com>
+.PP
+Currently maintained by Jonathan Stowe <jns@gellyfish.com>
 
 .rn }` ''
 .IX Title "ReadKey 3"

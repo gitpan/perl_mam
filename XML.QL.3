@@ -1,0 +1,365 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH QL 3 "perl 5.007, patch 00" "26/May/99" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::QL \- An XML query language
+.SH "VERSION"
+0.07
+.SH "SYNOPSIS"
+$ql = \*(L'WHERE
+         <head>$head</head>
+       ORDER\-BY
+         \f(CW$head\fR
+       IN
+         \*(L"file:REC\-xml-19980210.xml\*(R"
+       CONSTRUCT
+         \f(CW$head\fR\*(R';
+.PP
+print XML::QL\->\fIquery\fR\|($sql);
+.SH "DESCRIPTION"
+This module is an early implementation of a note published by the W3C called
+\*(L"XML\-QL: A Query Language for XML\*(R". XML\-QL allows the user to query an XML
+document much like a database, and describe a construct for output. Currently
+this module only offers partial functionality as described in the specification,
+and even some of that has been changed for ease of use. This documentation
+will describe the fuctionality of this module as well as differences from the
+XML\-QL specification.
+.SH "METHODS"
+.Ip "query( \*(N"query\*(T" )" 4
+This is the only method required to use this module. This one method allows
+the user to pass a valid \s-1XML\s0\-\s-1QL\s0 query to the module, and the return value is
+the output.
+.SH "XML\-QL: The Query Language"
+The basic syntax consists of two parts, a WHERE clause to describe the data
+to search for, and a CONSTRUCT clause to describe how to return the data that
+is found.
+.Ip "\s-1WHERE\s0" 4
+\s-1WHERE\s0 \s-1XML\s0\-searchstring [\s-1ORDER\s0\-\s-1BY\s0 variable [\s-1DESCENDING\s0] [, variable [\s-1DESCENDING\s0]] ] \s-1IN\s0 \*(L'filename\*(R'
+.Sp
+The \s-1WHERE\s0 clause can be separated into several parts. The first is the search string,
+the second is an optional \s-1ORDER\s0\-\s-1BY\s0 clause much like \s-1ORDER\s0 \s-1BY\s0 in \s-1SQL\s0, and last is
+the required \s-1XML\s0 document file name. Each of these parts is described below.
+.Ip "\s-1XML\s0\-searchstring" 8
+The search string \s-1MUST\s0 be a valid \s-1XML\s0 snippet. This is one are where this module
+differs from the specification. It has been implemented in this way so that the
+search string may be parsed by the \s-1XML::\s0Parser module.
+.Sp
+The first step in building a query is to list the tags to search for in the document.
+For example, consider the following search string:
+.Sp
+.Vb 3
+\&        <BOOK>
+\&                <AUTHOR></AUTHOR>
+\&        </BOOK>
+.Ve
+This search string will search for the \s-1AUTHOR\s0 tag nested within a \s-1BOOK\s0 tag. Note
+however that no information has been selected for retrieval. In the following
+example, we actually grab some information:
+.Sp
+.Vb 3
+\&        <BOOK>
+\&                <AUTHOR>$author</AUTHOR>
+\&        </BOOK>
+.Ve
+The variable name \f(CW$author\fR will grab the information that it finds withing this tag,
+and makes this information avalable to us for use in the \s-1CONSTRUCT\s0 section of the
+query. You will notice that variable names start with a dollar sign ($), as this
+is called for by the specification.  In Perl, this means that if the query is enclosed
+in double quotes, this dollar sign must be escaped.
+.Sp
+In the following example we take it a step further by searching for books of that are
+non-fiction:
+.Sp
+.Vb 3
+\&        <BOOK TYPE='non-fiction'>
+\&                <AUTHOR>$author</AUTHOR>
+\&        </BOOK>
+.Ve
+We can also express this as a regular expression:
+.Sp
+.Vb 3
+\&        <BOOK TYPE='non-.*'>
+\&                <AUTHOR>$author</AUTHOR>
+\&        </BOOK>
+.Ve
+This is another area where this module differs from the specification. The regular
+expesssion ability as defined in the specification only allows for a subset of
+the ability available in a Perl regular expression. With this module, the full range
+of regular expression syntax has been made available. This also means that you
+must also escape things such as \fIperiods\fR\|(.), parenthesis (), and brackets ([]). All
+non tag matched are case insensitive.
+.Sp
+Now lets say that besides matching the \s-1TYPE\s0, we also wanted to grab the value.
+Consider this example:
+.Sp
+.Vb 3
+\&        <BOOK TYPE='non-.* AS_ELEMENT $type'>
+\&                <AUTHOR>$author</AUTHOR>
+\&        </BOOK>
+.Ve
+The \s-1AS_ELEMENT\s0 keyword allows you to save the matched value for later use in the
+\s-1CONSTRUCT\s0 portion of the query.
+.Ip "\s-1ORDER\s0\-\s-1BY\s0" 8
+The \s-1ORDER\s0\-\s-1BY\s0 clause allows to sort the data retrieved in the variables. You may
+specify multiple variables, and specify \s-1DESCENDING\s0 for a reverse sort. This clause
+is not required. For example:
+.Sp
+\s-1ORDER\s0\-\s-1BY\s0 \f(CW$type\fR, \f(CW$author\fR \s-1DESCENDING\s0
+.Ip "\s-1IN\s0" 8
+The \s-1IN\s0 clause is a required clause that specifies the file name of the \s-1XML\s0 file.
+This can be any \s-1URI\s0 that is supported by \s-1LWP\s0, or it can be
+a single file name enclosed in quotes. In later versions of this module there will
+be support for multiple files, directories. The following will work:
+.Sp
+\s-1IN\s0 \*(L'\s-1REC\s0\-xml-19980210.xml\*(R'
+.Sp
+\s-1IN\s0 \*(L'file://othermachine/share/filename.xml\*(R'
+.Sp
+\s-1IN\s0 \*(L'http://www.example.com/file.xml\*(R'
+.Ip "\s-1CONSTRUCT\s0" 4
+The \s-1CONSTRUCT\s0 construct allows you to specify a template for output. The template
+will match character for character from the first space after the word \s-1CONSTRUCT\s0
+to the end of the \s-1XML\s0\-\s-1QL\s0 query. For example:
+.Sp
+$ql = \*(L'(where clause...)
+       \s-1CONSTRUCT\s0
+	Type: \f(CW$type\fR
+	Author: \f(CW$author\fR\*(R';
+.Sp
+The ouput of this will then be a carriage return, a tab, \*(L"Type: \*(L", the contents
+of \f(CW$type\fR, a carriage return, a tab, \*(L"Author: \*(L", and the contents of \f(CW$author\fR. This
+construct will be repeated for every match found and returned as a single string.
+.SH "AUTHOR"
+Robert Hanson \- Initial Version
+rhanson@blast.net
+.PP
+Matt Sergeant \- Only minor fixes so far
+msergeant@ndirect.co.uk, sergeant@geocities.com
+.SH "COPYRIGHT"
+Robert's Original licence \fBwas\fR:
+I hereby reserve NO rights to this module, except for maybe a little recognition
+if you decide to rewrite it and redistribute as your own.  Beyond that, you can
+do whatever you want with this. I would just appreciate a copy of any improvements
+to this module.
+.PP
+However that only stands for version 0.01 of the module. All versions above that
+are released under the same terms as perl itself.
+
+.rn }` ''
+.IX Title "QL 3"
+.IX Name "XML::QL - An XML query language"
+
+.IX Header "NAME"
+
+.IX Header "VERSION"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Item "query( \*(N"query\*(T" )"
+
+.IX Header "XML\-QL: The Query Language"
+
+.IX Item "\s-1WHERE\s0"
+
+.IX Item "\s-1XML\s0\-searchstring"
+
+.IX Item "\s-1ORDER\s0\-\s-1BY\s0"
+
+.IX Item "\s-1IN\s0"
+
+.IX Item "\s-1CONSTRUCT\s0"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

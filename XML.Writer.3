@@ -1,0 +1,629 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH Writer 3 "perl 5.007, patch 00" "4/Apr/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::Writer \- Perl extension for writing XML documents.
+.SH "SYNOPSIS"
+.PP
+.Vb 2
+\&  use XML::Writer;
+\&  use IO;
+.Ve
+.Vb 1
+\&  my $output = new IO::File(">output.xml");
+.Ve
+.Vb 7
+\&  my $writer = new XML::Writer(OUTPUT => $output);
+\&  $writer->startTag("greeting", 
+\&                    "class" => "simple");
+\&  $writer->characters("Hello, world!");
+\&  $writer->endTag("greeting");
+\&  $writer->end();
+\&  $output->close();
+.Ve
+.SH "DESCRIPTION"
+XML::Writer is a helper module for Perl programs that write an XML
+document.  The module handles all escaping for attribute values and
+character data and constructs different types of markup, such as tags,
+comments, and processing instructions.
+.PP
+By default, the module performs several well-formedness checks to
+catch errors during output.  This behaviour can be extremely useful
+during development and debugging, but it can be turned off for
+production-grade code.
+.PP
+The module can operate either in regular mode in or Namespace
+processing mode.  In Namespace mode, the module will generate
+Namespace Declarations itself, and will perform additional checks on
+the output.
+.PP
+Additional support is available for a simplified data mode with no
+mixed content: newlines are automatically inserted around elements and
+elements can optionally be indented based as their nesting level.
+.SH "METHODS"
+.Sh "Writing \s-1XML\s0"
+.Ip "new([$params])" 4
+Create a new \s-1XML::\s0Writer object:
+.Sp
+.Vb 1
+\&  my $writer = new XML::Writer(OUTPUT => $output, NEWLINES => 1);
+.Ve
+Arguments are an anonymous hash array of parameters:
+.Ip "\s-1OUTPUT\s0" 8
+An object blessed into \s-1IO::\s0Handle or one of its subclasses (such as
+\s-1IO::\s0File); if this parameter is not present, the module will write to
+standard output.
+.Ip "\s-1NAMESPACES\s0" 8
+A true (1) or false (0, undef) value; if this parameter is present and
+its value is true, then the module will accept two-member array
+reference in the place of element and attribute names, as in the
+following example:
+.Sp
+.Vb 3
+\&  my $rdfns = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+\&  my $writer = new XML::Writer(NAMESPACES => 1);
+\&  $writer->startTag([$rdfns, "Description"]);
+.Ve
+The first member of the array is a namespace \s-1URI\s0, and the second part
+is the local part of a qualified name.  The module will automatically
+generate appropriate namespace declarations and will replace the \s-1URI\s0
+part with a prefix.
+.Ip "\s-1PREFIX_MAP\s0" 8
+A hash reference; if this parameter is present and the module is
+performing namespace processing (see the \s-1NAMESPACES\s0 parameter), then
+the module will use this hash to look up preferred prefixes for
+namespace URIs:
+.Sp
+.Vb 3
+\&  my $rdfns = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+\&  my $writer = new XML::Writer(NAMESPACES => 1,
+\&                               PREFIX_MAP => {$rdfns => 'rdf'});
+.Ve
+The keys in the hash table are namespace URIs, and the values are the
+associated prefixes.  If there is not a preferred prefix for the
+namespace \s-1URI\s0 in this hash, then the module will automatically
+generate prefixes of the form \*(L"_\|_NS1\*(R", \*(L"_\|_NS2\*(R", etc.
+.Sp
+To set the default namespace, use \*(L'\*(R' for the prefix.
+.Ip "\s-1NEWLINES\s0" 8
+A true or false value; if this parameter is present and its value is
+true, then the module will insert an extra newline before the closing
+delimiter of start, end, and empty tags to guarantee that the document
+does not end up as a single, long line.  If the paramter is not
+present, the module will not insert the newlines.
+.Ip "\s-1UNSAFE\s0" 8
+A true or false value; if this parameter is present and its value is
+true, then the module will skip most well-formedness error checking.
+If the parameter is not present, the module will perform the
+well-formedness error checking by default.  Turn off error checking at
+your own risk!
+.Ip "\s-1DATA_MODE\s0" 8
+A true or false value; if this parameter is present and its value is
+true, then the module will enter a special data mode, inserting
+newlines automatically around elements and (unless \s-1UNSAFE\s0 is also
+specified) reporting an error if any element has both characters and
+elements as content.
+.Ip "\s-1DATA_INDENT\s0" 8
+A numeric value; if this parameter is present, it represents the
+indent step for elements in data mode (it will be ignored when not in
+data mode).
+.Ip "end()" 4
+Finish creating an \s-1XML\s0 document.  This method will check that the
+document has exactly one document element, and that all start tags are
+closed:
+.Sp
+.Vb 1
+\&  $writer->end();
+.Ve
+.Ip "xmlDecl([$encoding, $standalone])" 4
+Add an \s-1XML\s0 declaration to the beginning of an \s-1XML\s0 document.  The
+version will always be \*(L"1.0\*(R".  If you provide a non-null encoding or
+standalone argument, its value will appear in the declaration (and
+non-null value for standalone except \*(L'no\*(R' will automatically be
+converted to \*(L'yes').
+.Sp
+.Vb 1
+\&  $writer->xmlDecl("UTF-8");
+.Ve
+.Ip "doctype($name, [$publicId, $systemId])" 4
+Add a \s-1DOCTYPE\s0 declaration to an \s-1XML\s0 document.  The declaration must
+appear before the beginning of the root element.  If you provide a
+publicId, you must provide a systemId as well, but you may provide
+just a system \s-1ID\s0.
+.Sp
+.Vb 1
+\&  $writer->doctype("html");
+.Ve
+.Ip "comment($text)" 4
+Add a comment to an \s-1XML\s0 document.  If the comment appears outside the
+document element (either before the first start tag or after the last
+end tag), the module will add a carriage return after it to improve
+readability:
+.Sp
+.Vb 1
+\&  $writer->comment("This is a comment");
+.Ve
+.Ip "pi($target [, $data])" 4
+Add a processing instruction to an \s-1XML\s0 document:
+.Sp
+.Vb 1
+\&  $writer->pi('xml-stylesheet', 'href="style.css" type="text/css"');
+.Ve
+If the processing instruction appears outside the document element
+(either before the first start tag or after the last end tag), the
+module will add a carriage return after it to improve readability.
+.Sp
+The \f(CW$target\fR argument must be a single \s-1XML\s0 name.  If you provide the
+\f(CW$data\fR argument, the module will insert its contents following the
+\f(CW$target\fR argument, separated by a single space.
+.Ip "startTag($name [, $aname1 => $value1, ...])" 4
+Add a start tag to an \s-1XML\s0 document.  Any arguments after the element
+name are assumed to be name/value pairs for attributes: the module
+will escape all \*(L'&\*(R', \*(L'<\*(R', \*(L'>\*(R', and \*(L'"\*(R' characters in the attribute
+values using the predefined \s-1XML\s0 entities:
+.Sp
+.Vb 3
+\&  $writer->startTag('doc', 'version' => '1.0',
+\&                           'status' => 'draft',
+\&                           'topic' => 'AT&T');
+.Ve
+All start tags must eventually have matching end tags.
+.Ip "emptyTag($name [, $aname1 => $value1, ...])" 4
+Add an empty tag to an \s-1XML\s0 document.  Any arguments after the element
+name are assumed to be name/value pairs for attributes (see \fIstartTag()\fR
+for details):
+.Sp
+.Vb 2
+\&  $writer->emptyTag('img', 'src' => 'portrait.jpg',
+\&                           'alt' => 'Portrait of Emma.');
+.Ve
+.Ip "endTag([$name])" 4
+Add an end tag to an \s-1XML\s0 document.  The end tag must match the closest
+open start tag, and there must be a matching and properly-nested end
+tag for every start tag:
+.Sp
+.Vb 1
+\&  $writer->endTag('doc');
+.Ve
+If the \f(CW$name\fR argument is omitted, then the module will automatically
+supply the name of the currently open element:
+.Sp
+.Vb 2
+\&  $writer->startTag('p');
+\&  $writer->endTag();
+.Ve
+.Ip "dataElement($name, $data [, $aname1 => $value1, ...])" 4
+Print an entire element containing only character data.  This is
+equivalent to
+.Sp
+.Vb 3
+\&  $writer->startTag($name [, $aname1 => $value1, ...]);
+\&  $writer->characters($data);
+\&  $writer->endTag($name);
+.Ve
+.Ip "characters($data)" 4
+Add character data to an \s-1XML\s0 document.  All \*(L'<\*(R', \*(L'>\*(R', and \*(L'&\*(R'
+characters in the \f(CW$data\fR argument will automatically be escaped using
+the predefined \s-1XML\s0 entities:
+.Sp
+.Vb 2
+\&  $writer->characters("Here is the formula: ");
+\&  $writer->characters("a < 100 && a > 5");
+.Ve
+You may invoke this method only within the document element
+(i.e. after the first start tag and before the last end tag).
+.Sp
+In data mode, you must not use this method to add whitespace between
+elements.
+.Ip "setOutput($output)" 4
+Set the current output destination, as in the \s-1OUTPUT\s0 parameter for the
+constructor.
+.Ip "getOutput()" 4
+Return the current output destination, as in the \s-1OUTPUT\s0 parameter for
+the constructor.
+.Ip "setDataMode($mode)" 4
+Enable or disable data mode, as in the \s-1DATA_MODE\s0 parameter for the
+constructor.
+.Ip "getDataMode()" 4
+Return the current data mode, as in the \s-1DATA_MODE\s0 parameter for the
+constructor.
+.Ip "setDataIndent($step)" 4
+Set the indent step for data mode, as in the \s-1DATA_INDENT\s0 parameter for
+the constructor.
+.Ip "getDataIndent()" 4
+Return the indent step for data mode, as in the \s-1DATA_INDENT\s0 parameter
+for the constructor.
+.Sh "Querying \s-1XML\s0"
+.Ip "in_element($name)" 4
+Return a true value if the most recent open element matches \f(CW$name:\fR
+.Sp
+.Vb 5
+\&  if ($writer->in_element('dl')) {
+\&    $writer->startTag('dt');
+\&  } else {
+\&    $writer->startTag('li');
+\&  }
+.Ve
+.Ip "within_element($name)" 4
+Return a true value if any open elemnet matches \f(CW$name:\fR
+.Sp
+.Vb 5
+\&  if ($writer->within_element('body')) {
+\&    $writer->startTag('h1');
+\&  } else {
+\&    $writer->startTag('title');
+\&  }
+.Ve
+.Ip "current_element()" 4
+Return the name of the currently open element:
+.Sp
+.Vb 1
+\&  my $name = $writer->current_element();
+.Ve
+This is the equivalent of
+.Sp
+.Vb 1
+\&  my $name = $writer->ancestor(0);
+.Ve
+.Ip "ancestor($n)" 4
+Return the name of the nth ancestor, where \f(CW$n\fR=0 for the current open
+element.
+.Sh "Additional Namespace Support"
+\s-1WARNING\s0: you must not use these methods while you are writing a
+document, or the results will be unpredictable.
+.Ip "addPrefix($uri, $prefix)" 4
+Add a preferred mapping between a Namespace \s-1URI\s0 and a prefix.  See
+also the \s-1PREFIX_MAP\s0 constructor parameter.
+.Sp
+To set the default namespace, omit the \f(CW$prefix\fR parameter or set it to
+\&'\*(R'.
+.Ip "removePrefix($uri)" 4
+Remove a preferred mapping between a Namespace \s-1URI\s0 and a prefix.
+.Sp
+To set the default namespace, omit the \f(CW$prefix\fR parameter or set it to
+\&'\*(R'.
+.SH "ERROR REPORTING"
+With the default settings, the XML::Writer module can detect several
+basic XML well-formedness errors:
+.Ip "\(bu" 4
+Lack of a (top-level) document element, or multiple document elements.
+.Ip "\(bu" 4
+Unclosed start tags.
+.Ip "\(bu" 4
+Misplaced delimiters in the contents of processing instructions or
+comments.
+.Ip "\(bu" 4
+Misplaced or duplicate \s-1XML\s0 \fIdeclaration\fR\|(s).
+.Ip "\(bu" 4
+Misplaced or duplicate \s-1DOCTYPE\s0 \fIdeclaration\fR\|(s).
+.Ip "\(bu" 4
+Mismatch between the document type name in the \s-1DOCTYPE\s0 declaration and
+the name of the document element.
+.Ip "\(bu" 4
+Mismatched start and end tags.
+.Ip "\(bu" 4
+Attempts to insert character data outside the document element.
+.Ip "\(bu" 4
+Duplicate attributes with the same name.
+.PP
+During Namespace processing, the module can detect the following
+additional errors:
+.Ip "\(bu" 4
+Attempts to use \*(PI targets or element or attribute names containing a
+colon.
+.Ip "\(bu" 4
+Attempts to use attributes with names beginning \*(L"xmlns\*(R".
+.PP
+To ensure full error detection, a program must also invoke the end
+method when it has finished writing a document:
+.PP
+.Vb 4
+\&  $writer->startTag('greeting');
+\&  $writer->characters("Hello, world!");
+\&  $writer->endTag('greeting');
+\&  $writer->end();
+.Ve
+This error reporting can catch many hidden bugs in Perl programs that
+create \s-1XML\s0 documents; however, if necessary, it can be turned off by
+providing an \s-1UNSAFE\s0 parameter:
+.PP
+.Vb 1
+\&  my $writer = new XML::Writer(OUTPUT => $output, UNSAFE => 1);
+.Ve
+.SH "AUTHOR"
+David Megginson, david@megginson.com
+.SH "SEE ALSO"
+XML::Parser
+
+.rn }` ''
+.IX Title "Writer 3"
+.IX Name "XML::Writer - Perl extension for writing XML documents."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "Writing \s-1XML\s0"
+
+.IX Item "new([$params])"
+
+.IX Item "\s-1OUTPUT\s0"
+
+.IX Item "\s-1NAMESPACES\s0"
+
+.IX Item "\s-1PREFIX_MAP\s0"
+
+.IX Item "\s-1NEWLINES\s0"
+
+.IX Item "\s-1UNSAFE\s0"
+
+.IX Item "\s-1DATA_MODE\s0"
+
+.IX Item "\s-1DATA_INDENT\s0"
+
+.IX Item "end()"
+
+.IX Item "xmlDecl([$encoding, $standalone])"
+
+.IX Item "doctype($name, [$publicId, $systemId])"
+
+.IX Item "comment($text)"
+
+.IX Item "pi($target [, $data])"
+
+.IX Item "startTag($name [, $aname1 => $value1, ...])"
+
+.IX Item "emptyTag($name [, $aname1 => $value1, ...])"
+
+.IX Item "endTag([$name])"
+
+.IX Item "dataElement($name, $data [, $aname1 => $value1, ...])"
+
+.IX Item "characters($data)"
+
+.IX Item "setOutput($output)"
+
+.IX Item "getOutput()"
+
+.IX Item "setDataMode($mode)"
+
+.IX Item "getDataMode()"
+
+.IX Item "setDataIndent($step)"
+
+.IX Item "getDataIndent()"
+
+.IX Subsection "Querying \s-1XML\s0"
+
+.IX Item "in_element($name)"
+
+.IX Item "within_element($name)"
+
+.IX Item "current_element()"
+
+.IX Item "ancestor($n)"
+
+.IX Subsection "Additional Namespace Support"
+
+.IX Item "addPrefix($uri, $prefix)"
+
+.IX Item "removePrefix($uri)"
+
+.IX Header "ERROR REPORTING"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

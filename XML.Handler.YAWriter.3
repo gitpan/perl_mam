@@ -1,0 +1,430 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH YAWriter 3 "perl 5.007, patch 00" "28/Jan/102" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::Handler::YAWriter \- Yet another Perl SAX XML Writer
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\&  use XML::Handler::YAWriter;
+.Ve
+.Vb 2
+\&  my $ya = new XML::Handler::YAWriter( %options );
+\&  my $perlsax = new XML::Parser::PerlSAX( 'Handler' => $ya );
+.Ve
+.SH "DESCRIPTION"
+YAWriter implements Yet Another XML::Handler::Writer. The reasons for
+this one are that I needed a flexible escaping technique, and want
+some kind of pretty printing. If an instance of YAWriter is created
+without any options, the default behavior is to produce an array of
+strings containing the XML in :
+.PP
+.Vb 1
+\&  @{$ya->{Strings}}
+.Ve
+.Sh "Options"
+Options are given in the usual \*(L'key\*(R' => \*(L'value\*(R' idiom.
+.Ip "Output \s-1IO::\s0File" 5
+This option tells YAWriter to use an already open file for output, instead
+of using \f(CW$ya\fR\->{Strings} to store the array of strings. It should be noted
+that the only thing the object needs to implement is the print method. So
+anything can be used to receive a stream of strings from YAWriter.
+.Ip "AsFile string" 5
+This option will cause start_document to open named file and end_document
+to close it. Use the literal dash \*(L"\-\*(R" if you want to print on standard
+output.
+.Ip "AsPipe string" 5
+This option will cause start_document to open a pipe and end_document
+to close it. The pipe is a normal shell command. Secure shell comes handy
+but has a 2GB limit on most systems.
+.Ip "AsArray boolean" 5
+This option will force storage of the \s-1XML\s0 in \f(CW$ya\fR\->{Strings}, even if the
+Output option is given.
+.Ip "AsString boolean" 5
+This option will cause end_document to return the complete \s-1XML\s0 document
+in a single string. Most \s-1SAX\s0 drivers return the value of end_document
+as a result of their parse method. As this may not work with some
+combinations of \s-1SAX\s0 drivers and filters, a join of \f(CW$ya\fR\->{Strings} in
+the controlling method is preferred.
+.Ip "Encoding string" 5
+This will change the default encoding from \s-1UTF\s0\-8 to anything you like.
+You should ensure that given data are already in this encoding or provide
+an Escape hash, to tell YAWriter about the recoding.
+.Ip "Escape hash" 5
+The Escape hash defines substitutions that have to be done to any
+string, with the exception of the processing_instruction and doctype_decl
+methods, where I think that escaping of target and data would cause more
+trouble than necessary.
+.Sp
+The default value for Escape is
+.Sp
+.Vb 7
+\&    $XML::Handler::YAWriter::escape = {
+\&            '&'  => '&amp;',
+\&            '<'  => '&lt;',
+\&            '>'  => '&gt;',
+\&            '"'  => '&quot;',
+\&            '--' => '&#45;&#45;'
+\&            };
+.Ve
+YAWriter will use an evaluated sub to make the recoding based on a given
+Escape hash reasonably fast. Future versions may use \s-1XS\s0 to improve this
+performance bottleneck.
+.Ip "Pretty hash" 5
+Hash of string => boolean tuples, to define kind of
+prettyprinting. Default to undef. Possible string values:
+.Ip "AddHiddenNewline boolean" 10
+Add hidden newline before \*(L">\*(R"
+.Ip "AddHiddenAttrTab boolean" 10
+Add hidden tabulation for attributes
+.Ip "CatchEmptyElement boolean" 10
+Catch empty Elements, apply \*(L"/>\*(R" compression
+.Ip "CatchWhiteSpace boolean" 10
+Catch whitespace with comments
+.Ip "CompactAttrIndent" 10
+Places Attributes on the same line as the Element
+.Ip "IsSGML boolean" 10
+This option will cause start_document, processing_instruction and doctype_decl
+to appear as \s-1SGML\s0. The \s-1SGML\s0 is still well-formed of course, if your \s-1SAX\s0 events
+are well-formed.
+.Ip "NoComments boolean" 10
+Supress Comments
+.Ip "NoDTD boolean" 10
+Supress \s-1DTD\s0
+.Ip "NoPI boolean" 10
+Supress Processing Instructions
+.Ip "NoProlog boolean" 10
+Supress <?xml ... ?> Prolog
+.Ip "NoWhiteSpace boolean" 10
+Supress WhiteSpace to clean documents from prior pretty printing.
+.Ip "PrettyWhiteIndent boolean" 10
+Add visible indent before any eventstring
+.Ip "PrettyWhiteNewline boolean" 10
+Add visible newlines before any eventstring
+.Ip "\s-1SAX1\s0 boolean (not yet implemented)" 10
+Output only \s-1SAX1\s0 compliant eventstrings
+.Sh "Notes:"
+Correct handling of start_document and end_document is required!
+.PP
+The YAWriter Object initialises its structures during start_document
+and does its cleanup during end_document.  If you forget to call
+start_document, any other method will break during the run. Most likely
+place is the encode method, trying to eval undef as a subroutine. If
+you forget to call end_document, you should not use a single instance
+of YAWriter more than once.
+.PP
+For small documents AsArray may be the fastest method and AsString
+the easiest one to receive the output of YAWriter. But AsString and
+AsArray may run out of memory with infinite \s-1SAX\s0 streams. The only
+method \s-1XML::\s0Handler::Writer calls on a given Output object is the print
+method. So it's easy to use a self written Output object to improve
+streaming.
+  
+A single instance of \s-1XML::\s0Handler::YAWriter is able to produce more
+than one file in a single run. Be sure to provide a fresh \s-1IO::\s0File
+as Output before you call start_document and close this File after
+calling end_document. Or provide a filename in AsFile, so start_document
+and end_document can open and close its own filehandle.
+  
+Automatic recoding between 8bit and 16bit does not work in any Perl correctly !
+.PP
+I have Perl-5.00563 at home and here I can specify \*(L"use utf8;\*(R" in the right
+places to make recoding work. But I dislike saying \*(L"use 5.00555;\*(R" because
+many systems run 5.00503.
+  
+If you use some 8bit character set internally and want use national characters,
+either state your character as Encoding to be \s-1ISO\s0\-8859-1, or provide an Escape
+hash similar to the following :
+.PP
+.Vb 14
+\&    $ya->{'Escape'} = {
+\&                    '&'  => '&amp;',
+\&                    '<'  => '&lt;',
+\&                    '>'  => '&gt;',
+\&                    '"'  => '&quot;',
+\&                    '--' => '&#45;&#45;'
+\&                    'ö' => '&ouml;'
+\&                    'ä' => '&auml;'
+\&                    'ü' => '&uuml;'
+\&                    'Ö' => '&Ouml;'
+\&                    'Ä' => '&Auml;'
+\&                    'Ü' => '&Uuml;'
+\&                    'ß' => '&szlig;'
+\&                    };
+.Ve
+You may abuse YAWriter to clean whitespace from \s-1XML\s0 documents. Take a look
+at test.pl, doing just that with an \s-1XML::\s0Edifact message, without querying
+the \s-1DTD\s0. This may work in 99% of the cases where you want to get rid of
+ignorable whitespace caused by the various forms of pretty printing.
+  
+    my \f(CW$ya\fR = new \fI\s-1XML::\s0Handler::YAWriter\fR\|(
+        \*(L'Output\*(R' => new \s-1IO::\s0File ( \*(L">\-\*(R" );
+        \*(L'Pretty\*(R' => {
+            \*(L'NoWhiteSpace'=>1,
+            \*(L'NoComments'=>1,
+            \*(L'AddHiddenNewline'=>1,
+            \*(L'AddHiddenAttrTab'=>1,
+        } );
+  
+\s-1XML::\s0Handler::Writer implements any method \s-1XML::\s0Parser::PerlSAX wants.
+This extends the Java \s-1SAX1\s0.0 specification. I have in mind using
+Pretty=>\s-1SAX1\s0=>1 to disable this feature, if abusing YAWriter for a
+\s-1SAX\s0 proxy.
+  
+=head1 \s-1AUTHOR\s0
+.PP
+Michael Koehne, Kraehe@Copyleft.De
+.SH "Thanks"
+\*(L"Derksen, Eduard (Enno), CSCIO\*(R" <enno@att.com> helped me with the Escape
+hash and gave quite a lot of useful comments.
+.SH "SEE ALSO"
+the \fIperl\fR manpage and the \fIXML::Parser::PerlSAX\fR manpage
+
+.rn }` ''
+.IX Title "YAWriter 3"
+.IX Name "XML::Handler::YAWriter - Yet another Perl SAX XML Writer"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Options"
+
+.IX Item "Output \s-1IO::\s0File"
+
+.IX Item "AsFile string"
+
+.IX Item "AsPipe string"
+
+.IX Item "AsArray boolean"
+
+.IX Item "AsString boolean"
+
+.IX Item "Encoding string"
+
+.IX Item "Escape hash"
+
+.IX Item "Pretty hash"
+
+.IX Item "AddHiddenNewline boolean"
+
+.IX Item "AddHiddenAttrTab boolean"
+
+.IX Item "CatchEmptyElement boolean"
+
+.IX Item "CatchWhiteSpace boolean"
+
+.IX Item "CompactAttrIndent"
+
+.IX Item "IsSGML boolean"
+
+.IX Item "NoComments boolean"
+
+.IX Item "NoDTD boolean"
+
+.IX Item "NoPI boolean"
+
+.IX Item "NoProlog boolean"
+
+.IX Item "NoWhiteSpace boolean"
+
+.IX Item "PrettyWhiteIndent boolean"
+
+.IX Item "PrettyWhiteNewline boolean"
+
+.IX Item "\s-1SAX1\s0 boolean (not yet implemented)"
+
+.IX Subsection "Notes:"
+
+.IX Header "Thanks"
+
+.IX Header "SEE ALSO"
+

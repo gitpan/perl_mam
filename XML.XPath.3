@@ -1,0 +1,403 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH XPath 3 "perl 5.007, patch 00" "26/Nov/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::XPath \- a set of modules for parsing and evaluating XPath statements
+.SH "DESCRIPTION"
+This module aims to comply exactly to the XPath specification at
+http://www.w3.org/TR/xpath and yet allow extensions to be added in the
+form of functions. Modules such as XSLT and XPointer may need to do
+this as they support functionality beyond XPath.
+.SH "SYNOPSIS"
+.PP
+.Vb 12
+\&    use XML::XPath;
+\&    use XML::XPath::XMLParser;
+\&    
+\&    my $xp = XML::XPath->new(filename => 'test.xhtml');
+\&    
+\&    my $nodeset = $xp->find('/html/body/p'); # find all paragraphs
+\&    
+\&    foreach my $node ($nodeset->get_nodelist) {
+\&        print "FOUND\en\en", 
+\&            XML::XPath::XMLParser::as_string($node),
+\&            "\en\en";
+\&    }
+.Ve
+.SH "DETAILS"
+There's an awful lot to all of this, so bear with it \- if you stick it
+out it should be worth it. Please get a good understanding of XPath
+by reading the spec before asking me questions. All of the classes
+and parts herein are named to be synonimous with the names in the
+specification, so consult that if you don't understand why I'm doing
+something in the code.
+.SH "API"
+The API of XML::XPath itself is extremely simple to allow you to get
+going almost immediately. The deeper API's are more complex, but you
+shouldn't have to touch most of that.
+.Sh "\fInew()\fR"
+This constructor follows the often seen named parameter method call.
+Parameters you can use are: filename, parser, xml, ioref and context.
+The filename parameter specifies an \s-1XML\s0 file to parse. The xml
+parameter specifies a string to parse, and the ioref parameter
+specifies an ioref to parse. The context option allows you to 
+specify a context node. The context node has to be in the format 
+of a node as specified in the \fI\s-1XML::\s0XPath::XMLParser\fR manpage. The 4 parameters
+filename, xml, ioref and context are mutually exclusive \- you should
+only specify one (if you specify anything other than context, the
+context node is the root of your document).
+The parser option allows you to pass in an already prepared 
+\s-1XML::\s0Parser object, to save you having to create more than one
+in your application (if, for example, you're doing more than just XPath).
+.PP
+.Vb 1
+\&    my $xp = XML::XPath->new( context => $node );
+.Ve
+It is very much recommended that you use only 1 XPath object throughout 
+the life of your application. This is because the object (and it's sub-objects)
+maintain certain bits of state information that will be useful (such
+as XPath variables) to later calls to \fIfind()\fR. It's also a good idea because
+you'll use less memory this way.
+.Sh "\fInodeset\fR = \fIfind\fR\|($path, [$context])"
+The find function takes an XPath expression (a string) and returns either an
+\s-1XML::\s0XPath::NodeSet object containing the nodes it found (or empty if
+no nodes matched the path), or one of \s-1XML::\s0XPath::Literal (a string),
+\s-1XML::\s0XPath::Number, or \s-1XML::\s0XPath::Boolean. It should always return 
+something \- and you can use \->\fIisa()\fR to find out what it returned. If you
+need to check how many nodes it found you should check \f(CW$nodeset\fR\->size.
+See the \fI\s-1XML::\s0XPath::NodeSet\fR manpage. An optional second parameter of a context
+node allows you to use this method repeatedly, for example \s-1XSLT\s0 needs
+to do this.
+.Sh "\fIfindnodes\fR\|($path, [$context])"
+Returns a list of nodes found by \f(CW$path\fR, optionally in context \f(CW$context\fR. 
+In scalar context returns an \s-1XML::\s0XPath::NodeSet object.
+.Sh "\fIfindnodes_as_string\fR\|($path, [$context])"
+Returns the nodes found reproduced as \s-1XML\s0. The result is not guaranteed
+to be valid \s-1XML\s0 though.
+.Sh "\fIfindvalue\fR\|($path, [$context])"
+Returns either a \f(CWXML::XPath::Literal\fR, a \f(CWXML::XPath::Boolean\fR or a
+\f(CWXML::XPath::Number\fR object. If the path returns a NodeSet,
+\f(CW$nodeset\fR\->to_literal is called automatically for you (and thus a
+\f(CWXML::XPath::Literal\fR is returned). Note that
+for each of the objects stringification is overloaded, so you can just
+print the value found, or manipulate it in the ways you would a normal
+perl value (e.g. using regular expressions).
+.Sh "\fIexists\fR\|($path, [$context])"
+Returns true if the given path exists.
+.Sh "\fImatches\fR\|($node, \f(CW$path\fR, [$context])"
+Returns true if the node matches the path (optionally in context \f(CW$context\fR).
+.Sh "\fIgetNodeText\fR\|($path)"
+Returns the text string for a particular \s-1XML\s0 node.  Returns a string,
+or undef if the node doesn't exist.
+.Sh "\fIsetNodeText\fR\|($path, \f(CW$text\fR)"
+Sets the text string for a particular \s-1XML\s0 node.  The node can be an
+element or an attribute.  If the node to be set is an attribute, and
+the attribute node does not exist, it will be created automatically.
+.Sh "\fIcreateNode\fR\|($path)"
+Creates the node matching the path given.  If part of the path given, or
+all of the path do not exist, the necessary nodes will be created
+automatically.
+.Sh "\fIset_namespace\fR\|($prefix, \f(CW$uri\fR)"
+Sets the namespace prefix mapping to the uri.
+.PP
+Normally in \s-1XML::\s0XPath the prefixes in XPath node tests take their
+context from the current node. This means that foo:bar will always
+match an element <foo:bar> regardless of the namespace that the prefix
+foo is mapped to (which might even change within the document, resulting
+in unexpected results). In order to make prefixes in XPath node tests
+actually map to a real \s-1URI\s0, you need to enable that via a call
+to the set_namespace method of your \s-1XML::\s0XPath object.
+.Sh "\fIclear_namespaces()\fR"
+Clears all previously set namespace mappings.
+.Sh "\f(CW$XML::XPath::Namespaces\fR"
+Set this to 0 if you \fIdon't\fR want namespace processing to occur. This
+will make everything a little (tiny) bit faster, but you'll suffer for it,
+probably.
+.SH "Node Object Model"
+See the \fIXML::XPath::Node\fR manpage, the \fIXML::XPath::Node::Element\fR manpage, 
+the \fIXML::XPath::Node::Text\fR manpage, the \fIXML::XPath::Node::Comment\fR manpage,
+the \fIXML::XPath::Node::Attribute\fR manpage, the \fIXML::XPath::Node::Namespace\fR manpage,
+and the \fIXML::XPath::Node::\*(PI\fR manpage.
+.SH "On Garbage Collection"
+XPath nodes work in a special way that allows circular references, and 
+yet still lets Perl's reference counting garbage collector to clean up
+the nodes after use. This should be totally transparent to the user,
+with one caveat: \fBIf you free your tree before letting go of a sub-tree,
+consider that playing with fire and you may get burned\fR. What does this
+mean to the average user? Not much. Provided you don't free (or let go
+out of scope) either the tree you passed to XML::XPath->new, or if you
+didn't pass a tree, and passed a filename or IO\-ref, then provided you
+don't let the XML::XPath object go out of scope before you let results
+of \fIfind()\fR and its friends go out of scope, then you'll be fine. Even if
+you \fBdo\fR let the tree go out of scope before results, you'll probably
+still be fine. The only case where you may get stung is when the last
+part of your path/query is either an ancestor or parent axis. In that
+case the worst that will happen is you'll end up with a circular reference
+that won't get cleared until interpreter destruction time. You can get
+around that by explicitly calling \f(CW$node\fR\->DESTROY on each of your result
+nodes, if you really need to do that.
+.PP
+Mail me direct if that's not clear. Note that it's not doom and gloom. It's
+by no means perfect, but the worst that will happen is a long running process
+could leak memory. Most long running processes will therefore be able to
+explicitly be careful not to free the tree (or XML::XPath object) before
+freeing results. AxKit, an application that uses XML::XPath, does this and
+I didn't have to make any changes to the code \- it's already sensible
+programming.
+.PP
+If you \fIreally\fR don't want all this to happen, then set the variable
+\f(CW$XML::XPath::SafeMode\fR, and call \f(CW$xp\fR\->\fIcleanup()\fR on the XML::XPath object
+when you're finished, or \f(CW$tree\fR\->\fIdispose()\fR if you have a tree instead.
+.SH "Example"
+Please see the test files in t/ for examples on how to use XPath.
+.SH "Support/Author"
+This module is copyright 2000 AxKit.com Ltd. This is free
+software, and as such comes with NO WARRANTY. No dates are used in this
+module. You may distribute this module under the terms of either the
+Gnu GPL,  or the Artistic License (the same terms as Perl itself).
+.PP
+For support, please subscribe to the Perl-XML mailing list at the URL 
+http://listserv.activestate.com/mailman/listinfo/perl-xml
+.PP
+Matt Sergeant, matt@sergeant.org
+.SH "SEE ALSO"
+the \fIXML::XPath::Literal\fR manpage, the \fIXML::XPath::Boolean\fR manpage, the \fIXML::XPath::Number\fR manpage,
+the \fIXML::XPath::XMLParser\fR manpage, the \fIXML::XPath::NodeSet\fR manpage, the \fIXML::XPath::PerlSAX\fR manpage,
+the \fIXML::XPath::Builder\fR manpage.
+
+.rn }` ''
+.IX Title "XPath 3"
+.IX Name "XML::XPath - a set of modules for parsing and evaluating XPath statements"
+
+.IX Header "NAME"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DETAILS"
+
+.IX Header "API"
+
+.IX Subsection "\fInew()\fR"
+
+.IX Subsection "\fInodeset\fR = \fIfind\fR\|($path, [$context])"
+
+.IX Subsection "\fIfindnodes\fR\|($path, [$context])"
+
+.IX Subsection "\fIfindnodes_as_string\fR\|($path, [$context])"
+
+.IX Subsection "\fIfindvalue\fR\|($path, [$context])"
+
+.IX Subsection "\fIexists\fR\|($path, [$context])"
+
+.IX Subsection "\fImatches\fR\|($node, \f(CW$path\fR, [$context])"
+
+.IX Subsection "\fIgetNodeText\fR\|($path)"
+
+.IX Subsection "\fIsetNodeText\fR\|($path, \f(CW$text\fR)"
+
+.IX Subsection "\fIcreateNode\fR\|($path)"
+
+.IX Subsection "\fIset_namespace\fR\|($prefix, \f(CW$uri\fR)"
+
+.IX Subsection "\fIclear_namespaces()\fR"
+
+.IX Subsection "\f(CW$XML::XPath::Namespaces\fR"
+
+.IX Header "Node Object Model"
+
+.IX Header "On Garbage Collection"
+
+.IX Header "Example"
+
+.IX Header "Support/Author"
+
+.IX Header "SEE ALSO"
+

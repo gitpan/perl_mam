@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Request::Common 3 "libwww-perl-5.36" "4/Aug/98" "User Contributed Perl Documentation"
+.TH lib::HTTP::Request::Common 3 "libwww-perl-5.64" "5/Jan/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -210,7 +210,7 @@ is exactly equivalent to the following call
 .Vb 1
 \&  HTTP::Request->new(GET => $url)
 .Ve
-but is less clutter.  It also reads better when used together with the
+but is less cluttered.  It also reads better when used together with the
 \s-1LWP::\s0UserAgent->\fIrequest()\fR method:
 .Sp
 .Vb 3
@@ -218,7 +218,7 @@ but is less clutter.  It also reads better when used together with the
 \&  my $res = $ua->request(GET 'http://www.sn.no')
 \&  if ($res->is_success) { ...
 .Ve
-You can also initialize the header values in the request by specifying
+You can also initialize header values in the request by specifying
 some key/value pairs as optional arguments.  For instance:
 .Sp
 .Vb 4
@@ -234,7 +234,7 @@ Like \fI\s-1GET\s0()\fR but the method in the request is \s-1HEAD\s0.
 .Ip "\s-1PUT\s0 $url, [Header => Value,...]" 4
 Like \fI\s-1GET\s0()\fR but the method in the request is \s-1PUT\s0.
 .Ip "\s-1POST\s0 $url, [$form_ref], [Header => Value,...]" 4
-This works mostly like \fI\s-1GET\s0()\fR with \s-1POST\s0 as method, but this function
+This works mostly like \fI\s-1GET\s0()\fR with \s-1POST\s0 as the method, but this function
 also takes a second optional array or hash reference parameter
 ($form_ref).  This argument can be used to pass key/value pairs for
 the form content.  By default we will initialize a request using the
@@ -271,7 +271,7 @@ with the following interpretation:
 \&  [ $file, $filename, Header => Value... ]
 .Ve
 The first value in the array ($file) is the name of a file to open.
-This file will be read an its content placed in the request.  The
+This file will be read and its content placed in the request.  The
 routine will croak if the file can't be opened.  Use an \f(CWundef\fR as \f(CW$file\fR
 value if you want to specify the content directly.  The \f(CW$filename\fR is
 the filename to report in the request.  If this value is undefined,
@@ -332,14 +332,16 @@ value, then you get back a request object with a subroutine closure as
 the content attribute.  This subroutine will read the content of any
 files on demand and return it in suitable chunks.  This allow you to
 upload arbitrary big files without using lots of memory.  You can even
-upload infinite files like \fI/dev/audio\fR if you wish.  Another
-difference is that there will be no Content-Length header defined for
-the request if you use this feature.  Not all servers (or server
-applications) like this.
+upload infinite files like \fI/dev/audio\fR if you wish; however, if
+the file is not a plain file, there will be no Content-Length header 
+defined for the request.  Not all servers (or server
+applications) like this.  Also, if the \fIfile\fR\|(s) change in size between
+the time the Content-Length is calculated and the time that the last
+chunk is delivered, the subroutine will \f(CWCroak\fR.
 .SH "SEE ALSO"
 the \fIHTTP::Request\fR manpage, the \fILWP::UserAgent\fR manpage
 .SH "COPYRIGHT"
-Copyright 1997-1998, Gisle Aas
+Copyright 1997-2000, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::UserAgent 3 "libwww-perl-5.36" "4/Aug/98" "User Contributed Perl Documentation"
+.TH lib::LWP::UserAgent 3 "libwww-perl-5.64" "11/Dec/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -191,14 +191,22 @@
 LWP::UserAgent \- A WWW UserAgent class
 .SH "SYNOPSIS"
 .PP
-.Vb 2
+.Vb 5
 \& require LWP::UserAgent;
-\& $ua = new LWP::UserAgent;
+\& my $ua = LWP::UserAgent->new(env_proxy => 1,
+\&                              keep_alive => 1,
+\&                              timeout => 30,
+\&                             );
 .Ve
 .Vb 1
-\& $request = new HTTP::Request('GET', 'file://localhost/etc/motd');
+\& $response = $ua->get('http://search.cpan.org/');
 .Ve
-.Vb 3
+.Vb 1
+\& # or:
+.Ve
+.Vb 5
+\& $request = HTTP::Request->new('GET', 'http://search.cpan.org/');
+\&  # and then one of these:
 \& $response = $ua->request($request); # or
 \& $response = $ua->request($request, '/tmp/sss'); # or
 \& $response = $ua->request($request, \e&callback, 4096);
@@ -207,72 +215,106 @@ LWP::UserAgent \- A WWW UserAgent class
 \& sub callback { my($data, $response, $protocol) = @_; .... }
 .Ve
 .SH "DESCRIPTION"
-The \f(CWLWP::UserAgent\fR is a class implementing a simple World-Wide Web
+The \f(CWLWP::UserAgent\fR is a class implementing a World-Wide Web
 user agent in Perl. It brings together the HTTP::Request,
 HTTP::Response and the LWP::Protocol classes that form the rest of the
 core of libwww-perl library. For simple uses this class can be used
 directly to dispatch WWW requests, alternatively it can be subclassed
 for application-specific behaviour.
 .PP
-In normal usage the application creates a UserAgent object, and then
-configures it with values for timeouts proxies, name, etc. The next
-step is to create an instance of \f(CWHTTP::Request\fR for the request that
-needs to be performed. This request is then passed to the UserAgent
-\fIrequest()\fR method, which dispatches it using the relevant protocol,
+In normal use the application creates a \f(CWLWP::UserAgent\fR object, and then
+configures it with values for timeouts, proxies, name, etc. It then
+creates an instance of \f(CWHTTP::Request\fR for the request that
+needs to be performed. This request is then passed to one of the UserAgent's
+\fIrequest()\fR methods, which dispatches it using the relevant protocol,
 and returns a \f(CWHTTP::Response\fR object.
 .PP
+There are convenience methods for sending the most common request
+types; \fIget()\fR, \fIhead()\fR and \fIpost()\fR.
+.PP
 The basic approach of the library is to use HTTP style communication
-for all protocol schemes, i.e. you will receive an \f(CWHTTP::Response\fR
-object also for gopher or ftp requests.  In order to achieve even more
-similarities with HTTP style communications, gopher menus and file
-directories will be converted to HTML documents.
+for all protocol schemes, i.e. you even receive an \f(CWHTTP::Response\fR
+object for gopher or ftp requests.  In order to achieve even more
+similarity to HTTP style communications, gopher menus and file
+directories are converted to HTML documents.
 .PP
-The \fIrequest()\fR method can process the content of the response in one of
-three ways: in core, into a file, or into repeated calls of a
-subroutine.  You choose which one by the kind of value passed as the
-second argument to \fIrequest()\fR.
+The \fIsend_request()\fR, \fIsimple_request()\fR and \fIrequest()\fR methods can process
+the content of the response in one of three ways: in core, into a
+file, or into repeated calls to a subroutine.  You choose which one by
+the kind of value passed as the second argument.
 .PP
-The in core variant simply returns the content in a scalar attribute
-called \fIcontent()\fR of the response object, and is suitable for small
-HTML replies that might need further parsing.  This variant is used if
-the second argument is missing (or is undef).
+The in core variant simply stores the content in a scalar \*(L'content\*(R'
+attribute of the response object and is suitable for small HTML
+replies that might need further parsing.  This variant is used if the
+second argument is missing (or is undef).
 .PP
 The filename variant requires a scalar containing a filename as the
-second argument to \fIrequest()\fR, and is suitable for large WWW objects
-which need to be written directly to the file, without requiring large
-amounts of memory. In this case the response object returned from
-\fIrequest()\fR will have empty \fIcontent()\fR.  If the request fails, then the
-\fIcontent()\fR might not be empty, and the file will be untouched.
+second argument to the request method and is suitable for large WWW
+objects which need to be written directly to the file without
+requiring large amounts of memory. In this case the response object
+returned from the request method will have an empty content attribute.
+If the request fails, then the content might not be empty, and the
+file will be untouched.
 .PP
 The subroutine variant requires a reference to callback routine as the
-second argument to \fIrequest()\fR and it can also take an optional chuck
-size as third argument.  This variant can be used to construct
-\*(L"pipe-lined\*(R" processing, where processing of received chuncks can
-begin before the complete data has arrived.  The callback function is
-called with 3 arguments: the data received this time, a reference to
-the response object and a reference to the protocol object.  The
-response object returned from \fIrequest()\fR will have empty \fIcontent()\fR.  If
-the request fails, then the the callback routine will not have been
-called, and the response->\fIcontent()\fR might not be empty.
+second argument to the request method and it can also take an optional
+chuck size as the third argument.  This variant can be used to
+construct \*(L"pipe-lined\*(R" processing, where processing of received
+chuncks can begin before the complete data has arrived.  The callback
+function is called with 3 arguments: the data received this time, a
+reference to the response object and a reference to the protocol
+object.  The response object returned from the request method will
+have empty content.  If the request fails, then the the callback
+routine is not called, and the response->content might not be empty.
 .PP
-The request can be aborted by calling \fIdie()\fR within the callback
+The request can be aborted by calling \fIdie()\fR in the callback
 routine.  The die message will be available as the \*(L"X\-Died\*(R" special
 response header field.
 .PP
-The library also accepts that you put a subroutine reference as
+The library also allows you to use a subroutine reference as
 content in the request object.  This subroutine should return the
 content (possibly in pieces) when called.  It should return an empty
 string when there is no more content.
 .SH "METHODS"
 The following methods are available:
-.Ip "$ua = new \s-1LWP::\s0UserAgent;" 4
-Constructor for the UserAgent.  Returns a reference to a
-\s-1LWP::\s0UserAgent object.
-.Ip "$ua->simple_request($request, [$arg [, $size]])" 4
+.Ip "$ua = \s-1LWP::\s0UserAgent->new( %options );" 4
+This class method constructs a new \f(CWLWP::UserAgent\fR object and
+returns a reference to it.
+.Sp
+Key/value pair arguments may be provided to set up the initial state
+of the user agent.  The following options correspond to attribute
+methods described below:
+.Sp
+.Vb 13
+\&   KEY                     DEFAULT
+\&   -----------             --------------------
+\&   agent                   "libwww-perl/#.##"
+\&   from                    undef
+\&   timeout                 180
+\&   use_eval                1
+\&   parse_head              1
+\&   max_size                undef
+\&   cookie_jar              undef
+\&   conn_cache              undef
+\&   protocols_allowed       undef
+\&   protocols_forbidden     undef
+\&   requests_redirectable   ['GET', 'HEAD']
+.Ve
+The followings option are also accepted: If the \f(CWenv_proxy\fR option is
+passed in an has a \s-1TRUE\s0 value, then proxy settings are read from
+environment variables.  If the \f(CWkeep_alive\fR option is passed in, then
+a \f(CWLWP::ConnCache\fR is set up (see \fIconn_cache()\fR method below).  The
+keep_alive value is a number and is passed on as the total_capacity
+for the connection cache.  The \f(CWkeep_alive\fR option also has the
+effect of loading and enabling the new experimental \s-1HTTP/1\s0.1 protocol
+module.
+.Ip "$ua->send_request($request, $arg [, $size])" 4
 This method dispatches a single \s-1WWW\s0 request on behalf of a user, and
-returns the response received.  The \f(CW$request\fR should be a reference
-to a \f(CWHTTP::Request\fR object with values defined for at least the
-\fImethod()\fR and \fIurl()\fR attributes.
+returns the response received.  The request is sent off unmodified,
+without passing it through \f(CWprepare_request()\fR.
+.Sp
+The \f(CW$request\fR should be a reference to a \f(CWHTTP::Request\fR object
+with values defined for at least the \fImethod()\fR and \fIuri()\fR attributes.
 .Sp
 If \f(CW$arg\fR is a scalar it is taken as a filename where the content of
 the response is stored.
@@ -283,18 +325,110 @@ is taken as a hint for an appropriate chunk size.
 .Sp
 If \f(CW$arg\fR is omitted, then the content is stored in the response
 object itself.
+.Ip "$ua->prepare_request($request)" 4
+This method modifies given \f(CWHTTP::Request\fR object by setting up
+various headers based on the attributes of the \f(CW$ua\fR.  The headers
+affected are; \f(CWUser-Agent\fR, \f(CWFrom\fR, \f(CWRange\fR and \f(CWCookie\fR.
+.Sp
+The return value is the \f(CW$request\fR object passed in.
+.Ip "$ua->simple_request($request, [$arg [, $size]])" 4
+This method dispatches a single \s-1WWW\s0 request on behalf of a user, and
+returns the response received.  If differs from \f(CWsend_request()\fR by
+automatically calling the \f(CWprepare_request()\fR method before the
+request is sent.
+.Sp
+The arguments are the same as for \f(CWsend_request()\fR.
 .Ip "$ua->request($request, $arg [, $size])" 4
 Process a request, including redirects and security.  This method may
-actually send several different simple reqeusts.
+actually send several different simple requests.
 .Sp
-The arguments are the same as for \f(CWsimple_request()\fR.
-.Ip "$ua->redirect_ok" 4
-This method is called by \fIrequest()\fR before it tries to do any
-redirects.  It should return a true value if the redirect is allowed
-to be performed. Subclasses might want to override this.
+The arguments are the same as for \f(CWsend_request()\fR and
+\f(CWsimple_request()\fR.
+.Ip "$ua->get($url, Header => Value,...);" 4
+This is a shortcut for \f(CW$ua->request(HTTP::Request::Common::GET(
+$url, Header => Value,... ))\fR.  See
+\s-1HTTP::\s0Request::Common.
+.Ip "$ua->post($url, \e%formref, Header => Value,...);" 4
+This is a shortcut for \f(CW$ua->request( HTTP::Request::Common::POST(
+$url, \e%formref, Header => Value,... ))\fR.  Note that the form
+reference is optional, and can be either a hashref (\f(CW\e%formdata\fR or \f(CW{
+\&'key1' =\fR \*(L'val2\*(R', \*(L'key2\*(R' => \*(L'val2\*(R', ...
+}>) or an arrayref (\f(CW\e@formdata\fR or
+\f(CW['key1' =\fR \*(L'val2\*(R', \*(L'key2\*(R' => \*(L'val2\*(R', ...]>).  See
+\s-1HTTP::\s0Request::Common.
+.Ip "$ua->head($url, Header => Value,...);" 4
+This is a shortcut for \f(CW$ua->request( HTTP::Request::Common::HEAD(
+$url, Header => Value,... ))\fR.  See
+\s-1HTTP::\s0Request::Common.
+.Ip "$ua->put($url, Header => Value,...);" 4
+This is a shortcut for \f(CW$ua->request( HTTP::Request::Common::PUT(
+$url, Header => Value,... ))\fR.  See
+\s-1HTTP::\s0Request::Common.
+.Ip "$ua->protocols_allowed( );  # to read" 4
+.Ip "$ua->protocols_allowed( \e@protocols ); # to set" 4
+This reads (or sets) this user-agent's list of procotols that
+\f(CW$ua->request\fR and \f(CW$ua->simple_request\fR will exclusively
+allow.
 .Sp
-The default implementation will return \s-1FALSE\s0 for \s-1POST\s0 request and \s-1TRUE\s0
-for all others.
+For example: \f(CW$ua->protocols_allowed( [ 'http', 'https'] );\fR
+means that this user agent will \fIallow only\fR those protocols,
+and attempts to use this user-agent to access URLs with any other
+schemes (like \*(L"ftp://...") will result in a 500 error.
+.Sp
+To delete the list, call: 
+\f(CW$ua->protocols_allowed(undef)\fR
+.Sp
+By default, an object has neither a protocols_allowed list, nor
+a protocols_forbidden list.
+.Sp
+Note that having a protocols_allowed
+list causes any protocols_forbidden list to be ignored.
+.Ip "$ua->protocols_forbidden( );  # to read" 4
+.Ip "$ua->protocols_forbidden( \e@protocols ); # to set" 4
+This reads (or sets) this user-agent's list of procotols that
+\f(CW$ua->request\fR and \f(CW$ua->simple_request\fR will \fInot\fR allow.
+.Sp
+For example: \f(CW$ua->protocols_forbidden( [ 'file', 'mailto'] );\fR
+means that this user-agent will \fInot\fR allow those protocols, and
+attempts to use this user-agent to access URLs with those schemes
+will result in a 500 error.
+.Sp
+To delete the list, call: 
+\f(CW$ua->protocols_forbidden(undef)\fR
+.Ip "$ua->is_protocol_supported($scheme)" 4
+You can use this method to test whether this user-agent object supports the
+specified \f(CWscheme\fR.  (The \f(CWscheme\fR might be a string (like \*(L'http\*(R' or
+\&'ftp') or it might be an \s-1URI\s0 object reference.)
+.Sp
+Whether a scheme is supported, is determined by \f(CW$ua\fR's protocols_allowed or
+protocols_forbidden lists (if any), and by the capabilities
+of \s-1LWP\s0.  I.e., this will return \s-1TRUE\s0 only if \s-1LWP\s0 supports this protocol
+\fIand\fR it's permitted for this particular object.
+.Ip "$ua->requests_redirectable( );  # to read" 4
+.Ip "$ua->requests_redirectable( \e@requests );  # to set" 4
+This reads or sets the object's list of request names that 
+\f(CW$ua->redirect_ok(...)\fR will allow redirection for.  By
+default, this is \f(CW['GET', 'HEAD']\fR, as per \s-1RFC\s0 2068.  To
+change to include \*(L'\s-1POST\s0\*(R', consider:
+.Sp
+.Vb 1
+\&   push @{ $ua->requests_redirectable }, 'POST';
+.Ve
+.Ip "$ua->redirect_ok($prospective_request)" 4
+This method is called by \fIrequest()\fR before it tries to follow a
+redirection to the request in \f(CW$prospective_request\fR.  This
+should return a true value if this redirection is
+permissible.
+.Sp
+The default implementation will return \s-1FALSE\s0 unless the method
+is in the object's \f(CWrequests_redirectable\fR list,
+\s-1FALSE\s0 if the proposed redirection is to a \*(L"file://...\*(R"
+\s-1URL\s0, and \s-1TRUE\s0 otherwise.
+.Sp
+Subclasses might want to override this.
+.Sp
+(This method's behavior in previous versions was simply to return
+\s-1TRUE\s0 for anything except \s-1POST\s0 requests).
 .Ip "$ua->credentials($netloc, $realm, $uname, $pass)" 4
 Set the user name and password to be used for a realm.  It is often more
 useful to specialize the \fIget_basic_credentials()\fR method instead.
@@ -312,48 +446,77 @@ for a username/password.  An example of this can be found in
 .Ip "$ua->agent([$product_id])" 4
 Get/set the product token that is used to identify the user agent on
 the network.  The agent value is sent as the \*(L"User-Agent\*(R" header in
-the requests. The default agent name is \*(L"libwww-perl/#.##\*(R", where
-\*(L"#.##\*(R" is substitued with the version numer of this library.
+the requests.  The default is the string returned by the \fI_agent()\fR
+method (see below).
+.Sp
+If the \f(CW$product_id\fR ends with space then the \f(CW_agent\fR string is
+appended to it.
 .Sp
 The user agent string should be one or more simple product identifiers
 with an optional version number separated by the \*(L"/\*(R" character.
 Examples are:
 .Sp
-.Vb 2
-\&  $ua->agent('Checkbot/0.4 ' . $ua->agent);
+.Vb 4
+\&  $ua->agent('Checkbot/0.4 ' . $ua->_agent);
+\&  $ua->agent('Checkbot/0.4 ');    # same as above
 \&  $ua->agent('Mozilla/5.0');
+\&  $ua->agent("");                 # don't identify
 .Ve
+.Ip "$ua->_agent" 4
+Returns the default agent identifier.  This is a string of the form
+\*(L"libwww-perl/#.##\*(R", where \*(L"#.##\*(R" is substitued with the version numer
+of this library.
 .Ip "$ua->from([$email_address])" 4
 Get/set the Internet e-mail address for the human user who controls
 the requesting user agent.  The address should be machine-usable, as
 defined in \s-1RFC\s0 822.  The from value is send as the \*(L"From\*(R" header in
-the requests.  There is no default.  Example:
+the requests.  Example:
 .Sp
 .Vb 1
-\&  $ua->from('aas@sn.no');
+\&  $ua->from('gaas@cpan.org');
 .Ve
+The default is to not send a \*(L"From\*(R" header.
 .Ip "$ua->timeout([$secs])" 4
 Get/set the timeout value in seconds. The default \fItimeout()\fR value is
 180 seconds, i.e. 3 minutes.
-.Ip "$ua->cookie_jar([$cookies])" 4
-Get/set the \fI\s-1HTTP::\s0Cookies\fR object to use.  The default is to have no
-cookie_jar, i.e. never automatically add \*(L"Cookie\*(R" headers to the
-requests.
+.Ip "$ua->cookie_jar([$cookie_jar_obj])" 4
+Get/set the cookie jar object to use.  The only requirement is that
+the cookie jar object must implement the \fIextract_cookies\fR\|($request) and
+\fIadd_cookie_header\fR\|($response) methods.  These methods will then be
+invoked by the user agent as requests are sent and responses are
+received.  Normally this will be a \f(CWHTTP::Cookies\fR object or some
+subclass.
+.Sp
+The default is to have no cookie_jar, i.e. never automatically add
+\*(L"Cookie\*(R" headers to the requests.
+.Sp
+Shortcut: If a reference to a plain hash is passed in as the
+\f(CW$cookie_jar_object\fR, then it is replaced with an instance of
+\f(CWHTTP::Cookies\fR that is initalized based on the hash.  This form also
+automatically loads the \f(CWHTTP::Cookies\fR module.  It means that:
+.Sp
+.Vb 1
+\&  $ua->cookie_jar({ file => "$ENV{HOME}/.cookies.txt" });
+.Ve
+is really just a shortcut for:
+.Sp
+.Vb 2
+\&  require HTTP::Cookies;
+\&  $ua->cookie_jar(HTTP::Cookies->new(file => "$ENV{HOME}/.cookies.txt"));
+.Ve
+.Ip "$ua->conn_cache([$cache_obj])" 4
+Get/set the \fI\s-1LWP::\s0ConnCache\fR object to use.
 .Ip "$ua->parse_head([$boolean])" 4
 Get/set a value indicating wether we should initialize response
 headers from the <head> section of \s-1HTML\s0 documents. The default is
 \s-1TRUE\s0.  Do not turn this off, unless you know what you are doing.
 .Ip "$ua->max_size([$bytes])" 4
-Get/set the size limit for response content.  The default is undef,
-which means that there is not limit.  If the returned response content
+Get/set the size limit for response content.  The default is \f(CWundef\fR,
+which means that there is no limit.  If the returned response content
 is only partial, because the size limit was exceeded, then a
-\*(L"X\-Content-Range\*(R" header will be added to the response.
+\*(L"Client-Aborted\*(R" header will be added to the response.
 .Ip "$ua->clone;" 4
 Returns a copy of the \s-1LWP::\s0UserAgent object
-.Ip "$ua->is_protocol_supported($scheme)" 4
-You can use this method to query if the library currently support the
-specified \f(CWscheme\fR.  The \f(CWscheme\fR might be a string (like \*(L'http\*(R' or
-\&'ftp') or it might be an \s-1URI::URL\s0 object reference.
 .Ip "$ua->mirror($url, $file)" 4
 Get and store a document identified by a \s-1URL\s0, using If-Modified-Since,
 and checking of the Content-Length.  Returns a reference to the
@@ -378,11 +541,17 @@ specify proxies like this (sh-syntax):
 .Vb 4
 \&  gopher_proxy=http://proxy.my.place/
 \&  wais_proxy=http://proxy.my.place/
-\&  no_proxy="my.place"
+\&  no_proxy="localhost,my.domain"
 \&  export gopher_proxy wais_proxy no_proxy
 .Ve
 Csh or tcsh users should use the \f(CWsetenv\fR command to define these
-envirionment variables.
+environment variables.
+.Sp
+On systems with case-insensitive environment variables there exists a
+name clash between the \s-1CGI\s0 environment variables and the \f(CWHTTP_PROXY\fR
+environment variable normally picked up by \fIenv_proxy()\fR.  Because of
+this \f(CWHTTP_PROXY\fR is not honored for \s-1CGI\s0 scripts.  The
+\f(CWCGI_HTTP_PROXY\fR environment variable can be used instead.
 .Ip "$ua->no_proxy($domain,...)" 4
 Do not proxy requests to the given domains.  Calling no_proxy without
 any domains clears the list of domains. Eg:
@@ -394,7 +563,7 @@ any domains clears the list of domains. Eg:
 See the \fILWP\fR manpage for a complete overview of libwww-perl5.  See \fIlwp-request\fR and
 \fIlwp-mirror\fR for examples of usage.
 .SH "COPYRIGHT"
-Copyright 1995-1997 Gisle Aas.
+Copyright 1995-2001 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -411,13 +580,39 @@ modify it under the same terms as Perl itself.
 
 .IX Header "METHODS"
 
-.IX Item "$ua = new \s-1LWP::\s0UserAgent;"
+.IX Item "$ua = \s-1LWP::\s0UserAgent->new( %options );"
+
+.IX Item "$ua->send_request($request, $arg [, $size])"
+
+.IX Item "$ua->prepare_request($request)"
 
 .IX Item "$ua->simple_request($request, [$arg [, $size]])"
 
 .IX Item "$ua->request($request, $arg [, $size])"
 
-.IX Item "$ua->redirect_ok"
+.IX Item "$ua->get($url, Header => Value,...);"
+
+.IX Item "$ua->post($url, \e%formref, Header => Value,...);"
+
+.IX Item "$ua->head($url, Header => Value,...);"
+
+.IX Item "$ua->put($url, Header => Value,...);"
+
+.IX Item "$ua->protocols_allowed( );  # to read"
+
+.IX Item "$ua->protocols_allowed( \e@protocols ); # to set"
+
+.IX Item "$ua->protocols_forbidden( );  # to read"
+
+.IX Item "$ua->protocols_forbidden( \e@protocols ); # to set"
+
+.IX Item "$ua->is_protocol_supported($scheme)"
+
+.IX Item "$ua->requests_redirectable( );  # to read"
+
+.IX Item "$ua->requests_redirectable( \e@requests );  # to set"
+
+.IX Item "$ua->redirect_ok($prospective_request)"
 
 .IX Item "$ua->credentials($netloc, $realm, $uname, $pass)"
 
@@ -425,19 +620,21 @@ modify it under the same terms as Perl itself.
 
 .IX Item "$ua->agent([$product_id])"
 
+.IX Item "$ua->_agent"
+
 .IX Item "$ua->from([$email_address])"
 
 .IX Item "$ua->timeout([$secs])"
 
-.IX Item "$ua->cookie_jar([$cookies])"
+.IX Item "$ua->cookie_jar([$cookie_jar_obj])"
+
+.IX Item "$ua->conn_cache([$cache_obj])"
 
 .IX Item "$ua->parse_head([$boolean])"
 
 .IX Item "$ua->max_size([$bytes])"
 
 .IX Item "$ua->clone;"
-
-.IX Item "$ua->is_protocol_supported($scheme)"
 
 .IX Item "$ua->mirror($url, $file)"
 

@@ -1,0 +1,448 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::Image::Info 3 "perl 5.007, patch 00" "19/Mar/102" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+Image::Info \- Extract meta information from image files
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\& use Image::Info qw(image_info dim);
+.Ve
+.Vb 5
+\& my $info = image_info("image.jpg");
+\& if (my $error = $info->{error}) {
+\&     die "Can't parse image info: $error\en";
+\& }
+\& my $color = $info->{color_type};
+.Ve
+.Vb 1
+\& my($w, $h) = dim($info);
+.Ve
+.SH "DESCRIPTION"
+This module provide functions to extract various kind of meta
+information from image files.  The following functions are provided by
+the \f(CWImage::Info\fR module:
+.Ip "image_info( $file )" 5
+.Ip "image_info( \e$imgdata )" 5
+.Ip "image_info( $file, key => value,... )" 5
+This function takes the name of a file or a file handle as argument
+and will return one or more hashes (actually hash references)
+describing the images inside the file.  If there is only one image in
+the file only one hash is returned.  In scalar context, only the hash
+for the first image is returned.
+.Sp
+In case of error, and hash containing the \*(L"error\*(R" key will be
+returned.  The corresponding value will be an appropriate error
+message.
+.Sp
+If a reference to a scalar is passed as argument to this function,
+then it is assumed that this scalar contains the raw image data
+directly.
+.Sp
+The \fIimage_info()\fR function also take optional key/value style arguments
+that can influence what information is returned.
+.Ip "dim( $info_hash )" 5
+Takes an hash as returned from \fIimage_info()\fR and returns the dimensions
+($width, \f(CW$height\fR) of the image.  In scalar context returns the
+dimensions as a string.
+.Ip "html_dim( $info_hash )" 5
+Returns the dimensions as a string suitable for embedding directly
+into \s-1HTML\s0 <img>\-tags. E.g.:
+.Sp
+.Vb 1
+\&   print "<img src="..." @{[html_dim($info)]}>\en";
+.Ve
+.SH "Image descriptions"
+The \fIimage_info()\fR function returns meta information about each image in
+the form of a reference to a hash.  The hash keys used are in most
+cases based on the TIFF element names.  All lower case keys are
+mandatory for all file formats and will always be there unless an
+error occured (in which case the \*(L"error\*(R" key will be present.)  Mixed
+case keys will only be present when the corresponding information
+element is available in the image.
+.PP
+The following key names are common for any image format:
+.Ip "file_media_type" 5
+This is the \s-1MIME\s0 type that is appropriate for the given file format.
+The corresponding value is a string like: \*(L"image/png\*(R" or \*(L"image/jpeg\*(R".
+.Ip "file_ext" 5
+The is the suggested file name extention for a file of the given file
+format.  The value is a 3 letter, lowercase string like \*(L"png\*(R", \*(L"jpg\*(R".
+.Ip "width" 5
+This is the number of pixels horizontally in the image.
+.Ip "height" 5
+This is the number of pixels vertically in the image.  (\s-1TIFF\s0 use the
+name ImageLength for this field.)
+.Ip "color_type" 5
+The value is a short string describing what kind of values the pixels
+encode.  The value can be one of the following:
+.Sp
+.Vb 7
+\&  Gray
+\&  GrayA
+\&  RGB
+\&  RGBA
+\&  CMYK
+\&  YCbCr
+\&  CIELab
+.Ve
+These names can also be prefixed by \*(L"Indexed-\*(R" if the image is
+composed of indexes into a palette.  Of these, only \*(L"Indexed-\s-1RGB\s0\*(R" is
+likely to occur.
+.Sp
+(It is similar to the \s-1TIFF\s0 field PhotometricInterpretation, but this
+name was found to be too long, so we used the \s-1PNG\s0 inpired term
+instead.)
+.Ip "resolution" 5
+The value of this field normally gives the physical size of the image
+on screen or paper. When the unit specifier is missing then this field
+denotes the squareness of pixels in the image.
+.Sp
+The syntax of this field is:
+.Sp
+.Vb 3
+\&   <res> <unit>
+\&   <xres> "/" <yres> <unit>
+\&   <xres> "/" <yres>
+.Ve
+The <res>, <xres> and <yres> fields are numbers.  The <unit> is a
+string like \f(CWdpi\fR, \f(CWdpm\fR or \f(CWdpcm\fR (denoting \*(L"dots per
+inch/cm/meter).
+.Ip "SamplesPerPixel" 5
+This says how many channels there are in the image.  For some image
+formats this number might be higher than the number implied from the
+\f(CWcolor_type\fR.
+.Ip "BitsPerSample" 5
+This says how many bits are used to encode each of samples.  The value
+is a reference to an array containing numbers. The number of elements
+in the array should be the same as \f(CWSamplesPerPixel\fR.
+.Ip "Comment" 5
+Textual comments found in the file.  The value is a reference to an
+array if there are multiple comments found.
+.Ip "Interlace" 5
+If the image is interlaced, then this tell which interlace method is
+used.
+.Ip "Compression" 5
+This tell which compression algorithm is used.
+.Ip "Gamma" 5
+A number.
+.Ip "LastModificationTime" 5
+A \s-1ISO\s0 date string
+.SH "Supported Image Formats"
+The following image file formats are currently supported:
+.Ip "\s-1BMP\s0" 5
+This module supports the Microsoft Device Independent Bitmap format
+(\s-1BMP\s0, \s-1DIB\s0, \s-1RLE\s0).
+.Sp
+For more information see the \fIImage::Info::\s-1BMP\s0\fR manpage.
+.Ip "\s-1GIF\s0" 5
+Both GIF87a and GIF89a are supported and the version number is found
+as \f(CWGIF_Version\fR for the first image.  \s-1GIF\s0 files can contain multiple
+images, and information for all images will be returned if
+\fIimage_info()\fR is called in list context.  The Netscape-2.0 extention to
+loop animation sequences is represented by the \f(CWGIF_Loop\fR key for the
+first image.  The value is either \*(L"forever\*(R" or a number indicating
+loop count.
+.Ip "\s-1JPEG\s0" 5
+For \s-1JPEG\s0 files we extract information both from \f(CWJFIF\fR and \f(CWExif\fR
+application chunks.
+.Sp
+\f(CWExif\fR is the file format written by most digital cameras.  This
+encode things like timestamp, camera model, focal length, exposure
+time, aperture, flash usage, \s-1GPS\s0 position, etc.  The following web
+page contain description of the fields that can be present:
+.Sp
+.Vb 1
+\& http://www.ba.wakwak.com/~tsuruzoh/Computer/Digicams/exif-e.html
+.Ve
+The \f(CWExif\fR spec can be found at:
+.Sp
+.Vb 1
+\& http://www.pima.net/standards/it10/PIMA15740/exif.htm
+.Ve
+.Ip "\s-1PNG\s0" 5
+Information from \s-1IHDR\s0, \s-1PLTE\s0, gAMA, pHYs, tEXt, tIME chunks are
+extracted.  The sequence of chunks are also given by the \f(CWPNG_Chunks\fR
+key.
+.Ip "\s-1PBM/PGM/PPM\s0" 5
+All information available is extracted.
+.Ip "\s-1SVG\s0" 5
+\s-1SVG\s0 also provides (for) a plethora of attributes and metadata of an image.
+See the \fIImage::Info::\s-1SVG\s0\fR manpage for details.
+.Ip "\s-1XBM\s0" 5
+See the \fIImage::Info::\s-1XBM\s0\fR manpage for details.
+.Ip "\s-1XPM\s0" 5
+See the \fIImage::Info::\s-1XPM\s0\fR manpage for details.
+.SH "SEE ALSO"
+the \fIImage::Size\fR manpage
+.SH "AUTHORS"
+Copyright 1999-2001 Gisle Aas.
+.PP
+GIF fixes by Ralf Steines <metamonk@yahoo.com>.
+.PP
+ASCII, BMP SVG, XPM and XBM support added by Jerrad Pierce
+<belg4mit@mit.edu>/<webmaster@pthbb.org>.
+.PP
+Exif MakerNote decoding by Jay Soffian <jay@loudcloud.com>.
+.PP
+TIFF support by <clarsen@emf.net>.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+.rn }` ''
+.IX Title "lib::Image::Info 3"
+.IX Name "Image::Info - Extract meta information from image files"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "image_info( $file )"
+
+.IX Item "image_info( \e$imgdata )"
+
+.IX Item "image_info( $file, key => value,... )"
+
+.IX Item "dim( $info_hash )"
+
+.IX Item "html_dim( $info_hash )"
+
+.IX Header "Image descriptions"
+
+.IX Item "file_media_type"
+
+.IX Item "file_ext"
+
+.IX Item "width"
+
+.IX Item "height"
+
+.IX Item "color_type"
+
+.IX Item "resolution"
+
+.IX Item "SamplesPerPixel"
+
+.IX Item "BitsPerSample"
+
+.IX Item "Comment"
+
+.IX Item "Interlace"
+
+.IX Item "Compression"
+
+.IX Item "Gamma"
+
+.IX Item "LastModificationTime"
+
+.IX Header "Supported Image Formats"
+
+.IX Item "\s-1BMP\s0"
+
+.IX Item "\s-1GIF\s0"
+
+.IX Item "\s-1JPEG\s0"
+
+.IX Item "\s-1PNG\s0"
+
+.IX Item "\s-1PBM/PGM/PPM\s0"
+
+.IX Item "\s-1SVG\s0"
+
+.IX Item "\s-1XBM\s0"
+
+.IX Item "\s-1XPM\s0"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHORS"
+

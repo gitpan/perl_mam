@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Date 3 "libwww-perl-5.36" "12/Feb/98" "User Contributed Perl Documentation"
+.TH lib::HTTP::Date 3 "libwww-perl-5.64" "4/Jan/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -199,25 +199,50 @@ HTTP::Date \- date conversion routines
 \& $time = str2time($string);    # convert ASCII date to machine time
 .Ve
 .SH "DESCRIPTION"
-This module provides two functions that deal with the HTTP date
-format.  The following functions are provided:
-.Ip "time2str([$time])" 4
+This module provides functions that deal the date formats used by the
+HTTP protocol (and then some more).  Only the first two functions,
+\fItime2str()\fR and \fIstr2time()\fR, are exported by default.
+.Ip "time2str( [$time] )" 4
 The \fItime2str()\fR function converts a machine time (seconds since epoch)
 to a string.  If the function is called without an argument, it will
 use the current time.
 .Sp
-The string returned is in the format defined by the \s-1HTTP/1\s0.0
-specification.  This is a fixed length subset of the format defined by
-\s-1RFC\s0 1123, represented in Universal Time (\s-1GMT\s0).  An example of this
-format is:
+The string returned is in the format preferred for the \s-1HTTP\s0 protocol.
+This is a fixed length subset of the format defined by \s-1RFC\s0 1123,
+represented in Universal Time (\s-1GMT\s0).  An example of a time stamp
+in this format is:
 .Sp
 .Vb 1
-\&   Thu, 03 Feb 1994 17:09:00 GMT
+\&   Sun, 06 Nov 1994 08:49:37 GMT
 .Ve
-.Ip "str2time($str [, $zone])" 4
+.Ip "str2time( $str [, $zone] )" 4
 The \fIstr2time()\fR function converts a string to machine time.  It returns
-\f(CWundef\fR if the format is unrecognized, or the year is not between 1970
-and 2038.  The function is able to parse the following formats:
+\f(CWundef\fR if the format of \f(CW$str\fR is unrecognized, or the time is outside
+the representable range.  The time formats recognized are the same as
+for \fIparse_date()\fR.
+.Sp
+The function also takes an optional second argument that specifies the
+default time zone to use when converting the date.  This parameter is
+ignored if the zone is found in the date string itself.  If this
+parameter is missing, and the date string format does not contain any
+zone specification, then the local time zone is assumed.
+.Sp
+If the zone is not \*(L"\f(CWGMT\fR\*(R" or numerical (like \*(L"\f(CW-0800\fR\*(R" or
+\*(L"\f(CW+0100\fR"), then the \f(CWTime::Zone\fR module must be installed in order
+to get the date recognized.
+.Ip "parse_date( $str )" 4
+This function will try to parse a date string, and then return it as a
+list of numerical values followed by a (possible undefined) time zone
+specifier; ($year, \f(CW$month\fR, \f(CW$day\fR, \f(CW$hour\fR, \f(CW$min\fR, \f(CW$sec\fR, \f(CW$tz\fR).  The \f(CW$year\fR
+returned will \fBnot\fR have the number 1900 subtracted from it and the
+\f(CW$month\fR numbers start with 1.
+.Sp
+In scalar context the numbers are interpolated in a string of the
+\*(L"\s-1YYYY\s0\-\s-1MM\s0\-\s-1DD\s0 hh:mm:ss \s-1TZ\s0\*(R"\-format and returned.
+.Sp
+If the date is unrecognized, then the empty list is returned.
+.Sp
+The function is able to parse the following formats:
 .Sp
 .Vb 5
 \& "Wed, 09 Feb 1994 22:23:32 GMT"       -- HTTP format
@@ -256,27 +281,20 @@ and 2038.  The function is able to parse the following formats:
 The parser ignores leading and trailing whitespace.  It also allow the
 seconds to be missing and the month to be numerical in most formats.
 .Sp
-The \fIstr2time()\fR function takes an optional second argument that
-specifies the default time zone to use when converting the date.  This
-zone specification should be numerical (like \*(L"\-0800\*(R" or \*(L"+0100") or
-\*(L"\s-1GMT\s0\*(R".  This parameter is ignored if the zone is specified in the date
-string itself.  It this parameter is missing, and the date string
-format does not contain any zone specification then the local time
-zone is assumed.
-.Sp
 If the year is missing, then we assume that the date is the first
-matching date \fIbefore\fR current time.
-.SH "BUGS"
-Non-numerical time zones (like MET, PST) are all treated like GMT.
-Do not use them.  HTTP does not use them.
-.PP
-The \fIstr2time()\fR function has been told how to parse far too many
-formats.  This makes the module name misleading. To be sure it is
-really misleading you can also import the \fItime2iso()\fR and \fItime2isoz()\fR
-functions.  They work like \fItime2str()\fR but produce ISO\-8601 formated
-strings (YYYY\-MM\-DD hh:mm:ss).
+matching date \fIbefore\fR current month.  If the year is given with only
+2 digits, then \fIparse_date()\fR will select the century that makes the
+year closest to the current date.
+.Ip "time2iso( [$time] )" 4
+Same as \fItime2str()\fR, but returns a \*(L"\s-1YYYY\s0\-\s-1MM\s0\-\s-1DD\s0 hh:mm:ss\*(R"\-formatted
+string representing time in the local time zone.
+.Ip "time2isoz( [$time] )" 4
+Same as \fItime2str()\fR, but returns a \*(L"\s-1YYYY\s0\-\s-1MM\s0\-\s-1DD\s0 hh:mm:ssZ\*(R"\-formatted
+string representing Universal Time.
+.SH "SEE ALSO"
+the \f(CWtime\fR entry in the \fIperlfunc\fR manpage, the \fITime::Zone\fR manpage
 .SH "COPYRIGHT"
-Copyright 1995-1997, Gisle Aas
+Copyright 1995-1999, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -291,11 +309,17 @@ modify it under the same terms as Perl itself.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "time2str([$time])"
+.IX Item "time2str( [$time] )"
 
-.IX Item "str2time($str [, $zone])"
+.IX Item "str2time( $str [, $zone] )"
 
-.IX Header "BUGS"
+.IX Item "parse_date( $str )"
+
+.IX Item "time2iso( [$time] )"
+
+.IX Item "time2isoz( [$time] )"
+
+.IX Header "SEE ALSO"
 
 .IX Header "COPYRIGHT"
 

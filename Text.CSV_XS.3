@@ -1,0 +1,530 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH CSV_XS 3 "perl 5.007, patch 00" "9/Oct/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+Text::CSV_XS \- comma-separated values manipulation routines
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\& use Text::CSV_XS;
+.Ve
+.Vb 2
+\& $csv = Text::CSV_XS->new();           # create a new object
+\& $csv = Text::CSV_XS->new(\e%attr);     # create a new object
+.Ve
+.Vb 2
+\& $status = $csv->combine(@columns);    # combine columns into a string
+\& $line = $csv->string();               # get the combined string
+.Ve
+.Vb 2
+\& $status = $csv->parse($line);         # parse a CSV string into fields
+\& @columns = $csv->fields();            # get the parsed fields
+.Ve
+.Vb 2
+\& $status = $csv->status();             # get the most recent status
+\& $bad_argument = $csv->error_input();  # get the most recent bad argument
+.Ve
+.Vb 2
+\& $status = $csv->print($io, $columns); # Write an array of fields immediately
+\&                                       # to a file $io
+.Ve
+.Vb 2
+\& $columns = $csv->getline($io);        # Read a line from file $io, parse it
+\&                                       # and return an array ref of fields
+.Ve
+.Vb 1
+\& $csv->types(\e@t_array);               # Set column types
+.Ve
+.SH "DESCRIPTION"
+Text::CSV_XS provides facilities for the composition and decomposition of
+comma-separated values.  An instance of the Text::CSV_XS class can combine
+fields into a CSV string and parse a CSV string into fields.
+.SH "FUNCTIONS"
+.Ip "version()" 4
+(Class method) Returns the current module version.
+.Ip "new(\e%attr)" 4
+(Class method) Returns a new instance of Text::\s-1CSV_XS\s0. The objects
+attributes are described by the (optional) hash ref \f(CW\e%attr\fR.
+Currently the following attributes are available:
+.Ip "quote_char" 12
+The char used for quoting fields containing blanks, by default the
+double quote character (\f(CW"\fR). A value of undef suppresses
+quote chars. (For simple cases only).
+.Ip "eol" 12
+An end-of-line string to add to rows, usually \f(CWundef\fR (nothing,
+default), \f(CW"\e012"\fR (Line Feed) or \f(CW"\e015\e012"\fR (Carriage Return,
+Line Feed)
+.Ip "escape_char" 12
+The char used for escaping certain characters inside quoted fields,
+by default the same character. (\f(CW"\fR)
+.Ip "sep_char" 12
+The char used for separating fields, by default a comme. (\f(CW,\fR)
+.Ip "binary" 12
+If this attribute is \s-1TRUE\s0, you may use binary characters in quoted fields,
+including line feeds, carriage returns and \s-1NUL\s0 bytes. (The latter must
+be escaped as \f(CW"0\fR.) By default this feature is off.
+.Ip "types" 12
+A set of column types; this attribute is immediately passed to the
+\fItypes\fR method below. You must not set this attribute otherwise,
+except for using the \fItypes\fR method. For details see the description
+of the \fItypes\fR method below.
+.Ip "always_quote" 12
+By default the generated fields are quoted only, if they need to, for
+example, if they contain the separator. If you set this attribute to
+a \s-1TRUE\s0 value, then all fields will be quoted. This is typically easier
+to handle in external applications. (Poor creatures who aren't using
+Text::\s-1CSV_XS\s0. :\-)
+.Sp
+To sum it up,
+.Sp
+.Vb 1
+\& $csv = Text::CSV_XS->new();
+.Ve
+is equivalent to
+.Sp
+.Vb 6
+\& $csv = Text::CSV_XS->new({
+\&     'quote_char'  => '"',
+\&     'escape_char' => '"',
+\&     'sep_char'    => ',',
+\&     'binary'      => 0
+\& });
+.Ve
+.Ip "combine" 4
+.Sp
+.Vb 1
+\& $status = $csv->combine(@columns);
+.Ve
+This object function constructs a \s-1CSV\s0 string from the arguments, returning
+success or failure.  Failure can result from lack of arguments or an argument
+containing an invalid character.  Upon success, \f(CWstring()\fR can be called to
+retrieve the resultant \s-1CSV\s0 string.  Upon failure, the value returned by
+\f(CWstring()\fR is undefined and \f(CWerror_input()\fR can be called to retrieve an
+invalid argument.
+.Ip "print" 4
+.Sp
+.Vb 1
+\& $status = $csv->print($io, $columns);
+.Ve
+Similar to combine, but it expects an array ref as input (not an array!)
+and the resulting string is not really created, but immediately written
+to the \fI$io\fR object, typically an \s-1IO\s0 handle or any other object that
+offers a \fIprint\fR method. Note, this implies that the following is wrong:
+.Sp
+.Vb 2
+\& open(FILE, ">whatever");
+\& $status = $csv->print(\e*FILE, $columns);
+.Ve
+The glob \f(CW\e*FILE\fR is not an object, thus it doesn't have a print
+method. The solution is to use an \s-1IO::\s0File object or to hide the
+glob behind an \s-1IO::\s0Wrap object. See the \fI\s-1IO::\s0File(3)\fR manpage and the \fI\s-1IO::\s0Wrap(3)\fR manpage
+for details.
+.Sp
+For performance reasons the print method doesn't create a result string.
+In particular the \fI$csv->string()\fR, \fI$csv->status()\fR,
+\fI$csv-\fR\fIfields()\fR> and \fI$csv->error_input()\fR methods are meaningless
+after executing this method.
+.Ip "string" 4
+.Sp
+.Vb 1
+\& $line = $csv->string();
+.Ve
+This object function returns the input to \f(CWparse()\fR or the resultant \s-1CSV\s0
+string of \f(CWcombine()\fR, whichever was called more recently.
+.Ip "parse" 4
+.Sp
+.Vb 1
+\& $status = $csv->parse($line);
+.Ve
+This object function decomposes a \s-1CSV\s0 string into fields, returning
+success or failure.  Failure can result from a lack of argument or the
+given \s-1CSV\s0 string is improperly formatted.  Upon success, \f(CWfields()\fR can
+be called to retrieve the decomposed fields .  Upon failure, the value
+returned by \f(CWfields()\fR is undefined and \f(CWerror_input()\fR can be called
+to retrieve the invalid argument.
+.Sp
+You may use the \fItypes()\fR method for setting column types. See the
+description below.
+.Ip "getline" 4
+.Sp
+.Vb 1
+\& $columns = $csv->getline($io);
+.Ve
+This is the counterpart to print, like parse is the counterpart to
+combine: It reads a row from the \s-1IO\s0 object \f(CW$io\fR using \f(CW$io\fR\->\fIgetline()\fR
+and parses this row into an array ref. This array ref is returned
+by the function or undef for failure.
+.Sp
+The \fI$csv->string()\fR, \fI$csv->fields()\fR and \fI$csv->status()\fR
+methods are meaningless, again.
+.Ip "types" 4
+.Sp
+.Vb 1
+\& $csv->types(\e@tref);
+.Ve
+This method is used to force that columns are of a given type. For
+example, if you have an integer column, two double columns and a
+string column, then you might do a
+.Sp
+.Vb 4
+\& $csv->types([Text::CSV_XS::IV(),
+\&              Text::CSV_XS::NV(),
+\&              Text::CSV_XS::NV(),
+\&              Text::CSV_XS::PV()]);
+.Ve
+Column types are used only for decoding columns, in other words
+by the \fIparse()\fR and \fIgetline()\fR methods.
+.Sp
+You can unset column types by doing a
+.Sp
+.Vb 1
+\& $csv->types(undef);
+.Ve
+or fetch the current type settings with
+.Sp
+.Vb 1
+\& $types = $csv->types();
+.Ve
+.Ip "fields" 4
+.Sp
+.Vb 1
+\& @columns = $csv->fields();
+.Ve
+This object function returns the input to \f(CWcombine()\fR or the resultant
+decomposed fields of \f(CWparse()\fR, whichever was called more recently.
+.Ip "status" 4
+.Sp
+.Vb 1
+\& $status = $csv->status();
+.Ve
+This object function returns success (or failure) of \f(CWcombine()\fR or
+\f(CWparse()\fR, whichever was called more recently.
+.Ip "error_input" 4
+.Sp
+.Vb 1
+\& $bad_argument = $csv->error_input();
+.Ve
+This object function returns the erroneous argument (if it exists) of
+\f(CWcombine()\fR or \f(CWparse()\fR, whichever was called more recently.
+.SH "EXAMPLE"
+.PP
+.Vb 1
+\&  require Text::CSV_XS;
+.Ve
+.Vb 1
+\&  my $csv = Text::CSV_XS->new;
+.Ve
+.Vb 13
+\&  my $column = '';
+\&  my $sample_input_string = '"I said, ""Hi!""",Yes,"",2.34,,"1.09"';
+\&  if ($csv->parse($sample_input_string)) {
+\&    my @field = $csv->fields;
+\&    my $count = 0;
+\&    for $column (@field) {
+\&      print ++$count, " => ", $column, "\en";
+\&    }
+\&    print "\en";
+\&  } else {
+\&    my $err = $csv->error_input;
+\&    print "parse() failed on argument: ", $err, "\en";
+\&  }
+.Ve
+.Vb 12
+\&  my @sample_input_fields = ('You said, "Hello!"',
+\&                             5.67,
+\&                             'Surely',
+\&                             '',
+\&                             '3.14159');
+\&  if ($csv->combine(@sample_input_fields)) {
+\&    my $string = $csv->string;
+\&    print $string, "\en";
+\&  } else {
+\&    my $err = $csv->error_input;
+\&    print "combine() failed on argument: ", $err, "\en";
+\&  }
+.Ve
+.SH "CAVEATS"
+This module is based upon a working definition of CSV format which may not be
+the most general.
+.Ip "1 " 4
+Allowable characters within a \s-1CSV\s0 field include 0x09 (tab) and the inclusive
+range of 0x20 (space) through 0x7E (tilde). In binary mode all characters
+are accepted, at least in quoted fields:
+.Ip "2" 4
+A field within \s-1CSV\s0 may be surrounded by double-quotes. (The quote char)
+.Ip "3" 4
+A field within \s-1CSV\s0 must be surrounded by double-quotes to contain a comma.
+(The separator char)
+.Ip "4" 4
+A field within \s-1CSV\s0 must be surrounded by double-quotes to contain an embedded
+double-quote, represented by a pair of consecutive double-quotes. In binary
+mode you may additionally use the sequence \f(CW"0\fR for representation of a
+\s-1NUL\s0 byte.
+.Ip "5" 4
+A \s-1CSV\s0 string may be terminated by 0x0A (line feed) or by 0x0D,0x0A
+(carriage return, line feed).
+.SH "AUTHOR"
+Alan Citterman \fI<alan@mfgrtl.com>\fR wrote the original Perl
+module. Please don't send mail concerning Text::CSV_XS to Alan, as
+he's not involved in the C part which is now the main part of the
+module.
+.Sp
+Jochen Wiedmann \fI<joe@ispsoft.de>\fR rewrote the encoding and
+decoding in C by implementing a simple finite-state machine and added
+the variable quote, escape and separator characters, the binary mode
+and the print and getline methods.
+.SH "SEE ALSO"
+the \fIperl(1)\fR manpage, the \fIIO::File(3)\fR manpage, the \fIIO::Wrap(3)\fR manpage
+
+.rn }` ''
+.IX Title "CSV_XS 3"
+.IX Name "Text::CSV_XS - comma-separated values manipulation routines"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "FUNCTIONS"
+
+.IX Item "version()"
+
+.IX Item "new(\e%attr)"
+
+.IX Item "quote_char"
+
+.IX Item "eol"
+
+.IX Item "escape_char"
+
+.IX Item "sep_char"
+
+.IX Item "binary"
+
+.IX Item "types"
+
+.IX Item "always_quote"
+
+.IX Item "combine"
+
+.IX Item "print"
+
+.IX Item "string"
+
+.IX Item "parse"
+
+.IX Item "getline"
+
+.IX Item "types"
+
+.IX Item "fields"
+
+.IX Item "status"
+
+.IX Item "error_input"
+
+.IX Header "EXAMPLE"
+
+.IX Header "CAVEATS"
+
+.IX Item "1 "
+
+.IX Item "2"
+
+.IX Item "3"
+
+.IX Item "4"
+
+.IX Item "5"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::MD5 3 "perl 5.005, patch 53" "23/Oct/98" "User Contributed Perl Documentation"
+.TH MD5 3 "perl 5.007, patch 00" "13/Mar/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -194,13 +194,15 @@ MD5 \- Perl interface to the MD5 Message-Digest Algorithm
 .Vb 1
 \& use MD5;
 .Ve
-.Vb 8
+.Vb 2
 \& $context = new MD5;
 \& $context->reset();
-\&    
+.Ve
+.Vb 2
 \& $context->add(LIST);
 \& $context->addfile(HANDLE);
-\&    
+.Ve
+.Vb 2
 \& $digest = $context->digest();
 \& $string = $context->hexdigest();
 .Ve
@@ -213,17 +215,17 @@ The \f(CWMD5\fR module is \fBdepreciated\fR.  Use \f(CWDigest::MD5\fR instead.
 .PP
 The current \f(CWMD5\fR module is just a wrapper around the \f(CWDigest::MD5\fR
 module.  It is provided so that legacy code that rely on the old
-interface get the speed benefit of the new module.
+interface still work and get the speed benefit of the new module.
 .PP
-In addition to the methods provided by \f(CWDigest::MD5\fR this module
-provide the class methods MD5->\fIhash()\fR and MD5->\fIhexhash()\fR that
-basically do the same as the \fImd5()\fR and \fImd5_hex()\fR functions provided
+In addition to the methods provided for \f(CWDigest::MD5\fR objects, this
+module provide the class methods MD5->\fIhash()\fR and MD5->\fIhexhash()\fR that
+basically do the same as the \fImd5()\fR and \fImd5_hex()\fR functions provided by
 \f(CWDigest::MD5\fR.
 .SH "SEE ALSO"
 the \fIDigest::MD5\fR manpage
 
 .rn }` ''
-.IX Title "lib::MD5 3"
+.IX Title "MD5 3"
 .IX Name "MD5 - Perl interface to the MD5 Message-Digest Algorithm"
 
 .IX Header "NAME"

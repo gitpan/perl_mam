@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Simple 3 "libwww-perl-5.36" "20/Apr/98" "User Contributed Perl Documentation"
+.TH lib::LWP::Simple 3 "libwww-perl-5.64" "20/Jul/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -217,11 +217,11 @@ The following functions are provided (and exported) by this module:
 .Ip "get($url)" 3
 The \fIget()\fR function will fetch the document identified by the given \s-1URL\s0
 and return it.  It returns \f(CWundef\fR if it fails.  The \f(CW$url\fR argument can
-be either a simple string or a reference to a \s-1URI::URL\s0 object.
+be either a simple string or a reference to a \s-1URI\s0 object.
 .Sp
 You will not be able to examine the response code or response headers
 (like \*(L'Content-Type') when you are accessing the web using this
-function.  If you need this information you should use the full \s-1OO\s0
+function.  If you need that information you should use the full \s-1OO\s0
 interface (see the \fI\s-1LWP::\s0UserAgent\fR manpage).
 .Ip "head($url)" 3
 Get document headers. Returns the following 5 values if successful:
@@ -231,15 +231,15 @@ Returns an empty list if it fails.  In scalar context returns \s-1TRUE\s0 if
 successful.
 .Ip "getprint($url)" 3
 Get and print a document identified by a \s-1URL\s0. The document is printed
-on \s-1STDOUT\s0 as data is received from the network.  If the request fails,
-then the status code and message is printed on \s-1STDERR\s0.  The return
+to \s-1STDOUT\s0 as data is received from the network.  If the request fails,
+then the status code and message are printed on \s-1STDERR\s0.  The return
 value is the \s-1HTTP\s0 response code.
 .Ip "getstore($url, $file)" 3
 Gets a document identified by a \s-1URL\s0 and stores it in the file. The
 return value is the \s-1HTTP\s0 response code.
 .Ip "mirror($url, $file)" 3
 Get and store a document identified by a \s-1URL\s0, using
-\fIIf-modified-since\fR, and checking of the \fIContent-Length\fR.  Returns
+\fIIf-modified-since\fR, and checking the \fIContent-Length\fR.  Returns
 the \s-1HTTP\s0 response code.
 .PP
 This module also exports the \s-1HTTP::\s0Status constants and procedures.
@@ -287,9 +287,9 @@ These can be used when you check the response code from \fIgetprint()\fR,
 .Ve
 The \s-1HTTP::\s0Status classification functions are:
 .Ip "is_success($rc)" 3
-Check if response code indicated successfull request.
+True if response code indicated a successful request.
 .Ip "is_error($rc)" 3
-Check if response code indicated that an error occured.
+True if response code indicated that an error occured.
 .PP
 The module will also export the \s-1LWP::\s0UserAgent object as \f(CW$ua\fR if you
 ask for it explicitly.

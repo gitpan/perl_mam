@@ -1,0 +1,644 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH CGI::Request 3 "perl 5.007, patch 00" "16/Nov/96" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+CGI::Request \- Parse client request via a CGI interface
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\&        
+.Ve
+.Vb 25
+\&    use CGI::Request;
+\&        
+\&    # Simple interface: (combines SendHeaders, new and import_names)
+\&        
+\&    $req = GetRequest($pkg);
+\&        
+\&    print FmtRequest();            # same as: print $req->as_string
+\&        
+\&        
+\&    # Full Interface:
+\&        
+\&    $req = new CGI::Request;       # fetch and parse request
+\&        
+\&    $field_value = $req->param('FieldName');
+\&    @selected    = $req->param('SelectMultiField');
+\&    @keywords    = $req->keywords; # from ISINDEX
+\&        
+\&    print $req->as_string;         # format Form and CGI variables
+\&        
+\&    # import form fields into a package as perl variables!
+\&    $req->import_names('R');
+\&    print "$R::FieldName";
+\&    print "@R::SelectMultiField";
+\&        
+\&    @value = $req->param_or($fieldname, $default_return_value);
+.Ve
+.Vb 1
+\&    # Access to CGI interface (see CGI::Base)
+.Ve
+.Vb 19
+\&    $cgi_obj = $req->cgi;
+\&    $cgi_var = $req->cgi->var("REMOTE_ADDR");
+\&        
+\&        
+\&    # Other Functions:
+\&        
+\&    CGI::Request::Interface($cgi);  # specify alternative CGI
+\&        
+\&    CGI::Request::Debug($level);    # log to STDERR (see CGI::Base)
+\&        
+\&        
+\&    # Cgi-lib compatibility functions
+\&    # use CGI::Request qw(:DEFAULT :cgi-lib); to import them
+\&        
+\&    &ReadParse(*input);
+\&    &MethGet;
+\&    &PrintHeader;
+\&    &PrintVariables(%input);
+\&        
+.Ve
+.SH "DESCRIPTION"
+This module implements the CGI::Request object. This object represents
+a single query / request / submission from a WWW user. The CGI::Request
+class understands the concept of HTML forms and fields, specifically
+how to parse a CGI QUERY_STRING.
+.Sh "\s-1SMALLEST\s0 \s-1EXAMPLE\s0"
+This is the smallest useful \s-1CGI::\s0Request script:
+.PP
+.Vb 3
+\&    use CGI::Request;
+\&    GetRequest();
+\&    print FmtRequest();
+.Ve
+.Sh "\s-1SIMPLE\s0 \s-1EXAMPLE\s0"
+This example demonstrates a simple \s-1ISINDEX\s0 based query, importing results
+into a package namespace and escaping of text:
+.PP
+.Vb 1
+\&    #!/usr/local/bin/perl  # add -T to test tainted behaviour
+.Ve
+.Vb 2
+\&    use CGI::Base;
+\&    use CGI::Request;
+.Ve
+.Vb 1
+\&    GetRequest('R');       # get and import request into R::...
+.Ve
+.Vb 3
+\&    # Just to make life more interesting add an ISINDEX.
+\&    # Try entering: "aa bb+cc dd=ee ff&gg hh<P>ii"
+\&    print "<ISINDEX>\er\en";
+.Ve
+.Vb 2
+\&    print "<B>You entered:</B> ", # print results safely
+\&          join(', ', CGI::Base::html_escape(@R::KEYWORDS))."\er\en";
+.Ve
+.Vb 1
+\&    print FmtRequest();    # show formatted version of request
+.Ve
+.Sh "\s-1CGI\s0"
+A \s-1CGI::\s0Request object contains a reference to a \s-1CGI::\s0Base object
+(or an object derived from \s-1CGI::\s0Base). It uses the services of
+that object to get the raw request information.
+.PP
+Note that \s-1CGI::\s0Request does not inherit from \s-1CGI::\s0Base it just uses
+an instance of a \s-1CGI::\s0Base object.
+.PP
+See the cgi method description for more information.
+.Sh "\s-1FEATURES\s0"
+Is object oriented and sub-classable.
+.PP
+Can export form field names as normal perl variables.
+.PP
+Integrates with \s-1CGI::\s0MiniSvr.
+.Sh "\s-1RECENT\s0 \s-1CHANGES\s0"
+.Ip "2.75" 5
+Fixed bug in \fIimport_names()\fR.  Now works properly with both
+scalar and array elements.
+.Ip "2.4 through 2.74" 5
+Minor changes to accomodate Forms interface. 
+.Ip "2.1 thru 2.3" 5
+Minor enhancements to documentation and debugging. Added notes about
+relationship with \s-1CGI\s0 and how to access \s-1CGI\s0 variables.
+.Ip "2.0" 5
+Updates for changed \s-1CGI:\s0Base export tags. No longer setting
+\f(CW@CGI::Request::QUERY_STRING\fR. Added \fIparam_or()\fR method.
+.Sp
+The module file can be run as a cgi script to execute a demo/test. You
+may need to chmod +x this file and teach your httpd that it can execute
+*.pm files (or create a copy/symlink with another name).
+.Ip "1.8" 5
+GetRequest now call SendHeaders (in \s-1CGI::\s0Base) for you. This works
+*much* better than the old \*(L'print PrintHeaders;\*(R'. PrintHeaders is no
+longer exported by default. as_string now uses the new html_escape
+method (in \s-1CGI::\s0Base) to safely format strings with embedded html.
+Debugging now defaults to off. New Debug function added. Image map
+coords are automatically recognised and stored as parameters X and Y.
+Added a sequence number mechanism to assist debugging MiniSvr
+applications (does not impact/cost anything for non minisvr apps).
+.Ip "1.7" 5
+Default package for \fIimport_names()\fR removed, you must supply a package
+name. \fIGetRequest()\fR won't call import_names unless a package name has
+been given, thus GetRequest no longer defaults to importing names.
+Added \fIas_string()\fR method (which automatically calls cgi->as_string).
+\fIparam()\fR will croak if called in a scalar context for a multi-values
+field.
+.Sh "\s-1FUTURE\s0 \s-1DEVELOPMENTS\s0"
+None of this is perfect. All suggestions welcome.
+.PP
+Note that this module is *not* the place to put code which generates
+\s-1HTML\s0.  We'll need separate modules for that (which are being developed).
+.Sh "\s-1AUTHOR\s0, \s-1COPYRIGHT\s0 and \s-1ACKNOWLEDGEMENTS\s0"
+This code is Copyright (C) Tim Bunce 1995. All rights reserved.  This
+code is free software; you can redistribute it and/or modify it under
+the same terms as Perl itself.
+.PP
+The cgi-lib functions are based on cgi-lib.pl version 1.7 which is
+Copyright 1994 Steven E. Brenner.
+.PP
+\s-1IN\s0 \s-1NO\s0 \s-1EVENT\s0 \s-1SHALL\s0 \s-1THE\s0 \s-1AUTHORS\s0 \s-1BE\s0 \s-1LIABLE\s0 \s-1TO\s0 \s-1ANY\s0 \s-1PARTY\s0 \s-1FOR\s0 \s-1DIRECT\s0,
+\s-1INDIRECT\s0, \s-1SPECIAL\s0, \s-1INCIDENTAL\s0, \s-1OR\s0 \s-1CONSEQUENTIAL\s0 \s-1DAMAGES\s0 \s-1ARISING\s0 \s-1OUT\s0
+\s-1OF\s0 \s-1THE\s0 \s-1USE\s0 \s-1OF\s0 \s-1THIS\s0 \s-1SOFTWARE\s0 \s-1AND\s0 \s-1ITS\s0 \s-1DOCUMENTATION\s0 (\s-1INCLUDING\s0, \s-1BUT\s0 \s-1NOT\s0
+\s-1LIMITED\s0 \s-1TO\s0, \s-1LOST\s0 \s-1PROFITS\s0) \s-1EVEN\s0 \s-1IF\s0 \s-1THE\s0 \s-1AUTHORS\s0 \s-1HAVE\s0 \s-1BEEN\s0 \s-1ADVISED\s0 \s-1OF\s0
+\s-1THE\s0 \s-1POSSIBILITY\s0 \s-1OF\s0 \s-1SUCH\s0 \s-1DAMAGE\s0.
+.Sh "\s-1SEE\s0 \s-1ALSO\s0"
+\s-1CGI::\s0Base, \s-1URI::\s0Escape
+.Sh "\s-1SUPPORT\s0"
+Please use comp.infosystems.www.* and comp.lang.perl.misc for support.
+Please do _NOT_ contact the author directly. I'm sorry but I just don't
+have the time.
+.SH "FUNCTIONS"
+.Sh "GetRequest"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 3
+\&    GetRequest();
+\&    GetRequest($package_name);
+\&    $req = GetRequest(...);
+.Ve
+GetRequest is the main entry point for simple (non-object oriented) use
+of the \s-1CGI::\s0Request module. It combines output (and flushing) of the
+standard Content-Type header, request processing and optional importing
+of the resulting values into a package (see import_names).
+.PP
+This function also enables autoflush on stdout. This has a slight
+efficiency cost but huge benefits in reduced frustration by novice
+users wondering why, for example, the output of \fIsystem\fR\|("foo") appears
+before their own output.
+.PP
+See \f(CWnew CGI::Request\fR for more details.
+.Sh "FmtRequest"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    print FmtRequest();
+.Ve
+Return a \s-1HTML\s0 string which describes the last (current) client request
+parameters and the current raw \s-1CGI\s0 parameters.  Designed to be used for
+debugging purposes.
+.Sh "Interface"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    $cgi = Interface();
+.Ve
+Return the default \s-1CGI\s0 interface object. Rarely used by applications.
+.PP
+If no interface has been defined yet it will automatically create a new
+\s-1CGI::\s0Base object, set that as the default interface and return it. This
+is the mechanism by which simple applications get to use the \s-1CGI::\s0Base
+interface without knowing anything about it.
+.PP
+This function can also be use to define a new default interface (such
+as \s-1CGI::\s0MiniSvr) by passing a reference to a \s-1CGI::\s0Base object or a
+object derived from \s-1CGI::\s0Base.
+.Sh "Debug"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 2
+\&    $old_level = CGI::Request::Debug();
+\&    $old_level = CGI::Request::Debug($new_level);
+.Ve
+Set debug level for the \s-1CGI::\s0Request module. Debugging info is logged
+to \s-1STDERR\s0 (see \s-1CGI::\s0Base for examples of how to redirect \s-1STDERR\s0).
+.SH "METHODS"
+.Sh "new"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 3
+\&    $req = new CGI::Request;
+\&    $req = new CGI::Request $cgi_interface;
+\&    $req = new CGI::Request $cgi_interface, $timeout_in_seconds;
+.Ve
+\s-1CGI::\s0Request object constructor. Only the first form listed above
+should be used by most applications.
+.PP
+Note that, unlike GetRequest, new \s-1CGI::\s0Request does not call
+SendHeaders for you. You have the freedom to control how you send your
+headers and what headers to send.
+.PP
+The returned \f(CW$req\fR \s-1CGI::\s0Request object stores the request parameter
+values. Parameters can be retrieved using the \f(CWparam\fR method.
+.PP
+Index keywords (\s-1ISINDEX\s0) are automatically recognised, parsed and
+stored as values of the \*(L'\s-1KEYWORDS\s0\*(R' parameter. The \f(CWkeywords\fR method
+provides an easy way to retrieve the list of keywords.
+.PP
+Image Map (\s-1ISMAP\s0) coordinates are automatically recognised, parsed and
+stored as parameters \*(L'X\*(R' and \*(L'Y\*(R'.
+.Sh "as_string"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    print $req->as_string;
+.Ve
+Return an \s-1HTML\s0 string containing all the query parameters and \s-1CGI\s0
+parameters neatly and safely formatted. Very useful for debugging.
+.Sh "extract_values"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    $req->extract_values($QUERY_STRING)
+.Ve
+This method extracts parameter name/value pairs from a string
+(typically \s-1QUERY_STRING\s0) and stores them in the objects hash.  Not
+normally called by applications, \fInew()\fR calls it automatically.
+.PP
+The parameter names and values are individually unescaped using the
+\fIuri_unescape()\fR function in the \s-1URI::URL\s0 module.
+.PP
+For \s-1ISINDEX\s0 keyword search requests (\s-1QUERY_STRING\s0 contains no \*(L'=\*(R' or
+\&'&') the string is split on /+/ and the keywords are then individually
+unescaped and stored.  Either the \fIkeywords()\fR method (or \fIparam\fR\|('\s-1KEYWORDS\s0'))
+can be used to recover the values.
+.Sh "keywords"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    @words = $req->keywords
+.Ve
+Return the keywords associated with an \s-1ISINDEX\s0 query.
+.Sh "params"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    @names = $req->params
+.Ve
+Return a list of all known parameter names in the order in which they're defined
+.Sh "param"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 4
+\&    $value  = $req->param('field_name1');
+\&    @values = $req->param('field_name2');       # e.g. select multiple
+\&    $req->param('field_name3', $new_value);
+\&    $req->param('field_name4', @new_values);
+.Ve
+Returns the \fIvalue\fR\|(s) of a named parameter. Returns an empty
+list/undef if the parameter name is not known. Returns \*(L'\*(R' for a
+parameter which had no value.
+.PP
+If invoked in a list context param returns the list of values in
+the same order they were returned by the client (typically from
+a select multiple form field).
+.PP
+Warning: If invoked in a scalar context and the parameter has more than
+one value the param method will die. This catches badly constructed
+forms where a field may have been copied but its name left unchanged.
+.PP
+If more than one argument is provided, the second and subsequent
+arguments are used to set the value of the parameter. The previous
+values, if any, are returned. Note that setting a new value has no
+external effect and is only included for completeness.
+.PP
+Note that param does not return \s-1CGI\s0 variables (\s-1REMOTE_ADDR\s0 etc) since
+those are \s-1CGI\s0 variables and not form parameters. To access \s-1CGI\s0
+variables see the cgi method in this module and the \s-1CGI::\s0Base module
+documentation.
+.Sh "delete"
+.PP
+.Vb 1
+\&    $req->delete('field_name1');
+.Ve
+Remove the specified field name from the parameter list
+.Sh "param_or"
+.PP
+.Vb 2
+\&    $value  = $req->param_or('field_name1', $default);
+\&    @values = $req->param_or('field_name2', @defaults);
+.Ve
+If the current request was a query (\s-1QUERY_STRING\s0 defined) then this
+method is identical to the param method with only one argument.
+.PP
+If the current request was not a query (\s-1QUERY_STRING\s0 undefined) then
+this method simply returns its second and subsequent parameters.
+.PP
+The method is designed to be used as a form building utility.
+.Sh "import_names"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    $req->import_names('R')
+.Ve
+Convert all request parameters into perl variables in a specified
+package. This avoids the need to use \f(CW$req\fR\->\fIparam\fR\|('name'), you can
+simply sat \f(CW$R::name\fR ('R\*(R' is the recommended package names).
+.PP
+Note: This is a convenience function for simple \s-1CGI\s0 scripts. It should
+\fBnot\fR be used with the MiniSvr since there is no way to reset or
+unimport the values from one request before importing the values of the
+next.
+.Sh "cgi"
+.PP
+.Vb 1
+\&         
+.Ve
+.Vb 1
+\&    $cgi = $req->cgi;
+.Ve
+This method returns the current \s-1CGI::\s0Request default \s-1CGI\s0 interface
+object.  It is primarily intended as a handy shortcut for accessing
+\s-1CGI::\s0Base methods: \f(CW$req\fR\->cgi->\fIdone()\fR, \f(CW$req\fR\->cgi->\fIvar\fR\|("\s-1REMOTE_ADDR\s0");
+
+.rn }` ''
+.IX Title "CGI::Request 3"
+.IX Name "CGI::Request - Parse client request via a CGI interface"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\s-1SMALLEST\s0 \s-1EXAMPLE\s0"
+
+.IX Subsection "\s-1SIMPLE\s0 \s-1EXAMPLE\s0"
+
+.IX Subsection "\s-1CGI\s0"
+
+.IX Subsection "\s-1FEATURES\s0"
+
+.IX Subsection "\s-1RECENT\s0 \s-1CHANGES\s0"
+
+.IX Item "2.75"
+
+.IX Item "2.4 through 2.74"
+
+.IX Item "2.1 thru 2.3"
+
+.IX Item "2.0"
+
+.IX Item "1.8"
+
+.IX Item "1.7"
+
+.IX Subsection "\s-1FUTURE\s0 \s-1DEVELOPMENTS\s0"
+
+.IX Subsection "\s-1AUTHOR\s0, \s-1COPYRIGHT\s0 and \s-1ACKNOWLEDGEMENTS\s0"
+
+.IX Subsection "\s-1SEE\s0 \s-1ALSO\s0"
+
+.IX Subsection "\s-1SUPPORT\s0"
+
+.IX Header "FUNCTIONS"
+
+.IX Subsection "GetRequest"
+
+.IX Subsection "FmtRequest"
+
+.IX Subsection "Interface"
+
+.IX Subsection "Debug"
+
+.IX Header "METHODS"
+
+.IX Subsection "new"
+
+.IX Subsection "as_string"
+
+.IX Subsection "extract_values"
+
+.IX Subsection "keywords"
+
+.IX Subsection "params"
+
+.IX Subsection "param"
+
+.IX Subsection "delete"
+
+.IX Subsection "param_or"
+
+.IX Subsection "import_names"
+
+.IX Subsection "cgi"
+

@@ -1,0 +1,516 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH DT 3 "perl 5.007, patch 00" "19/Dec/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::DT \- a package for down translation of XML to strings
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\&    use XML::DT;
+.Ve
+.Vb 8
+\&    %xml=( 'music'    => sub{"Music from: $c\en"},
+\&           'lyrics'   => sub{"Lyrics from:$c\en (the value of attribute
+\&                               IN is:$v{IN}\en)"},
+\&           'title'    => sub{ uc($c) },
+\&           '-default' => sub{"$q:$c"},
+\&           '-outputenc' => 'ISO-8859-1');
+\&    
+\&    print dt($filename,%xml);
+.Ve
+.Vb 4
+\&    print dtstring("<arq>
+\&                    <title>Vejam Bem</title>
+\&                    <music>Zeca Afonso</music>
+\&                    </arq>",%xml);
+.Ve
+.Vb 2
+\&    inctxt('music/lyrics')
+\&    inctxt('music.*')
+.Ve
+.Vb 1
+\&    ctxt(1)       /* the father element */
+.Ve
+.Vb 2
+\&    mkdtskel($file)
+\&    mkdtdskel($file)
+.Ve
+.SH "DESCRIPTION"
+This module processes XML files with an approach similar to OMNIMARK.
+.PP
+Down translation function \f(CWdt\fR receives a filename and a set of expressions
+(functions) defining the processing and associated values for each element.
+.PP
+\f(CWdtstring\fR is similar but takes input from a string instead of a file.
+.Sh "\f(CWpathdt\fR function"
+The \f(CWpathdt\fR function uses a subset of XPath as key in the handler. Example:
+.PP
+.Vb 8
+\&   %handler = (
+\&        "article/title" => sub{ toxml("h1",{},$c) },
+\&        "section/title" => sub{ toxml("h2",{},$c) },
+\&        "title"         => sub{ $c },
+\&        "//image[@type='jpg']" => sub{ "JPEG: <img src=\e"$c\e">" },
+\&        "//image[@type='bmp']" => sub{ "BMP: sorry, no bitmaps on the web" },
+\&        ...
+\&  )
+.Ve
+.Vb 1
+\&  pathdt($filename,%handler);
+.Ve
+Here are some examples of valid XPath expressions under \s-1XML::DT\s0:
+.PP
+.Vb 16
+\&  /aaa
+\&  /aaa/bbb
+\&  //ccc                           - ccc somewhere (same as "ccc")
+\&  /*/aaa/*
+\&  //*                             - same as "-default"
+\&  /aaa[@id]                       - aaa with an attribute id
+\&  /*[@*]                          - root with an attribute
+\&  /aaa[not(@name)]                - aaa with no attribute "name"
+\&  //bbb[@name='foo']              - ... attribute "name" = "foo"
+\&  /ccc[normalize-space(@name)='bbb']
+\&  //*[name()='bbb']               - complex way of saying "//bbb"
+\&  //*[starts-with(name(),'aa')]   - an element named "aa.*"
+\&  //*[contains(name(),'c')]       - an element       ".*c.*"
+\&  //aaa[string-length(name())=4]  -                  "...."
+\&  //aaa[string-length(name())&lt;4]                  ".{1,4}"
+\&  //aaa[string-length(name())&gt;5]                  ".{5,}"
+.Ve
+For more information, visit www.w3c.org or try a tutorial under www.zvon.org
+.Sh "\f(CWinctxt\fR function"
+\f(CWinctxt(pattern)\fR is true if the actual element path matches the provided 
+pattern. This function is meant to be used in the element functions in order
+to achieve context dependent processing. 
+.Sh "User provided element processing functions"
+The user must provide an \s-1HASH\s0 with a function for each element,
+that computes element output. Functions can use the element name \f(CW$q\fR, 
+the element content \f(CW$c\fR and the attribute values hash \f(CW%v\fR. 
+.PP
+All those global variables are defined in \f(CW$CALLER::\fR.
+.PP
+Each time an element is find the associated function is called.
+.PP
+Content is calculated by concatenation of element contents strings and
+interior elements return values.
+.Sh "\f(CW-default\fR function"
+When a element has no associated function, the function associated with 
+\f(CW-default\fR called. If no \f(CW-default\fR function is defined the default function 
+returns a \s-1XML\s0 like string for the element.
+.PP
+When you use \f(CW/-type\fR definitions, you often need do set \f(CW-default\fR
+function to return just the contents: \f(CWsub{$id}\fR.
+.Sh "\f(CW-outputenc\fR option"
+\f(CW-outputenc\fR defines the output encoding (default is Unicode \s-1UTF8\s0).
+.Sh "\f(CW-inputenc\fR option"
+\f(CW-inputenc\fR forces a input encoding type. Whenever that is possible,
+define the input encoding in the \s-1XML\s0 file:
+.PP
+.Vb 1
+\&   <?xml version='1.0' encoding='ISO-8859-1'?>
+.Ve
+.Sh "\f(CW-pcdata\fR function"
+\f(CW-pcdata\fR function is used to define transformation over the contents.
+Typically this function should look at context (see \f(CWinctxt\fR function)
+.PP
+The default \f(CW-pcdata\fR function is the identity
+.Sh "\f(CW-begin\fR function"
+Function to be executed before processing \s-1XML\s0 file.
+.PP
+Example of use: initialization of side-effect variables
+.Sh "\f(CW-end\fR function"
+Function to be executed after processing \s-1XML\s0 file.
+I can use \f(CW$c\fR content value.
+The value returned by \f(CW-end\fR will be the \f(CWdt\fR return value.
+.PP
+Example of use: post-processing of returned contents 
+.Sh "\f(CWtoxml\fR function"
+This is the default \*(L"\-default\*(R" function. It can be used to generate xml
+based on \f(CW$c\fR \f(CW$q\fR and \f(CW%v\fR variables. Example: add a new attribute to
+element \f(CWele1\fR without changing it:
+.PP
+.Vb 3
+\&  %handler=( ...
+\&             ele1 => sub { $v{at1} = "v1"; toxml(); },
+\&           )
+.Ve
+\f(CWtoxml\fR can also be used with 3 arguments: tag, attrigutes and contents
+.PP
+.Vb 1
+\&  toxml("a",{href=> "http://local/f.html"}, "example")
+.Ve
+returns:
+.PP
+.Vb 1
+\&  <a href='http://local/f.html'>example</a>
+.Ve
+.SH "Elements with values other than strings (\f(CW-type\fR)"
+By default all elements return strings, and contents (\f(CW$c\fR) is the
+concatenation of the strings returned by the sub-elements.
+.PP
+In some situations the XML text contains values that are better processed as
+a structured type.
+.PP
+The following types (functors) are available:
+.PP
+.Vb 21
+\&     STR  -> concatenates all the subelements returned values (DEFAULT)
+\&          all the subelement should return strings to be concatenated
+\&     SEQ  -> makes an ARRAY with all the sub elements contents; attributes are
+\&          ignored (they should be processed in the subelement). (returns a ref)
+\&     SEQH -> makes an ARRAY of HASH with all the sub elements (returns a ref);
+\&          for each subelement: 
+\&                 -q  => element name
+\&                 -c  => contents
+\&                 at1 => at value1    for each attribute
+\&     MAP  -> makes an HASH with the sub elements; keys are the sub-element
+\&          names, values are their contents. Attributes are ignored. (they should
+\&          be processed in the subelement) (returns a ref)
+\&     MULTIMAP -> makes an HASH of ARRAY; keys are the sub-element names;
+\&         values are lists of contents; attributes are ignored (they should be
+\&         processed in the subelement); (returns a ref)
+\&     MMAPON(elementlist) -> makes an HASH with the subelements; 
+\&          keys are the sub-element names, values are their contents; 
+\&          attributes are ignored (they should be processed in the subelement);
+\&          for all the elements contained in the elementlist, it is created 
+\&          an ARRAY with their contents. (returns a ref)
+\&     ZERO -> don't process the subelements; return ""
+.Ve
+When you use \f(CW/-type\fR definitions, you often need do set \f(CW-default\fR
+function returning just the contents \f(CWsub{$id}\fR.
+.Sh "An example:"
+.PP
+.Vb 8
+\&   use XML::DT;
+\&   %handler = ( contacts => sub{ [ split(";",$c)] },
+\&                -default => sub{$c},
+\&                -type    => { institution => 'MAP',
+\&                              degrees     =>  MMAPON('name')
+\&                              tels        => 'SEQ' }
+\&              );
+\&   $a = dt ("f.xml", %handler);
+.Ve
+with the following f.xml
+.PP
+.Vb 16
+\&    <degrees>
+\&     <institution>
+\&      <id>U.M.</id>
+\&      <name>University of Minho</name>
+\&      <tels>
+\&        <item>1111</item> 
+\&        <item>1112</item>
+\&        <item>1113</item>
+\&      </tels>
+\&      <where>Portugal</where>
+\&      <contacts>J.Joao; J.Rocha; J.Ramalho</contacts>
+\&     </institution>
+\&     <name>Computer science</name>
+\&     <name>Informatica </name>
+\&     <name> history </name>
+\&    </degrees>
+.Ve
+would make \f(CW$a\fR
+.PP
+.Vb 12
+\&  { 'name' => [ 'Computer science',
+\&                'Informatica ',
+\&                ' history ' ],
+\&    'institution' => { 'tels' => [ 1111,
+\&                                   1112,
+\&                                   1113 ],
+\&                       'name' => 'University of Minho',
+\&                       'where' => 'Portugal',
+\&                       'id' => 'U.M.',
+\&                       'contacts' => [ 'J.Joao',
+\&                                       ' J.Rocha',
+\&                                       ' J.Ramalho' ] } };
+.Ve
+.SH "DT Skeleton generation"
+It is possible to build an initial processor program based on an example
+.PP
+To do this use the function \f(CWmkdtskel(filename)\fR.
+.PP
+Example:
+.PP
+.Vb 1
+\&  perl -MXML::DT -e 'mkdtskel "f.xml"' > f.pl
+.Ve
+.SH "DTD skeleton generation"
+It makes a naive DTD based on an \fIexample\fR\|(s).
+.PP
+To do this use the function \f(CWmkdtdskel(filename*)\fR.
+.PP
+Example:
+.PP
+.Vb 1
+\&  perl -MXML::DT -e 'mkdtdskel "f.xml"' > f.dtd
+.Ve
+.SH "BUGS"
+This section is out of date...
+.SH "AUTHORS"
+Home for XML::DT;
+.PP
+.Vb 1
+\&  http://natura.di.uminho.pt/~jj/perl/XML/
+.Ve
+Jose Joao, <jj@di.uminho.pt>
+.PP
+Alberto Manuel Simões, <albie@alfarrabio.di.uminho.pt>
+.PP
+thanks to
+.PP
+.Vb 3
+\&  Michel Rodriguez <mrodrigu@ieee.org>
+\&  José Carlos Ramalho <jcr@di.uminho.pt>
+\&  Mark A. Hillebrand
+.Ve
+.SH "NAME"
+\f(CWlat1.pm\fR \- module for unicode utf8 to latin1 translation
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\&   $latin1string = lat1::utf8($utf8string)
+.Ve
+.SH "Bugs"
+Translating the latin1 subset of unicode utf8 is very simples and needs no
+tables.
+.PP
+If you need more complex translation, see the perl modules about unicode
+and the \f(CWrecode\fR command.
+
+.rn }` ''
+.IX Title "DT 3"
+.IX Name "XML::DT - a package for down translation of XML to strings"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\f(CWpathdt\fR function"
+
+.IX Subsection "\f(CWinctxt\fR function"
+
+.IX Subsection "User provided element processing functions"
+
+.IX Subsection "\f(CW-default\fR function"
+
+.IX Subsection "\f(CW-outputenc\fR option"
+
+.IX Subsection "\f(CW-inputenc\fR option"
+
+.IX Subsection "\f(CW-pcdata\fR function"
+
+.IX Subsection "\f(CW-begin\fR function"
+
+.IX Subsection "\f(CW-end\fR function"
+
+.IX Subsection "\f(CWtoxml\fR function"
+
+.IX Header "Elements with values other than strings (\f(CW-type\fR)"
+
+.IX Subsection "An example:"
+
+.IX Header "DT Skeleton generation"
+
+.IX Header "DTD skeleton generation"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHORS"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "Bugs"
+

@@ -1,0 +1,633 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH NODE 1 "perl 5.007, patch 00" "16/Feb/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::DOM::Node \- Super class of all nodes in XML::DOM
+.SH "DESCRIPTION"
+XML::DOM::Node is the super class of all nodes in an XML::DOM document.
+This means that all nodes that subclass XML::DOM::Node also inherit all
+the methods that XML::DOM::Node implements.
+.Sh "\s-1GLOBAL\s0 \s-1VARIABLES\s0"
+.Ip "@NodeNames" 4
+The variable \f(CW@XML::DOM::Node::NodeNames\fR maps the node type constants to strings.
+It is used by \s-1XML::DOM::\s0Node::getNodeTypeName.
+.Sh "\s-1METHODS\s0"
+.Ip "getNodeType" 4
+Return an integer indicating the node type. See \s-1XML::DOM\s0 constants.
+.Ip "getNodeName" 4
+Return a property or a hardcoded string, depending on the node type.
+Here are the corresponding functions or values:
+.Sp
+.Vb 16
+\& Attr                   getName
+\& AttDef                 getName
+\& AttlistDecl            getName
+\& CDATASection           "#cdata-section"
+\& Comment                "#comment"
+\& Document               "#document"
+\& DocumentType           getNodeName
+\& DocumentFragment       "#document-fragment"
+\& Element                getTagName
+\& ElementDecl            getName
+\& EntityReference        getEntityName
+\& Entity                 getNotationName
+\& Notation               getName
+\& ProcessingInstruction  getTarget
+\& Text                   "#text"
+\& XMLDecl                "#xml-declaration"
+.Ve
+\fBNot In \s-1DOM\s0 Spec\fR: AttDef, AttlistDecl, ElementDecl and XMLDecl were added for
+completeness.
+.Ip "getNodeValue and setNodeValue (value)" 4
+Returns a string or undef, depending on the node type. This method is provided 
+for completeness. In other languages it saves the programmer an upcast.
+The value is either available thru some other method defined in the subclass, or
+else undef is returned. Here are the corresponding methods: 
+Attr::getValue, Text::getData, CDATASection::getData, Comment::getData, 
+ProcessingInstruction::getData.
+.Ip "getParentNode and setParentNode (parentNode)" 4
+The parent of this node. All nodes, except Document,
+DocumentFragment, and Attr may have a parent. However, if a
+node has just been created and not yet added to the tree, or
+if it has been removed from the tree, this is undef.
+.Ip "getChildNodes" 4
+A NodeList that contains all children of this node. If there
+are no children, this is a NodeList containing no nodes. The
+content of the returned NodeList is \*(L"live\*(R" in the sense that,
+for instance, changes to the children of the node object that
+it was created from are immediately reflected in the nodes
+returned by the NodeList accessors; it is not a static
+snapshot of the content of the node. This is true for every
+NodeList, including the ones returned by the
+getElementsByTagName method.
+.Sp
+\s-1NOTE\s0: this implementation does not return a \*(L"live\*(R" NodeList for
+getElementsByTagName. See the \fI\s-1CAVEATS\s0\fR manpage.
+.Sp
+When this method is called in a list context, it returns a regular perl list
+containing the child nodes. Note that this list is not \*(L"live\*(R". E.g.
+.Sp
+.Vb 3
+\& @list = $node->getChildNodes;        # returns a perl list
+\& $nodelist = $node->getChildNodes;    # returns a NodeList (object reference)
+\& for my $kid ($node->getChildNodes)   # iterate over the children of $node
+.Ve
+.Ip "getFirstChild" 4
+The first child of this node. If there is no such node, this returns undef.
+.Ip "getLastChild" 4
+The last child of this node. If there is no such node, this returns undef.
+.Ip "getPreviousSibling" 4
+The node immediately preceding this node. If there is no such 
+node, this returns undef.
+.Ip "getNextSibling" 4
+The node immediately following this node. If there is no such node, this returns 
+undef.
+.Ip "getAttributes" 4
+A NamedNodeMap containing the attributes (Attr nodes) of this node 
+(if it is an Element) or undef otherwise.
+Note that adding/removing attributes from the returned object, also adds/removes
+attributes from the Element node that the NamedNodeMap came from.
+.Ip "getOwnerDocument" 4
+The Document object associated with this node. This is also
+the Document object used to create new nodes. When this node
+is a Document this is undef.
+.Ip "insertBefore (newChild, refChild)" 4
+Inserts the node newChild before the existing child node
+refChild. If refChild is undef, insert newChild at the end of
+the list of children.
+.Sp
+If newChild is a DocumentFragment object, all of its children
+are inserted, in the same order, before refChild. If the
+newChild is already in the tree, it is first removed.
+.Sp
+Return Value: The node being inserted.
+.Sp
+DOMExceptions:
+.Ip "\(bu \s-1HIERARCHY_REQUEST_ERR\s0" 8
+Raised if this node is of a type that does not allow children of the type of
+the newChild node, or if the node to insert is one of this node's ancestors.
+.Ip "\(bu \s-1WRONG_DOCUMENT_ERR\s0" 8
+Raised if newChild was created from a different document than the one that 
+created this node.
+.Ip "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0" 8
+Raised if this node is readonly.
+.Ip "\(bu \s-1NOT_FOUND_ERR\s0" 8
+Raised if refChild is not a child of this node.
+.Ip "replaceChild (newChild, oldChild)" 4
+Replaces the child node oldChild with newChild in the list of
+children, and returns the oldChild node. If the newChild is
+already in the tree, it is first removed.
+.Sp
+Return Value: The node replaced.
+.Sp
+DOMExceptions:
+.Ip "\(bu \s-1HIERARCHY_REQUEST_ERR\s0" 8
+Raised if this node is of a type that does not allow children of the type of
+the newChild node, or it the node to put in is one of this node's ancestors.
+.Ip "\(bu \s-1WRONG_DOCUMENT_ERR\s0" 8
+Raised if newChild was created from a different document than the one that 
+created this node.
+.Ip "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0" 8
+Raised if this node is readonly.
+.Ip "\(bu \s-1NOT_FOUND_ERR\s0" 8
+Raised if oldChild is not a child of this node.
+.Ip "removeChild (oldChild)" 4
+Removes the child node indicated by oldChild from the list of
+children, and returns it.
+.Sp
+Return Value: The node removed.
+.Sp
+DOMExceptions:
+.Ip "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0" 8
+Raised if this node is readonly.
+.Ip "\(bu \s-1NOT_FOUND_ERR\s0" 8
+Raised if oldChild is not a child of this node.
+.Ip "appendChild (newChild)" 4
+Adds the node newChild to the end of the list of children of
+this node. If the newChild is already in the tree, it is
+first removed. If it is a DocumentFragment object, the entire contents of 
+the document fragment are moved into the child list of this node
+.Sp
+Return Value: The node added.
+.Sp
+DOMExceptions:
+.Ip "\(bu \s-1HIERARCHY_REQUEST_ERR\s0" 8
+Raised if this node is of a type that does not allow children of the type of
+the newChild node, or if the node to append is one of this node's ancestors.
+.Ip "\(bu \s-1WRONG_DOCUMENT_ERR\s0" 8
+Raised if newChild was created from a different document than the one that 
+created this node.
+.Ip "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0" 8
+Raised if this node is readonly.
+.Ip "hasChildNodes" 4
+This is a convenience method to allow easy determination of
+whether a node has any children.
+.Sp
+Return Value: 1 if the node has any children, 0 otherwise.
+.Ip "cloneNode (deep)" 4
+Returns a duplicate of this node, i.e., serves as a generic
+copy constructor for nodes. The duplicate node has no parent
+(parentNode returns undef.).
+.Sp
+Cloning an Element copies all attributes and their values,
+including those generated by the \s-1XML\s0 processor to represent
+defaulted attributes, but this method does not copy any text
+it contains unless it is a deep clone, since the text is
+contained in a child Text node. Cloning any other type of
+node simply returns a copy of this node.
+.Sp
+Parameters: 
+ \fIdeep\fR   If true, recursively clone the subtree under the specified node.
+If false, clone only the node itself (and its attributes, if it is an Element).
+.Sp
+Return Value: The duplicate node.
+.Ip "normalize" 4
+Puts all Text nodes in the full depth of the sub-tree
+underneath this Element into a \*(L"normal\*(R" form where only
+markup (e.g., tags, comments, processing instructions, \s-1CDATA\s0
+sections, and entity references) separates Text nodes, i.e.,
+there are no adjacent Text nodes. This can be used to ensure
+that the \s-1DOM\s0 view of a document is the same as if it were
+saved and re-loaded, and is useful when operations (such as
+XPointer lookups) that depend on a particular document tree
+structure are to be used.
+.Sp
+\fBNot In \s-1DOM\s0 Spec\fR: In the \s-1DOM\s0 Spec this method is defined in the Element and 
+Document class interfaces only, but it doesn't hurt to have it here...
+.Ip "getElementsByTagName (name [, recurse])" 4
+Returns a NodeList of all descendant elements with a given
+tag name, in the order in which they would be encountered in
+a preorder traversal of the Element tree.
+.Sp
+Parameters:
+ \fIname\fR  The name of the tag to match on. The special value \*(L"*\*(R" matches all tags.
+ \fIrecurse\fR  Whether it should return only direct child nodes (0) or any descendant that matches the tag name (1). This argument is optional and defaults to 1. It is not part of the \s-1DOM\s0 spec.
+.Sp
+Return Value: A list of matching Element nodes.
+.Sp
+\s-1NOTE\s0: this implementation does not return a \*(L"live\*(R" NodeList for
+getElementsByTagName. See the \fI\s-1CAVEATS\s0\fR manpage.
+.Sp
+When this method is called in a list context, it returns a regular perl list
+containing the result nodes. E.g.
+.Sp
+.Vb 3
+\& @list = $node->getElementsByTagName("tag");       # returns a perl list
+\& $nodelist = $node->getElementsByTagName("tag");   # returns a NodeList (object ref.)
+\& for my $elem ($node->getElementsByTagName("tag")) # iterate over the result nodes
+.Ve
+.Sh "Additional methods not in the \s-1DOM\s0 Spec"
+.Ip "getNodeTypeName" 4
+Return the string describing the node type. 
+E.g. returns \*(L"\s-1ELEMENT_NODE\s0\*(R" if getNodeType returns \s-1ELEMENT_NODE\s0.
+It uses \f(CW@XML::DOM::Node::NodeNames\fR.
+.Ip "toString" 4
+Returns the entire subtree as a string.
+.Ip "printToFile (filename)" 4
+Prints the entire subtree to the file with the specified filename.
+.Sp
+Croaks: if the file could not be opened for writing.
+.Ip "printToFileHandle (handle)" 4
+Prints the entire subtree to the file handle.
+E.g. to print to \s-1STDOUT\s0:
+.Sp
+.Vb 1
+\& $node->printToFileHandle (\e*STDOUT);
+.Ve
+.Ip "print (obj)" 4
+Prints the entire subtree using the object's print method. E.g to print to a
+FileHandle object:
+.Sp
+.Vb 2
+\& $f = new FileHandle ("file.out", "w");
+\& $node->print ($f);
+.Ve
+.Ip "getChildIndex (child)" 4
+Returns the index of the child node in the list returned by getChildNodes.
+.Sp
+Return Value: the index or \-1 if the node is not found.
+.Ip "getChildAtIndex (index)" 4
+Returns the child node at the specifed index or undef.
+.Ip "addText (text)" 4
+Appends the specified string to the last child if it is a Text node, or else 
+appends a new Text node (with the specified text.)
+.Sp
+Return Value: the last child if it was a Text node or else the new Text node.
+.Ip "dispose" 4
+Removes all circular references in this node and its descendants so the 
+objects can be claimed for garbage collection. The objects should not be used
+afterwards.
+.Ip "setOwnerDocument (doc)" 4
+Sets the ownerDocument property of this node and all its children (and 
+attributes etc.) to the specified document.
+This allows the user to cut and paste document subtrees between different
+\s-1XML::DOM::\s0Documents. The node should be removed from the original document
+first, before calling setOwnerDocument.
+.Sp
+This method does nothing when called on a Document node.
+.Ip "isAncestor (parent)" 4
+Returns 1 if parent is an ancestor of this node or if it is this node itself.
+.Ip "expandEntityRefs (str)" 4
+Expands all the entity references in the string and returns the result.
+The entity references can be character references (e.g. \*(L"&#123;\*(R" or \*(L"&#x1fc2"),
+default entity references ("&quot;\*(R", \*(L"&gt;\*(R", \*(L"&lt;\*(R", \*(L"&apos;\*(R" and \*(L"&amp;") or
+entity references defined in Entity objects as part of the DocumentType of
+the owning Document. Character references are expanded into \s-1UTF\s0\-8.
+Parameter entity references (e.g. \f(CW%ent\fR;) are not expanded.
+.Ip "to_sax ( %\s-1HANDLERS\s0 )" 4
+E.g.
+.Sp
+.Vb 2
+\& $node->to_sax (DocumentHandler => $my_handler, 
+\&                Handler => $handler2 );
+.Ve
+%\s-1HANDLERS\s0 may contain the following handlers:
+.Ip "\(bu DocumentHandler" 8
+.Ip "\(bu DTDHandler" 8
+.Ip "\(bu EntityResolver" 8
+.Ip "\(bu Handler " 8
+Default handler when one of the above is not specified
+.Sp
+Each \s-1XML::DOM::\s0Node generates the appropriate \s-1SAX\s0 callbacks (for the
+appropriate \s-1SAX\s0 handler.) Different \s-1SAX\s0 handlers can be plugged in to
+accomplish different things, e.g. the \fI\s-1XML::\s0Checker\fR manpage would check the node 
+(currently only Document and Element nodes are supported), the \fI\s-1XML::\s0Handler::BuildDOM\fR manpage
+would create a new \s-1DOM\s0 subtree (thereby, in essence, copying the Node)
+and in the near future, \s-1XML::\s0Writer could print the node.
+All Perl \s-1SAX\s0 related work is still in flux, so this interface may change a 
+little.
+.Sp
+See PerlSAX for the description of the \s-1SAX\s0 interface.
+.Ip "check ( [$checker] )" 4
+See descriptions for \fIcheck()\fR in the \fI\s-1XML::DOM::\s0Document\fR manpage and the \fI\s-1XML::DOM::\s0Element\fR manpage.
+.Ip "xql ( @\s-1XQL_OPTIONS\s0 )" 4
+To use the xql method, you must first \fIuse\fR the \fI\s-1XML::XQL\s0\fR manpage and the \fI\s-1XML::XQL::DOM\s0\fR manpage.
+This method is basically a shortcut for:
+.Sp
+.Vb 2
+\& $query = new XML::XQL::Query ( @XQL_OPTIONS );
+\& return $query->solve ($node);
+.Ve
+If the first parameter in \f(CW@XQL_OPTIONS\fR is the \s-1XQL\s0 expression, you can leave off
+the \*(L'Expr\*(R' keyword, so:
+.Sp
+.Vb 1
+\& $node->xql ("doc//elem1[@attr]", @other_options);
+.Ve
+is identical to:
+.Sp
+.Vb 1
+\& $node->xql (Expr => "doc//elem1[@attr]", @other_options);
+.Ve
+See the \fI\s-1XML::XQL::\s0Query\fR manpage for other available \s-1XQL_OPTIONS\s0.
+See the \fI\s-1XML::XQL\s0\fR manpage and the \fI\s-1XML::XQL::\s0Tutorial\fR manpage for more info.
+.Ip "isHidden ()" 4
+Whether the node is hidden.
+See Hidden Nodes for details.
+
+.rn }` ''
+.IX Title "NODE 1"
+.IX Name "XML::DOM::Node - Super class of all nodes in XML::DOM"
+
+.IX Header "NAME"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\s-1GLOBAL\s0 \s-1VARIABLES\s0"
+
+.IX Item "@NodeNames"
+
+.IX Subsection "\s-1METHODS\s0"
+
+.IX Item "getNodeType"
+
+.IX Item "getNodeName"
+
+.IX Item "getNodeValue and setNodeValue (value)"
+
+.IX Item "getParentNode and setParentNode (parentNode)"
+
+.IX Item "getChildNodes"
+
+.IX Item "getFirstChild"
+
+.IX Item "getLastChild"
+
+.IX Item "getPreviousSibling"
+
+.IX Item "getNextSibling"
+
+.IX Item "getAttributes"
+
+.IX Item "getOwnerDocument"
+
+.IX Item "insertBefore (newChild, refChild)"
+
+.IX Item "\(bu \s-1HIERARCHY_REQUEST_ERR\s0"
+
+.IX Item "\(bu \s-1WRONG_DOCUMENT_ERR\s0"
+
+.IX Item "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0"
+
+.IX Item "\(bu \s-1NOT_FOUND_ERR\s0"
+
+.IX Item "replaceChild (newChild, oldChild)"
+
+.IX Item "\(bu \s-1HIERARCHY_REQUEST_ERR\s0"
+
+.IX Item "\(bu \s-1WRONG_DOCUMENT_ERR\s0"
+
+.IX Item "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0"
+
+.IX Item "\(bu \s-1NOT_FOUND_ERR\s0"
+
+.IX Item "removeChild (oldChild)"
+
+.IX Item "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0"
+
+.IX Item "\(bu \s-1NOT_FOUND_ERR\s0"
+
+.IX Item "appendChild (newChild)"
+
+.IX Item "\(bu \s-1HIERARCHY_REQUEST_ERR\s0"
+
+.IX Item "\(bu \s-1WRONG_DOCUMENT_ERR\s0"
+
+.IX Item "\(bu \s-1NO_MODIFICATION_ALLOWED_ERR\s0"
+
+.IX Item "hasChildNodes"
+
+.IX Item "cloneNode (deep)"
+
+.IX Item "normalize"
+
+.IX Item "getElementsByTagName (name [, recurse])"
+
+.IX Subsection "Additional methods not in the \s-1DOM\s0 Spec"
+
+.IX Item "getNodeTypeName"
+
+.IX Item "toString"
+
+.IX Item "printToFile (filename)"
+
+.IX Item "printToFileHandle (handle)"
+
+.IX Item "print (obj)"
+
+.IX Item "getChildIndex (child)"
+
+.IX Item "getChildAtIndex (index)"
+
+.IX Item "addText (text)"
+
+.IX Item "dispose"
+
+.IX Item "setOwnerDocument (doc)"
+
+.IX Item "isAncestor (parent)"
+
+.IX Item "expandEntityRefs (str)"
+
+.IX Item "to_sax ( %\s-1HANDLERS\s0 )"
+
+.IX Item "\(bu DocumentHandler"
+
+.IX Item "\(bu DTDHandler"
+
+.IX Item "\(bu EntityResolver"
+
+.IX Item "\(bu Handler "
+
+.IX Item "check ( [$checker] )"
+
+.IX Item "xql ( @\s-1XQL_OPTIONS\s0 )"
+
+.IX Item "isHidden ()"
+

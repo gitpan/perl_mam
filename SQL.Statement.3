@@ -1,0 +1,961 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::SQL::Statement 3 "perl 5.007, patch 00" "5/Nov/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+SQL::Statement \- SQL parsing and processing engine
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\&    require SQL::Statement;
+.Ve
+.Vb 2
+\&    # Create a parser
+\&    my($parser) = SQL::Parser->new('Ansi');
+.Ve
+.Vb 9
+\&    # Parse an SQL statement
+\&    $@ = '';
+\&    my ($stmt) = eval {
+\&        SQL::Statement->new("SELECT id, name FROM foo WHERE id > 1",
+\&                            $parser);
+\&    };
+\&    if ($@) {
+\&        die "Cannot parse statement: $@";
+\&    }
+.Ve
+.Vb 4
+\&    # Query the list of result columns;
+\&    my $numColums = $stmt->columns();  # Scalar context
+\&    my @columns = $stmt->columns();    # Array context
+\&    # @columns now contains SQL::Statement::Column instances
+.Ve
+.Vb 4
+\&    # Likewise, query the tables being used in the statement:
+\&    my $numTables = $stmt->tables();   # Scalar context
+\&    my @tables = $stmt->tables();      # Array context
+\&    # @tables now contains SQL::Statement::Table instances
+.Ve
+.Vb 3
+\&    # Query the WHERE clause; this will retrieve an
+\&    # SQL::Statement::Op instance
+\&    my $where = $stmt->where();
+.Ve
+.Vb 3
+\&    # Evaluate the WHERE clause with concrete data, represented
+\&    # by an SQL::Eval object
+\&    my $result = $stmt->eval_where($eval);
+.Ve
+.Vb 2
+\&    # Execute a statement:
+\&    $stmt->execute($data, $params);
+.Ve
+.SH "DESCRIPTION"
+For installing the module, see the section on \fIINSTALLATION\fR below.
+.PP
+The SQL::Statement module implements a small, abstract SQL engine. This
+module is not usefull itself, but as a base class for deriving concrete
+SQL engines. The implementation is designed to work fine with the
+DBI driver DBD::CSV, thus probably not so well suited for a larger
+environment, but I'd hope it is extendable without too much problems.
+.PP
+By parsing an SQL query you create an SQL::Statement instance. This
+instance offers methods for retrieving syntax, for WHERE clause and
+statement evaluation.
+.Sh "Creating a parser object"
+What's accepted as valid \s-1SQL\s0, depends on the parser object. There is
+a set of so-called features that the parsers may have or not. Usually
+you start with a builtin parser:
+.PP
+.Vb 1
+\&    my $parser = SQL::Parser->new($name, [ \e%attr ]);
+.Ve
+Currently two parsers are builtin: The \fIAnsi\fR parser implements a proper
+subset of \s-1ANSI\s0 \s-1SQL\s0. (At least I hope so. :\-) The \fI\s-1SQL::\s0Statement\fR parser
+is used by the \s-1DBD:CSV\s0 driver.
+.PP
+You can query or set individual features. Currently available are:
+.Ip "create.type_blob" 8
+.Ip "create.type_real" 8
+.Ip "create.type_text" 8
+These enable the respective column types in a \fI\s-1CREATE\s0 \s-1TABLE\s0\fR clause.
+They are all disabled in the \fIAnsi\fR parser, but enabled in the
+\fI\s-1SQL::\s0Statement\fR parser. Example:
+.Ip "select.join" 8
+This enables the use of multiple tables in a \s-1SELECT\s0 statement, for
+example
+.Sp
+.Vb 1
+\&  SELECT a.id, b.name FROM a, b WHERE a.id = b.id AND a.id = 2
+.Ve
+.PP
+To enable or disable a feature, for example \fIselect.join\fR, use the
+following:
+.PP
+.Vb 4
+\&  # Enable feature
+\&  $parser->feature("select", "join", 1);
+\&  # Disable feature
+\&  $parser->feature("select", "join", 0);
+.Ve
+Of course you can query features:
+.PP
+.Vb 2
+\&  # Query feature
+\&  my $haveSelectJoin = $parser->feature("select", "join");
+.Ve
+The \f(CWnew\fR method allows a shorthand for setting features. For example,
+the following is equivalent to the \fI\s-1SQL::\s0Statement\fR parser:
+.PP
+.Vb 5
+\&  $parser = SQL::Statement->new('Ansi',
+\&                                { 'create' => { 'type_text' => 1,
+\&                                                'type_real' => 1,
+\&                                                'type_blob' => 1 },
+\&                                  'select' => { 'join' => 0 }});
+.Ve
+.Sh "Parsing a query"
+A statement can be parsed with
+.PP
+.Vb 1
+\&    my $stmt = SQL::Statement->new($query, $parser);
+.Ve
+In case of syntax errors or other problems, the method throws a Perl
+exception. Thus, if you want to catch exceptions, the above becomes
+.PP
+.Vb 3
+\&    $@ = '';
+\&    my $stmt = eval { SQL::Statement->new($query, $parser) };
+\&    if ($@) { print "An error occurred: $@"; }
+.Ve
+The accepted \s-1SQL\s0 syntax is restricted, though easily extendable. See
+the section on \fI\s-1SQL\s0 syntax\fR below. See the section on \fICreating a parser object\fR above.
+.Sh "Retrieving query information"
+The following methods can be used to obtain information about a
+query:
+.Ip "command" 8
+Returns the \s-1SQL\s0 command, currently one of \fI\s-1SELECT\s0\fR, \fI\s-1INSERT\s0\fR, \fI\s-1UPDATE\s0\fR,
+\fI\s-1DELETE\s0\fR, \fI\s-1CREATE\s0\fR or \fI\s-1DROP\s0\fR, the last two referring to
+\fI\s-1CREATE\s0 \s-1TABLE\s0\fR and \fI\s-1DROP\s0 \s-1TABLE\s0\fR. See the section on \fI\s-1SQL\s0 syntax\fR below. Example:
+.Sp
+.Vb 1
+\&    my $command = $stmt->command();
+.Ve
+.Ip "columns" 8
+.Sp
+.Vb 3
+\&    my $numColumns = $stmt->columns();  # Scalar context
+\&    my @columnList = $stmt->columns();  # Array context
+\&    my($col1, $col2) = ($stmt->columns(0), $stmt->columns(1));
+.Ve
+This method is used to retrieve column lists. The meaning depends on
+the query command:
+.Sp
+.Vb 4
+\&    SELECT $col1, $col2, ... $colN FROM $table WHERE ...
+\&    UPDATE $table SET $col1 = $val1, $col2 = $val2, ...
+\&        $colN = $valN WHERE ...
+\&    INSERT INTO $table ($col1, $col2, ..., $colN) VALUES (...)
+.Ve
+When used without arguments, the method returns a list of the
+columns \f(CW$col1\fR, \f(CW$col2\fR, ..., \f(CW$colN\fR, you may alternatively use a
+column number as argument. Note that the column list may be
+empty, like in
+.Sp
+.Vb 1
+\&    INSERT INTO $table VALUES (...)
+.Ve
+and in \fI\s-1CREATE\s0\fR or \fI\s-1DROP\s0\fR statements.
+.Sp
+But what does \*(L"returning a column\*(R" mean? It is returning an
+\s-1SQL::\s0Statement::Column instance, a class that implements the
+methods \f(CWtable\fR and \f(CWname\fR, both returning the respective
+scalar. For example, consider the following statements:
+.Sp
+.Vb 3
+\&    INSERT INTO foo (bar) VALUES (1)
+\&    SELECT bar FROM foo WHERE ...
+\&    SELECT foo.bar FROM foo WHERE ...
+.Ve
+In all these cases exactly one column instance would be returned
+with
+.Sp
+.Vb 2
+\&    $col->name() eq 'bar'
+\&    $col->table() eq 'foo'
+.Ve
+.Ip "tables" 8
+.Sp
+.Vb 3
+\&    my $tableNum = $stmt->tables();  # Scalar context
+\&    my @tables = $stmt->tables();    # Array context
+\&    my($table1, $table2) = ($stmt->tables(0), $stmt->tables(1));
+.Ve
+Similar to \f(CWcolumns\fR, this method returns instances of
+\f(CWSQL::Statement::Table\fR.  For \fI\s-1UPDATE\s0\fR, \fI\s-1DELETE\s0\fR, \fI\s-1INSERT\s0\fR,
+\fI\s-1CREATE\s0\fR and \fI\s-1DROP\s0\fR, a single table will always be returned.
+\fI\s-1SELECT\s0\fR statements can return more than one table, in case
+of joins. Table objects offer a single method, \f(CWname\fR which
+returns the table name.
+.Ip "params" 8
+.Sp
+.Vb 3
+\&    my $paramNum = $stmt->params();  # Scalar context
+\&    my @params = $stmt->params();    # Array context
+\&    my($p1, $p2) = ($stmt->params(0), $stmt->params(1));
+.Ve
+The \f(CWparams\fR method returns information about the input parameters
+used in a statement. For example, consider the following:
+.Sp
+.Vb 1
+\&    INSERT INTO foo VALUES (?, ?)
+.Ve
+This would return two instances of \s-1SQL::\s0Statement::Param. Param objects
+implement a single method, \f(CW$param-\fR\fInum()\fR>, which retrieves the
+parameter number. (0 and 1, in the above example). As of now, not very
+usefull ... :\-)
+.Ip "row_values" 8
+.Sp
+.Vb 4
+\&    my $rowValueNum = $stmt->row_values(); # Scalar context
+\&    my @rowValues = $stmt->row_values();   # Array context
+\&    my($rval1, $rval2) = ($stmt->row_values(0),
+\&                          $stmt->row_values(1));
+.Ve
+This method is used for statements like
+.Sp
+.Vb 3
+\&    UPDATE $table SET $col1 = $val1, $col2 = $val2, ...
+\&        $colN = $valN WHERE ...
+\&    INSERT INTO $table (...) VALUES ($val1, $val2, ..., $valN)
+.Ve
+to read the values \f(CW$val1\fR, \f(CW$val2\fR, ... \f(CW$valN\fR. It returns scalar values
+or \s-1SQL::\s0Statement::Param instances.
+.Ip "order" 8
+.Sp
+.Vb 3
+\&    my $orderNum = $stmt->order();   # Scalar context
+\&    my @order = $stmt->order();      # Array context
+\&    my($o1, $o2) = ($stmt->order(0), $stmt->order(1));
+.Ve
+In \fI\s-1SELECT\s0\fR statements you can use this for looking at the \s-1ORDER\s0
+clause. Example:
+.Sp
+.Vb 1
+\&    SELECT * FROM FOO ORDER BY id DESC, name
+.Ve
+In this case, \f(CWorder\fR could return 2 instances of \s-1SQL::\s0Statement::Order.
+You can use the methods \f(CW$o->table()\fR, \f(CW$o->column()\fR and
+\f(CW$o->desc()\fR to examine the order object.
+.Ip "limit" 8
+.Sp
+.Vb 5
+\&    my $l = $stmt->limit();
+\&    if ($l) {
+\&      my $offset = $l->offset();
+\&      my $limit = $l->limit();
+\&    }
+.Ve
+In a \s-1SELECT\s0 statement you can use a \f(CWLIMIT\fR clause to implement
+cursoring:
+.Sp
+.Vb 3
+\&    SELECT * FROM FOO LIMIT 5
+\&    SELECT * FROM FOO LIMIT 5, 5
+\&    SELECT * FROM FOO LIMIT 10, 5
+.Ve
+These three statements would retrieve the rows 0..4, 5..9, 10..14
+of the table \s-1FOO\s0, respectively. If no \f(CWLIMIT\fR clause is used, then
+the method \f(CW$stmt->limit\fR returns undef. Otherwise it returns
+an instance of \s-1SQL::\s0Statement::Limit. This object has the methods
+\f(CWoffset\fR and \f(CWlimit\fR to retrieve the index of the first row and
+the maximum number of rows, respectively.
+.Ip "where" 8
+.Sp
+.Vb 1
+\&    my $where = $stmt->where();
+.Ve
+This method is used to examine the syntax tree of the \f(CWWHERE\fR clause.
+It returns undef (if no \s-1WHERE\s0 clause was used) or an instance of
+\s-1SQL::\s0Statement::Op. The Op instance offers 4 methods:
+.Ip "op" 20
+returns the operator, one of \f(CWAND\fR, \f(CWOR\fR, \f(CW=\fR, \f(CW<>\fR, \f(CW>=\fR,
+\f(CW>\fR, \f(CW<=\fR, \f(CW<\fR, \f(CWLIKE\fR, \f(CWCLIKE\fR or \f(CWIS\fR.
+.Ip "arg1" 20
+.Ip "arg2" 20
+returns the left-hand and right-hand sides of the operator. This can be a
+scalar value, an \s-1SQL::\s0Statement::Param object or yet another
+\s-1SQL::\s0Statement::Op instance.
+.Ip "neg" 20
+returns a \s-1TRUE\s0 value, if the operation result must be negated after
+evalution.
+.Sp
+To evaluate the \fI\s-1WHERE\s0\fR clause, fetch the topmost Op instance with
+the \f(CWwhere\fR method. Then evaluate the left-hand and right-hand side
+of the operation, perhaps recursively. Once that is done, apply the
+operator and finally negate the result, if required.
+.PP
+To illustrate the above, consider the following \s-1WHERE\s0 clause:
+.PP
+.Vb 1
+\&    WHERE NOT (id > 2 AND name = 'joe') OR name IS NULL
+.Ve
+We can represent this clause by the following tree:
+.PP
+.Vb 6
+\&              (id > 2)   (name = 'joe')
+\&                     \e   /
+\&          NOT         AND
+\&                         \e      (name IS NULL)
+\&                          \e    /
+\&                            OR
+.Ve
+Thus the \s-1WHERE\s0 clause would return an \s-1SQL::\s0Statement::Op instance with
+the \fIop()\fR field set to \*(L'\s-1OR\s0\*(R'. The \fIarg2()\fR field would return another
+\s-1SQL::\s0Statement::Op instance with \fIarg1()\fR being the \s-1SQL::\s0Statement::Column
+instance representing id, the \fIarg2()\fR field containing the value undef
+(\s-1NULL\s0) and the \fIop()\fR field being \*(L'\s-1IS\s0\*(R'.
+.PP
+The \fIarg1()\fR field of the topmost Op instance would return an Op instance
+with \fIop()\fR eq \*(L'\s-1AND\s0\*(R' and \fIneg()\fR returning \s-1TRUE\s0. The \fIarg1()\fR and \fIarg2()\fR
+fields would be Op's representing \*(L"id > 2\*(R" and \*(L"name = \*(L'joe'\*(R".
+.PP
+Of course there's a ready-for-use method for \s-1WHERE\s0 clause evaluation:
+.Sh "Evaluating a \s-1WHERE\s0 clause"
+The \s-1WHERE\s0 clause evaluation depends on an object being used for
+fetching parameter and column values. Usually this can be an
+\s-1SQL::\s0Eval object, but in fact it can be any object that supplies
+the methods
+.PP
+.Vb 2
+\&    $val = $eval->param($paramNum);
+\&    $val = $eval->column($table, $column);
+.Ve
+See the \fI\s-1SQL::\s0Eval\fR manpage for a detailed description of these methods.
+Once you have such an object, you can call a
+.PP
+.Vb 1
+\&    $match = $stmt->eval_where($eval);
+.Ve
+.Sh "Evaluating queries"
+So far all methods have been concrete. However, the interface for
+executing and evaluating queries is abstract. That means, for using
+them you have to derive a subclass from \s-1SQL::\s0Statement that implements
+at least certain missing methods and/or overwrites others. See the
+\f(CWtest.pl\fR script for an example subclass.
+.PP
+Something that all methods have in common is that they simply throw
+a Perl exception in case of errors.
+.Ip "execute" 8
+After creating a statement, you must execute it by calling the \f(CWexecute\fR
+method. Usually you put an eval statement around this call:
+.Sp
+.Vb 3
+\&    $@ = '';
+\&    my $rows = eval { $self->execute($data); };
+\&    if ($@) { die "An error occurred!"; }
+.Ve
+In case of success the method returns the number of affected rows or \-1,
+if unknown. Additionally it sets the attributes
+.Sp
+.Vb 3
+\&    $self->{'NUM_OF_FIELDS'}
+\&    $self->{'NUM_OF_ROWS'}
+\&    $self->{'data'}
+.Ve
+the latter being an array ref of result rows. The argument \f(CW$data\fR is for
+private use by concrete subclasses and will be passed through to all
+methods. (It is intentionally not implemented as attribute: Otherwise
+we might well become self referencing data structures which could
+prevent garbage collection.)
+.Ip "\s-1CREATE\s0" 8
+.Ip "\s-1DROP\s0" 8
+.Ip "\s-1INSERT\s0" 8
+.Ip "\s-1UPDATE\s0" 8
+.Ip "\s-1DELETE\s0" 8
+.Ip "\s-1SELECT\s0" 8
+Called by \f(CWexecute\fR for doing the real work. Usually they create an
+\s-1SQL::\s0Eval object by calling \f(CW$self->open_tables()\fR, call
+\f(CW$self->verify_columns()\fR and then do their job. Finally they return
+the triple
+.Sp
+.Vb 2
+\&    ($self->{'NUM_OF_ROWS'}, $self->{'NUM_OF_FIELDS'},
+\&     $self->{'data'})
+.Ve
+so that execute can setup these attributes. Example:
+.Sp
+.Vb 2
+\&    ($self->{'NUM_OF_ROWS'}, $self->{'NUM_OF_FIELDS'},
+\&     $self->{'data'}) = $self->SELECT($data);
+.Ve
+.Ip "verify_columns" 8
+Called for verifying the row names that are used in the statement.
+Example:
+.Sp
+.Vb 1
+\&    $self->verify_columns($eval, $data);
+.Ve
+.Ip "open_tables" 8
+Called for creating an \s-1SQL::\s0Eval object. In fact what it returns
+doesn't need to be derived from \s-1SQL::\s0Eval, it's completely sufficient
+to implement the same interface of methods. See the \fI\s-1SQL::\s0Eval\fR manpage for
+details. The arguments \f(CW$data\fR, \f(CW$createMode\fR and \f(CW$lockMode\fR
+are corresponding to those of \s-1SQL::\s0Eval::Table::open_table and
+usually passed through. Example:
+.Sp
+.Vb 1
+\&    my $eval = $self->open_tables($data, $createMode, $lockMode);
+.Ve
+The eval object can be used for calling \f(CW$self-\fRverify_columns> or
+\f(CW$self-\fReval_where>.
+.Ip "open_table" 8
+This method is completely abstract and *must* be implemented by subclasses.
+The default implementation of \f(CW$self-\fRopen_tables> calls this method for
+any table used by the statement. See the \f(CWtest.pl\fR script for an example
+of imlplementing a subclass.
+.SH "SQL syntax"
+The SQL::Statement module is far away from ANSI SQL or something similar,
+it is designed for implementing the DBD::CSV module. See the \fIDBD::CSV(3)\fR manpage.
+.PP
+I do not want to give a formal grammar here, more an informal
+description: Read the statement definition in sql_yacc.y, if you need
+something precise.
+.PP
+The main lexical elements of the grammar are:
+.Ip "Integers" 8
+.Ip "Reals" 8
+Syntax obvious
+.Ip "Strings" 8
+Surrounded by either single or double quotes; some characters need to
+be escaped with a backslash, in particular the backslash itself (\e\e),
+the \s-1NUL\s0 byte (\e0), Line feeds (\en), Carriage return (\er), and the
+quotes (\e\*(R' or \e").
+.Ip "Parameters" 8
+Parameters represent scalar values, like Integers, Reals and Strings
+do. However, their values are read inside \fIExecute()\fR and not inside
+\fIPrepare()\fR. Parameters are represented by question marks (?).
+.Ip "Identifiers" 8
+Identifiers are table or column names. Syntactically they consist of
+alphabetic characters, followed by an arbitrary number of alphanumeric
+characters. Identifiers like \s-1SELECT\s0, \s-1INSERT\s0, \s-1INTO\s0, \s-1ORDER\s0, \s-1BY\s0, \s-1WHERE\s0,
+\&... are forbidden and reserved for other tokens.
+.PP
+What it offers is the following:
+.Sh "\s-1CREATE\s0"
+This is the \s-1CREATE\s0 \s-1TABLE\s0 command:
+.PP
+.Vb 2
+\&    CREATE TABLE $table ( $col1 $type1, ..., $colN $typeN,
+\&                          [ PRIMARY KEY ($col1, ... $colM) ] )
+.Ve
+The column names are \f(CW$col1\fR, ... \f(CW$colN\fR. The column types can be
+\f(CWINTEGER\fR, \f(CWCHAR(n)\fR, \f(CWVARCHAR(n)\fR, \f(CWREAL\fR or \f(CWBLOB\fR. These
+types are currently completely ignored. So is the (optional)
+\f(CWPRIMARY KEY\fR clause.
+.Sh "\s-1DROP\s0"
+Very simple:
+.PP
+.Vb 1
+\&    DROP TABLE $table
+.Ve
+.Sh "\s-1INSERT\s0"
+This can be
+.PP
+.Vb 2
+\&    INSERT INTO $table [ ( $col1, ..., $colN ) ]
+\&        VALUES ( $val1, ... $valN )
+.Ve
+.Sh "\s-1DELETE\s0"
+.PP
+.Vb 1
+\&    DELETE FROM $table [ WHERE $where_clause ]
+.Ve
+See the \fI\s-1SELECT\s0\fR manpage below for a decsription of \f(CW$where_clause\fR
+.Sh "\s-1UPDATE\s0"
+.PP
+.Vb 2
+\&    UPDATE $table SET $col1 = $val1, ... $colN = $valN
+\&        [ WHERE $where_clause ]
+.Ve
+See the \fI\s-1SELECT\s0\fR manpage below for a decsription of \f(CW$where_clause\fR
+.Sh "\s-1SELECT\s0"
+.PP
+.Vb 2
+\&    SELECT [DISTINCT] $col1, ... $colN FROM $table
+\&        [ WHERE $where_clause ] [ ORDER BY $ocol1, ... $ocolM ]
+.Ve
+The \f(CW$where_clause\fR is based on boolean expressions of the form
+\f(CW$val1\fR \f(CW$op\fR \f(CW$val2\fR, with \f(CW$op\fR being one of \*(L'=\*(R', \*(L'<>\*(R', \*(L'>\*(R', \*(L'<\*(R', \*(L'>=\*(R',
+\&'<=\*(R', \*(L'\s-1LIKE\s0\*(R', \*(L'\s-1CLIKE\s0\*(R' or \s-1IS\s0. You may use \s-1OR\s0, \s-1AND\s0 and brackets to combine
+such boolean expressions or \s-1NOT\s0 to negate them.
+.SH "INSTALLATION"
+Like most other Perl modules, you simply do a
+.PP
+.Vb 4
+\&    perl Makefile.PL
+\&    make                (nmake or dmake, if you are using Win32)
+\&    make test           (Let me know, if any tests fail)
+\&    make install
+.Ve
+Known problems are:
+.Ip "\(bu" 8
+Some flavours of \s-1SCO\s0 Unix don't seem to have \fIalloca()\fR or something similar.
+I recommend using gcc or egcs for compiling Perl and the \s-1SQL::\s0Statement
+module: Both compilers have a builtin \fIalloca()\fR.
+.Sp
+Another option could be to use external alloca.c, for example
+.Sp
+.Vb 2
+\&  http://www.pu.informatik.th-darmstadt.de/FTP/pub/pu/alloca.c
+\&  http://www.cs.purdue.edu/homes/young/src2www-example/alloca.c.html
+.Ve
+I did test neither of them and cannot give detailed instructions for
+including them into the \s-1SQL::\s0Statement module. However, it should
+be sufficient to compile alloca.c with the same instructions than,
+for example, sql_yacc.c and finally repeat the linker command by
+inserting alloca.o after sql_yacc.o.
+.Sp
+Note that I cannot modify the sources to work without \fIalloca()\fR, as it is
+the bison parser that's using \fIalloca()\fR and I don't have the bison generated
+code in my hands.
+.Sp
+My thanks to Theo Petersen, <theo@acsp.com>, for pointing out this problem
+and the possible workarounds.
+.SH "INTERNALS"
+Internally the module is splitted into three parts:
+.Sh "Perl-independent C part"
+This part, contained in the files \f(CWsql_yacc.y\fR, \f(CWsql_data.h\fR,
+\f(CWsql_data.c\fR and \f(CWsql_op.c\fR, is completely independent from Perl.
+It might well be used from within another script language, Tcl say,
+or from a true C application.
+.PP
+You probably ask, why Perl independence? Well, first of all, I
+think this is a valuable target in itself. But the main reason was
+the impossibility to use the Perl headers inside bison generated
+code. The Perl headers export almost the complete Yacc interface
+to \s-1XS\s0, for whatever reason, thus redefining constants and structures
+created by your own bison code. :\-(
+.Sh "Perl-dependent C part"
+This is contained in \f(CWStatement.xs\fR. The both C parts communicate via
+a C structure sql_stmt_t. In fact, an \s-1SQL::\s0Statement object is nothing
+else than a pointer to such a structure. The \s-1XS\s0 calls \fIcolumns()\fR, \fITable()\fR,
+\fIwhere()\fR, ... do nothing more than fetching data from this structure
+and converting it to Perl objects. See the section on \fIThe sql_stmt_t structure\fR
+below for details on the structure.
+.Sh "Perl part"
+Besides some stub functions for retrieving statement data, this is
+mainly the query processing with the exception of \s-1WHERE\s0 clause
+evaluation.
+.Sh "The sql_stmt_t structure"
+This structure is designed for optimal performance. A typical query
+will be parsed with only 4 or 5 \fImalloc()\fR calls; in particular no
+memory will be aquired for storing strings; only pointers into the
+query string are used.
+.PP
+The statement stores its tokens in the values array. The array elements
+are of type sql_val_t, a union, that can represent the most interesting
+tokens; for example integers and reals are stored in the data.i and
+data.d parts of the union, strings are stored in the data.str part,
+columns in the data.col part and so on. Arrays are allocated in chunks
+of 64 elements, thus a single \fImalloc()\fR will be usually sufficient for
+allocating the complete array. Some types use pointers into the values
+array: For example, operations are stored in an sql_op_t structure that
+containes elements arg1 and arg2 which are pointers into the value
+table, pointing to other operations or scalars. These pointers are
+stored as indices, so that the array can be extended using \fIrealloc()\fR.
+.PP
+The sql_stmt_t structure contains other arrays: columns, tables,
+rowvals, order, ... representing the data returned by the \fIcolumns()\fR,
+\fItables()\fR, \fIrow_values()\fR and \fIorder()\fR methods. All of these contain
+pointers into the values array, again stored as integers.
+.PP
+Arrays are initialized with the _InitArray call in SQL_Statement_Prepare
+and deallocated with _DestroyArray in SQL_Statement_Destroy. Array
+elements are obtained by calling _AllocData, which returns an index.
+The number \-1 is used for errors or as a \s-1NULL\s0 value.
+.Sh "The \s-1WHERE\s0 clause evaluation"
+A \s-1WHERE\s0 clause is evaluated by calling \fISQL_Statement_EvalWhere()\fR. This
+function is in the Perl independent part, but it needs the possibility
+to retrieve data from the Perl part, for example column or parameter
+values. These values are retrieved via callbacks, stored in the
+sql_eval_t structure. The field stmt->evalData points to such a
+structure. Of course the calling method can extend the sql_eval_t
+structure (like eval_where in Statement.xs does) to include private data
+not used by SQL_Statement_EvalWhere.
+.Sh "Features"
+Different parsers are implemented via the sql_parser_t structure. This
+is mainly a set of yes/no flags. If you'd like to add features, do
+the following:
+.PP
+First of all, extend the sql_parser_t structure. If your feature is
+part of a certain statement, place it into the statements section,
+for example \*(L"select.join\*(R". Otherwise choose a section like \*(L"misc\*(R"
+or \*(L"general\*(R". (There's no particular for the section design, but
+structure never hurts.)
+.PP
+Second, add your feature to sql_yacc.y. If your feature needs to
+extend the lexer, do it like this:
+.PP
+.Vb 4
+\&    if (FEATURE(misc, myfeature) {
+\&        /*  Scan your new symbols  */
+\&        ...
+\&    }
+.Ve
+See the \fI\s-1BOOL\s0\fR symbol as an example.
+.PP
+If you need to extend the parser, do it like this:
+.PP
+.Vb 5
+\&    my_new_rule:
+\&        /*  NULL, old behaviour, doesn't use my feature  */
+\&        | my_feature
+\&            { YFEATURE(misc, myfeature); }
+\&    ;
+.Ve
+Thus all parsers not having \fI\s-1FEATURE\s0\fR\|(misc, myfeature) set will produce
+a parse error here. Again, see the \s-1BOOL\s0 symbol for an example.
+.PP
+Third thing is to extend the builtin parsers. If they support your
+feature, add a 1, otherwise a 0. Currently there are two builtin
+parsers: The \fIansiParser\fR in sql_yacc.y and the sqlEvalParser in
+Statement.xs.
+.PP
+Finally add support for your feature to the \f(CWfeature\fR method in
+Statement.xs. That's it!
+.SH "MULTITHREADING"
+The complete module code is reentrant. In particular the parser is
+created with \f(CW%pure_parser\fR. See the \fIbison(1)\fR manpage for details on
+reentrant parsers. That means, the module is ready for multithreading,
+as long as you don't share handles between threads. Read-only handles,
+for example parsers, can even be shared.
+.PP
+Statement handles cannot be shared among threads, at least not, if
+you don't grant serialized access. Per-thread handles are always safe.
+.SH "AUTHOR AND COPYRIGHT"
+This module is Copyright (C) 1998 by
+.PP
+.Vb 4
+\&    Jochen Wiedmann
+\&    Am Eisteich 9
+\&    72555 Metzingen
+\&    Germany
+.Ve
+.Vb 2
+\&    Email: joe@ispsoft.de
+\&    Phone: +49 7123 14887
+.Ve
+All rights reserved.
+.PP
+You may distribute this module under the terms of either the GNU
+General Public License or the Artistic License, as specified in
+the Perl README file. 
+.SH "SEE ALSO"
+the \fIDBI(3)\fR manpage, the \fIDBD::CSV(3)\fR manpage
+
+.rn }` ''
+.IX Title "lib::SQL::Statement 3"
+.IX Name "SQL::Statement - SQL parsing and processing engine"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Creating a parser object"
+
+.IX Item "create.type_blob"
+
+.IX Item "create.type_real"
+
+.IX Item "create.type_text"
+
+.IX Item "select.join"
+
+.IX Subsection "Parsing a query"
+
+.IX Subsection "Retrieving query information"
+
+.IX Item "command"
+
+.IX Item "columns"
+
+.IX Item "tables"
+
+.IX Item "params"
+
+.IX Item "row_values"
+
+.IX Item "order"
+
+.IX Item "limit"
+
+.IX Item "where"
+
+.IX Item "op"
+
+.IX Item "arg1"
+
+.IX Item "arg2"
+
+.IX Item "neg"
+
+.IX Subsection "Evaluating a \s-1WHERE\s0 clause"
+
+.IX Subsection "Evaluating queries"
+
+.IX Item "execute"
+
+.IX Item "\s-1CREATE\s0"
+
+.IX Item "\s-1DROP\s0"
+
+.IX Item "\s-1INSERT\s0"
+
+.IX Item "\s-1UPDATE\s0"
+
+.IX Item "\s-1DELETE\s0"
+
+.IX Item "\s-1SELECT\s0"
+
+.IX Item "verify_columns"
+
+.IX Item "open_tables"
+
+.IX Item "open_table"
+
+.IX Header "SQL syntax"
+
+.IX Item "Integers"
+
+.IX Item "Reals"
+
+.IX Item "Strings"
+
+.IX Item "Parameters"
+
+.IX Item "Identifiers"
+
+.IX Subsection "\s-1CREATE\s0"
+
+.IX Subsection "\s-1DROP\s0"
+
+.IX Subsection "\s-1INSERT\s0"
+
+.IX Subsection "\s-1DELETE\s0"
+
+.IX Subsection "\s-1UPDATE\s0"
+
+.IX Subsection "\s-1SELECT\s0"
+
+.IX Header "INSTALLATION"
+
+.IX Item "\(bu"
+
+.IX Header "INTERNALS"
+
+.IX Subsection "Perl-independent C part"
+
+.IX Subsection "Perl-dependent C part"
+
+.IX Subsection "Perl part"
+
+.IX Subsection "The sql_stmt_t structure"
+
+.IX Subsection "The \s-1WHERE\s0 clause evaluation"
+
+.IX Subsection "Features"
+
+.IX Header "MULTITHREADING"
+
+.IX Header "AUTHOR AND COPYRIGHT"
+
+.IX Header "SEE ALSO"
+

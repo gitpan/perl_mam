@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::TokeParser 3 "perl 5.005, patch 53" "8/Jul/98" "User Contributed Perl Documentation"
+.TH lib::HTML::TokeParser 3 "perl 5.007, patch 00" "25/Mar/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -199,68 +199,91 @@ HTML::TokeParser \- Alternative HTML::Parser interface
 \& }
 .Ve
 .SH "DESCRIPTION"
-The HTML::TokeParser is an alternative interface to the HTML::Parser class.
-It basically turns the HTML::Parser inside out.  You associate a file
-(or any IO::Handle object) with the parser at construction time and
-then repeatedly call \f(CW$parser\fR\->get_token to obtain the tags and text
-found in the parsed document.  No need to make a subclass to make the
-parser do anything.
+The \f(CWHTML::TokeParser\fR is an alternative interface to the
+\f(CWHTML::Parser\fR class.  It is an \f(CWHTML::PullParser\fR subclass.
 .PP
-Calling the methods defined by the HTML::Parser base class will be
-confusing, so don't do that.  Use the following methods instead:
-.Ip "$p = \s-1HTML::\s0TokeParser->new( $file );" 4
-The object constructor needs a file name or a reference to some file
-handle object as argument.  If a file name (plain scalar) is passed to
-the constructor and the file can't be opened for reading, then the
-constructor will return an undefined value.
+The following methods are available:
+.Ip "$p = \s-1HTML::\s0TokeParser->new( $file_or_doc );" 4
+The object constructor argument is either a file name, a file handle
+object, or the complete document to be parsed.
+.Sp
+If the argument is a plain scalar, then it is taken as the name of a
+file to be opened and parsed.  If the file can't be opened for
+reading, then the constructor will return an undefined value and $!
+will tell you why it failed.
+.Sp
+If the argument is a reference to a plain scalar, then this scalar is
+taken to be the literal document to parse.  The value of this
+scalar should not be changed before all tokens have been extracted.
+.Sp
+Otherwise the argument is taken to be some object that the
+\f(CWHTML::TokeParser\fR can \fIread()\fR from when it needs more data.  Typically
+it will be a filehandle of some kind.  The stream will be \fIread()\fR until
+\s-1EOF\s0, but not closed.
 .Ip "$p->get_token" 4
 This method will return the next \fItoken\fR found in the \s-1HTML\s0 document,
 or \f(CWundef\fR at the end of the document.  The token is returned as an
-array reference.  The first element of the array will be a single
-character string denoting the type of this token; \*(L"S\*(R" for start tag,
-\*(L"E\*(R" for end tag, \*(L"T\*(R" for text, \*(L"C\*(R" for comment, and \*(L"D\*(R" for
-declaration.  The rest of the array is the same as the arguments
-passed to the \s-1HTML::\s0Parser callbacks (see the \fI\s-1HTML::\s0Parser\fR manpage).  This
-summarize the tokens that can occur:
+array reference.  The first element of the array will be a (mostly)
+single character string denoting the type of this token: \*(L"S\*(R" for start
+tag, \*(L"E\*(R" for end tag, \*(L"T\*(R" for text, \*(L"C\*(R" for comment, \*(L"D\*(R" for
+declaration, and \*(L"\*(PI\*(R" for process instructions.  The rest of the array
+is the same as the arguments passed to the corresponding \s-1HTML::\s0Parser
+v2 compatible callbacks (see the \fI\s-1HTML::\s0Parser\fR manpage).  In summary, returned
+tokens look like this:
 .Sp
-.Vb 5
-\&  ["S", $tag, %$attr, @$attrseq, $origtext]
-\&  ["E", $tag, $origtext]
-\&  ["T", $text]
-\&  ["C", $text]
-\&  ["D", $text]
+.Vb 6
+\&  ["S",  $tag, $attr, $attrseq, $text]
+\&  ["E",  $tag, $text]
+\&  ["T",  $text, $is_data]
+\&  ["C",  $text]
+\&  ["D",  $text]
+\&  ["PI", $token0, $text]
 .Ve
+where \f(CW$attr\fR is a hash reference, \f(CW$attrseq\fR is an array reference and
+the rest is plain scalars.
 .Ip "$p->unget_token($token,...)" 4
 If you find out you have read too many tokens you can push them back,
 so that they are returned the next time \f(CW$p\fR\->get_token is called.
-.Ip "$p->get_tag( [$tag] )" 4
-This method return the next tag (skipping any other tokens), or undef
-if there is no more tags in the document.  If an argument is given,
-then we skip tokens until the specified tag is found.  The tags are
-returned as a hash reference of the same form as for \f(CW$p\fR\->get_token
-above, but the type code (first element) is missing and the name of
-end tags is prefixed with \*(L"/\*(R".  This means that the tags returned look
-like this:
+.Ip "$p->get_tag( [$tag, ...] )" 4
+This method returns the next start or end tag (skipping any other
+tokens), or \f(CWundef\fR if there are no more tags in the document.  If
+one or more arguments are given, then we skip tokens until one of the
+specified tag types is found.  For example:
 .Sp
-.Vb 2
-\&  [$tag, %$attr, @$attrseq, $origtext]
-\&  ["/$tag", $origtext]
+.Vb 1
+\&   $p->get_tag("font", "/font");
+.Ve
+will find the next start or end tag for a font-element.
+.Sp
+The tag information is returned as an array reference in the same form
+as for \f(CW$p\fR\->get_token above, but the type code (first element) is
+missing. A start tag will be returned like this:
+.Sp
+.Vb 1
+\&  [$tag, $attr, $attrseq, $text]
+.Ve
+The tagname of end tags are prefixed with \*(L"/\*(R", i.e. end tag is
+returned like this:
+.Sp
+.Vb 1
+\&  ["/$tag", $text]
 .Ve
 .Ip "$p->get_text( [$endtag] )" 4
-This method returns all text found at the current position. It might
-return a zero length string if there is no text.  The optional \f(CW$endtag\fR
-argument specify that any text occurring before the given tag is to be
-returned.  Any entities will be expanded to their corresponding
-character.
+This method returns all text found at the current position. It will
+return a zero length string if the next token is not text.  The
+optional \f(CW$endtag\fR argument specifies that any text occurring before the
+given tag is to be returned.  Any entities will be converted to their
+corresponding character.
 .Sp
-The \f(CW$p\fR\->{textify} attribute is a hash that define how certain tags can
-be treated as text.  If the name of a start tag match a key in this
+The \f(CW$p\fR\->{textify} attribute is a hash that defines how certain tags can
+be treated as text.  If the name of a start tag matches a key in this
 hash then this tag is converted to text.  The hash value is used to
-specify which tag attribute to obtain the text from.  If this
+specify which tag attribute to obtain the text from.  If this tag
 attribute is missing, then the upper case name of the tag enclosed in
 brackets is returned, e.g. \*(L"[\s-1IMG\s0]\*(R".  The hash value can also be a
 subroutine reference.  In this case the routine is called with the
-token content as parameters to obtain the text.
+start tag token content as its argument and the return value is treated
+as the text.
 .Sp
 The default \f(CW$p\fR\->{textify} value is:
 .Sp
@@ -268,13 +291,13 @@ The default \f(CW$p\fR\->{textify} value is:
 \&  {img => "alt", applet => "alt"}
 .Ve
 This means that <\s-1IMG\s0> and <\s-1APPLET\s0> tags are treated as text, and that
-the text to substitute can be found as \s-1ALT\s0 attribute.
+the text to substitute can be found in the \s-1ALT\s0 attribute.
 .Ip "$p->get_trimmed_text( [$endtag] )" 4
-Same as \f(CW$p\fR\->get_text above, but will collapse any sequence of white
-space to a single space character.  Leading and trailing space is
+Same as \f(CW$p\fR\->get_text above, but will collapse any sequences of white
+space to a single space character.  Leading and trailing white space is
 removed.
 .SH "EXAMPLES"
-This example extract all links from a document.  It will print one
+This example extracts all links from a document.  It will print one
 line for each link, containing the URL and the textual description
 between the <A>...</A> tags:
 .PP
@@ -300,9 +323,9 @@ This example extract the <TITLE> from the document:
 \&  }
 .Ve
 .SH "SEE ALSO"
-the \fIHTML::Parser\fR manpage
+the \fIHTML::PullParser\fR manpage, the \fIHTML::Parser\fR manpage
 .SH "COPYRIGHT"
-Copyright 1998 Gisle Aas.
+Copyright 1998-2001 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -317,13 +340,13 @@ modify it under the same terms as Perl itself.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "$p = \s-1HTML::\s0TokeParser->new( $file );"
+.IX Item "$p = \s-1HTML::\s0TokeParser->new( $file_or_doc );"
 
 .IX Item "$p->get_token"
 
 .IX Item "$p->unget_token($token,...)"
 
-.IX Item "$p->get_tag( [$tag] )"
+.IX Item "$p->get_tag( [$tag, ...] )"
 
 .IX Item "$p->get_text( [$endtag] )"
 

@@ -1,0 +1,333 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH Types 3 "perl 5.007, patch 00" "19/Feb/102" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.PP
+.Vb 1
+\& MIME::Types - Definition of MIME types
+.Ve
+.SH "SYNOPSIS"
+.PP
+.Vb 4
+\& use MIME::Types;
+\& my $mimetypes = MIME::Types->new;
+\& my MIME::Type $plaintext = $mimetype->type('text/plain');
+\& my MIME::Type $imagegif  = $mimetype->extension('gif');
+.Ve
+.SH "DESCRIPTION"
+MIME types are used in MIME entities, for instance as part of e-mail
+and HTTP traffic.  Sometimes real knowledge about a mime-type is need.
+This module will supply it.
+.SH "METHODS"
+.Ip "new \s-1OPTIONS\s0" 4
+Create a new \f(CWMIME::Types\fR object which manages the data.  In the current
+implementation, it does not matter whether you create this object often
+within your program, but in the future this may change.
+.Sp
+.Vb 2
+\& OPTIONS                   DEFAULT
+\& only_complete             0
+.Ve
+.Ip "\(bu only_complete => \s-1BOOLEAN\s0" 8
+Only include complete mime-type definitions: requires extension and
+encoding.  This will reduce the number of entries --and with that
+the amount of memory consumed-- enormously.
+.Sp
+In your program you have to decide: the first time that you call
+the creator (\f(CWnew\fR) determines whether you get the full or the partial
+information.
+.Ip "type \s-1STRING\s0" 4
+Return the \f(CWMIME::Type\fR which describes the type related to \s-1STRING\s0.  One
+type may be described more than once.  Different extensions is use for
+this type, and different operating systems may cause more than one
+\f(CWMIME::Type\fR object to be defined.  In scalar context, only the first
+is returned.
+.Ip "mimeTypeOf \s-1FILENAME\s0" 4
+Returns the \f(CWMIME::Type\fR object which belongs to the \s-1FILENAME\s0 (or simply
+its filename extension).  The extension is used, and considered
+case-insensitive.
+.Sp
+Examples:
+.Sp
+.Vb 2
+\& my MIME::Types $types = MIME::Types->new;
+\& my MIME::Type  $mime = $types->mimeTypeOf('gif');
+.Ve
+.Vb 2
+\& my MIME::Type  $mime = $types->mimeTypeOf('jpg');
+\& print $mime->isBinary;
+.Ve
+.Ip "addType \s-1TYPE\s0, ..." 4
+Add one or more TYPEs to the set of known types.  Each \s-1TYPE\s0 is a
+\f(CWMIME::Type\fR which must be experimental: either the main-type or
+the sub-type must start with \f(CWx-\fR.
+.Sp
+Please inform the maintainer of this module when registered types
+are missing.
+.SH "EXPORT"
+The next methods are provided for backward compatibility with MIME::Types
+versions 0.06 and below.  This code originates from Jeff Okamoto
+<\fIokamoto@corp.hp.com\fR> and others.
+.Ip "by_suffix \s-1FILENAME\s0|\s-1SUFFIX\s0" 4
+Like \f(CWmimeTypeOf\fR but does not return an \f(CWMIME::Type\fR object.
+.Sp
+Example:
+.Sp
+.Vb 2
+\& use MIME::Types 'by_suffix';
+\& my ($mediatype, $encoding) = by_suffix 'image.gif';
+.Ve
+.Vb 2
+\& my $refdata =  by_suffix 'image.gif';
+\& my ($mediatype, $encoding) = @$refdata;
+.Ve
+.Ip "by_mediatype \s-1TYPE\s0" 4
+This function takes a media type and returns a list or anonymous array of
+anonymous three-element arrays whose values are the file name suffix used to
+identify it, the media type, and a content encoding.
+.Sp
+\s-1TYPE\s0 can be a full type name (contains \*(L'/\*(R', and will be matched in full),
+a partial type (which is used as regular expression) or a real regular
+expression.
+.Ip "import_mime_types" 4
+This method has been removed: mime-types are only useful if understood
+by many parties.  Therefore, the \s-1IANA\s0 assigns names which can be used.
+In the table kept by this \f(CWMIME::Types\fR module all these names, plus
+the most often used termporary names are kept.  When names seem to be
+missing, please contact the maintainer for inclussion.
+.SH "SEE ALSO"
+the \fIMIME::Type\fR manpage
+.SH "AUTHOR"
+Original module and data collection by Jeff Okamoto and the Apache team.
+Mark Overmeer (\fImimetypes@overmeer.net\fR).
+All rights reserved.  This program is free software; you can redistribute
+it and/or modify it under the same terms as Perl itself.
+.SH "VERSION"
+This code is beta version 0.16.
+.PP
+Copyright (c) 2001 by Jeff Okamoto and Mark Overmeer. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+.rn }` ''
+.IX Title "Types 3"
+.IX Name "MIME::Types - Definition of MIME types"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Item "new \s-1OPTIONS\s0"
+
+.IX Item "\(bu only_complete => \s-1BOOLEAN\s0"
+
+.IX Item "type \s-1STRING\s0"
+
+.IX Item "mimeTypeOf \s-1FILENAME\s0"
+
+.IX Item "addType \s-1TYPE\s0, ..."
+
+.IX Header "EXPORT"
+
+.IX Item "by_suffix \s-1FILENAME\s0|\s-1SUFFIX\s0"
+
+.IX Item "by_mediatype \s-1TYPE\s0"
+
+.IX Item "import_mime_types"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "VERSION"
+

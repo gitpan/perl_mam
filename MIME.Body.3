@@ -1,0 +1,570 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::MIME::Body 3 "perl 5.007, patch 00" "4/Nov/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+MIME::Body \- the body of a MIME message
+.SH "SYNOPSIS"
+Before reading further, you should see the \fIMIME::Tools\fR manpage to make sure that 
+you understand where this module fits into the grand scheme of things.
+Go on, do it now.  I'll wait.
+.PP
+Ready?  Ok...
+.Sh "Obtaining bodies"
+.PP
+.Vb 2
+\&   ### Get the bodyhandle of a MIME::Entity object:
+\&   $body = $entity->bodyhandle;
+.Ve
+.Vb 2
+\&   ### Create a body which stores data in a disk file:
+\&   $body = new MIME::Body::File "/path/to/file";
+.Ve
+.Vb 2
+\&   ### Create a body which stores data in an in-core array:
+\&   $body = new MIME::Body::InCore \e@strings;
+.Ve
+.Sh "Opening, closing, and using \s-1IO\s0 handles"
+.PP
+.Vb 12
+\&   ### Write data to the body:
+\&   $IO = $body->open("w")      || die "open body: $!";
+\&   $IO->print($message);
+\&   $IO->close                  || die "close I/O handle: $!";
+\&   
+\&   ### Read data from the body (in this case, line by line):
+\&   $IO = $body->open("r")      || die "open body: $!";
+\&   while (defined($_ = $IO->getline)) {
+\&       ### do stuff
+\&   }
+\&   $IO->close                  || die "close I/O handle: $!";
+\&    
+.Ve
+.Sh "Other I/O"
+.PP
+.Vb 8
+\&   ### Dump the ENCODED body data to a filehandle:
+\&   $body->print(\e*STDOUT);
+\&       
+\&   ### Slurp all the UNENCODED data in, and put it in a scalar:
+\&   $string = $body->as_string;
+\&   
+\&   ### Slurp all the UNENCODED data in, and put it in an array of lines:
+\&   @lines = $body->as_lines;
+.Ve
+.Sh "Working directly with paths to underlying files"
+.PP
+.Vb 10
+\&   ### Where's the data?
+\&   if (defined($body->path)) {   ### data is on disk:
+\&       print "data is stored externally, in ", $body->path;
+\&   }
+\&   else {                        ### data is in core:
+\&       print "data is already in core, and is...\en", $body->as_string;
+\&   }
+\&     
+\&   ### Get rid of anything on disk:
+\&   $body->purge;
+.Ve
+.SH "DESCRIPTION"
+MIME messages can be very long (e.g., tar files, MPEGs, etc.) or very
+short (short textual notes, as in ordinary mail).  Long messages
+are best stored in files, while short ones are perhaps best stored
+in core.
+.PP
+This class is an attempt to define a common interface for objects
+which contain message data, regardless of how the data is
+physically stored.  The lifespan of a \*(L"body\*(R" object
+usually looks like this:
+.Ip "1." 4
+\fBBody object is created by a \s-1MIME::\s0Parser during parsing.\fR
+It's at this point that the actual \s-1MIME::\s0Body subclass is chosen,
+and \fInew()\fR is invoked.  (For example: if the body data is going to 
+a file, then it is at this point that the class \s-1MIME::\s0Body::File,
+and the filename, is chosen).
+.Ip "2." 4
+\fBData is written to the body\fR (usually by the \s-1MIME\s0 parser) like this:
+The body is opened for writing, via \f(CWopen("w")\fR.  This will trash any 
+previous contents, and return an \*(L"I/O handle\*(R" opened for writing.  
+Data is written to this I/O handle, via \fIprint()\fR.
+Then the I/O handle is closed, via \fIclose()\fR.
+.Ip "3. " 4
+\fBData is read from the body\fR (usually by the user application) like this: 
+The body is opened for reading by a user application, via \f(CWopen("r")\fR.
+This will return an \*(L"I/O handle\*(R" opened for reading.
+Data is read from the I/O handle, via \fIread()\fR, \fIgetline()\fR, or \fIgetlines()\fR.
+Then the I/O handle is closed, via \fIclose()\fR.
+.Ip "4. " 4
+\fBBody object is destructed.\fR
+.PP
+You can write your own subclasses, as long as they follow the
+interface described below.  Implementers of subclasses should assume
+that steps 2 and 3 may be repeated any number of times, and in
+different orders (e.g., 1-2-2-3-2-3-3-3-3-3-2-4).
+.PP
+In any case, once a \s-1MIME::\s0Body has been created, you ask to open it
+for reading or writing, which gets you an \*(L"i/o handle": you then use 
+the same mechanisms for reading from or writing to that handle, no matter 
+what class it is.
+.PP
+Beware: unless you know for certain what kind of body you have, you
+should \fInot\fR assume that the body has an underlying filehandle.
+.SH "PUBLIC INTERFACE"
+.Ip "new \s-1ARGS\s0..." 4
+\fIClass method, constructor.\fR
+Create a new body.  Any \s-1ARGS\s0 are sent to \fIinit()\fR.
+.Ip "init \s-1ARGS\s0..." 4
+\fIInstance method, abstract, initiallizer.\fR
+This is called automatically by \f(CWnew()\fR, with the arguments given
+to \f(CWnew()\fR.  The arguments are optional, and entirely up to the
+subclass.  The default method does nothing,
+.Ip "as_lines" 4
+\fIInstance method.\fR
+Return the contents of the body as an array of lines (each terminated
+by a newline, with the possible exception of the final one).
+Returns empty on failure (\s-1NB\s0: indistinguishable from an empty body!).
+.Sp
+Note: the default method gets the data via
+repeated \fIgetline()\fR calls; your subclass might wish to override this.
+.Ip "as_string" 4
+\fIInstance method.\fR
+Return the body data as a string (slurping it into core if necessary).  
+Best not to do this unless you're \fIsure\fR that the body is reasonably small!
+Returns empty string for an empty body, and undef on failure.
+.Sp
+Note: the default method uses \fIprint()\fR, which gets the data via
+repeated \fIread()\fR calls; your subclass might wish to override this.
+.Ip "binmode [\s-1ONOFF\s0]" 4
+\fIInstance method.\fR
+With argument, flags whether or not \fIopen()\fR should return an I/O handle
+which has \fIbinmode()\fR activated.  With no argument, just returns the
+current value.  
+.Ip "dup" 4
+\fIInstance method.\fR
+Duplicate the bodyhandle.
+.Sp
+\fIBeware:\fR external data in bodyhandles is \fInot\fR copied to new files!  
+Changing the data in one body's data file, or purging that body,
+\fIwill\fR affect its duplicate.  Bodies with in-core data probably need
+not worry.
+.Ip "open \s-1READWRITE\s0" 4
+\fIInstance method, abstract.\fR
+This should do whatever is necessary to open the body for either
+writing (if \s-1READWRITE\s0 is \*(L"w") or reading (if mode is \*(L"r").
+.Sp
+This method is expected to return an \*(L"I/O handle\*(R" object on success,
+and undef on error.  An I/O handle can be any object that supports a 
+small set of standard methods for reading/writing data.  
+See the \s-1IO::\s0Handle class for an example.
+.Ip "path [\s-1PATH\s0]" 4
+\fIInstance method.\fR
+If you're storing the body data externally (e.g., in a disk file), you'll 
+want to give applications the ability to get at that data, for cleanup.  
+This method should return the path to the data, or undef if there is none.
+.Sp
+Where appropriate, the path \fIshould\fR be a simple string, like a filename.
+With argument, sets the \s-1PATH\s0, which should be undef if there is none.
+.Ip "print \s-1FILEHANDLE\s0" 4
+\fIInstance method.\fR
+Output the body data to the given filehandle, or to the currently-selected 
+one if none is given.
+.Ip "purge" 4
+\fIInstance method, abstract.\fR
+Remove any data which resides external to the program (e.g., in disk files).
+Immediately after a \fIpurge()\fR, the \fIpath()\fR should return undef to indicate
+that the external data is no longer available.
+.SH "SUBCLASSES"
+The following built-in classes are provided:
+.PP
+.Vb 6
+\&   Body                 Stores body     When open()ed,
+\&   class:               data in:        returns:    
+\&   --------------------------------------------------------
+\&   MIME::Body::File     disk file       IO::Handle   
+\&   MIME::Body::Scalar   scalar          IO::Scalar  
+\&   MIME::Body::InCore   scalar array    IO::ScalarArray
+.Ve
+.Sh "\s-1MIME::\s0Body::File"
+A body class that stores the data in a disk file.  
+The I/O handle is a wrapped filehandle.  Invoke the constructor as:
+.PP
+.Vb 1
+\&    $body = new MIME::Body::File "/path/to/file";
+.Ve
+In this case, the \f(CWpath()\fR method would return the given path,
+so you \fIcould\fR say:
+.PP
+.Vb 7
+\&    if (defined($body->path)) {
+\&        open BODY, $body->path or die "open: $!";
+\&        while (<BODY>) {
+\&            ### do stuff
+\&        }
+\&        close BODY;
+\&    }
+.Ve
+But you're best off not doing this.
+.Sh "\s-1MIME::\s0Body::Scalar"
+A body class that stores the data in-core, in a simple scalar.
+Invoke the constructor as:
+.PP
+.Vb 1
+\&    $body = new MIME::Body::Scalar \e$string;
+.Ve
+A single scalar argument sets the body to that value, exactly as though
+you'd opened for the body for writing, written the value, 
+and closed the body again:
+.PP
+.Vb 1
+\&    $body = new MIME::Body::Scalar "Line 1\enLine 2\enLine 3";
+.Ve
+A single array reference sets the body to the result of joining all the
+elements of that array together:
+.PP
+.Vb 3
+\&    $body = new MIME::Body::Scalar ["Line 1\en",
+\&                                    "Line 2\en",
+\&                                    "Line 3"];
+.Ve
+Uses \fB\s-1IO::\s0Scalar\fR as the I/O handle.
+.Sh "\s-1MIME::\s0Body::InCore"
+A body class that stores the data in-core.
+Invoke the constructor as:
+.PP
+.Vb 3
+\&    $body = new MIME::Body::InCore \e$string;
+\&    $body = new MIME::Body::InCore  $string;
+\&    $body = new MIME::Body::InCore \e@stringarray
+.Ve
+A simple scalar argument sets the body to that value, exactly as though
+you'd opened for the body for writing, written the value, 
+and closed the body again:
+    
+    \f(CW$body\fR = new \s-1MIME::\s0Body::InCore \*(L"Line 1\enLine 2\enLine 3\*(R";
+.PP
+A single array reference sets the body to the concatenation of all
+scalars that it holds:
+.PP
+.Vb 3
+\&    $body = new MIME::Body::InCore ["Line 1\en",
+\&                                    "Line 2\en",
+\&                                    "Line 3"];
+.Ve
+Uses \fB\s-1IO::\s0ScalarArray\fR as the I/O handle.
+.Sh "Defining your own subclasses"
+So you're not happy with files and scalar-arrays?
+No problem: just define your own \s-1MIME::\s0Body subclass, and make a subclass
+of \s-1MIME::\s0Parser or \s-1MIME::\s0ParserBase which returns an instance of your
+body class whenever appropriate in the \f(CWnew_body_for(head)\fR method.
+.PP
+Your \*(L"body\*(R" class must inherit from \s-1MIME::\s0Body (or some subclass of it),
+and it must either provide (or inherit the default for) the following 
+methods...
+.PP
+The default inherited method \fIshould suffice\fR for all these:
+.PP
+.Vb 3
+\&    new                       
+\&    binmode [ONOFF]           
+\&    path
+.Ve
+The default inherited method \fImay suffice\fR for these, but perhaps 
+there's a better implementation for your subclass.                       
+.PP
+.Vb 6
+\&    init ARGS...              
+\&    as_lines                  
+\&    as_string                 
+\&    dup                       
+\&    print                     
+\&    purge 
+.Ve
+The default inherited method \fIwill probably not suffice\fR for these:
+.PP
+.Vb 1
+\&    open                      
+.Ve
+.SH "NOTES"
+One reason I didn't just use FileHandle or IO::Handle objects for message
+bodies was that I wanted a \*(L"body\*(R" object to be a form of completely
+encapsulated program-persistent storage; that is, I wanted users
+to be able to write code like this...
+.PP
+.Vb 7
+\&   ### Get body handle from this MIME message, and read its data:
+\&   $body = $entity->bodyhandle;
+\&   $IO = $body->open("r");
+\&   while (defined($_ = $IO->getline)) {
+\&       print STDOUT $_;
+\&   }
+\&   $IO->close;
+.Ve
+\&...without requiring that they know anything more about how the
+\f(CW$body\fR object is actually storing its data (disk file, scalar variable,
+array variable, or whatever).
+.PP
+Storing the body of each MIME message in a persistently-open
+IO::Handle was a possibility, but it seemed like a bad idea,
+considering that a single multipart MIME message could easily suck up
+all the available file descriptors on some systems.  This risk increases 
+if the user application is processing more than one MIME entity at a time.
+.SH "AUTHOR"
+Eryq (\fIeryq@zeegee.com\fR), ZeeGee Software Inc (\fIhttp://www.zeegee.com\fR).
+.PP
+All rights reserved.  This program is free software; you can redistribute 
+it and/or modify it under the same terms as Perl itself.
+.PP
+Thanks to Achim Bohnet for suggesting that MIME::Parser not be restricted
+to the use of FileHandles.
+.SH "VERSION"
+$Revision: 5.403 $ \f(CW$Date:\fR 2000/11/04 19:54:46 $
+
+.rn }` ''
+.IX Title "lib::MIME::Body 3"
+.IX Name "MIME::Body - the body of a MIME message"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Subsection "Obtaining bodies"
+
+.IX Subsection "Opening, closing, and using \s-1IO\s0 handles"
+
+.IX Subsection "Other I/O"
+
+.IX Subsection "Working directly with paths to underlying files"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3. "
+
+.IX Item "4. "
+
+.IX Header "PUBLIC INTERFACE"
+
+.IX Item "new \s-1ARGS\s0..."
+
+.IX Item "init \s-1ARGS\s0..."
+
+.IX Item "as_lines"
+
+.IX Item "as_string"
+
+.IX Item "binmode [\s-1ONOFF\s0]"
+
+.IX Item "dup"
+
+.IX Item "open \s-1READWRITE\s0"
+
+.IX Item "path [\s-1PATH\s0]"
+
+.IX Item "print \s-1FILEHANDLE\s0"
+
+.IX Item "purge"
+
+.IX Header "SUBCLASSES"
+
+.IX Subsection "\s-1MIME::\s0Body::File"
+
+.IX Subsection "\s-1MIME::\s0Body::Scalar"
+
+.IX Subsection "\s-1MIME::\s0Body::InCore"
+
+.IX Subsection "Defining your own subclasses"
+
+.IX Header "NOTES"
+
+.IX Header "AUTHOR"
+
+.IX Header "VERSION"
+

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::URI::Heuristic 3 "libwww-perl-5.36" "25/Apr/98" "User Contributed Perl Documentation"
+.TH URI::Heuristic 3 "perl 5.007, patch 00" "9/Jan/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -188,35 +188,38 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-uf_urlstr \- Expand URL using heuristics
+uf_uristr \- Expand URI using heuristics
 .SH "SYNOPSIS"
 .PP
 .Vb 6
-\& use URI::Heuristic qw(uf_urlstr);
-\& $url = uf_urlstr("perl");             # http://www.perl.com
-\& $url = uf_urlstr("www.sol.no/sol");   # http://www.sol.no/sol
-\& $url = uf_urlstr("aas");              # http://www.aas.no
-\& $url = uf_urlstr("ftp.funet.fi");     # ftp://ftp.funet.fi
-\& $url = uf_urlstr("/etc/passwd");      # file:/etc/passwd
+\& use URI::Heuristic qw(uf_uristr);
+\& $u = uf_uristr("perl");             # http://www.perl.com
+\& $u = uf_uristr("www.sol.no/sol");   # http://www.sol.no/sol
+\& $u = uf_uristr("aas");              # http://www.aas.no
+\& $u = uf_uristr("ftp.funet.fi");     # ftp://ftp.funet.fi
+\& $u = uf_uristr("/etc/passwd");      # file:/etc/passwd
 .Ve
 .SH "DESCRIPTION"
-This module provide functions that expand strings into real absolute
-URLs using some builtin heuristics.  Strings that already represent
-absolute URLs (i.e. start with a \f(CWscheme:\fR part) are never modified
+This module provides functions that expand strings into real absolute
+URIs using some builtin heuristics.  Strings that already represent
+absolute URIs (i.e. start with a \f(CWscheme:\fR part) are never modified
 and are returned unchanged.  The main use of these functions are to
-allow abbreviated URLs similar to what many web browsers allow for URLs
+allow abbreviated URIs similar to what many web browsers allow for URIs
 typed in by the user.
 .PP
 The following functions are provided:
-.Ip "uf_urlstr($str)" 4
-The \fIuf_urlstr()\fR function will try to make the string passed as
-argument into a proper absolute \s-1URL\s0 string.  The \*(L"uf_\*(R" prefix stands
-for \*(L"User Friendly\*(R".
-.Ip "uf_url($str)" 4
-This functions work the same way as \fIuf_urlstr()\fR but it will
-return a \f(CWURI::URL\fR object.
+.Ip "uf_uristr($str)" 4
+The \fIuf_uristr()\fR function will try to make the string passed as argument 
+into a proper absolute \s-1URI\s0 string.  The \*(L"uf_\*(R" prefix stands for \*(L"User 
+Friendly\*(R".  Under MacOS, it assumes that any string with a common \s-1URL\s0 
+scheme (http, ftp, etc.) is a \s-1URL\s0 rather than a local path.  So don't name 
+your volumes after common \s-1URL\s0 schemes and expect \fIuf_uristr()\fR to construct 
+valid file: \s-1URL\s0's on those volumes for you, because it won't.
+.Ip "uf_uri($str)" 4
+This functions work the same way as \fIuf_uristr()\fR but it will
+return a \f(CWURI\fR object.
 .SH "ENVIRONMENT"
-If the hostname portion of a URL does not contain any dots, then
+If the hostname portion of a URI does not contain any dots, then
 certain qualified guesses will be made.  These guesses are governed be
 the following two environment variables.
 .Ip "\s-1COUNTRY\s0" 10
@@ -242,8 +245,8 @@ This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 .rn }` ''
-.IX Title "lib::URI::Heuristic 3"
-.IX Name "uf_urlstr - Expand URL using heuristics"
+.IX Title "URI::Heuristic 3"
+.IX Name "uf_uristr - Expand URI using heuristics"
 
 .IX Header "NAME"
 
@@ -251,9 +254,9 @@ modify it under the same terms as Perl itself.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "uf_urlstr($str)"
+.IX Item "uf_uristr($str)"
 
-.IX Item "uf_url($str)"
+.IX Item "uf_uri($str)"
 
 .IX Header "ENVIRONMENT"
 

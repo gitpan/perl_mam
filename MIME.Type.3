@@ -1,0 +1,365 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH Type 3 "perl 5.007, patch 00" "19/Feb/102" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.PP
+.Vb 1
+\& MIME::Type - Definition of one MIME type
+.Ve
+.SH "SYNOPSIS"
+.PP
+.Vb 5
+\& use MIME::Types;
+\& my $mimetypes = MIME::Types->new;
+\& my MIME::Type $plaintext = $mimetype->type('text/plain');
+\& print $plaintext->mediaType;   # text
+\& print $plaintext->subType;     # plain
+.Ve
+.Vb 2
+\& my @ext = $plaintext->extensions;
+\& print "@ext"                   # asc txt c cc h hh cpp
+.Ve
+.Vb 3
+\& print $plaintext->encoding     # 8bit
+\& if($plaintext->isBinary)       # false
+\& if($plaintext->isAscii)        # true
+.Ve
+.Vb 1
+\& print MIME::Type->simplified('x-appl/x-zip') #  'appl/zip'
+.Ve
+.SH "DESCRIPTION"
+MIME types are used in MIME entities, for instance as part of e-mail
+and HTTP traffic.  Sometimes real knowledge about a mime-type is need.
+Objects of \f(CWMIME::Type\fR store the information on one such type.
+.PP
+This module is built to conform to the MIME types of RFC's 2045 and 2231.
+It follows the collection kept at \fIhttp://www.ltsw.se/knbase/internet/mime.htp\fR
+.SH "METHODS"
+.Ip "new \s-1OPTIONS\s0" 4
+Create a new \f(CWMIME::Type\fR object which manages one mime type.
+.Sp
+.Vb 6
+\& OPTION                    DEFAULT
+\& type                      <obligatory>
+\& simplified                <derived from type>
+\& extensions                undef
+\& encoding                  <depends on type>
+\& system                    undef
+.Ve
+.Ip "\(bu type => \s-1STRING\s0" 8
+The type which is defined here.  It consists of a \fItype\fR and a \fIsub-type\fR,
+both case-insensitive.  This module will return lower-case, but accept
+upper-case.
+.Ip "\(bu simplified => \s-1STRING\s0" 8
+The mime types main- and sub-label can both start with \f(CWx-\fR, to indicate
+that is a non-registered name.  Of course, after registration this flag
+can disappear which adds to the confusion.  The simplified string has the
+\f(CWx-\fR thingies removed and are translated to lower-case.
+.Ip "\(bu extensions => \s-1REF\s0\-\s-1ARRAY\s0" 8
+An array of extensions which are using this mime.
+.Ip "\(bu encoding => \*(N'7bit'|'8bit'|'base64'|'quoted-printable\*(T'" 8
+How must this data be encoded to be transported safely.  The default
+depends on the type: mimes with as main type \f(CWtext/\fR will default
+to \f(CWquoted-printable\fR and all other to \f(CWbase64\fR.
+.Ip "\(bu system => \s-1REGEX\s0" 8
+Regular expression which defines for which systems this rule is valid.  The
+\s-1REGEX\s0 is matched on \f(CW$^O\fR.
+.Ip "type" 4
+Returns the long type of this object, for instance \f(CW'text/plain'\fR
+.Ip "simplified [\s-1STRING\s0]" 4
+(Instance method or Class method)
+Returns the simplified mime type for this object or the specified \s-1STRING\s0.
+Mime type names can get officially registered.  Until then, they have to
+carry an \f(CWx-\fR preamble to indicate that.  Of course, after recognition,
+the \f(CWx-\fR can disappear.  In many cases, we prefer the simplified version
+of the type.
+.Sp
+Examples:
+.Sp
+.Vb 4
+\& my $mime = MIME::Type->new(type => 'x-appl/x-zip');
+\& print $mime->simplified;                     # 'appl/zip'
+\& print $mime->simplified('text/plain');       # 'text/plain'
+\& print MIME::Type->simplified('x-xyz/x-abc'); # 'xyz/abc'
+.Ve
+.Ip "mediaType" 4
+The media type of the simplified mime.
+For \f(CW'text/plain'\fR it will return \f(CW'text'\fR.
+.Sp
+For historical reasons, the \f(CW'mainType'\fR method still can be used
+to retreive the same value.  However, that method is deprecated.
+.Ip "subType" 4
+The sub type of the simplified mime.
+For \f(CW'text/plain'\fR it will return \f(CW'plain'\fR.
+.Ip "isRegistered" 4
+Mime-types which are not registered by \s-1IANA\s0 nor defined in RFCs shall
+start with an \f(CWx-\fR.  This counts for as well the media-type as the
+sub-type.  In case either one of the types starts with \f(CWx-\fR this
+method will return false.
+.Ip "extensions" 4
+Returns a list of extensions which are known to be used for this
+mime type.
+.Ip "encoding" 4
+Returns the type of encoding which is required to transport data of this
+type safely.
+.Ip "system" 4
+Returns the regular expression which can be used to determine whether this
+type is active on the system where you are working on.
+.Ip "isBinary" 4
+Returns true when the encoding is base64.
+.Ip "isAscii" 4
+Returns false when the encoding is base64, and true otherwise.  All encodings
+except base64 are text encodings.
+.Ip "isSignature" 4
+Returns true when the type is in the list of known signatures.
+.SH "SEE ALSO"
+the \fIMIME::Types\fR manpage
+.SH "AUTHOR"
+Mark Overmeer (\fImimetypes@overmeer.net\fR).
+All rights reserved.  This program is free software; you can redistribute
+it and/or modify it under the same terms as Perl itself.
+.SH "VERSION"
+This code is beta version 0.16.
+.PP
+Copyright (c) 2001 Mark Overmeer. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+.rn }` ''
+.IX Title "Type 3"
+.IX Name "MIME::Type - Definition of one MIME type"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Item "new \s-1OPTIONS\s0"
+
+.IX Item "\(bu type => \s-1STRING\s0"
+
+.IX Item "\(bu simplified => \s-1STRING\s0"
+
+.IX Item "\(bu extensions => \s-1REF\s0\-\s-1ARRAY\s0"
+
+.IX Item "\(bu encoding => \*(N'7bit'|'8bit'|'base64'|'quoted-printable\*(T'"
+
+.IX Item "\(bu system => \s-1REGEX\s0"
+
+.IX Item "type"
+
+.IX Item "simplified [\s-1STRING\s0]"
+
+.IX Item "mediaType"
+
+.IX Item "subType"
+
+.IX Item "isRegistered"
+
+.IX Item "extensions"
+
+.IX Item "encoding"
+
+.IX Item "system"
+
+.IX Item "isBinary"
+
+.IX Item "isAscii"
+
+.IX Item "isSignature"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "VERSION"
+

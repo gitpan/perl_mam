@@ -1,0 +1,332 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::MIME::Field::ParamVal 3 "perl 5.007, patch 00" "4/Nov/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+MIME::Field::ParamVal \- subclass of Mail::Field, for structured MIME fields
+.SH "SYNOPSIS"
+.PP
+.Vb 21
+\&    # Create an object for a content-type field:
+\&    $field = new Mail::Field 'Content-type'; 
+\&     
+\&    # Set some attributes:
+\&    $field->param('_'        => 'text/html');
+\&    $field->param('charset'  => 'us-ascii');
+\&    $field->param('boundary' => '---ABC---');
+\&     
+\&    # Same:
+\&    $field->set('_'        => 'text/html',
+\&                'charset'  => 'us-ascii',
+\&                'boundary' => '---ABC---');
+\&      
+\&    # Get an attribute, or undefined if not present:
+\&    print "no id!"  if defined($field->param('id'));
+\&     
+\&    # Same, but use empty string for missing values:
+\&    print "no id!"  if ($field->paramstr('id') eq '');
+\&                    
+\&    # Output as string:
+\&    print $field->stringify, "\en";
+.Ve
+.SH "DESCRIPTION"
+This is an abstract superclass of most MIME fields.  It handles 
+fields with a general syntax like this:
+.PP
+.Vb 3
+\&    Content-Type: Message/Partial;
+\&        number=2; total=3;
+\&        id="oc=jpbe0M2Yt4s@thumper.bellcore.com"
+.Ve
+Comments are supported \fIbetween\fR items, like this:
+.PP
+.Vb 3
+\&    Content-Type: Message/Partial; (a comment)
+\&        number=2  (another comment) ; (yet another comment) total=3;
+\&        id="oc=jpbe0M2Yt4s@thumper.bellcore.com"
+.Ve
+.SH "PUBLIC INTERFACE"
+.Ip "set [\e%\s-1PARAMHASH\s0 | \s-1KEY\s0=>\s-1VAL\s0,...,\s-1KEY\s0=>\s-1VAL\s0]" 4
+\fIInstance method.\fR  Set this field.
+The paramhash should contain parameter names
+in \fIall lowercase\fR, with the special \f(CW"_"\fR parameter name
+signifying the \*(L"default\*(R" (unnamed) parameter for the field:
+.Sp
+.Vb 8
+\&   # Set up to be...
+\&   #
+\&   #     Content-type: Message/Partial; number=2; total=3; id="ocj=pbe0M2"
+\&   #
+\&   $conttype->set('_'       => 'Message/Partial',
+\&                  'number'  => 2,
+\&                  'total'   => 3,
+\&                  'id'      => "ocj=pbe0M2");
+.Ve
+Note that a single argument is taken to be a \fIreference\fR to 
+a paramhash, while multiple args are taken to be the elements
+of the paramhash themselves.
+.Sp
+Supplying undef for a hashref, or an empty set of values, effectively
+clears the object.
+.Sp
+The self object is returned.
+.Ip "parse_params \s-1STRING\s0" 4
+\fIClass/instance utility method.\fR
+Extract parameter info from a structured field, and return
+it as a hash reference.  For example, here is a field with parameters:
+.Sp
+.Vb 3
+\&    Content-Type: Message/Partial;
+\&        number=2; total=3;
+\&        id="oc=jpbe0M2Yt4s@thumper.bellcore.com"
+.Ve
+Here is how you'd extract them:
+.Sp
+.Vb 6
+\&    $params = $class->parse_params('content-type');
+\&    if ($$params{'_'} eq 'message/partial') {
+\&        $number = $$params{'number'};
+\&        $total  = $$params{'total'};
+\&        $id     = $$params{'id'};
+\&    }
+.Ve
+Like field names, parameter names are coerced to lowercase.
+The special \*(L'_\*(R' parameter means the default parameter for the
+field.
+.Sp
+\fB\s-1NOTE\s0:\fR This has been provided as a public method to support backwards
+compatibility, but you probably shouldn't use it.
+.Ip "parse \s-1STRING\s0" 4
+\fIClass/instance method.\fR
+Parse the string into the instance.  Any previous information is wiped.
+The self object is returned.
+.Sp
+May also be used as a constructor.
+.Ip "param \s-1PARAMNAME\s0,[\s-1VALUE\s0]" 4
+\fIInstance method.\fR
+Return the given parameter, or undef if it isn't there.
+With argument, set the parameter to that \s-1VALUE\s0.
+The \s-1PARAMNAME\s0 is case-insensitive.  A \*(L"_\*(R" refers to the \*(L"default\*(R" parameter.
+.Ip "paramstr \s-1PARAMNAME\s0,[\s-1VALUE\s0]" 4
+\fIInstance method.\fR
+Like \fIparam()\fR: return the given parameter, or \fIempty\fR if it isn't there.
+With argument, set the parameter to that \s-1VALUE\s0.
+The \s-1PARAMNAME\s0 is case-insensitive.  A \*(L"_\*(R" refers to the \*(L"default\*(R" parameter.
+.Ip "stringify" 4
+\fIInstance method.\fR
+Convert the field to a string, and return it.
+.Ip "tag" 4
+\fIInstance method, abstract.\fR
+Return the tag for this field.
+
+.rn }` ''
+.IX Title "lib::MIME::Field::ParamVal 3"
+.IX Name "MIME::Field::ParamVal - subclass of Mail::Field, for structured MIME fields"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "PUBLIC INTERFACE"
+
+.IX Item "set [\e%\s-1PARAMHASH\s0 | \s-1KEY\s0=>\s-1VAL\s0,...,\s-1KEY\s0=>\s-1VAL\s0]"
+
+.IX Item "parse_params \s-1STRING\s0"
+
+.IX Item "parse \s-1STRING\s0"
+
+.IX Item "param \s-1PARAMNAME\s0,[\s-1VALUE\s0]"
+
+.IX Item "paramstr \s-1PARAMNAME\s0,[\s-1VALUE\s0]"
+
+.IX Item "stringify"
+
+.IX Item "tag"
+

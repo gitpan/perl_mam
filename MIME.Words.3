@@ -1,0 +1,361 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::MIME::Words 3 "perl 5.007, patch 00" "10/Nov/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+MIME::Words \- deal with RFC\-1522 encoded words
+.SH "SYNOPSIS"
+Before reading further, you should see the \fIMIME::Tools\fR manpage to make sure that 
+you understand where this module fits into the grand scheme of things.
+Go on, do it now.  I'll wait.  
+.PP
+Ready?  Ok...
+.PP
+.Vb 17
+\&    use MIME::Words qw(:all);   
+\&     
+\&    ### Decode the string into another string, forgetting the charsets:
+\&    $decoded = decode_mimewords(
+\&          'To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>',
+\&          );
+\&    
+\&    ### Split string into array of decoded [DATA,CHARSET] pairs:
+\&    @decoded = decode_mimewords(
+\&          'To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>',
+\&          );
+\&     
+\&    ### Encode a single unsafe word:
+\&    $encoded = encode_mimeword("\exABFran\exE7ois\exBB");
+\&    
+\&    ### Encode a string, trying to find the unsafe words inside it: 
+\&    $encoded = encode_mimewords("Me and \exABFran\exE7ois\exBB in town");
+.Ve
+.SH "DESCRIPTION"
+Fellow Americans, you probably won't know what the hell this module
+is for.  Europeans, Russians, et al, you probably do.  \f(CW:-)\fR. 
+.PP
+For example, here's a valid MIME header you might get:
+.PP
+.Vb 6
+\&      From: =?US-ASCII?Q?Keith_Moore?= <moore@cs.utk.edu>
+\&      To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>
+\&      CC: =?ISO-8859-1?Q?Andr=E9_?= Pirard <PIRARD@vm1.ulg.ac.be>
+\&      Subject: =?ISO-8859-1?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?=
+\&       =?ISO-8859-2?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=
+\&       =?US-ASCII?Q?.._cool!?=
+.Ve
+The fields basically decode to (sorry, I can only approximate the
+Latin characters with 7 bit sequences /o and \*(L'e):
+.PP
+.Vb 4
+\&      From: Keith Moore <moore@cs.utk.edu>
+\&      To: Keld J/orn Simonsen <keld@dkuug.dk>
+\&      CC: Andr'e  Pirard <PIRARD@vm1.ulg.ac.be>
+\&      Subject: If you can read this you understand the example... cool!
+.Ve
+.SH "PUBLIC INTERFACE"
+.Ip "decode_mimewords \s-1ENCODED\s0, [\s-1OPTS\s0...]" 4
+\fIFunction.\fR
+Go through the string looking for \s-1RFC\s0\-1522-style \*(L"Q\*(R"
+(quoted-printable, sort of) or \*(L"B\*(R" (base64) encoding, and decode them.
+.Sp
+\fBIn an array context,\fR splits the \s-1ENCODED\s0 string into a list of decoded 
+\f(CW[DATA, CHARSET]\fR pairs, and returns that list.  Unencoded 
+data are returned in a 1-element array \f(CW[DATA]\fR, giving an effective 
+\s-1CHARSET\s0 of \f(CWundef\fR.
+.Sp
+.Vb 4
+\&    $enc = '=?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>';
+\&    foreach (decode_mimewords($enc)) {
+\&        print "", ($_[1] || 'US-ASCII'), ": ", $_[0], "\en";
+\&    }
+.Ve
+\fBIn a scalar context,\fR joins the \*(L"data\*(R" elements of the above 
+list together, and returns that.  \fIWarning: this is information-lossy,\fR
+and probably \fInot\fR what you want, but if you know that all charsets 
+in the \s-1ENCODED\s0 string are identical, it might be useful to you.
+(Before you use this, please see the \f(CWunmime\fR entry in the \fI\s-1MIME::\s0WordDecoder\fR manpage,
+which is probably what you want.)
+.Sp
+In the event of a syntax error, $@ will be set to a description 
+of the error, but parsing will continue as best as possible (so as to
+get \fIsomething\fR back when decoding headers).
+$@ will be false if no error was detected.
+.Sp
+Any arguments past the \s-1ENCODED\s0 string are taken to define a hash of options:
+.Ip "Field" 8
+Name of the mail field this string came from.  \fICurrently ignored.\fR
+.Ip "encode_mimeword \s-1RAW\s0, [\s-1ENCODING\s0], [\s-1CHARSET\s0]" 4
+\fIFunction.\fR
+Encode a single \s-1RAW\s0 \*(L"word\*(R" that has unsafe characters.
+The \*(L"word\*(R" will be encoded in its entirety.
+.Sp
+.Vb 2
+\&    ### Encode "<<Franc,ois>>":
+\&    $encoded = encode_mimeword("\exABFran\exE7ois\exBB");
+.Ve
+You may specify the \s-1ENCODING\s0 (\f(CW"Q"\fR or \f(CW"B"\fR), which defaults to \f(CW"Q"\fR.
+You may specify the \s-1CHARSET\s0, which defaults to \f(CWiso-8859-1\fR.
+.Ip "encode_mimewords \s-1RAW\s0, [\s-1OPTS\s0]" 4
+\fIFunction.\fR
+Given a \s-1RAW\s0 string, try to find and encode all \*(L"unsafe\*(R" sequences 
+of characters:
+.Sp
+.Vb 2
+\&    ### Encode a string with some unsafe "words":
+\&    $encoded = encode_mimewords("Me and \exABFran\exE7ois\exBB");
+.Ve
+Returns the encoded string.
+Any arguments past the \s-1RAW\s0 string are taken to define a hash of options:
+.Ip "Charset" 8
+Encode all unsafe stuff with this charset.  Default is \*(L'\s-1ISO\s0\-8859-1\*(R',
+a.k.a. \*(L"Latin-1\*(R".
+.Ip "Encoding" 8
+The encoding to use, \f(CW"q"\fR or \f(CW"b"\fR.  The default is \f(CW"q"\fR.
+.Ip "Field" 8
+Name of the mail field this string will be used in.  \fICurrently ignored.\fR
+.Sp
+\fBWarning:\fR this is a quick-and-dirty solution, intended for character
+sets which overlap \s-1ASCII\s0.  \fBIt does not comply with the \s-1RFC\s0\-1522
+rules regarding the use of encoded words in message headers\fR.
+You may want to roll your own variant,
+using \f(CWencoded_mimeword()\fR, for your application.
+\fIThanks to Jan Kasprzak for reminding me about this problem.\fR
+.SH "NOTES"
+Exports its principle functions by default, in keeping with 
+MIME::Base64 and MIME::QuotedPrint.
+.SH "AUTHOR"
+Eryq (\fIeryq@zeegee.com\fR), ZeeGee Software Inc (\fIhttp://www.zeegee.com\fR).
+.PP
+All rights reserved.  This program is free software; you can redistribute 
+it and/or modify it under the same terms as Perl itself.
+.PP
+Thanks also to...
+.PP
+.Vb 5
+\&      Kent Boortz        For providing the idea, and the baseline 
+\&                         RFC-1522-decoding code!
+\&      KJJ at PrimeNet    For requesting that this be split into
+\&                         its own module.
+\&      Stephane Barizien  For reporting a nasty bug.
+.Ve
+.SH "VERSION"
+$Revision: 5.404 $ \f(CW$Date:\fR 2000/11/10 16:45:12 $
+
+.rn }` ''
+.IX Title "lib::MIME::Words 3"
+.IX Name "MIME::Words - deal with RFC-1522 encoded words"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "PUBLIC INTERFACE"
+
+.IX Item "decode_mimewords \s-1ENCODED\s0, [\s-1OPTS\s0...]"
+
+.IX Item "Field"
+
+.IX Item "encode_mimeword \s-1RAW\s0, [\s-1ENCODING\s0], [\s-1CHARSET\s0]"
+
+.IX Item "encode_mimewords \s-1RAW\s0, [\s-1OPTS\s0]"
+
+.IX Item "Charset"
+
+.IX Item "Encoding"
+
+.IX Item "Field"
+
+.IX Header "NOTES"
+
+.IX Header "AUTHOR"
+
+.IX Header "VERSION"
+

@@ -1,0 +1,499 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH CGI::MiniSvr 3 "perl 5.007, patch 00" "16/Nov/96" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+CGI::MiniSvr \- Adds to CGI::Base the ability for a CGI script to become
+a mini http server.
+.SH "SYNOPSIS"
+.PP
+.Vb 1
+\&        
+.Ve
+.Vb 7
+\&    use CGI::MiniSvr;
+\&        
+\&    $cgi = new CGI::MiniSvr;
+\&    $cgi = new CGI::MiniSvr $port_or_path;
+\&    $cgi = new CGI::MiniSvr $port_or_path, $timeout_mins;
+\&        
+\&    $cgi->port;               # return MiniSvr port number with leading colon
+.Ve
+.Vb 9
+\&    $cgi->spawn;              # fork/detach from httpd
+\&        
+\&    $cgi->get;                # get input
+\&        
+\&    $cgi->pass_thru($host, $port);
+\&    $cgi->redirect($url);
+\&        
+\&    $cgi->done;               # end 'page' and close connection (high-level)
+\&    $cgi->close;              # just close connection (low-level)
+.Ve
+See also the CGI::Base methods.
+.SH "DESCRIPTION"
+This file implements the CGI::MiniSvr object. This object represents an
+alternative \fIinterface\fR between the application and an HTTP deamon.
+.PP
+In a typical CGI scenario the \fIinterface\fR is just a collection of
+environment variables passed to a process which then generated some
+outout and exits. The CGI::Base class implements this standard
+interface.
+.PP
+The CGI::MiniSvr class inherits from CGI::Base and extends it to
+implement a \*(L'mini http daemon\*(R' which can be spawned (forked) from a CGI
+script in order to maintain state information for a client \*(L'session\*(R'.
+.PP
+This is very useful. It neatly side-steps many of the painful issues
+involved in writing real-world multi-screen applications using the
+standard CGI interface (namely saving and restoring state between
+screens).
+.PP
+Another use for the MiniSvr is to allow cgi scripts to produce output
+pages with dynamically generated in-line graphics (for example). To do
+this the script would spawn a MiniSvr and refer to its port number in
+the URL's for the embedded images. The MiniSvr would then sit on the
+port, with a relatively short timeout, ready to serve the requests for
+those images.  Once all the images have been served the MiniSvr would
+simply exit.
+.PP
+Like the CGI::Base module the CGI::MiniSvr module does not do any
+significant data parsing. Higher level query processing (forms etc) is
+performed by the CGI::Request module.
+.PP
+Note that the implementation of these modules means that you should
+invoke \f(CWnew CGI::Base;\fR before \f(CWnew CGI::MiniSvr;\fR. This is the
+natural order anyway and so should not be a problem.
+.Sh "\s-1WARNING\s0!"
+This module is \fBnot\fR a good solution to many problems! It is only a good
+solution to some. It should only be used by those who understand why it
+is \fBnot\fR a good solution to many problems!
+.PP
+For those who don't see the pitfalls of the mini server approach,
+consider just this one example:  what happens to your machine if new
+\&'sessions\*(R' start, on average, faster than abandoned ones timeout?
+.PP
+Security and short-lifespan \s-1URL\s0's are some of the other problems.
+.PP
+If in doubt don't use it! If you do then don't blame me for any of the
+problems you may (will) experience. \fBYou have been warned!\fR
+.Sh "\s-1DIRECT\s0 \s-1ACCESS\s0 \s-1USAGE\s0"
+In this mode the MiniSvr creates an internet domain socket and returns
+to the client a page with \s-1URL\s0's which contain the MiniSvr's own port
+number.
+.PP
+.Vb 8
+\&  $q = GetRequest();      # get initial request
+\&  $cgi = new CGI::MiniSvr;# were going to switch to CGI::MiniSvr later
+\&  $port = $cgi->port;     # get our port number (as ':NNNN') for use in URL's
+\&  $me = "http://$SERVER_NAME$port$SCRIPT_NAME"; # build my url
+\&  print "Hello... <A HREF="$me?INSIDE"> Step Inside ...</A>\er\en";
+\&  $cgi->done(1);          # flush out page, include debugging
+\&  $cgi->spawn and exit 0; # fork, original cgi process exits
+\&  CGI::Request::Interface($cgi); # default to new interface
+.Ve
+.Vb 3
+\&  while($q = GetQuery() or $cgi->exit){ # await request/timeout
+\&     ...
+\&  }
+.Ve
+.Sh "\s-1INDIRECT\s0 \s-1ACCESS\s0 \s-1USAGE\s0"
+In this mode the MiniSvr creates a unix domain socket and returns to the
+client a page with a hidden field containing the path to the socket.
+.PP
+.Vb 15
+\&  $q = GetRequest(); # get initial request
+\&  $path = $q->param('_minisvr_socket_path');
+\&  if ($path) {
+\&      # just pass request on to our mini server
+\&      $q->cgi->pass_thru('', $path) or (...handle timeout...)
+\&      $q->cgi->done;
+\&  } else {
+\&      # launch new mini server
+\&      $path = "/tmp/cgi.$$";
+\&      $cgi = new CGI::MiniSvr $path; # unix domain socket
+\&      # code here mostly same as 'DIRECT ACCESS' above except that
+\&      # the returned page has an embedded field _minisvr_socket_path
+\&      # set to $path
+\&      ...
+\&  }
+.Ve
+.Sh "\s-1SUBCLASSING\s0 \s-1THE\s0 \s-1MINISVR\s0"
+In some cases you may wish to have more control over the behaviour of
+the mini-server, such as handling some requests at a low level without
+disturbing the application.  Subclassing the server is generally a good
+approach. Use something like this:
+.PP
+.Vb 5
+\&  #   Define a specialised subclass of the MiniSvr for this application
+\&  {
+\&    package CGI::MiniSvr::FOO;
+\&    use CGI::MiniSvr;
+\&    @ISA = qw(CGI::MiniSvr);
+.Ve
+.Vb 4
+\&    # Default behaviour for everything except GET requests for .(gif|html|jpg)
+\&    # Note that we must take great care not to: a) try to pass_thru to ourselves
+\&    # (it would hang), or b) pass_thru to the server a request which it will
+\&    # try to satisfy by starting another instance of this same script!
+.Ve
+.Vb 11
+\&    sub method_GET {
+\&        my $self = shift;
+\&        if ($self->{SCRIPT_NAME} =~ m/\e.(gif|jpg|html)$/){
+\&            $self->pass_thru('', $self->{ORIG_SERVER_PORT});
+\&            $self->done;
+\&            return 'NEXT';
+\&        }
+\&        1;
+\&    }
+\&    # ... other overriding methods can be defined here ...
+\&  }
+.Ve
+Once defined you can use your new customised mini server by changing:
+.PP
+.Vb 1
+\&  $cgi = new CGI::MiniSvr;
+.Ve
+into:
+.PP
+.Vb 1
+\&  $cgi = new CGI::MiniSvr::FOO;
+.Ve
+With the example code above any requests for gif, jpg or html will be
+forwarded to the server which originally invoked this script. The application
+no longer has to deal with them. \fINote:\fR this is just an example usage
+for the mechanism, you would typically generate pages in which any
+embedded images had \s-1URL\s0's which refer explicitly to the main httpd.
+.PP
+With a slight change in the code above you can arrange for the handling
+of the pass-thru to occur in a subprocess. This frees the main process
+to handle other requests. Since the MiniSvr typically only exists for
+one process, forking off a subprocess to handle a request is only
+useful for browsers such as Netscape which make multiple parallel
+requests for inline images.
+.PP
+.Vb 8
+\&    if ($self->{SCRIPT_NAME} =~ m/\e.(gif|html|jpg)$/){
+\&        if ($self->fork == 0) {
+\&            $self->pass_thru('', $self->{ORIG_SERVER_PORT});
+\&            $self->exit;
+\&        }
+\&        $self->done;
+\&        return 'NEXT';
+\&    }
+.Ve
+Note that forking can be expensive. It might not be worth doing for
+small images.
+.Sh "\s-1FEATURES\s0"
+Object oriented and sub-classable.
+.PP
+Transparent low-level peer validation (no application involvement
+but extensible through subclassing).
+.PP
+Transparent low-level pass_thru/redirecting of \s-1URL\s0's the application
+is not interested in  (no application involvement but extensible
+through subclassing).
+.PP
+Effective timeout mechanism with default and per-call settings.
+.PP
+Good emulation of standard \s-1CGI\s0 interface (for code portability).
+.Sh "\s-1RECENT\s0 \s-1CHANGES\s0"
+.Ip "2.2 and 2.3" 5
+Slightly improved documentation. Added a basic \fIfork()\fR method. Fixed
+timeout to throw an exception so it's reliable on systems which restart
+system calls. Socket/stdio/filehandle code improved. Cleaned up
+done/close relationship. Added experimental support for optionally
+handling requests by forking on a case-by-case basis. This is handy for
+serving multiple simultaneous image requests from Netscape for example.
+Added notes about the MiniSvr, mainly from discussions with Jack Shirazi
+Removed old explicit port searching code from \fI_new_inet_socket()\fR.
+Improved \s-1SIGPIPE\s0 handling (see \s-1CGI::\s0Base).
+.Ip "2.1" 5
+Fixed (worked around) a perl/stdio bug which affected \s-1POST\s0 handling.
+Changed some uses of map to foreach. Slightly improved debugging.
+Added support for any letter case in \s-1HTTP\s0 headers. Enhanced test code.
+.Ip "2.0" 5
+Added more documentation and examples. The max pending connections
+parameter for \fIlisten()\fR can now be specified as a parameter to \fInew()\fR.
+\s-1SIGPIPE\s0 now ignored by default. Simplified inet socket code with ideas
+from Jack Shirazi. Improved server Status-Line header handling. Fixed
+\fIvalidate_peer()\fR error handling and \fIredirect()\fR.  Simplified \fIget_vars()\fR
+by splitting into \fIget_valid_connection()\fR and \fIread_headers()\fR. Moved
+example \fImethod_GET()\fR out of MiniSvr and into the test script.
+.Sp
+The module file can be run as a cgi script to execute a demo/test. You
+may need to chmod +x this file and teach your httpd that it can execute
+*.pm files.
+.Ip "1.18" 5
+Added note about possible use of MiniSvr to serve dynamically generated
+in-line images. Added optional DoubleFork mechanism to spawn which
+might be helpful for buggy httpd's, off by default.
+.Ip "1.17" 5
+Added support for an \*(L'indirect, off-net, access\*(R' via a local \s-1UNIX\s0
+domain socket in the file system. Now uses strict. \s-1ORIG_\s0* values now
+stored within object and not exported as globals (Base \s-1CGI\s0 vars
+remain unchanged).  See \s-1CGI::\s0Base for some more details.
+.Sh "\s-1FUTURE\s0 \s-1DEVELOPMENTS\s0"
+Full pod documentation.
+.PP
+None of this is perfect. All suggestions welcome.
+.PP
+Test unix domain socket mechanism.
+.PP
+Issue/problem \- the handling of headers. Who outputs them and when? We
+have a sequence of: headers, body, end, read, headers, body, end, read
+etc. The problem is that a random piece of code can't tell if the
+headers have been output yet. A good solution will probably have to
+wait till we have better tools for writing \s-1HTML\s0 and we get away from
+pages of print statements.
+.PP
+A method for setting \s-1PATH_INFO\s0 and \s-1PATH_TRANSLATED\s0 to meaningful values
+would be handy.
+.Sh "\s-1AUTHOR\s0, \s-1COPYRIGHT\s0 and \s-1ACKNOWLEDGEMENTS\s0"
+This code is Copyright (C) Tim Bunce 1995. All rights reserved.
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+.PP
+This module includes ideas from Pratap Pereira
+<pereira@ee.eng.ohio-state.edu>, Jack Shirazi <js@biu.icnet.uk> and
+others.
+.PP
+\s-1IN\s0 \s-1NO\s0 \s-1EVENT\s0 \s-1SHALL\s0 \s-1THE\s0 \s-1AUTHORS\s0 \s-1BE\s0 \s-1LIABLE\s0 \s-1TO\s0 \s-1ANY\s0 \s-1PARTY\s0 \s-1FOR\s0 \s-1DIRECT\s0,
+\s-1INDIRECT\s0, \s-1SPECIAL\s0, \s-1INCIDENTAL\s0, \s-1OR\s0 \s-1CONSEQUENTIAL\s0 \s-1DAMAGES\s0 \s-1ARISING\s0 \s-1OUT\s0
+\s-1OF\s0 \s-1THE\s0 \s-1USE\s0 \s-1OF\s0 \s-1THIS\s0 \s-1SOFTWARE\s0 \s-1AND\s0 \s-1ITS\s0 \s-1DOCUMENTATION\s0 (\s-1INCLUDING\s0, \s-1BUT\s0 \s-1NOT\s0
+\s-1LIMITED\s0 \s-1TO\s0, \s-1LOST\s0 \s-1PROFITS\s0) \s-1EVEN\s0 \s-1IF\s0 \s-1THE\s0 \s-1AUTHORS\s0 \s-1HAVE\s0 \s-1BEEN\s0 \s-1ADVISED\s0 \s-1OF\s0
+\s-1THE\s0 \s-1POSSIBILITY\s0 \s-1OF\s0 \s-1SUCH\s0 \s-1DAMAGE\s0.
+.Sh "\s-1SEE\s0 \s-1ALSO\s0"
+\s-1CGI::\s0Base, \s-1CGI::\s0Request, \s-1URI::URL\s0
+.Sh "\s-1SUPPORT\s0"
+Please use comp.infosystems.www.* and comp.lang.perl.misc for support.
+Please do _NOT_ contact the author directly. I'm sorry but I just don't
+have the time.
+
+.rn }` ''
+.IX Title "CGI::MiniSvr 3"
+.IX Name "CGI::MiniSvr - Adds to CGI::Base the ability for a CGI script to become
+a mini http server."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\s-1WARNING\s0!"
+
+.IX Subsection "\s-1DIRECT\s0 \s-1ACCESS\s0 \s-1USAGE\s0"
+
+.IX Subsection "\s-1INDIRECT\s0 \s-1ACCESS\s0 \s-1USAGE\s0"
+
+.IX Subsection "\s-1SUBCLASSING\s0 \s-1THE\s0 \s-1MINISVR\s0"
+
+.IX Subsection "\s-1FEATURES\s0"
+
+.IX Subsection "\s-1RECENT\s0 \s-1CHANGES\s0"
+
+.IX Item "2.2 and 2.3"
+
+.IX Item "2.1"
+
+.IX Item "2.0"
+
+.IX Item "1.18"
+
+.IX Item "1.17"
+
+.IX Subsection "\s-1FUTURE\s0 \s-1DEVELOPMENTS\s0"
+
+.IX Subsection "\s-1AUTHOR\s0, \s-1COPYRIGHT\s0 and \s-1ACKNOWLEDGEMENTS\s0"
+
+.IX Subsection "\s-1SEE\s0 \s-1ALSO\s0"
+
+.IX Subsection "\s-1SUPPORT\s0"
+

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Curses 3 "perl 5.005, patch 53" "16/Feb/98" "User Contributed Perl Documentation"
+.TH Curses 3 "perl 5.007, patch 00" "25/Jul/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -199,6 +199,10 @@ Curses \- terminal screen handling and optimization
 \&    ...
 \&    endwin;
 .Ve
+.Vb 2
+\&   Curses::supports_function($function);
+\&   Curses::supports_contsant($constant);
+.Ve
 .SH "DESCRIPTION"
 \f(CWCurses\fR is the interface between Perl and your system's \fIcurses\fR\|(3)
 library.  For descriptions on the usage of a given function, variable,
@@ -253,10 +257,31 @@ Objects are supported.  Example:
 .Ve
 Any function that has been marked as \fIunified\fR (see
 the section on \fISupported Functions\fR below and the section on \fIUnified Functions\fR above)
-can be called as a method for a Curses object. 
+can be called as a method for a Curses object.
 .PP
 Do not use \f(CWinitscr()\fR if using objects, as the first call to get
 a \f(CWnew Curses\fR will do it for you.
+.Sh "Security Concerns"
+It has always been the case with the curses functions, but please note
+that the following functions:
+.PP
+.Vb 3
+\&    getstr()   (and optional wgetstr(), mvgetstr(), and mvwgetstr())
+\&    inchstr()  (and optional winchstr(), mvinchstr(), and mvwinchstr())
+\&    instr()    (and optional winstr(), mvinstr(), and mvwinstr())
+.Ve
+are subject to buffer overflow attack.  This is because you pass in
+the buffer to be filled in, which has to be of finite length, but
+there is no way to stop a bad guy from typing.
+.PP
+In order to avoid this problem, use the alternate functions:
+.PP
+.Vb 3
+\&   getnstr()
+\&   inchnstr()
+\&   innstr()
+.Ve
+which take an extra \*(L"size of buffer\*(R" argument.
 .SH "COMPATIBILITY"
 .Sh "Perl 4.X \f(CWcursperl\fR Compatibility"
 \f(CWCurses\fR has been written to take advantage of the new features of
@@ -296,8 +321,8 @@ instead of \f(CW$str = getstr()\fR and \f(CW($y, $x) = getyx()\fR.
 .Ip "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..." 4
 You have called a \f(CWCurses\fR function with a wrong number of
 arguments.
-.Ip "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..." 4
-The window argument you gave to the function wasn't really a window.
+.Ip "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses %s at ... =item * argument is not a Curses %s at ..." 4
+The argument you gave to the function wasn't what it wanted.
 .Sp
 This probably means that you didn't give the right arguments to a
 \fIunified\fR function.  See the \s-1DESCRIPTION\s0 section on the section on \fIUnified
@@ -305,18 +330,12 @@ Functions\fR for more information.
 .Ip "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..." 4
 You have a \f(CWCurses\fR function in your code that your system's \fIcurses\fR\|(3)
 library doesn't define.
+.Ip "\(bu Curses variable \*(N'%s\*(T' is not defined by your vendor at ..." 4
+You have a \f(CWCurses\fR variable in your code that your system's \fIcurses\fR\|(3)
+library doesn't define.
 .Ip "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..." 4
 You have a \f(CWCurses\fR constant in your code that your system's \fIcurses\fR\|(3)
 library doesn't define.
-.Ip "\(bu Curses does not support the curses function \*(N'%s\*(T', used at ..." 4
-You have a \fIcurses\fR\|(3) function in your code that the \f(CWCurses\fR module
-doesn't support.
-.Ip "\(bu Curses does not support the curses variable \*(N'%s\*(T', used at ..." 4
-You have a \fIcurses\fR\|(3) variable in your code that the \f(CWCurses\fR module
-doesn't support.
-.Ip "\(bu Curses does not support the curses constant \*(N'%s\*(T', used at ..." 4
-You have a bareword in your code that is trying to be interpreted as
-a \f(CWCurses\fR constant, but \f(CWCurses\fR doesn't know anything about it.
 .Ip "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..." 4
 You've been playing with the \f(CWtie\fR interface to the \f(CWCurses\fR
 variables.  Don't do that.  :\-)
@@ -336,148 +355,462 @@ William Setzer <William_Setzer@ncsu.edu>
 .SH "SYNOPSIS OF PERL CURSES SUPPORT"
 .Sh "Supported Functions"
 .PP
-.Vb 139
-\&        Supported     Unified?          Supported via $OldCurses[*]
-\&        ---------     --------          ------------------------
-\&        addch           Yes             waddch mvaddch mvwaddch
-\&        addchnstr       Yes             waddchnstr mvaddchnstr mvwaddchnstr
-\&        addchstr        Yes             waddchstr mvaddchstr mvwaddchstr
-\&        addnstr         Yes             waddnstr mvaddnstr mvwaddnstr
-\&        addstr          Yes             waddstr mvaddstr mvwaddstr
-\&        attroff         Yes             wattroff
-\&        attron          Yes             wattron
-\&        attrset         Yes             wattrset
-\&        baudrate        No
-\&        beep            No
-\&        bkgd            Yes             wbkgd
-\&        bkgdset         Yes             wbkgdset
-\&        border          Yes             wborder
-\&        box             Yes
-\&        can_change_color No
-\&        cbreak          No
-\&        clear           Yes             wclear
-\&        clearok         Yes
-\&        clrtobot        Yes             wclrtobot
-\&        clrtoeol        Yes             wclrtoeol
-\&        color_content   No
-\&        COLOR_PAIR      No
-\&        copywin         No
-\&        delch           Yes             wdelch mvdelch mvwdelch
-\&        deleteln        Yes             wdeleteln
-\&        delwin          Yes
-\&        derwin          Yes
-\&        doupdate        No
-\&        echo            No
-\&        echochar        Yes             wechochar
-\&        endwin          No
-\&        erase           Yes             werase
-\&        erasechar       No
-\&        flash           No
-\&        flushinp        No
-\&        flusok          Yes
-\&        getattrs        Yes
-\&        getbegyx        Yes
-\&        getbkgd         Yes
-\&        getcap          No
-\&        getch           Yes             wgetch mvgetch mvwgetch
-\&        getmaxyx        Yes
-\&        getnstr         Yes             wgetnstr mvgetnstr mvwgetnstr
-\&        getparyx        Yes
-\&        getstr          Yes             wgetstr mvgetstr mvwgetstr
-\&        gettmode        No
-\&        getyx           Yes
-\&        halfdelay       No
-\&        has_colors      No
-\&        has_ic          No
-\&        has_il          No
-\&        hline           Yes             whline
-\&        idcok           Yes
-\&        idlok           Yes
-\&        immedok         Yes
-\&        inch            Yes             winch mvinch mvwinch
-\&        inchnstr        Yes             winchnstr mvinchnstr mvwinchnstr
-\&        inchstr         Yes             winchstr mvinchstr mvwinchstr
-\&        init_color      No
-\&        init_pair       No
-\&        initscr         No
-\&        innstr          Yes             winnstr mvinnstr mvwinnstr
-\&        insch           Yes             winsch mvinsch mvwinsch
-\&        insdelln        Yes             winsdelln
-\&        insertln        Yes             winsertln
-\&        insnstr         Yes             winsnstr mvinsnstr mvwinsnstr
-\&        insstr          Yes             winsstr mvinsstr mvwinsstr
-\&        instr           Yes             winstr mvinstr mvwinstr
-\&        intrflush       Yes
-\&        is_linetouched  Yes
-\&        is_wintouched   Yes
-\&        isendwin        No
-\&        keyname         No
-\&        keypad          Yes
-\&        killchar        No
-\&        leaveok         Yes
-\&        longname        No
-\&        meta            Yes
-\&        move            Yes             wmove
-\&        mvcur           No
-\&        mvwin           Yes
-\&        newpad          No
-\&        newwin          No
-\&        nl              No
-\&        nocbreak        No
-\&        nodelay         Yes
-\&        noecho          No
-\&        nonl            No
-\&        noqiflush       No
-\&        noraw           No
-\&        notimeout       Yes
-\&        noutrefresh     Yes             wnoutrefresh
-\&        overlay         No
-\&        overwrite       No
-\&        pair_content    No
-\&        PAIR_NUMBER     No
-\&        pechochar       No
-\&        pnoutrefresh    No
-\&        prefresh        No
-\&        qiflush         No
-\&        raw             No
-\&        refresh         Yes             wrefresh
-\&        resetty         No
-\&        savetty         No
-\&        scrl            Yes             wscrl
-\&        scroll          Yes
-\&        scrollok        Yes
-\&        setscrreg       Yes             wsetscrreg
-\&        setterm         No
-\&        slk_clear       No
-\&        slk_init        No
-\&        slk_label       No
-\&        slk_noutrefresh No
-\&        slk_refresh     No
-\&        slk_restore     No
-\&        slk_set         No
-\&        slk_touch       No
-\&        standend        Yes             wstandend
-\&        standout        Yes             wstandout
-\&        start_color     No
-\&        subpad          No
-\&        subwin          Yes
-\&        syncok          Yes
-\&        timeout         Yes             wtimeout
-\&        touchline       Yes
-\&        touchln         Yes             wtouchln
-\&        touchoverlap    No
-\&        touchwin        Yes
-\&        typeahead       No
-\&        unctrl          No
-\&        ungetch         No
-\&        vline           Yes             wvline
-\&        
-\&[*] To use any functions in this column, the variable
-\&C<$Curses::OldCurses> must be set to a non-zero value before using the
-\&C<Curses> package.  See L<"Perl 4.X cursperl Compatibility"> for an
-\&example of this.
+.Vb 322
+\&    Supported            Unified?     Supported via $OldCurses[*]
+\&    ---------            --------     ------------------------
+\&    addch                  Yes        waddch mvaddch mvwaddch
+\&    echochar               Yes        wechochar
+\&    addchstr               Yes        waddchstr mvaddchstr mvwaddchstr
+\&    addchnstr              Yes        waddchnstr mvaddchnstr mvwaddchnstr
+\&    addstr                 Yes        waddstr mvaddstr mvwaddstr
+\&    addnstr                Yes        waddnstr mvaddnstr mvwaddnstr
+\&    attroff                Yes        wattroff
+\&    attron                 Yes        wattron
+\&    attrset                Yes        wattrset
+\&    standend               Yes        wstandend
+\&    standout               Yes        wstandout
+\&    attr_get               Yes        wattr_get
+\&    attr_off               Yes        wattr_off
+\&    attr_on                Yes        wattr_on
+\&    attr_set               Yes        wattr_set
+\&    chgat                  Yes        wchgat mvchgat mvwchgat
+\&    COLOR_PAIR              No
+\&    PAIR_NUMBER             No
+\&    beep                    No
+\&    flash                   No
+\&    bkgd                   Yes        wbkgd
+\&    bkgdset                Yes        wbkgdset
+\&    getbkgd                Yes
+\&    border                 Yes        wborder
+\&    box                    Yes
+\&    hline                  Yes        whline mvhline mvwhline
+\&    vline                  Yes        wvline mvvline mvwvline
+\&    erase                  Yes        werase
+\&    clear                  Yes        wclear
+\&    clrtobot               Yes        wclrtobot
+\&    clrtoeol               Yes        wclrtoeol
+\&    start_color             No
+\&    init_pair               No
+\&    init_color              No
+\&    has_colors              No
+\&    can_change_color        No
+\&    color_content           No
+\&    pair_content            No
+\&    delch                  Yes        wdelch mvdelch mvwdelch
+\&    deleteln               Yes        wdeleteln
+\&    insdelln               Yes        winsdelln
+\&    insertln               Yes        winsertln
+\&    getch                  Yes        wgetch mvgetch mvwgetch
+\&    ungetch                 No
+\&    has_key                 No
+\&    KEY_F                   No
+\&    getstr                 Yes        wgetstr mvgetstr mvwgetstr
+\&    getnstr                Yes        wgetnstr mvgetnstr mvwgetnstr
+\&    getyx                  Yes
+\&    getparyx               Yes
+\&    getbegyx               Yes
+\&    getmaxyx               Yes
+\&    inch                   Yes        winch mvinch mvwinch
+\&    inchstr                Yes        winchstr mvinchstr mvwinchstr
+\&    inchnstr               Yes        winchnstr mvinchnstr mvwinchnstr
+\&    initscr                 No
+\&    endwin                  No
+\&    isendwin                No
+\&    newterm                 No
+\&    set_term                No
+\&    delscreen               No
+\&    cbreak                  No
+\&    nocbreak                No
+\&    echo                    No
+\&    noecho                  No
+\&    halfdelay               No
+\&    intrflush              Yes
+\&    keypad                 Yes
+\&    meta                   Yes
+\&    nodelay                Yes
+\&    notimeout              Yes
+\&    raw                     No
+\&    noraw                   No
+\&    qiflush                 No
+\&    noqiflush               No
+\&    timeout                Yes        wtimeout
+\&    typeahead               No
+\&    insch                  Yes        winsch mvinsch mvwinsch
+\&    insstr                 Yes        winsstr mvinsstr mvwinsstr
+\&    insnstr                Yes        winsnstr mvinsnstr mvwinsnstr
+\&    instr                  Yes        winstr mvinstr mvwinstr
+\&    innstr                 Yes        winnstr mvinnstr mvwinnstr
+\&    def_prog_mode           No
+\&    def_shell_mode          No
+\&    reset_prog_mode         No
+\&    reset_shell_mode        No
+\&    resetty                 No
+\&    savetty                 No
+\&    getsyx                  No
+\&    setsyx                  No
+\&    curs_set                No
+\&    napms                   No
+\&    move                   Yes        wmove
+\&    clearok                Yes
+\&    idlok                  Yes
+\&    idcok                  Yes
+\&    immedok                Yes
+\&    leaveok                Yes
+\&    setscrreg              Yes        wsetscrreg
+\&    scrollok               Yes
+\&    nl                      No
+\&    nonl                    No
+\&    overlay                 No
+\&    overwrite               No
+\&    copywin                 No
+\&    newpad                  No
+\&    subpad                  No
+\&    prefresh                No
+\&    pnoutrefresh            No
+\&    pechochar               No
+\&    refresh                Yes        wrefresh
+\&    noutrefresh            Yes        wnoutrefresh
+\&    doupdate                No
+\&    redrawwin              Yes
+\&    redrawln               Yes        wredrawln
+\&    scr_dump                No
+\&    scr_restore             No
+\&    scr_init                No
+\&    scr_set                 No
+\&    scroll                 Yes
+\&    scrl                   Yes        wscrl
+\&    slk_init                No
+\&    slk_set                 No
+\&    slk_refresh             No
+\&    slk_noutrefresh         No
+\&    slk_label               No
+\&    slk_clear               No
+\&    slk_restore             No
+\&    slk_touch               No
+\&    slk_attron              No
+\&    slk_attrset             No
+\&    slk_attr                No
+\&    slk_attroff             No
+\&    slk_color               No
+\&    baudrate                No
+\&    erasechar               No
+\&    has_ic                  No
+\&    has_il                  No
+\&    killchar                No
+\&    longname                No
+\&    termattrs               No
+\&    termname                No
+\&    touchwin               Yes
+\&    touchline              Yes
+\&    untouchwin             Yes
+\&    touchln                Yes        wtouchln
+\&    is_linetouched         Yes
+\&    is_wintouched          Yes
+\&    unctrl                  No
+\&    keyname                 No
+\&    filter                  No
+\&    use_env                 No
+\&    putwin                  No
+\&    getwin                  No
+\&    delay_output            No
+\&    flushinp                No
+\&    newwin                  No
+\&    delwin                 Yes
+\&    mvwin                  Yes
+\&    subwin                 Yes
+\&    derwin                 Yes
+\&    mvderwin               Yes
+\&    dupwin                 Yes
+\&    syncup                 Yes        wsyncup
+\&    syncok                 Yes
+\&    cursyncup              Yes        wcursyncup
+\&    syncdown               Yes        wsyncdown
+\&    getmouse                No
+\&    ungetmouse              No
+\&    mousemask               No
+\&    enclose                Yes        wenclose
+\&    mouse_trafo            Yes        wmouse_trafo
+\&    mouseinterval           No
+\&    BUTTON_RELEASE          No
+\&    BUTTON_PRESS            No
+\&    BUTTON_CLICK            No
+\&    BUTTON_DOUBLE_CLICK     No
+\&    BUTTON_TRIPLE_CLICK     No
+\&    BUTTON_RESERVED_EVENT   No
+\&    use_default_colors      No
+\&    assume_default_colors   No
+\&    define_key              No
+\&    keybound                No
+\&    keyok                   No
+\&    resizeterm              No
+\&    resize                 Yes        wresize
+\&    getmaxy                Yes
+\&    getmaxx                Yes
+\&    flusok                 Yes
+\&    getcap                  No
+\&    touchoverlap            No
+\&    new_panel               No
+\&    bottom_panel            No
+\&    top_panel               No
+\&    show_panel              No
+\&    update_panels           No
+\&    hide_panel              No
+\&    panel_window            No
+\&    replace_panel           No
+\&    move_panel              No
+\&    panel_hidden            No
+\&    panel_above             No
+\&    panel_below             No
+\&    set_panel_userptr       No
+\&    panel_userptr           No
+\&    del_panel               No
+\&    set_menu_fore           No
+\&    menu_fore               No
+\&    set_menu_back           No
+\&    menu_back               No
+\&    set_menu_grey           No
+\&    menu_grey               No
+\&    set_menu_pad            No
+\&    menu_pad                No
+\&    pos_menu_cursor         No
+\&    menu_driver             No
+\&    set_menu_format         No
+\&    menu_format             No
+\&    set_menu_items          No
+\&    menu_items              No
+\&    item_count              No
+\&    set_menu_mark           No
+\&    menu_mark               No
+\&    new_menu                No
+\&    free_menu               No
+\&    menu_opts               No
+\&    set_menu_opts           No
+\&    menu_opts_on            No
+\&    menu_opts_off           No
+\&    set_menu_pattern        No
+\&    menu_pattern            No
+\&    post_menu               No
+\&    unpost_menu             No
+\&    set_menu_userptr        No
+\&    menu_userptr            No
+\&    set_menu_win            No
+\&    menu_win                No
+\&    set_menu_sub            No
+\&    menu_sub                No
+\&    scale_menu              No
+\&    set_current_item        No
+\&    current_item            No
+\&    set_top_row             No
+\&    top_row                 No
+\&    item_index              No
+\&    item_name               No
+\&    item_description        No
+\&    new_item                No
+\&    free_item               No
+\&    set_item_opts           No
+\&    item_opts_on            No
+\&    item_opts_off           No
+\&    item_opts               No
+\&    item_userptr            No
+\&    set_item_userptr        No
+\&    set_item_value          No
+\&    item_value              No
+\&    item_visible            No
+\&    menu_request_name       No
+\&    menu_request_by_name    No
+\&    set_menu_spacing        No
+\&    menu_spacing            No
+\&    pos_form_cursor         No
+\&    data_ahead              No
+\&    data_behind             No
+\&    form_driver             No
+\&    set_form_fields         No
+\&    form_fields             No
+\&    field_count             No
+\&    move_field              No
+\&    new_form                No
+\&    free_form               No
+\&    set_new_page            No
+\&    new_page                No
+\&    set_form_opts           No
+\&    form_opts_on            No
+\&    form_opts_off           No
+\&    form_opts               No
+\&    set_current_field       No
+\&    current_field           No
+\&    set_form_page           No
+\&    form_page               No
+\&    field_index             No
+\&    post_form               No
+\&    unpost_form             No
+\&    set_form_userptr        No
+\&    form_userptr            No
+\&    set_form_win            No
+\&    form_win                No
+\&    set_form_sub            No
+\&    form_sub                No
+\&    scale_form              No
+\&    set_field_fore          No
+\&    field_fore              No
+\&    set_field_back          No
+\&    field_back              No
+\&    set_field_pad           No
+\&    field_pad               No
+\&    set_field_buffer        No
+\&    field_buffer            No
+\&    set_field_status        No
+\&    field_status            No
+\&    set_max_field           No
+\&    field_info              No
+\&    dynamic_field_info      No
+\&    set_field_just          No
+\&    field_just              No
+\&    new_field               No
+\&    dup_field               No
+\&    link_field              No
+\&    free_field              No
+\&    set_field_opts          No
+\&    field_opts_on           No
+\&    field_opts_off          No
+\&    field_opts              No
+\&    set_field_userptr       No
+\&    field_userptr           No
+\&    field_arg               No
+\&    form_request_name       No
+\&    form_request_by_name    No
 .Ve
-.Sh "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0		stdscr[*]	curscr[*] 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term   [*] stdscr and curscr are also available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
+[*] To use any functions in this column, the variable
+\f(CW$Curses::OldCurses\fR must be set to a non-zero value before using the
+\f(CWCurses\fR package.  See the section on \fIPerl 4.X cursperl Compatibility\fR for an
+example of this.
+.Sh "Supported Variables"
+.PP
+.Vb 2
+\&    LINES                   COLS                    stdscr
+\&    curscr                  COLORS                  COLOR_PAIRS
+.Ve
+.Sh "Supported Constants"
+.PP
+.Vb 96
+\&    ERR                     OK                      ACS_BLOCK
+\&    ACS_BOARD               ACS_BTEE                ACS_BULLET
+\&    ACS_CKBOARD             ACS_DARROW              ACS_DEGREE
+\&    ACS_DIAMOND             ACS_HLINE               ACS_LANTERN
+\&    ACS_LARROW              ACS_LLCORNER            ACS_LRCORNER
+\&    ACS_LTEE                ACS_PLMINUS             ACS_PLUS
+\&    ACS_RARROW              ACS_RTEE                ACS_S1
+\&    ACS_S9                  ACS_TTEE                ACS_UARROW
+\&    ACS_ULCORNER            ACS_URCORNER            ACS_VLINE
+\&    A_ALTCHARSET            A_ATTRIBUTES            A_BLINK
+\&    A_BOLD                  A_CHARTEXT              A_COLOR
+\&    A_DIM                   A_INVIS                 A_NORMAL
+\&    A_PROTECT               A_REVERSE               A_STANDOUT
+\&    A_UNDERLINE             COLOR_BLACK             COLOR_BLUE
+\&    COLOR_CYAN              COLOR_GREEN             COLOR_MAGENTA
+\&    COLOR_RED               COLOR_WHITE             COLOR_YELLOW
+\&    KEY_A1                  KEY_A3                  KEY_B2
+\&    KEY_BACKSPACE           KEY_BEG                 KEY_BREAK
+\&    KEY_BTAB                KEY_C1                  KEY_C3
+\&    KEY_CANCEL              KEY_CATAB               KEY_CLEAR
+\&    KEY_CLOSE               KEY_COMMAND             KEY_COPY
+\&    KEY_CREATE              KEY_CTAB                KEY_DC
+\&    KEY_DL                  KEY_DOWN                KEY_EIC
+\&    KEY_END                 KEY_ENTER               KEY_EOL
+\&    KEY_EOS                 KEY_EXIT                KEY_F0
+\&    KEY_FIND                KEY_HELP                KEY_HOME
+\&    KEY_IC                  KEY_IL                  KEY_LEFT
+\&    KEY_LL                  KEY_MARK                KEY_MAX
+\&    KEY_MESSAGE             KEY_MIN                 KEY_MOVE
+\&    KEY_NEXT                KEY_NPAGE               KEY_OPEN
+\&    KEY_OPTIONS             KEY_PPAGE               KEY_PREVIOUS
+\&    KEY_PRINT               KEY_REDO                KEY_REFERENCE
+\&    KEY_REFRESH             KEY_REPLACE             KEY_RESET
+\&    KEY_RESTART             KEY_RESUME              KEY_RIGHT
+\&    KEY_SAVE                KEY_SBEG                KEY_SCANCEL
+\&    KEY_SCOMMAND            KEY_SCOPY               KEY_SCREATE
+\&    KEY_SDC                 KEY_SDL                 KEY_SELECT
+\&    KEY_SEND                KEY_SEOL                KEY_SEXIT
+\&    KEY_SF                  KEY_SFIND               KEY_SHELP
+\&    KEY_SHOME               KEY_SIC                 KEY_SLEFT
+\&    KEY_SMESSAGE            KEY_SMOVE               KEY_SNEXT
+\&    KEY_SOPTIONS            KEY_SPREVIOUS           KEY_SPRINT
+\&    KEY_SR                  KEY_SREDO               KEY_SREPLACE
+\&    KEY_SRESET              KEY_SRIGHT              KEY_SRSUME
+\&    KEY_SSAVE               KEY_SSUSPEND            KEY_STAB
+\&    KEY_SUNDO               KEY_SUSPEND             KEY_UNDO
+\&    KEY_UP                  KEY_MOUSE               BUTTON1_RELEASED
+\&    BUTTON1_PRESSED         BUTTON1_CLICKED         BUTTON1_DOUBLE_CLICKED
+\&    BUTTON1_TRIPLE_CLICKED  BUTTON1_RESERVED_EVENT  BUTTON2_RELEASED
+\&    BUTTON2_PRESSED         BUTTON2_CLICKED         BUTTON2_DOUBLE_CLICKED
+\&    BUTTON2_TRIPLE_CLICKED  BUTTON2_RESERVED_EVENT  BUTTON3_RELEASED
+\&    BUTTON3_PRESSED         BUTTON3_CLICKED         BUTTON3_DOUBLE_CLICKED
+\&    BUTTON3_TRIPLE_CLICKED  BUTTON3_RESERVED_EVENT  BUTTON4_RELEASED
+\&    BUTTON4_PRESSED         BUTTON4_CLICKED         BUTTON4_DOUBLE_CLICKED
+\&    BUTTON4_TRIPLE_CLICKED  BUTTON4_RESERVED_EVENT  BUTTON_CTRL
+\&    BUTTON_SHIFT            BUTTON_ALT              ALL_MOUSE_EVENTS
+\&    REPORT_MOUSE_POSITION   NCURSES_MOUSE_VERSION   E_OK
+\&    E_SYSTEM_ERROR          E_BAD_ARGUMENT          E_POSTED
+\&    E_CONNECTED             E_BAD_STATE             E_NO_ROOM
+\&    E_NOT_POSTED            E_UNKNOWN_COMMAND       E_NO_MATCH
+\&    E_NOT_SELECTABLE        E_NOT_CONNECTED         E_REQUEST_DENIED
+\&    E_INVALID_FIELD         E_CURRENT               REQ_LEFT_ITEM
+\&    REQ_RIGHT_ITEM          REQ_UP_ITEM             REQ_DOWN_ITEM
+\&    REQ_SCR_ULINE           REQ_SCR_DLINE           REQ_SCR_DPAGE
+\&    REQ_SCR_UPAGE           REQ_FIRST_ITEM          REQ_LAST_ITEM
+\&    REQ_NEXT_ITEM           REQ_PREV_ITEM           REQ_TOGGLE_ITEM
+\&    REQ_CLEAR_PATTERN       REQ_BACK_PATTERN        REQ_NEXT_MATCH
+\&    REQ_PREV_MATCH          MIN_MENU_COMMAND        MAX_MENU_COMMAND
+\&    O_ONEVALUE              O_SHOWDESC              O_ROWMAJOR
+\&    O_IGNORECASE            O_SHOWMATCH             O_NONCYCLIC
+\&    O_SELECTABLE            REQ_NEXT_PAGE           REQ_PREV_PAGE
+\&    REQ_FIRST_PAGE          REQ_LAST_PAGE           REQ_NEXT_FIELD
+\&    REQ_PREV_FIELD          REQ_FIRST_FIELD         REQ_LAST_FIELD
+\&    REQ_SNEXT_FIELD         REQ_SPREV_FIELD         REQ_SFIRST_FIELD
+\&    REQ_SLAST_FIELD         REQ_LEFT_FIELD          REQ_RIGHT_FIELD
+\&    REQ_UP_FIELD            REQ_DOWN_FIELD          REQ_NEXT_CHAR
+\&    REQ_PREV_CHAR           REQ_NEXT_LINE           REQ_PREV_LINE
+\&    REQ_NEXT_WORD           REQ_PREV_WORD           REQ_BEG_FIELD
+\&    REQ_END_FIELD           REQ_BEG_LINE            REQ_END_LINE
+\&    REQ_LEFT_CHAR           REQ_RIGHT_CHAR          REQ_UP_CHAR
+\&    REQ_DOWN_CHAR           REQ_NEW_LINE            REQ_INS_CHAR
+\&    REQ_INS_LINE            REQ_DEL_CHAR            REQ_DEL_PREV
+\&    REQ_DEL_LINE            REQ_DEL_WORD            REQ_CLR_EOL
+\&    REQ_CLR_EOF             REQ_CLR_FIELD           REQ_OVL_MODE
+\&    REQ_INS_MODE            REQ_SCR_FLINE           REQ_SCR_BLINE
+\&    REQ_SCR_FPAGE           REQ_SCR_BPAGE           REQ_SCR_FHPAGE
+\&    REQ_SCR_BHPAGE          REQ_SCR_FCHAR           REQ_SCR_BCHAR
+\&    REQ_SCR_HFLINE          REQ_SCR_HBLINE          REQ_SCR_HFHALF
+\&    REQ_SCR_HBHALF          REQ_VALIDATION          REQ_NEXT_CHOICE
+\&    REQ_PREV_CHOICE         MIN_FORM_COMMAND        MAX_FORM_COMMAND
+\&    NO_JUSTIFICATION        JUSTIFY_LEFT            JUSTIFY_CENTER
+\&    JUSTIFY_RIGHT           O_VISIBLE               O_ACTIVE
+\&    O_PUBLIC                O_EDIT                  O_WRAP
+\&    O_BLANK                 O_AUTOSKIP              O_NULLOK
+\&    O_PASSOK                O_STATIC                O_NL_OVERLOAD
+\&    O_BS_OVERLOAD           
+.Ve
+.Sh "\fIcurses\fR\|(3) functions not supported by \f(CWCurses\fR"
+.PP
+.Vb 4
+\&    tstp _putchar fullname scanw wscanw mvscanw mvwscanw ripoffline
+\&    setupterm setterm set_curterm del_curterm restartterm tparm tputs
+\&    putp vidputs vidattr mvcur tigetflag tigetnum tigetstr tgetent
+\&    tgetflag tgetnum tgetstr tgoto tputs
+.Ve
+.Sh "\fImenu\fR\|(3) functions not supported by \f(CWCurses\fR"
+.PP
+.Vb 2
+\&    set_item_init item_init set_item_term item_term set_menu_init
+\&    menu_init set_menu_term menu_term
+.Ve
+.Sh "\fIform\fR\|(3) functions not supported by \f(CWCurses\fR"
+.PP
+.Vb 4
+\&    new_fieldtype free_fieldtype set_fieldtype_arg
+\&    set_fieldtype_choice link_fieldtype set_form_init form_init
+\&    set_form_term form_term set_field_init field_init set_field_term
+\&    field_term set_field_type field_type
+.Ve
 
 .rn }` ''
 .IX Title "Curses 3"
@@ -493,6 +826,8 @@ William Setzer <William_Setzer@ncsu.edu>
 
 .IX Subsection "Objects"
 
+.IX Subsection "Security Concerns"
+
 .IX Header "COMPATIBILITY"
 
 .IX Subsection "Perl 4.X \f(CWcursperl\fR Compatibility"
@@ -505,17 +840,13 @@ William Setzer <William_Setzer@ncsu.edu>
 
 .IX Item "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..."
 
-.IX Item "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..."
+.IX Item "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses %s at ... =item * argument is not a Curses %s at ..."
 
 .IX Item "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..."
 
+.IX Item "\(bu Curses variable \*(N'%s\*(T' is not defined by your vendor at ..."
+
 .IX Item "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..."
-
-.IX Item "\(bu Curses does not support the curses function \*(N'%s\*(T', used at ..."
-
-.IX Item "\(bu Curses does not support the curses variable \*(N'%s\*(T', used at ..."
-
-.IX Item "\(bu Curses does not support the curses constant \*(N'%s\*(T', used at ..."
 
 .IX Item "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..."
 
@@ -529,5 +860,13 @@ William Setzer <William_Setzer@ncsu.edu>
 
 .IX Subsection "Supported Functions"
 
-.IX Subsection "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0		stdscr[*]	curscr[*] 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term   [*] stdscr and curscr are also available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
+.IX Subsection "Supported Variables"
+
+.IX Subsection "Supported Constants"
+
+.IX Subsection "\fIcurses\fR\|(3) functions not supported by \f(CWCurses\fR"
+
+.IX Subsection "\fImenu\fR\|(3) functions not supported by \f(CWCurses\fR"
+
+.IX Subsection "\fIform\fR\|(3) functions not supported by \f(CWCurses\fR"
 

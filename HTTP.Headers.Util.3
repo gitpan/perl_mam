@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Headers::Util 3 "libwww-perl-5.36" "30/Mar/98" "User Contributed Perl Documentation"
+.TH lib::HTTP::Headers::Util 3 "libwww-perl-5.64" "16/Sep/100" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -196,15 +196,15 @@ HTTP::Headers::Util \- Header value parsing utility functions
 \&  @values = split_header_words($h->header("Content-Type"));
 .Ve
 .SH "DESCRIPTION"
-This module provide a few functions that helps parsing and
+This module provides a few functions that helps parsing and
 construction of valid HTTP header values.  None of the functions are
 exported by default.
 .PP
-The following functions are provided:
+The following functions are available:
 .Ip "split_header_words( @header_values )" 4
 This function will parse the header values given as argument into a
 list of anonymous arrays containing key/value pairs.  The function
-know how to deal with \*(L",\*(R", \*(L";\*(R" and \*(L"=\*(R" as well as quoted values after
+knows how to deal with \*(L",\*(R", \*(L";\*(R" and \*(L"=\*(R" as well as quoted values after
 \*(L"=\*(R".  A list of space separated tokens are parsed as if they were
 separated by \*(L";\*(R".
 .Sp
@@ -212,7 +212,7 @@ If the \f(CW@header_values\fR passed as argument contains multiple values,
 then they are treated as if they were a single value separated by
 comma \*(L",\*(R".
 .Sp
-This means that this function is useful to parse header fields that
+This means that this function is useful for parsing header fields that
 follow this syntax (\s-1BNF\s0 as from the \s-1HTTP/1\s0.1 specification, but we relax
 the requirement for tokens).
 .Sp
@@ -238,7 +238,7 @@ the requirement for tokens).
 \&  value             = token | quoted-string
 .Ve
 Each \fIheader\fR is represented by an anonymous array of key/value
-pairs.  If a token is recognized then the value will be \f(CWundef\fR.
+pairs.  The value for a simple token (not part of a parameter) is \f(CWundef\fR.
 Syntactically incorrect headers will not necessary be parsed as you
 would want.
 .Sp
@@ -257,16 +257,16 @@ will return
 \&   [Basic => undef, realm => '"foo\ebar"']
 .Ve
 .Ip "join_header_words( @arrays )" 4
-This will do the opposite convertion of what \fIsplit_header_words()\fR
-does.  It takes a list of anonymous arrays as argument (or a list of
-key/value pairs) and produce a single header value.  Attribute values
+This will do the opposite of the conversion done by \fIsplit_header_words()\fR.
+It takes a list of anonymous arrays as arguments (or a list of
+key/value pairs) and produces a single header value.  Attribute values
 are quoted if needed.
 .Sp
 Example:
 .Sp
 .Vb 2
 \&   join_header_words(["text/plain" => undef, charset => "iso-8859/1"]);
-\&   join_header_words(""text/plain" => undef, charset => "iso-8859/1");
+\&   join_header_words("text/plain" => undef, charset => "iso-8859/1");
 .Ve
 will both return the string:
 .Sp

@@ -1,0 +1,571 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::IO::Stringy 3 "perl 5.007, patch 00" "20/Aug/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+IO\-stringy \- I/O on in-core objects like strings and arrays
+.SH "SYNOPSIS"
+.PP
+.Vb 7
+\&    IO::
+\&    ::AtomicFile   adpO  Write a file which is updated atomically     ERYQ
+\&    ::Lines        bdpO  I/O handle to read/write to array of lines   ERYQ
+\&    ::Scalar       RdpO  I/O handle to read/write to a string         ERYQ
+\&    ::ScalarArray  RdpO  I/O handle to read/write to array of scalars ERYQ
+\&    ::Wrap         RdpO  Wrap old-style FHs in standard OO interface  ERYQ
+\&    ::WrapTie      adpO  Tie your handles & retain full OO interface  ERYQ
+.Ve
+.SH "DESCRIPTION"
+This toolkit primarily provides modules for performing both traditional 
+and object-oriented i/o) on things \fIother\fR than normal filehandles; 
+in particular, IO::Scalar, IO::ScalarArray, 
+and IO::Lines.
+.PP
+In the more-traditional IO::Handle front, we 
+have IO::AtomicFile
+which may be used to painlessly create files which are updated
+atomically.
+.PP
+And in the \*(L"this-may-prove-useful\*(R" corner, we have IO::Wrap, 
+whose exported \fIwraphandle()\fR function will clothe anything that's not
+a blessed object in an IO::Handle-like wrapper... so you can just
+use OO syntax and stop worrying about whether your function's caller
+handed you a string, a globref, or a FileHandle.
+.SH "WARNINGS"
+Perl's TIEHANDLE spec was incomplete prior to 5.005_57;
+it was missing support for \f(CWseek()\fR, \f(CWtell()\fR, and \f(CWeof()\fR.
+Attempting to use these functions with an IO::Scalar, IO::ScalarArray,
+IO::Lines, etc. \fBwill not work\fR prior to 5.005_57.  
+None of the relevant methods will be invoked by Perl; 
+and even worse, this kind of bug can lie dormant for a while.
+If you turn warnings on (via \f(CW$^W\fR or \f(CWperl -w\fR), and you see 
+something like this...
+.PP
+.Vb 1
+\&    seek() on unopened file
+.Ve
+\&...then you are probably trying to use one of these functions
+on one of our IO:: classes with an old Perl.  The remedy is to simply
+use the OO version; e.g.:
+.PP
+.Vb 2
+\&    $SH->seek(0,0);    ### GOOD: will work on any 5.005
+\&    seek($SH,0,0);     ### WARNING: will only work on 5.005_57 and beyond
+.Ve
+.SH "INSTALLATION"
+.Sh "Requirements"
+As of version 2.x, this toolkit requires Perl 5.005 for 
+the \s-1IO::\s0Handle subclasses, and 5.005_57 or better is
+\fBstrongly\fR recommended.  See the section on \fI\s-1WARNINGS\s0\fR for details.
+.Sh "Directions"
+Most of you already know the drill...
+.PP
+.Vb 4
+\&    perl Makefile.PL
+\&    make
+\&    make test
+\&    make install
+.Ve
+For everyone else out there...
+if you've never installed Perl code before, or you're trying to use
+this in an environment where your sysadmin or \s-1ISP\s0 won't let you do
+interesting things, \fBrelax:\fR since this module contains no binary 
+extensions, you can cheat.  That means copying the directory tree
+under my \*(L"./lib\*(R" directory into someplace where your script can \*(L"see\*(R" 
+it.  For example, under Linux:
+.PP
+.Vb 1
+\&    cp -r IO-stringy-1.234/lib/* /path/to/my/perl/
+.Ve
+Now, in your Perl code, do this:
+.PP
+.Vb 2
+\&    use lib "/path/to/my/perl";
+\&    use IO::Scalar;                   ### or whatever
+.Ve
+Ok, now you've been told.  At this point, anyone who whines about
+not being given enough information gets an unflattering haiku 
+written about them in the next change log.  I'll do it.  
+Don't think I won't.
+.SH "VERSION"
+$Id: Stringy.pm,v 2.108 2001/08/20 20:36:15 eryq Exp $
+.SH "TO DO"
+.Ip "(2000/08/02)  Finalize $/ support" 4
+Graham Barr submitted this patch half a \fIyear\fR ago; 
+Like a moron, I lost his message under a ton of others,
+and only now have the experimental implementation done.
+.Sp
+Will the sudden sensitivity to $/ hose anyone out there?
+I'm worried, so you have to enable it explicitly in 1.x.
+It will be on by default in 2.x, though only \s-1IO::\s0Scalar
+has been implemented.
+.Ip "(2000/09/28)  Separate read/write cursors?" 4
+Binkley sent me a very interesting variant of \s-1IO::\s0Scalar which
+maintains two separate cursors on the data, one for reading
+and one for writing.  Quoth he:
+.Sp
+.Vb 3
+\&    Isn't it the case that real operating system file descriptors 
+\&    maintain an independent read and write file position (and 
+\&    seek(2) resets them both)? 
+.Ve
+(My answer: perhaps, but stdio's fseek/ftell manpages seem to
+imply a single file position indicator, and I'm trying to be \s-1IO\s0::\-ish.)
+Binkley also pointed out some issues with his implementation:  
+.Sp
+.Vb 2
+\&    For example, what does eof or tell return?  The read position or 
+\&    the write position?  (I assumed read position was more important). 
+.Ve
+Your opinions on this are most welcome.
+(Me, I'm just squeamish that this will break some code
+which depends on the existing behavior, and that attempts to
+maintain backwards-compatibility will slow down the code.)
+.Ip "(2001/08/08)  Remove \s-1IO::\s0WrapTie from new \s-1IO\s0:: classes" 4
+It's not needed.  Backwards compatibility could be maintained
+by having \fInew_tie()\fR be identical to \fInew()\fR.  Heck, I'll bet
+that \s-1IO::\s0WrapTie should be reimplemented so the returned 
+object is just like an \s-1IO::\s0Scalar in its use of globrefs.
+ 
+.SH "CHANGE LOG"
+.Ip "Version 2.108   (2001/08/20)" 4
+The terms-of-use have been placed in the distribution file \*(L"\s-1COPYING\s0\*(R".  
+Also, small documentation tweaks were made.
+.Ip "Version 2.105   (2001/08/09)" 4
+Added support for various \fIseek()\fR whences to \s-1IO::\s0ScalarArray.
+.Sp
+Added support for consulting $/ in \s-1IO::\s0Scalar and \s-1IO::\s0ScalarArray.
+The old \f(CWuse_RS()\fR is not even an option.  
+Unsupported record separators will cause a \fIcroak()\fR.
+.Sp
+Added a lot of regression tests to supoprt the above.
+.Sp
+Better on-line docs (hyperlinks to individual functions).
+.Ip "Version 2.103   (2001/08/08)" 4
+After sober consideration I have reimplemented \fI\s-1IO::\s0Scalar::print()\fR 
+so that it once again always seeks to the end of the string.
+Benchmarks show the new implementation to be just as fast as
+Juergen's contributed patch; until someone can convince me otherwise,
+the current, safer implementation stays.
+.Sp
+I thought more about giving \s-1IO::\s0Scalar two separate handles,
+one for reading and one for writing, as suggested by Binkley.
+His points about what \fItell()\fR and \fIeof()\fR return are, I think,
+show-stoppers for this feature.  Even the manpages for stdio's \fIfseek()\fR
+seem to imply a \fIsingle\fR file position indicator, not two.
+So I think I will take this off the \s-1TO\s0 \s-1DO\s0 list.  
+\fBRemedy:\fR you can always have two handles open on the same
+scalar, one which you only write to, and one which you only read from.
+That should give the same effect.
+.Ip "Version 2.101   (2001/08/07)" 4
+\fBAlpha release.\fR
+This is the initial release of the \*(L"\s-1IO::\s0Scalar and friends are
+now subclasses of \s-1IO::\s0Handle\*(R".  I'm flinging it against the wall.  
+Please tell me if the banana sticks.  When it does, the banana
+will be called 2.2x. 
+.Sp
+First off, \fImany many thanks to Doug Wilson\fR, who
+has provided an \fIinvaluable\fR service by patching \s-1IO::\s0Scalar
+and friends so that they (1) inherit from \s-1IO::\s0Handle, (2) automatically
+tie themselves so that the \f(CWnew()\fR objects can be used in native i/o
+constructs, and (3) doing it so that the whole damn thing passes
+its regression tests.  As Doug knows, my globref Kung-Fu was not
+up to the task; he graciously provided the patches.  This has earned
+him a seat at the Co-Authors table, and the 
+right to have me address him as \fIsensei\fR.
+.Sp
+Performance of \fI\s-1IO::\s0Scalar::print()\fR has been improved by as much as 2x
+for lots of little prints, with the cost of forcing those
+who print-then-seek-then-print to explicitly seek to end-of-string
+before printing again.
+\fIThanks to Juergen Zeller for this patch.\fR
+.Sp
+Added the \s-1COPYING\s0 file, which had been missing from prior versions.  
+\fIThanks to Albert Chin-A\-Young for pointing this out.\fR
+.Sp
+\s-1IO::\s0Scalar consults $/ by default (1.x ignored it by default).
+Yes, I still need to support \s-1IO::\s0ScalarArray.
+.Ip "Version 1.221   (2001/08/07)" 4
+I threatened in the section on \fI\s-1INSTALLATION\s0\fR to write an unflattering haiku
+about anyone who whined that I gave them insufficient information...
+but it turns out that I left out a crucial direction.  D'\s-1OH\s0!
+\fIThanks to David Beroff for the \*(L"patch\*(R" and the haiku...\fR
+.Sp
+.Vb 3
+\&       Enough info there?
+\&         Here's unflattering haiku:
+\&       Forgot the line, "make"!  ;-)
+.Ve
+.Ip "Version 1.220   (2001/04/03)" 4
+Added untested \s-1SEEK\s0, \s-1TELL\s0, and \s-1EOF\s0 methods to \s-1IO::\s0Scalar 
+and \s-1IO::\s0ScalarArray to support corresponding functions for
+tied filehandles: untested, because I'm still running 5.00556 
+and Perl is complaining about \*(L"\fItell()\fR on unopened file\*(R".
+\fIThanks to Graham Barr for the suggestion.\fR
+.Sp
+Removed not-fully-blank lines from modules; these were causing
+lots of \s-1POD\s0\-related warnings.  
+\fIThanks to Nicolas Joly for the suggestion.\fR
+.Ip "Version 1.219   (2001/02/23)" 4
+\s-1IO::\s0Scalar objects can now be made sensitive to $/ .
+Pains were taken to keep the fast code fast while adding this feature.
+\fICheers to Graham Barr for submitting his patch; 
+jeers to me for losing his email for 6 months.\fR
+.Ip "Version 1.218   (2001/02/23)" 4
+\s-1IO::\s0Scalar has a new \fIsysseek()\fR method.
+\fIThanks again to Richard Jones.\fR
+.Sp
+New \*(L"\s-1TO\s0 \s-1DO\s0\*(R" section, because people who submit patches/ideas should 
+at least know that they're in the system... and that I won't lose
+their stuff.  Please read it.  
+.Sp
+New entries in the section on \fI\s-1AUTHOR\s0\fR.  
+Please read those too.
+.Ip "Version 1.216   (2000/09/28)" 4
+\fB\s-1IO::\s0Scalar and \s-1IO::\s0ScalarArray now inherit from \s-1IO::\s0Handle.\fR
+I thought I'd remembered a problem with this ages ago, related to
+the fact that these \s-1IO\s0:: modules don't have \*(L"real\*(R" filehandles,
+but the problem apparently isn't surfacing now.  
+If you suddenly encounter Perl warnings during global destruction
+(especially if you're using tied filehandles), then please let me know!
+\fIThanks to B. K. Oxley (binkley) for this.\fR
+.Sp
+\fBNasty bug fixed in \s-1IO::\s0Scalar::write().\fR
+Apparently, the offset and the number-of-bytes arguments were,
+for all practical purposes, \fIreversed.\fR  You were okay if
+you did all your writing with \fIprint()\fR, but boy was \fIthis\fR a stupid bug!  
+\fIThanks to Richard Jones for finding this one.  
+For you, Rich, a double-length haiku:\fR
+.Sp
+.Vb 3
+\&       Newspaper headline
+\&          typeset by dyslexic man
+\&       loses urgency
+.Ve
+.Vb 3
+\&       BABY EATS FISH is
+\&          simply not equivalent   
+\&       to FISH EATS BABY
+.Ve
+\fBNew sysread and syswrite methods for \s-1IO::\s0Scalar.\fR
+\fIThanks again to Richard Jones for this.\fR
+.Ip "Version 1.215   (2000/09/05)" 4
+Added 'bool' overload to '""' overload, so object always evaluates 
+to true.  (Whew.  Glad I caught this before it went to \s-1CPAN\s0.)
+.Ip "Version 1.214   (2000/09/03)" 4
+Evaluating an \s-1IO::\s0Scalar in a string context now yields
+the underlying string.
+\fIThanks to B. K. Oxley (binkley) for this.\fR
+.Ip "Version 1.213   (2000/08/16)" 4
+Minor documentation fixes.
+.Ip "Version 1.212   (2000/06/02)" 4
+Fixed \s-1IO::\s0InnerFile incompatibility with Perl5.004.
+\fIThanks to many folks for reporting this.\fR
+.Ip "Version 1.210   (2000/04/17)" 4
+Added \fIflush()\fR and other no-op methods.
+\fIThanks to Doru Petrescu for suggesting this.\fR
+.Ip "Version 1.209   (2000/03/17)" 4
+Small bug fixes.
+.Ip "Version 1.208   (2000/03/14)" 4
+Incorporated a number of contributed patches and extensions,
+mostly related to speed hacks, support for \*(L"offset\*(R", and
+\s-1WRITE/CLOSE\s0 methods.
+\fIThanks to Richard Jones, Doru Petrescu, and many others.\fR
+.Ip "Version 1.206   (1999/04/18)" 4
+Added creation of ./testout when Makefile.\s-1PL\s0 is run.
+.Ip "Version 1.205   (1999/01/15)" 4
+Verified for Perl5.005.
+.Ip "Version 1.202   (1998/04/18)" 4
+New \s-1IO::\s0WrapTie and \s-1IO::\s0AtomicFile added.
+.Ip "Version 1.110   " 4
+Added \s-1IO::\s0WrapTie.
+.Ip "Version 1.107   " 4
+Added \s-1IO::\s0Lines, and made some bug fixes to \s-1IO::\s0ScalarArray. 
+Also, added \fIgetc()\fR.
+.Ip "Version 1.105   " 4
+No real changes; just upgraded \s-1IO::\s0Wrap to have a \f(CW$VERSION\fR string.
+.SH "AUTHOR"
+.Ip "Primary Maintainer " 4
+Eryq (\fIeryq@zeegee.com\fR).
+President, ZeeGee Software Inc (\fIhttp://www.zeegee.com\fR).
+.Ip "Co-Authors" 4
+For all their bug reports and patch submissions, the following
+are officially recognized:
+.Sp
+.Vb 4
+\&     Richard Jones
+\&     B. K. Oxley (binkley) 
+\&     Doru Petrescu 
+\&     Doug Wilson (for picking up the ball I dropped, and doing tie() right)
+.Ve
+.PP
+Go to \fIhttp://www.zeegee.com\fR for the latest downloads
+and on-line documentation for this module. 
+.PP
+Enjoy.  Yell if it breaks.
+
+.rn }` ''
+.IX Title "lib::IO::Stringy 3"
+.IX Name "IO-stringy - I/O on in-core objects like strings and arrays"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "WARNINGS"
+
+.IX Header "INSTALLATION"
+
+.IX Subsection "Requirements"
+
+.IX Subsection "Directions"
+
+.IX Header "VERSION"
+
+.IX Header "TO DO"
+
+.IX Item "(2000/08/02)  Finalize $/ support"
+
+.IX Item "(2000/09/28)  Separate read/write cursors?"
+
+.IX Item "(2001/08/08)  Remove \s-1IO::\s0WrapTie from new \s-1IO\s0:: classes"
+
+.IX Header "CHANGE LOG"
+
+.IX Item "Version 2.108   (2001/08/20)"
+
+.IX Item "Version 2.105   (2001/08/09)"
+
+.IX Item "Version 2.103   (2001/08/08)"
+
+.IX Item "Version 2.101   (2001/08/07)"
+
+.IX Item "Version 1.221   (2001/08/07)"
+
+.IX Item "Version 1.220   (2001/04/03)"
+
+.IX Item "Version 1.219   (2001/02/23)"
+
+.IX Item "Version 1.218   (2001/02/23)"
+
+.IX Item "Version 1.216   (2000/09/28)"
+
+.IX Item "Version 1.215   (2000/09/05)"
+
+.IX Item "Version 1.214   (2000/09/03)"
+
+.IX Item "Version 1.213   (2000/08/16)"
+
+.IX Item "Version 1.212   (2000/06/02)"
+
+.IX Item "Version 1.210   (2000/04/17)"
+
+.IX Item "Version 1.209   (2000/03/17)"
+
+.IX Item "Version 1.208   (2000/03/14)"
+
+.IX Item "Version 1.206   (1999/04/18)"
+
+.IX Item "Version 1.205   (1999/01/15)"
+
+.IX Item "Version 1.202   (1998/04/18)"
+
+.IX Item "Version 1.110   "
+
+.IX Item "Version 1.107   "
+
+.IX Item "Version 1.105   "
+
+.IX Header "AUTHOR"
+
+.IX Item "Primary Maintainer "
+
+.IX Item "Co-Authors"
+

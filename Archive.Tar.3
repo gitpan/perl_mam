@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Tar 3 "perl 5.005, patch 52" "29/Jul/98" "User Contributed Perl Documentation"
+.TH Tar 3 "perl 5.007, patch 00" "27/Apr/100" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -194,6 +194,10 @@ Tar \- module for manipulation of tar archives.
 .Vb 1
 \&  use Archive::Tar;
 .Ve
+.Vb 2
+\&  Archive::Tar->create_archive ("my.tar.gz", 9, "/this/file", "/that/file");
+\&  print join "\en", Archive::Tar->list_archive ("my.tar.gz"), "";
+.Ve
 .Vb 5
 \&  $tar = Archive::Tar->new();
 \&  $tar->read("origin.tar.gz",1);
@@ -204,74 +208,160 @@ Tar \- module for manipulation of tar archives.
 .SH "DESCRIPTION"
 This is a module for the handling of tar archives. 
 .PP
-At the moment these methods are implemented:
-.Ip "\f(CWnew()\fR" 4
-Returns a new Tar object. If given a filename as an argument, it will
-try to load that as a tar file. If given a true value as a second
-argument, will assume that the tar file is compressed, and will
-attempt to read it using the \fICompress::Zlib\fR manpage.
-.Ip "\f(CWadd_files(@filenamelist)\fR" 4
+Archive::Tar provides an object oriented mechanism for handling tar
+files.  It provides class methods for quick and easy files handling
+while also allowing for the creation of tar file objects for custom
+manipulation.  If you have the Compress::Zlib module installed,
+Archive::Tar will also support compressed or gzipped tar files.
+.Sh "Class Methods"
+The class methods should be sufficient for most tar file interaction.
+.Ip "create_archive ($file, $compression, @filelist)" 4
+Creates a tar file from the list of files provided.  The first
+argument can either be the name of the tar file to create or a
+reference to an open file handle (e.g. a \s-1GLOB\s0 reference).
+.Sp
+The second argument specifies the level of compression to be used, if
+any.  Compression of tar files requires the installation of the
+Compress::Zlib module.  Specific levels or compression may be
+requested by passing a value between 2 and 9 as the second argument.
+Any other value evaluating as true will result in the default
+compression level being used.
+.Sp
+The remaining arguments list the files to be included in the tar file.
+These files must all exist.  Any files which don\e't exist or can\e't be
+read are silently ignored.
+.Sp
+If the archive creation fails for any reason, \f(CWcreate_archive\fR will
+return undef.  Please use the \f(CWerror\fR method to find the cause of the
+failure.
+.Ip "list_archive ($file, ['property\*(T', \*(N'property\*(T',...])" 4
+.Ip "list_archive ($file)" 4
+Returns a list of the names of all the files in the archive.  The
+first argument can either be the name of the tar file to create or a
+reference to an open file handle (e.g. a \s-1GLOB\s0 reference).
+.Sp
+If \f(CWlist_archive()\fR is passed an array reference as its second
+argument it returns a list of hash references containing the requested
+properties of each file.  The following list of properties is
+supported: name, size, mtime (last modified date), mode, uid, gid,
+linkname, uname, gname, devmajor, devminor, prefix.
+.Sp
+Passing an array reference containing only one element, \*(L'name\*(R', is
+special cased to return a list of names rather than a list of hash
+references.
+.Ip "extract_archive ($file)" 4
+Extracts the contents of the tar file.  The first argument can either
+be the name of the tar file to create or a reference to an open file
+handle (e.g. a \s-1GLOB\s0 reference).  All relative paths in the tar file will
+be created underneath the current working directory.
+.Sp
+If the archive extraction fails for any reason, \f(CWextract_archive\fR
+will return undef.  Please use the \f(CWerror\fR method to find the cause
+of the failure.
+.Ip "new ($file)" 4
+.Ip "new ()" 4
+Returns a new Tar object. If given any arguments, \f(CWnew()\fR calls the
+\f(CWread()\fR method automatically, parsing on the arguments provided the \fIread()\fR manpage.
+.Sp
+If \f(CWnew()\fR is invoked with arguments and the read method fails for
+any reason, \f(CWnew()\fR returns undef.
+.Sh "Instance Methods"
+.Ip "read ($ref, $compressed)" 4
+Read the given tar file into memory. The first argument can either be
+the name of a file or a reference to an already open file handle (e.g. a
+\s-1GLOB\s0 reference).  The second argument indicates whether the file
+referenced by the first argument is compressed.
+.Sp
+The second argument is now optional as Archive::Tar will automatically
+detect compressed archives.
+.Sp
+The \f(CWread\fR will \fIreplace\fR any previous content in \f(CW$tar\fR!
+.Ip "add_files(@filenamelist)" 4
 Takes a list of filenames and adds them to the in-memory archive.  On
 MacOS, the path to the file is automatically converted to a Unix like
-equivalent for use in the archive, and the file's modification time is
-converted from the MacOS to the Unix zero of time.  So tar archives
+equivalent for use in the archive, and the file\e's modification time
+is converted from the MacOS epoch to the Unix epoch.  So tar archives
 created on MacOS with \fBArchive::Tar\fR can be read both with \fItar\fR on
 Unix and applications like \fIsuntar\fR or \fIStuffit Expander\fR on MacOS.
-Also be aware that the file's type/creator and resource fork will be
-lost, which is usually what you want in cross-platform archives.
-.Ip "\f(CWadd_data($filename,$data,$opthashref)\fR" 4
+Be aware that the file\e's type/creator and resource fork will be lost,
+which is usually what you want in cross-platform archives.
+.Ip "add_data ($filename, $data, $opthashref)" 4
 Takes a filename, a scalar full of data and optionally a reference to
 a hash with specific options. Will add a file to the in-memory
-archive, with name \f(CW$filename\fR and content \f(CW$data\fR. Specific options
-can be set using \f(CW$opthashref\fR, which will be documented later.  (On
-MacOS, the file's path and modification times are converted to Unix
+archive, with name \f(CW$filename\fR and content \f(CW$data\fR. Specific
+properties can be set using \f(CW$opthashref\fR, The following list of
+properties is supported: name, size, mtime (last modified date), mode,
+uid, gid, linkname, uname, gname, devmajor, devminor, prefix.  (On
+MacOS, the file\e's path and modification times are converted to Unix
 equivalents.)
-.Ip "\f(CWremove(@filenamelist)\fR" 4
+.Ip "remove (@filenamelist)" 4
 Removes any entries with names matching any of the given filenames
 from the in-memory archive. String comparisons are done with \f(CWeq\fR.
-.Ip "\f(CWread('\fIfile.tar\fR',$compressed)\fR" 4
-Try to read the given tarfile into memory. If the second argument is a
-true value, the tarfile is assumed to be compressed. Will \fIreplace\fR
-any previous content in \f(CW$tar\fR!
-.Ip "\f(CWwrite('\fIfile.tar\fR',$compressed)\fR" 4
-Will write the in-memory archive to disk. If no filename is given,
-returns the entire formatted archive as a string, which should be
-useful if you'd like to stuff the archive into a socket or a pipe to
-gzip or something. If the second argument is true, the module will try
-to write the file compressed.
-.Ip "\f(CWdata()\fR" 4
-Returns the in-memory archive. This is a list of references to hashes,
-the internals of which is not currently documented.
-.Ip "\f(CWextract(@filenames)\fR" 4
+.Ip "write ($file, $compressed)" 4
+Write the in-memory archive to disk.  The first argument can either be
+the name of a file or a reference to an already open file handle (be a
+\s-1GLOB\s0 reference).  If the second argument is true, the module will use
+Compress::Zlib to write the file in a compressed format.  If
+Compress:Zlib is not available, the \f(CWwrite\fR method will fail.
+Specific levels of compression can be chosen by passing the values 2
+through 9 as the second parameter.
+.Sp
+If no arguments are given, \f(CWwrite\fR returns the entire formatted
+archive as a string, which could be useful if you\e'd like to stuff the
+archive into a socket or a pipe to gzip or something.  This
+functionality may be deprecated later, however, as you can also do
+this using a \s-1GLOB\s0 reference for the first argument.
+.Ip "extract(@filenames)" 4
 Write files whose names are equivalent to any of the names in
-\f(CW@filenames\fR to disk, creating subdirectories as neccesary. This
-might not work too well under \s-1VMS\s0.  Under MacPerl, the file's
+\f(CW@filenames\fR to disk, creating subdirectories as necessary. This
+might not work too well under \s-1VMS\s0.  Under MacPerl, the file\e's
 modification time will be converted to the MacOS zero of time, and
 appropriate conversions will be done to the path.  However, the length
-of each element of the path is not inspected to see whether it's
+of each element of the path is not inspected to see whether it\e's
 longer than MacOS currently allows (32 characters).
-.Ip "\f(CWlist_files()\fR" 4
-Returns a list with the names of all files in the in-memory archive.
-.Ip "\f(CWget_content($file)\fR" 4
+.Sp
+If \f(CWextract\fR is called without a list of file names, the entire
+contents of the archive are extracted.
+.Ip "list_files(['property\*(T', \*(N'property\*(T',...])" 4
+.Ip "list_files()" 4
+Returns a list of the names of all the files in the archive.
+.Sp
+If \f(CWlist_files()\fR is passed an array reference as its first argument
+it returns a list of hash references containing the requested
+properties of each file.  The following list of properties is
+supported: name, size, mtime (last modified date), mode, uid, gid,
+linkname, uname, gname, devmajor, devminor, prefix.
+.Sp
+Passing an array reference containing only one element, \*(L'name\*(R', is
+special cased to return a list of names rather than a list of hash
+references.
+.Ip "get_content($file)" 4
 Return the content of the named file.
-.Ip "\f(CWreplace_content($file,$content)\fR" 4
+.Ip "replace_content($file,$content)" 4
 Make the string \f(CW$content\fR be the content for the file named \f(CW$file\fR.
 .SH "CHANGES"
+.Ip "Version 0.20" 4
+Added class methods for creation, extraction and listing of tar files.
+No longer maintain a complete copy of the tar file in memory.  Removed
+the \f(CWdata()\fR method.
+.Ip "Version 0.10" 4
+Numerous changes. Brought source under \s-1CVS\s0.  All changes now recorded
+in ChangeLog file in distribution.
 .Ip "Version 0.08" 4
 New developer/maintainer.  Calle has carpal-tunnel syndrome and cannot
 type a great deal. Get better as soon as you can, Calle.
 .Sp
-Added proper support for MacOS.
-Thanks to Paul J. Schinder <schinder@leprss.gsfc.nasa.gov>.
+Added proper support for MacOS.  Thanks to Paul J. Schinder
+<schinder@leprss.gsfc.nasa.gov>.
 .Ip "Version 0.071" 4
 Minor release.
 .Sp
-Arrange to \fIchmod()\fR at the very end in case it makes the file readonly.
+Arrange to \fIchmod()\fR at the very end in case it makes the file read only.
 Win32 is actually picky about that.
 .Sp
-SunOS 4.x tar makes tarfiles that contain directory entries
-that don't have typeflag set properly.  We use the trailing
-slash to recognize directories in such tarfiles.
+SunOS 4.x tar makes tarfiles that contain directory entries that
+don\e't have typeflag set properly.  We use the trailing slash to
+recognise directories in such tar files.
 .Ip "Version 0.07" 4
 Fixed (hopefully) broken portability to MacOS, reported by Paul J.
 Schinder at Goddard Space Flight Center.
@@ -279,14 +369,14 @@ Schinder at Goddard Space Flight Center.
 Fixed two bugs with symlink handling, reported in excellent detail by
 an admin at teleport.com called Chris.
 .Sp
-Primive tar program (called ptar) included with distribution. Useage
-should be pretty obvious if you've used a normal tar program.
+Primitive tar program (called ptar) included with distribution. Usage
+should be pretty obvious if you\e've used a normal tar program.
 .Sp
 Added methods get_content and replace_content.
 .Sp
 Added support for paths longer than 100 characters, according to
 \s-1POSIX\s0. This is compatible with just about everything except \s-1GNU\s0 tar.
-Way to go, \s-1GNU\s0 tar (use a better tar, or \s-1GNU\s0 cpio). 
+Way to go, \s-1GNU\s0 tar (use a better tar, or \s-1GNU\s0 cpio).
 .Sp
 \s-1NOTE\s0: When adding files to an archive, files with basenames longer
       than 100 characters will be silently ignored. If the prefix part
@@ -305,7 +395,7 @@ Fixed bug in format_tar_entry. Bug reported by Michael Schilli.
 Quoted lots of barewords to make \f(CWuse strict;\fR stop complaining under
 perl version 5.003.
 .Sp
-Ties to the \fICompress::Zlib\fR manpage put in. Will warn if it isn't available.
+Ties to the \fICompress::Zlib\fR manpage put in. Will warn if it isn\e't available.
 .Sp
 $tar->\fIwrite()\fR with no argument now returns the formatted archive.
 .Ip "Version 0.04" 4
@@ -336,29 +426,47 @@ Better handling of tarfiles with garbage at the end.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "\f(CWnew()\fR"
+.IX Subsection "Class Methods"
 
-.IX Item "\f(CWadd_files(@filenamelist)\fR"
+.IX Item "create_archive ($file, $compression, @filelist)"
 
-.IX Item "\f(CWadd_data($filename,$data,$opthashref)\fR"
+.IX Item "list_archive ($file, ['property\*(T', \*(N'property\*(T',...])"
 
-.IX Item "\f(CWremove(@filenamelist)\fR"
+.IX Item "list_archive ($file)"
 
-.IX Item "\f(CWread('\fIfile.tar\fR',$compressed)\fR"
+.IX Item "extract_archive ($file)"
 
-.IX Item "\f(CWwrite('\fIfile.tar\fR',$compressed)\fR"
+.IX Item "new ($file)"
 
-.IX Item "\f(CWdata()\fR"
+.IX Item "new ()"
 
-.IX Item "\f(CWextract(@filenames)\fR"
+.IX Subsection "Instance Methods"
 
-.IX Item "\f(CWlist_files()\fR"
+.IX Item "read ($ref, $compressed)"
 
-.IX Item "\f(CWget_content($file)\fR"
+.IX Item "add_files(@filenamelist)"
 
-.IX Item "\f(CWreplace_content($file,$content)\fR"
+.IX Item "add_data ($filename, $data, $opthashref)"
+
+.IX Item "remove (@filenamelist)"
+
+.IX Item "write ($file, $compressed)"
+
+.IX Item "extract(@filenames)"
+
+.IX Item "list_files(['property\*(T', \*(N'property\*(T',...])"
+
+.IX Item "list_files()"
+
+.IX Item "get_content($file)"
+
+.IX Item "replace_content($file,$content)"
 
 .IX Header "CHANGES"
+
+.IX Item "Version 0.20"
+
+.IX Item "Version 0.10"
 
 .IX Item "Version 0.08"
 

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Protocol 3 "libwww-perl-5.36" "6/Jan/98" "User Contributed Perl Documentation"
+.TH lib::LWP::Protocol 3 "libwww-perl-5.64" "26/Oct/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -212,10 +212,10 @@ make use of the \fIcollect()\fR function to collect together chunks of data
 as it is received.
 .PP
 The following methods and functions are provided:
-.Ip "$prot = new \s-1HTTP::\s0Protocol;" 4
+.Ip "$prot = \s-1LWP::\s0Protocol->new()" 4
 The \s-1LWP::\s0Protocol constructor is inherited by subclasses. As this is a
 virtual base class this method should \fBnot\fR be called directly.
-.Ip "$prot = \s-1LWP::\s0Protocol::create($url)" 4
+.Ip "$prot = \s-1LWP::\s0Protocol::create($scheme)" 4
 Create an object of the class implementing the protocol to handle the
 given scheme. This is a function, not a method. It is more an object
 factory than a constructor. This is the function user agents should
@@ -233,11 +233,6 @@ specified scheme is not supported.
 Dispactches a request over the protocol, and returns a response
 object. This method needs to be overridden in subclasses.  Referer to
 the \fI\s-1LWP::\s0UserAgent\fR manpage for description of the arguments.
-.Ip "$prot->timeout($seconds)" 4
-Get and set the timeout value in seconds
-.Ip "$prot->parse_head($yesno)" 4
-Should we initialize response headers from the <head> section of \s-1HTML\s0
-documents.
 .Ip "$prot->collect($arg, $response, $collector)" 4
 Called to collect the content of a request, and process it
 appropriately into a scalar, file, or by calling a callback.  If \f(CW$arg\fR
@@ -266,7 +261,7 @@ next.
 Inspect the \fILWP/Protocol/file.pm\fR and \fILWP/Protocol/http.pm\fR files
 for examples of usage.
 .SH "COPYRIGHT"
-Copyright 1995-1997 Gisle Aas.
+Copyright 1995-2001 Gisle Aas.
 .Sp
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -281,17 +276,13 @@ modify it under the same terms as Perl itself.
 
 .IX Header "DESCRIPTION"
 
-.IX Item "$prot = new \s-1HTTP::\s0Protocol;"
+.IX Item "$prot = \s-1LWP::\s0Protocol->new()"
 
-.IX Item "$prot = \s-1LWP::\s0Protocol::create($url)"
+.IX Item "$prot = \s-1LWP::\s0Protocol::create($scheme)"
 
 .IX Item "$class = \s-1LWP::\s0Protocol::implementor($scheme, [$class])"
 
 .IX Item "$prot->request(...)"
-
-.IX Item "$prot->timeout($seconds)"
-
-.IX Item "$prot->parse_head($yesno)"
 
 .IX Item "$prot->collect($arg, $response, $collector)"
 

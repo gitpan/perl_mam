@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Time::CTime 3 "perl 5.005, patch 53" "10/Jun/98" "User Contributed Perl Documentation"
+.TH lib::Time::CTime 3 "perl 5.007, patch 00" "17/Nov/99" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -199,16 +199,18 @@ Time::CTime -- format times ala POSIX asctime
 .Ve
 .Sh "strftime conversions"
 .PP
-.Vb 33
+.Vb 35
 \&        %%      PERCENT
 \&        %a      day of the week abbr
 \&        %A      day of the week
 \&        %b      month abbr
 \&        %B      month
 \&        %c      ctime format: Sat Nov 19 21:05:57 1994
-\&        %d      numeric day of the month
-\&        %e      DD
+\&        %d      DD
 \&        %D      MM/DD/YY
+\&        %e      numeric day of the month
+\&        %f      floating point seconds (milliseconds): .314
+\&        %F      floating point seconds (microseconds): .314159
 \&        %h      month abbr
 \&        %H      hour, 24 hour clock, leading 0's)
 \&        %I      hour, 12 hour clock, leading 0's)
@@ -247,8 +249,11 @@ libraries.
 .SH "GENESIS"
 Written by David Muir Sharnoff <muir@idiom.com>.
 .PP
-Tthe starting point for this package was a posting by 
+The starting point for this package was a posting by 
 Paul Foley <paul@ascent.com> 
+.PP
+Copyright (C) 1996-1999 David Muir Sharnoff.  All Rights Reserved.
+Use and redistribution allowed at user's own risk.
 
 .rn }` ''
 .IX Title "lib::Time::CTime 3"

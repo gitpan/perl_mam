@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Response 3 "libwww-perl-5.36" "6/Jan/98" "User Contributed Perl Documentation"
+.TH lib::HTTP::Response 3 "libwww-perl-5.64" "14/Nov/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -195,10 +195,10 @@ HTTP::Response \- Class encapsulating HTTP Responses
 \& require HTTP::Response;
 .Ve
 .SH "DESCRIPTION"
-The \f(CWHTTP::Response\fR class encapsulate HTTP style responses.  A
-response consist of a response line, some headers, and a (potential
-empty) content. Note that the LWP library will use HTTP style
-responses also for non-HTTP protocol schemes.
+The \f(CWHTTP::Response\fR class encapsulates HTTP style responses.  A
+response consists of a response line, some headers, and (potentially
+empty) content. Note that the LWP library also uses HTTP style
+responses for non-HTTP protocol schemes.
 .PP
 Instances of this class are usually created and returned by the
 \f(CWrequest()\fR method of an \f(CWLWP::UserAgent\fR object:
@@ -213,8 +213,8 @@ Instances of this class are usually created and returned by the
 \& }
 .Ve
 \f(CWHTTP::Response\fR is a subclass of \f(CWHTTP::Message\fR and therefore
-inherits its methods.  The inherited methods often used are \fIheader()\fR,
-\fIpush_header()\fR, \fIremove_header()\fR, \fIheaders_as_string()\fR, and \fIcontent()\fR.
+inherits its methods.  The inherited methods most often used are \fIheader()\fR,
+\fIpush_header()\fR, \fIremove_header()\fR, and \fIcontent()\fR.
 The header convenience methods are also available.  See
 the \fIHTTP::Message\fR manpage for details.
 .PP
@@ -228,11 +228,11 @@ code.
 .Ip "$r->message([$message])" 4
 .Ip "$r->request([$request])" 4
 .Ip "$r->previous([$previousResponse])" 4
-These methods provide public access to the member variables.  The
-first two containing respectively the response code and the message
+These methods provide public access to the object attributes.  The
+first two contain respectively the response code and the message
 of the response.
 .Sp
-The request attribute is a reference the request that gave this
+The request attribute is a reference the request that caused this
 response.  It does not have to be the same request as passed to the
 \f(CW$ua\fR\->\fIrequest()\fR method, because there might have been redirects and
 authorization retries in between.
@@ -245,10 +245,10 @@ Returns the string \*(L"<code> <message>\*(R".  If the message attribute
 is not set then the official name of <code> (see the \fI\s-1HTTP::\s0Status\fR manpage)
 is substituted.
 .Ip "$r->base" 4
-Returns the base \s-1URL\s0 for this response.  The return value will be a
-reference to a \s-1URI::URL\s0 object.
+Returns the base \s-1URI\s0 for this response.  The return value will be a
+reference to a \s-1URI\s0 object.
 .Sp
-The base \s-1URL\s0 is obtained from one the following sources (in priority
+The base \s-1URI\s0 is obtained from one the following sources (in priority
 order):
 .Ip "1." 8
 Embedded in the document content, for instance <\s-1BASE\s0 \s-1HREF\s0=\*(R"...">
@@ -259,17 +259,17 @@ A \*(L"Content-Base:\*(R" or a \*(L"Content-Location:\*(R" header in the respons
 For backwards compatability with older \s-1HTTP\s0 implementations we will
 also look for the \*(L"Base:\*(R" header.
 .Ip "3." 8
-The \s-1URL\s0 used to request this response. This might not be the original
-\s-1URL\s0 that was passed to \f(CW$ua\fR\->\fIrequest()\fR method, because we might have
+The \s-1URI\s0 used to request this response. This might not be the original
+\s-1URI\s0 that was passed to \f(CW$ua\fR\->\fIrequest()\fR method, because we might have
 received some redirect responses first.
 .Sp
 When the \s-1LWP\s0 protocol modules produce the \s-1HTTP::\s0Response object, then
-any base \s-1URL\s0 embedded in the document (step 1) will already have
+any base \s-1URI\s0 embedded in the document (step 1) will already have
 initialized the \*(L"Content-Base:\*(R" header. This means that this method
-only perform the last 2 steps (the content is not always available
+only performs the last 2 steps (the content is not always available
 either).
 .Ip "$r->as_string" 4
-Method returning a textual representation of the response.  Mainly
+Returns a textual representation of the response.  Mainly
 useful for debugging purposes. It takes no arguments.
 .Ip "$r->is_info" 4
 .Ip "$r->is_success" 4
@@ -278,16 +278,16 @@ useful for debugging purposes. It takes no arguments.
 These methods indicate if the response was informational, sucessful, a
 redirection, or an error.
 .Ip "$r->error_as_HTML()" 4
-Return a string containing a complete \s-1HTML\s0 document indicating what
+Returns a string containing a complete \s-1HTML\s0 document indicating what
 error occurred.  This method should only be called when \f(CW$r\fR\->is_error
 is \s-1TRUE\s0.
 .Ip "$r->current_age" 4
-This function will calculate the \*(L"current age\*(R" of the response as
+Calculates the \*(L"current age\*(R" of the response as
 specified by <draft-ietf-http-v11-spec-07> section 13.2.3.  The
 age of a response is the time since it was sent by the origin server.
 The returned value is a number representing the age in seconds.
 .Ip "$r->freshness_lifetime" 4
-This function will calculate the \*(L"freshness lifetime\*(R" of the response
+Calculates the \*(L"freshness lifetime\*(R" of the response
 as specified by <draft-ietf-http-v11-spec-07> section 13.2.4.  The
 \*(L"freshness lifetime\*(R" is the length of time between the generation of a
 response and its expiration time.  The returned value is a number
@@ -298,13 +298,13 @@ header, then this function will apply some simple heuristic based on
 \&'Last-Modified\*(R' to determine a suitable lifetime.
 .Ip "$r->is_fresh" 4
 Returns \s-1TRUE\s0 if the response is fresh, based on the values of
-\fIfreshness_lifetime()\fR and \fIcurrent_age()\fR.  If the response is not longer
+\fIfreshness_lifetime()\fR and \fIcurrent_age()\fR.  If the response is no longer
 fresh, then it has to be refetched or revalidated by the origin
 server.
 .Ip "$r->fresh_until" 4
 Returns the time when this entiy is no longer fresh.
 .SH "COPYRIGHT"
-Copyright 1995-1997 Gisle Aas.
+Copyright 1995-2001 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

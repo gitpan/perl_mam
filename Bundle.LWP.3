@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Bundle::LWP 3 "libwww-perl-5.36" "27/Mar/98" "User Contributed Perl Documentation"
+.TH lib::Bundle::LWP 3 "libwww-perl-5.64" "26/Oct/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -195,11 +195,17 @@ Bundle::LWP \- A bundle to install all libwww-perl related modules
 \& perl -MCPAN -e 'install Bundle::LWP'
 .Ve
 .SH "CONTENTS"
-Net::FTP 2.00      \- If you want ftp://\-support
-.PP
 MIME::Base64       \- Used in authentication headers
 .PP
-MD5                \- Needed to do Digest authentication
+Digest::MD5        \- Needed to do Digest authentication
+.PP
+URI 1.10           \- There are URIs everywhere
+.PP
+Net::FTP 2.58      \- If you want ftp://\-support
+.PP
+HTML::Tagset       \- Needed by HTML::Parser
+.PP
+HTML::Parser       \- Need by HTML::HeadParser
 .PP
 HTML::HeadParser   \- To get the correct \f(CW$res\fR\->base
 .PP
@@ -207,7 +213,7 @@ LWP                \- The reason why you need the modules above
 .SH "DESCRIPTION"
 This bundle defines all reqreq modules for libwww-perl.
 .SH "AUTHOR"
-Gisle Aas <aas@sn.no>
+Gisle Aas <gisle@aas.no>
 
 .rn }` ''
 .IX Title "lib::Bundle::LWP 3"

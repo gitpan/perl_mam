@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Negotiate 3 "libwww-perl-5.36" "3/Apr/97" "User Contributed Perl Documentation"
+.TH lib::HTTP::Negotiate 3 "libwww-perl-5.64" "27/Nov/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -207,7 +207,7 @@ choose \- choose a variant of a document to serve (HTTP content negotiation)
 \& $the_one  = choose($variants);
 .Ve
 .SH "DESCRIPTION"
-This module provide a complete implementation of the HTTP content
+This module provides a complete implementation of the HTTP content
 negotiation algorithm specified in \fIdraft-ietf-http-v11-spec-00.ps\fR
 chapter 12.  Content negotiation allows for the selection of a
 preferred content representation based upon attributes of the
@@ -217,22 +217,21 @@ in the request.
 The variants are ordered by preference by calling the function
 \fIchoose()\fR.
 .PP
-The first parameter is a description of the variants that we can
-choose among.  The variants are described by a reference to an array.
+The first parameter is reference to an array of the variants to
+choose among.
 Each element in this array is an array with the values [$id, \f(CW$qs\fR,
 \f(CW$content_type\fR, \f(CW$content_encoding\fR, \f(CW$charset\fR, \f(CW$content_language\fR,
-\f(CW$content_length\fR].  The meaning of these values are described
+\f(CW$content_length\fR] whose meanings are described
 below. The \f(CW$content_encoding\fR and \f(CW$content_language\fR can be either a
 single scalar value or an array reference if there are several values.
 .PP
-The second optional parameter is a reference to the request headers.
-This is used to look for \*(L"Accept*\*(R" headers.  You can pass a reference
-to either a HTTP::Request or a HTTP::Headers object.  If this
+The second optional parameter is either a HTTP::Headers or a HTTP::Request
+object which is searched for \*(L"Accept*\*(R" headers.  If this
 parameter is missing, then the accept specification is initialized
 from the CGI environment variables HTTP_ACCEPT, HTTP_ACCEPT_CHARSET,
 HTTP_ACCEPT_ENCODING and HTTP_ACCEPT_LANGUAGE.
 .PP
-In array context, \fIchoose()\fR returns a list of variant
+In an array context, \fIchoose()\fR returns a list of variant
 identifier/calculated quality pairs.  The values are sorted by
 quality, highest quality first.  If the calculated quality is the same
 for two variants, then they are sorted by size (smallest first). \fIE.g.\fR:
@@ -243,7 +242,7 @@ for two variants, then they are sorted by size (smallest first). \fIE.g.\fR:
 Note that also zero quality variants are included in the return list
 even if these should never be served to the client.
 .PP
-In scalar context, it returns the identifier of the variant with the
+In a scalar context, it returns the identifier of the variant with the
 highest score or \f(CWundef\fR if none have non-zero quality.
 .PP
 If the \f(CW$HTTP::Negotiate::DEBUG\fR variable is set to TRUE, then a lot of
@@ -253,8 +252,8 @@ A variant is described by a list of the following values.  If the
 attribute does not make sense or is unknown for a variant, then use
 \f(CWundef\fR instead.
 .Ip "identifier" 3
-This is just some string that you use as a name for the variant.  The
-identifier of the preferred variant is returned by \fIchoose()\fR.
+This is a string that you use as the name for the variant.  This
+identifier for the preferred variants returned by \fIchoose()\fR.
 .Ip "qs" 3
 This is a number between 0.000 and 1.000 that describes the \*(L"source
 quality\*(R".  This is what \fIdraft-ietf-http-v11-spec-00.ps\fR says about this
@@ -291,8 +290,8 @@ content media type.  The most common content encodings are:
 \&  compress
 .Ve
 .Ip "content-charset" 3
-This is the character set used when the variant contains textual
-content.  The charset value should generally be \f(CWundef\fR or one of these:
+This is the character set used when the variant contains text.
+The charset value should generally be \f(CWundef\fR or one of these:
 .Sp
 .Vb 8
 \&  us-ascii
@@ -311,7 +310,7 @@ language is in this context a natural language spoken, written, or
 otherwise conveyed by human beings for communication of information to
 other human beings.  Computer languages are explicitly excluded.
 .Sp
-The language tags are the same as those defined by \s-1RFC\s0\-1766.  Examples
+The language tags are defined by \s-1RFC\s0 3066.  Examples
 are:
 .Sp
 .Vb 4
@@ -365,8 +364,8 @@ Accept-Encoding means that no content encoding is acceptable.  Example:
 \&  Accept-Encoding: compress, gzip
 .Ve
 .Ip "Accept-Language" 3
-This field is similar to Accept, but restrict the set of natural
-languages that are preferred as a response.  Each language may be
+This field is similar to Accept, but restricts the set of natural
+languages that are preferred in a response.  Each language may be
 given an associated quality value which represents an estimate of the
 user's comprehension of that language.  For example:
 .Sp
@@ -376,12 +375,12 @@ user's comprehension of that language.  For example:
 would mean: \*(L"I prefer Norwegian, but will accept British English (with
 80% comprehension) or German (with 55% comprehension).
 .SH "COPYRIGHT"
-Copyright 1996, Gisle Aas.
+Copyright 1996,2001 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-Gisle Aas <aas@sn.no>
+Gisle Aas <gisle@aas.no>
 
 .rn }` ''
 .IX Title "lib::HTTP::Negotiate 3"

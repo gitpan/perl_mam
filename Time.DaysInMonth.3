@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Time::DaysInMonth 3 "perl 5.005, patch 53" "27/May/98" "User Contributed Perl Documentation"
+.TH lib::Time::DaysInMonth 3 "perl 5.007, patch 00" "17/Nov/99" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -189,12 +189,21 @@
 .rm #[ #] #H #V #F C
 .SH "NAME"
 Time::DaysInMonth -- simply report the number of days in a month
-.SH "SYNOPSIS 	 	use Time::DaysInMonth; 	\f(CW$days\fR = \fIdays_in\fR\|($year, \f(CW$month_1_to_12\fR); 	\f(CW$leapyear\fR = \fIis_leap\fR\|($year);"
+.SH "SYNOPSIS"
+.PP
+.Vb 3
+\&        use Time::DaysInMonth;
+\&        $days = days_in($year, $month_1_to_12);
+\&        $leapyear = is_leap($year);
+.Ve
 .SH "DESCRIPTION"
 DaysInMonth is simply a package to report the number of days in
 a month.  That's all it does.  Really!
 .SH "AUTHOR"
 David Muir Sharnoff <muir@idiom.com>
+.PP
+Copyright (C) 1996-1999 David Muir Sharnoff.  All Rights Reserved.
+Use and redistribution allowed at user's own risk.
 
 .rn }` ''
 .IX Title "lib::Time::DaysInMonth 3"
@@ -202,7 +211,7 @@ David Muir Sharnoff <muir@idiom.com>
 
 .IX Header "NAME"
 
-.IX Header "SYNOPSIS 	 	use Time::DaysInMonth; 	\f(CW$days\fR = \fIdays_in\fR\|($year, \f(CW$month_1_to_12\fR); 	\f(CW$leapyear\fR = \fIis_leap\fR\|($year);"
+.IX Header "SYNOPSIS"
 
 .IX Header "DESCRIPTION"
 

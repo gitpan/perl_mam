@@ -1,0 +1,2419 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH Twig 3 "perl 5.007, patch 00" "16/Jan/102" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+XML::Twig \- A perl module for processing huge XML documents in tree mode.
+.SH "SYNOPSIS"
+Small documents
+.PP
+.Vb 4
+\&  my $twig=XML::Twig->new(); # create the twig
+\&  $twig->parse( 'doc.xml'); # build it
+\&  my_process( $twig);       # use twig methods to process it 
+\&  $twig->print;             # output the twig
+.Ve
+Huge documents
+.PP
+.Vb 12
+\&  my $twig=XML::Twig->new(   
+\&    twig_handlers => 
+\&      { title   => sub { $_->set_gi( 'h2' }, # change title tags to h2
+\&        para    => sub { $_->set_gi( 'p') }, # change para to p
+\&        hidden  => sub { $_->delete;      }, # remove hidden elements
+\&        list    => \e&my_list_process,        # process list elements
+\&        div     => sub { $_[0]->flush;    }, # output and free memory
+\&      },
+\&    PrettyPrint => 'indented',               # output will be nicely formatted
+\&    EmptyTags   => 'html',                   # outputs <empty_tag />
+\&                        );
+\&    $t->flush;                               # flush the end of the document
+.Ve
+See XML::Twig 101 for other ways to use the module, as a 
+filter for example
+.SH "DESCRIPTION"
+This module provides a way to process XML documents. It is build on top
+of XML::Parser.
+.PP
+The module offers a tree interface to the document, while allowing you
+to output the parts of it that have been completely processed.
+.PP
+It allows minimal resource (CPU and memory) usage by building the tree
+only for the parts of the documents that need actual processing, through the 
+use of the \f(CWtwig_roots\fR and 
+\f(CWtwig_print_outside_roots\fR options. The 
+\f(CWfinish\fR and \f(CWfinish_print\fR methods also help 
+to increase performances.
+.PP
+XML::Twig tries to make simple things easy so it tries its best to takes care 
+of a lot of the (usually) annoying (but sometimes necessary) features that 
+come with XML and XML::Parser.
+.SH "XML::Twig 101"
+XML::Twig can be used either on \*(L"small\*(R" XML documents (that fit in memory)
+or on huge ones, by processing parts of the document and outputting or
+discarding them once they are processed.
+.Sh "Loading an \s-1XML\s0 document and processing it"
+.PP
+.Vb 10
+\&        my $t= XML::Twig->new();
+\&        $t->parse( '<d><tit>title</tit><para>para1</para><para>p2</para></d>');
+\&        my $root= $t->root;
+\&        $root->set_gi( 'html');               # change doc to html
+\&        $title= $root->first_child( 'tit');   # get the title
+\&        $title->set_gi( 'h1');                # turn it into h1
+\&        my @para= $root->children( 'para');   # get the para children
+\&        foreach my $para (@para)
+\&          { $para->set_gi( 'p'); }            # turn them into p
+\&        $t->print;                            # output the document
+.Ve
+Other useful methods include:
+.PP
+att: \f(CW< $elt-\fR{'att'}\->{'type'} >> returns the \f(CWtype\fR attribute for an 
+element,
+.PP
+set_att: \f(CW< $elt-\fR\fIset_att\fR\|( type => \*(L"important") >> sets the \f(CWtype\fR 
+attribute to the \f(CWimportant\fR value,
+.PP
+next_sibling: \f(CW< $elt-\fR{next_sibling} >> returns the next sibling
+in the document (in the example \f(CW< $title-\fR{next_sibling} >> is the first \f(CWpara\fR
+while \f(CW< $elt-\fR\fInext_sibling\fR\|( \*(L'table') >> is the next \f(CWtable\fR sibling 
+.PP
+The document can also be transformed through the use of the cut, 
+copy, paste and move methods: 
+\f(CW< $title-\fRcut; \f(CW$title\fR\->\fIpaste\fR\|( \*(L'after\*(R', \f(CW$p\fR); >> for example
+.PP
+And much, much more, see Elt.
+.Sh "Processing an \s-1XML\s0 document chunk by chunk"
+One of the strength of \s-1XML::\s0Twig is that it let you work with files that do 
+not fit in memory (\s-1BTW\s0 storing an \s-1XML\s0 document in memory as a tree is quite
+memory-expensive, the expansion factor being often around 10).
+.PP
+To do this you can define handlers, that will be called once a specific 
+element has been completely parsed. In this handlers you can access the
+element and process it as you see fit, using the navigation and the
+cut-n-paste methods, plus lots of convenient ones like \f(CWprefix\fR.
+Once the element is completely processed you can then \f(CWflush\fR it, 
+which will output it and free the memory. You can also \f(CWpurge\fR it 
+if you don't need to output it (if you are just extracting some data from 
+the document for example). The handler will be called again once the next 
+relevant element has been parsed.
+.PP
+.Vb 21
+\&        my $t= XML::Twig->new( twig_handlers => 
+\&                                { section => \e&section,
+\&                                  para   => sub { $_->set_gi( 'p');
+\&                                },
+\&                            );
+\&        $t->parsefile( 'doc.xml');
+\&        $t->flush; # don't forget to flush one last time in the end or anything
+\&                   # after the last </section> tag will not be output 
+\&        
+\&        # the handler is called once a section is completely parsed, ie when 
+\&        # the end tag for section is found, it receives the twig itself and
+\&        # the element (including all its sub-elements) as arguments
+\&        sub section 
+\&          { my( $t, $section)= @_;      # arguments for all twig_handlers
+\&            $section->set_gi( 'div');   # change the gi, my favourite method...
+\&            # let's use the attribute nb as a prefix to the title
+\&            my $title= $section->first_child( 'title'); # find the title
+\&            my $nb= $title->{'att'}->{'nb'}; # get the attribute
+\&            $title->prefix( "$nb - ");  # easy isn't it?
+\&            $section->flush;            # outputs the section and frees memory
+\&          }
+.Ve
+.Vb 7
+\&        my $t= XML::Twig->new( twig_handlers => 
+\&                                { 'section/title' => \e&print_elt_text} );
+\&        $t->parsefile( 'doc.xml');
+\&        sub print_elt_text 
+\&          { my( $t, $elt)= @_;
+\&            print $elt->text; 
+\&          }
+.Ve
+.Vb 4
+\&        my $t= XML::Twig->new( twig_handlers => 
+\&                                { 'section[@level="1"]' => \e&print_elt_text }
+\&                            );
+\&        $t->parsefile( 'doc.xml');
+.Ve
+There is of course more to it: you can trigger handlers on more elaborate 
+conditions than just the name of the element, \f(CWsection/title\fR for example.
+You can also use \f(CWTwigStartHandlers\fR to process an 
+element as soon as the start tag is found. Besides \f(CWprefix\fR you
+can also use \f(CWsuffix\fR, 
+.Sh "Processing just parts of an \s-1XML\s0 document"
+The twig_roots mode builds only the required sub-trees from the document
+Anything outside of the twig roots will just be ignored:
+.PP
+.Vb 13
+\&        my $t= XML::Twig->new( 
+\&                 # the twig will include just the root and selected titles 
+\&                 twig_roots   => { 'section/title' => \e&print_elt_text,
+\&                                   'annex/title'   => \e&print_elt_text
+\&                                 }
+\&                            );
+\&        $t->parsefile( 'doc.xml');
+\&        
+\&        sub print_elt_text 
+\&          { my( $t, $elt)= @_;
+\&            print $elt->text;    # print the text (including sub-element texts)
+\&            $t->purge;           # frees the memory
+\&          }
+.Ve
+You can use that mode when you want to process parts of a documents but are
+not interested in the rest and you don't want to pay the price, either in
+time or memory, to build the tree for the it.
+.Sh "Building an \s-1XML\s0 filter"
+You can combine the twig_roots and the twig_print_outside_roots options to build
+filters, which let you modify selected elements and will output the rest of 
+the document as is.
+.PP
+This would convert prices in $ to prices in Euro in a document:
+.PP
+.Vb 18
+\&        my $t= XML::Twig->new( 
+\&                 twig_roots   => { 'price' => \e&convert, },    # process prices 
+\&                 twig_print_outside_roots => 1,                # print the rest
+\&                            );
+\&        $t->parsefile( 'doc.xml');
+\&        
+\&        sub convert 
+\&          { my( $t, $price)= @_;
+\&            my $currency=  $price->{'att'}->{'currency'};        # get the currency
+\&            if( $currency eq 'USD')
+\&              { $usd_price= $price->text;                   # get the price
+\&                # %rate is just a conversion table 
+\&                my $euro_price= $usd_price * $rate{usd2euro};
+\&                $price->set_text( $euro_price);             # set the new price
+\&                $price->set_att( currency => 'EUR');        # don't forget this!
+\&              }
+\&            $price->print;                                  # output the price
+\&          }
+.Ve
+.Sh "Simplifying \s-1XML\s0 processing"
+.Ip "Whitespaces" 4
+Whitespaces that look non-significant are discarded, this behaviour can be 
+controlled using the \f(CWkeep_spaces\fR, 
+\f(CWkeep_spaces_in\fR and 
+\f(CWdiscard_spaces_in options\fR.
+.Ip "Encoding" 4
+You can specify that you want the output in the same encoding as the input
+(provided you have valid \s-1XML\s0, which means you have to specify the encoding
+either in the document or when you create the Twig object) using the 
+\f(CWkeep_encoding\fR option
+.Ip "Comments and Processing Instructions (\*(PI)" 4
+Comments and \*(PI's can be hidden from the processing, but still appear in the
+output (they are carried by the \*(L"real\*(R" element closer to them)
+.Ip "Pretty Printing" 4
+\s-1XML::\s0Twig can output the document pretty printed so it is easier to read for
+us humans.
+.Ip "Surviving an untimely death" 4
+\s-1XML\s0 parsers are supposed to react violently when fed improper \s-1XML\s0. 
+\s-1XML::\s0Parser just dies.
+.Sp
+\s-1XML::\s0Twig provides the \f(CWsafe_parse\fR and the 
+\f(CWsafe_parsefile\fR methods which wrap the parse in an eval
+and return either the parsed twig or 0 in case of failure.
+.Ip "Private attributes" 4
+Attributes with a name starting with # (illegal in \s-1XML\s0) will not be
+output, so you can safely use them to store temporary values during
+processing.
+.SH "METHODS"
+.Sh "Twig "
+A twig is a subclass of \s-1XML::\s0Parser, so all \s-1XML::\s0Parser methods can be
+called on a twig object, including parse and parsefile.
+setHandlers on the other hand cannot be used, see \f(CWBUGS\fR
+.Ip "new " 4
+This is a class method, the constructor for \s-1XML::\s0Twig. Options are passed
+as keyword value pairs. Recognized options are the same as \s-1XML::\s0Parser,
+plus some \s-1XML::\s0Twig specifics:
+.Ip "twig_handlers" 8
+This argument replaces the corresponding \s-1XML::\s0Parser argument. It consists
+of a hash { expression => \e&handler} where expression is a 
+\fIgeneric_attribute_condition\fR, \fIstring_condition\fR,
+an \fIattribute_condition\fR,\fIfull_path\fR, a \fIpartial_path\fR, a \fIgi\fR,
+\fI_default_\fR or <_all_>.
+.Sp
+The idea is to support a usefull but efficient (thus limited) subset of
+\s-1XPATH\s0. A fuller expression set will be supported in the future, as users
+ask for more and as I manage to implement it efficiently. This will never
+encompass all of \s-1XPATH\s0 due to the streaming nature of parsing (no lookahead
+after the element end tag).
+.Sp
+A \fBgeneric_attribute_condition\fR is a condition on an attribute, in the form
+\fI*[@att="val"]\fR or \fI*[@att]\fR, simple quotes can be used instead of double 
+quotes and the leading \*(L'*\*(R' is actually optional. No matter what the gi of the
+element is, the handler will be triggered either if the attribute has the 
+specified value or if it just exists. 
+.Sp
+A \fBstring_condition\fR is a condition on the content of an element, in the form
+\fIgi[string()="foo"]\fR, simple quotes can be used instead of double quotes, at 
+the moment you cannot escape the quotes (this will be added as soon as I
+dig out my copy of Mastering Regular Expressions from its storage box).
+The text returned is, as per what I (and Matt Sergeant!) understood from
+the \s-1XPATH\s0 spec the concatenation of all the text in the element, excluding
+all markup. Thus to call a handler on the element <p>text <b>bold</b></p>
+the appropriate condition is p[\fIstring()\fR="text bold"]. Note that this is not
+exactly conformant to the \s-1XPATH\s0 spec, it just tries to mimic it while being
+still quite concise. 
+.Sp
+A extension of that notation is \fIgi[string(\fBchild_gi\fR)="foo"]\fR where the
+handler will be called if a child of a \f(CWgi\fR element has a text value of 
+\f(CWfoo\fR.  At the moment only direct children of the \f(CWgi\fR element are checked.
+If you need to test on descendants of the element let me know. The fix is
+trivial but would slow down the checks, so I'd like to keep it the way it is.
+.Sp
+A \fBregexp_condition\fR is a condition on the content of an element, in the form
+\fIgi[string()=~ /foo/"]\fR. This is the same as a string condition except that
+the text of the element is matched to the regexp. The \f(CWi\fR, \f(CWm\fR, <s> and \f(CWo\fR
+modifiers can be used on the regexp.
+.Sp
+The \fIgi[string(\fBchild_gi\fR)=~ /foo/"]\fR extension is also supported.
+.Sp
+An \fBattribute_condition\fR is a simple condition of an attribute of the
+current element in the form \fIgi[@att="val"]\fR (simple quotes can be used
+instead of double quotes, you can escape quotes either). 
+If several attribute_condition are true the same element all the handlers
+can be called in turn (in the order in which they were first defined).
+If the ="val\*(R" part is ommited ( the condition is then gi[@att]) then
+the handler is triggered if the attribute actually exists for the element,
+no matter what it's value is.
+.Sp
+A \fBfull_path\fR looks like \fI'/doc/section/chapter/title\*(R'\fR, it starts with
+a / then gives all the gi's to the element. The handler will be called if
+the path to the current element (in the input document) is exactly as
+defined by the full_path.
+.Sp
+A \fBpartial_path\fR is like a full_path except it does not start with a /:
+\&\fI'chapter/title\*(R'\fR for example. The handler will be called if the path to
+the element (in the input document) ends as defined in the partial_path.
+.Sp
+\fB\s-1WARNING\s0\fR: (hopefully temporary) at the moment \fIstring_condition\fR, 
+\fIregexp_condition\fR and \fIattribute_condition\fR are only supported on a 
+simple gi, not on a path.
+.Sp
+A \fBgi\fR (generic identifier) is just a tag name.
+.Sp
+A special gi \fB_all_\fR is used to call a function for each element.
+The special gi \fB_default_\fR is used to call a handler for each element
+that does \s-1NOT\s0 have a specific handler.
+.Sp
+The order of precedence to trigger a handler is: \fIgeneric_attribute_condition\fR,
+\fIstring_condition\fR, \fIregexp_condition\fR, \fIattribute_condition\fR, \fIfull_path\fR,
+longer \fIpartial_path\fR, shorter \fIpartial_path\fR, \fIgi\fR, \fI_default_\fR . 
+.Sp
+\fBImportant\fR: once a handler has been triggered if it returns 0 then no other
+handler is called, exept a _all_ handler which will be called anyway.
+.Sp
+If a handler returns a true value and other handlers apply, then the next
+applicable handler will be called. Repeat, rince, lather..;
+.Sp
+When an element is \s-1CLOSED\s0 the corresponding handler is called, with 2
+arguments: the twig and the \f(CW/Element\fR. The twig includes the 
+document tree that has been built so far, the element is the complete sub-tree
+for the element. \f(CW$_\fR is also set to the element. 
+.Sp
+Text is stored in elements where gi is #\s-1PCDATA\s0 (due to mixed content, text
+and sub-element in an element there is no way to store the text as just an
+attribute of the enclosing element).
+.Sp
+\fBWarning\fR: if you have used purge or flush on the twig the element might not
+be complete, some of its children might have been entirely flushed or purged,
+and the start tag might even have been printed (by flush) already, so changing
+its gi might not give the expected result.
+.Sp
+More generally, the \fIfull_path\fR, \fIpartial_path\fR and \fIgi\fR expressions are
+evaluated against the input document. Which means that even if you have changed
+the gi of an element (changing the gi of a parent element from a handler for
+example) the change will not impact the expression evaluation. Attributes in
+\fIattribute_condition\fR are different though. As the initial value of attribute
+is not stored the handler will be triggered if the \fBcurrent\fR attribute/value
+pair is found when the element end tag is found. Although this can be quite
+confusing it should not impact most of users, and allow others to play clever
+tricks with temporary attributes. Let me know if this is a problem for you.
+.Ip "twig_roots" 8
+This argument let's you build the tree only for those elements you are
+interested in. 
+.Sp
+.Vb 4
+\&  Example: my $t= XML::Twig->new( twig_roots => { title => 1, subtitle => 1});
+\&           $t->parsefile( file);
+\&           my $t= XML::Twig->new( twig_roots => { 'section/title' => 1});
+\&           $t->parsefile( file);
+.Ve
+returns a twig containing a document including only title and subtitle 
+elements, as children of the root element.
+.Sp
+You can use \fIgeneric_attribute_condition\fR, \fIattribute_condition\fR,
+\fIfull_path\fR, \fIpartial_path\fR, \fIgi\fR, \fI_default_\fR and \fI_all_\fR to 
+trigger the building of the twig. 
+\fIstring_condition\fR and \fIregexp_condition\fR cannot be used as the content 
+of the element, and the string, have not yet been parsed when the condition
+is checked.
+.Sp
+\fB\s-1WARNING\s0\fR: path are checked for the document. Even if the twig_roots option
+is used they will be checked against the full document tree, not the virtual
+tree created by \s-1XML::\s0Twig
+.Sp
+\fB\s-1WARNING\s0\fR: twig_roots elements should \s-1NOT\s0 be nested, that would hopelessly
+confuse \s-1XML::\s0Twig ;--(
+.Sp
+Note: you can set handlers (twig_handlers) using twig_roots
+  Example: my \f(CW$t\fR= \s-1XML::\s0Twig->\fInew\fR\|( twig_roots => 
+                                   { title    => sub { \f(CW$_\fR{1]\->print;}, 
+                                     subtitle => \e&process_subtitle 
+                                   }
+                               );
+           \f(CW$t\fR\->\fIparsefile\fR\|( file);
+ 
+.Ip "twig_print_outside_roots" 8
+To be used in conjunction with the twig_roots argument. When set to a true 
+value this will print the document outside of the twig_roots elements.
+.Sp
+.Vb 13
+\& Example: my $t= XML::Twig->new( twig_roots => { title => \e&number_title },
+\&                                twig_print_outside_roots => 1,
+\&                               );
+\&           $t->parsefile( file);
+\&           { my $nb;
+\&           sub number_title
+\&             { my( $twig, $title);
+\&               $nb++;
+\&               $title->prefix( "$nb "; }
+\&               $title->print;
+\&             }
+\&           }
+\&               
+.Ve
+This example prints the document outside of the title element, calls 
+number_title for each title element, prints it, and then resumes printing
+the document. The twig is built only for the title elements. 
+.Ip "start_tag_handlers" 8
+A hash { expression => \e&handler}. Sets element handlers that are called when
+the element is open (at the end of the \s-1XML::\s0Parser Start handler). The handlers
+are called with 2 params: the twig and the element. The element is empty at 
+that point, its attributes are created though. 
+.Sp
+You can use \fIgeneric_attribute_condition\fR, \fIattribute_condition\fR,
+\fIfull_path\fR, \fIpartial_path\fR, \fIgi\fR, \fI_default_\fR  and \fI_all_\fR to trigger 
+the handler. 
+.Sp
+\fIstring_condition\fR and \fIregexp_condition\fR cannot be used as the content of 
+the element, and the string, have not yet been parsed when the condition is 
+checked.
+.Sp
+The main uses for those handlers are to change the tag name (you might have to 
+do it as soon as you find the open tag if you plan to \f(CWflush\fR the twig at some
+point in the element, and to create temporary attributes that will be used
+when processing sub-element with TwigHanlders. 
+.Sp
+You should also use it to change tags if you use flush. If you change the tag 
+in a regular TwigHandler then the start tag might already have been flushed. 
+.Sp
+\fBNote\fR: StartTag handlers can be called outside ot \fItwig_roots\fR if this 
+argument is used, in this case handlers are called with the following arguments:
+\f(CW$t\fR (the twig), \f(CW$gi\fR (the gi of the element) and \f(CW%att\fR (a hash of the attributes
+of the element). 
+.Sp
+If the \fItwig_print_outside_roots\fR argument is also used then the start tag
+will be printed if the last handler called returns a \f(CWtrue\fR value, if it
+does not then the start tag will \fBnot\fR be printed (so you can print a
+modified string yourself for example);
+.Sp
+Note that you can use the ignore method in start_tag_handlers 
+(and only there). 
+.Ip "end_tag_handlers" 8
+A hash { expression => \e&handler}. Sets element handlers that are called when
+the element is closed (at the end of the \s-1XML::\s0Parser End handler). The handlers
+are called with 2 params: the twig and the gi of the element. 
+.Sp
+\fItwig_handlers\fR are called when an element is completely parsed, so why have 
+this redundant option? There is only one use for end_tag_handlers: when using
+the twig_roots option, to trigger a handler for an element \fBoutside\fR the roots.
+It is for example very useful to number titles in a document using nested 
+sections: 
+.Sp
+.Vb 11
+\&  my @no= (0);
+\&  my $no;
+\&  my $t= XML::Twig->new( 
+\&          start_tag_handlers => 
+\&           { section => sub { $no[$#no]++; $no= join '.', @no; push @no, 0; } },
+\&          twig_roots         => 
+\&           { title   => sub { $_[1]->prefix( $no); $_[1]->print; } },
+\&          end_tag_handlers   => { section => sub { pop @no;  } },
+\&          twig_print_outside_roots => 1
+\&                      );
+\&   $t->parsefile( $file);
+.Ve
+Using the end_tag_handlers argument without twig_roots will result in an error.
+.Ip "CharHandler" 8
+A reference to a subroutine that will be called every time \s-1PCDATA\s0 is found.
+.Ip "keep_encoding" 8
+This is a (slightly?) evil option: if the \s-1XML\s0 document is not \s-1UTF\s0\-8 encoded and
+you want to keep it that way, then setting keep_encoding will use the Expat
+original_string method for character, thus keeping the original encoding, as 
+well as the original entities in the strings.
+.Sp
+See the t/test6.t test file to see what results you can expect from the various
+encoding options.
+.Sp
+\fB\s-1WARNING\s0\fR: if the original encoding is multi-byte then attribute parsing will
+be \s-1EXTREMELY\s0 unsafe under any Perl before 5.6, as it uses regular expressions
+which do not deal properly with multi-byte characters. You can specify an 
+alternate function to parse the start tags with the parse_start_tag option 
+(see below)
+.Sp
+\fB\s-1WARNING\s0\fR: this option is \s-1NOT\s0 used when parsing with the non-blocking parser 
+(parse_start, parse_more, parse_done methods) which you probably should not use
+with \s-1XML::\s0Twig anyway as they are totally untested!
+.Ip "output_filter" 8
+This option is used to convert the character encoding of the output document.
+It is passed either a string corresponding to a predefined filter or
+a subroutine reference. The filter will be called every time a document or 
+element is processed by the \*(L"print\*(R" functions (\f(CWprint\fR, \f(CWsprint\fR, \f(CWflush\fR). 
+.Sp
+Pre-defined filters are: 
+.Ip "latin1 " 12
+uses either Text::Iconv or Unicode::Map8 and Unicode::String or a regexp
+(which works only with \s-1XML::\s0Parser 2.27), in this order, to convert all 
+characters to \s-1ISO\s0\-8859-1 (aka latin1)
+.Ip "html" 12
+does the same conversion as latin1, plus encodes entities using \s-1HTML::\s0Entities
+(you need to have \s-1HTML::\s0Entities intalled for it to be available). This should
+only be used if the tags and attribute names themselves are in \s-1US\s0\-\s-1ASCII\s0, or they
+will be converted and the output will not be valid \s-1XML\s0 any more
+.Ip "safe" 12
+converts the output to \s-1ASCII\s0 (\s-1US\s0) only  plus character entities (&#nnn;) this
+should be used only if the tags and attribute names themselves are in \s-1US\s0\-\s-1ASCII\s0,
+or they will be converted and the output will not be valid \s-1XML\s0 any more
+.Ip "iconv_convert ($encoding)" 12
+this function is used to create a filter subroutine that will be used to 
+convert the characters to the target encoding using Text::Iconv (which need
+to be installed, look at the documentation for the module and for the
+\f(CWiconv\fR library to find out which encodings are available on your system)
+.Sp
+.Vb 2
+\&   my $conv = XML::Twig::iconv_convert( 'latin1');
+\&   my $t = XML::Twig->new(output_filter => $conv);
+.Ve
+.Ip ":unicode_convert ($encoding)" 12
+this function is used to create a filter subroutine that will be used to 
+convert the characters to the target encoding using  Unicode::Strings 
+and Unicode::Map8 (which need to be installed, look at the documentation 
+for the modules to find out which encodings are available on your system)
+.Sp
+.Vb 2
+\&   my $conv = XML::Twig::unicode_convert( 'latin1');
+\&   my $t = XML::Twig->new(output_filter => $conv);
+.Ve
+.Sp
+Note that the \f(CWtext\fR and \f(CWatt\fR methods do not use the filter, so their 
+result are always in unicode.
+.Ip "input_filter" 8
+This option is similar to output_filter except the filter is applied to 
+the characters before they are stored in the twig, at parsing time.
+.Ip "parse_start_tag" 8
+If you use the keep_encoding option then this option can be used to replace the
+default parsing function. You should provide a coderef (a reference to a 
+subroutine) as the argument, this subroutine takes the original tag (given
+by \s-1XML::\s0Parser::Expat \fIoriginal_string()\fR method) and returns a gi and the
+attributes in a hash (or in a list attribute_name/attribute value).
+.Ip "expand_external_ents" 8
+When this option is used external entities (that are defined) are expanded
+when the document is output using \*(L"print\*(R" functions such as \f(CWLprint\fR>,
+\f(CWsprint\fR, \f(CWflush\fR and \f(CWxml_string\fR. 
+Note that in the twig the entity will be stored as an element whith a 
+gi \*(L'#\s-1ENT\s0\*(R', the entity will not be expanded there, so you might want to 
+process the entities before outputting it. 
+.Ip "load_DTD" 8
+If this argument is set to a true value, parse or parsefile on the twig will 
+load  the \s-1DTD\s0 information. This information can then be accessed through the 
+twig, in a DTD_handler for example. This will load even an external \s-1DTD\s0.
+.Sp
+Note that to do this the module will generate a temporary file in the current
+directory. If this is a problem let me know and I will add an option to
+specify an alternate directory.
+.Sp
+See \s-1DTD\s0 Handling for more information
+.Ip "DTD_handler" 8
+Sets a handler that will be called once the doctype (and the \s-1DTD\s0) have been 
+loaded, with 2 arguments, the twig and the \s-1DTD\s0.
+.Ip "id" 8
+This optional argument gives the name of an attribute that can be used as
+an \s-1ID\s0 in the document. Elements whose \s-1ID\s0 is known can be accessed through
+the elt_id method. id defaults to \*(L'id\*(R'.
+See \f(CWBUGS\fR
+.Ip "discard_spaces" 8
+If this optional argument is set to a true value then spaces are discarded
+when they look non-significant: strings containing only spaces are discarded.
+This argument is set to true by default.
+.Ip "keep_spaces" 8
+If this optional argument is set to a true value then all spaces in the
+document are kept, and stored as \s-1PCDATA\s0.
+keep_spaces and discard_spaces cannot be both set.
+.Ip "discard_spaces_in" 8
+This argument sets keep_spaces to true but will cause the twig builder to
+discard spaces in the elements listed.
+The syntax for using this argument is: 
+  \s-1XML::\s0Twig->\fInew\fR\|( discard_spaces_in => [ \*(L'elt1\*(R', \*(L'elt2']);
+.Ip "keep_spaces_in" 8
+This argument sets discard_spaces to true but will cause the twig builder to
+keep spaces in the elements listed.
+The syntax for using this argument is: 
+  \s-1XML::\s0Twig->\fInew\fR\|( keep_spaces_in => [ \*(L'elt1\*(R', \*(L'elt2']);
+.Ip "PrettyPrint" 8
+Sets the pretty print method, amongst \*(L'none\*(R' (default), \*(L'nsgmls\*(R', \*(L'nice\*(R', 
+\&'indented\*(R', \*(L'record\*(R' and \*(L'record_c\*(R'
+.Ip "none" 12
+The document is output as one ling string, with no linebreaks except those 
+found within text elements
+.Ip "nsgmls" 12
+Line breaks are inserted in safe places: that is within tags, between a tag 
+and an attribute, between attributes and before the > at the end of a tag.
+.Sp
+This is quite ugly but better than \f(CWnone\fR, and it is very safe, the document 
+will still be valid (conforming to its \s-1DTD\s0).
+.Sp
+This is how the \s-1SGML\s0 parser \f(CWsgmls\fR splits documents, hence the name.
+.Ip "nice" 12
+This option inserts line breaks before any tag that does not contain text (so
+element with textual content are not broken as the \en is the significant).
+.Sp
+\fB\s-1WARNING\s0\fR: this option leaves the document well-formed but might make it
+invalid (not conformant to its \s-1DTD\s0). If you have elements declared as
+.Sp
+.Vb 1
+\&  <!ELEMENT foo (#PCDATA|bar)>
+.Ve
+then a \f(CWfoo\fR element including a \f(CWbar\fR one will be printed as
+.Sp
+.Vb 3
+\&  <foo>
+\&  <bar>bar is just pcdata</bar>
+\&  </foo>
+.Ve
+This is invalid, as the parser will take the line break after the foo tag as a
+sign that the element contains \s-1PCDATA\s0, it will then die when it finds the 
+\f(CWbar\fR tag. This may or may not be important for you, but be aware of it!
+.Ip "indented" 12
+Same as \f(CWnice\fR (and with the same warning) but indents elements according to 
+their level 
+.Ip "record" 12
+This is a record_oriented pretty print, that display data in records, one field 
+per line (which looks a \s-1LOT\s0 like \f(CWindented\fR)
+.Ip "record_c" 12
+Stands for record compact, one record per line
+.Ip "EmptyTags" 8
+Sets the empty tag display style (normal, html or expand).
+.Ip "comments" 8
+Sets the way comments are processed: drop (default), keep or process
+.Ip "drop" 12
+drops the comments, they are not read, nor printed to the output
+.Ip "keep" 12
+comments are loaded and will appear on the output, they are not 
+accessible within the twig and will not interfere with processing
+though
+.Sp
+\fBBug\fR: comments in the middle of a text element such as 
+.Sp
+.Vb 1
+\&  <p>text <!-- comment --> more text --></p>
+.Ve
+are output at the end of the text:
+.Sp
+.Vb 1
+\&  <p>text  more text <!-- comment --></p>
+.Ve
+.Ip "process" 12
+comments are loaded in the twig and will be treated as regular elements 
+(their \f(CWgi\fR is \f(CW#COMMENT\fR) this can interfere with processing if you
+expect \f(CW< $elt-\fR{first_child} >> to be an element but find a comment there.
+Validation will not protect you from this as comments can happen anywhere.
+You can use \f(CW< $elt-\fR\fIfirst_child\fR\|( \*(L'gi') >> (which is a good habit anyway)
+to get where you want. Consider using 
+.Ip "pi" 8
+Sets the way processing instructions are processed: \f(CWdrop\fR, \f(CWkeep\fR 
+(default) or \f(CWprocess\fR
+.Sp
+Note that you can also set \*(PI handlers in the twig_handlers option: 
+.Sp
+.Vb 2
+\&  '?'       => \e&handler
+\&  '?target' => \e&handler 2
+.Ve
+The handlers will be called with 2 parameters, the twig and the \*(PI element if
+pi is set to \f(CWprocess\fR, and with 3, the twig, the target and the data if pi
+is set to \f(CWkeep\fR. Of course they will not be called if \*(PI is set to \f(CWdrop\fR.
+.Sp
+If pi is set to \f(CWkeep\fR the handler should return a string that will be used
+as-is as the \*(PI text (it should look like \*(L"\f(CW <?target data?\fR >\*(R" or \*(L'\*(R' if you
+want to remove the \*(PI), 
+.Sp
+Only one handler will be called, \f(CW?target\fR or \f(CW?\fR if no specific handler for
+that target is available.
+.Sp
+\fBNote\fR: I _HATE_ the Java-like name of arguments used by most \s-1XML\s0 modules. 
+As \s-1XML::\s0Twig is based on \s-1XML::\s0Parser I kept the style, but you can also use
+a more perlish naming convention, using \f(CWtwig_print_outside_roots\fR instead
+of \f(CWtwig_print_outside_roots\fR or \f(CWpretty_print\fR instead of \f(CWPrettyPrint\fR,
+\s-1XML::\s0Twig then normalizes all the argument names. 
+.Ip "parse(\s-1SOURCE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])" 4
+This method is inherited from \s-1XML::\s0Parser.
+The \s-1SOURCE\s0 parameter should either be a string containing the whole \s-1XML\s0
+document, or it should be an open \s-1IO::\s0Handle. Constructor options to
+\s-1XML::\s0Parser::Expat given as keyword-value pairs may follow the \s-1SOURCE\s0
+parameter. These override, for this call, any options or attributes passed
+through from the \s-1XML::\s0Parser instance.
+.Sp
+A die call is thrown if a parse error occurs. Otherwise it will return 
+the twig built by the parse. Use \fIsafe_parse\fR if you want the parsing
+to return even when an error occurs.
+.Ip "parsestring" 4
+This is just an alias for parse for backwards compatibility.
+.Ip "parsefile(\s-1FILE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])" 4
+This method is inherited from \s-1XML::\s0Parser.
+.Sp
+Open \s-1FILE\s0 for reading, then call parse with the open handle. The file
+is closed no matter how parse returns. 
+.Sp
+A die call is thrown if a parse error occurs. Otherwise it will return 
+the twig built by the parse. Use \fIsafe_parsefile\fR if you want the parsing
+to return even when an error occurs.
+.Ip "parseurl $url $optionnal_user_agent" 4
+Gets the data from the url and parse it. Note that the data is piped to the
+parser in chunks the size of the \s-1XML::\s0Parser::Expat buffer, so memory 
+consumption and hopefully speed are optimal.
+.Sp
+If the \f(CW$optionnal_user_agent\fR argument is used then it is used, otherwise a
+new one is created.
+.Ip "safe_parse( \s-1SOURCE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])" 4
+This method is similar to \fIparse\fR except that it wraps the parsing in an
+eval block. It returns the twig on success and 0 on failure (the twig object
+also contains the parsed twig). $@ contains the error message on failure.
+.Sp
+Note that the parsing still stops as soon as an error is detected, there is
+no way to keep going after an error.
+.Ip "safe_parsefile(\s-1FILE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])" 4
+This method is similar to \fIparsefile\fR except that it wraps the parsing in an
+eval block. It returns the twig on success and 0 on failure (the twig object
+also contains the parsed twig) . $@ contains the error message on failure
+.Sp
+Note that the parsing still stops as soon as an error is detected, there is
+no way to keep going after an error.
+.Ip "safe_parseurl $url $optional_user_agent" 4
+Same as \fIparseurl\fR except that it wraps the parsing in an eval block. It 
+returns the twig on success and 0 on failure (the twig object also contains
+the parsed twig) . $@ contains the error message on failure
+.Ip "parser" 4
+This method returns the expat object (actually the \s-1XML::\s0Parser::Expat object) 
+used during parsing. It is useful for example to call \s-1XML::\s0Parser::Expat methods
+on it. To get the line of a tag for example use \f(CW$t\fR\->parser->current_line.
+.Ip "setTwigHandlers ($handlers)" 4
+Set the Twig handlers. \f(CW$handlers\fR is a reference to a hash similar to the
+one in the TwigHandlers option of new. All previous handlers are unset.
+The method returns the reference to the previous handlers.
+.Ip "setTwigHandler ($gi $handler)" 4
+Set a single Twig handlers for the \f(CW$gi\fR element. \f(CW$handler\fR is a reference to 
+a subroutine. If the handler was previously set then the reference to the
+previous handler is returned.
+.Ip "setStartTagHandlers ($handlers)" 4
+Set the StartTag handlers. \f(CW$handlers\fR is a reference to a hash similar to the
+one in the start_tag_handlers option of new. All previous handlers are unset.
+The method returns the reference to the previous handlers.
+.Ip "setStartTagHandler ($gi $handler)" 4
+Set a single StartTag handlers for the \f(CW$gi\fR element. \f(CW$handler\fR is a reference to 
+a subroutine. If the handler was previously set then the reference to the
+previous handler is returned.
+.Ip "setEndTagHandlers ($handlers)" 4
+Set the EndTag handlers. \f(CW$handlers\fR is a reference to a hash similar to the
+one in the end_tag_handlers option of new. All previous handlers are unset.
+The method returns the reference to the previous handlers.
+.Ip "setEndTagHandler ($gi $handler)" 4
+Set a single EndTag handlers for the \f(CW$gi\fR element. \f(CW$handler\fR is a reference to 
+a subroutine. If the handler was previously set then the reference to the
+previous handler is returned.
+.Ip "setTwigHandlers ($handlers)" 4
+Set the Twig handlers. \f(CW$handlers\fR is a reference to a hash similar to the
+one in the twig_handlers option of new.
+.Ip "dtd" 4
+Returns the dtd (an \s-1XML::\s0Twig::\s-1DTD\s0 object) of a twig
+.Ip "root" 4
+Returns the root element of a twig
+.Ip "first_elt ($optionnal_gi)" 4
+Returns the first element whose gi is \f(CW$optionnal_gi\fR of a twig, if
+no \f(CW$optionnal_gi\fR is given then the root is returned
+.Ip "elt_id        ($id)" 4
+Returns the element whose id attribute is \f(CW$id\fR
+.Ip "entity_list" 4
+Returns the entity list of a twig
+.Ip "change_gi      ($old_gi, $new_gi)" 4
+Performs a (very fast) global change. All elements old_gi are now new_gi.
+See \f(CWBUGS\fR
+.Ip "flush            ($optional_filehandle, $options)" 4
+Flushes a twig up to (and including) the current element, then deletes
+all unnecessary elements from the tree that's kept in memory.
+flush keeps track of which elements need to be open/closed, so if you
+flush from handlers you don't have to worry about anything. Just keep 
+flushing the twig every time you're done with a sub-tree and it will
+come out well-formed. After the whole parsing don't forget to flush
+one more time to print the end of the document.
+The doctype and entity declarations are also printed.
+.Sp
+flush take an optional filehandle as an argument.
+.Sp
+options: use the Update_DTD option if you have updated the (internal) \s-1DTD\s0 
+and/or the entity list and you want the updated \s-1DTD\s0 to be output 
+.Sp
+The PrettyPrint option sets the pretty printing of the document.
+.Sp
+.Vb 3
+\&   Example: $t->flush( Update_DTD => 1);
+\&            $t->flush( \e*FILE, Update_DTD => 1);
+\&            $t->flush( \e*FILE);
+.Ve
+.Ip "flush_up_to ($elt, $optionnal_filehandle, %options)" 4
+Flushes up to the \f(CW$elt\fR element. This allows you to keep part of the
+tree in memory when you flush.
+.Sp
+options: see flush.
+.Ip "purge" 4
+Does the same as a flush except it does not print the twig. It just deletes
+all elements that have been completely parsed so far.
+.Ip "purge_up_to ($elt)" 4
+Purges up to the \f(CW$elt\fR element. This allows you to keep part of the tree in 
+memory when you flush.
+.Ip "print            ($optional_filehandle, %options)" 4
+Prints the whole document associated with the twig. To be used only \s-1AFTER\s0 the
+parse.
+ 
+options: see flush.
+.Ip "sprint" 4
+Returns the text of the whole document associated with the twig. To be used only
+\s-1AFTER\s0 the parse.
+.Sp
+options: see flush.
+.Ip "ignore" 4
+This method can \fBonly\fR be called in start_tag_handlers. It causes the element
+to be skipped during the parsing: the twig is not built for this element, it 
+will not be accessible during parsing or after it. The element will not take
+up any memory and parsing will be faster.
+.Sp
+Note that this method can also be called on an element. If the element is a 
+parent of the current element then this element will be ignored (the twig will
+not be built any more for it and what has already been built will be deleted)
+.Ip "set_pretty_print  ($style)" 4
+Sets the pretty print method, amongst \*(L'none\*(R' (default), \*(L'nsgmls\*(R', \*(L'nice\*(R', 
+\&'indented\*(R', \*(L'record\*(R' and rec'record'ord_c
+.Sp
+\fB\s-1WARNING\s0:\fR the pretty print style is a \fB\s-1GLOBAL\s0\fR variable, so once set it's
+applied to \fB\s-1ALL\s0\fR print's (and sprint's). Same goes if you use \s-1XML::\s0Twig
+with mod_perl . This should not be a problem as the \s-1XML\s0 that's generated 
+is valid anyway, and \s-1XML\s0 processors (as well as \s-1HTML\s0 processors, including
+browsers) should not care. Let me know if this is a big problem, but at the
+moment the performance/cleanliness trade-off clearly favors the global 
+approach.
+.Ip "set_empty_tag_style  ($style)" 4
+Sets the empty tag display style (normal, html or expand). As with 
+set_pretty_print this sets a global flag.  
+.Sp
+normal outputs an empty tag \*(L'<tag/>\*(R', html adds a space \*(L'<tag /> and
+expand outputs \*(L'<tag></tag>\*(R'
+.Ip "print_prolog     ($optional_filehandle, %options)" 4
+Prints the prolog (\s-1XML\s0 declaration + \s-1DTD\s0 + entity declarations) of a document.
+.Sp
+options: see flush.
+.Ip "prolog     ($optional_filehandle, %options)" 4
+Returns the prolog (\s-1XML\s0 declaration + \s-1DTD\s0 + entity declarations) of a document.
+.Sp
+options: see flush.
+.Ip "finish" 4
+Call Expat finish method.
+Unsets all handlers (including internal ones that set context), but expat
+continues parsing to the end of the document or until it finds an error.
+It should finish up a lot faster than with the handlers set.
+.Ip "finish_print" 4
+Stop twig processing, flush the twig and proceed to finish printing the 
+document as fast as possible. Use this method when modifying a document and 
+the modification is done. 
+.Ip "Methods inherited from \s-1XML::\s0Parser::Expat" 4
+A twig inherits all the relevant methods from \s-1XML::\s0Parser::Expat. These 
+methods can only be used during the parsing phase (they will generate
+a fatal error otherwise).
+.Sp
+Inherited methods are:
+.Sp
+.Vb 7
+\&  depth in_element within_element context
+\&  current_line current_column current_byte position_in_context
+\&  base current_element element_index 
+\&  namespace eq_name generate_ns_name new_ns_prefixes expand_ns_prefix current_ns_prefixes
+\&  recognized_string original_string 
+\&  xpcroak xpcarp 
+\&                           
+.Ve
+.Ip "path($gi)" 4
+Returns the element context in a form similar to XPath's short
+form: \*(L'/root/gi1/../gi\*(R'
+.Ip "get_xpath  ($xpath, $optional_offset)" 4
+Performs a get_xpath on the document root (see <Elt|"Elt">)
+.Ip "find_nodes" 4
+same as get_xpath
+.Ip "dispose" 4
+Useful only if you don't have WeakRef installed.
+.Sp
+Reclaims properly the memory used by an \s-1XML::\s0Twig object. As the object has
+circular references it never goes out of scope, so if you want to parse lots 
+of \s-1XML\s0 documents then the memory leak becomes a problem. Use \f(CW$twig\fR\->dispose
+to clear this problem.
+.Sh "Elt"
+.Ip "print         ($optional_filehandle, $optional_pretty_print_style)" 4
+Prints an entire element, including the tags, optionally to a 
+\f(CW$optional_filehandle\fR, optionally with a \f(CW$pretty_print_style\fR.
+.Sp
+The print outputs \s-1XML\s0 data so base entities are escaped.
+.Ip "sprint       ($elt, $optional_no_enclosing_tag)" 4
+Returns the xml string for an entire element, including the tags. 
+If the optional second argument is true then only the string inside the 
+element is returned (the start and end tag for \f(CW$elt\fR are not).
+The text is \s-1XML\s0\-escaped: base entities (& and < in text, & < and \*(L" in
+attribute values) are turned into entities.
+.Ip "gi                       " 4
+Returns the gi of the element (the gi is the \f(CWgeneric identifier\fR the tag
+name in \s-1SGML\s0 parlance).
+.Ip "tag" 4
+Same as gi
+.Ip "set_gi         ($gi)" 4
+Sets the gi (tag) of an element
+.Ip "set_tag        ($gi)" 4
+Sets the tag (=gi) of an element
+.Ip "root " 4
+Returns the root of the twig in which the element is contained.
+.Ip "twig " 4
+Returns the twig containing the element. 
+.Ip "parent        ($optional_cond)" 4
+Returns the parent of the element, or the first ancestor matching the 
+cond
+.Ip "first_child   ($optional_cond)" 4
+Returns the first child of the element, or the first child matching the 
+cond
+.Ip "first_child_text   ($optional_cond)" 4
+Returns the text of the first child of the element, or the first child
+If there is no first_child then returns \*(L'\*(R'. This avoids getting the
+child, checking for its existence then getting the text for trivial cases.
+.Sp
+Similar methods are available for the other navigation methods: 
+\f(CWlast_child_text\fR, \f(CWprev_sibling_text\fR, \f(CWnext_sibling_text\fR,
+\f(CWprev_elt_text\fR, \f(CWnext_elt_text\fR, \f(CWchild_text\fR, \f(CWparent_text\fR
+.Ip "field         ($optional_cond)" 4
+Same method as first_child_text with a different name
+.Ip "first_child_matches   ($optional_cond)" 4
+Returns the element if the first child of the element (if it exists) passes
+the \f(CW$cond\fR, \f(CWundef\fR otherwise
+.Sp
+.Vb 1
+\&  if( $elt->first_child_matches( 'title')) ... 
+.Ve
+is equivalent to
+.Sp
+.Vb 1
+\&  if( $elt->{first_child} && $elt->{first_child}->passes( 'title')) 
+.Ve
+\f(CWfirst_child_is\fR is an other name for this method
+.Sp
+Similar methods are available for the other navigation methods: 
+\f(CWlast_child_matches\fR, \f(CWprev_sibling_matches\fR, \f(CWnext_sibling_matches\fR,
+\f(CWprev_elt_matches\fR, \f(CWnext_elt_matches\fR, \f(CWchild_matches\fR, 
+\f(CWparent_matches\fR
+.Ip "prev_sibling  ($optional_cond)" 4
+Returns the previous sibling of the element, or the previous sibling matching
+cond
+.Ip "next_sibling  ($optional_cond)" 4
+Returns the next sibling of the element, or the first one matching cond. 
+.Ip "next_elt     ($optional_elt, $optional_cond)" 4
+Returns the next elt (optionally matching cond) of the element. This is 
+defined as the next element which opens after the current element opens.
+Which usually means the first child of the element.
+Counter-intuitive as it might look this allows you to loop through the
+whole document by starting from the root.
+.Sp
+The \f(CW$optional_elt\fR is the root of a subtree. When the next_elt is out of the
+subtree then the method returns undef. You can then walk a sub tree with:
+.Sp
+.Vb 4
+\&  my $elt= $subtree_root;
+\&  while( $elt= $elt->next_elt( $subtree_root)
+\&    { # insert processing code here
+\&    }
+.Ve
+.Ip "prev_elt     ($optional_cond)" 4
+Returns the previous elt (optionally matching cond) of the
+element. This is the first element which opens before the current one.
+It is usually either the last descendant of the previous sibling or
+simply the parent
+.Ip "children     ($optional_cond)" 4
+Returns the list of children (optionally which matches cond) of the
+element. The list is in document order.
+.Ip "descendants     ($optional_cond)" 4
+Returns the list of all descendants (optionally which matches cond)
+of the element. This is the equivalent of the getElementsByTagName of the \s-1DOM\s0
+(by the way, if you are really a \s-1DOM\s0 addict, you can use \f(CWgetElementsByTagName\fR
+instead)
+.Ip "descendants_or_self ($optional_cond)" 4
+Same as descendants except that the element itself is included in the list
+if it matches the \f(CW$optional_cond\fR
+.Ip "ancestors    ($optional_cond)" 4
+Returns the list of ancestors (optionally matching cond) of the element.
+The list is ordered from the innermost ancestor to the outtermost one
+.Sp
+\s-1NOTE\s0: the element itself is not part of the list, in order to include it 
+you will have to write:
+.Sp
+.Vb 1
+\&  my @array= ($elt, $elt->ancestors)
+.Ve
+.Ip "att          ($att)" 4
+Returns the attribute value or \f(CWundef\fR
+.Ip "set_att      ($att, $att_value)" 4
+Sets the attribute of the element to the given value
+.Sp
+You can actually set several attributes this way:
+.Sp
+.Vb 1
+\&  $elt->set_att( att1 => "val1", att2 => "val2");
+.Ve
+.Ip "del_att      ($att)" 4
+Delete the attribute for the element
+.Sp
+You can actually delete several attributes at once:
+.Sp
+.Vb 1
+\&  $elt->del_att( 'att1', 'att2', 'att3');
+.Ve
+.Ip "cut" 4
+Cuts the element from the tree. The element still exists, it can be copied
+or pasted somewhere else, it is just not attached to the tree anymore.
+.Ip "copy        ($elt)" 4
+Returns a copy of the element. The copy is a \*(L"deep\*(R" copy: all sub elements of 
+the element are duplicated.
+.Ip "paste       ($optional_position, $ref)" 4
+Pastes a (previously cut or newly generated) element. Dies if the element
+already belongs to a tree.
+.Sp
+The optional position element can be:
+.Ip "first_child (default)" 8
+The element is pasted as the first child of the element object this
+method is called on.
+.Ip "last_child" 8
+The element is pasted as the last child of the element object this
+method is called on.
+.Ip "before" 8
+The element is pasted before the element object, as its previous
+sibling.
+.Ip "after" 8
+The element is pasted after the element object, as its next sibling.
+.Ip "within" 8
+In this case an extra argument, \f(CW$offset\fR, should be supplied. The element
+will be pasted in the reference element (or in its first text child) at the
+given offset. To achieve this the reference element will be split at the 
+offset.
+.Ip "move       ($optional_position, $ref)" 4
+Move an element in the tree.
+This is just a cut then a paste.  The syntax is the same as paste.
+.Ip "replace       ($ref)" 4
+Replaces an element in the tree. Sometimes it is just not possible to cut
+an element then paste another in its place, so replace comes in handy.
+.Ip "delete" 4
+Cut the element and frees the memory.
+.Ip "prefix       ($text, $optional_option)" 4
+Add a prefix to an element. If the element is a \s-1PCDATA\s0 element the text
+is added to the pcdata, if the elements first_child is a \s-1PCDATA\s0 then the
+text is added to it's pcdata, otherwise a new \s-1PCDATA\s0 element is created 
+and pasted as the first child of the element.
+.Sp
+If the option is \f(CWasis\fR then the prefix is added asis: it is created in
+a separate \s-1PCDATA\s0 element with an asis property. You can then write:
+.Sp
+.Vb 1
+\&  $elt1->prefix( '<b>', 'asis');
+.Ve
+to create a \f(CW <b\fR > in the output of \f(CWprint\fR.
+.Ip "suffix       ($text, $optional_option)" 4
+Add a suffix to an element. If the element is a \s-1PCDATA\s0 element the text
+is added to the pcdata, if the elements last_child is a \s-1PCDATA\s0 then the
+text is added to it's pcdata, otherwise a new \s-1PCDATA\s0 element is created 
+and pasted as the last child of the element.
+.Sp
+If the option is \f(CWasis\fR then the suffix is added asis: it is created in
+a separate \s-1PCDATA\s0 element with an asis property. You can then write:
+.Sp
+.Vb 1
+\&  $elt2->suffix( '<b>', 'asis');
+.Ve
+.Ip "split_at        ($offset)" 4
+Split a text (\f(CWPCDATA\fR or \f(CWCDATA\fR) element in 2 at \f(CW$offset\fR, the original
+element now holds the first part of the string and a new element holds the
+right part. The new element is returned
+.Sp
+If the element is not a text element then the first text child of the element
+is split
+.Ip "split        ( $optional_regexp, $optional_tag, $optional_attribute_ref)" 4
+Split the text descendants of an element in place, the text is split using 
+the regexp, if the regexp includes () then the matched separators will be 
+wrapped in \f(CW$optional_tag\fR, with \f(CW$optional_attribute_ref\fR attributes
+.Sp
+if \f(CW$elt\fR is \f(CW< <p\fRtati tata <b>tutu tati titi</b> tata tati tata</p> >>
+.Sp
+.Vb 1
+\&  $elt->split( qr/(ta)ti/, 'foo', {type => 'toto'} )
+.Ve
+will change \f(CW$elt\fR to
+.Sp
+.Vb 2
+\&  <p><foo type="toto">ta</foo> tata <b>tutu <foo type="toto">ta</foo>
+\&      titi</b> tata <foo type="toto">ta</foo> tata</p> 
+.Ve
+The regexp can be passed either as a string or as qr// (perl 5.005 and later),
+it defaults to \es+ just as the \f(CWsplit\fR built-in (but this would be quite a
+useless behaviour without the \f(CW$optional_tag\fR parameter)
+.Sp
+$optional_tag defaults to \s-1PCDATA\s0 or \s-1CDATA\s0, depending on the initial element
+type
+.Sp
+The list of descendants is returned (including un-touched original elements 
+and newly created ones)
+.Ip "mark        ( $regexp, $optional_tag, $optional_attribute_ref)" 4
+This method behaves exactly as split, except only the newly created 
+elements are returned
+.Ip "new          ($optional_gi, $optional_atts, @optional_content)" 4
+The gi is optional (but then you can't have a content ), the optional atts
+is the ref of a hash of attributes, the content can be just a string or a 
+list of strings and element. A content of \*(L'#\s-1EMPTY\s0\*(R' creates an empty element;
+.Sp
+.Vb 7
+\& Examples: my $elt= XML::Twig::Elt->new();
+\&           my $elt= XML::Twig::Elt->new( 'para', { align => 'center' });  
+\&           my $elt= XML::Twig::Elt->new( 'para', { align => 'center' }, 'foo');  
+\&           my $elt= XML::Twig::Elt->new( 'br', '#EMPTY');
+\&           my $elt= XML::Twig::Elt->new( 'para');
+\&           my $elt= XML::Twig::Elt->new( 'para', 'this is a para');  
+\&           my $elt= XML::Twig::Elt->new( 'para', $elt3, 'another para'); 
+.Ve
+The strings are not parsed, the element is not attached to any twig.
+.Sp
+\fB\s-1WARNING\s0\fR: if you rely on \s-1ID\s0's then you will have to set the id yourself. At
+this point the element does not belong to a twig yet, so the \s-1ID\s0 attribute
+is not known so it won't be strored in the \s-1ID\s0 list.
+.Ip "parse         ($string, %args)" 4
+Creates an element from an \s-1XML\s0 string. The string is actually
+parsed as a new twig, then the root of that twig is returned.
+The arguments in \f(CW%args\fR are passed to the twig.
+As always if the parse fails the parser will die, so use an
+eval if you want to trap syntax errors.
+.Sp
+As obviously the element does not exist beforehand this method has to be 
+called on the class: 
+.Sp
+.Vb 3
+\&  my $elt= parse XML::Twig::Elt( "<a> string to parse, with <sub/>
+\&                                  <elements>, actually tons of </elements>
+\&                                  h</a>");
+.Ve
+.Ip "get_xpath  ($xpath, $optional_offset)" 4
+Returns a list of elements satisfying the \f(CW$xpath\fR. \f(CW$xpath\fR is an \s-1XPATH\s0\-like 
+expression.
+.Sp
+A subset of the \s-1XPATH\s0 abbreviated syntax is covered:
+.Sp
+.Vb 19
+\&  gi
+\&  gi[1] (or any other positive number)
+\&  gi[last()]
+\&  gi[@att] (the attribute exists for the element)
+\&  gi[@att="val"]
+\&  gi[@att=~ /regexp/]
+\&  gi[att1="val1" and att2="val2"]
+\&  gi[att1="val1" or att2="val2"]
+\&  gi[string()="toto"] (returns gi elements which text (as per the text method) 
+\&                       is toto)
+\&  gi[string()=~/regexp/] (returns gi elements which text (as per the text 
+\&                          method) matches regexp)
+\&  expressions can start with / (search starts at the document root)
+\&  expressions can start with . (search starts at the current element)
+\&  // can be used to get all descendants instead of just direct children
+\&  * matches any gi
+\&  
+\&So the following examples from the XPATH recommendation 
+\&(http://www.w3.org/TR/xpath.html#path-abbrev) work:
+.Ve
+.Vb 20
+\&  para selects the para element children of the context node
+\&  * selects all element children of the context node
+\&  para[1] selects the first para child of the context node
+\&  para[last()] selects the last para child of the context node
+\&  */para selects all para grandchildren of the context node
+\&  /doc/chapter[5]/section[2] selects the second section of the fifth chapter 
+\&     of the doc 
+\&  chapter//para selects the para element descendants of the chapter element 
+\&     children of the context node
+\&  //para selects all the para descendants of the document root and thus selects
+\&     all para elements in the same document as the context node
+\&  //olist/item selects all the item elements in the same document as the 
+\&     context node that have an olist parent
+\&  .//para selects the para element descendants of the context node
+\&  .. selects the parent of the context node
+\&  para[@type="warning"] selects all para children of the context node that have
+\&     a type attribute with value warning 
+\&  employee[@secretary and @assistant] selects all the employee children of the
+\&     context node that have both a secretary attribute and an assistant 
+\&     attribute
+.Ve
+The elements will be returned in the document order.
+.Sp
+If \f(CW$optional_offset\fR is used then only one element will be returned, the one 
+with the appropriate offset in the list, starting at 0
+.Sp
+Quoting and interpolating variables can be a pain when the Perl syntax and the 
+\s-1XPATH\s0 syntax collide, so here are some more examples to get you started:
+.Sp
+.Vb 3
+\&  my $p1= "p1";
+\&  my $p2= "p2";
+\&  my @res= $t->get_xpath( "p[string( '$p1') or string( '$p2')]");
+.Ve
+.Vb 2
+\&  my $a= "a1";
+\&  my @res= $t->get_xpath( "//*[@att=\e"$a\e"]);
+.Ve
+.Vb 3
+\&  my $val= "a1";
+\&  my $exp= "//p[ \e@att='$val']"; # you need to use \e@ or you will get a warning
+\&  my @res= $t->get_xpath( $exp);
+.Ve
+\s-1XML::\s0Twig does not provide full \s-1XPATH\s0 support. If that's what you want then 
+look no further than the \s-1XML::\s0XPath module on \s-1CPAN\s0.
+.Sp
+Note that the only supported regexps delimiters are / and that you must 
+backslash all / in regexps \s-1AND\s0 in regular strings.
+.Ip "find_nodes" 4
+same as get_xpath
+.Ip "text" 4
+Returns a string consisting of all the \s-1PCDATA\s0 and \s-1CDATA\s0 in an element, 
+without any tags. The text is not \s-1XML\s0\-escaped: base entities such as &
+and < are not escaped.
+.Ip "set_text        ($string)" 4
+Sets the text for the element: if the element is a \s-1PCDATA\s0, just set its
+text, otherwise cut all the children of the element and create a single
+\s-1PCDATA\s0 child for it, which holds the text.
+.Ip "insert         ($gi1, [$optional_atts1], $gi2, [$optional_atts2],...)" 4
+For each gi in the list inserts an element \f(CW$gi\fR as the only child of the 
+element.  The element gets the optional attributes in \f(CW$optional_attsn\fR.
+All children of the element are set as children of the new element.
+The upper level element is returned.
+.Sp
+.Vb 1
+\&  $p->insert( table => { border=> 1}, 'tr', 'td') 
+.Ve
+puts \f(CW$p\fR in a table with a visible border, a single tr and a single td and
+returns the table element:
+.Sp
+.Vb 1
+\&  <p><table border="1"><tr><td>original content of p</td></tr></table></p>
+.Ve
+.Ip "wrap_in        (@gi)" 4
+Wraps elements \f(CW$gi\fR as the successive ancestors of the element, returns the 
+new element.
+\f(CW$elt\fR\->\fIwrap_in\fR\|( \*(L'td\*(R', \*(L'tr\*(R', \*(L'table') wraps the element as a single cell in a 
+table for example.
+.Ip "insert_new_elt $opt_position, $gi, $opt_atts_hashref, @opt_content" 4
+Combines a \f(CWnew\fR and a \f(CWpaste\fR: creates a new element using 
+\f(CW$gi\fR, \f(CW$opt_atts_hashref\fR and \f(CW@opt_content\fR which are arguments similar to those for
+\f(CWnew\fR, then paste it, using \f(CW$opt_position\fR or \f(CW'first_child'\fR, relative to 
+\f(CW$elt\fR.
+.Sp
+Returns the newly created element
+.Ip "erase" 4
+Erases the element: the element is deleted and all of its children are
+pasted in its place.
+.Ip "set_content    ( $optional_atts, @list_of_elt_and_strings)                      ( $optional_atts, \*(N'#\s-1EMPTY\s0')" 4
+Sets the content for the element, from a list of strings and
+elements.  Cuts all the element children, then pastes the list
+elements as the children.  This method will create a \s-1PCDATA\s0 element
+for any strings in the list.
+.Sp
+The optional_atts argument is the ref of a hash of attributes. If this
+argument is used then the previous attributes are deleted, otherwise they
+are left untouched. 
+.Sp
+\fB\s-1WARNING\s0\fR: if you rely on \s-1ID\s0's then you will have to set the id yourself. At
+this point the element does not belong to a twig yet, so the \s-1ID\s0 attribute
+is not known so it won't be strored in the \s-1ID\s0 list.
+.Sp
+A content of \*(L'#\s-1EMPTY\s0\*(R' creates an empty element;
+.Ip "inherit_att  ($att, @optional_gi_list)" 4
+Returns the value of an attribute inherited from parent tags. The value
+returned is found by looking for the attribute in the element then in turn
+in each of its ancestors. If the \f(CW@optional_gi_list\fR is supplied only those
+ancestors whose gi is in the list will be checked. 
+.Ip "all_children_are ($cond)" 4
+returns 1 if all children of the element pass the condition, 0 otherwise
+.Ip "level       ($optional_gi)" 4
+Returns the depth of the element in the twig (root is 0).
+If the optional gi is given then only ancestors of the given type are counted.
+ 
+\fB\s-1WARNING\s0\fR: in a tree created using the twig_roots option this will not return
+the level in the document tree, level 0 will be the document root, level 1 
+will be the twig_roots elements. During the parsing (in a TwigHandler)
+you can use the depth method on the twig object to get the real parsing depth.
+.Ip "in           ($potential_parent)" 4
+Returns true if the element is in the potential_parent ($potential_parent is an element)
+.Ip "in_context   ($gi, $optional_level)" 4
+Returns true if the element is included in an element whose gi is \f(CW$gi\fR,
+optionally within \f(CW$optional_level\fR levels. The returned value is the including
+element.
+.Ip "pcdata" 4
+Returns the text of a \s-1PCDATA\s0 element or undef if the element is not \s-1PCDATA\s0.
+.Ip "pcdata_xml_string" 4
+Returns the text of a \s-1PCDATA\s0 element or undef if the element is not \s-1PCDATA\s0. 
+The text is \*(L"\s-1XML\s0\-escaped\*(R" ('&\*(R' and \*(L'<\*(R' are replaced by \*(L'&amp;\*(R' and \*(L'&lt;')
+.Ip "set_pcdata     ($text)" 4
+Sets the text of a \s-1PCDATA\s0 element. 
+.Ip "append_pcdata  ($text)" 4
+Add the text at the end of a #\s-1PCDATA\s0 element.
+.Ip "is_cdata" 4
+Returns 1 if the element is a #\s-1CDATA\s0 element, returns 0 otherwise.
+.Ip "is_text" 4
+Returns 1 if the element is a #\s-1CDATA\s0 or #\s-1PCDATA\s0 element, returns 0 otherwise.
+.Ip "cdata" 4
+Returns the text of a \s-1CDATA\s0 element or undef if the element is not \s-1CDATA\s0.
+.Ip "set_cdata     ($text)" 4
+Sets the text of a \s-1CDATA\s0 element. 
+.Ip "append_cdata  ($text)" 4
+Add the text at the end of a #\s-1CDATA\s0 element.
+.Ip "extra_data " 4
+Returns the extra_data (comments and \*(PI's) attached to an element
+.Ip "set_extra_data" 4
+Sets the extra_data (comments and \*(PI's) attached to an element
+.Ip "append_extra_data" 4
+Append extra_data to teh existing extra_data before the element (if no
+previous extra_data exists then it is created)
+.Ip "set_asis" 4
+Sets a property of the element that causes it to be output without being \s-1XML\s0
+escaped by the print functions: if it contains \f(CWa < b\fR it will be output as
+such and not as \f(CW< a \fR b >>. This can be useful to create text elements that 
+will be output as markup. Note that all \s-1PCDATA\s0 descendants of the element
+are also marked as having the property (they are the ones impacted by the
+change).
+.Ip "set_not_asis" 4
+Unsets the asis property for the element and its text descendants.
+.Ip "is_asis" 4
+Returns the asis property status of the element ( 1 or \f(CWundef\fR)
+.Ip "closed                   " 4
+Returns true if the element has been closed. Might be usefull if you are
+somewhere in the tree, during the parse, and have no idea whether a parent
+element is completely loaded or not.
+.Ip "get_type" 4
+Returns the type of the element: \*(L'#\s-1ELT\s0\*(R' for \*(L"real\*(R" elements, or \*(L'#\s-1PCDATA\s0\*(R',
+\&'#\s-1CDATA\s0\*(R', \*(L'#\s-1COMMENT\s0\*(R', \*(L'#\s-1ENT\s0\*(R', \*(L'#\*(PI\*(R'
+.Ip "is_elt" 4
+Returns the gi if the element is a \*(L"real\*(R" element, or 0 if it is \s-1PCDATA\s0, 
+\s-1CDATA\s0...
+.Ip "contains_only_text" 4
+Returns 1 if the element does not contain any other \*(L"real\*(R" element
+.Ip "is_field" 4
+same as contains_only_text
+.Ip "is_pcdata" 4
+Returns 1 if the element is a #\s-1PCDATA\s0 element, returns 0 otherwise.
+.Ip "is_empty" 4
+Returns 1 if the element is empty, 0 otherwise
+.Ip "set_empty" 4
+Flags the element as empty. No further check is made, so if the element
+is actually not empty the output will be messed. The only effect of this 
+method is that the output will be <gi att="value""/>.
+.Ip "set_not_empty" 4
+Flags the element as not empty. if it is actually empty then the element will
+be output as <gi att="value""></gi>
+.Ip "child ($offset, $optional_gi)" 4
+Returns the \f(CW$offset\fR\-th child of the element, optionally the \f(CW$offset\fR\-th child 
+with a gi of \f(CW$optional_gi\fR. The children are treated as a list, so 
+\f(CW$elt\fR\->\fIchild\fR\|( 0) is the first child, while \f(CW$elt\fR\->\fIchild\fR\|( \-1) is the last child.
+.Ip "child_text ($offset, $optional_gi)" 4
+Returns the text of a child or undef if the sibling does not exist. Arguments
+are the same as child.
+.Ip "last_child    ($optional_gi)" 4
+Returns the last child of the element, or the last child whose gi is 
+\f(CW$optional_gi\fR (ie the last of the element children whose gi matches).
+.Ip "last_child_text   ($optional_gi)" 4
+Same as first_child_text but for the last child.
+.Ip "sibling  ($offset, $optional_gi)" 4
+Returns the next or previous \f(CW$offset\fR\-th sibling of the element, or the 
+\f(CW$offset\fR\-th one whose gi is \f(CW$optional_gi\fR. If \f(CW$offset\fR is negative then a 
+previous sibling is returned, if \f(CW$offset\fR is positive then  a next sibling is 
+returned. \f(CW$offset\fR=0 returns the element if there is no \f(CW$optional_gi\fR or if the 
+element gi matches \f(CW$optional_gi\fR, undef otherwise.
+.Ip "sibling_text ($offset, $optional_gi)" 4
+Returns the text of a sibling or undef if the sibling does not exist. 
+Arguments are the same as sibling.
+.Ip "prev_siblings ($optional_gi)" 4
+Returns the list of previous siblings (optionaly whose gi is \f(CW$optional_gi\fR)
+for the element. The elements are ordered in document order.
+.Ip "next_siblings ($optional_gi)" 4
+Returns the list of siblings (optionaly whose gi is \f(CW$optional_gi\fR)
+following the element. The elements are ordered in document order.
+.Ip "atts" 4
+Returns a hash ref containing the element attributes
+.Ip "set_atts      ({att1=>$att1_val, att2=> $att2_val... })" 4
+Sets the element attributes with the hash ref supplied as the argument
+.Ip "del_atts" 4
+Deletes all the element attributes.
+.Ip "att_names" 4
+returns a list of the attribute names for the element
+.Ip "att_xml_string ($att, $optional_quote)" 4
+Returns the attribute value, where \*(L'&\*(R', \*(L'<\*(R' and \f(CW$quote\fR (\*(R" by default)
+are \s-1XML\s0\-escaped
+.Ip "set_id       ($id)" 4
+Sets the id attribute of the element to the value.
+See \f(CWelt_id\fR to change the id attribute name
+.Ip "id" 4
+Gets the id attribute value
+.Ip "del_id       ($id)" 4
+Deletes the id attribute of the element and remove it from the id list
+for the document
+.Ip "\s-1DESTROY\s0" 4
+Frees the element from memory.
+.Ip "start_tag" 4
+Returns the string for the start tag for the element, including 
+the /> at the end of an empty element tag
+.Ip "end_tag" 4
+Returns the string for the end tag of an element.  For an empty
+element, this returns the empty string ('').
+.Ip "xml_string ($elt)" 4
+Equivalent to \f(CW$elt\fR\->\fIsprint\fR\|( 1), returns the string for the entire element, 
+excluding the element's tags (but nested element tags are present)
+.Ip "set_pretty_print ($style)" 4
+Sets the pretty print method, amongst \*(L'none\*(R' (default), \*(L'nsgmls\*(R', \*(L'nice\*(R', 
+\&'indented\*(R', \*(L'record\*(R' and \*(L'record_c\*(R'
+.Ip "none" 8
+the default, no \en is used
+.Ip "nsgmls" 8
+nsgmls style, with \en added within tags
+.Ip "nice" 8
+adds \en wherever possible (\s-1NOT\s0 \s-1SAFE\s0, can lead to invalid \s-1XML\s0)
+.Ip "indented" 8
+same as nice plus indents elements (\s-1NOT\s0 \s-1SAFE\s0, can lead to invalid \s-1XML\s0) 
+.Ip "record" 8
+table-oriented pretty print, one field per line 
+.Ip "record_c" 8
+table-oriented pretty print, more compact than record, one record per line 
+.Ip "set_empty_tag_style ($style)" 4
+Sets the method to output empty tags, amongst \*(L'normal\*(R' (default), \*(L'html\*(R',
+and \*(L'expand\*(R', 
+.Ip "set_indent ($string)" 4
+Sets the indentation for the indented pretty print style (default is 2 spaces)
+.Ip "set_quote ($quote)" 4
+Sets the quotes used for attributes. can be \*(L'double\*(R' (default) or \*(L'single\*(R'
+.Ip "cmp       ($elt)   Compare the order of the 2 elements in a twig." 4
+.Sp
+.Vb 9
+\&  $a is the <A>..</A> element, $b is the <B>...</B> element
+\&  
+\&  document                        $a->cmp( $b)
+\&  <A> ... </A> ... <B>  ... </B>     -1
+\&  <A> ... <B>  ... </B> ... </A>     -1
+\&  <B> ... </B> ... <A>  ... </A>      1
+\&  <B> ... <A>  ... </A> ... </B>      1
+\&   $a == $b                           0
+\&   $a and $b not in the same tree   undef
+.Ve
+.Ip "before       ($elt)" 4
+Returns 1 if \f(CW$elt\fR starts before the element, 0 otherwise. If the 2 elements 
+are not in the same twig then return undef.
+.Sp
+.Vb 1
+\&    if( $a->cmp( $b) == -1) { return 1; } else { return 0; }
+.Ve
+.Ip "after       ($elt)" 4
+Returns 1 if \f(CW$elt\fR starts after the element, 0 otherwise. If the 2 elements 
+are not in the same twig then return undef.
+.Sp
+.Vb 1
+\&    if( $a->cmp( $b) == -1) { return 1; } else { return 0; }
+.Ve
+.Ip "path" 4
+Returns the element context in a form similar to XPath's short
+form: \*(L'/root/gi1/../gi\*(R'
+.Ip "private methods" 4
+.Ip "set_parent        ($parent)" 8
+.Ip "set_first_child   ($first_child)" 8
+.Ip "set_last_child    ($last_child)" 8
+.Ip "set_prev_sibling  ($prev_sibling)" 8
+.Ip "set_next_sibling  ($next_sibling)" 8
+.Ip "set_twig_current" 8
+.Ip "del_twig_current" 8
+.Ip "twig_current" 8
+.Ip "flushed" 8
+This method should \s-1NOT\s0 be used, always flush the twig, not an element.
+.Ip "set_flushed" 8
+.Ip "del_flushed" 8
+.Ip "flush" 8
+.Ip "contains_text" 8
+.Sp
+Those methods should not be used, unless of course you find some creative 
+and interesting, not to mention useful, ways to do it.
+.Sh "cond"
+Most of the navigation functions accept a condition as an optional argument
+The first element (or all elements for \f(CWchildren\fR or 
+\f(CWancestors\fR) that passes the condition is returned.
+.PP
+The condition can be 
+.Ip "#\s-1ELT\s0" 4
+return a \*(L"real\*(R" element (not a \s-1PCDATA\s0, \s-1CDATA\s0, comment or pi element) 
+.Ip "#\s-1TEXT\s0" 4
+return a \s-1PCDATA\s0 or \s-1CDATA\s0 element
+.Ip "XPath expression" 4
+actually a subset of XPath that makes sense in this context
+.Sp
+.Vb 12
+\&  gi
+\&  /regexp/
+\&  gi[@att]
+\&  gi[@att="val"]
+\&  gi[@att=~/regexp/]
+\&  gi[text()="blah"]
+\&  gi[text(subelt)="blah"]
+\&  gi[text()=~ /blah/]
+\&  gi[text(subelt)=~ /blah/]
+\&  *[@att]            (the * is actually optional)
+\&  *[@att="val"]
+\&  *[@att=~/regexp/]
+.Ve
+.Ip "regular expression" 4
+return an element whose gi matches the regexp. The regexp has to be created 
+with \f(CWqr//\fR (hence this is available only on perl 5.005 and above)
+.Ip "code reference" 4
+applies the code, passing the current element as argument, if the code returns
+true then the element is returned, if it returns false then the code is applied
+to the next candidate.
+.Sh "Entity_list"
+.Ip "new" 4
+Creates an entity list.
+.Ip "add         ($ent)" 4
+Adds an entity to an entity list.
+.Ip "delete     ($ent or $gi)." 4
+Deletes an entity (defined by its name or by the Entity object)
+from the list.
+.Ip "print      ($optional_filehandle)" 4
+Prints the entity list.
+.Sh "Entity"
+.Ip "new        ($name, $val, $sysid, $pubid, $ndata)" 4
+Same arguments as the Entity handler for \s-1XML::\s0Parser.
+.Ip "print       ($optional_filehandle)" 4
+Prints an entity declaration.
+.Ip "text" 4
+Returns the entity declaration text.
+.SH "EXAMPLES"
+See the test file in t/test[1-n].t 
+Additional examples (and a complete tutorial) can be found at 
+http://www.xmltwig.com/
+.PP
+To figure out what flush does call the following script with an
+ xml file and an element name as arguments
+.PP
+.Vb 1
+\&  use XML::Twig;
+.Ve
+.Vb 6
+\&  my ($file, $elt)= @ARGV;
+\&  my $t= XML::Twig->new( twig_handlers => 
+\&      { $elt => sub {$_[0]->flush; print "\en[flushed here]\en";} });
+\&  $t->parsefile( $file, ErrorContext => 2);
+\&  $t->flush;
+\&  print "\en";
+.Ve
+.SH "NOTES"
+.Sh "\s-1DTD\s0 Handling"
+There are 3 possibilities here.  They are:
+.Ip "No \s-1DTD\s0" 4
+No doctype, no \s-1DTD\s0 information, no entity information, the world is simple...
+.Ip "Internal \s-1DTD\s0" 4
+The \s-1XML\s0 document includes an internal \s-1DTD\s0, and maybe entity declarations.
+.Sp
+If you use the load_DTD option when creating the twig the \s-1DTD\s0 information and
+the entity declarations can be accessed.
+.Sp
+The \s-1DTD\s0 and the entity declarations will be flush'ed (or print'ed) either as is
+(if they have not been modified) or as reconstructed (poorly, comments are lost, 
+order is not kept, due to it's content this \s-1DTD\s0 should not be viewed by anyone) 
+if they have been modified. You can also modify them directly by changing the 
+\f(CW$twig\fR\->{twig_doctype}\->{internal} field (straight from \s-1XML::\s0Parser, see the 
+Doctype handler doc)
+.Ip "External \s-1DTD\s0" 4
+The \s-1XML\s0 document includes a reference to an external \s-1DTD\s0, and maybe entity 
+declarations.
+.Sp
+If you use the load_DTD when creating the twig the \s-1DTD\s0 information and the 
+entity declarations can be accessed. The entity declarations will be flush'ed 
+(or print'ed) either as is (if they have not been modified) or as reconstructed 
+(badly, comments are lost, order is not kept).
+.Sp
+You can change the doctype through the \f(CW$twig\fR\->set_doctype method and print the
+dtd through the \f(CW$twig\fR\->dtd_text or \f(CW$twig\fR\->dtd_print methods.
+.Sp
+If you need to modify the entity list this is probably the easiest way to do it.
+.Sh "Flush"
+If you set handlers and use flush, do not forget to flush the twig one
+last time \s-1AFTER\s0 the parsing, or you might be missing the end of the document.
+.PP
+Remember that element handlers are called when the element is \s-1CLOSED\s0, so
+if you have handlers for nested elements the inner handlers will be called
+first. It makes it for example trickier than it would seem to number nested
+clauses.
+.SH "BUGS"
+.Ip "entity handling" 4
+Due to \s-1XML::\s0Parser behaviour, non-base entities in attribute values disappear:
+\f(CWatt="val&ent;"\fR will be turned into att => val, unless you use the 
+\f(CWkeep_encoding\fR argument to \f(CW< XML::Twig-\fRnew >> 
+.Ip "\s-1DTD\s0 handling" 4
+Basically the \s-1DTD\s0 handling methods are competely bugged. No one uses them and it
+seems very difficult to get them to work in all cases, including with 2 
+slightly incompatible versions of \s-1XML::\s0Parser.
+.Sp
+So use \s-1XML::\s0Twig with standalone documents, or with documents refereing to an
+external \s-1DTD\s0, but don't expect it to properly parse and even output back the
+\s-1DTD\s0.
+.Ip "memory leak" 4
+If you use a lot of twigs you might find that you leak quite a lot of memory
+(about 2Ks per twig). You can use the \f(CWdispose\fR method to free that
+memory after you are done.
+.Sp
+If you create elements the same thing might happen, use the \f(CWdelete\fR
+method to get rid of them.
+.Sp
+Alternatively installing the WeakRef module on a version of Perl that supports
+it will get rid of the memory leaks automagically.
+.Ip "\s-1ID\s0 list" 4
+The \s-1ID\s0 list is \s-1NOT\s0 updated when \s-1ID\s0's are modified or elements cut or
+deleted.
+.Ip "change_gi" 4
+This method will not function properly if you do:
+.Sp
+.Vb 3
+\&     $twig->change_gi( $old1, $new);
+\&     $twig->change_gi( $old2, $new);
+\&     $twig->change_gi( $new, $even_newer);
+.Ve
+.Ip "sanity check on \s-1XML::\s0Parser method calls" 4
+\s-1XML::\s0Twig should really prevent calls to some \s-1XML::\s0Parser methods, especially 
+the setHandlers method.
+.SH "Globals"
+These are the things that can mess up calling code, especially if threaded.
+They might also cause problem under mod_perl. 
+.Ip "Exported constants" 4
+Whether you want them or not you get them! These are subroutines to use
+as constant when creating or testing elements
+.Ip "\s-1PCDATA\s0" 8
+returns \*(L'#\s-1PCDATA\s0\*(R'
+.Ip "\s-1CDATA\s0" 8
+returns \*(L'#\s-1CDATA\s0\*(R'
+.Ip "\*(PI" 8
+returns \*(L'#\*(PI\*(R', I had the choice between \s-1PROC\s0 and \*(PI :--(
+.Ip "Module scoped values: constants" 4
+these should cause no trouble:
+.Sp
+.Vb 12
+\&  %base_ent= ( '>' => '&gt;',
+\&               '<' => '&lt;',
+\&               '&' => '&amp;',
+\&               "'" => '&apos;',
+\&               '"' => '&quot;',
+\&             );
+\&  CDATA_START   = "<![CDATA[";
+\&  CDATA_END     = "]]>";
+\&  PI_START      = "<?";
+\&  PI_END        = "?>";
+\&  COMMENT_START = "<!--";
+\&  COMMENT_END   = "-->";
+.Ve
+pretty print styles
+.Sp
+.Vb 1
+\&  ( $NSGMLS, $NICE, $INDENTED, $RECORD1, $RECORD2)= (1..5);
+.Ve
+empty tag output style
+.Sp
+.Vb 1
+\&  ( $HTML, $EXPAND)= (1..2);
+.Ve
+.Ip "Module scoped values: might be changed" 4
+Most of these deal with pretty printing, so the worst that can
+happen is probably that \s-1XML\s0 output does not look right, but is
+still valid and processed identically by \s-1XML\s0 processors.
+.Sp
+$empty_tag_style can mess up \s-1HTML\s0 bowsers though and changing \f(CW$ID\fR 
+would most likely create problems.
+.Sp
+.Vb 5
+\&  $pretty=0;           # pretty print style
+\&  $quote='"';          # quote for attributes
+\&  $INDENT= '  ';       # indent for indented pretty print
+\&  $empty_tag_style= 0; # how to display empty tags
+\&  $ID                  # attribute used as a gi ('id' by default)
+.Ve
+.Ip "Module scoped values: definitely changed" 4
+These 2 variables are used to replace gi's by an index, thus 
+saving some space when creating a twig. If they really cause
+you too much trouble, let me know, it is probably possible to
+create either a switch or at least a version of \s-1XML::\s0Twig that 
+does not perform this optimisation.
+.Sp
+.Vb 2
+\&  %gi2index;     # gi => index
+\&  @index2gi;     # list of gi's
+.Ve
+.SH "TODO"
+.Ip "\s-1SAX\s0 handlers" 4
+Allowing \s-1XML::\s0Twig to work on top of any \s-1SAX\s0 parser, and to emit \s-1SAX\s0
+events to a handler is a priority for version 3.01
+.Ip "multiple twigs are not well supported" 4
+A number of twig features are just global at the moment. These include
+the \s-1ID\s0 list and the \*(L"gi pool\*(R" (if you use change_gi then you change the gi 
+for \s-1ALL\s0 twigs).
+.Sp
+A future version will try to support this while trying not to be to
+hard on performance (at least when a single twig is used!).
+.SH "BENCHMARKS"
+You can use the \f(CWbenchmark_twig\fR file to do additional benchmarks.
+Please send me benchmark information for additional systems.
+.SH "AUTHOR"
+Michel Rodriguez <m.v.rodriguez@ieee.org>
+.PP
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+.PP
+Bug reports and comments to m.v.rodriguez@ieee.org
+.PP
+The XML::Twig page is at http://www.xmltwig.com/xmltwig/
+It includes examples and a tutorial at 
+  http://www.xmltwig.com/xmltwig/tutorial/index.html
+.SH "SEE ALSO"
+XML::Parser
+
+.rn }` ''
+.IX Title "Twig 3"
+.IX Name "XML::Twig - A perl module for processing huge XML documents in tree mode."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "XML::Twig 101"
+
+.IX Subsection "Loading an \s-1XML\s0 document and processing it"
+
+.IX Subsection "Processing an \s-1XML\s0 document chunk by chunk"
+
+.IX Subsection "Processing just parts of an \s-1XML\s0 document"
+
+.IX Subsection "Building an \s-1XML\s0 filter"
+
+.IX Subsection "Simplifying \s-1XML\s0 processing"
+
+.IX Item "Whitespaces"
+
+.IX Item "Encoding"
+
+.IX Item "Comments and Processing Instructions (\*(PI)"
+
+.IX Item "Pretty Printing"
+
+.IX Item "Surviving an untimely death"
+
+.IX Item "Private attributes"
+
+.IX Header "METHODS"
+
+.IX Subsection "Twig "
+
+.IX Item "new "
+
+.IX Item "twig_handlers"
+
+.IX Item "twig_roots"
+
+.IX Item "twig_print_outside_roots"
+
+.IX Item "start_tag_handlers"
+
+.IX Item "end_tag_handlers"
+
+.IX Item "CharHandler"
+
+.IX Item "keep_encoding"
+
+.IX Item "output_filter"
+
+.IX Item "latin1 "
+
+.IX Item "html"
+
+.IX Item "safe"
+
+.IX Item "iconv_convert ($encoding)"
+
+.IX Item ":unicode_convert ($encoding)"
+
+.IX Item "input_filter"
+
+.IX Item "parse_start_tag"
+
+.IX Item "expand_external_ents"
+
+.IX Item "load_DTD"
+
+.IX Item "DTD_handler"
+
+.IX Item "id"
+
+.IX Item "discard_spaces"
+
+.IX Item "keep_spaces"
+
+.IX Item "discard_spaces_in"
+
+.IX Item "keep_spaces_in"
+
+.IX Item "PrettyPrint"
+
+.IX Item "none"
+
+.IX Item "nsgmls"
+
+.IX Item "nice"
+
+.IX Item "indented"
+
+.IX Item "record"
+
+.IX Item "record_c"
+
+.IX Item "EmptyTags"
+
+.IX Item "comments"
+
+.IX Item "drop"
+
+.IX Item "keep"
+
+.IX Item "process"
+
+.IX Item "pi"
+
+.IX Item "parse(\s-1SOURCE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])"
+
+.IX Item "parsestring"
+
+.IX Item "parsefile(\s-1FILE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])"
+
+.IX Item "parseurl $url $optionnal_user_agent"
+
+.IX Item "safe_parse( \s-1SOURCE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])"
+
+.IX Item "safe_parsefile(\s-1FILE\s0 [, \s-1OPT\s0 => \s-1OPT_VALUE\s0 [...]])"
+
+.IX Item "safe_parseurl $url $optional_user_agent"
+
+.IX Item "parser"
+
+.IX Item "setTwigHandlers ($handlers)"
+
+.IX Item "setTwigHandler ($gi $handler)"
+
+.IX Item "setStartTagHandlers ($handlers)"
+
+.IX Item "setStartTagHandler ($gi $handler)"
+
+.IX Item "setEndTagHandlers ($handlers)"
+
+.IX Item "setEndTagHandler ($gi $handler)"
+
+.IX Item "setTwigHandlers ($handlers)"
+
+.IX Item "dtd"
+
+.IX Item "root"
+
+.IX Item "first_elt ($optionnal_gi)"
+
+.IX Item "elt_id        ($id)"
+
+.IX Item "entity_list"
+
+.IX Item "change_gi      ($old_gi, $new_gi)"
+
+.IX Item "flush            ($optional_filehandle, $options)"
+
+.IX Item "flush_up_to ($elt, $optionnal_filehandle, %options)"
+
+.IX Item "purge"
+
+.IX Item "purge_up_to ($elt)"
+
+.IX Item "print            ($optional_filehandle, %options)"
+
+.IX Item "sprint"
+
+.IX Item "ignore"
+
+.IX Item "set_pretty_print  ($style)"
+
+.IX Item "set_empty_tag_style  ($style)"
+
+.IX Item "print_prolog     ($optional_filehandle, %options)"
+
+.IX Item "prolog     ($optional_filehandle, %options)"
+
+.IX Item "finish"
+
+.IX Item "finish_print"
+
+.IX Item "Methods inherited from \s-1XML::\s0Parser::Expat"
+
+.IX Item "path($gi)"
+
+.IX Item "get_xpath  ($xpath, $optional_offset)"
+
+.IX Item "find_nodes"
+
+.IX Item "dispose"
+
+.IX Subsection "Elt"
+
+.IX Item "print         ($optional_filehandle, $optional_pretty_print_style)"
+
+.IX Item "sprint       ($elt, $optional_no_enclosing_tag)"
+
+.IX Item "gi                       "
+
+.IX Item "tag"
+
+.IX Item "set_gi         ($gi)"
+
+.IX Item "set_tag        ($gi)"
+
+.IX Item "root "
+
+.IX Item "twig "
+
+.IX Item "parent        ($optional_cond)"
+
+.IX Item "first_child   ($optional_cond)"
+
+.IX Item "first_child_text   ($optional_cond)"
+
+.IX Item "field         ($optional_cond)"
+
+.IX Item "first_child_matches   ($optional_cond)"
+
+.IX Item "prev_sibling  ($optional_cond)"
+
+.IX Item "next_sibling  ($optional_cond)"
+
+.IX Item "next_elt     ($optional_elt, $optional_cond)"
+
+.IX Item "prev_elt     ($optional_cond)"
+
+.IX Item "children     ($optional_cond)"
+
+.IX Item "descendants     ($optional_cond)"
+
+.IX Item "descendants_or_self ($optional_cond)"
+
+.IX Item "ancestors    ($optional_cond)"
+
+.IX Item "att          ($att)"
+
+.IX Item "set_att      ($att, $att_value)"
+
+.IX Item "del_att      ($att)"
+
+.IX Item "cut"
+
+.IX Item "copy        ($elt)"
+
+.IX Item "paste       ($optional_position, $ref)"
+
+.IX Item "first_child (default)"
+
+.IX Item "last_child"
+
+.IX Item "before"
+
+.IX Item "after"
+
+.IX Item "within"
+
+.IX Item "move       ($optional_position, $ref)"
+
+.IX Item "replace       ($ref)"
+
+.IX Item "delete"
+
+.IX Item "prefix       ($text, $optional_option)"
+
+.IX Item "suffix       ($text, $optional_option)"
+
+.IX Item "split_at        ($offset)"
+
+.IX Item "split        ( $optional_regexp, $optional_tag, $optional_attribute_ref)"
+
+.IX Item "mark        ( $regexp, $optional_tag, $optional_attribute_ref)"
+
+.IX Item "new          ($optional_gi, $optional_atts, @optional_content)"
+
+.IX Item "parse         ($string, %args)"
+
+.IX Item "get_xpath  ($xpath, $optional_offset)"
+
+.IX Item "find_nodes"
+
+.IX Item "text"
+
+.IX Item "set_text        ($string)"
+
+.IX Item "insert         ($gi1, [$optional_atts1], $gi2, [$optional_atts2],...)"
+
+.IX Item "wrap_in        (@gi)"
+
+.IX Item "insert_new_elt $opt_position, $gi, $opt_atts_hashref, @opt_content"
+
+.IX Item "erase"
+
+.IX Item "set_content    ( $optional_atts, @list_of_elt_and_strings)                      ( $optional_atts, \*(N'#\s-1EMPTY\s0')"
+
+.IX Item "inherit_att  ($att, @optional_gi_list)"
+
+.IX Item "all_children_are ($cond)"
+
+.IX Item "level       ($optional_gi)"
+
+.IX Item "in           ($potential_parent)"
+
+.IX Item "in_context   ($gi, $optional_level)"
+
+.IX Item "pcdata"
+
+.IX Item "pcdata_xml_string"
+
+.IX Item "set_pcdata     ($text)"
+
+.IX Item "append_pcdata  ($text)"
+
+.IX Item "is_cdata"
+
+.IX Item "is_text"
+
+.IX Item "cdata"
+
+.IX Item "set_cdata     ($text)"
+
+.IX Item "append_cdata  ($text)"
+
+.IX Item "extra_data "
+
+.IX Item "set_extra_data"
+
+.IX Item "append_extra_data"
+
+.IX Item "set_asis"
+
+.IX Item "set_not_asis"
+
+.IX Item "is_asis"
+
+.IX Item "closed                   "
+
+.IX Item "get_type"
+
+.IX Item "is_elt"
+
+.IX Item "contains_only_text"
+
+.IX Item "is_field"
+
+.IX Item "is_pcdata"
+
+.IX Item "is_empty"
+
+.IX Item "set_empty"
+
+.IX Item "set_not_empty"
+
+.IX Item "child ($offset, $optional_gi)"
+
+.IX Item "child_text ($offset, $optional_gi)"
+
+.IX Item "last_child    ($optional_gi)"
+
+.IX Item "last_child_text   ($optional_gi)"
+
+.IX Item "sibling  ($offset, $optional_gi)"
+
+.IX Item "sibling_text ($offset, $optional_gi)"
+
+.IX Item "prev_siblings ($optional_gi)"
+
+.IX Item "next_siblings ($optional_gi)"
+
+.IX Item "atts"
+
+.IX Item "set_atts      ({att1=>$att1_val, att2=> $att2_val... })"
+
+.IX Item "del_atts"
+
+.IX Item "att_names"
+
+.IX Item "att_xml_string ($att, $optional_quote)"
+
+.IX Item "set_id       ($id)"
+
+.IX Item "id"
+
+.IX Item "del_id       ($id)"
+
+.IX Item "\s-1DESTROY\s0"
+
+.IX Item "start_tag"
+
+.IX Item "end_tag"
+
+.IX Item "xml_string ($elt)"
+
+.IX Item "set_pretty_print ($style)"
+
+.IX Item "none"
+
+.IX Item "nsgmls"
+
+.IX Item "nice"
+
+.IX Item "indented"
+
+.IX Item "record"
+
+.IX Item "record_c"
+
+.IX Item "set_empty_tag_style ($style)"
+
+.IX Item "set_indent ($string)"
+
+.IX Item "set_quote ($quote)"
+
+.IX Item "cmp       ($elt)   Compare the order of the 2 elements in a twig."
+
+.IX Item "before       ($elt)"
+
+.IX Item "after       ($elt)"
+
+.IX Item "path"
+
+.IX Item "private methods"
+
+.IX Item "set_parent        ($parent)"
+
+.IX Item "set_first_child   ($first_child)"
+
+.IX Item "set_last_child    ($last_child)"
+
+.IX Item "set_prev_sibling  ($prev_sibling)"
+
+.IX Item "set_next_sibling  ($next_sibling)"
+
+.IX Item "set_twig_current"
+
+.IX Item "del_twig_current"
+
+.IX Item "twig_current"
+
+.IX Item "flushed"
+
+.IX Item "set_flushed"
+
+.IX Item "del_flushed"
+
+.IX Item "flush"
+
+.IX Item "contains_text"
+
+.IX Subsection "cond"
+
+.IX Item "#\s-1ELT\s0"
+
+.IX Item "#\s-1TEXT\s0"
+
+.IX Item "XPath expression"
+
+.IX Item "regular expression"
+
+.IX Item "code reference"
+
+.IX Subsection "Entity_list"
+
+.IX Item "new"
+
+.IX Item "add         ($ent)"
+
+.IX Item "delete     ($ent or $gi)."
+
+.IX Item "print      ($optional_filehandle)"
+
+.IX Subsection "Entity"
+
+.IX Item "new        ($name, $val, $sysid, $pubid, $ndata)"
+
+.IX Item "print       ($optional_filehandle)"
+
+.IX Item "text"
+
+.IX Header "EXAMPLES"
+
+.IX Header "NOTES"
+
+.IX Subsection "\s-1DTD\s0 Handling"
+
+.IX Item "No \s-1DTD\s0"
+
+.IX Item "Internal \s-1DTD\s0"
+
+.IX Item "External \s-1DTD\s0"
+
+.IX Subsection "Flush"
+
+.IX Header "BUGS"
+
+.IX Item "entity handling"
+
+.IX Item "\s-1DTD\s0 handling"
+
+.IX Item "memory leak"
+
+.IX Item "\s-1ID\s0 list"
+
+.IX Item "change_gi"
+
+.IX Item "sanity check on \s-1XML::\s0Parser method calls"
+
+.IX Header "Globals"
+
+.IX Item "Exported constants"
+
+.IX Item "\s-1PCDATA\s0"
+
+.IX Item "\s-1CDATA\s0"
+
+.IX Item "\*(PI"
+
+.IX Item "Module scoped values: constants"
+
+.IX Item "Module scoped values: might be changed"
+
+.IX Item "Module scoped values: definitely changed"
+
+.IX Header "TODO"
+
+.IX Item "\s-1SAX\s0 handlers"
+
+.IX Item "multiple twigs are not well supported"
+
+.IX Header "BENCHMARKS"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::WWW::RobotRules 3 "libwww-perl-5.36" "9/Jun/98" "User Contributed Perl Documentation"
+.TH lib::WWW::RobotRules 3 "libwww-perl-5.64" "20/Apr/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -217,24 +217,24 @@ WWW::RobotsRules \- Parse robots.txt files
 \& }
 .Ve
 .SH "DESCRIPTION"
-This module parses a \fIrobots.txt\fR file as specified in
+This module parses a \fI/robots.txt\fR file as specified in
 \*(L"A Standard for Robot Exclusion\*(R", described in
-<URL:http://info.webcrawler.com/mak/projects/robots/norobots.html>
-Webmasters can use the \fIrobots.txt\fR file to disallow conforming
-robots access to parts of their WWW server.
+<http://info.webcrawler.com/mak/projects/robots/norobots.html>
+Webmasters can use the \fI/robots.txt\fR file to disallow conforming
+robots access to parts of their web site.
 .PP
 The parsed file is kept in the WWW::RobotRules object, and this object
-provide methods to check if access to a given URL is prohibited.  The
-same WWW::RobotRules object can parse multiple \fIrobots.txt\fR files.
+provides methods to check if access to a given URL is prohibited.  The
+same WWW::RobotRules object can parse multiple \fI/robots.txt\fR files.
 .PP
 The following methods are provided:
-.Ip "$rules = new \s-1WWW::\s0RobotRules \*(N'MOMspider/1.0\*(T'" 4
+.Ip "$rules = \s-1WWW::\s0RobotRules->new($robot_name)" 4
 This is the constructor for \s-1WWW::\s0RobotRules objects.  The first 
 argument given to \fInew()\fR is the name of the robot. 
-.Ip "$rules->parse($url, $content, $fresh_until)" 4
+.Ip "$rules->parse($robot_txt_url, $content, $fresh_until)" 4
 The \fIparse()\fR method takes as arguments the \s-1URL\s0 that was used to
 retrieve the \fI/robots.txt\fR file, and the contents of the file.
-.Ip "$rules->allowed($url)" 4
+.Ip "$rules->allowed($uri)" 4
 Returns \s-1TRUE\s0 if this robot is allowed to retrieve this \s-1URL\s0.
 .Ip "$rules->agent([$name])" 4
 Get/set the agent name. \s-1NOTE\s0: Changing the agent name will clear the robots.txt
@@ -242,7 +242,7 @@ rules and expire times out of the cache.
 .SH "ROBOTS.TXT"
 The format and semantics of the \*(L"/robots.txt\*(R" file are as follows
 (this is an edited abstract of
-<URL:http://info.webcrawler.com/mak/projects/robots/norobots.html>):
+<http://info.webcrawler.com/mak/projects/robots/norobots.html>):
 .PP
 The file consists of one or more records separated by one or more
 blank lines. Each record contains lines of the form
@@ -306,11 +306,11 @@ the \fILWP::RobotUA\fR manpage, the \fIWWW::RobotRules::AnyDBM_File\fR manpage
 
 .IX Header "DESCRIPTION"
 
-.IX Item "$rules = new \s-1WWW::\s0RobotRules \*(N'MOMspider/1.0\*(T'"
+.IX Item "$rules = \s-1WWW::\s0RobotRules->new($robot_name)"
 
-.IX Item "$rules->parse($url, $content, $fresh_until)"
+.IX Item "$rules->parse($robot_txt_url, $content, $fresh_until)"
 
-.IX Item "$rules->allowed($url)"
+.IX Item "$rules->allowed($uri)"
 
 .IX Item "$rules->agent([$name])"
 

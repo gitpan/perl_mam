@@ -1,0 +1,450 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH lib::SQL::Eval 3 "perl 5.007, patch 00" "5/Nov/101" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+SQL::Eval \- Base for deriving evalution objects for SQL::Statement
+.SH "SYNOPSIS"
+.PP
+.Vb 2
+\&    require SQL::Statement;
+\&    require SQL::Eval;
+.Ve
+.Vb 4
+\&    # Create an SQL statement; use a concrete subclass of
+\&    # SQL::Statement
+\&    my $stmt = MyStatement->new("SELECT * FROM foo, bar",
+\&                                SQL::Parser->new('Ansi'));
+.Ve
+.Vb 3
+\&    # Get an eval object by calling open_tables; this
+\&    # will call MyStatement::open_table
+\&    my $eval = $stmt->open_tables($data);
+.Ve
+.Vb 4
+\&    # Set parameter 0 to 'Van Gogh'
+\&    $eval->param(0, 'Van Gogh');
+\&    # Get parameter 2
+\&    my $param = $eval->param(2);
+.Ve
+.Vb 2
+\&    # Get the SQL::Eval::Table object referring the 'foo' table
+\&    my $fooTable = $eval->table('foo');
+.Ve
+.SH "DESCRIPTION"
+This module implements two classes that can be used for deriving
+concrete subclasses to evaluate SQL::Statement objects. The
+SQL::Eval object can be thought as an abstract state engine for
+executing SQL queries, the SQL::Eval::Table object can be considered
+a *very* table abstraction. It implements method for fetching or
+storing rows, retrieving column names and numbers and so on.
+See the \f(CWtest.pl\fR script as an example for implementing a concrete
+subclass.
+.PP
+While reading on, keep in mind that these are abstract classes,
+you *must* implement at least some of the methods describe below.
+Even more, you need not derive from SQL::Eval or SQL::Eval::Table,
+you just need to implement the method interface.
+.PP
+All methods just throw a Perl exception in case of errors.
+.Sh "Method interface of \s-1SQL::\s0Eval"
+.Ip "new" 8
+Constructor; use it like this:
+.Sp
+.Vb 1
+\&    $eval = SQL::Eval->new(\e%attr);
+.Ve
+Blesses the hash ref \e%attr into the \s-1SQL::\s0Eval class (or a subclass).
+.Ip "param" 8
+Used for getting or setting input parameters, as in the \s-1SQL\s0 query
+.Sp
+.Vb 1
+\&    INSERT INTO foo VALUES (?, ?);
+.Ve
+Example:
+.Sp
+.Vb 2
+\&    $eval->param(0, $val);        # Set parameter 0
+\&    $eval->param(0);              # Get parameter 0
+.Ve
+.Ip "params" 8
+Likewise used for getting or setting the complete array of input
+parameters. Example:
+.Sp
+.Vb 2
+\&    $eval->params($params);       # Set the array
+\&    $eval->params();              # Get the array
+.Ve
+.Ip "table" 8
+Returns or sets a table object. Example:
+.Sp
+.Vb 2
+\&    $eval->table('foo', $fooTable);  # Set the 'foo' table object
+\&    $eval->table('foo');             # Return the 'foo' table object
+.Ve
+.Ip "column" 8
+Return the value of a column with a given name; example:
+.Sp
+.Vb 3
+\&    $col = $eval->column('foo', 'id');  # Return the 'id' column of
+\&                                        # the current row in the
+\&                                        # 'foo' table
+.Ve
+This is equivalent and just a shorthand for
+.Sp
+.Vb 1
+\&    $col = $eval->table('foo')->column('id');
+.Ve
+.Sh "Method interface of \s-1SQL::\s0Eval::Table"
+.Ip "new" 8
+Constructor; use it like this:
+.Sp
+.Vb 1
+\&    $eval = SQL::Eval::Table->new(\e%attr);
+.Ve
+Blesses the hash ref \e%attr into the \s-1SQL::\s0Eval::Table class (or a
+subclass).
+.Ip "row" 8
+Used to get the current row as an array ref. Do not mismatch
+getting the current row with the fetch_row method! In fact this
+method is valid only after a successfull \f(CW$table->fetchrow()\fR.
+Example:
+.Sp
+.Vb 1
+\&    $row = $table->row();
+.Ve
+.Ip "column" 8
+Get the column with a given name in the current row. Valid only after
+a successfull \f(CW$table->fetchrow()\fR. Example:
+.Sp
+.Vb 1
+\&    $col = $table->column($colName);
+.Ve
+.Ip "column_num" 8
+Return the number of the given column name. Column numbers start with
+0. Returns undef, if a column name is not defined, so that you can
+well use this for verifying valid column names. Example:
+.Sp
+.Vb 1
+\&    $colNum = $table->column_num($colNum);
+.Ve
+.Ip "column_names" 8
+Returns an array ref of column names.
+.PP
+The above methods are implemented by \s-1SQL::\s0Eval::Table. The following
+methods aren't, so that they *must* be implemented by concrete
+subclassed. See the \f(CWtest.pl\fR script for example.
+.Ip "fetch_row" 8
+Fetches the next row from the table. Returns \f(CWundef\fR, if the last
+row was already fetched. The argument \f(CW$data\fR is for private use of
+the concrete subclass. Example:
+.Sp
+.Vb 1
+\&    $row = $table->fetch_row($data);
+.Ve
+Note, that you may use
+.Sp
+.Vb 1
+\&    $row = $table->row();
+.Ve
+for retrieving the same row again, until the next call of \f(CWfetch_row\fR.
+.Ip "push_row" 8
+Likewise for storing rows. Example:
+.Sp
+.Vb 1
+\&    $table->push_row($data, $row);
+.Ve
+.Ip "push_names" 8
+Used by the \fI\s-1CREATE\s0 \s-1TABLE\s0\fR statement to set the column names of the
+new table. Receives an array ref of names. Example:
+.Sp
+.Vb 1
+\&    $table->push_names($data, $names);
+.Ve
+.Ip "seek" 8
+Similar to the seek method of a filehandle; used for setting the number
+of the next row being written. Example:
+.Sp
+.Vb 1
+\&    $table->seek($data, $whence, $rowNum);
+.Ve
+Actually the current implementation is using only \f(CWseek($data, 0,0)\fR
+(first row) and \f(CWseek($data, 2,0)\fR (last row, end of file).
+.Ip "truncate" 8
+Truncates a table after the current row. Example:
+.Sp
+.Vb 1
+\&    $table->truncate($data);
+.Ve
+.SH "INTERNALS"
+The current implementation is quite simple: An SQL::Eval object is an
+hash ref with only two attributes. The \f(CWparams\fR attribute is an array
+ref of parameters. The \f(CWtables\fR attribute is an hash ref of table
+names (keys) and table objects (values).
+.PP
+SQL::Eval::Table instances are implemented as hash refs. Used attributes
+are \f(CWrow\fR (the array ref of the current row), \f(CWcol_nums\fR (an hash ref
+of column names as keys and column numbers as values) and \f(CWcol_names\fR,
+an array ref of column names with the column numbers as indexes.
+.SH "MULTITHREADING"
+All methods are working with instance-local data only, thus the module
+is reentrant and thread safe, if you either don't share handles between
+threads or grant serialized use.
+.SH "AUTHOR AND COPYRIGHT"
+This module is Copyright (C) 1998 by
+.PP
+.Vb 4
+\&    Jochen Wiedmann
+\&    Am Eisteich 9
+\&    72555 Metzingen
+\&    Germany
+.Ve
+.Vb 2
+\&    Email: joe@ispsoft.de
+\&    Phone: +49 7123 14887
+.Ve
+All rights reserved.
+.PP
+You may distribute this module under the terms of either the GNU
+General Public License or the Artistic License, as specified in
+the Perl README file. 
+.SH "SEE ALSO"
+the \fISQL::Statement(3)\fR manpage
+
+.rn }` ''
+.IX Title "lib::SQL::Eval 3"
+.IX Name "SQL::Eval - Base for deriving evalution objects for SQL::Statement"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Method interface of \s-1SQL::\s0Eval"
+
+.IX Item "new"
+
+.IX Item "param"
+
+.IX Item "params"
+
+.IX Item "table"
+
+.IX Item "column"
+
+.IX Subsection "Method interface of \s-1SQL::\s0Eval::Table"
+
+.IX Item "new"
+
+.IX Item "row"
+
+.IX Item "column"
+
+.IX Item "column_num"
+
+.IX Item "column_names"
+
+.IX Item "fetch_row"
+
+.IX Item "push_row"
+
+.IX Item "push_names"
+
+.IX Item "seek"
+
+.IX Item "truncate"
+
+.IX Header "INTERNALS"
+
+.IX Header "MULTITHREADING"
+
+.IX Header "AUTHOR AND COPYRIGHT"
+
+.IX Header "SEE ALSO"
+

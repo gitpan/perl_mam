@@ -93,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::MemberMixin 3 "libwww-perl-5.36" "2/Dec/97" "User Contributed Perl Documentation"
+.TH lib::LWP::MemberMixin 3 "libwww-perl-5.64" "27/Apr/101" "User Contributed Perl Documentation"
 .UC
 .if n .hy 0
 .if n .na
@@ -204,8 +204,8 @@ Ideally there should be better Perl langauge support for this.
 There is only one method provided:
 .Ip "_elem($elem [, $val])" 4
 Internal method to get/set the value of member variable
-\f(CW$elem\fR. If \f(CW$val\fR is defined it is used as the new value
-for the member variable.  If it is undefined the current
+\f(CW$elem\fR. If \f(CW$val\fR is present it is used as the new value
+for the member variable.  If it is not present the current
 value is not touched. In both cases the previous value of
 the member variable is returned.
 

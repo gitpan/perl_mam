@@ -1,0 +1,311 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
+.ds L' '
+.ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
+.ds L' `
+.ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH String 3 "perl 5.007, patch 00" "27/Jan/100" "User Contributed Perl Documentation"
+.UC
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+IO::String \- Emulate IO::File interface for in-core strings
+.SH "SYNOPSIS"
+.PP
+.Vb 4
+\& use IO::String;
+\& $io = IO::String->new;
+\& $io = IO::String->new($var);
+\& tie *IO, 'IO::String';
+.Ve
+.Vb 4
+\& # read data
+\& <$io>;
+\& $io->getline;
+\& read($io, $buf, 100);
+.Ve
+.Vb 4
+\& # write data
+\& print $io "string\en";
+\& $io->print(@data);
+\& syswrite($io, $buf, 100);
+.Ve
+.Vb 2
+\& select $io;
+\& printf "Some text %s\en", $str;
+.Ve
+.Vb 4
+\& # seek
+\& $pos = $io->getpos;
+\& $io->setpos(0);        # rewind
+\& $io->seek(-30, -1);
+.Ve
+.SH "DESCRIPTION"
+The \f(CWIO::String\fR module provide the \f(CWIO::File\fR interface for in-core
+strings.  An \f(CWIO::String\fR object can be attached to a string, and
+will make it possible to use the normal file operations for reading or
+writing data, as well as seeking to various locations of the string.
+The main reason you might want to do this, is if you have some other
+library module that only provide an interface to file handles, and you
+want to keep all the stuff in memory.
+.PP
+The \f(CWIO::String\fR module provide an interface compatible with
+\f(CWIO::File\fR as distributed with \fIIO\-1.20\fR, but the following methods
+are not available; new_from_fd, fdopen, format_write,
+format_page_number, format_lines_per_page, format_lines_left,
+format_name, format_top_name.
+.PP
+The following methods are specific for the \f(CWIO::String\fR class:
+.Ip "$io = \s-1IO::\s0String->new( [$string] )" 4
+The constructor returns a newly created \f(CWIO::String\fR object.  It
+takes an optional argument which is the string to read from or write
+into.  If no \f(CW$string\fR argument is given, then an internal buffer
+(initially empty) is allocated.
+.Sp
+The \f(CWIO::String\fR object returned will be tied to itself.  This means
+that you can use most perl \s-1IO\s0 builtins on it too; readline, <>, getc,
+print, printf, syswrite, sysread, close.
+.Ip "$io->open( [$string] )" 4
+Attach an existing \s-1IO::\s0String object to some other \f(CW$string\fR, or
+allocate a new internal buffer (if no argument is given).  The
+position is reset back to 0.
+.Ip "$io->string_ref" 4
+This method will return a reference to the string that is attached to
+the \f(CWIO::String\fR object.  Most useful when you let the \f(CWIO::String\fR
+create an internal buffer to write into.
+.Ip "$io->pad( [$char] )" 4
+The \fIpad()\fR method makes it possible to specify the padding to use if
+the string is extended by either the \fIseek()\fR or \fItruncate()\fR methods.  It
+is a single character and defaults to \*(L"\e0\*(R".
+.Ip "$io->pos( [$newpos] )" 4
+Yet another interface for reading and setting the current read/write
+position within the string (the normal getpos/setpos/tell/seek
+methods are also available).  The \fIpos()\fR method will always return the
+old position, and if you pass it an argument it will set the new
+position.
+.Sp
+There is (deliberately) a difference between the \fIsetpos()\fR and \fIseek()\fR
+methods in that \fIseek()\fR will extend the string (with the specified
+padding) if you go to a location past the end, while \fIsetpos()\fR will
+just snap back to the end.  If \fItruncate()\fR is used to extend the string,
+then it works as \fIseek()\fR.
+.PP
+One more difference compared to \s-1IO::\s0Handle, is that the \fIwrite()\fR and
+\fIsyswrite()\fR methods allow the length argument to be left out.
+.SH "BUGS"
+The perl TIEHANDLE interface is still not complete.  There are quite a
+few file operations that will not yet invoke any method on the tied
+object.  See the \fIperltie\fR manpage for details.
+.SH "SEE ALSO"
+the \fIIO::File\fR manpage, the \fIIO::Stringy\fR manpage
+.SH "COPYRIGHT"
+Copyright 1998-2000 Gisle Aas.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+.rn }` ''
+.IX Title "String 3"
+.IX Name "IO::String - Emulate IO::File interface for in-core strings"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "$io = \s-1IO::\s0String->new( [$string] )"
+
+.IX Item "$io->open( [$string] )"
+
+.IX Item "$io->string_ref"
+
+.IX Item "$io->pad( [$char] )"
+
+.IX Item "$io->pos( [$newpos] )"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
