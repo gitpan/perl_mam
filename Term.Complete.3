@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Term::Complete 3 "perl 5.003, patch 93" "2/Jan/97" "Perl Programmers Reference Guide"
+.TH Term::Complete 3 "perl 5.004, patch 01" "24/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "Term::Complete 3"
 .UC
 .IX Name "Term::Complete - Perl word completion module"
@@ -188,8 +208,10 @@ The tty driver is put into raw mode using the system command
 \f(CWstty raw -echo\fR and restored using \f(CWstty -raw echo\fR.
 .PP
 The following command characters are defined:
-.Ip "<tab> Attempts word completion. Cannot be changed." 4
-.IX Item "<tab> Attempts word completion. Cannot be changed."
+.Ip "<tab>" 4
+.IX Item "<tab>"
+Attempts word completion.
+Cannot be changed.
 .Ip "^D" 4
 .IX Item "^D"
 Prints completion list.

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH LWP 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "LWP 1"
+.TH lib::LWP 3 "perl 5.004, patch 01" "10/Jun/97" "User Contributed Perl Documentation"
+.IX Title "lib::LWP 3"
 .UC
 .IX Name "LWP - Library for WWW access in Perl"
 .if n .hy 0
@@ -172,6 +192,13 @@
 .SH "NAME"
 .IX Header "NAME"
 LWP \- Library for WWW access in Perl
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+.PP
+.Vb 2
+\&  use LWP;
+\&  print "This is libwww-perl-$LWP::VERSION\en";
+.Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 Libwww-perl is a collection of Perl modules which provides a simple
@@ -438,7 +465,7 @@ layer.  In the same way, a \*(L"From\*(R" header is initialized from the
 \f(CW$ua\fR\->from value.
 .PP
 For all responses, the library will add a header called \*(L"Client-Date\*(R".
-This header will recode the time when the response was received by
+This header will encode the time when the response was received by
 your application.  This format and semantics of the header is just
 like the server created \*(L"Date\*(R" header.
 .Sh "\s-1HTTP\s0 Requests"
@@ -682,7 +709,7 @@ Koenig, Jared Rhine, and Jack Shirazi.
 .IX Header "COPYRIGHT"
 .PP
 .Vb 2
-\&  Copyright 1995-1996, Gisle Aas
+\&  Copyright 1995-1997, Gisle Aas
 \&  Copyright 1995, Martijn Koster
 .Ve
 This library is free software; you can redistribute it and/or

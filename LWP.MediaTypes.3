@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH MEDIATYPES 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "MEDIATYPES 1"
+.TH lib::LWP::MediaTypes 3 "perl 5.004, patch 01" "25/May/97" "User Contributed Perl Documentation"
+.IX Title "lib::LWP::MediaTypes 3"
 .UC
 .IX Name "guess_media_type - guess media type for a file or a URL."
 .if n .hy 0
@@ -174,6 +194,13 @@
 guess_media_type \- guess media type for a file or a URL.
 .PP
 media_suffix \- returns file extentions for a media type
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+.PP
+.Vb 2
+\& use LWP::MediaTypes qw(guess_media_type);
+\& $type = guess_media_type("/tmp/foo.gif");
+.Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This module provides functions for handling of media (also known as
@@ -184,8 +211,8 @@ file exist it is used as a replacement.
 For backwards compatability we will also look for \fI~/.mime.types\fR.
 .SH "FUNCTIONS"
 .IX Header "FUNCTIONS"
-.Sh "\fIguess_media_type\fR\|($filename)"
-.IX Subsection "\fIguess_media_type\fR\|($filename)"
+.Sh "\fIguess_media_type\fR\|($filename_or_url, [$header_to_modify])"
+.IX Subsection "\fIguess_media_type\fR\|($filename_or_url, [$header_to_modify])"
 This function tries to guess media type and encoding for given file.
 In scalar context it returns only the content-type.  In array context
 it returns an array consisting of content-type followed by any
@@ -198,6 +225,11 @@ then \fIguess_media_type()\fR will take a look at the actual file using the
 \f(CW-T\fR perl operator in order to determine if this is a text file
 (text/plain).  If this does not work it will return
 \fIapplication/octet-stream\fR as the type.
+.PP
+The optional second argument should be a reference to a \s-1HTTP::\s0Headers
+object (or some \s-1HTTP::\s0Message object).  When present this function
+will set the value of the \*(L'Content-Type\*(R' and \*(L'Content-Encoding\*(R' for
+this header.
 .Sh "\fImedia_suffix\fR\|($type,...)"
 .IX Subsection "\fImedia_suffix\fR\|($type,...)"
 This function will return all suffixes that can be used to denote the

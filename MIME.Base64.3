@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH BASE64 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "BASE64 1"
+.TH Base64 3 "perl 5.004, patch 01" "12/Jun/97" "User Contributed Perl Documentation"
+.IX Title "Base64 3"
 .UC
 .IX Name "encode_base64 - Encode string using base64 encoding"
 .if n .hy 0
@@ -187,39 +207,51 @@ decode_base64 \- Decode base64 string
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This module provides functions to encode and decode strings into the
-Base64 encoding specified in RFC 1521 \- \fIMIME (Multipurpose Internet
+Base64 encoding specified in RFC 2045 \- \fIMIME (Multipurpose Internet
 Mail Extensions)\fR. The Base64 encoding is designed to represent
 arbitrary sequences of octets in a form that need not be humanly
 readable. A 65-character subset ([A\-Za-z0-9+/=]) of US\-ASCII is used,
 enabling 6 bits to be represented per printable character.
 .PP
-RFC 1521 says that the encoded bytes must be represented in lines of
-no more than 76 characters each.  The second argument to
-\fIencode_base64()\fR is the line ending sequence to use. It defaults to
-\f(CW"\en"\fR.  Use an empty string as second argument if you do not want
-the encoded string broken into lines.
+The following functions are provided:
+.Ip "encode_base64($str, [$eol])" 4
+.IX Item "encode_base64($str, [$eol])"
+Encode data by calling the \fIencode_base64()\fR function.  The first
+argument is the string to encode.  The second argument is the line
+ending sequence to use (it is optional and defaults to \f(CW"\en"\fR).  The
+returned encoded string is broken into lines of no more than 76
+characters each and it will end with \f(CW$eol\fR unless it is empty.  Pass an
+empty string as second argument if you do not want the encoded string
+broken into lines.
+.Ip "decode_base64($str)" 4
+.IX Item "decode_base64($str)"
+Decode a base64 string by calling the \fIdecode_base64()\fR function.  This
+function takes a single argument which is the string to decode and
+returns the decoded data.  Any character not part of the legal base64
+chars is ignored.  The \fIdecode_base64()\fR function might croak if the
+sequence to decode ends prematurely.
 .PP
 If you prefer not to import these routines into your namespace you can
 call them as:
 .PP
 .Vb 3
-\&  use MIME::Base64 ();
-\&  $encoded = MIME::Base64::encode('Aladdin:open sesame');
-\&  $decoded = MIME::Base64::decode($encoded);
+\&    use MIME::Base64 ();
+\&    $encoded = MIME::Base64::encode($decoded);
+\&    $decoded = MIME::Base64::decode($encoded);
 .Ve
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
-Copyright 1995, 1996 Gisle Aas.
+Copyright 1995-1997 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
-.SH "AUTHOR"
-.IX Header "AUTHOR"
-Gisle Aas <aas@sn.no>
 .PP
-Based on LWP::Base64 written by Martijn Koster <m.koster@nexor.co.uk>
-and Joerg Reichelt <j.reichelt@nexor.co.uk> and code posted to
-comp.lang.perl <3pd2lp$6gf@wsinti07.win.tue.nl> by Hans Mulder
-<hansm@wsinti07.win.tue.nl>
+Distantly based on LWP::Base64 written by Martijn Koster
+<m.koster@nexor.co.uk> and Joerg Reichelt <j.reichelt@nexor.co.uk> and
+code posted to comp.lang.perl <3pd2lp$6gf@wsinti07.win.tue.nl> by Hans
+Mulder <hansm@wsinti07.win.tue.nl>
+.PP
+The XS implementation use code from metamail.  Copyright 1991 Bell
+Communications Research, Inc. (Bellcore)
 
 .rn }` ''

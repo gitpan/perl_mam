@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::Complex 3 "perl 5.003, patch 93" "2/Jan/97" "Perl Programmers Reference Guide"
+.TH Math::Complex 3 "perl 5.004, patch 01" "24/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "Math::Complex 3"
 .UC
 .IX Name "Math::Complex - complex numbers and associated mathematical functions"
@@ -175,8 +195,9 @@ Math::Complex \- complex numbers and associated mathematical functions
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
-.Vb 4
+.Vb 5
 \&        use Math::Complex;
+\&        
 \&        $z = Math::Complex->make(5, 6);
 \&        $t = 4 - 3*i + $z;
 \&        $j = cplxe(1, 2*pi/3);
@@ -389,28 +410,49 @@ numbers:
 \&        log10(z) = log(z) / log(10)
 \&        logn(z, n) = log(z) / log(n)
 .Ve
-.Vb 2
+.Vb 1
 \&        tan(z) = sin(z) / cos(z)
-\&        cotan(z) = 1 / tan(z)
 .Ve
-.Vb 4
+.Vb 3
+\&        csc(z) = 1 / sin(z)
+\&        sec(z) = 1 / cos(z)
+\&        cot(z) = 1 / tan(z)
+.Ve
+.Vb 3
 \&        asin(z) = -i * log(i*z + sqrt(1-z*z))
 \&        acos(z) = -i * log(z + sqrt(z*z-1))
 \&        atan(z) = i/2 * log((i+z) / (i-z))
-\&        acotan(z) = -i/2 * log((i+z) / (z-i))
 .Ve
-.Vb 9
+.Vb 3
+\&        acsc(z) = asin(1 / z)
+\&        asec(z) = acos(1 / z)
+\&        acot(z) = -i/2 * log((i+z) / (z-i))
+.Ve
+.Vb 3
 \&        sinh(z) = 1/2 (exp(z) - exp(-z))
 \&        cosh(z) = 1/2 (exp(z) + exp(-z))
-\&        tanh(z) = sinh(z) / cosh(z)
-\&        cotanh(z) = 1 / tanh(z)
+\&        tanh(z) = sinh(z) / cosh(z) = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
+.Ve
+.Vb 7
+\&        csch(z) = 1 / sinh(z)
+\&        sech(z) = 1 / cosh(z)
+\&        coth(z) = 1 / tanh(z)
 \&        
 \&        asinh(z) = log(z + sqrt(z*z+1))
 \&        acosh(z) = log(z + sqrt(z*z-1))
 \&        atanh(z) = 1/2 * log((1+z) / (1-z))
-\&        acotanh(z) = 1/2 * log((1+z) / (z-1))
 .Ve
-The \fIroot\fR function is available to compute all the \fIn\fRth
+.Vb 3
+\&        acsch(z) = asinh(1 / z)
+\&        asech(z) = acosh(1 / z)
+\&        acoth(z) = atanh(1 / z) = 1/2 * log((1+z) / (z-1))
+.Ve
+\fIlog\fR, \fIcsc\fR, \fIcot\fR, \fIacsc\fR, \fIacot\fR, \fIcsch\fR, \fIcoth\fR,
+\fIacosech\fR, \fIacotanh\fR, have aliases \fIln\fR, \fIcosec\fR, \fIcotan\fR,
+\fIacosec\fR, \fIacotan\fR, \fIcosech\fR, \fIcotanh\fR, \fIacosech\fR, \fIacotanh\fR,
+respectively.
+.PP
+The \fIroot\fR function is available to compute all the \fIn\fR
 roots of some complex, where \fIn\fR is a strictly positive integer.
 There are exactly \fIn\fR such roots, returned as a list. Getting the
 number mathematicians call \f(CWj\fR such that:
@@ -428,10 +470,11 @@ The \fIk\fRth root for \f(CWz = [r,t]\fR is given by:
 .Vb 1
 \&        (root(z, n))[k] = r**(1/n) * exp(i * (t + 2*k*pi)/n)
 .Ve
-The \fIspaceshift\fR operation is also defined. In order to ensure its
-restriction to real numbers is conform to what you would expect, the
-comparison is run on the real part of the complex number first,
-and imaginary parts are compared only when the real parts match. 
+The \fIspaceship\fR comparison operator, <=>, is also defined. In
+order to ensure its restriction to real numbers is conform to what you
+would expect, the comparison is run on the real part of the complex
+number first, and imaginary parts are compared only when the real
+parts match.
 .SH "CREATION"
 .IX Header "CREATION"
 To create a complex number, use either:
@@ -451,9 +494,9 @@ if you like. To create a number using the trigonometric form, use either:
 \&        $z = Math::Complex->emake(5, pi/3);
 \&        $x = cplxe(5, pi/3);
 .Ve
-instead. The first argument is the modulus, the second is the angle (in radians).
-(Mnmemonic: \f(CWe\fR is used as a notation for complex numbers in the trigonometric
-form).
+instead. The first argument is the modulus, the second is the angle
+(in radians, the full circle is 2*pi).  (Mnmemonic: \f(CWe\fR is used as a
+notation for complex numbers in the trigonometric form).
 .PP
 It is possible to write:
 .PP
@@ -516,10 +559,48 @@ Here are some examples:
 \&        $k = exp(i * 2*pi/3);
 \&        print "$j - $k = ", $j - $k, "\en";
 .Ve
+.SH "ERRORS DUE TO DIVISION BY ZERO"
+.IX Header "ERRORS DUE TO DIVISION BY ZERO"
+The division (/) and the following functions
+.PP
+.Vb 16
+\&        tan
+\&        sec
+\&        csc
+\&        cot
+\&        asec
+\&        acsc
+\&        atan
+\&        acot
+\&        tanh
+\&        sech
+\&        csch
+\&        coth
+\&        atanh
+\&        asech
+\&        acsch
+\&        acoth
+.Ve
+cannot be computed for all arguments because that would mean dividing
+by zero. These situations cause fatal runtime errors looking like this
+.PP
+.Vb 3
+\&        cot(0): Division by zero.
+\&        (Because in the definition of cot(0), the divisor sin(0) is 0)
+\&        Died at ...
+.Ve
+For the \f(CWcsc\fR, \f(CWcot\fR, \f(CWasec\fR, \f(CWacsc\fR, \f(CWcsch\fR, \f(CWcoth\fR, \f(CWasech\fR,
+\f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero). For the \f(CWatanh\fR,
+\f(CWacoth\fR, the argument cannot be \f(CW1\fR (one). For the \f(CWatan\fR, \f(CWacot\fR,
+the argument cannot be \f(CWi\fR (the imaginary unit).  For the \f(CWtan\fR,
+\f(CWsec\fR, \f(CWtanh\fR, \f(CWsech\fR, the argument cannot be \fIpi/2 + k * pi\fR, where
+\fIk\fR is any integer.
 .SH "BUGS"
 .IX Header "BUGS"
-Saying \f(CWuse Math::Complex;\fR exports many mathematical routines in the caller
-environment.  This is construed as a feature by the Author, actually... ;\-)
+Saying \f(CWuse Math::Complex;\fR exports many mathematical routines in the
+caller environment and even overrides some (\f(CWsin\fR, \f(CWcos\fR, \f(CWsqrt\fR,
+\f(CWlog\fR, \f(CWexp\fR).  This is construed as a feature by the Authors,
+actually... ;\-)
 .PP
 The code is not optimized for speed, although we try to use the cartesian
 form for addition-like operators and the trigonometric form for all
@@ -532,8 +613,9 @@ representation).
 All routines expect to be given real or complex numbers. Don't attempt to
 use BigFloat, since Perl has currently no rule to disambiguate a \*(L'+\*(R'
 operation (for instance) between two overloaded entities.
-.SH "AUTHOR"
-.IX Header "AUTHOR"
-Raphael Manfredi <\fIRaphael_Manfredi@grenoble.hp.com\fR>
+.SH "AUTHORS"
+.IX Header "AUTHORS"
+Raphael Manfredi <\fIRaphael_Manfredi@grenoble.hp.com\fR> and
+Jarkko Hietaniemi <\fIjhi@iki.fi\fR>.
 
 .rn }` ''

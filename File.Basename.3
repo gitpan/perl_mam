@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH File::Basename 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
+.TH File::Basename 3 "perl 5.004, patch 01" "16/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "File::Basename 3"
 .UC
 .IX Name "fileparse - split a pathname into pieces"
@@ -203,7 +223,7 @@ pieces using the syntax of different operating systems.
 You select the syntax via the routine \fIfileparse_set_fstype()\fR.
 .Sp
 If the argument passed to it contains one of the substrings
-\*(L"\s-1VMS\s0\*(R", \*(L"\s-1MSDOS\s0\*(R", \*(L"MacOS\*(R", or \*(L"AmigaOS\*(R", the file specification 
+\*(L"\s-1VMS\s0\*(R", \*(L"\s-1MSDOS\s0\*(R", \*(L"MacOS\*(R", \*(L"AmigaOS\*(R" or \*(L"MSWin32\*(R", the file specification 
 syntax of that operating system is used in future calls to 
 \fIfileparse()\fR, \fIbasename()\fR, and \fIdirname()\fR.  If it contains none of
 these substrings, \s-1UNIX\s0 syntax is used.  This pattern matching is
@@ -213,7 +233,7 @@ they assume you are using \s-1UNIX\s0 emulation and apply the \s-1UNIX\s0 syntax
 rules instead, for that function call only.
 .Sp
 If the argument passed to it contains one of the substrings \*(L"\s-1VMS\s0\*(R",
-\*(L"\s-1MSDOS\s0\*(R", \*(L"MacOS\*(R", \*(L"AmigaOS\*(R", \*(L"os2\*(R", or \*(L"\s-1RISCOS\s0\*(R", then the pattern
+\*(L"\s-1MSDOS\s0\*(R", \*(L"MacOS\*(R", \*(L"AmigaOS\*(R", \*(L"os2\*(R", \*(L"MSWin32\*(R" or \*(L"\s-1RISCOS\s0\*(R", then the pattern
 matching for suffix removal is performed without regard for case,
 since those systems are not case-sensitive when opening existing files
 (though some of them preserve case on file creation).

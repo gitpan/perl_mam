@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ELEMENT 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "ELEMENT 1"
+.TH lib::HTML::Element 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
+.IX Title "lib::HTML::Element 3"
 .UC
 .IX Name "HTML::Element - Class for objects that represent HTML elements"
 .if n .hy 0
@@ -201,8 +221,8 @@ tree of HTML::Element objects as nodes can represent the syntax tree
 for a HTML document.
 .PP
 The following methods are available:
-.Sh "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(R', \*(L'attrname\*(R' => \*(L'value\*(R',...)"
-.IX Subsection "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(R', \*(L'attrname\*(R' => \*(L'value\*(R',...)"
+.Sh "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(S', \*(M'attrname\*(S' => \*(M'value\*(S',...)"
+.IX Subsection "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(S', \*(M'attrname\*(S' => \*(M'value\*(S',...)"
 The object constructor.  Takes a tag name as argument. Optionally,
 allows you to specify initial attributes at object creation time.
 .Sh "\f(CW$h\fR\->\fItag()\fR"
@@ -225,8 +245,8 @@ Returns (optionally sets) the parent for this element.
 Returns (optionally sets) the implicit attribute.  This attribute is
 used to indicate that the element was not originally present in the
 source, but was inserted in order to conform to \s-1HTML\s0 strucure.
-.Sh "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(R',...)"
-.IX Subsection "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(R',...)"
+.Sh "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(S',...)"
+.IX Subsection "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(S',...)"
 Returns true if this tag is contained inside one of the specified tags.
 .Sh "\f(CW$h\fR\->\fIpos()\fR"
 .IX Subsection "\f(CW$h\fR\->\fIpos()\fR"
@@ -235,8 +255,8 @@ reference to a \s-1HTML::\s0Element object that is part of the tree that has
 the current object as root.  This restriction is not enforced when
 setting \fIpos()\fR, but unpredictable things will happen if this is not
 true.
-.Sh "\f(CW$h\fR\->\fIattr\fR\|('attr\*(R', [$value])"
-.IX Subsection "\f(CW$h\fR\->\fIattr\fR\|('attr\*(R', [$value])"
+.Sh "\f(CW$h\fR\->\fIattr\fR\|('attr\*(S', [$value])"
+.IX Subsection "\f(CW$h\fR\->\fIattr\fR\|('attr\*(S', [$value])"
 Returns (and optionally sets) the value of some attribute.
 .Sh "\f(CW$h\fR\->\fIcontent()\fR"
 .IX Subsection "\f(CW$h\fR\->\fIcontent()\fR"

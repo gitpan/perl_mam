@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Manifest 3 "perl 5.003, patch 93" "7/Mar/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::Manifest 3 "perl 5.004, patch 01" "14/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "ExtUtils::Manifest 3"
 .UC
 .IX Name "ExtUtils::Manifest - utilities to write and check a MANIFEST file"
@@ -229,6 +249,8 @@ files found below the current directory.
 \fIManiread\fR\|($file) reads a named \f(CWMANIFEST\fR file (defaults to
 \f(CWMANIFEST\fR in the current directory) and returns a HASH reference
 with files being the keys and comments being the values of the HASH.
+Blank lines and lines which start with \f(CW#\fR in the \f(CWMANIFEST\fR file
+are discarded.
 .PP
 \fIManicopy($read,$target,$how)\fR copies the files that are the keys in
 the HASH \fI%$read\fR to the named target directory. The HASH reference
@@ -243,7 +265,9 @@ make a tree without any symbolic link. Best is the default.
 .IX Header "MANIFEST.SKIP"
 The file MANIFEST.SKIP may contain regular expressions of files that
 should be ignored by \fImkmanifest()\fR and \fIfilecheck()\fR. The regular
-expressions should appear one on each line. A typical example:
+expressions should appear one on each line. Blank lines and lines
+which start with \f(CW#\fR are skipped.  Use \f(CW\e#\fR if you need a regular
+expression to start with a sharp character. A typical example:
 .PP
 .Vb 8
 \&    \ebRCS\eb

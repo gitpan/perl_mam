@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Handle 3 "perl 5.003, patch 93" "18/Feb/97" "Perl Programmers Reference Guide"
+.TH IO::Handle 3 "perl 5.004, patch 01" "9/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "IO::Handle 3"
 .UC
 .IX Name "IO::Handle - supply object methods for I/O handles"
@@ -225,16 +245,6 @@ if the fdopen fails, the object is destroyed. Otherwise, it is returned
 to the caller.
 .SH "METHODS"
 .IX Header "METHODS"
-If the C function \fIsetvbuf()\fR is available, then \f(CWIO::Handle::setvbuf\fR
-sets the buffering policy for the IO::Handle.  The calling sequence
-for the Perl function is the same as its C counterpart, including the
-macros \f(CW_IOFBF\fR, \f(CW_IOLBF\fR, and \f(CW_IONBF\fR, except that the buffer
-parameter specifies a scalar variable to use as a buffer.  WARNING: A
-variable used as a buffer by \f(CWIO::Handle::setvbuf\fR must not be
-modified in any way until the IO::Handle is closed or until
-\f(CWIO::Handle::setvbuf\fR is called again, or memory corruption may
-result!
-.PP
 See the \fIperlfunc\fR manpage for complete descriptions of each of the following
 supported \f(CWIO::Handle\fR methods, which are just front ends for the
 corresponding built-in functions:
@@ -271,6 +281,14 @@ supported \f(CWIO::Handle\fR methods:
 \&    format_write
 .Ve
 Furthermore, for doing normal I/O you might need these:
+.Ip "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )" 5
+.IX Item "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )"
+\f(CWfdopen\fR is like an ordinary \f(CWopen\fR except that its first parameter
+is not a filename but rather a file handle name, a \s-1IO::\s0Handle object,
+or a file descriptor number.
+.Ip "$fh->opened" 5
+.IX Item "$fh->opened"
+Returns true if the object is currently a valid file descriptor.
 .Ip "$fh->getline" 5
 .IX Item "$fh->getline"
 This works like <$fh> described in the section on \fII/O Operators\fR in the \fIperlop\fR manpage
@@ -281,21 +299,38 @@ array context but still returns just one line.
 This works like <$fh> when called in an array context to
 read all the remaining lines in a file, except that it's more readable.
 It will also \fIcroak()\fR if accidentally called in a scalar context.
-.Ip "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )" 5
-.IX Item "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )"
-\f(CWfdopen\fR is like an ordinary \f(CWopen\fR except that its first parameter
-is not a filename but rather a file handle name, a \s-1IO::\s0Handle object,
-or a file descriptor number.
+.Ip "$fh->ungetc ( \s-1ORD\s0 )" 5
+.IX Item "$fh->ungetc ( \s-1ORD\s0 )"
+Pushes a character with the given ordinal value back onto the given
+handle's input stream.
 .Ip "$fh->write ( \s-1BUF\s0, \s-1LEN\s0 [, \s-1OFFSET\s0 }\e] )" 5
 .IX Item "$fh->write ( \s-1BUF\s0, \s-1LEN\s0 [, \s-1OFFSET\s0 }\e] )"
-\f(CWwrite\fR is like \f(CWwrite\fR found in C, that is it is the
+This \f(CWwrite\fR is like \f(CWwrite\fR found in C, that is it is the
 opposite of read. The wrapper for the perl \f(CWwrite\fR function is
 called \f(CWformat_write\fR.
-.Ip "$fh->opened" 5
-.IX Item "$fh->opened"
-Returns true if the object is currently a valid file descriptor.
+.Ip "$fh->flush" 5
+.IX Item "$fh->flush"
+Flush the given handle's buffer.
+.Ip "$fh->error" 5
+.IX Item "$fh->error"
+Returns a true value if the given handle has experienced any errors
+since it was opened or since the last call to \f(CWclearerr\fR.
+.Ip "$fh->clearerr" 5
+.IX Item "$fh->clearerr"
+Clear the given handle's error indicator.
 .PP
-Lastly, a special method for working under \fB\-T\fR and setuid/gid scripts:
+If the C functions \fIsetbuf()\fR and/or \fIsetvbuf()\fR are available, then
+\f(CWIO::Handle::setbuf\fR and \f(CWIO::Handle::setvbuf\fR set the buffering
+policy for an \s-1IO::\s0Handle.  The calling sequences for the Perl functions
+are the same as their C counterparts\*(--including the constants \f(CW_IOFBF\fR,
+\f(CW_IOLBF\fR, and \f(CW_IONBF\fR for \fIsetvbuf()\fR--except that the buffer parameter
+specifies a scalar variable to use as a buffer.  \s-1WARNING\s0: A variable
+used as a buffer by \f(CWsetbuf\fR or \f(CWsetvbuf\fR must not be modified in any
+way until the \s-1IO::\s0Handle is closed or \f(CWsetbuf\fR or \f(CWsetvbuf\fR is called
+again, or memory corruption may result!
+.PP
+Lastly, there is a special method for working under \fB\-T\fR and setuid/gid
+scripts:
 .Ip "$fh->untaint" 5
 .IX Item "$fh->untaint"
 Marks the object as taint-clean, and as such data read from it will also

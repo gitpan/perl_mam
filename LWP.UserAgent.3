@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH USERAGENT 1 "perl 5.003, patch 93" "17/Dec/96" "User Contributed Perl Documentation"
-.IX Title "USERAGENT 1"
+.TH lib::LWP::UserAgent 3 "perl 5.004, patch 01" "20/Jun/97" "User Contributed Perl Documentation"
+.IX Title "lib::LWP::UserAgent 3"
 .UC
 .IX Name "LWP::UserAgent - A WWW UserAgent class"
 .if n .hy 0
@@ -350,9 +370,8 @@ Get/set the timeout value in seconds. The default \fItimeout()\fR value is
 .Sh "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
 .IX Subsection "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
 Get/set a value indicating wether to use \fIalarm()\fR when implementing
-timeouts.  The default is \s-1TRUE\s0, i.e. to use alarm.  Disable this on
-systems that does not implement alarm, or if this interfers with other
-uses of alarm in your application.
+timeouts.  The default is \s-1TRUE\s0, if your system supports it.  You can
+disable it if it interfers with other uses of alarm in your application.
 .Sh "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
 .IX Subsection "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
 Get/set a value indicating wether to handle internal errors internally
@@ -363,6 +382,12 @@ will never die.
 Get/set a value indicating wether we should initialize response
 headers from the <head> section of \s-1HTML\s0 documents. The default is
 \s-1TRUE\s0.  Do not turn this off, unless you know what you are doing.
+.Sh "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
+.IX Subsection "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
+Get/set the size limit for response content.  The default is undef,
+which means that there is not limit.  If the returned response content
+is only partial, because the size limit was exceeded, then a
+\*(L"X\-Content-Range\*(R" header will be added to the response.
 .Sh "\f(CW$ua\fR\->clone;"
 .IX Subsection "\f(CW$ua\fR\->clone;"
 Returns a copy of the \s-1LWP::\s0UserAgent object
@@ -370,7 +395,7 @@ Returns a copy of the \s-1LWP::\s0UserAgent object
 .IX Subsection "\f(CW$ua\fR\->\fIis_protocol_supported\fR\|($scheme)"
 You can use this method to query if the library currently support the
 specified \f(CWscheme\fR.  The \f(CWscheme\fR might be a string (like \*(L'http\*(R' or
-\*(L'ftp') or it might be an \s-1URI::URL\s0 object reference.
+\&'ftp') or it might be an \s-1URI::URL\s0 object reference.
 .Sh "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
 .IX Subsection "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
 Get and store a document identified by a \s-1URL\s0, using If-Modified-Since,

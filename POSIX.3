@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH POSIX 3 "perl 5.003, patch 93" "22/Jan/97" "Perl Programmers Reference Guide"
+.TH POSIX 3 "perl 5.004, patch 01" "18/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "POSIX 3"
 .UC
 .IX Name "POSIX - Perl interface to IEEE Std 1003.1"
@@ -679,7 +699,7 @@ This is identical to the C function \f(CWlog10()\fR.
 \fIlongjmp()\fR is C\-specific: use die instead.
 .Ip "lseek" 8
 .IX Item "lseek"
-Move the read/write file pointer.  This uses file descriptors such as
+Move the file's read/write position.  This uses file descriptors such as
 those obtained by calling \f(CWPOSIX::open\fR.
 .Sp
 .Vb 2

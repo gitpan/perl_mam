@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH URL 1 "perl 5.003, patch 93" "16/Jan/97" "User Contributed Perl Documentation"
-.IX Title "URL 1"
+.TH lib::URI::URL 3 "perl 5.004, patch 01" "20/Jun/97" "User Contributed Perl Documentation"
+.IX Title "lib::URI::URL 3"
 .UC
 .IX Name "URI::URL - Uniform Resource Locators (absolute and relative)"
 .if n .hy 0
@@ -639,7 +659,7 @@ The mail address can also be accessed with the \fInetloc()\fR method.
 .IX Header "WHAT A URL IS NOT"
 URL objects do not, and should not, know how to \*(L'get\*(R' or \*(L'put\*(R' the
 resources they specify locations for, anymore than a postal address
-\*(L'knows\*(R' anything about the postal system. The actual access/transfer
+\&'knows\*(R' anything about the postal system. The actual access/transfer
 should be achieved by some form of transport agent class (see
 the \fILWP::UserAgent\fR manpage). The agent class can use the URL class, but should
 not be a subclass of it.
@@ -653,8 +673,8 @@ These methods not supported any more.
 .IX Item "full_path() and as_string()"
 These methods does no longer take a second argument which specify the
 set of characters to consider as unsafe.
-.Ip "\*(L'+\*(R' in the query-string" 3
-.IX Item "\*(L'+\*(R' in the query-string"
+.Ip "\*(N'+\*(T' in the query-string" 3
+.IX Item "\*(N'+\*(T' in the query-string"
 The \*(L'+\*(R' character in the query part of the \s-1URL\s0 was earlier considered
 to be an encoding of a space. This was just bad influence from Mosaic.
 Space is now encoded as \*(L'%20\*(R'.

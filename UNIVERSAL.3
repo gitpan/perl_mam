@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH UNIVERSAL 3 "perl 5.003, patch 93" "19/Dec/96" "Perl Programmers Reference Guide"
+.TH UNIVERSAL 3 "perl 5.004, patch 01" "24/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "UNIVERSAL 3"
 .UC
 .IX Name "UNIVERSAL - base class for ALL classes (blessed references)"
@@ -212,16 +232,22 @@ greater than or equal to \f(CWREQUIRE\fR.
 \f(CWVERSION\fR can be called as either a static or object method call.
 .PP
 \f(CWUNIVERSAL\fR also optionally exports the following subroutines
-.Ip "isa ( \s-1REF\s0, \s-1TYPE\s0 )" 4
-.IX Item "isa ( \s-1REF\s0, \s-1TYPE\s0 )"
+.Ip "isa ( \s-1VAL\s0, \s-1TYPE\s0 )" 4
+.IX Item "isa ( \s-1VAL\s0, \s-1TYPE\s0 )"
 \f(CWisa\fR returns \fItrue\fR if the first argument is a reference and either
 of the following statements is true.
 .Ip "" 12
 .IX Item ""
-\f(CWREF\fR is a blessed reference and is blessed into package \f(CWTYPE\fR
+\f(CWVAL\fR is a blessed reference and is blessed into package \f(CWTYPE\fR
 or inherits from package \f(CWTYPE\fR
 .Ip "" 12
 .IX Item ""
-\f(CWREF\fR is a reference to a \f(CWTYPE\fR of perl variable (er \*(L'\s-1HASH\s0')
+\f(CWVAL\fR is a reference to a \f(CWTYPE\fR of perl variable (er \*(L'\s-1HASH\s0')
+.Ip "can ( \s-1VAL\s0, \s-1METHOD\s0 )" 4
+.IX Item "can ( \s-1VAL\s0, \s-1METHOD\s0 )"
+If \f(CWVAL\fR is a blessed reference which has a method called \f(CWMETHOD\fR,
+\f(CWcan\fR returns a reference to the subroutine.   If \f(CWVAL\fR is not
+a blessed reference, or if it does not have a method \f(CWMETHOD\fR,
+\fIundef\fR is returned.
 
 .rn }` ''

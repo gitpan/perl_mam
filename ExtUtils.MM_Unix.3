@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MM_Unix 3 "perl 5.003, patch 93" "17/Feb/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::MM_Unix 3 "perl 5.004, patch 01" "12/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "ExtUtils::MM_Unix 3"
 .UC
 .IX Name "ExtUtils::MM_Unix - methods used by ExtUtils::MakeMaker"
@@ -343,13 +363,13 @@ Initializes \s-1DIR\s0, \s-1XS\s0, \s-1PM\s0, C, O_FILES, H, \s-1PL_FILES\s0, \s
 .IX Item "init_main"
 Initializes \s-1NAME\s0, \s-1FULLEXT\s0, \s-1BASEEXT\s0, \s-1PARENT_NAME\s0, \s-1DLBASE\s0, \s-1PERL_SRC\s0,
 \s-1PERL_LIB\s0, \s-1PERL_ARCHLIB\s0, \s-1PERL_INC\s0, \s-1INSTALLDIRS\s0, \s-1INST_\s0*, \s-1INSTALL\s0*,
-\s-1PREFIX\s0, \s-1CONFIG\s0, \s-1AR\s0, \s-1AR_STATIC_ARGS\s0, \s-1LD\s0, \s-1OBJ_EXT\s0, \s-1LIB_EXT\s0, \s-1MAP_TARGET\s0,
+\s-1PREFIX\s0, \s-1CONFIG\s0, \s-1AR\s0, \s-1AR_STATIC_ARGS\s0, \s-1LD\s0, \s-1OBJ_EXT\s0, \s-1LIB_EXT\s0, \s-1EXE_EXT\s0, \s-1MAP_TARGET\s0,
 \s-1LIBPERL_A\s0, \s-1VERSION_FROM\s0, \s-1VERSION\s0, \s-1DISTNAME\s0, \s-1VERSION_SYM\s0.
 .Ip "init_others" 2
 .IX Item "init_others"
 Initializes \s-1EXTRALIBS\s0, \s-1BSLOADLIBS\s0, \s-1LDLOADLIBS\s0, \s-1LIBS\s0, \s-1LD_RUN_PATH\s0,
 \s-1OBJECT\s0, \s-1BOOTDEP\s0, \s-1PERLMAINCC\s0, \s-1LDFROM\s0, \s-1LINKTYPE\s0, \s-1NOOP\s0, \s-1FIRST_MAKEFILE\s0,
-\s-1MAKEFILE\s0, \s-1NOECHO\s0, \s-1RM_F\s0, \s-1RM_RF\s0, \s-1TOUCH\s0, \s-1CP\s0, \s-1MV\s0, \s-1CHMOD\s0, \s-1UMASK_NULL\s0
+\s-1MAKEFILE\s0, \s-1NOECHO\s0, \s-1RM_F\s0, \s-1RM_RF\s0, \s-1TEST_F\s0, \s-1TOUCH\s0, \s-1CP\s0, \s-1MV\s0, \s-1CHMOD\s0, \s-1UMASK_NULL\s0
 .Ip "install (o)" 2
 .IX Item "install (o)"
 Defines the install target.
@@ -507,6 +527,16 @@ Defines the suffix rules to compile \s-1XS\s0 files to C.
 .IX Item "xs_o (o)"
 Defines suffix rules to go from \s-1XS\s0 to object files directly. This is
 only intended for broken make implementations.
+.Ip "perl_archive" 2
+.IX Item "perl_archive"
+This is internal method that returns path to libperl.a equivalent
+to be linked to dynamic extensions. \s-1UNIX\s0 does not have one but \s-1OS2\s0
+and Win32 do.
+.Ip "export_list" 2
+.IX Item "export_list"
+This is internal method that returns name of a file that is
+passed to linker to define symbols to be exported.
+\s-1UNIX\s0 does not have one but \s-1OS2\s0 and Win32 do.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH LINKEXTOR 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "LINKEXTOR 1"
+.TH lib::HTML::LinkExtor 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
+.IX Title "lib::HTML::LinkExtor 3"
 .UC
 .IX Name "HTML::LinkExtor - Extract links from an HTML document"
 .if n .hy 0
@@ -172,8 +192,8 @@
 .SH "NAME"
 .IX Header "NAME"
 HTML::LinkExtor \- Extract links from an HTML document
-.SH "SYNPOSIS"
-.IX Header "SYNPOSIS"
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \& require HTML::LinkExtor;
@@ -204,16 +224,20 @@ an optional base \s-1URL\s0 used to absolutize all URLs found.
 The callback is called with the lowercase tag name as first argument,
 and then all link attributes as separate key/value pairs.  All
 non-link attributes are removed.
-.Sh "\f(CW@links\fR = \f(CW$p\fR\->links"
-.IX Subsection "\f(CW@links\fR = \f(CW$p\fR\->links"
-Return links found in the document as an array.  Each array element
-contains an anonymous array with the follwing values:
+.Sh "\f(CW$p\fR\->links"
+.IX Subsection "\f(CW$p\fR\->links"
+Returns a list of all links found in the document.  The returned
+values will be anonymous arrays with the follwing elements:
 .PP
 .Vb 1
 \&  [$tag, $attr => $url1, $attr2 => $url2,...]
 .Ve
-Note that \f(CW$p\fR\->links will always be empty if a callback routine was
-provided when the the \fI\s-1HTML::\s0LinkExtor\fR manpage was created.
+The \f(CW$p\fR\->links method will also truncate the internal link list.  This
+means that if the method is called twice without any parsing in
+between then the second call will return an empty list.
+.PP
+Also note that \f(CW$p\fR\->links will always be empty if a callback routine
+was provided when the the \fI\s-1HTML::\s0LinkExtor\fR manpage was created.
 .SH "EXAMPLE"
 .IX Header "EXAMPLE"
 This is an example showing how you can extract links as a document

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH AnyDBM_File 3 "perl 5.003, patch 93" "5/Sep/96" "Perl Programmers Reference Guide"
+.TH AnyDBM_File 3 "perl 5.004, patch 01" "4/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "AnyDBM_File 3"
 .UC
 .IX Name "AnyDBM_File - provide framework for multiple DBMs"
@@ -173,7 +193,7 @@
 .IX Header "NAME"
 AnyDBM_File \- provide framework for multiple DBMs
 .PP
-NDBM_File, ODBM_File, SDBM_File, GDBM_File \- various DBM implementations
+NDBM_File, DB_File, GDBM_File, SDBM_File, ODBM_File \- various DBM implementations
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
@@ -189,17 +209,10 @@ the \fIDB_File\fR manpage), GDBM, SDBM (which is always there\*(--it comes with 
 finally ODBM.   This way old programs that used to use NDBM via \fIdbmopen()\fR
 can still do so, but new ones can reorder \f(CW@ISA:\fR
 .PP
-.Vb 1
-\&    @AnyDBM_File::ISA = qw(DB_File GDBM_File NDBM_File);
-.Ve
-Note, however, that an explicit use overrides the specified order:
-.PP
 .Vb 2
-\&    use GDBM_File;
-\&    @AnyDBM_File::ISA = qw(DB_File GDBM_File NDBM_File);
+\&    BEGIN { @AnyDBM_File::ISA = qw(DB_File GDBM_File NDBM_File) }
+\&    use AnyDBM_File;
 .Ve
-will only find GDBM_File.
-.PP
 Having multiple DBM implementations makes it trivial to copy database formats:
 .PP
 .Vb 4

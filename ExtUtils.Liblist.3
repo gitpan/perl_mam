@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Liblist 3 "perl 5.003, patch 93" "4/Mar/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::Liblist 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "ExtUtils::Liblist 3"
 .UC
 .IX Name "ExtUtils::Liblist - determine libraries to use and how to use them"
@@ -176,7 +196,7 @@ ExtUtils::Liblist \- determine libraries to use and how to use them
 .IX Header "SYNOPSIS"
 \f(CWrequire ExtUtils::Liblist;\fR
 .PP
-\f(CWExtUtils::Liblist::ext($potential_libs, $Verbose);\fR
+\f(CWExtUtils::Liblist::ext($self, $potential_libs, $Verbose);\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This utility takes a list of libraries in the form \f(CW-llib1 -llib2
@@ -186,7 +206,9 @@ Makefile.  Extra library paths may be included with the form
 libraries.
 .PP
 It returns an array of four scalar values: EXTRALIBS, BSLOADLIBS,
-LDLOADLIBS, and LD_RUN_PATH.
+LDLOADLIBS, and LD_RUN_PATH.  Some of these don't mean anything
+on VMS and Win32.  See the details about those platform specifics
+below.
 .PP
 Dependent libraries can be linked in one of three ways:
 .Ip "\(bu For static extensions" 2
@@ -261,6 +283,47 @@ In general, the \s-1VMS\s0 version of \fIext()\fR should properly handle input f
 extensions originally designed for a Unix or \s-1VMS\s0 environment.  If you
 encounter problems, or discover cases where the search could be improved,
 please let us know.
+.Sh "Win32 implementation"
+.IX Subsection "Win32 implementation"
+The version of \fIext()\fR which is executed under Win32 differs from the
+Unix-\s-1OS/2\s0 version in several respects:
+.Ip "\(bu" 2
+.IX Item "\(bu"
+Input library and path specifications are accepted with or without the
+\f(CW-l\fR and \f(CW-L\fR prefices used by Unix linkers.  \f(CW-lfoo\fR specifies the
+library \f(CWfoo.lib\fR and \f(CW-Ls:ome\edir\fR specifies a directory to look for
+the libraries that follow.  If neither prefix is present, a token is
+considered a directory to search if it is in fact a directory, and a
+library to search for otherwise.  The \f(CW$Config{lib_ext}\fR suffix will
+be appended to any entries that are not directories and don't already
+have the suffix.  Authors who wish their extensions to be portable to
+Unix or \s-1OS/2\s0 should use the Unix prefixes, since the Unix-\s-1OS/2\s0 version
+of \fIext()\fR requires them.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+Entries cannot be plain object files, as many Win32 compilers will
+not handle object files in the place of libraries.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+If \f(CW$potential_libs\fR is empty, the return value will be empty.
+Otherwise, the libraries specified by \f(CW$Config{libs}\fR (see Config.pm)
+will be appended to the list of \f(CW$potential_libs\fR.  The libraries
+will be searched for in the directories specified in \f(CW$potential_libs\fR
+as well as in \f(CW$Config{libpth}\fR. For each library that is found,  a
+space-separated list of fully qualified library pathnames is generated.
+You may specify an entry that matches \f(CW/:nodefault/i\fR in
+\f(CW$potential_libs\fR to disable the appending of default libraries
+found in \f(CW$Config{libs}\fR (this should be only needed very rarely).
+.Ip "\(bu" 2
+.IX Item "\(bu"
+The libraries specified may be a mixture of static libraries and
+import libraries (to link with DLLs).  Since both kinds are used
+pretty transparently on the win32 platform, we do not attempt to
+distinguish between them.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+\s-1LDLOADLIBS\s0 and \s-1EXTRALIBS\s0 are always identical under Win32, and \s-1BSLOADLIBS\s0
+and \s-1LD_RUN_PATH\s0 are always empty (this may change in future).
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH STATUS 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "STATUS 1"
+.TH lib::HTTP::Status 3 "perl 5.004, patch 01" "20/May/97" "User Contributed Perl Documentation"
+.IX Title "lib::HTTP::Status 3"
 .UC
 .IX Name "HTTP::Status - HTTP Status code processing"
 .if n .hy 0
@@ -193,9 +213,11 @@ HTTP::Status \- HTTP Status code processing
 \fIHTTP::Status\fR is a library of routines for defining and
 classification of HTTP status codes for libwww-perl.  Status codes are
 used to encode the overall outcome of a HTTP response message.  Codes
-correspond to those defined in <draft-ietf-http-v11-spec-06>.
-.PP
-The following functions can be used as mnemonic status code names:
+correspond to those defined in RFC 2068.
+.SH "CONSTANTS"
+.IX Header "CONSTANTS"
+The following constant functions can be used as mnemonic status code
+names:
 .PP
 .Vb 2
 \&   RC_CONTINUE                          (100)
@@ -244,34 +266,35 @@ The following functions can be used as mnemonic status code names:
 \&   RC_GATEWAY_TIMEOUT                   (504)
 \&   RC_HTTP_VERSION_NOT_SUPPORTED        (505)
 .Ve
+.SH "FUNCTIONS"
+.IX Header "FUNCTIONS"
+The following additional functions are provided.  Most of them are
+exported by default.
+.Ip "status_message($code)" 4
+.IX Item "status_message($code)"
 The \fIstatus_message()\fR function will translate status codes to human
-readable strings.
-.PP
-The \fIis_info()\fR, \fIis_success()\fR, \fIis_redirect()\fR, and \fIis_error()\fR functions
-will return a TRUE value if the status code passed as argument is
-informational, indicates success, and error, or a redirect
-respectively.
-.Sh "\fIstatus_message\fR\|($code)"
-.IX Subsection "\fIstatus_message\fR\|($code)"
-Return user friendly error message for status code \f(CW$code\fR
-.Sh "\fIis_info\fR\|($code)"
-.IX Subsection "\fIis_info\fR\|($code)"
+readable strings. The string is the same as found in the constant
+names above.
+.Ip "is_info($code)" 4
+.IX Item "is_info($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIInformational\fR status code.
-.Sh "\fIis_success\fR\|($code)"
-.IX Subsection "\fIis_success\fR\|($code)"
+.Ip "is_success($code)" 4
+.IX Item "is_success($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is a \fISuccessful\fR status code.
-.Sh "\fIis_redirect\fR\|($code)"
-.IX Subsection "\fIis_redirect\fR\|($code)"
+.Ip "is_redirect($code)" 4
+.IX Item "is_redirect($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is a \fIRedirection\fR status code.
-.Sh "\fIis_error\fR\|($code)"
-.IX Subsection "\fIis_error\fR\|($code)"
-Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIError\fR status code.  The \f(CW$code\fR can be
-both a client error or a server error.
-.Sh "\fIis_client_error\fR\|($code)"
-.IX Subsection "\fIis_client_error\fR\|($code)"
-Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIClient Error\fR status code.
-.Sh "\fIis_server_error\fR\|($code)"
-.IX Subsection "\fIis_server_error\fR\|($code)"
-Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIServer Error\fR status code.
+.Ip "is_error($code)" 4
+.IX Item "is_error($code)"
+Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIError\fR status code.  The function
+return \s-1TRUE\s0 for both client error or a server error status codes.
+.Ip "is_client_error($code)" 4
+.IX Item "is_client_error($code)"
+Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIClient Error\fR status code.  This
+function is \fBnot\fR exported by default.
+.Ip "is_server_error($code)" 4
+.IX Item "is_server_error($code)"
+Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIServer Error\fR status code.   This
+function is \fBnot\fR exported by default.
 
 .rn }` ''

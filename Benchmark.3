@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Benchmark 3 "perl 5.003, patch 93" "4/Mar/97" "Perl Programmers Reference Guide"
+.TH Benchmark 3 "perl 5.004, patch 01" "3/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "Benchmark 3"
 .UC
 .IX Name "Benchmark - benchmark running times of code"
@@ -184,10 +204,18 @@ timeit \- run a chunk of code and see how long it goes
 .Vb 1
 \&    timethis ($count, "code");
 .Ve
-.Vb 4
+.Vb 5
+\&    # Use Perl code in strings...
 \&    timethese($count, {
 \&        'Name1' => '...code1...',
 \&        'Name2' => '...code2...',
+\&    });
+.Ve
+.Vb 5
+\&    # ... or use subroutine references.
+\&    timethese($count, {
+\&        'Name1' => sub { ...code1... },
+\&        'Name2' => sub { ...code2... },
 \&    });
 .Ve
 .Vb 2
@@ -217,47 +245,80 @@ Returns the current time.   Example:
 Enables or disable debugging by setting the \f(CW$Benchmark::Debug\fR flag:
 .Sp
 .Vb 3
-\&    debug Benchmark 1; 
+\&    debug Benchmark 1;
 \&    $t = timeit(10, ' 5 ** $Global ');
-\&    debug Benchmark 0; 
+\&    debug Benchmark 0;
 .Ve
 .Sh "Standard Exports"
 .IX Subsection "Standard Exports"
-The following routines will be exported into your namespace 
+The following routines will be exported into your namespace
 if you use the Benchmark module:
 .Ip "timeit(\s-1COUNT\s0, \s-1CODE\s0)" 10
 .IX Item "timeit(\s-1COUNT\s0, \s-1CODE\s0)"
-Arguments: \s-1COUNT\s0 is the number of time to run the loop, and 
-the second is the code to run.  \s-1CODE\s0 may be a string containing the code,
-a reference to the function to run, or a reference to a hash containing 
-keys which are names and values which are more \s-1CODE\s0 specs.
+Arguments: \s-1COUNT\s0 is the number of times to run the loop, and \s-1CODE\s0 is
+the code to run.  \s-1CODE\s0 may be either a code reference or a string to
+be eval'd; either way it will be run in the caller's package.
 .Sp
-Side-effects: prints out noise to standard out.
+Returns: a Benchmark object.
+.Ip "timethis ( \s-1COUNT\s0, \s-1CODE\s0, [ \s-1TITLE\s0, [ \s-1STYLE\s0 ]] )" 10
+.IX Item "timethis ( \s-1COUNT\s0, \s-1CODE\s0, [ \s-1TITLE\s0, [ \s-1STYLE\s0 ]] )"
+Time \s-1COUNT\s0 iterations of \s-1CODE\s0. \s-1CODE\s0 may be a string to eval or a
+code reference; either way the \s-1CODE\s0 will run in the caller's package.
+Results will be printed to \s-1STDOUT\s0 as \s-1TITLE\s0 followed by the times.
+\s-1TITLE\s0 defaults to \*(L"timethis \s-1COUNT\s0\*(R" if none is provided. \s-1STYLE\s0
+determines the format of the output, as described for \fItimestr()\fR below.
+.Ip "timethese ( \s-1COUNT\s0, \s-1CODEHASHREF\s0, [ \s-1STYLE\s0 ] )" 10
+.IX Item "timethese ( \s-1COUNT\s0, \s-1CODEHASHREF\s0, [ \s-1STYLE\s0 ] )"
+The \s-1CODEHASHREF\s0 is a reference to a hash containing names as keys
+and either a string to eval or a code reference for each value.
+For each (\s-1KEY\s0, \s-1VALUE\s0) pair in the \s-1CODEHASHREF\s0, this routine will
+call
 .Sp
-Returns: a Benchmark object.  
-.Ip "timethis" 10
-.IX Item "timethis"
-.Ip "timethese" 10
-.IX Item "timethese"
-.Ip "timediff" 10
-.IX Item "timediff"
-.Ip "timestr" 10
-.IX Item "timestr"
+.Vb 1
+\&        timethis(COUNT, VALUE, KEY, STYLE)
+.Ve
+.Ip "timediff ( T1, T2 )" 10
+.IX Item "timediff ( T1, T2 )"
+Returns the difference between two Benchmark times as a Benchmark
+object suitable for passing to \fItimestr()\fR.
+.Ip "timestr ( \s-1TIMEDIFF\s0, [ \s-1STYLE\s0, [ \s-1FORMAT\s0 ]] )" 10
+.IX Item "timestr ( \s-1TIMEDIFF\s0, [ \s-1STYLE\s0, [ \s-1FORMAT\s0 ]] )"
+Returns a string that formats the times in the \s-1TIMEDIFF\s0 object in
+the requested \s-1STYLE\s0. \s-1TIMEDIFF\s0 is expected to be a Benchmark object
+similar to that returned by \fItimediff()\fR.
+.Sp
+\s-1STYLE\s0 can be any of \*(L'all\*(R', \*(L'noc\*(R', \*(L'nop\*(R' or \*(L'auto\*(R'. \*(L'all\*(R' shows each
+of the 5 times available ('wallclock\*(R' time, user time, system time,
+user time of children, and system time of children). \*(L'noc\*(R' shows all
+except the two children times. \*(L'nop\*(R' shows only wallclock and the
+two children times. \*(L'auto\*(R' (the default) will act as \*(L'all\*(R' unless
+the children times are both zero, in which case it acts as \*(L'noc\*(R'.
+.Sp
+\s-1FORMAT\s0 is the the \fIprintf(3)\fR manpage-style format specifier (without the
+leading \*(L'%') to use to print the times. It defaults to \*(L'5.2f\*(R'.
 .Sh "Optional Exports"
 .IX Subsection "Optional Exports"
 The following routines will be exported into your namespace
 if you specifically ask that they be imported:
-clearcache
-.Sp
-clearallcache
-.Sp
-disablecache
-.Sp
-enablecache
+.Ip "clearcache ( \s-1COUNT\s0 )" 10
+.IX Item "clearcache ( \s-1COUNT\s0 )"
+Clear the cached time for \s-1COUNT\s0 rounds of the null loop.
+.Ip "clearallcache ( )" 10
+.IX Item "clearallcache ( )"
+Clear all cached times.
+.Ip "disablecache ( )" 10
+.IX Item "disablecache ( )"
+Disable caching of timings for the null loop. This will force Benchmark
+to recalculate these timings for each new piece of code timed.
+.Ip "enablecache ( )" 10
+.IX Item "enablecache ( )"
+Enable caching of timings for the null loop. The time taken for \s-1COUNT\s0
+rounds of the null loop will be calculated only once for each
+different \s-1COUNT\s0 used.
 .SH "NOTES"
 .IX Header "NOTES"
 The data is stored as a list of values from the time and times
-functions: 
+functions:
 .PP
 .Vb 1
 \&      ($real, $user, $system, $children_user, $children_system)
@@ -268,11 +329,6 @@ The timing is done using \fItime\fR\|(3) and \fItimes\fR\|(3).
 .PP
 Code is executed in the caller's package.
 .PP
-Enable debugging by:  
-.PP
-.Vb 1
-\&    $Benchmark::debug = 1;
-.Ve
 The time of the null loop (a loop with the same
 number of rounds but empty loop body) is subtracted
 from the time of the real loop.
@@ -282,11 +338,11 @@ number of rounds. The caching can be controlled using
 calls like these:
 .PP
 .Vb 2
-\&    clearcache($key); 
+\&    clearcache($key);
 \&    clearallcache();
 .Ve
 .Vb 2
-\&    disablecache(); 
+\&    disablecache();
 \&    enablecache();
 .Ve
 .SH "INHERITANCE"
@@ -295,12 +351,16 @@ Benchmark inherits from no other class, except of course
 for Exporter.
 .SH "CAVEATS"
 .IX Header "CAVEATS"
+Comparing eval'd strings with code references will give you
+inaccurate results: a code reference will show a slower
+execution time than the equivalent eval'd string.
+.PP
 The real time timing is done using \fItime\fR\|(2) and
 the granularity is therefore only one second.
 .PP
 Short tests may produce negative figures because perl
-can appear to take longer to execute the empty loop 
-than a short test; try: 
+can appear to take longer to execute the empty loop
+than a short test; try:
 .PP
 .Vb 1
 \&    timethis(100,'1');
@@ -308,14 +368,15 @@ than a short test; try:
 The system time of the null loop might be slightly
 more than the system time of the loop with the actual
 code and therefore the difference might end up being < 0.
-.PP
-More documentation is needed :\-( especially for styles and formats.
 .SH "AUTHORS"
 .IX Header "AUTHORS"
-Jarkko Hietaniemi <\fIJarkko.Hietaniemi@hut.fi\fR>,
-Tim Bunce <\fITim.Bunce@ig.co.uk\fR>
+Jarkko Hietaniemi <\fIjhi@iki.fi\fR>, Tim Bunce <\fITim.Bunce@ig.co.uk\fR>
 .SH "MODIFICATION HISTORY"
 .IX Header "MODIFICATION HISTORY"
 September 8th, 1994; by Tim Bunce.
+.PP
+March 28th, 1997; by Hugo van der Sanden: added support for code
+references and the already documented \*(L'debug\*(R' method; revamped
+documentation.
 
 .rn }` ''

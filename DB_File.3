@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH DB_File 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
+.TH DB_File 3 "perl 5.004, patch 01" "30/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "DB_File 3"
 .UC
 .IX Name "DB_File - Perl5 access to Berkeley DB"
@@ -216,6 +236,10 @@ module you should really have a copy of the Berkeley DB manual pages at
 hand. The interface defined here mirrors the Berkeley DB interface
 closely.
 .PP
+Please note that this module will only work with version 1.x of
+Berkeley DB. Once Berkeley DB version 2 is released, \fBDB_File\fR will be
+upgraded to work with it.
+.PP
 Berkeley DB is a C library which provides a consistent interface to a
 number of database formats.  \fBDB_File\fR provides an interface to all
 three of the database types currently supported by Berkeley DB.
@@ -247,8 +271,8 @@ keys are stored in lexical order.
 to be manipulated using the same key/value pair interface as in \s-1DB_HASH\s0
 and \s-1DB_BTREE\s0.  In this case the key will consist of a record (line)
 number.
-.Sh "How does DB_File interface to Berkeley \s-1DB\s0?"
-.IX Subsection "How does DB_File interface to Berkeley \s-1DB\s0?"
+.Sh "Interface to Berkeley \s-1DB\s0"
+.IX Subsection "Interface to Berkeley \s-1DB\s0"
 \fBDB_File\fR allows access to Berkeley \s-1DB\s0 files using the \fItie()\fR mechanism
 in Perl 5 (for full details, see the \f(CWtie()\fR entry in the \fIperlfunc\fR manpage). This facility
 allows \fBDB_File\fR to access Berkeley \s-1DB\s0 files using either an
@@ -386,7 +410,7 @@ See the section on \fIChanging the \s-1BTREE\s0 sort order\fR for an example of 
 \f(CWcompare\fR template.
 .PP
 If you are using the \s-1DB_RECNO\s0 interface and you intend making use of
-\f(CWbval\fR, you should check out the section on \fIThe bval option\fR.
+\f(CWbval\fR, you should check out the section on \fIThe \*(L'bval\*(R' Option\fR.
 .Sh "Default Parameters"
 .IX Subsection "Default Parameters"
 It is possible to omit some or all of the final 4 parameters in the
@@ -424,8 +448,8 @@ uses \f(CWundef\fR instead of \s-1NULL\s0 to provide this functionality.
 The DB_HASH file format is probably the most commonly used of the three
 file formats that \fBDB_File\fR supports. It is also very straightforward
 to use.
-.Sh "A Simple Example."
-.IX Subsection "A Simple Example."
+.Sh "A Simple Example"
+.IX Subsection "A Simple Example"
 This example shows how to create a database, add key/value pairs to the
 database, delete keys/value pairs and finally how to enumerate the
 contents of the database.
@@ -545,8 +569,8 @@ The new compare function must be specified when you create the database.
 You cannot change the ordering once the database has been created. Thus
 you must use the same compare function every time you access the
 database.
-.Sh "Handling duplicate keys "
-.IX Subsection "Handling duplicate keys "
+.Sh "Handling Duplicate Keys "
+.IX Subsection "Handling Duplicate Keys "
 The \s-1BTREE\s0 file type optionally allows a single key to be associated
 with an arbitrary number of values. This option is enabled by setting
 the flags element of \f(CW$DB_BTREE\fR to R_DUP when creating the database.
@@ -660,8 +684,8 @@ that prints:
 .Ve
 This time we have got all the key/value pairs, including the multiple
 values associated with the key \f(CWWall\fR.
-.Sh "The get_dup method."
-.IX Subsection "The get_dup method."
+.Sh "The \fIget_dup()\fR Method"
+.IX Subsection "The \fIget_dup()\fR Method"
 \fBDB_File\fR comes with a utility method, called \f(CWget_dup\fR, to assist in
 reading duplicate values from \s-1BTREE\s0 databases. The method can take the
 following forms:
@@ -677,11 +701,11 @@ with the key, \f(CW$key\fR.
 In list context, it returns all the values which match \f(CW$key\fR. Note
 that the values will be returned in an apparently random order.
 .PP
-In list context, if the second parameter is present and evaluates \s-1TRUE\s0,
-the method returns an associative array. The keys of the associative
-array correspond to the the values that matched in the \s-1BTREE\s0 and the
-values of the array are a count of the number of times that particular
-value occurred in the \s-1BTREE\s0.
+In list context, if the second parameter is present and evaluates
+\s-1TRUE\s0, the method returns an associative array. The keys of the
+associative array correspond to the values that matched in the \s-1BTREE\s0
+and the values of the array are a count of the number of times that
+particular value occurred in the \s-1BTREE\s0.
 .PP
 So assuming the database created above, we can use \f(CWget_dup\fR like
 this:
@@ -817,8 +841,8 @@ As with normal Perl arrays, a RECNO array can be accessed using
 negative indexes. The index \-1 refers to the last element of the array,
 \-2 the second last, and so on. Attempting to access an element before
 the start of the array will raise a fatal run-time error.
-.Sh "The bval option"
-.IX Subsection "The bval option"
+.Sh "The \*(M'bval\*(S' Option"
+.IX Subsection "The \*(M'bval\*(S' Option"
 The operation of the bval option warrants some discussion. Here is the
 definition of bval from the Berkeley \s-1DB\s0 1.85 recno manual page:
 .PP
@@ -1081,7 +1105,7 @@ destroyed.
 \&    undef $db ;
 \&    untie %hash ;
 .Ve
-See the section on \fIThe untie Gotcha\fR for more details.
+See the section on \fIThe untie() Gotcha\fR for more details.
 .PP
 All the functions defined in the \fIdbopen\fR manpage are available except for
 \fIclose()\fR and \fIdbopen()\fR itself. The \fBDB_File\fR method interface to the
@@ -1271,8 +1295,8 @@ in the background to watch the locks granted in proper order.
 \&    close(DB_FH);
 \&    print "$$: Updated db to $key=$value\en";
 .Ve
-.Sh "Sharing databases with C applications"
-.IX Subsection "Sharing databases with C applications"
+.Sh "Sharing Databases With C Applications"
+.IX Subsection "Sharing Databases With C Applications"
 There is no technical reason why a Berkeley \s-1DB\s0 database cannot be
 shared by both a Perl and a C application.
 .PP
@@ -1338,10 +1362,10 @@ Here is a snippet of code that is loosely based on Tom Christiansen's
 .Vb 1
 \&    untie %hist_db ;
 .Ve
-.Sh "The untie gotcha"
-.IX Subsection "The untie gotcha"
-If you make use of the Berkeley \s-1DB\s0 \s-1API\s0, it is is \fIvery\fR strongly
-recommended that you read the section on \fIThe untie gotcha\fR in the \fIperltie\fR manpage. 
+.Sh "The \fIuntie()\fR Gotcha"
+.IX Subsection "The \fIuntie()\fR Gotcha"
+If you make use of the Berkeley \s-1DB\s0 \s-1API\s0, it is \fIvery\fR strongly
+recommended that you read the section on \fIThe untie Gotcha\fR in the \fIperltie\fR manpage. 
 .PP
 Even if you don't currently make use of the \s-1API\s0 interface, it is still
 worth reading it.
@@ -1442,8 +1466,8 @@ can layer transparently over \fBDB_File\fR to accomplish this feat.
 .PP
 Check out the \s-1MLDBM\s0 module, available on \s-1CPAN\s0 in the directory
 \fImodules/by-module/\s-1MLDBM\s0\fR.
-.Sh "What does \*(L"Invalid Argument\*(R" mean?"
-.IX Subsection "What does \*(L"Invalid Argument\*(R" mean?"
+.Sh "What does \*(M"Invalid Argument\*(S" mean?"
+.IX Subsection "What does \*(M"Invalid Argument\*(S" mean?"
 You will get this error message when one of the parameters in the
 \f(CWtie\fR call is wrong. Unfortunately there are quite a few parameters to
 get wrong, so it can be difficult to figure out which one it is.
@@ -1455,8 +1479,8 @@ Attempting to reopen a database without closing it.
 .Ip "2." 5
 .IX Item "2."
 Using the O_WRONLY flag.
-.Sh "What does \*(L"Bareword \*(L'DB_File\*(R' not allowed\*(R" mean? "
-.IX Subsection "What does \*(L"Bareword \*(L'DB_File\*(R' not allowed\*(R" mean? "
+.Sh "What does \*(M"Bareword \*(M'DB_File\*(S' not allowed\*(S" mean? "
+.IX Subsection "What does \*(M"Bareword \*(M'DB_File\*(S' not allowed\*(S" mean? "
 You will encounter this particular error message when you have the
 \f(CWstrict 'subs'\fR pragma (or the full strict pragma) in your script.
 Consider this script:
@@ -1576,6 +1600,16 @@ Fixed fd method so that it still returns \-1 for in-memory files when db
 .Ip "1.11" 5
 .IX Item "1.11"
 Documented the untie gotcha.
+.Ip "1.12" 5
+.IX Item "1.12"
+Documented the incompatibility with version 2 of Berkeley \s-1DB\s0.
+.Ip "1.13" 5
+.IX Item "1.13"
+Minor changes to DB_FIle.xs and DB_File.pm
+.Ip "1.14" 5
+.IX Item "1.14"
+Made it illegal to tie an associative array to a \s-1RECNO\s0 database and an
+ordinary array to a \s-1HASH\s0 or \s-1BTREE\s0 database.
 .SH "BUGS"
 .IX Header "BUGS"
 Some older versions of Berkeley DB had problems with fixed length
@@ -1589,7 +1623,10 @@ suggest any enhancements, I would welcome your comments.
 \fBDB_File\fR comes with the standard Perl source distribution. Look in
 the directory \fIext/DB_File\fR.
 .PP
-Berkeley DB is available at your nearest CPAN archive (see
+This version of \fBDB_File\fR will only work with version 1.x of Berkeley
+DB. It is \fInot\fR yet compatible with version 2.
+.PP
+Version 1 of Berkeley DB is available at your nearest CPAN archive (see
 the section on \fICPAN\fR in the \fIperlmod\fR manpage for a list) in \fIsrc/misc/db.1.85.tar.gz\fR, or via the
 host \fIftp.cs.berkeley.edu\fR in \fI/ucb/4bsd/db.tar.gz\fR.  Alternatively,
 check out the Berkeley DB home page at \fIhttp://www.bostic.com/db\fR. It
@@ -1626,7 +1663,7 @@ the \fIperl(1)\fR manpage, the \fIdbopen(3)\fR manpage, the \fIhash(3)\fR manpag
 .IX Header "AUTHOR"
 The DB_File interface was written by Paul Marquess
 <pmarquess@bfsec.bt.co.uk>.
-Questions about the DB system itself may be addressed to Keith Bostic
-<bostic@cs.berkeley.edu>.
+Questions about the DB system itself may be addressed to
+<db@sleepycat.com<gt>.
 
 .rn }` ''

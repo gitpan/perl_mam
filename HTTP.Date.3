@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH DATE 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "DATE 1"
+.TH lib::HTTP::Date 3 "perl 5.004, patch 01" "3/Apr/97" "User Contributed Perl Documentation"
+.IX Title "lib::HTTP::Date 3"
 .UC
 .IX Name "time2str, str2time - date conversion routines"
 .if n .hy 0
@@ -258,6 +278,15 @@ Non-numerical time zones (like MET, PST) are all treated like GMT.
 Do not use them.  HTTP does not use them.
 .PP
 The \fIstr2time()\fR function has been told how to parse far too many
-formats.  This makes the module name misleading :\-)
+formats.  This makes the module name misleading. To be sure it is
+really misleading you can also import the \fItime2iso()\fR and \fItime2isoz()\fR
+functions.  They work like \fItime2str()\fR but produce ISO\-8601 formated
+strings (YYYY\-MM\-DD hh:mm:ss).
+.SH "COPYRIGHT"
+.IX Header "COPYRIGHT"
+Copyright 1995-1997, Gisle Aas
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 .rn }` ''

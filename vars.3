@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH vars 3 "perl 5.003, patch 93" "21/Feb/97" "Perl Programmers Reference Guide"
+.TH vars 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "vars 3"
 .UC
 .IX Name "vars - Perl pragma to predeclare global variable names"
@@ -189,12 +209,13 @@ Unlike pragmas that affect the \f(CW$^H\fR hints variable, the \f(CWuse vars\fR 
 for the entire file in which they appear.  You may not rescind such
 declarations with \f(CWno vars\fR or \f(CWno subs\fR.
 .PP
-Packages such as the \fBAutoLoader\fR and \fBSelfLoader\fR that delay loading
-of subroutines within packages can create problems with package lexicals
-defined using \f(CWmy()\fR. While the \fBvars\fR pragma cannot duplicate the
-effect of package lexicals (total transparency outside of the package),
-it can act as an acceptable substitute by pre-declaring global symbols,
-ensuring their availability to to the later-loaded routines.
+Packages such as the \fBAutoLoader\fR and \fBSelfLoader\fR that delay
+loading of subroutines within packages can create problems with
+package lexicals defined using \f(CWmy()\fR. While the \fBvars\fR pragma
+cannot duplicate the effect of package lexicals (total transparency
+outside of the package), it can act as an acceptable substitute by
+pre-declaring global symbols, ensuring their availability to the
+later-loaded routines.
 .PP
 See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.
 

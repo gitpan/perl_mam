@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MakeMaker 3 "perl 5.003, patch 93" "7/Mar/97" "Perl Programmers Reference Guide"
+.TH ExtUtils::MakeMaker 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "ExtUtils::MakeMaker 3"
 .UC
 .IX Name "ExtUtils::MakeMaker - create an extension Makefile"
@@ -444,7 +464,7 @@ extensions that come with perl.
 .PP
 If an extension is being built below the \f(CWext/\fR directory of the perl
 source then MakeMaker will set \s-1PERL_SRC\s0 automatically (e.g.,
-\f(CW../..\fR).  If \s-1PERL_SRC\s0 is defined and the extension is recognized as
+\&\f(CW../..\fR).  If \s-1PERL_SRC\s0 is defined and the extension is recognized as
 a standard extension, then other variables default to the following:
 .PP
 .Vb 5
@@ -662,7 +682,7 @@ Directory to hold the man pages at \*(L'make\*(R' time
 .Ip "\s-1INST_SCRIPT\s0" 2
 .IX Item "\s-1INST_SCRIPT\s0"
 Directory, where executable files should be installed during
-\*(L'make\*(R'. Defaults to \*(L"./blib/bin\*(R", just to have a dummy location during
+\&'make\*(R'. Defaults to \*(L"./blib/bin\*(R", just to have a dummy location during
 testing. make install will copy the files in \s-1INST_SCRIPT\s0 to
 \s-1INSTALLSCRIPT\s0.
 .Ip "\s-1LDFROM\s0" 2
@@ -703,7 +723,7 @@ you specify a scalar as in
 MakeMaker will turn it into an array with one element.
 .Ip "\s-1LINKTYPE\s0" 2
 .IX Item "\s-1LINKTYPE\s0"
-\*(L'static\*(R' or \*(L'dynamic\*(R' (default unless usedl=undef in
+\&'static\*(R' or \*(L'dynamic\*(R' (default unless usedl=undef in
 config.sh). Should only be used to force static linking (also see
 linkext below).
 .Ip "\s-1MAKEAPERL\s0" 2
@@ -921,7 +941,7 @@ If you specify \s-1COMPRESS\s0, then \s-1SUFFIX\s0 should also be altered, as it
 needed to tell make the target file of the compression. Setting
 \s-1DIST_CP\s0 to ln can be useful, if you need to preserve the timestamps on
 your files. \s-1DIST_CP\s0 can take the values \*(L'cp\*(R', which copies the file,
-\*(L'ln\*(R', which links the file, and \*(L'best\*(R' which copies symbolic links and
+\&'ln\*(R', which links the file, and \*(L'best\*(R' which copies symbolic links and
 links the rest. Default is \*(L'best\*(R'.
 .Ip "dynamic_lib" 2
 .IX Item "dynamic_lib"
@@ -977,9 +997,10 @@ either say:
 .Ve
 or you can edit the default by saying something like:
 .PP
-.Vb 5
+.Vb 6
 \&        sub MY::c_o {
-\&            my($inherited) = shift->SUPER::c_o(@_);
+\&            package MY; # so that "SUPER" works right
+\&            my $inherited = shift->SUPER::c_o(@_);
 \&            $inherited =~ s/old text/new text/;
 \&            $inherited;
 \&        }

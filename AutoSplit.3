@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH AutoSplit 3 "perl 5.003, patch 93" "31/Jan/97" "Perl Programmers Reference Guide"
+.TH AutoSplit 3 "perl 5.004, patch 01" "13/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "AutoSplit 3"
 .UC
 .IX Name "AutoSplit - split a package for autoloading"
@@ -200,7 +220,7 @@ last update of the hierarchy.
 .PP
 The remaining three arguments to \f(CWautosplit\fR govern other options to the
 autosplitter. If the third argument, \fI$keep\fR, is false, then any pre-existing
-\f(CW.al\fR files in the autoload directory are removed if they are no longer
+\f(CW*.al\fR files in the autoload directory are removed if they are no longer
 part of the module (obsoleted functions). The fourth argument, \fI$check\fR,
 instructs \f(CWautosplit\fR to check the module currently being split to ensure
 that it does include a \f(CWuse\fR specification for the AutoLoader module, and

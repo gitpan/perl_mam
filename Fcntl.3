@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Fcntl 3 "perl 5.003, patch 93" "28/Jan/97" "Perl Programmers Reference Guide"
+.TH Fcntl 3 "perl 5.004, patch 01" "9/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "Fcntl 3"
 .UC
 .IX Name "Fcntl - load the C Fcntl.h defines"
@@ -192,10 +212,18 @@ Only \f(CW#define\fR symbols get translated; you must still correctly
 pack up your own arguments to pass as args for locking functions, etc.
 .SH "EXPORTED SYMBOLS"
 .IX Header "EXPORTED SYMBOLS"
-By default your system's F_* and O_* constants (eg, F_DUPFD and O_CREAT)
-are exported into your namespace.  You can request that the \fIflock()\fR
-constants (LOCK_SH, LOCK_EX, LOCK_NB and LOCK_UN) be provided by using
-the tag \f(CW:flock\fR.  See the \fIExporter\fR manpage.
+By default your system's F_* and O_* constants (eg, F_DUPFD and
+O_CREAT) and the FD_CLOEXEC constant are exported into your namespace.
+.PP
+You can request that the \fIflock()\fR constants (LOCK_SH, LOCK_EX, LOCK_NB
+and LOCK_UN) be provided by using the tag \f(CW:flock\fR.  See the \fIExporter\fR manpage.
+.PP
+You can request that the old constants (FAPPEND, FASYNC, FCREAT,
+FDEFER, FEXCL, FNDELAY, FNONBLOCK, FSYNC, FTRUNC) be provided for
+compatibility reasons by using the tag \f(CW:Fcompat\fR.  For new
+applications the newer versions of these constants are suggested
+(O_APPEND, O_ASYNC, O_CREAT, O_DEFER, O_EXCL, O_NDELAY, O_NONBLOCK,
+O_SYNC, O_TRUNC).
 .PP
 Please refer to your native \fIfcntl()\fR and \fIopen()\fR documentation to see
 what constants are implemented in your system.

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Socket 3 "perl 5.003, patch 93" "20/Jan/97" "Perl Programmers Reference Guide"
+.TH IO::Socket 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "IO::Socket 3"
 .UC
 .IX Name "IO::Socket - Object interface to socket communications"
@@ -193,16 +213,16 @@ domain have methods defined in sub classes of \f(CWIO::Socket\fR
 .IX Header "CONSTRUCTOR"
 .Ip "new ( [\s-1ARGS\s0] )" 4
 .IX Item "new ( [\s-1ARGS\s0] )"
-Creates a \f(CWIO::Socket\fR, which is a reference to a
+Creates an \f(CWIO::Socket\fR, which is a reference to a
 newly created symbol (see the \f(CWSymbol\fR package). \f(CWnew\fR
 optionally takes arguments, these arguments are in key-value pairs.
 \f(CWnew\fR only looks for one key \f(CWDomain\fR which tells new which domain
-the socket it will be. All other arguments will be passed to the
+the socket will be in. All other arguments will be passed to the
 configuration method of the package for that domain, See below.
 .SH "METHODS"
 .IX Header "METHODS"
 See the \fIperlfunc\fR manpage for complete descriptions of each of the following
-supported \f(CWIO::Seekable\fR methods, which are just front ends for the
+supported \f(CWIO::Socket\fR methods, which are just front ends for the
 corresponding built-in functions:
 .PP
 .Vb 9
@@ -259,12 +279,12 @@ is returned.
 and some related methods. The constructor can take the following options
 .PP
 .Vb 9
-\&    PeerAddr    Remote host address             <hostname>[:<port>]
-\&    PeerPort    Remote port or service          <service>[(<no>)] | <no>
-\&    LocalAddr   Local host bind address         hostname[:port]
-\&    LocalPort   Local host bind port            <service>[(<no>)] | <no>
-\&    Proto       Protocol name                   "tcp" | "udp" | ...
-\&    Type        Socket type                     SOCK_STREAM | SOCK_DGRAM | ...
+\&    PeerAddr    Remote host address          <hostname>[:<port>]
+\&    PeerPort    Remote port or service       <service>[(<no>)] | <no>
+\&    LocalAddr   Local host bind address      hostname[:port]
+\&    LocalPort   Local host bind port         <service>[(<no>)] | <no>
+\&    Proto       Protocol name                "tcp" | "udp" | ...
+\&    Type        Socket type                  SOCK_STREAM | SOCK_DGRAM | ...
 \&    Listen      Queue size for listen
 \&    Reuse       Set SO_REUSEADDR before binding
 \&    Timeout     Timeout value for various operations
@@ -289,7 +309,7 @@ Examples:
 .PP
 .Vb 3
 \&   $sock = IO::Socket::INET->new(PeerAddr => 'www.perl.org',
-\&                                 PeerPort => http(80),
+\&                                 PeerPort => 'http(80)',
 \&                                 Proto    => 'tcp');
 .Ve
 .Vb 1

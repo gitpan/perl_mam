@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH File::Path 3 "perl 5.003, patch 93" "5/Dec/96" "Perl Programmers Reference Guide"
+.TH File::Path 3 "perl 5.004, patch 01" "16/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "File::Path 3"
 .UC
 .IX Name "File::Path - create or remove a series of directories"
@@ -181,9 +201,9 @@ File::Path \- create or remove a series of directories
 \f(CWrmtree(['foo/bar/baz', 'blurfl/quux'], 1, 1);\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-The \f(CWmkpath\fR function provides a convenient way to create directories, even if
-your \f(CWmkdir\fR kernel call won't create more than one level of directory at a
-time.  \f(CWmkpath\fR takes three arguments:
+The \f(CWmkpath\fR function provides a convenient way to create directories, even
+if your \f(CWmkdir\fR kernel call won't create more than one level of directory at
+a time.  \f(CWmkpath\fR takes three arguments:
 .Ip "\(bu" 4
 .IX Item "\(bu"
 the name of the path to create, or a reference
@@ -198,8 +218,8 @@ to print the name of each directory as it is created
 the numeric mode to use when creating the directories
 (defaults to 0777)
 .PP
-It returns a list of all directories (including intermediates, determined using
-the Unix \*(L'/\*(R' separator) created.
+It returns a list of all directories (including intermediates, determined
+using the Unix \*(L'/\*(R' separator) created.
 .PP
 Similarly, the \f(CWrmtree\fR function provides a convenient way to delete a
 subtree from the directory structure, much like the Unix command \f(CWrm -r\fR.
@@ -224,17 +244,25 @@ skip any files to which you do not have delete access
 (if running under \s-1VMS\s0) or write access (if running
 under another \s-1OS\s0).  This will change in the future when
 a criterion for \*(L'delete permission\*(R' under OSs other
-than \s-1VMS\s0 is settled. (defaults to \s-1FALSE\s0)
+than \s-1VMS\s0 is settled.  (defaults to \s-1FALSE\s0)
 .PP
-It returns the number of files successfully deleted. Symlinks are
+It returns the number of files successfully deleted.  Symlinks are
 treated as ordinary files.
+.PP
+\fB\s-1NOTE\s0:\fR If the third parameter is not \s-1TRUE\s0, \f(CWrmtree\fR is \fBunsecure\fR
+in the face of failure or interruption.  Files and directories which
+were not deleted may be left with permissions reset to allow world
+read and write access.  Note also that the occurrence of errors in
+rmtree can be determined \fIonly\fR by trapping diagnostic messages
+using \f(CW$SIG{__WARN__}\fR; it is not apparent from the return value.
+Therefore, you must be extremely careful about using \f(CWrmtree($foo,$bar,0\fR
+in situations where security is an issue.
 .SH "AUTHORS"
 .IX Header "AUTHORS"
-Tim Bunce <\fITim.Bunce@ig.co.uk\fR>
+Tim Bunce <\fITim.Bunce@ig.co.uk\fR> and
 Charles Bailey <\fIbailey@genetics.upenn.edu\fR>
 .SH "REVISION"
 .IX Header "REVISION"
-This module was last revised 14-Feb-1996, for perl 5.002. \f(CW$VERSION\fR is
-1.01.
+Current \f(CW$VERSION\fR is 1.04.
 
 .rn }` ''

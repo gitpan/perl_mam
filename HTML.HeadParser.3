@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH HEADPARSER 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "HEADPARSER 1"
+.TH lib::HTML::HeadParser 3 "perl 5.004, patch 01" "10/Dec/96" "User Contributed Perl Documentation"
+.IX Title "lib::HTML::HeadParser 3"
 .UC
 .IX Name "HTML::HeadParser - Parse <HEAD> section of a HTML document"
 .if n .hy 0
@@ -198,7 +218,7 @@ reference as argument.  The parser will update this header object as
 the various head elements are recognized.
 .PP
 The following header fields are initialized from elements found in the
-the \fIlt\fRhead> manpage section of a HTML document:
+<head> section of a HTML document:
 .Ip "Content-Base:" 4
 .IX Item "Content-Base:"
 The \fIContent-Base\fR header is initialized from the <base
@@ -212,10 +232,11 @@ element.
 The \fIIsindex\fR header will be added if there is a <isindex>
 element in the <head>.  The header value is initialized from the
 \fIprompt\fR attribute if it is present.
-.Ip "\fIhttp-equiv\fR" 4
-.IX Item "\fIhttp-equiv\fR"
-Any other header field can be initialized from a <meta
-http-equiv="header\*(R" content=\*(R"..."> element.
+.Ip "X\-Meta-Foo" 4
+.IX Item "X\-Meta-Foo"
+All <meta> elements will initialize headers with the prefix
+\*(L"X\-Meta-\*(R".  If the element contains a \fIhttp-equiv\fR attribute, then it
+will be honored as the header name.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
 .PP

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,10 +93,10 @@
 .nr % 0
 .rr F
 .\}
-.TH Class::Template 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "Class::Template 3"
+.TH lib::Bundle::LWP 3 "perl 5.004, patch 01" "10/Jun/97" "User Contributed Perl Documentation"
+.IX Title "lib::Bundle::LWP 3"
 .UC
-.IX Name "Class::Template - struct/member template builder"
+.IX Name "Bundle::LWP - A bundle to install all libwww-perl related modules"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -171,80 +191,27 @@
 .rm #[ #] #H #V #F C
 .SH "NAME"
 .IX Header "NAME"
-Class::Template \- struct/member template builder
+Bundle::LWP \- A bundle to install all libwww-perl related modules
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
-.Vb 2
-\&    use Class::Template;
-\&    struct(name => { key1 => type1, key2 => type2 });
+.Vb 1
+\& perl -MCPAN -e 'install Bundle::LWP'
 .Ve
-.Vb 3
-\&    package Myobj;
-\&    use Class::Template;
-\&    members Myobj { key1 => type1, key2 => type2 };
-.Ve
+.SH "CONTENTS"
+.IX Header "CONTENTS"
+Net::FTP 2.00      \- If you want ftp://\-support
+.PP
+IO::Socket 1.13    \- Used by HTTP::Daemon
+.PP
+MIME::Base64       \- Used in authentication headers
+.PP
+MD5                \- Needed to Digest authentication
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-This module uses perl5 classes to create nested data types.
-.SH "EXAMPLES"
-.IX Header "EXAMPLES"
-.Ip "\(bu Example 1" 5
-.IX Item "\(bu Example 1"
-.Sp
-.Vb 11
-\&        use Class::Template;
-\&        
-\&        struct( rusage => {
-\&                ru_utime => timeval,
-\&                ru_stime => timeval,
-\&        });
-\&        
-\&        struct( timeval => [
-\&                tv_secs  => '$',
-\&                tv_usecs => '$',
-\&        ]);
-.Ve
-.Vb 1
-\&        my $s = new rusage;
-.Ve
-.Ip "\(bu Example 2" 5
-.IX Item "\(bu Example 2"
-.Sp
-.Vb 2
-\&        package OBJ;
-\&        use Class::Template;
-.Ve
-.Vb 4
-\&        members OBJ {
-\&                'a'     => '$',
-\&                'b'     => '$',
-\&        };
-.Ve
-.Vb 4
-\&        members OBJ2 {
-\&                'd'     => '@',
-\&                'c'     => '$',
-\&        };
-.Ve
-.Vb 1
-\&        package OBJ2; @ISA = (OBJ);
-.Ve
-.Vb 4
-\&        sub new {
-\&                my $r = InitMembers( &OBJ::InitMembers() );
-\&                bless $r;
-\&        }
-.Ve
-.SH "NOTES"
-.IX Header "NOTES"
-Use \*(L'%\*(R' if the member should point to an anonymous hash.  Use \*(L'@\*(R' if the
-member should point to an anonymous array.
-.PP
-When using % and @ the method requires one argument for the key or index
-into the hash or array.
-.PP
-Prefix the %, @, or $ with \*(L'*\*(R' to indicate you want to retrieve pointers to
-the values rather than the values themselves.
+This bundle defines all reqreq modules for libwww-perl.
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Gisle Aas <aas@sn.no>
 
 .rn }` ''

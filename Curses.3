@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CURSES 1 "perl 5.003, patch 93" "28/Mar/95" "User Contributed Perl Documentation"
-.IX Title "CURSES 1"
+.TH Curses 3 "perl 5.004, patch 01" "28/Mar/95" "User Contributed Perl Documentation"
+.IX Title "Curses 3"
 .UC
 .IX Name "Curses - terminal screen handling and optimization"
 .if n .hy 0
@@ -303,35 +323,35 @@ instead of \f(CW$str = getstr()\fR and \f(CW($y, $x) = getyx()\fR.
 .Ve
 .SH "DIAGNOSTICS"
 .IX Header "DIAGNOSTICS"
-.Ip "\(bu Curses function \*(L'%s\*(R' called with too %s arguments at ..." 4
-.IX Item "\(bu Curses function \*(L'%s\*(R' called with too %s arguments at ..."
+.Ip "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..." 4
+.IX Item "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..."
 You have called a \f(CWCurses\fR function with a wrong number of
 arguments.
-.Ip "\(bu argument %d to Curses function \*(L'%s\*(R' is not a Curses window at ... =item * argument is not a Curses window at ..." 4
-.IX Item "\(bu argument %d to Curses function \*(L'%s\*(R' is not a Curses window at ... =item * argument is not a Curses window at ..."
+.Ip "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..." 4
+.IX Item "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..."
 The window argument you gave to the function wasn't really a window.
 .Sp
 This probably means that you didn't give the right arguments to a
 \fIunified\fR function.  See the \s-1DESCRIPTION\s0 section on the section on \fIUnified
 Functions\fR for more information.
-.Ip "\(bu Curses function \*(L'%s\*(R' is not defined by your vendor at ..." 4
-.IX Item "\(bu Curses function \*(L'%s\*(R' is not defined by your vendor at ..."
+.Ip "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..." 4
+.IX Item "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..."
 You have a \f(CWCurses\fR function in your code that your system's \fIcurses\fR\|(3)
 library doesn't define.
-.Ip "\(bu Curses constant \*(L'%s\*(R' is not defined by your vendor at ..." 4
-.IX Item "\(bu Curses constant \*(L'%s\*(R' is not defined by your vendor at ..."
+.Ip "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..." 4
+.IX Item "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..."
 You have a \f(CWCurses\fR constant in your code that your system's \fIcurses\fR\|(3)
 library doesn't define.
-.Ip "\(bu Curses does not support the curses function \*(L'$_[0]\*(R', used at ..." 4
-.IX Item "\(bu Curses does not support the curses function \*(L'$_[0]\*(R', used at ..."
+.Ip "\(bu Curses does not support the curses function \*(N'$_[0]\*(T', used at ..." 4
+.IX Item "\(bu Curses does not support the curses function \*(N'$_[0]\*(T', used at ..."
 You have a \fIcurses\fR\|(3) function in your code that the \f(CWCurses\fR module
 doesn't support.
-.Ip "\(bu Curses does not support the curses variable \*(L'$_[0]\*(R', used at ..." 4
-.IX Item "\(bu Curses does not support the curses variable \*(L'$_[0]\*(R', used at ..."
+.Ip "\(bu Curses does not support the curses variable \*(N'$_[0]\*(T', used at ..." 4
+.IX Item "\(bu Curses does not support the curses variable \*(N'$_[0]\*(T', used at ..."
 You have a \fIcurses\fR\|(3) variable in your code that the \f(CWCurses\fR module
 doesn't support.
-.Ip "\(bu Curses does not support the curses constant \*(L'$_[0]\*(R', used at ..." 4
-.IX Item "\(bu Curses does not support the curses constant \*(L'$_[0]\*(R', used at ..."
+.Ip "\(bu Curses does not support the curses constant \*(N'$_[0]\*(T', used at ..." 4
+.IX Item "\(bu Curses does not support the curses constant \*(N'$_[0]\*(T', used at ..."
 You have a bareword in your code that is trying to be interpreted as
 a \f(CWCurses\fR constant, but \f(CWCurses\fR doesn't know anything about it.
 .Ip "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..." 4

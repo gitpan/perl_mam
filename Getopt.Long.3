@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Getopt::Long 3 "perl 5.003, patch 93" "2/Mar/97" "Perl Programmers Reference Guide"
+.TH Getopt::Long 3 "perl 5.004, patch 01" "18/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "Getopt::Long 3"
 .UC
 .IX Name "GetOptions - extended processing of command line options"
@@ -212,7 +232,7 @@ variable that will be set when the option is used. For example, the
 following call to GetOptions:
 .PP
 .Vb 1
-\&  &GetOptions("size=i" => \e$offset);
+\&  GetOptions("size=i" => \e$offset);
 .Ve
 will accept a command line option \*(L"size\*(R" that must have an integer
 value. With a command line of \*(L"\*(--size 24\*(R" this will cause the variable
@@ -224,7 +244,7 @@ equivalent to the example above:
 .PP
 .Vb 2
 \&  %optctl = ("size" => \e$offset);
-\&  &GetOptions(\e%optctl, "size=i");
+\&  GetOptions(\e%optctl, "size=i");
 .Ve
 Linkage may be specified using either of the above methods, or both.
 Linkage specified in the argument list takes precedence over the
@@ -296,7 +316,7 @@ the \s-1HASH\s0. For example:
 .PP
 .Vb 2
 \&  %optctl = ();
-\&  &GetOptions (\e%optctl, "size=i");
+\&  GetOptions (\e%optctl, "size=i");
 .Ve
 will perform the equivalent of the assignment
 .PP
@@ -307,7 +327,7 @@ For array options, a reference to an array is used, e.g.:
 .PP
 .Vb 2
 \&  %optctl = ();
-\&  &GetOptions (\e%optctl, "sizes=i@");
+\&  GetOptions (\e%optctl, "sizes=i@");
 .Ve
 with command line \*(L"\-sizes 24 \-sizes 48\*(R" will perform the equivalent of
 the assignment
@@ -320,7 +340,7 @@ a reference to a hash is used, e.g.:
 .PP
 .Vb 2
 \&  %optctl = ();
-\&  &GetOptions (\e%optctl, "define=s%");
+\&  GetOptions (\e%optctl, "define=s%");
 .Ve
 with command line \*(L"\*(--define foo=hello --define bar=world\*(R" will perform the
 equivalent of the assignment
@@ -338,7 +358,7 @@ in the namespace of the calling program, not necessarily \fBmain\fR.
 For example:
 .PP
 .Vb 1
-\&  &GetOptions ("size=i", "sizes=i@");
+\&  GetOptions ("size=i", "sizes=i@");
 .Ve
 with command line \*(L"\-size 10 \-sizes 24 \-sizes 48\*(R" will perform the
 equivalent of the assignments
@@ -461,7 +481,7 @@ In GNU or POSIX format, option names and values can be combined:
 Example of using variable references:
 .PP
 .Vb 1
-\&   $ret = &GetOptions ('foo=s', \e$foo, 'bar=i', 'ar=s', \e@ar);
+\&   $ret = GetOptions ('foo=s', \e$foo, 'bar=i', 'ar=s', \e@ar);
 .Ve
 With command line options \*(L"\-foo blech \-bar 24 \-ar xx \-ar yy\*(R" 
 this will result in:
@@ -475,19 +495,19 @@ Example of using the <> option specifier:
 .PP
 .Vb 2
 \&   @ARGV = qw(-foo 1 bar -foo 2 blech);
-\&   &GetOptions("foo=i", \e$myfoo, "<>", \e&mysub);
+\&   GetOptions("foo=i", \e$myfoo, "<>", \e&mysub);
 .Ve
 Results:
 .PP
 .Vb 2
-\&   &mysub("bar") will be called (with $myfoo being 1)
-\&   &mysub("blech") will be called (with $myfoo being 2)
+\&   mysub("bar") will be called (with $myfoo being 1)
+\&   mysub("blech") will be called (with $myfoo being 2)
 .Ve
 Compare this with:
 .PP
 .Vb 2
 \&   @ARGV = qw(-foo 1 bar -foo 2 blech);
-\&   &GetOptions("foo=i", \e$myfoo);
+\&   GetOptions("foo=i", \e$myfoo);
 .Ve
 This will leave the non-options in \f(CW@ARGV:\fR
 .PP

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Safe 3 "perl 5.003, patch 93" "18/Dec/96" "Perl Programmers Reference Guide"
+.TH Safe 3 "perl 5.004, patch 01" "24/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "Safe 3"
 .UC
 .IX Name "Safe - Compile and execute code in restricted compartments"
@@ -362,7 +382,7 @@ behaviour of the \fIeval()\fR command and the context was always scalar.
 Some points to note:
 .Sp
 If the entereval op is permitted then the code can use eval \*(L"...\*(R" to
-\*(L'hide\*(R' code which might use denied ops. This is not a major problem
+\&'hide\*(R' code which might use denied ops. This is not a major problem
 since when the code tries to execute the eval it will fail because the
 opmask is still in effect. However this technique would allow clever,
 and possibly harmful, code to \*(L'probe\*(R' the boundaries of what is
@@ -375,14 +395,14 @@ problem.
 .Sp
 Consider a function \fIfoo()\fR in package pkg compiled outside a compartment
 but shared with it. Assume the compartment has a root package called
-\*(L'Root\*(R'. If \fIfoo()\fR contains an eval statement like eval \*(L'$foo = 1\*(R' then,
+\&'Root\*(R'. If \fIfoo()\fR contains an eval statement like eval \*(L'$foo = 1\*(R' then,
 normally, \f(CW$pkg::foo\fR will be set to 1.  If \fIfoo()\fR is called from the
 compartment (by whatever means) then instead of setting \f(CW$pkg::foo\fR, the
 eval will actually set \f(CW$Root::pkg::foo\fR.
 .Sp
 This can easily be demonstrated by using a module, such as the Socket
 module, which uses eval \*(L"...\*(R" as part of an \s-1AUTOLOAD\s0 function. You can
-\*(L'use\*(R' the module outside the compartment and share an (autoloaded)
+\&'use\*(R' the module outside the compartment and share an (autoloaded)
 function with the compartment. If an autoload is triggered by code in
 the compartment, or by any code anywhere that is called by any means
 from the compartment, then the eval in the Socket module's \s-1AUTOLOAD\s0

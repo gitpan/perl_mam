@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH QUOTEDPRINT 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "QUOTEDPRINT 1"
+.TH QuotedPrint 3 "perl 5.004, patch 01" "10/Jun/97" "User Contributed Perl Documentation"
+.IX Title "QuotedPrint 3"
 .UC
 .IX Name "encode_qp - Encode string using quoted-printable encoding"
 .if n .hy 0
@@ -187,11 +207,11 @@ decode_qp \- Decode quoted-printable string
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 This module provides functions to encode and decode strings into the
-Quoted-Printable encoding specified in RFC 1521 \- \fIMIME (Multipurpose
+Quoted-Printable encoding specified in RFC 2045 \- \fIMIME (Multipurpose
 Internet Mail Extensions)\fR.  The Quoted-Printable encoding is intended
 to represent data that largely consists of bytes that correspond to
 printable characters in the ASCII character set.  Non-printable
-characters (as defined by enghlish americans) are represented by a
+characters (as defined by english americans) are represented by a
 triplet consisting of the character \*(L"=\*(R" followed by two hexadecimal
 digits.
 .PP
@@ -209,12 +229,9 @@ call them as:
 .Ve
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
-Copyright 1995, 1996 Gisle Aas.
+Copyright 1995-1997 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
-.SH "AUTHOR"
-.IX Header "AUTHOR"
-Gisle Aas <aas@sn.no>
 
 .rn }` ''

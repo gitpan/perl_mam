@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH READLINE 1 "perl 5.003, patch 10" "7/Jul/96" "User Contributed Perl Documentation"
-.IX Title "READLINE 1"
+.TH Term::ReadLine 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
+.IX Title "Term::ReadLine 3"
 .UC
 .IX Name "Term::ReadLine - Perl interface to various C<readline> packages. If
 no real package is found, substitutes stubs instead of basic functions."
@@ -191,8 +211,12 @@ no real package is found, substitutes stubs instead of basic functions.
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-.Sh "Minimal set of supported functions"
-.IX Subsection "Minimal set of supported functions"
+This package is just a front end to some other packages. At the moment
+this description is written, the only such package is Term-ReadLine,
+available on CPAN near you. The real target of this stub package is to
+set up a common interface to whatever Readline emerges with time.
+.SH "Minimal set of supported functions"
+.IX Header "Minimal set of supported functions"
 All the supported functions should be called as methods, i.e., either as 
 .PP
 .Vb 1
@@ -215,25 +239,16 @@ returns the handle for subsequent calls to following
 functions. Argument is the name of the application. Optionally can be
 followed by two arguments for \f(CWIN\fR and \f(CWOUT\fR filehandles. These
 arguments should be globs.
-.Ip "\f(CWreadline(prompt[, preput])\fR" 12
-.IX Item "\f(CWreadline(prompt[, preput])\fR"
+.Ip "\f(CWreadline\fR" 12
+.IX Item "\f(CWreadline\fR"
 gets an input line, \fIpossibly\fR with actual \f(CWreadline\fR
-support. Trailing newline is removed. Returns \f(CWundef\fR on \f(CWEOF\fR. \f(CWpreput\fR 
-is an optional argument meaning the initial value of input. The optional
-argument is granted only if the value \f(CWpreput\fR is in \f(CWFeatures\fR.
-.Ip "\f(CWaddhistory(line1, line2, ...)\fR" 12
-.IX Item "\f(CWaddhistory(line1, line2, ...)\fR"
-adds the lines to the history of input, from where it can be used if
+support. Trailing newline is removed. Returns \f(CWundef\fR on \f(CWEOF\fR.
+.Ip "\f(CWaddhistory\fR" 12
+.IX Item "\f(CWaddhistory\fR"
+adds the line to the history of input, from where it can be used if
 the actual \f(CWreadline\fR is present.
-.Ip "\f(CWSetHistory(line1, line2, ...)\fR" 12
-.IX Item "\f(CWSetHistory(line1, line2, ...)\fR"
-sets the history of input, from where it can be used if
-the actual \f(CWreadline\fR is present.
-.Ip "\f(CWGetHistory\fR" 12
-.IX Item "\f(CWGetHistory\fR"
-returns the history of input as a list, if actual \f(CWreadline\fR is present.
-.Ip "\f(CWIN\fR, \f(CWOUT\fR" 12
-.IX Item "\f(CWIN\fR, \f(CWOUT\fR"
+.Ip "\f(CWIN\fR, $\f(CWOUT\fR" 12
+.IX Item "\f(CWIN\fR, $\f(CWOUT\fR"
 return the filehandles for input and output or \f(CWundef\fR if \f(CWreadline\fR
 input and output cannot be used for Perl.
 .Ip "\f(CWMinLine\fR" 12
@@ -244,7 +259,12 @@ history. Returns the old value.
 .Ip "\f(CWfindConsole\fR" 12
 .IX Item "\f(CWfindConsole\fR"
 returns an array with two strings that give most appropriate names for
-files for input and output using conventions C<"<$in">, \f(CW">out"\fR.
+files for input and output using conventions \f(CW"<$in"\fR, \f(CW">out"\fR.
+.Ip "Attribs" 12
+.IX Item "Attribs"
+returns a reference to a hash which describes internal configuration
+of the package. Names of keys in this hash conform to standard
+conventions with the leading \f(CWrl_\fR stripped.
 .Ip "\f(CWFeatures\fR" 12
 .IX Item "\f(CWFeatures\fR"
 Returns a reference to a hash with keys being features present in
@@ -253,16 +273,36 @@ minimal interface: \f(CWappname\fR should be present if the first argument
 to \f(CWnew\fR is recognized, and \f(CWminline\fR should be present if
 \f(CWMinLine\fR method is not dummy.  \f(CWautohistory\fR should be present if
 lines are put into history automatically (maybe subject to
-\f(CWMinLine\fR), and \f(CWaddhistory\fR if \f(CWaddhistory\fR method is not dummy. 
-\f(CWpreput\fR means the second argument to \f(CWreadline\fR method is processed.
-\f(CWgetHistory\fR and \f(CWsetHistory\fR denote that the corresponding methods are 
-present. \f(CWtkRunning\fR denotes that a Tk application may run while ReadLine
-is getting input \fB(undocumented feature)\fR.
-.PP
+\f(CWMinLine\fR), and \f(CWaddhistory\fR if \f(CWaddhistory\fR method is not dummy.
+.Sp
+If \f(CWFeatures\fR method reports a feature \f(CWattribs\fR as present, the
+method \f(CWAttribs\fR is not dummy.
+.SH "Additional supported functions"
+.IX Header "Additional supported functions"
 Actually \f(CWTerm::ReadLine\fR can use some other package, that will
 support reacher set of commands.
+.PP
+All these commands are callable via method interface and have names
+which conform to standard conventions with the leading \f(CWrl_\fR stripped.
+.PP
+The stub package included with the perl distribution allows two
+additional methods: \f(CWtkRunning\fR and \f(CWornaments\fR.  The first one
+makes Tk event loop run when waiting for user input (i.e., during
+\f(CWreadline\fR method), the second one makes the command line stand out
+by using termcap data.  The argument to \f(CWornaments\fR should be 0, 1,
+or a string of a form \*(L"aa,bb,cc,dd\*(R".  Four components of this string
+should be names of \fIterminal capacities\fR, first two will be issued to
+make the prompt standout, last two to make the input line standout.
 .SH "EXPORTS"
 .IX Header "EXPORTS"
 None
+.SH "ENVIRONMENT"
+.IX Header "ENVIRONMENT"
+The variable \f(CWPERL_RL\fR governs which ReadLine clone is loaded. If the
+value is false, a dummy interface is used. If the value is true, it
+should be tail of the name of the package to use, such as \f(CWPerl\fR or
+\f(CWGnu\fR. 
+.PP
+If the variable is not set, the best available package is loaded.
 
 .rn }` ''

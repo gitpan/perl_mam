@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Pipe 3 "perl 5.003, patch 93" "24/Feb/97" "Perl Programmers Reference Guide"
+.TH IO::Pipe 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "IO::Pipe 3"
 .UC
 .IX Name "IO::pipe - supply object methods for pipes"
@@ -221,12 +241,12 @@ processes.
 .IX Header "CONSTRCUTOR"
 .Ip "new ( [\s-1READER\s0, \s-1WRITER\s0] )" 4
 .IX Item "new ( [\s-1READER\s0, \s-1WRITER\s0] )"
-Creates a \f(CWIO::Pipe\fR, which is a reference to a
-newly created symbol (see the \f(CWSymbol\fR package). \f(CWIO::Pipe::new\fR
-optionally takes two arguments, which should be objects blessed into
-\f(CWIO::Handle\fR, or a subclass thereof. These two objects will be used
-for the system call to \f(CWpipe\fR. If no arguments are given then then
-method \f(CWhandles\fR is called on the new \f(CWIO::Pipe\fR object.
+Creates a \f(CWIO::Pipe\fR, which is a reference to a newly created symbol
+(see the \f(CWSymbol\fR package). \f(CWIO::Pipe::new\fR optionally takes two
+arguments, which should be objects blessed into \f(CWIO::Handle\fR, or a
+subclass thereof. These two objects will be used for the system call
+to \f(CWpipe\fR. If no arguments are given then method \f(CWhandles\fR is called
+on the new \f(CWIO::Pipe\fR object.
 .Sp
 These two handles are held in the array part of the \s-1GLOB\s0 until either
 \f(CWreader\fR or \f(CWwriter\fR is called.

@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,10 +93,10 @@
 .nr % 0
 .rr F
 .\}
-.TH AutoLoader 3 "perl 5.003, patch 93" "29/Nov/96" "Perl Programmers Reference Guide"
+.TH AutoLoader 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
 .IX Title "AutoLoader 3"
 .UC
-.IX Name "AutoLoader - load functions only on demand"
+.IX Name "AutoLoader - load subroutines only on demand"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -171,93 +191,150 @@
 .rm #[ #] #H #V #F C
 .SH "NAME"
 .IX Header "NAME"
-AutoLoader \- load functions only on demand
+AutoLoader \- load subroutines only on demand
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
-.Vb 4
-\&    package FOOBAR;
-\&    use Exporter;
-\&    use AutoLoader;
-\&    @ISA = qw(Exporter AutoLoader);
+.Vb 2
+\&    package Foo;
+\&    use AutoLoader 'AUTOLOAD';   # import the default AUTOLOAD subroutine
+.Ve
+.Vb 7
+\&    package Bar;
+\&    use AutoLoader;              # don't import AUTOLOAD, define our own
+\&    sub AUTOLOAD {
+\&        ...
+\&        $AutoLoader::AUTOLOAD = "...";
+\&        goto &AutoLoader::AUTOLOAD;
+\&    }
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-This module tells its users that functions in the FOOBAR package are
-to be autoloaded from \fIauto/$AUTOLOAD.al\fR.  See
-the section on \fIAutoloading\fR in the \fIperlsub\fR manpage and the \fIAutoSplit\fR manpage.
-.Sh "_\|_END_\|_"
-.IX Subsection "_\|_END_\|_"
-The module using the autoloader should have the special marker \f(CW__END__\fR
-prior to the actual subroutine declarations. All code that is before the
-marker will be loaded and compiled when the module is used. At the marker,
-perl will cease reading and parsing. See also the \fBAutoSplit\fR module, a
-utility that automatically splits a module into a collection of files for
-autoloading.
+The \fBAutoLoader\fR module works with the \fBAutoSplit\fR module and the
+\f(CW__END__\fR token to defer the loading of some subroutines until they are
+used rather than loading them all at once.
 .PP
-When a subroutine not yet in memory is called, the \f(CWAUTOLOAD\fR function
-attempts to locate it in a directory relative to the location of the module
-file itself. As an example, assume \fI\s-1POSIX\s0.pm\fR is located in 
-\fI/usr/local/lib/perl5/\s-1POSIX\s0.pm\fR. The autoloader will look for perl
-subroutines for this package in \fI/usr/local/lib/perl5/auto/\s-1POSIX\s0/*.al\fR.
-The \f(CW.al\fR file is named using the subroutine name, sans package.
-.Sh "Loading Stubs"
-.IX Subsection "Loading Stubs"
-The \fBAutoLoader\fR module provide a special \fIimport()\fR method that will
-load the stubs (from \fIautosplit.ix\fR file) of the calling module.
-These stubs are needed to make inheritance work correctly for class
-modules.
+To use \fBAutoLoader\fR, the author of a module has to place the
+definitions of subroutines to be autoloaded after an \f(CW__END__\fR token.
+(See the \fIperldata\fR manpage.)  The \fBAutoSplit\fR module can then be run manually to
+extract the definitions into individual files \fIauto/funcname.al\fR.
 .PP
-Modules that inherit from \fBAutoLoader\fR should always ensure that they
-override the AutoLoader->\fIimport()\fR method.  If the module inherit from
-\fBExporter\fR like shown in the \fIsynopis\fR section this is already taken
-care of.  For class methods an empty \fIimport()\fR would do nicely:
+\fBAutoLoader\fR implements an AUTOLOAD subroutine.  When an undefined
+subroutine in is called in a client module of \fBAutoLoader\fR,
+\fBAutoLoader\fR's AUTOLOAD subroutine attempts to locate the subroutine in a
+file with a name related to the location of the file from which the
+client module was read.  As an example, if \fIPOSIX.pm\fR is located in
+\fI/usr/local/lib/perl5/POSIX.pm\fR, \fBAutoLoader\fR will look for perl
+subroutines \fBPOSIX\fR in \fI/usr/local/lib/perl5/auto/POSIX/*.al\fR, where
+the \f(CW.al\fR file has the same name as the subroutine, sans package.  If
+such a file exists, AUTOLOAD will read and evaluate it,
+thus (presumably) defining the needed subroutine.  AUTOLOAD will then
+\f(CWgoto\fR the newly defined subroutine.
 .PP
-.Vb 4
-\&  package MyClass;
-\&  use AutoLoader;        # load stubs
-\&  @ISA=qw(AutoLoader);
-\&  sub import {}          # hide AutoLoader::import
+Once this process completes for a given funtion, it is defined, so
+future calls to the subroutine will bypass the AUTOLOAD mechanism.
+.Sh "Subroutine Stubs"
+.IX Subsection "Subroutine Stubs"
+In order for object method lookup and/or prototype checking to operate
+correctly even when methods have not yet been defined it is necessary to
+\*(L"forward declare\*(R" each subroutine (as in \f(CWsub NAME;\fR).  See
+the section on \fI\s-1SYNOPSIS\s0\fR in the \fIperlsub\fR manpage.  Such forward declaration creates \*(L"subroutine
+stubs\*(R", which are place holders with no code.
+.PP
+The AutoSplit and \fBAutoLoader\fR modules automate the creation of forward
+declarations.  The AutoSplit module creates an \*(L'index\*(R' file containing
+forward declarations of all the AutoSplit subroutines.  When the
+AutoLoader module is \*(L'use'd it loads these declarations into its callers
+package.
+.PP
+Because of this mechanism it is important that \fBAutoLoader\fR is always
+\f(CWuse\fRd and not \f(CWrequire\fRd.
+.Sh "Using \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
+.IX Subsection "Using \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
+In order to use \fBAutoLoader\fR's \s-1AUTOLOAD\s0 subroutine you \fImust\fR
+explicitly import it:
+.PP
+.Vb 1
+\&    use AutoLoader 'AUTOLOAD';
 .Ve
-You can also set up autoloading by importing the \s-1AUTOLOAD\s0 function
-instead of inheriting from \fBAutoLoader\fR:
+.Sh "Overriding \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
+.IX Subsection "Overriding \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
+Some modules, mainly extensions, provide their own \s-1AUTOLOAD\s0 subroutines.
+They typically need to check for some special cases (such as constants)
+and then fallback to \fBAutoLoader\fR's \s-1AUTOLOAD\s0 for the rest.
 .PP
-.Vb 3
-\&  package MyClass;
-\&  use AutoLoader;        # load stubs
-\&  *AUTOLOAD = \e&AutoLoader::AUTOLOAD;
+Such modules should \fInot\fR import \fBAutoLoader\fR's \s-1AUTOLOAD\s0 subroutine.
+Instead, they should define their own \s-1AUTOLOAD\s0 subroutines along these
+lines:
+.PP
+.Vb 1
+\&    use AutoLoader;
 .Ve
+.Vb 16
+\&    sub AUTOLOAD {
+\&        my $constname;
+\&        ($constname = $AUTOLOAD) =~ s/.*:://;
+\&        my $val = constant($constname, @_ ? $_[0] : 0);
+\&        if ($! != 0) {
+\&            if ($! =~ /Invalid/) {
+\&                $AutoLoader::AUTOLOAD = $AUTOLOAD;
+\&                goto &AutoLoader::AUTOLOAD;
+\&            }
+\&            else {
+\&                croak "Your vendor has not defined constant $constname";
+\&            }
+\&        }
+\&        eval "sub $AUTOLOAD { $val }";
+\&        goto &$AUTOLOAD;
+\&    }
+.Ve
+If any module's own \s-1AUTOLOAD\s0 subroutine has no need to fallback to the
+AutoLoader's \s-1AUTOLOAD\s0 subroutine (because it doesn't have any AutoSplit
+subroutines), then that module should not use \fBAutoLoader\fR at all.
 .Sh "Package Lexicals"
 .IX Subsection "Package Lexicals"
-Package lexicals declared with \f(CWmy\fR in the main block of a package using
-the \fBAutoLoader\fR will not be visible to auto-loaded functions, due to the
-fact that the given scope ends at the \f(CW__END__\fR marker. A module using such
-variables as package globals will not work properly under the \fBAutoLoader\fR.
+Package lexicals declared with \f(CWmy\fR in the main block of a package
+using \fBAutoLoader\fR will not be visible to auto-loaded subroutines, due to
+the fact that the given scope ends at the \f(CW__END__\fR marker.  A module
+using such variables as package globals will not work properly under the
+\fBAutoLoader\fR.
 .PP
-The \f(CWvars\fR pragma (see the section on \fIvars\fR in the \fIperlmod\fR manpage) may be used in such situations
-as an alternative to explicitly qualifying all globals with the package
-namespace. Variables pre-declared with this pragma will be visible to any
-autoloaded routines (but will not be invisible outside the package,
-unfortunately).
-.Sh "AutoLoader vs. SelfLoader"
-.IX Subsection "AutoLoader vs. SelfLoader"
-The \fBAutoLoader\fR is a counterpart to the \fBSelfLoader\fR module. Both delay
-the loading of subroutines, but the \fBSelfLoader\fR accomplishes the goal via
-the \f(CW__DATA__\fR marker rather than \f(CW__END__\fR. While this avoids the use of
-a hierarchy of disk files and the associated open/close for each routine
-loaded, the \fBSelfLoader\fR suffers a disadvantage in the one-time parsing of
-the lines after \f(CW__DATA__\fR, after which routines are cached. \fBSelfLoader\fR
-can also handle multiple packages in a file.
+The \f(CWvars\fR pragma (see the section on \fIvars\fR in the \fIperlmod\fR manpage) may be used in such
+situations as an alternative to explicitly qualifying all globals with
+the package namespace.  Variables pre-declared with this pragma will be
+visible to any autoloaded routines (but will not be invisible outside
+the package, unfortunately).
+.Sh "\fBAutoLoader\fR vs. \fBSelfLoader\fR"
+.IX Subsection "\fBAutoLoader\fR vs. \fBSelfLoader\fR"
+The \fBAutoLoader\fR is similar in purpose to \fBSelfLoader\fR: both delay the
+loading of subroutines.
 .PP
-\fBAutoLoader\fR only reads code as it is requested, and in many cases should be
-faster, but requires a machanism like \fBAutoSplit\fR be used to create the
-individual files.  The \fBExtUtils::MakeMaker\fR will invoke \fBAutoSplit\fR
-automatically if the \fBAutoLoader\fR is used in a module source file.
-.SH "CAVEAT"
-.IX Header "CAVEAT"
-On systems with restrictions on file name length, the file corresponding to a
-subroutine may have a shorter name that the routine itself. This can lead to
-conflicting file names. The \fIAutoSplit\fR package warns of these potential
-conflicts when used to split a module.
+\fBSelfLoader\fR uses the \f(CW__DATA__\fR marker rather than \f(CW__END__\fR.
+While this avoids the use of a hierarchy of disk files and the
+associated open/close for each routine loaded, \fBSelfLoader\fR suffers a
+startup speed disadvantage in the one-time parsing of the lines after
+\f(CW__DATA__\fR, after which routines are cached.  \fBSelfLoader\fR can also
+handle multiple packages in a file.
+.PP
+\fBAutoLoader\fR only reads code as it is requested, and in many cases
+should be faster, but requires a machanism like \fBAutoSplit\fR be used to
+create the individual files.  the \fIExtUtils::MakeMaker\fR manpage will invoke
+\fBAutoSplit\fR automatically if \fBAutoLoader\fR is used in a module source
+file.
+.SH "CAVEATS"
+.IX Header "CAVEATS"
+AutoLoaders prior to Perl 5.002 had a slightly different interface.  Any
+old modules which use \fBAutoLoader\fR should be changed to the new calling
+style.  Typically this just means changing a require to a use, adding
+the explicit \f(CW'AUTOLOAD'\fR import if needed, and removing \fBAutoLoader\fR
+from \f(CW@ISA\fR.
+.PP
+On systems with restrictions on file name length, the file corresponding
+to a subroutine may have a shorter name that the routine itself.  This
+can lead to conflicting file names.  The \fIAutoSplit\fR package warns of
+these potential conflicts when used to split a module.
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+the \fISelfLoader\fR manpage \- an autoloader that doesn't use external files.
 
 .rn }` ''

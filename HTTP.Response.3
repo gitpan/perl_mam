@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH RESPONSE 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "RESPONSE 1"
+.TH lib::HTTP::Response 3 "perl 5.004, patch 01" "20/May/97" "User Contributed Perl Documentation"
+.IX Title "lib::HTTP::Response 3"
 .UC
 .IX Name "HTTP::Response - Class encapsulating HTTP Responses"
 .if n .hy 0
@@ -291,7 +311,7 @@ representing the freshness lifetime in seconds.
 .PP
 If the response does not contain an \*(L"Expires\*(R" or a \*(L"Cache-Control\*(R"
 header, then this function will apply some simple heuristic based on
-\*(L'Last-Modified\*(R' to determine a suitable lifetime.
+\&'Last-Modified\*(R' to determine a suitable lifetime.
 .Sh "\f(CW$r\fR\->is_fresh"
 .IX Subsection "\f(CW$r\fR\->is_fresh"
 Returns \s-1TRUE\s0 if the response is fresh, based on the values of

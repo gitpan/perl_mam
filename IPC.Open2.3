@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,7 +93,7 @@
 .nr % 0
 .rr F
 .\}
-.TH IPC::Open2 3 "perl 5.003, patch 93" "7/Mar/97" "Perl Programmers Reference Guide"
+.TH IPC::Open2 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
 .IX Title "IPC::Open2 3"
 .UC
 .IX Name "IPC::Open2, open2 - open a process for both reading and writing"
@@ -214,9 +234,9 @@ a time.  Programs like \fBsort\fR that read their entire input stream first,
 however, are quite apt to cause deadlock.  
 .PP
 The big problem with this approach is that if you don't have control 
-over source code being run in the the child process, you can't control what it does 
-with pipe buffering.  Thus you can't just open a pipe to \f(CWcat -v\fR and continually
-read and write a line from it.
+over source code being run in the child process, you can't control
+what it does with pipe buffering.  Thus you can't just open a pipe to
+\f(CWcat -v\fR and continually read and write a line from it.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 See the \fIIPC::Open3\fR manpage for an alternative that handles STDERR as well.  This

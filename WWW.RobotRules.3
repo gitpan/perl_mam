@@ -45,16 +45,36 @@
 .if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
 .ds L" ""
 .ds R" ""
+'''   \*(M", \*(S", \*(N" and \*(T" are the equivalent of
+'''   \*(L" and \*(R", except that they are used on ".xx" lines,
+'''   such as .IP and .SH, which do another additional levels of
+'''   double-quote interpretation
+.ds M" """
+.ds S" """
+.ds N" """""
+.ds T" """""
 .ds L' '
 .ds R' '
+.ds M' '
+.ds S' '
+.ds N' '
+.ds T' '
 'br\}
 .el\{\
 .ds -- \(em\|
 .tr \*(Tr
 .ds L" ``
 .ds R" ''
+.ds M" ``
+.ds S" ''
+.ds N" ``
+.ds T" ''
 .ds L' `
 .ds R' '
+.ds M' `
+.ds S' '
+.ds N' `
+.ds T' '
 .ds PI \(*p
 'br\}
 .\"	If the F register is turned on, we'll generate
@@ -73,8 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ROBOTRULES 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "ROBOTRULES 1"
+.TH lib::WWW::RobotRules 3 "perl 5.004, patch 01" "26/Jan/97" "User Contributed Perl Documentation"
+.IX Title "lib::WWW::RobotRules 3"
 .UC
 .IX Name "WWW::RobotsRules - Parse robots.txt files"
 .if n .hy 0
@@ -213,8 +233,8 @@ provide methods to check if access to a given URL is prohibited.  The
 same WWW::RobotRules object can parse multiple \fIrobots.txt\fR files.
 .SH "METHODS"
 .IX Header "METHODS"
-.Sh "\f(CW$rules\fR = new \s-1WWW::\s0RobotRules \*(L'MOMspider/1.0\*(R'"
-.IX Subsection "\f(CW$rules\fR = new \s-1WWW::\s0RobotRules \*(L'MOMspider/1.0\*(R'"
+.Sh "\f(CW$rules\fR = new \s-1WWW::\s0RobotRules \*(M'MOMspider/1.0\*(S'"
+.IX Subsection "\f(CW$rules\fR = new \s-1WWW::\s0RobotRules \*(M'MOMspider/1.0\*(S'"
 This is the constructor for \s-1WWW::\s0RobotRules objects.  The first 
 argument given to \fInew()\fR is the name of the robot. 
 .Sh "\f(CW$rules\fR\->\fIparse\fR\|($url, \f(CW$content\fR, \f(CW$fresh_until\fR)"
