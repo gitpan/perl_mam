@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File::CheckTree 3 "perl 5.004, patch 01" "7/Jun/95" "Perl Programmers Reference Guide"
-.IX Title "File::CheckTree 3"
+.TH File::CheckTree 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "validate - run many filetest checks on a tree"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 validate \- run many filetest checks on a tree
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use File::CheckTree;
@@ -211,7 +207,6 @@ validate \- run many filetest checks on a tree
 \&    });
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIvalidate()\fR routine takes a single multiline string consisting of
 lines containing a filename plus a file test to try on it.  (The
 file test may also be a \*(L"cd\*(R", causing subsequent relative filenames
@@ -229,3 +224,12 @@ Only the first failed test of the bunch will produce a warning.
 The routine returns the number of warnings issued.
 
 .rn }` ''
+.IX Title "File::CheckTree 3"
+.IX Name "validate - run many filetest checks on a tree"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

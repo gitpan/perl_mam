@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH vars 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "vars 3"
+.TH vars 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "vars - Perl pragma to predeclare global variable names"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,16 +188,13 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 vars \- Perl pragma to predeclare global variable names
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use vars qw($frob @mung %seen);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This will predeclare all the variables whose names are 
 in the list, allowing you to use them under \*(L"use strict\*(R", and
 disabling any typo warnings.
@@ -220,3 +215,12 @@ later-loaded routines.
 See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.
 
 .rn }` ''
+.IX Title "vars 3"
+.IX Name "vars - Perl pragma to predeclare global variable names"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

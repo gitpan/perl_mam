@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Parse 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::Parse 3"
+.TH lib::HTML::Parse 3 "perl 5.004, patch 55" "9/Jun/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "parse_html - Parse HTML text"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,12 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 parse_html \- Parse HTML text
 .PP
 parse_htmlfile \- Parse HTML text from file
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \& use HTML::Parse;
@@ -208,7 +204,6 @@ parse_htmlfile \- Parse HTML text from file
 \& print parse_htmlfile("index.html")->as_HTML;  # tidy up markup in a file
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fIDisclaimer: This module is provided for backwards compatibility with
 earlier versions of this library.  New code will probably prefer to
 use the HTML::Parser and HTML::TreeBuilder modules directly.\fR
@@ -216,7 +211,6 @@ use the HTML::Parser and HTML::TreeBuilder modules directly.\fR
 The \f(CWHTML::Parse\fR module provides functions to parse HTML documents.
 There are two functions exported by this module:
 .Ip "parse_html($html, [$obj])" 4
-.IX Item "parse_html($html, [$obj])"
 This function is really just a synonym for \f(CW$obj\fR\->\fIparse\fR\|($html) and \f(CW$obj\fR
 is assumed to be a subclass of \f(CWHTML::Parser\fR.  Refer to
 the \fI\s-1HTML::\s0Parser\fR manpage for more documentation.
@@ -227,7 +221,6 @@ syntax tree with \s-1HTML::\s0Element objects as nodes.
 .Sp
 The return value from \fIparse_html()\fR is \f(CW$obj\fR.
 .Ip "parse_htmlfile($file, [$obj])" 4
-.IX Item "parse_htmlfile($file, [$obj])"
 Same as \fIparse_html()\fR, but obtains \s-1HTML\s0 text from the named file.
 .Sp
 Returns \f(CWundef\fR if the file could not be opened, or \f(CW$obj\fR otherwise.
@@ -235,7 +228,6 @@ Returns \f(CWundef\fR if the file could not be opened, or \f(CW$obj\fR otherwise
 When a \f(CWHTML::TreeBuilder\fR object is created, the following variables
 control how parsing takes place:
 .Ip "$\s-1HTML::\s0Parse::\s-1IMPLICIT_TAGS\s0" 4
-.IX Item "$\s-1HTML::\s0Parse::\s-1IMPLICIT_TAGS\s0"
 Setting this variable to true will instruct the parser to try to
 deduce implicit elements and implicit end tags.  If this variable is
 false you get a parse tree that just reflects the text as it stands.
@@ -243,29 +235,50 @@ Might be useful for quick & dirty parsing.  Default is true.
 .Sp
 Implicit elements have the \fIimplicit()\fR attribute set.
 .Ip "$\s-1HTML::\s0Parse::\s-1IGNORE_UNKNOWN\s0" 4
-.IX Item "$\s-1HTML::\s0Parse::\s-1IGNORE_UNKNOWN\s0"
 This variable contols whether unknow tags should be represented as
 elements in the parse tree.  Default is true.
 .Ip "$\s-1HTML::\s0Parse::\s-1IGNORE_TEXT\s0" 4
-.IX Item "$\s-1HTML::\s0Parse::\s-1IGNORE_TEXT\s0"
 Do not represent the text content of elements.  This saves space if
 all you want is to examine the structure of the document.  Default is
 false.
 .Ip "$\s-1HTML::\s0Parse::\s-1WARN\s0" 4
-.IX Item "$\s-1HTML::\s0Parse::\s-1WARN\s0"
 Call \fIwarn()\fR with an apropriate message for syntax errors.  Default is
 false.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Parser\fR manpage, the \fIHTML::TreeBuilder\fR manpage, the \fIHTML::Element\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1995-1996 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::Parse 3"
+.IX Name "parse_html - Parse HTML text"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "parse_html($html, [$obj])"
+
+.IX Item "parse_htmlfile($file, [$obj])"
+
+.IX Item "$\s-1HTML::\s0Parse::\s-1IMPLICIT_TAGS\s0"
+
+.IX Item "$\s-1HTML::\s0Parse::\s-1IGNORE_UNKNOWN\s0"
+
+.IX Item "$\s-1HTML::\s0Parse::\s-1IGNORE_TEXT\s0"
+
+.IX Item "$\s-1HTML::\s0Parse::\s-1WARN\s0"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

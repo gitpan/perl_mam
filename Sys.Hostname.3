@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Sys::Hostname 3 "perl 5.004, patch 01" "8/May/97" "Perl Programmers Reference Guide"
-.IX Title "Sys::Hostname 3"
+.TH Sys::Hostname 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Sys::Hostname - Try every conceivable way to get hostname"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Sys::Hostname \- Try every conceivable way to get hostname
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use Sys::Hostname;
 \&    $host = hostname;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Attempts several methods of getting the system hostname and
 then caches the result.  It tries \f(CWsyscall(SYS_gethostname)\fR,
 \f(CW`hostname`\fR, \f(CW`uname -n`\fR, and the file \fI/com/host\fR.
@@ -208,9 +203,19 @@ If all that fails it \f(CWcroak\fRs.
 .PP
 All nulls, returns, and newlines are removed from the result.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 David Sundstrom <\fIsunds@asictest.sc.ti.com\fR>
 .PP
 Texas Instruments
 
 .rn }` ''
+.IX Title "Sys::Hostname 3"
+.IX Name "Sys::Hostname - Try every conceivable way to get hostname"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Carp 3 "perl 5.004, patch 01" "29/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "CGI::Carp 3"
+.TH CGI::Carp 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "B<CGI::Carp> - CGI routines for writing to the HTTPD (or other) error log"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 \fBCGI::Carp\fR \- CGI routines for writing to the HTTPD (or other) error log
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use CGI::Carp;
@@ -206,7 +202,6 @@
 \&    die  "I'm dying.\en";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 CGI scripts have a nasty habit of leaving warning messages in the error
 logs that are neither time stamped nor fully identified.  Tracking down
 the script that caused the error is a pain.  This fixes that.  Replace
@@ -232,7 +227,6 @@ For example:
 \&   [Fri Nov 17 21:40:43 1995] test.pl: I'm dying.
 .Ve
 .SH "REDIRECTING ERROR MESSAGES"
-.IX Header "REDIRECTING ERROR MESSAGES"
 By default, error messages are sent to STDERR.  Most HTTPD servers
 direct STDERR to the server's error log.  Some applications may wish
 to keep private error logs, distinct from the server's error log, or
@@ -291,7 +285,6 @@ for debugging purposes or for moderate-use applications.  A future
 version of this module may delay redirecting STDERR until one of the
 CGI::Carp methods is called to prevent the performance hit.
 .SH "MAKING PERL ERRORS APPEAR IN THE BROWSER WINDOW"
-.IX Header "MAKING PERL ERRORS APPEAR IN THE BROWSER WINDOW"
 If you want to send fatal (die, confess) errors to the browser, ask to 
 import the special \*(L"fatalsToBrowser\*(R" subroutine:
 .PP
@@ -305,19 +298,35 @@ occur in the early compile phase will be seen.
 Nonfatal errors will still be directed to the log file only (unless redirected
 with carpout).
 .SH "CHANGE LOG"
-.IX Header "CHANGE LOG"
 1.05 \fIcarpout()\fR added and minor corrections by Marc Hedlund
      <hedlund@best.com> on 11/26/95.
 .PP
 1.06 \fIfatalsToBrowser()\fR no longer aborts for fatal errors within
      \fIeval()\fR statements.
 .SH "AUTHORS"
-.IX Header "AUTHORS"
 Lincoln D. Stein <lstein@genome.wi.mit.edu>.  Feel free to redistribute
 this under the Perl Artistic License.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 Carp, CGI::Base, CGI::BasePlus, CGI::Request, CGI::MiniSvr, CGI::Form,
 CGI::Response
 
 .rn }` ''
+.IX Title "CGI::Carp 3"
+.IX Name "B<CGI::Carp> - CGI routines for writing to the HTTPD (or other) error log"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "REDIRECTING ERROR MESSAGES"
+
+.IX Header "MAKING PERL ERRORS APPEAR IN THE BROWSER WINDOW"
+
+.IX Header "CHANGE LOG"
+
+.IX Header "AUTHORS"
+
+.IX Header "SEE ALSO"
+

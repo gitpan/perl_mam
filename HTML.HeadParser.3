@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::HeadParser 3 "perl 5.004, patch 01" "10/Dec/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::HeadParser 3"
+.TH lib::HTML::HeadParser 3 "perl 5.004, patch 55" "26/Jun/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::HeadParser - Parse <HEAD> section of a HTML document"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::HeadParser \- Parse <HEAD> section of a HTML document
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& require HTML::HeadParser;
@@ -206,40 +202,51 @@ HTML::HeadParser \- Parse <HEAD> section of a HTML document
 \& $p->header('Foo')            # to access <meta http-equiv="Foo" content="...">
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIHTML::HeadParser\fR is a specialized (and lightweight)
 \fIHTML::Parser\fR that will only parse the <HEAD>...</HEAD> section of a
 HTML document.  The \fIparse()\fR and \fIparse_file()\fR methods will return a
 FALSE value as soon as a <BODY> element is found, and should not be
 called again after this.
 .PP
-The \fIHTML::HeadParser\fR constructor takes a \fIHTTP::Headers\fR object
-reference as argument.  The parser will update this header object as
-the various head elements are recognized.
+The \fIHTML::HeadParser\fR constructor takes an optional \fIHTTP::Headers\fR
+object reference as argument.  The parser will update this header
+object as the various <HEAD> elements are recognized.  If no
+header is given we will create an internal (and initially empty)
+header object.  This header object can be accessed with the \fIheader()\fR
+method.
 .PP
 The following header fields are initialized from elements found in the
-<head> section of a HTML document:
+<HEAD> section of the HTML document:
 .Ip "Content-Base:" 4
-.IX Item "Content-Base:"
 The \fIContent-Base\fR header is initialized from the <base
 href=\*(R"..."> element.
 .Ip "Title:" 4
-.IX Item "Title:"
 The \fITitle\fR header is initialized from the <title>...</title>
 element.
 .Ip "Isindex:" 4
-.IX Item "Isindex:"
 The \fIIsindex\fR header will be added if there is a <isindex>
 element in the <head>.  The header value is initialized from the
-\fIprompt\fR attribute if it is present.
+\fIprompt\fR attribute if it is present.  If not \fIprompt\fR attribute is
+given it will have \*(L'?\*(R' as the value.
 .Ip "X\-Meta-Foo" 4
-.IX Item "X\-Meta-Foo"
 All <meta> elements will initialize headers with the prefix
 \*(L"X\-Meta-\*(R".  If the element contains a \fIhttp-equiv\fR attribute, then it
 will be honored as the header name.
+.SH "METHODS"
+The following methods (in addition to those provided by the
+superclass) are available:
+.Ip "$hp = \s-1HTML::\s0HeadParser->new( [$header] )" 4
+.Ip "$hp->parse( $text )" 4
+Parses some \s-1HTML\s0 text (see \s-1HTML::\s0Parser->\fIparse()\fR) but will return
+\s-1FALSE\s0 as soon as parsing should end.
+.Ip "$hp->header;" 4
+Returns a reference to the \s-1HTML::\s0Header object.
+.Ip "$hp->header( $key )" 4
+Returns a header value.
+.Ip "$hp->as_string;" 4
+Same as \f(CW$hp\fR\->header->as_string
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
-.PP
+.Sp
 .Vb 9
 \& $h = HTTP::Headers->new;
 \& $p = HTML::HeadParser->new($h);
@@ -252,16 +259,50 @@ will be honored as the header name.
 \& print $h->title;   # should print "Stupid example"
 .Ve
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Parser\fR manpage, the \fIHTTP::Headers\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
-Copyright 1996 Gisle Aas. All rights reserved.
-.PP
+Copyright 1996-1997 Gisle Aas. All rights reserved.
+.Sp
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::HeadParser 3"
+.IX Name "HTML::HeadParser - Parse <HEAD> section of a HTML document"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "Content-Base:"
+
+.IX Item "Title:"
+
+.IX Item "Isindex:"
+
+.IX Item "X\-Meta-Foo"
+
+.IX Header "METHODS"
+
+.IX Item "$hp = \s-1HTML::\s0HeadParser->new( [$header] )"
+
+.IX Item "$hp->parse( $text )"
+
+.IX Item "$hp->header;"
+
+.IX Item "$hp->header( $key )"
+
+.IX Item "$hp->as_string;"
+
+.IX Header "EXAMPLES"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

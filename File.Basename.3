@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File::Basename 3 "perl 5.004, patch 01" "16/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "File::Basename 3"
+.TH File::Basename 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "fileparse - split a pathname into pieces"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,14 +188,12 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 fileparse \- split a pathname into pieces
 .PP
 basename \- extract just the filename from a path
 .PP
 dirname \- extract just the directory from a path
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use File::Basename;
@@ -215,11 +211,9 @@ dirname \- extract just the directory from a path
 \&    $dirname = dirname("lib/File/Basename.pm");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 These routines allow you to parse file specifications into useful
 pieces using the syntax of different operating systems.
 .Ip "fileparse_set_fstype" 4
-.IX Item "fileparse_set_fstype"
 You select the syntax via the routine \fIfileparse_set_fstype()\fR.
 .Sp
 If the argument passed to it contains one of the substrings
@@ -241,7 +235,6 @@ since those systems are not case-sensitive when opening existing files
 If you haven't called \fIfileparse_set_fstype()\fR, the syntax is chosen
 by examining the builtin variable \f(CW$^O\fR according to these rules.
 .Ip "fileparse" 4
-.IX Item "fileparse"
 The \fIfileparse()\fR routine divides a file specification into three
 parts: a leading \fBpath\fR, a file \fBname\fR, and a \fBsuffix\fR.  The
 \fBpath\fR contains everything up to and including the last directory
@@ -257,7 +250,6 @@ You are guaranteed that if you concatenate \fBpath\fR, \fBname\fR, and
 \fBsuffix\fR together in that order, the result will denote the same
 file as the input file specification.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 Using UNIX file syntax:
 .PP
 .Vb 2
@@ -285,13 +277,11 @@ would yield
 \&    $type eq '.Rnh'
 .Ve
 .Ip "\f(CWbasename\fR" 5
-.IX Item "\f(CWbasename\fR"
 The \fIbasename()\fR routine returns the first element of the list produced
 by calling \fIfileparse()\fR with the same arguments, except that it always
 quotes metacharacters in the given suffixes.  It is provided for
 programmer compatibility with the \s-1UNIX\s0 shell command \fIbasename\fR\|(1).
 .Ip "\f(CWdirname\fR" 5
-.IX Item "\f(CWdirname\fR"
 The \fIdirname()\fR routine returns the directory portion of the input file
 specification.  When using \s-1VMS\s0 or MacOS syntax, this is identical to the
 second element of the list produced by calling \fIfileparse()\fR with the same
@@ -305,3 +295,22 @@ considers the directory name to be \fIlib/\fR, while \fIdirname()\fR considers t
 directory name to be \fI.\fR).
 
 .rn }` ''
+.IX Title "File::Basename 3"
+.IX Name "fileparse - split a pathname into pieces"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "fileparse_set_fstype"
+
+.IX Item "fileparse"
+
+.IX Header "EXAMPLES"
+
+.IX Item "\f(CWbasename\fR"
+
+.IX Item "\f(CWdirname\fR"
+

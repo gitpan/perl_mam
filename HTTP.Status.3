@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Status 3 "perl 5.004, patch 01" "20/May/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Status 3"
+.TH lib::HTTP::Status 3 "perl 5.004, patch 55" "20/May/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Status - HTTP Status code processing"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Status \- HTTP Status code processing
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use HTTP::Status;
@@ -209,13 +205,11 @@ HTTP::Status \- HTTP Status code processing
 \& if (is_redirect($rc)) { ... }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fIHTTP::Status\fR is a library of routines for defining and
 classification of HTTP status codes for libwww-perl.  Status codes are
 used to encode the overall outcome of a HTTP response message.  Codes
 correspond to those defined in RFC 2068.
 .SH "CONSTANTS"
-.IX Header "CONSTANTS"
 The following constant functions can be used as mnemonic status code
 names:
 .PP
@@ -267,34 +261,53 @@ names:
 \&   RC_HTTP_VERSION_NOT_SUPPORTED        (505)
 .Ve
 .SH "FUNCTIONS"
-.IX Header "FUNCTIONS"
 The following additional functions are provided.  Most of them are
 exported by default.
 .Ip "status_message($code)" 4
-.IX Item "status_message($code)"
 The \fIstatus_message()\fR function will translate status codes to human
 readable strings. The string is the same as found in the constant
 names above.
 .Ip "is_info($code)" 4
-.IX Item "is_info($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIInformational\fR status code.
 .Ip "is_success($code)" 4
-.IX Item "is_success($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is a \fISuccessful\fR status code.
 .Ip "is_redirect($code)" 4
-.IX Item "is_redirect($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is a \fIRedirection\fR status code.
 .Ip "is_error($code)" 4
-.IX Item "is_error($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIError\fR status code.  The function
 return \s-1TRUE\s0 for both client error or a server error status codes.
 .Ip "is_client_error($code)" 4
-.IX Item "is_client_error($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIClient Error\fR status code.  This
 function is \fBnot\fR exported by default.
 .Ip "is_server_error($code)" 4
-.IX Item "is_server_error($code)"
 Return \s-1TRUE\s0 if \f(CW$code\fR is an \fIServer Error\fR status code.   This
 function is \fBnot\fR exported by default.
 
 .rn }` ''
+.IX Title "lib::HTTP::Status 3"
+.IX Name "HTTP::Status - HTTP Status code processing"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTANTS"
+
+.IX Header "FUNCTIONS"
+
+.IX Item "status_message($code)"
+
+.IX Item "is_info($code)"
+
+.IX Item "is_success($code)"
+
+.IX Item "is_redirect($code)"
+
+.IX Item "is_error($code)"
+
+.IX Item "is_client_error($code)"
+
+.IX Item "is_server_error($code)"
+

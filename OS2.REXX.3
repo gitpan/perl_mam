@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH OS2::REXX 3 "perl 5.004, patch 01" "16/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "OS2::REXX 3"
+.TH OS2::REXX 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "OS2::REXX - access to DLLs with REXX calling convention and REXX runtime."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,16 +188,13 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 OS2::REXX \- access to DLLs with REXX calling convention and REXX runtime.
 .Sh "\s-1NOTE\s0"
-.IX Subsection "\s-1NOTE\s0"
 By default, the \s-1REXX\s0 variable pool is not available, neither
 to Perl, nor to external \s-1REXX\s0 functions. To enable it, you need to put
 your code inside \f(CWREXX_call\fR function.  \s-1REXX\s0 functions which do not use
 variables may be usable even without \f(CWREXX_call\fR though.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \&        use OS2::REXX;
@@ -211,9 +206,7 @@ variables may be usable even without \f(CWREXX_call\fR though.
 \&        };
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 .Sh "Load \s-1REXX\s0 \s-1DLL\s0"
-.IX Subsection "Load \s-1REXX\s0 \s-1DLL\s0"
 .PP
 .Vb 1
 \&        $dll = load OS2::REXX NAME [, WHERE];
@@ -221,13 +214,13 @@ variables may be usable even without \f(CWREXX_call\fR though.
 \s-1NAME\s0 is \s-1DLL\s0 name, without path and extension.
 .PP
 Directories are searched \s-1WHERE\s0 first (list of dirs), then environment
-paths \s-1PERL5REXX\s0, \s-1PERLREXX\s0 or, as last resort, \s-1PATH\s0.
+paths \s-1PERL5REXX\s0, \s-1PERLREXX\s0, \s-1PATH\s0 or, as last resort, \s-1OS/2-\s0ish search 
+is performed in default \s-1DLL\s0 path (without adding paths and extensions).
 .PP
 The \s-1DLL\s0 is not unloaded when the variable dies.
 .PP
 Returns \s-1DLL\s0 object reference, or undef on failure.
 .Sh "Define function prefix:"
-.IX Subsection "Define function prefix:"
 .PP
 .Vb 1
 \&        $dll->prefix(NAME);
@@ -236,7 +229,6 @@ Define the prefix of external functions, prepended to the function
 names used within your program, when looking for the entries in the
 \s-1DLL\s0.
 .Sh "Example"
-.IX Subsection "Example"
 .PP
 .Vb 3
 \&                $dll = load OS2::REXX "RexxBase";
@@ -250,7 +242,6 @@ is the same as
 \&                $dll->RexxBase_Init();
 .Ve
 .Sh "Define queue:"
-.IX Subsection "Define queue:"
 .PP
 .Vb 1
 \&        $dll->queue(NAME);
@@ -265,7 +256,6 @@ Check for functions (optional):
 .Ve
 Returns true if all functions are available.
 .Sh "Call external \s-1REXX\s0 function:"
-.IX Subsection "Call external \s-1REXX\s0 function:"
 .PP
 .Vb 1
 \&        $dll->function(arguments);
@@ -273,7 +263,6 @@ Returns true if all functions are available.
 Returns the return string if the return code is 0, else undef.
 Dies with error message if the function is not available.
 .SH "Accessing REXX\-runtime"
-.IX Header "Accessing REXX\-runtime"
 While calling functions with REXX signature does not require the presence
 of the system REXX DLL, there are some actions which require REXX\-runtime 
 present. Among them is the access to REXX variables by name.
@@ -296,13 +285,11 @@ Inside such a call one has access to REXX variables (see below), and to
 \&                subroutine_name_in_REXX => \e&Perl_subroutine
 .Ve
 .Sh "Bind scalar variable to \s-1REXX\s0 variable:"
-.IX Subsection "Bind scalar variable to \s-1REXX\s0 variable:"
 .PP
 .Vb 1
 \&        tie $var, OS2::REXX, "NAME";
 .Ve
 .Sh "Bind array variable to \s-1REXX\s0 stem variable:"
-.IX Subsection "Bind array variable to \s-1REXX\s0 stem variable:"
 .PP
 .Vb 1
 \&        tie @var, OS2::REXX, "NAME.";
@@ -310,7 +297,6 @@ Inside such a call one has access to REXX variables (see below), and to
 Only scalar operations work so far. No array assignments, no array
 operations, ... \s-1FORGET\s0 \s-1IT\s0.
 .Sh "Bind hash array variable to \s-1REXX\s0 stem variable:"
-.IX Subsection "Bind hash array variable to \s-1REXX\s0 stem variable:"
 .PP
 .Vb 1
 \&        tie %var, OS2::REXX, "NAME.";
@@ -325,19 +311,16 @@ as shown above. If the hash key is part of the stem name, for
 example if you bind to "", you cannot use lower case in the stem
 part of the key and it is subject to character set restrictions.
 .Sh "Erase individual \s-1REXX\s0 variables (bound or not):"
-.IX Subsection "Erase individual \s-1REXX\s0 variables (bound or not):"
 .PP
 .Vb 1
 \&        OS2::REXX::drop("NAME" [, "NAME" [, ...]]);
 .Ve
 .Sh "Erase \s-1REXX\s0 variables with given stem (bound or not):"
-.IX Subsection "Erase \s-1REXX\s0 variables with given stem (bound or not):"
 .PP
 .Vb 1
 \&        OS2::REXX::dropall("STEM" [, "STEM" [, ...]]);
 .Ve
 .SH "NOTES"
-.IX Header "NOTES"
 Note that while function and variable names are case insensitive in the
 REXX language, function names exported by a DLL and the REXX variables
 (as seen by Perl through the chosen API) are all case sensitive!
@@ -373,8 +356,44 @@ which access REXX queues or REXX variables in signal handlers.
 .PP
 See \f(CWt/rx*.t\fR for examples.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Andreas Kaiser ak@ananke.s.bawue.de, with additions by Ilya Zakharevich
 ilya@math.ohio-state.edu.
 
 .rn }` ''
+.IX Title "OS2::REXX 3"
+.IX Name "OS2::REXX - access to DLLs with REXX calling convention and REXX runtime."
+
+.IX Header "NAME"
+
+.IX Subsection "\s-1NOTE\s0"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Load \s-1REXX\s0 \s-1DLL\s0"
+
+.IX Subsection "Define function prefix:"
+
+.IX Subsection "Example"
+
+.IX Subsection "Define queue:"
+
+.IX Subsection "Call external \s-1REXX\s0 function:"
+
+.IX Header "Accessing REXX\-runtime"
+
+.IX Subsection "Bind scalar variable to \s-1REXX\s0 variable:"
+
+.IX Subsection "Bind array variable to \s-1REXX\s0 stem variable:"
+
+.IX Subsection "Bind hash array variable to \s-1REXX\s0 stem variable:"
+
+.IX Subsection "Erase individual \s-1REXX\s0 variables (bound or not):"
+
+.IX Subsection "Erase \s-1REXX\s0 variables with given stem (bound or not):"
+
+.IX Header "NOTES"
+
+.IX Header "AUTHOR"
+

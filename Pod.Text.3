@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Pod::Text 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "Pod::Text 3"
+.TH Pod::Text 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Pod::Text - convert POD data to formatted ASCII text"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Pod::Text \- convert POD data to formatted ASCII text
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&        use Pod::Text;
@@ -207,7 +203,6 @@ Also:
 \&        pod2text [B<-a>] [B<->I<width>] < input.pod
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Pod::Text is a module that can convert documentation in the POD format (such
 as can be found throughout the Perl distribution) into formatted ASCII.
 Termcap is optionally supported for boldface/underline, and can enabled via
@@ -224,12 +219,23 @@ should be the name of a file to read the pod from, or \*(L"<&STDIN\*(R" to read 
 STDIN. A second argument, if provided, should be a filehandle glob where
 output should be sent.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen <\fItchrist@mox.perl.com\fR>
 .SH "TODO"
-.IX Header "TODO"
 Cleanup work. The input and output locations need to be more flexible,
 termcap shouldn't be a global variable, and the terminal speed needs to
 be properly calculated.
 
 .rn }` ''
+.IX Title "Pod::Text 3"
+.IX Name "Pod::Text - convert POD data to formatted ASCII text"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHOR"
+
+.IX Header "TODO"
+

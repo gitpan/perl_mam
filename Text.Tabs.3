@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Text::Tabs 3 "perl 5.004, patch 01" "18/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "Text::Tabs 3"
+.TH Text::Tabs 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Text::Tabs - expand and unexpand tabs per the unix expand(1) and unexpand(1)"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,28 +188,36 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Text::Tabs -- expand and unexpand tabs per the unix \fIexpand\fR\|(1) and \fIunexpand\fR\|(1)
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 use Text::Tabs;
 .PP
 $tabstop = 4;
 \f(CW@lines_without_tabs\fR = \fIexpand\fR\|(@lines_with_tabs);
 \f(CW@lines_with_tabs\fR = \fIunexpand\fR\|(@lines_without_tabs);
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Text::Tabs does about what the unix utilities \fIexpand\fR\|(1) and \fIunexpand\fR\|(1)
 do.  Given a line with tabs in it, expand will replace the tabs with
 the appropriate number of spaces.  Given a line with or without tabs in
 it, unexpand will add tabs when it can save bytes by doing so.  Invisible
 compression with plain ascii!
 .SH "BUGS"
-.IX Header "BUGS"
 expand doesn't handle newlines very quickly -- do not feed it an
 entire document in one string.  Instead feed it an array of lines.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 David Muir Sharnoff <muir@idiom.com>
 
 .rn }` ''
+.IX Title "Text::Tabs 3"
+.IX Name "Text::Tabs - expand and unexpand tabs per the unix expand(1) and unexpand(1)"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+

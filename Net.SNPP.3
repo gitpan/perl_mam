@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::SNPP 3 "perl 5.004, patch 01" "17/Mar/97" "User Contributed Perl Documentation"
-.IX Title "Net::SNPP 3"
+.TH Net::SNPP 3 "perl 5.004, patch 55" "4/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::SNPP - Simple Network Pager Protocol Client"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::SNPP \- Simple Network Pager Protocol Client
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \&    use Net::SNPP;
@@ -203,10 +199,8 @@ Net::SNPP \- Simple Network Pager Protocol Client
 \&    $snpp = Net::SNPP->new('snpphost', Timeout => 60);
 .Ve
 .SH "NOTE"
-.IX Header "NOTE"
 This module is not complete, yet !
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module implements a client interface to the SNPP protocol, enabling
 a perl5 application to talk to SNPP servers. This documentation assumes
 that you are familiar with the SNPP protocol described in RFC1861.
@@ -214,7 +208,6 @@ that you are familiar with the SNPP protocol described in RFC1861.
 A new Net::SNPP object must be created with the \fInew\fR method. Once
 this has been done, all SNPP commands are accessed through this object.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 This example will send a pager message in one hour saying \*(L"Your lunch is ready\*(R"
 .PP
 .Vb 13
@@ -233,9 +226,7 @@ This example will send a pager message in one hour saying \*(L"Your lunch is rea
 \&    $snpp->quit;
 .Ve
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ( [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ] )" 4
-.IX Item "new ( [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ] )"
 This is the constructor for a new Net::\s-1SNPP\s0 object. \f(CWHOST\fR is the
 name of the remote host to which a \s-1SNPP\s0 connection is required.
 .Sp
@@ -258,35 +249,60 @@ Example:
 \&                          );
 .Ve
 .SH "METHODS"
-.IX Header "METHODS"
 Unless otherwise stated all methods return either a \fItrue\fR or \fIfalse\fR
 value, with \fItrue\fR meaning that the operation was a success. When a method
 states that it returns a value, failure will be returned as \fIundef\fR or an
 empty list.
 .Ip "reset ()" 8
-.IX Item "reset ()"
 .Ip "help ()" 8
-.IX Item "help ()"
 Request help text from the server. Returns the text or undef upon failure
 .Ip "quit ()" 8
-.IX Item "quit ()"
 Send the \s-1QUIT\s0 command to the remote \s-1SNPP\s0 server and close the socket connection.
 .SH "EXPORTS"
-.IX Header "EXPORTS"
 \f(CWNet::SNPP\fR exports all that \f(CWNet::CMD\fR exports, plus three more subroutines
 that can bu used to compare against the result of \f(CWstatus\fR. These are :\-
 \f(CWCMD_2WAYERROR\fR, \f(CWCMD_2WAYOK\fR, and \f(CWCMD_2WAYQUEUED\fR.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fINet::Cmd\fR manpage
 RFC1861
 .SH "AUTHOR"
-.IX Header "AUTHOR"
-Graham Barr <gbarr@ti.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1997 Graham Barr. All rights reserved.
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "Net::SNPP 3"
+.IX Name "Net::SNPP - Simple Network Pager Protocol Client"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "NOTE"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ( [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ] )"
+
+.IX Header "METHODS"
+
+.IX Item "reset ()"
+
+.IX Item "help ()"
+
+.IX Item "quit ()"
+
+.IX Header "EXPORTS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

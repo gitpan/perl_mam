@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::testlib 3 "perl 5.004, patch 01" "3/Sep/96" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::testlib 3"
+.TH ExtUtils::testlib 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::testlib - add blib/* directories to @INC"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,13 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::testlib \- add blib/* directories to \f(CW@INC\fR
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 \f(CWuse ExtUtils::testlib;\fR
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 After an extension has been built and before it is installed it may be
 desirable to test it bypassing \f(CWmake test\fR. By adding
 .PP
@@ -207,3 +202,12 @@ to a test program the intermediate directories used by \f(CWmake\fR are
 added to \f(CW@INC\fR.
 
 .rn }` ''
+.IX Title "ExtUtils::testlib 3"
+.IX Name "ExtUtils::testlib - add blib/* directories to @INC"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

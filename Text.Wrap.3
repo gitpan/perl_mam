@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Text::Wrap 3 "perl 5.004, patch 01" "28/Jan/97" "Perl Programmers Reference Guide"
-.IX Title "Text::Wrap 3"
+.TH Text::Wrap 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Text::Wrap - line wrapping to form simple paragraphs"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Text::Wrap \- line wrapping to form simple paragraphs
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&        use Text::Wrap
@@ -208,27 +204,38 @@ Text::Wrap \- line wrapping to form simple paragraphs
 \&        $columns = 132;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fIText::Wrap::wrap()\fR is a very simple paragraph formatter.  It formats a
 single paragraph at a time by breaking lines at word boundries.
 Indentation is controlled for the first line ($initial_tab) and
 all subsquent lines ($subsequent_tab) independently.  \f(CW$Text::Wrap::columns\fR
 should be set to the full width of your output device.
 .SH "EXAMPLE"
-.IX Header "EXAMPLE"
 .PP
 .Vb 2
 \&        print wrap("\et","","This is a bit of text that forms 
 \&                a normal book-style paragraph");
 .Ve
 .SH "BUGS"
-.IX Header "BUGS"
 It's not clear what the correct behavior should be when \fIWrap()\fR is
 presented with a word that is longer than a line.  The previous 
 behavior was to die.  Now the word is split at line-length.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 David Muir Sharnoff <muir@idiom.com> with help from Tim Pierce and
 others.
 
 .rn }` ''
+.IX Title "Text::Wrap 3"
+.IX Name "Text::Wrap - line wrapping to form simple paragraphs"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLE"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+

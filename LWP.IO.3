@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::IO 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::IO 3"
+.TH lib::LWP::IO 3 "perl 5.004, patch 55" "5/Apr/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::IO - Low level I/O capability"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,20 +188,15 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::IO \- Low level I/O capability
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use LWP::IO ();
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 .Sh "\fI\s-1LWP::IO::\s0read\fR\|($fd, \f(CW$data\fR, \f(CW$size\fR, \f(CW$offset\fR, \f(CW$timeout\fR)"
-.IX Subsection "\fI\s-1LWP::IO::\s0read\fR\|($fd, \f(CW$data\fR, \f(CW$size\fR, \f(CW$offset\fR, \f(CW$timeout\fR)"
 .Sh "\fI\s-1LWP::IO::\s0write\fR\|($fd, \f(CW$data\fR, \f(CW$timeout\fR)"
-.IX Subsection "\fI\s-1LWP::IO::\s0write\fR\|($fd, \f(CW$data\fR, \f(CW$timeout\fR)"
 These routines provide low level I/O with timeout capability for the
 \s-1LWP\s0 library.  These routines will only be installed if they are not
 already defined.  This fact can be used by programs that need to
@@ -211,3 +204,16 @@ override these functions.  Just provide replacement functions before
 you require \s-1LWP\s0. See also the \fI\s-1LWP::\s0TkIO\fR manpage.
 
 .rn }` ''
+.IX Title "lib::LWP::IO 3"
+.IX Name "LWP::IO - Low level I/O capability"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\fI\s-1LWP::IO::\s0read\fR\|($fd, \f(CW$data\fR, \f(CW$size\fR, \f(CW$offset\fR, \f(CW$timeout\fR)"
+
+.IX Subsection "\fI\s-1LWP::IO::\s0write\fR\|($fd, \f(CW$data\fR, \f(CW$timeout\fR)"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Formatter 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::Formatter 3"
+.TH lib::HTML::Formatter 3 "perl 5.004, patch 55" "12/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::Formatter - Base class for HTML formatters"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::Formatter \- Base class for HTML formatters
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& package HTML::FormatXX;
@@ -201,23 +197,34 @@ HTML::Formatter \- Base class for HTML formatters
 \& @ISA=qw(HTML::Formatter);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 HTML formatters are able to format a HTML syntax tree into various
 printable formats.  Different formatters produce output for different
 output media.  Common for all formatters are that they will return the
 formatted output when the \fIformat()\fR method is called.  \fIFormat()\fR takes a
 HTML::Element as parameter.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::FormatText\fR manpage, the \fIHTML::FormatPS\fR manpage, the \fIHTML::Element\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
-Copyright (c) 1995 Gisle Aas. All rights reserved.
+Copyright (c) 1995-1997 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@oslonett.no>
 
 .rn }` ''
+.IX Title "lib::HTML::Formatter 3"
+.IX Name "HTML::Formatter - Base class for HTML formatters"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

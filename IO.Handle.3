@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Handle 3 "perl 5.004, patch 01" "9/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "IO::Handle 3"
+.TH IO::Handle 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IO::Handle - supply object methods for I/O handles"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IO::Handle \- supply object methods for I/O handles
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use IO::Handle;
@@ -211,7 +207,8 @@ IO::Handle \- supply object methods for I/O handles
 \&        $fh->print("Some text\en");
 \&    }
 .Ve
-.Vb 1
+.Vb 2
+\&    use IO::Handle '_IOLBF';
 \&    $fh->setvbuf($buffer_var, _IOLBF, 1024);
 .Ve
 .Vb 1
@@ -221,7 +218,6 @@ IO::Handle \- supply object methods for I/O handles
 \&    autoflush STDOUT 1;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWIO::Handle\fR is the base class for all other IO handle classes. It is
 not intended that objects of \f(CWIO::Handle\fR would be created directly,
 but instead \f(CWIO::Handle\fR is inherited from by several other classes
@@ -233,18 +229,14 @@ for \f(CWIO::File\fR
 .PP
 A \f(CWIO::Handle\fR object is a reference to a symbol (see the \f(CWSymbol\fR package)
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ()" 4
-.IX Item "new ()"
 Creates a new \f(CWIO::Handle\fR object.
 .Ip "new_from_fd ( \s-1FD\s0, \s-1MODE\s0 )" 4
-.IX Item "new_from_fd ( \s-1FD\s0, \s-1MODE\s0 )"
 Creates a \f(CWIO::Handle\fR like \f(CWnew\fR does.
 It requires two parameters, which are passed to the method \f(CWfdopen\fR;
 if the fdopen fails, the object is destroyed. Otherwise, it is returned
 to the caller.
 .SH "METHODS"
-.IX Header "METHODS"
 See the \fIperlfunc\fR manpage for complete descriptions of each of the following
 supported \f(CWIO::Handle\fR methods, which are just front ends for the
 corresponding built-in functions:
@@ -282,41 +274,32 @@ supported \f(CWIO::Handle\fR methods:
 .Ve
 Furthermore, for doing normal I/O you might need these:
 .Ip "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )" 5
-.IX Item "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )"
 \f(CWfdopen\fR is like an ordinary \f(CWopen\fR except that its first parameter
 is not a filename but rather a file handle name, a \s-1IO::\s0Handle object,
 or a file descriptor number.
 .Ip "$fh->opened" 5
-.IX Item "$fh->opened"
 Returns true if the object is currently a valid file descriptor.
 .Ip "$fh->getline" 5
-.IX Item "$fh->getline"
 This works like <$fh> described in the section on \fII/O Operators\fR in the \fIperlop\fR manpage
 except that it's more readable and can be safely called in an
 array context but still returns just one line.
 .Ip "$fh->getlines" 5
-.IX Item "$fh->getlines"
 This works like <$fh> when called in an array context to
 read all the remaining lines in a file, except that it's more readable.
 It will also \fIcroak()\fR if accidentally called in a scalar context.
 .Ip "$fh->ungetc ( \s-1ORD\s0 )" 5
-.IX Item "$fh->ungetc ( \s-1ORD\s0 )"
 Pushes a character with the given ordinal value back onto the given
 handle's input stream.
 .Ip "$fh->write ( \s-1BUF\s0, \s-1LEN\s0 [, \s-1OFFSET\s0 }\e] )" 5
-.IX Item "$fh->write ( \s-1BUF\s0, \s-1LEN\s0 [, \s-1OFFSET\s0 }\e] )"
 This \f(CWwrite\fR is like \f(CWwrite\fR found in C, that is it is the
 opposite of read. The wrapper for the perl \f(CWwrite\fR function is
 called \f(CWformat_write\fR.
 .Ip "$fh->flush" 5
-.IX Item "$fh->flush"
 Flush the given handle's buffer.
 .Ip "$fh->error" 5
-.IX Item "$fh->error"
 Returns a true value if the given handle has experienced any errors
 since it was opened or since the last call to \f(CWclearerr\fR.
 .Ip "$fh->clearerr" 5
-.IX Item "$fh->clearerr"
 Clear the given handle's error indicator.
 .PP
 If the C functions \fIsetbuf()\fR and/or \fIsetvbuf()\fR are available, then
@@ -327,18 +310,17 @@ are the same as their C counterparts\*(--including the constants \f(CW_IOFBF\fR,
 specifies a scalar variable to use as a buffer.  \s-1WARNING\s0: A variable
 used as a buffer by \f(CWsetbuf\fR or \f(CWsetvbuf\fR must not be modified in any
 way until the \s-1IO::\s0Handle is closed or \f(CWsetbuf\fR or \f(CWsetvbuf\fR is called
-again, or memory corruption may result!
+again, or memory corruption may result!  Note that you need to import
+the constants \f(CW_IOFBF\fR, \f(CW_IOLBF\fR, and \f(CW_IONBF\fR explicitly.
 .PP
 Lastly, there is a special method for working under \fB\-T\fR and setuid/gid
 scripts:
 .Ip "$fh->untaint" 5
-.IX Item "$fh->untaint"
 Marks the object as taint-clean, and as such data read from it will also
 be considered taint-clean. Note that this is a very trusting action to
 take, and appropriate consideration for the data source and potential
 vulnerability should be kept in mind.
 .SH "NOTE"
-.IX Header "NOTE"
 A \f(CWIO::Handle\fR object is a GLOB reference. Some modules that
 inherit from \f(CWIO::Handle\fR may want to keep object related variables
 in the hash table part of the GLOB. In an attempt to prevent modules
@@ -346,18 +328,60 @@ trampling on each other I propose the that any such module should prefix
 its variables with its own name separated by _'s. For example the IO::Socket
 module keeps a \f(CWtimeout\fR variable in \*(L'io_socket_timeout\*(R'.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperlfunc\fR manpage, 
 the section on \fII/O Operators\fR in the \fIperlop\fR manpage,
 the \fIIO::File\fR manpage
 .SH "BUGS"
-.IX Header "BUGS"
 Due to backwards compatibility, all filehandles resemble objects
 of class \f(CWIO::Handle\fR, or actually classes derived from that class.
 They actually aren't.  Which means you can't derive your own 
 class from \f(CWIO::Handle\fR and inherit those methods.
 .SH "HISTORY"
-.IX Header "HISTORY"
 Derived from FileHandle.pm by Graham Barr <\fIbodg@tiuk.ti.com\fR>
 
 .rn }` ''
+.IX Title "IO::Handle 3"
+.IX Name "IO::Handle - supply object methods for I/O handles"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ()"
+
+.IX Item "new_from_fd ( \s-1FD\s0, \s-1MODE\s0 )"
+
+.IX Header "METHODS"
+
+.IX Item "$fh->fdopen ( \s-1FD\s0, \s-1MODE\s0 )"
+
+.IX Item "$fh->opened"
+
+.IX Item "$fh->getline"
+
+.IX Item "$fh->getlines"
+
+.IX Item "$fh->ungetc ( \s-1ORD\s0 )"
+
+.IX Item "$fh->write ( \s-1BUF\s0, \s-1LEN\s0 [, \s-1OFFSET\s0 }\e] )"
+
+.IX Item "$fh->flush"
+
+.IX Item "$fh->error"
+
+.IX Item "$fh->clearerr"
+
+.IX Item "$fh->untaint"
+
+.IX Header "NOTE"
+
+.IX Header "SEE ALSO"
+
+.IX Header "BUGS"
+
+.IX Header "HISTORY"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Time::gmtime 3 "perl 5.004, patch 01" "28/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Time::gmtime 3"
+.TH Time::gmtime 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Time::gmtime - by-name interface to Perl's built-in gmtime() function"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Time::gmtime \- by-name interface to Perl's built-in \fIgmtime()\fR function
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \& use Time::gmtime;
@@ -215,7 +211,6 @@ Time::gmtime \- by-name interface to Perl's built-in \fIgmtime()\fR function
 \& $date_string = gmctime(stat($file)->mtime);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module's default exports override the core \fIgmtime()\fR function,
 replacing it with a version that returns \*(L"Time::tm\*(R" objects.
 This object has methods that return the similarly named structure field
@@ -237,11 +232,22 @@ function functions with their full qualified names.
 On the other hand, the built-ins are still available
 via the \f(CWCORE::\fR pseudo-package.
 .SH "NOTE"
-.IX Header "NOTE"
 While this class is currently implemented using the Class::Struct
 module to build a struct-like class, you shouldn't rely upon this.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen
 
 .rn }` ''
+.IX Title "Time::gmtime 3"
+.IX Name "Time::gmtime - by-name interface to Perl's built-in gmtime() function"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "NOTE"
+
+.IX Header "AUTHOR"
+

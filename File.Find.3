@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File::Find 3 "perl 5.004, patch 01" "19/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "File::Find 3"
+.TH File::Find 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "find - traverse a file tree"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,12 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 find \- traverse a file tree
 .PP
 finddepth \- traverse a directory structure depth-first
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \&    use File::Find;
@@ -207,7 +203,6 @@ finddepth \- traverse a directory structure depth-first
 \&    sub wanted { ... }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIwanted()\fR function does whatever verifications you want.
 \f(CW$File::Find::dir\fR contains the current directory name, and \f(CW$_\fR the
 current filename within that directory.  \f(CW$File::Find::name\fR contains
@@ -252,5 +247,18 @@ that don't resolve:
 \&        -l && !-e && print "bogus link: $File::Find::name\en";
 \&    } 
 .Ve
+.SH "BUGS"
+There is no way to make find or finddepth follow symlinks.
 
 .rn }` ''
+.IX Title "File::Find 3"
+.IX Name "find - traverse a file tree"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "BUGS"
+

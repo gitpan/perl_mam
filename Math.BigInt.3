@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::BigInt 3 "perl 5.004, patch 01" "12/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Math::BigInt 3"
+.TH Math::BigInt 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Math::BigInt - Arbitrary size integer math package"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Math::BigInt \- Arbitrary size integer math package
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&  use Math::BigInt;
@@ -212,7 +208,6 @@ Math::BigInt \- Arbitrary size integer math package
 \&  $i->bnorm return BINT              normalization
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 All basic math operations are overloaded if you declare your big
 integers as
 .PP
@@ -220,15 +215,12 @@ integers as
 \&  $i = new Math::BigInt '123 456 789 123 456 789';
 .Ve
 .Ip "Canonical notation" 2
-.IX Item "Canonical notation"
 Big integer value are strings of the form \f(CW/^[+-]\ed+$/\fR with leading
 zeros suppressed.
 .Ip "Input" 2
-.IX Item "Input"
 Input values to these routines may be strings of the form
 \f(CW/^\es*[+-]?[\ed\es]+$/\fR.
 .Ip "Output" 2
-.IX Item "Output"
 Output values always always in canonical form
 .PP
 Actual math is done in an internal format consisting of an array
@@ -237,7 +229,6 @@ elements are base 100000 digits with the least significant digit first.
 The string \*(L'NaN\*(R' is used to represent the result when input arguments 
 are not numbers, as well as the result of dividing by zero.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 .PP
 .Vb 3
 \&   '+0'                            canonical zero value
@@ -245,11 +236,30 @@ are not numbers, as well as the result of dividing by zero.
 \&   '1 23 456 7890'                 canonical value '+1234567890'
 .Ve
 .SH "BUGS"
-.IX Header "BUGS"
 The current version of this module is a preliminary version of the
 real thing that is currently (as of perl5.002) under development.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Mark Biggar, overloaded interface by Ilya Zakharevich.
 
 .rn }` ''
+.IX Title "Math::BigInt 3"
+.IX Name "Math::BigInt - Arbitrary size integer math package"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "Canonical notation"
+
+.IX Item "Input"
+
+.IX Item "Output"
+
+.IX Header "EXAMPLES"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+

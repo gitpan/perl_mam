@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Cwd 3 "perl 5.004, patch 01" "17/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Cwd 3"
+.TH Cwd 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "getcwd - get pathname of current working directory"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 getcwd \- get pathname of current working directory
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use Cwd;
@@ -213,19 +209,26 @@ getcwd \- get pathname of current working directory
 \&    print $ENV{'PWD'};
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIgetcwd()\fR function re-implements the \fIgetcwd\fR\|(3) (or \fIgetwd\fR\|(3)) functions
 in Perl.
 .PP
 The \fIfastcwd()\fR function looks the same as \fIgetcwd()\fR, but runs faster.
-It's also more dangerous because you might conceivably \fIchdir()\fR out of a
-directory that you can't \fIchdir()\fR back into.
+It's also more dangerous because it might conceivably \fIchdir()\fR you out
+of a directory that it can't \fIchdir()\fR you back into.  If fastcwd
+encounters a problem it will return undef but will probably leave you
+in a different directory.  For a measure of extra security, if
+everything appears to have worked, the \fIfastcwd()\fR function will check
+that it leaves you in the same directory that it started in. If it has
+changed it will \f(CWdie\fR with the message \*(L"Unstable directory path,
+current directory changed unexpectedly\*(R". That should never happen.
 .PP
 The \fIcwd()\fR function looks the same as getcwd and fastgetcwd but is
 implemented using the most natural and safe form for the current
 architecture. For most systems it is identical to `pwd` (but without
-the trailing line terminator). It is recommended that cwd (or another
-*\fIcwd()\fR function) is used in \fIall\fR code to ensure portability.
+the trailing line terminator).
+.PP
+It is recommended that cwd (or another *\fIcwd()\fR function) is used in
+\fIall\fR code to ensure portability.
 .PP
 If you ask to override your \fIchdir()\fR built-in function, then your PWD
 environment variable will be kept up to date.  (See
@@ -233,3 +236,12 @@ the section on \fIOverriding Builtin Functions\fR in the \fIperlsub\fR manpage.)
 kept up to date if all packages which use chdir import it from Cwd.
 
 .rn }` ''
+.IX Title "Cwd 3"
+.IX Name "getcwd - get pathname of current working directory"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

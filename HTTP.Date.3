@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Date 3 "perl 5.004, patch 01" "3/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Date 3"
+.TH lib::HTTP::Date 3 "perl 5.004, patch 55" "1/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "time2str, str2time - date conversion routines"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 time2str, str2time \- date conversion routines
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use HTTP::Date;
@@ -203,10 +199,8 @@ time2str, str2time \- date conversion routines
 \& $time = str2time($stringGMT);  # convert ASCII date to machine time
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provides two functions that deal with the HTTP date format.
 .Sh "\fItime2str\fR\|([$time])"
-.IX Subsection "\fItime2str\fR\|([$time])"
 The \fItime2str()\fR function converts a machine time (seconds since epoch)
 to a string.  If the function is called without an argument, it will
 use the current time.
@@ -220,7 +214,6 @@ format is:
 \&   Thu, 03 Feb 1994 17:09:00 GMT
 .Ve
 .Sh "\fIstr2time\fR\|($str [, \f(CW$zone\fR])"
-.IX Subsection "\fIstr2time\fR\|($str [, \f(CW$zone\fR])"
 The \fIstr2time()\fR function converts a string to machine time.  It returns
 \f(CWundef\fR if the format is unrecognized, or the year is not between 1970
 and 2038.  The function is able to parse the following formats:
@@ -273,7 +266,6 @@ zone is assumed.
 If the year is missing, then we assume that the date is the first
 matching date \fIbefore\fR current time.
 .SH "BUGS"
-.IX Header "BUGS"
 Non-numerical time zones (like MET, PST) are all treated like GMT.
 Do not use them.  HTTP does not use them.
 .PP
@@ -283,10 +275,26 @@ really misleading you can also import the \fItime2iso()\fR and \fItime2isoz()\fR
 functions.  They work like \fItime2str()\fR but produce ISO\-8601 formated
 strings (YYYY\-MM\-DD hh:mm:ss).
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1995-1997, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "lib::HTTP::Date 3"
+.IX Name "time2str, str2time - date conversion routines"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\fItime2str\fR\|([$time])"
+
+.IX Subsection "\fIstr2time\fR\|($str [, \f(CW$zone\fR])"
+
+.IX Header "BUGS"
+
+.IX Header "COPYRIGHT"
+

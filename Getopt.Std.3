@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Getopt::Std 3 "perl 5.004, patch 01" "18/Nov/96" "Perl Programmers Reference Guide"
-.IX Title "Getopt::Std 3"
+.TH Getopt::Std 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "getopt - Process single-character switches with switch clustering"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,12 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 getopt \- Process single-character switches with switch clustering
 .PP
 getopts \- Process single-character switches with switch clustering
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use Getopt::Std;
@@ -208,7 +204,6 @@ getopts \- Process single-character switches with switch clustering
 \&    getopts('oif:', \e%opts);  # options as above. Values in %opts
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIgetopt()\fR functions processes single-character switches with switch
 clustering.  Pass one argument which is a string containing all switches
 that take an argument.  For each switch found, sets \f(CW$opt_x\fR (where x is the
@@ -222,3 +217,12 @@ Hash keys will be x (where x is the switch name) with key values the value of
 the argument or 1 if no argument is specified.
 
 .rn }` ''
+.IX Title "Getopt::Std 3"
+.IX Name "getopt - Process single-character switches with switch clustering"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

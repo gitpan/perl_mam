@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib 3 "perl 5.004, patch 01" "23/Jan/97" "Perl Programmers Reference Guide"
-.IX Title "lib 3"
+.TH lib 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "lib - manipulate @INC at compile time"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 lib \- manipulate \f(CW@INC\fR at compile time
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use lib LIST;
@@ -202,7 +198,6 @@ lib \- manipulate \f(CW@INC\fR at compile time
 \&    no lib LIST;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This is a small simple module which simplifies the manipulation of \f(CW@INC\fR
 at compile time.
 .PP
@@ -210,7 +205,6 @@ It is typically used to add extra directories to perl's search path so
 that later \f(CWuse\fR or \f(CWrequire\fR statements will find modules which are
 not located on perl's default search path.
 .Sh "\s-1ADDING\s0 \s-1DIRECTORIES\s0 \s-1TO\s0 \f(CW@INC\fR"
-.IX Subsection "\s-1ADDING\s0 \s-1DIRECTORIES\s0 \s-1TO\s0 \f(CW@INC\fR"
 The parameters to \f(CWuse lib\fR are added to the start of the perl search
 path. Saying
 .PP
@@ -230,7 +224,6 @@ architecture specific directory and is added to \f(CW@INC\fR in front of \f(CW$d
 If \s-1LIST\s0 includes both \f(CW$dir\fR and \f(CW$dir\fR/$archname then \f(CW$dir\fR/$archname will
 be added to \f(CW@INC\fR twice (if \f(CW$dir\fR/$archname/auto exists).
 .Sh "\s-1DELETING\s0 \s-1DIRECTORIES\s0 \s-1FROM\s0 \f(CW@INC\fR"
-.IX Subsection "\s-1DELETING\s0 \s-1DIRECTORIES\s0 \s-1FROM\s0 \f(CW@INC\fR"
 You should normally only add directories to \f(CW@INC\fR.  If you need to
 delete directories from \f(CW@INC\fR take care to only delete those which you
 added yourself or which you are certain are not needed by other modules
@@ -255,7 +248,6 @@ architecture specific directory and is also deleted from \f(CW@INC\fR.
 If \s-1LIST\s0 includes both \f(CW$dir\fR and \f(CW$dir\fR/$archname then \f(CW$dir\fR/$archname will
 be deleted from \f(CW@INC\fR twice (if \f(CW$dir\fR/$archname/auto exists).
 .Sh "\s-1RESTORING\s0 \s-1ORIGINAL\s0 \f(CW@INC\fR"
-.IX Subsection "\s-1RESTORING\s0 \s-1ORIGINAL\s0 \f(CW@INC\fR"
 When the lib module is first loaded it records the current value of \f(CW@INC\fR
 in an array \f(CW@lib::ORIG_INC\fR. To restore \f(CW@INC\fR to that value you
 can say
@@ -264,10 +256,27 @@ can say
 \&    @INC = @lib::ORIG_INC;
 .Ve
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 FindBin \- optional module which deals with paths relative to the source file.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tim Bunce, 2nd June 1995.
 
 .rn }` ''
+.IX Title "lib 3"
+.IX Name "lib - manipulate @INC at compile time"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\s-1ADDING\s0 \s-1DIRECTORIES\s0 \s-1TO\s0 \f(CW@INC\fR"
+
+.IX Subsection "\s-1DELETING\s0 \s-1DIRECTORIES\s0 \s-1FROM\s0 \f(CW@INC\fR"
+
+.IX Subsection "\s-1RESTORING\s0 \s-1ORIGINAL\s0 \f(CW@INC\fR"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

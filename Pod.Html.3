@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Pod::Html 3 "perl 5.004, patch 01" "12/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "Pod::Html 3"
+.TH Pod::Html 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Pod::HTML - module to convert pod files to HTML"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,32 +188,26 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Pod::HTML \- module to convert pod files to HTML
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use Pod::HTML;
 \&    pod2html([options]);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Converts files from pod format (see the \fIperlpod\fR manpage) to HTML format.  It
 can automatically generate indexes and cross-references, and it keeps
 a cache of things it knows how to cross-reference.
 .SH "ARGUMENTS"
-.IX Header "ARGUMENTS"
 Pod::Html takes the following arguments:
 .Ip "help" 4
-.IX Item "help"
 .Sp
 .Vb 1
 \&    --help
 .Ve
 Displays the usage message.
 .Ip "htmlroot" 4
-.IX Item "htmlroot"
 .Sp
 .Vb 1
 \&    --htmlroot=name
@@ -223,7 +215,6 @@ Displays the usage message.
 Sets the base \s-1URL\s0 for the \s-1HTML\s0 files.  When cross-references are made,
 the \s-1HTML\s0 root is prepended to the \s-1URL\s0.
 .Ip "infile" 4
-.IX Item "infile"
 .Sp
 .Vb 1
 \&    --infile=name
@@ -231,7 +222,6 @@ the \s-1HTML\s0 root is prepended to the \s-1URL\s0.
 Specify the pod file to convert.  Input is taken from \s-1STDIN\s0 if no
 infile is specified.
 .Ip "outfile" 4
-.IX Item "outfile"
 .Sp
 .Vb 1
 \&    --outfile=name
@@ -239,14 +229,12 @@ infile is specified.
 Specify the \s-1HTML\s0 file to create.  Output goes to \s-1STDOUT\s0 if no outfile
 is specified.
 .Ip "podroot" 4
-.IX Item "podroot"
 .Sp
 .Vb 1
 \&    --podroot=name
 .Ve
 Specify the base directory for finding library pods.
 .Ip "podpath" 4
-.IX Item "podpath"
 .Sp
 .Vb 1
 \&    --podpath=name:...:name
@@ -254,70 +242,60 @@ Specify the base directory for finding library pods.
 Specify which subdirectories of the podroot contain pod files whose
 \s-1HTML\s0 converted forms can be linked-to in cross-references.
 .Ip "libpods" 4
-.IX Item "libpods"
 .Sp
 .Vb 1
 \&    --libpods=name:...:name
 .Ve
 List of page names (eg, \*(L"perlfunc") which contain linkable \f(CW=item\fRs.
 .Ip "netscape" 4
-.IX Item "netscape"
 .Sp
 .Vb 1
 \&    --netscape
 .Ve
 Use Netscape \s-1HTML\s0 directives when applicable.
 .Ip "nonetscape" 4
-.IX Item "nonetscape"
 .Sp
 .Vb 1
 \&    --nonetscape
 .Ve
 Do not use Netscape \s-1HTML\s0 directives (default).
 .Ip "index" 4
-.IX Item "index"
 .Sp
 .Vb 1
 \&    --index
 .Ve
 Generate an index at the top of the \s-1HTML\s0 file (default behaviour).
 .Ip "noindex" 4
-.IX Item "noindex"
 .Sp
 .Vb 1
 \&    --noindex
 .Ve
 Do not generate an index at the top of the \s-1HTML\s0 file.
 .Ip "recurse" 4
-.IX Item "recurse"
 .Sp
 .Vb 1
 \&    --recurse
 .Ve
 Recurse into subdirectories specified in podpath (default behaviour).
 .Ip "norecurse" 4
-.IX Item "norecurse"
 .Sp
 .Vb 1
 \&    --norecurse
 .Ve
 Do not recurse into subdirectories specified in podpath.
 .Ip "title" 4
-.IX Item "title"
 .Sp
 .Vb 1
 \&    --title=title
 .Ve
 Specify the title of the resulting \s-1HTML\s0 file.
 .Ip "verbose" 4
-.IX Item "verbose"
 .Sp
 .Vb 1
 \&    --verbose
 .Ve
 Display progress messages.
 .SH "EXAMPLE"
-.IX Header "EXAMPLE"
 .PP
 .Vb 8
 \&    pod2html("pod2html",
@@ -330,16 +308,63 @@ Display progress messages.
 \&             "--outfile=/perl/nmanual/foo.html");
 .Ve
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen, <tchrist@perl.com>.
 .SH "BUGS"
-.IX Header "BUGS"
 Has trouble with \f(CW\fR etc in = commands.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperlpod\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 This program is distributed under the Artistic License.
 
 .rn }` ''
+.IX Title "Pod::Html 3"
+.IX Name "Pod::HTML - module to convert pod files to HTML"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "ARGUMENTS"
+
+.IX Item "help"
+
+.IX Item "htmlroot"
+
+.IX Item "infile"
+
+.IX Item "outfile"
+
+.IX Item "podroot"
+
+.IX Item "podpath"
+
+.IX Item "libpods"
+
+.IX Item "netscape"
+
+.IX Item "nonetscape"
+
+.IX Item "index"
+
+.IX Item "noindex"
+
+.IX Item "recurse"
+
+.IX Item "norecurse"
+
+.IX Item "title"
+
+.IX Item "verbose"
+
+.IX Header "EXAMPLE"
+
+.IX Header "AUTHOR"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+

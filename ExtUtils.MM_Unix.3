@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MM_Unix 3 "perl 5.004, patch 01" "12/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::MM_Unix 3"
+.TH ExtUtils::MM_Unix 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::MM_Unix - methods used by ExtUtils::MakeMaker"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,13 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::MM_Unix \- methods used by ExtUtils::MakeMaker
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 \f(CWrequire ExtUtils::MM_Unix;\fR
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The methods provided by this package are designed to be used in
 conjunction with ExtUtils::MakeMaker. When MakeMaker writes a
 Makefile, it creates one or more objects that inherit their methods
@@ -217,7 +212,6 @@ trying to minimize the necessary method overrides and switch to data
 driven Makefile.PLs wherever possible. In the long run less methods
 will be overridable via the MY class.
 .SH "METHODS"
-.IX Header "METHODS"
 The following description of methods is still under
 development. Please refer to the code for not suitably documented
 sections and complain loudly to the makemaker mailing list.
@@ -227,173 +221,130 @@ Makefile.PL. Overridable methods are marked as (o). All methods are
 overridable by a platform specific MM_*.pm file (See
 the \fIExtUtils::MM_VMS\fR manpage) and the \fIExtUtils::MM_OS2\fR manpage).
 .Sh "Preloaded methods"
-.IX Subsection "Preloaded methods"
 .Ip "canonpath" 2
-.IX Item "canonpath"
 No physical check on the filesystem, but a logical cleanup of a
 path. On \s-1UNIX\s0 eliminated successive slashes and successive \*(L"/.\*(R".
 .Ip "catdir" 2
-.IX Item "catdir"
 Concatenate two or more directory names to form a complete path ending
 with a directory. But remove the trailing slash from the resulting
 string, because it doesn't look good, isn't necessary and confuses
 \s-1OS2\s0. Of course, if this is the root directory, don't cut off the
 trailing slash :\-)
 .Ip "catfile" 2
-.IX Item "catfile"
 Concatenate one or more directory names and a filename to form a
 complete path ending with a filename
 .Ip "curdir" 2
-.IX Item "curdir"
 Returns a string representing of the current directory.  \*(L".\*(R" on \s-1UNIX\s0.
 .Ip "rootdir" 2
-.IX Item "rootdir"
 Returns a string representing of the root directory.  \*(L"/\*(R" on \s-1UNIX\s0.
 .Ip "updir" 2
-.IX Item "updir"
 Returns a string representing of the parent directory.  \*(L"..\*(R" on \s-1UNIX\s0.
 .Sh "SelfLoaded methods"
-.IX Subsection "SelfLoaded methods"
 .Ip "c_o (o)" 2
-.IX Item "c_o (o)"
 Defines the suffix rules to compile different flavors of C files to
 object files.
 .Ip "cflags (o)" 2
-.IX Item "cflags (o)"
 Does very much the same as the cflags script in the perl
 distribution. It doesn't return the whole compiler command line, but
 initializes all of its parts. The const_cccmd method then actually
 returns the definition of the \s-1CCCMD\s0 macro which uses these parts.
 .Ip "clean (o)" 2
-.IX Item "clean (o)"
 Defines the clean target.
 .Ip "const_cccmd (o)" 2
-.IX Item "const_cccmd (o)"
 Returns the full compiler call for C programs and stores the
 definition in \s-1CONST_CCCMD\s0.
 .Ip "const_config (o)" 2
-.IX Item "const_config (o)"
 Defines a couple of constants in the Makefile that are imported from
 \f(CW%Config\fR.
 .Ip "const_loadlibs (o)" 2
-.IX Item "const_loadlibs (o)"
 Defines \s-1EXTRALIBS\s0, \s-1LDLOADLIBS\s0, \s-1BSLOADLIBS\s0, \s-1LD_RUN_PATH\s0. See
 the \fIExtUtils::Liblist\fR manpage for details.
 .Ip "constants (o)" 2
-.IX Item "constants (o)"
 Initializes lots of constants and .\s-1SUFFIXES\s0 and .\s-1PHONY\s0
 .Ip "depend (o)" 2
-.IX Item "depend (o)"
 Same as macro for the depend attribute.
 .Ip "dir_target (o)" 2
-.IX Item "dir_target (o)"
 Takes an array of directories that need to exist and returns a
 Makefile entry for a .exists file in these directories. Returns
 nothing, if the entry has already been processed. We're helpless
 though, if the same directory comes as $(\s-1FOO\s0) _and_ as \*(L"bar\*(R". Both of
 them get an entry, that's why we use \*(L"::\*(R".
 .Ip "dist (o)" 2
-.IX Item "dist (o)"
 Defines a lot of macros for distribution support.
 .Ip "dist_basics (o)" 2
-.IX Item "dist_basics (o)"
 Defines the targets distclean, distcheck, skipcheck, manifest.
 .Ip "dist_ci (o)" 2
-.IX Item "dist_ci (o)"
 Defines a check in target for \s-1RCS\s0.
 .Ip "dist_core (o)" 2
-.IX Item "dist_core (o)"
 Defeines the targets dist, tardist, zipdist, uutardist, shdist
 .Ip "dist_dir (o)" 2
-.IX Item "dist_dir (o)"
 Defines the scratch directory target that will hold the distribution
 before tar-ing (or shar-ing).
 .Ip "dist_test (o)" 2
-.IX Item "dist_test (o)"
 Defines a target that produces the distribution in the
 scratchdirectory, and runs \*(L'perl Makefile.\s-1PL\s0; make ;make test\*(R' in that
 subdirectory.
 .Ip "dlsyms (o)" 2
-.IX Item "dlsyms (o)"
 Used by \s-1AIX\s0 and \s-1VMS\s0 to define \s-1DL_FUNCS\s0 and \s-1DL_VARS\s0 and write the *.exp
 files.
 .Ip "dynamic (o)" 2
-.IX Item "dynamic (o)"
 Defines the dynamic target.
 .Ip "dynamic_bs (o)" 2
-.IX Item "dynamic_bs (o)"
 Defines targets for bootstrap files.
 .Ip "dynamic_lib (o)" 2
-.IX Item "dynamic_lib (o)"
 Defines how to produce the *.so (or equivalent) files.
 .Ip "exescan" 2
-.IX Item "exescan"
 Deprecated method. Use libscan instead.
 .Ip "extliblist" 2
-.IX Item "extliblist"
 Called by init_others, and calls ext ExtUtils::Liblist. See
 the \fIExtUtils::Liblist\fR manpage for details.
 .Ip "file_name_is_absolute" 2
-.IX Item "file_name_is_absolute"
 Takes as argument a path and returns true, if it is an absolute path.
 .Ip "find_perl" 2
-.IX Item "find_perl"
 Finds the executables \s-1PERL\s0 and \s-1FULLPERL\s0
 .Sh "Methods to actually produce chunks of text for the Makefile"
-.IX Subsection "Methods to actually produce chunks of text for the Makefile"
 The methods here are called for each MakeMaker object in the order
 specified by \f(CW@ExtUtils::MakeMaker::MM_Sections\fR.
+.Ip "fixin" 2
+Inserts the sharpbang or equivalent magic number to a script
 .Ip "force (o)" 2
-.IX Item "force (o)"
 Just writes \s-1FORCE\s0:
 .Ip "guess_name" 2
-.IX Item "guess_name"
 Guess the name of this package by examining the working directory's
 name. MakeMaker calls this only if the developer has not supplied a
 \s-1NAME\s0 attribute.
 .Ip "has_link_code" 2
-.IX Item "has_link_code"
 Returns true if C, \s-1XS\s0, \s-1MYEXTLIB\s0 or similar objects exist within this
 object that need a compiler. Does not descend into subdirectories as
 \fIneeds_linking()\fR does.
 .Ip "init_dirscan" 2
-.IX Item "init_dirscan"
 Initializes \s-1DIR\s0, \s-1XS\s0, \s-1PM\s0, C, O_FILES, H, \s-1PL_FILES\s0, \s-1MAN\s0*\s-1PODS\s0, \s-1EXE_FILES\s0.
 .Ip "init_main" 2
-.IX Item "init_main"
 Initializes \s-1NAME\s0, \s-1FULLEXT\s0, \s-1BASEEXT\s0, \s-1PARENT_NAME\s0, \s-1DLBASE\s0, \s-1PERL_SRC\s0,
 \s-1PERL_LIB\s0, \s-1PERL_ARCHLIB\s0, \s-1PERL_INC\s0, \s-1INSTALLDIRS\s0, \s-1INST_\s0*, \s-1INSTALL\s0*,
 \s-1PREFIX\s0, \s-1CONFIG\s0, \s-1AR\s0, \s-1AR_STATIC_ARGS\s0, \s-1LD\s0, \s-1OBJ_EXT\s0, \s-1LIB_EXT\s0, \s-1EXE_EXT\s0, \s-1MAP_TARGET\s0,
 \s-1LIBPERL_A\s0, \s-1VERSION_FROM\s0, \s-1VERSION\s0, \s-1DISTNAME\s0, \s-1VERSION_SYM\s0.
 .Ip "init_others" 2
-.IX Item "init_others"
 Initializes \s-1EXTRALIBS\s0, \s-1BSLOADLIBS\s0, \s-1LDLOADLIBS\s0, \s-1LIBS\s0, \s-1LD_RUN_PATH\s0,
 \s-1OBJECT\s0, \s-1BOOTDEP\s0, \s-1PERLMAINCC\s0, \s-1LDFROM\s0, \s-1LINKTYPE\s0, \s-1NOOP\s0, \s-1FIRST_MAKEFILE\s0,
 \s-1MAKEFILE\s0, \s-1NOECHO\s0, \s-1RM_F\s0, \s-1RM_RF\s0, \s-1TEST_F\s0, \s-1TOUCH\s0, \s-1CP\s0, \s-1MV\s0, \s-1CHMOD\s0, \s-1UMASK_NULL\s0
 .Ip "install (o)" 2
-.IX Item "install (o)"
 Defines the install target.
 .Ip "installbin (o)" 2
-.IX Item "installbin (o)"
 Defines targets to install \s-1EXE_FILES\s0.
 .Ip "libscan (o)" 2
-.IX Item "libscan (o)"
 Takes a path to a file that is found by init_dirscan and returns false
 if we don't want to include this file in the library. Mainly used to
 exclude \s-1RCS\s0, \s-1CVS\s0, and \s-1SCCS\s0 directories from installation.
 .Ip "linkext (o)" 2
-.IX Item "linkext (o)"
 Defines the linkext target which in turn defines the \s-1LINKTYPE\s0.
 .Ip "lsdir" 2
-.IX Item "lsdir"
 Takes as arguments a directory name and a regular expression. Returns
 all entries in the directory that match the regular expression.
 .Ip "macro (o)" 2
-.IX Item "macro (o)"
 Simple subroutine to insert the macros defined by the macro attribute
 into the Makefile.
 .Ip "makeaperl (o)" 2
-.IX Item "makeaperl (o)"
 Called by staticmake. Defines how to write the Makefile to produce a
 static new perl.
 .Sp
@@ -401,24 +352,18 @@ By default the Makefile produced includes all the static extensions in
 the perl library. (Purified versions of library files, e.g.,
 DynaLoader_pure_p1_c0_032.a are automatically ignored to avoid link errors.)
 .Ip "makefile (o)" 2
-.IX Item "makefile (o)"
 Defines how to rewrite the Makefile.
 .Ip "manifypods (o)" 2
-.IX Item "manifypods (o)"
 Defines targets and routines to translate the pods into manpages and
 put them into the \s-1INST_\s0* directories.
 .Ip "maybe_command" 2
-.IX Item "maybe_command"
 Returns true, if the argument is likely to be a command.
 .Ip "maybe_command_in_dirs" 2
-.IX Item "maybe_command_in_dirs"
 method under development. Not yet used. Ask Ilya :\-)
 .Ip "needs_linking (o)" 2
-.IX Item "needs_linking (o)"
 Does this module need linking? Looks into subdirectory objects (see
 also \fIhas_link_code()\fR)
 .Ip "nicetext" 2
-.IX Item "nicetext"
 misnamed method (will have to be changed). The MM_Unix method just
 returns the argument without further processing.
 .Sp
@@ -427,118 +372,264 @@ space \- most Unix Makes don't need this, but it's necessary under \s-1VMS\s0
 to distinguish the target delimiter from a colon appearing as part of
 a filespec.
 .Ip "parse_version" 2
-.IX Item "parse_version"
 parse a file and return what you think is \f(CW$VERSION\fR in this file set to
 .Ip "pasthru (o)" 2
-.IX Item "pasthru (o)"
 Defines the string that is passed to recursive make calls in
 subdirectories.
 .Ip "path" 2
-.IX Item "path"
 Takes no argument, returns the environment variable \s-1PATH\s0 as an array.
 .Ip "perl_script" 2
-.IX Item "perl_script"
 Takes one argument, a file name, and returns the file name, if the
 argument is likely to be a perl script. On MM_Unix this is true for
 any ordinary, readable file.
 .Ip "perldepend (o)" 2
-.IX Item "perldepend (o)"
 Defines the dependency from all *.h files that come with the perl
 distribution.
 .Ip "pm_to_blib" 2
-.IX Item "pm_to_blib"
 Defines target that copies all files in the hash \s-1PM\s0 to their
 destination and autosplits them. See the \f(CWDESCRIPTION\fR entry in the \fIExtUtils::Install\fR manpage
 .Ip "post_constants (o)" 2
-.IX Item "post_constants (o)"
 Returns an empty string per default. Dedicated to overrides from
 within Makefile.\s-1PL\s0 after all constants have been defined.
 .Ip "post_initialize (o)" 2
-.IX Item "post_initialize (o)"
 Returns an empty string per default. Used in Makefile.PLs to add some
 chunk of text to the Makefile after the object is initialized.
 .Ip "postamble (o)" 2
-.IX Item "postamble (o)"
 Returns an empty string. Can be used in Makefile.PLs to write some
 text to the Makefile at the end.
 .Ip "prefixify" 2
-.IX Item "prefixify"
 Check a path variable in \f(CW$self\fR from \f(CW%Config\fR, if it contains a prefix,
 and replace it with another one.
 .Sp
 Takes as arguments an attribute name, a search prefix and a
 replacement prefix. Changes the attribute in the object.
 .Ip "processPL (o)" 2
-.IX Item "processPL (o)"
 Defines targets to run *.\s-1PL\s0 files.
 .Ip "realclean (o)" 2
-.IX Item "realclean (o)"
 Defines the realclean target.
 .Ip "replace_manpage_separator" 2
-.IX Item "replace_manpage_separator"
 Takes the name of a package, which may be a nested package, in the
 form Foo/Bar and replaces the slash with \f(CW::\fR. Returns the replacement.
 .Ip "static (o)" 2
-.IX Item "static (o)"
 Defines the static target.
 .Ip "static_lib (o)" 2
-.IX Item "static_lib (o)"
 Defines how to produce the *.a (or equivalent) files.
 .Ip "staticmake (o)" 2
-.IX Item "staticmake (o)"
 Calls makeaperl.
 .Ip "subdir_x (o)" 2
-.IX Item "subdir_x (o)"
 Helper subroutine for subdirs
 .Ip "subdirs (o)" 2
-.IX Item "subdirs (o)"
 Defines targets to process subdirectories.
 .Ip "test (o)" 2
-.IX Item "test (o)"
 Defines the test targets.
 .Ip "test_via_harness (o)" 2
-.IX Item "test_via_harness (o)"
 Helper method to write the test targets
 .Ip "test_via_script (o)" 2
-.IX Item "test_via_script (o)"
 Other helper method for test.
 .Ip "tool_autosplit (o)" 2
-.IX Item "tool_autosplit (o)"
 Defines a simple perl call that runs autosplit. May be deprecated by
 pm_to_blib soon.
 .Ip "tools_other (o)" 2
-.IX Item "tools_other (o)"
 Defines \s-1SHELL\s0, \s-1LD\s0, \s-1TOUCH\s0, \s-1CP\s0, \s-1MV\s0, \s-1RM_F\s0, \s-1RM_RF\s0, \s-1CHMOD\s0, \s-1UMASK_NULL\s0 in
 the Makefile. Also defines the perl programs \s-1MKPATH\s0,
 \s-1WARN_IF_OLD_PACKLIST\s0, \s-1MOD_INSTALL\s0. \s-1DOC_INSTALL\s0, and \s-1UNINSTALL\s0.
 .Ip "tool_xsubpp (o)" 2
-.IX Item "tool_xsubpp (o)"
 Determines typemaps, xsubpp version, prototype behaviour.
 .Ip "top_targets (o)" 2
-.IX Item "top_targets (o)"
 Defines the targets all, subdirs, config, and O_FILES
 .Ip "writedoc" 2
-.IX Item "writedoc"
 Obsolete, depecated method. Not used since Version 5.21.
 .Ip "xs_c (o)" 2
-.IX Item "xs_c (o)"
 Defines the suffix rules to compile \s-1XS\s0 files to C.
 .Ip "xs_o (o)" 2
-.IX Item "xs_o (o)"
 Defines suffix rules to go from \s-1XS\s0 to object files directly. This is
 only intended for broken make implementations.
 .Ip "perl_archive" 2
-.IX Item "perl_archive"
 This is internal method that returns path to libperl.a equivalent
 to be linked to dynamic extensions. \s-1UNIX\s0 does not have one but \s-1OS2\s0
 and Win32 do.
 .Ip "export_list" 2
-.IX Item "export_list"
 This is internal method that returns name of a file that is
 passed to linker to define symbols to be exported.
 \s-1UNIX\s0 does not have one but \s-1OS2\s0 and Win32 do.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage
 
 .rn }` ''
+.IX Title "ExtUtils::MM_Unix 3"
+.IX Name "ExtUtils::MM_Unix - methods used by ExtUtils::MakeMaker"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "Preloaded methods"
+
+.IX Item "canonpath"
+
+.IX Item "catdir"
+
+.IX Item "catfile"
+
+.IX Item "curdir"
+
+.IX Item "rootdir"
+
+.IX Item "updir"
+
+.IX Subsection "SelfLoaded methods"
+
+.IX Item "c_o (o)"
+
+.IX Item "cflags (o)"
+
+.IX Item "clean (o)"
+
+.IX Item "const_cccmd (o)"
+
+.IX Item "const_config (o)"
+
+.IX Item "const_loadlibs (o)"
+
+.IX Item "constants (o)"
+
+.IX Item "depend (o)"
+
+.IX Item "dir_target (o)"
+
+.IX Item "dist (o)"
+
+.IX Item "dist_basics (o)"
+
+.IX Item "dist_ci (o)"
+
+.IX Item "dist_core (o)"
+
+.IX Item "dist_dir (o)"
+
+.IX Item "dist_test (o)"
+
+.IX Item "dlsyms (o)"
+
+.IX Item "dynamic (o)"
+
+.IX Item "dynamic_bs (o)"
+
+.IX Item "dynamic_lib (o)"
+
+.IX Item "exescan"
+
+.IX Item "extliblist"
+
+.IX Item "file_name_is_absolute"
+
+.IX Item "find_perl"
+
+.IX Subsection "Methods to actually produce chunks of text for the Makefile"
+
+.IX Item "fixin"
+
+.IX Item "force (o)"
+
+.IX Item "guess_name"
+
+.IX Item "has_link_code"
+
+.IX Item "init_dirscan"
+
+.IX Item "init_main"
+
+.IX Item "init_others"
+
+.IX Item "install (o)"
+
+.IX Item "installbin (o)"
+
+.IX Item "libscan (o)"
+
+.IX Item "linkext (o)"
+
+.IX Item "lsdir"
+
+.IX Item "macro (o)"
+
+.IX Item "makeaperl (o)"
+
+.IX Item "makefile (o)"
+
+.IX Item "manifypods (o)"
+
+.IX Item "maybe_command"
+
+.IX Item "maybe_command_in_dirs"
+
+.IX Item "needs_linking (o)"
+
+.IX Item "nicetext"
+
+.IX Item "parse_version"
+
+.IX Item "pasthru (o)"
+
+.IX Item "path"
+
+.IX Item "perl_script"
+
+.IX Item "perldepend (o)"
+
+.IX Item "pm_to_blib"
+
+.IX Item "post_constants (o)"
+
+.IX Item "post_initialize (o)"
+
+.IX Item "postamble (o)"
+
+.IX Item "prefixify"
+
+.IX Item "processPL (o)"
+
+.IX Item "realclean (o)"
+
+.IX Item "replace_manpage_separator"
+
+.IX Item "static (o)"
+
+.IX Item "static_lib (o)"
+
+.IX Item "staticmake (o)"
+
+.IX Item "subdir_x (o)"
+
+.IX Item "subdirs (o)"
+
+.IX Item "test (o)"
+
+.IX Item "test_via_harness (o)"
+
+.IX Item "test_via_script (o)"
+
+.IX Item "tool_autosplit (o)"
+
+.IX Item "tools_other (o)"
+
+.IX Item "tool_xsubpp (o)"
+
+.IX Item "top_targets (o)"
+
+.IX Item "writedoc"
+
+.IX Item "xs_c (o)"
+
+.IX Item "xs_o (o)"
+
+.IX Item "perl_archive"
+
+.IX Item "export_list"
+
+.IX Header "SEE ALSO"
+

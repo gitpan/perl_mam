@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH DProf 3 "perl 5.004, patch 01" "30/Sep/96" "User Contributed Perl Documentation"
-.IX Title "DProf 3"
+.TH lib::Time::CTime 3 "perl 5.004, patch 55" "1/Mar/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Devel::DProf - a Perl code profiler"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,95 +188,79 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
-Devel::DProf \- a Perl code profiler
+Time::CTime -- format times ala POSIX asctime
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
-.Vb 1
-\&        perl5 -d:DProf test.pl
+.Vb 4
+\&        use Time::CTime
+\&        print ctime(time);
+\&        print asctime(timelocal(time));
+\&        print strftime(template, localtime(time)); 
+.Ve
+.Sh "strftime conversions"
+.PP
+.Vb 33
+\&        %%      PERCENT
+\&        %a      day of the week abbr
+\&        %A      day of the week
+\&        %b      month abbr
+\&        %B      month
+\&        %c      ctime format: Sat Nov 19 21:05:57 1994
+\&        %d      numeric day of the month
+\&        %e      DD
+\&        %D      MM/DD/YY
+\&        %h      month abbr
+\&        %H      hour, 24 hour clock, leading 0's)
+\&        %I      hour, 12 hour clock, leading 0's)
+\&        %j      day of the year
+\&        %k      hour
+\&        %l      hour, 12 hour clock
+\&        %m      month number, starting with 1
+\&        %M      minute, leading 0's
+\&        %n      NEWLINE
+\&        %o      ornate day of month -- "1st", "2nd", "25th", etc.
+\&        %p      AM or PM 
+\&        %r      time format: 09:05:57 PM
+\&        %R      time format: 21:05
+\&        %S      seconds, leading 0's
+\&        %t      TAB
+\&        %T      time format: 21:05:57
+\&        %U      week number, Sunday as first day of week
+\&        %w      day of the week, numerically, Sunday == 0
+\&        %W      week number, Monday as first day of week
+\&        %x      date format: 11/19/94
+\&        %X      time format: 21:05:57
+\&        %y      year (2 digits)
+\&        %Y      year (4 digits)
+\&        %Z      timezone in ascii. eg: PST
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
-The Devel::DProf package is a Perl code profiler.  This will collect
-information on the execution time of a Perl script and of the subs in that
-script.  This information can be used to determine which subroutines are
-using the most time and which subroutines are being called most often.  This
-information can also be used to create an execution graph of the script,
-showing subroutine relationships.
+This module provides routines to format dates.  They correspond 
+to the libc routines.  &\fIstrftime()\fR supports a pretty good set of
+coversions -- more than most C libraries.
+ 
+strftime supports a pretty good set of conversions.  
 .PP
-To profile a Perl script run the perl interpreter with the \fB\-d\fR debugging
-switch.  The profiler uses the debugging hooks.  So to profile script
-\fItest.pl\fR the following command should be used:
+The POSIX module has very similar functionality.  You should consider
+using it instead if you do not have allergic reactions to system 
+libraries.
+.SH "GENESIS"
+Written by David Muir Sharnoff <muir@idiom.com>.
 .PP
-.Vb 1
-\&        perl5 -d:DProf test.pl
-.Ve
-When the script terminates the profiler will dump the profile information to
-a file called \fItmon.out\fR.  A tool like \fIdprofpp\fR can be used to interpret
-the information which is in that profile.  The following command will print
-the top 15 subroutines which used the most time:
-.PP
-.Vb 1
-\&        dprofpp
-.Ve
-To print an execution graph of the subroutines in the script use the
-following command:
-.PP
-.Vb 1
-\&        dprofpp -T
-.Ve
-Consult the \fIdprofpp\fR manpage for other options.
-.SH "PROFILE FORMAT"
-.IX Header "PROFILE FORMAT"
-The profile is a text file which looks like this:
-.PP
-.Vb 14
-\&        #fOrTyTwO
-\&        $hz=100;
-\&        $XS_VERSION='DProf 19960205';
-\&        # All values are given in HZ
-\&        $rrun_utime=2; $rrun_stime=0; $rrun_rtime=7
-\&        PART2
-\&        + 26 28 566822884 DynaLoader::import
-\&        - 26 28 566822884 DynaLoader::import
-\&        + 27 28 566822885 main::bar
-\&        - 27 28 566822886 main::bar
-\&        + 27 28 566822886 main::baz
-\&        + 27 28 566822887 main::bar
-\&        - 27 28 566822888 main::bar
-\&        [....]
-.Ve
-The first line is the magic number.  The second line is the hertz value, or
-clock ticks, of the machine where the profile was collected.  The third line
-is the name and version identifier of the tool which created the profile.
-The fourth line is a comment.  The fifth line contains three variables
-holding the user time, system time, and realtime of the process while it was
-being profiled.  The sixth line indicates the beginning of the sub
-entry/exit profile section.
-.PP
-The columns in \fBPART2\fR are:
-.PP
-.Vb 5
-\&        sub entry(+)/exit(-) mark
-\&        app's user time at sub entry/exit mark, in ticks
-\&        app's system time at sub entry/exit mark, in ticks
-\&        app's realtime at sub entry/exit mark, in ticks
-\&        fully-qualified sub name, when possible
-.Ve
-.SH "AUTOLOAD"
-.IX Header "AUTOLOAD"
-When Devel::DProf finds a call to an \f(CW&AUTOLOAD\fR subroutine it looks at the
-\f(CW$AUTOLOAD\fR variable to find the real name of the sub being called.  See
-the section on \fIAutoloading\fR in the \fIperlsub\fR manpage.
-.SH "BUGS"
-.IX Header "BUGS"
-XSUBs, builtin functions, and destructors cannot be measured by Devel::DProf.
-.PP
-Mail bug reports and feature requests to the perl5-porters mailing list at
-\fI<perl5-porters@africa.nicoh.com>\fR.
-.SH "SEE ALSO"
-.IX Header "SEE ALSO"
-the \fIperl\fR manpage, the \fIdprofpp\fR manpage, \fItimes\fR\|(2)
+Tthe starting point for this package was a posting by 
+Paul Foley <paul@ascent.com> 
 
 .rn }` ''
+.IX Title "lib::Time::CTime 3"
+.IX Name "Time::CTime - format times ala POSIX asctime"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Subsection "strftime conversions"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "GENESIS"
+

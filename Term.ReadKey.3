@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ReadKey 3 "perl 5.004, patch 01" "12/Mar/96" "User Contributed Perl Documentation"
-.IX Title "ReadKey 3"
+.TH ReadKey 3 "perl 5.004, patch 55" "7/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Term::ReadKey - A perl module for simple terminal control"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,19 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Term::ReadKey \- A perl module for simple terminal control
+.SH "SYNOPSIS"
+.PP
+.Vb 7
+\&        use Term::ReadKey;
+\&        ReadMode 4; # Turn off controls keys
+\&        while (not defined ($key = ReadKey(-1)) {
+\&                # No key yet
+\&        }
+\&        print "Get key $key\en";
+\&        ReadMode 0; # Reset tty mode before exiting
+.Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Term::ReadKey is a compiled perl module dedicated to providing simple
 control over terminal driver modes (cbreak, raw, cooked, etc.,) support for
 non-blocking reads, if the architecture allows, and some generalized handy
@@ -201,7 +208,6 @@ functions for working with terminals. One of the main goals is to have the
 functions as portable as possible, so you can just plug in \*(L"use
 Term::ReadKey\*(R" on any architecture and have a good likelyhood of it working.
 .Ip "ReadMode \s-1MODE\s0 [, Filehandle]" 8
-.IX Item "ReadMode \s-1MODE\s0 [, Filehandle]"
 Takes an integer argument, which can currently be one of the following 
 values:
 .Sp
@@ -251,7 +257,6 @@ you will either want to say
 \&mode.
 .Ve
 .Ip "ReadKey \s-1MODE\s0 [, Filehandle]" 8
-.IX Item "ReadKey \s-1MODE\s0 [, Filehandle]"
 Takes an integer argument, which can currently be one of the following 
 values:
 .Sp
@@ -273,7 +278,6 @@ behaviour.) If \s-1MODE\s0 is less then zero, then this is treated as a timeout
 of zero, and thus will return immediately if no character is waiting. A \s-1MODE\s0
 of zero, however, will act like a normal getc.
 .Ip "ReadLine \s-1MODE\s0 [, Filehandle]" 8
-.IX Item "ReadLine \s-1MODE\s0 [, Filehandle]"
 Takes an integer argument, which can currently be one of the following 
 values:
 .Sp
@@ -292,27 +296,23 @@ ReadMode's higher then 1. For example, pressing Space and then Backspace
 would appear to leave you where you started, but any timeouts would now
 be suspended.
 .Ip "GetTerminalSize [Filehandle]" 8
-.IX Item "GetTerminalSize [Filehandle]"
 Returns either an empty array if this operation is
 unsupported, or a four element array containing: the width of the terminal in
 characters, the height of the terminal in character, the width in pixels,
 and the height in pixels.
 .Ip "SetTerminalSize \s-1WIDTH\s0,\s-1HEIGHT\s0,\s-1XPIX\s0,\s-1YPIX\s0 [, Filehandle]" 8
-.IX Item "SetTerminalSize \s-1WIDTH\s0,\s-1HEIGHT\s0,\s-1XPIX\s0,\s-1YPIX\s0 [, Filehandle]"
 Return \-1 on failure, 0 otherwise. Note that this terminal size is only for
 \fBinformative\fR value, and changing the size via this mechanism will \fBnot\fR
 change the size of the screen. For example, XTerm uses a call like this when
 it resizes the screen. If any of the new measurements vary from the old, the
 \s-1OS\s0 will probably send a \s-1SIGWINCH\s0 signal to anything reading that tty or pty.
 .Ip "GetSpeeds [, Filehandle]" 8
-.IX Item "GetSpeeds [, Filehandle]"
 Returns either an empty array if the operation is unsupported, or a two
 value array containing the terminal in and out speeds, in \fBdecimal\fR. E.g,
 an in speed of 9600 baud and an out speed of 4800 baud would be returned as
 (9600,4800). Note that currently the in and out speeds will always be
 identical in some \s-1OS\s0's.
 .Ip "GetControlChars [, Filehandle]" 8
-.IX Item "GetControlChars [, Filehandle]"
 Returns an array containing key/value pairs suitable for a hash. The pairs
 consist of a key, the name of the control character/signal, and the value
 of that character, as a single character.
@@ -348,7 +348,6 @@ regardless of platform.
 \&        $int = $keys{INTERRUPT};
 .Ve
 .Ip "SetControlChars [, Filehandle]" 8
-.IX Item "SetControlChars [, Filehandle]"
 Takes an array containing key/value pairs, as a hash will produce. The pairs
 should consist of a key that is the name of a legal control
 character/signal, and the value should be either a single character, or a
@@ -362,3 +361,28 @@ settings. The list of valid names is easily available via
 .Ve
 
 .rn }` ''
+.IX Title "ReadKey 3"
+.IX Name "Term::ReadKey - A perl module for simple terminal control"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "ReadMode \s-1MODE\s0 [, Filehandle]"
+
+.IX Item "ReadKey \s-1MODE\s0 [, Filehandle]"
+
+.IX Item "ReadLine \s-1MODE\s0 [, Filehandle]"
+
+.IX Item "GetTerminalSize [Filehandle]"
+
+.IX Item "SetTerminalSize \s-1WIDTH\s0,\s-1HEIGHT\s0,\s-1XPIX\s0,\s-1YPIX\s0 [, Filehandle]"
+
+.IX Item "GetSpeeds [, Filehandle]"
+
+.IX Item "GetControlChars [, Filehandle]"
+
+.IX Item "SetControlChars [, Filehandle]"
+

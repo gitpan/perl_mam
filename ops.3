@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ops 3 "perl 5.004, patch 01" "23/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "ops 3"
+.TH ops 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ops - Perl pragma to restrict unsafe operations when compiling"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ops \- Perl pragma to restrict unsafe operations when compiling
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&  perl -Mops=:default ...    # only allow reasonably safe operations
@@ -202,14 +198,23 @@ ops \- Perl pragma to restrict unsafe operations when compiling
 \&  perl -M-ops=system ...     # disable the 'system' opcode
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Since the ops pragma currently has an irreversable global effect, it is
 only of significant practical use with the \f(CW-M\fR option on the command line.
 .PP
 See the the \fIOpcode\fR manpage module for information about opcodes, optags, opmasks
 and important information about safety.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIOpcode\fR\|(3), \fISafe\fR\|(3), \fIperlrun\fR\|(3)
 
 .rn }` ''
+.IX Title "ops 3"
+.IX Name "ops - Perl pragma to restrict unsafe operations when compiling"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::UserAgent 3 "perl 5.004, patch 01" "20/Jun/97" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::UserAgent 3"
+.TH lib::LWP::UserAgent 3 "perl 5.004, patch 55" "2/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::UserAgent - A WWW UserAgent class"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::UserAgent \- A WWW UserAgent class
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& require LWP::UserAgent;
@@ -211,7 +207,6 @@ LWP::UserAgent \- A WWW UserAgent class
 \& sub callback { my($data, $response, $protocol) = @_; .... }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWLWP::UserAgent\fR is a class implementing a simple World-Wide Web
 user agent in Perl. It brings together the HTTP::Request,
 HTTP::Response and the LWP::Protocol classes that form the rest of the
@@ -283,17 +278,13 @@ The library catches errors (such as internal errors and timeouts) and
 present them as HTTP error responses. Alternatively one can switch off
 this behaviour, and let the application handle dies.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 See the \fILWP\fR manpage for a complete overview of libwww-perl5.  See the \fIrequest\fR manpage and
 the \fImirror\fR manpage for examples of usage.
 .SH "METHODS"
-.IX Header "METHODS"
 .Sh "\f(CW$ua\fR = new \s-1LWP::\s0UserAgent;"
-.IX Subsection "\f(CW$ua\fR = new \s-1LWP::\s0UserAgent;"
 Constructor for the UserAgent.  Returns a reference to a
 \s-1LWP::\s0UserAgent object.
 .Sh "\f(CW$ua\fR\->\fIsimple_request\fR\|($request, [$arg [, \f(CW$size\fR]])"
-.IX Subsection "\f(CW$ua\fR\->\fIsimple_request\fR\|($request, [$arg [, \f(CW$size\fR]])"
 This method dispatches a single \s-1WWW\s0 request on behalf of a user, and
 returns the response received.  The \f(CW$request\fR should be a reference
 to a \f(CWHTTP::Request\fR object with values defined for at least the
@@ -309,13 +300,11 @@ is taken as a hint for an appropriate chunk size.
 If \f(CW$arg\fR is omitted, then the content is stored in the response
 object itself.
 .Sh "\f(CW$ua\fR\->\fIrequest\fR\|($request, \f(CW$arg\fR [, \f(CW$size\fR])"
-.IX Subsection "\f(CW$ua\fR\->\fIrequest\fR\|($request, \f(CW$arg\fR [, \f(CW$size\fR])"
 Process a request, including redirects and security.  This method may
 actually send several different simple reqeusts.
 .PP
 The arguments are the same as for \f(CWsimple_request()\fR.
 .Sh "\f(CW$ua\fR\->redirect_ok"
-.IX Subsection "\f(CW$ua\fR\->redirect_ok"
 This method is called by \fIrequest()\fR before it tries to do any
 redirects.  It should return a true value if the redirect is allowed
 to be performed. Subclasses might want to override this.
@@ -323,11 +312,9 @@ to be performed. Subclasses might want to override this.
 The default implementation will return \s-1FALSE\s0 for \s-1POST\s0 request and \s-1TRUE\s0
 for all others.
 .Sh "\f(CW$ua\fR\->\fIcredentials\fR\|($netloc, \f(CW$realm\fR, \f(CW$uname\fR, \f(CW$pass\fR)"
-.IX Subsection "\f(CW$ua\fR\->\fIcredentials\fR\|($netloc, \f(CW$realm\fR, \f(CW$uname\fR, \f(CW$pass\fR)"
 Set the user name and password to be used for a realm.  It is often more
 useful to specialize the \fIget_basic_credentials()\fR method instead.
 .Sh "\f(CW$ua\fR\->\fIget_basic_credentials\fR\|($realm, \f(CW$uri\fR)"
-.IX Subsection "\f(CW$ua\fR\->\fIget_basic_credentials\fR\|($realm, \f(CW$uri\fR)"
 This is called by \fIrequest()\fR to retrieve credentials for a Realm
 protected by Basic Authentication or Digest Authentication.
 .PP
@@ -339,7 +326,6 @@ variables. Subclasses can override this method to e.g. ask the user
 for a username/password.  An example of this can be found in
 \f(CWlwp-request\fR program distributed with this library.
 .Sh "\f(CW$ua\fR\->\fIagent\fR\|([$product_id])"
-.IX Subsection "\f(CW$ua\fR\->\fIagent\fR\|([$product_id])"
 Get/set the product token that is used to identify the user agent on
 the network.  The agent value is sent as the \*(L"User-Agent\*(R" header in
 the requests. The default agent name is \*(L"libwww-perl/#.##\*(R", where
@@ -354,7 +340,6 @@ Examples are:
 \&  $ua->agent('Mozilla/5.0');
 .Ve
 .Sh "\f(CW$ua\fR\->\fIfrom\fR\|([$email_address])"
-.IX Subsection "\f(CW$ua\fR\->\fIfrom\fR\|([$email_address])"
 Get/set the Internet e-mail address for the human user who controls
 the requesting user agent.  The address should be machine-usable, as
 defined in \s-1RFC\s0 822.  The from value is send as the \*(L"From\*(R" header in
@@ -364,45 +349,40 @@ the requests.  There is no default.  Example:
 \&  $ua->from('aas@sn.no');
 .Ve
 .Sh "\f(CW$ua\fR\->\fItimeout\fR\|([$secs])"
-.IX Subsection "\f(CW$ua\fR\->\fItimeout\fR\|([$secs])"
 Get/set the timeout value in seconds. The default \fItimeout()\fR value is
 180 seconds, i.e. 3 minutes.
+.Sh "\f(CW$ua\fR\->\fIcookie_jar\fR\|([$cookies])"
+Get/set the \fI\s-1HTTP::\s0Cookies\fR object to use.  The default is to have no
+cookie_jar, i.e. never automatically add \*(L"Cookie\*(R" headers to the
+requests.
 .Sh "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
-.IX Subsection "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
 Get/set a value indicating wether to use \fIalarm()\fR when implementing
 timeouts.  The default is \s-1TRUE\s0, if your system supports it.  You can
 disable it if it interfers with other uses of alarm in your application.
 .Sh "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
-.IX Subsection "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
 Get/set a value indicating wether to handle internal errors internally
 by trapping with eval.  The default is \s-1TRUE\s0, i.e. the \f(CW$ua\fR\->\fIrequest()\fR
 will never die.
 .Sh "\f(CW$ua\fR\->\fIparse_head\fR\|([$boolean])"
-.IX Subsection "\f(CW$ua\fR\->\fIparse_head\fR\|([$boolean])"
 Get/set a value indicating wether we should initialize response
 headers from the <head> section of \s-1HTML\s0 documents. The default is
 \s-1TRUE\s0.  Do not turn this off, unless you know what you are doing.
 .Sh "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
-.IX Subsection "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
 Get/set the size limit for response content.  The default is undef,
 which means that there is not limit.  If the returned response content
 is only partial, because the size limit was exceeded, then a
 \*(L"X\-Content-Range\*(R" header will be added to the response.
 .Sh "\f(CW$ua\fR\->clone;"
-.IX Subsection "\f(CW$ua\fR\->clone;"
 Returns a copy of the \s-1LWP::\s0UserAgent object
 .Sh "\f(CW$ua\fR\->\fIis_protocol_supported\fR\|($scheme)"
-.IX Subsection "\f(CW$ua\fR\->\fIis_protocol_supported\fR\|($scheme)"
 You can use this method to query if the library currently support the
 specified \f(CWscheme\fR.  The \f(CWscheme\fR might be a string (like \*(L'http\*(R' or
 \&'ftp') or it might be an \s-1URI::URL\s0 object reference.
 .Sh "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
-.IX Subsection "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
 Get and store a document identified by a \s-1URL\s0, using If-Modified-Since,
 and checking of the Content-Length.  Returns a reference to the
 response object.
 .Sh "\f(CW$ua\fR\->\fIproxy\fR\|(...)"
-.IX Subsection "\f(CW$ua\fR\->\fIproxy\fR\|(...)"
 Set/retrieve proxy \s-1URL\s0 for a scheme:
 .PP
 .Vb 2
@@ -416,7 +396,6 @@ i.e. \*(L'http\*(R' and \*(L'ftp\*(R'.
 The second form shows a shorthand form for specifying
 proxy \s-1URL\s0 for a single access scheme.
 .Sh "\f(CW$ua\fR\->\fIenv_proxy()\fR"
-.IX Subsection "\f(CW$ua\fR\->\fIenv_proxy()\fR"
 Load proxy settings from *_proxy environment variables.  You might
 specify proxies like this (sh-syntax):
 .PP
@@ -429,7 +408,6 @@ specify proxies like this (sh-syntax):
 Csh or tcsh users should use the \f(CWsetenv\fR command to define these
 envirionment variables.
 .Sh "\f(CW$ua\fR\->\fIno_proxy\fR\|($domain,...)"
-.IX Subsection "\f(CW$ua\fR\->\fIno_proxy\fR\|($domain,...)"
 Do not proxy requests to the given domains.  Calling no_proxy without
 any domains clears the list of domains. Eg:
 .PP
@@ -438,3 +416,56 @@ any domains clears the list of domains. Eg:
 .Ve
 
 .rn }` ''
+.IX Title "lib::LWP::UserAgent 3"
+.IX Name "LWP::UserAgent - A WWW UserAgent class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$ua\fR = new \s-1LWP::\s0UserAgent;"
+
+.IX Subsection "\f(CW$ua\fR\->\fIsimple_request\fR\|($request, [$arg [, \f(CW$size\fR]])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIrequest\fR\|($request, \f(CW$arg\fR [, \f(CW$size\fR])"
+
+.IX Subsection "\f(CW$ua\fR\->redirect_ok"
+
+.IX Subsection "\f(CW$ua\fR\->\fIcredentials\fR\|($netloc, \f(CW$realm\fR, \f(CW$uname\fR, \f(CW$pass\fR)"
+
+.IX Subsection "\f(CW$ua\fR\->\fIget_basic_credentials\fR\|($realm, \f(CW$uri\fR)"
+
+.IX Subsection "\f(CW$ua\fR\->\fIagent\fR\|([$product_id])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIfrom\fR\|([$email_address])"
+
+.IX Subsection "\f(CW$ua\fR\->\fItimeout\fR\|([$secs])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIcookie_jar\fR\|([$cookies])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIuse_alarm\fR\|([$boolean])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIuse_eval\fR\|([$boolean])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIparse_head\fR\|([$boolean])"
+
+.IX Subsection "\f(CW$ua\fR\->\fImax_size\fR\|([$bytes])"
+
+.IX Subsection "\f(CW$ua\fR\->clone;"
+
+.IX Subsection "\f(CW$ua\fR\->\fIis_protocol_supported\fR\|($scheme)"
+
+.IX Subsection "\f(CW$ua\fR\->\fImirror\fR\|($url, \f(CW$file\fR)"
+
+.IX Subsection "\f(CW$ua\fR\->\fIproxy\fR\|(...)"
+
+.IX Subsection "\f(CW$ua\fR\->\fIenv_proxy()\fR"
+
+.IX Subsection "\f(CW$ua\fR\->\fIno_proxy\fR\|($domain,...)"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH OS2::Process 3 "perl 5.004, patch 01" "16/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "OS2::Process 3"
+.TH OS2::Process 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "OS2::Process - exports constants for system() call on OS2."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 OS2::Process \- exports constants for \fIsystem()\fR call on OS2.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use OS2::Process;
 \&    $pid = system(P_PM+P_BACKGROUND, "epm.exe");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 the builtin function \fIsystem()\fR under OS/2 allows an optional first
 argument which denotes the mode of the process. Note that this argument is
 recognized only if it is strictly numerical.
@@ -236,10 +231,21 @@ and optionally add PM and session option bits:
 \&        P_UNRELATED     = do not kill child when father terminates
 .Ve
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Andreas Kaiser <ak@ananke.s.bawue.de>.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \f(CWspawn*\fR() system calls.
 
 .rn }` ''
+.IX Title "OS2::Process 3"
+.IX Name "OS2::Process - exports constants for system() call on OS2."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

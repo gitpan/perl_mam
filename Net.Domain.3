@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::Domain 3 "perl 5.004, patch 01" "3/Apr/97" "User Contributed Perl Documentation"
-.IX Title "Net::Domain 3"
+.TH Net::Domain 3 "perl 5.004, patch 55" "26/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::Domain - Attempt to evaluate the current host's internet name and domain"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,37 +188,48 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::Domain \- Attempt to evaluate the current host's internet name and domain
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use Net::Domain qw(hostname hostfqdn hostdomain);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Using various methods \fBattempt\fR to find the Fully Qualified Domain Name (FQDN)
 of the current host. From this determine the host-name and the host-domain.
 .PP
 Each of the functions will return \fIundef\fR if the FQDN cannot be determined.
 .Ip "hostfqdn ()" 4
-.IX Item "hostfqdn ()"
 Identify and return the \s-1FQDN\s0 of the current host.
 .Ip "hostname ()" 4
-.IX Item "hostname ()"
 Returns the smallest part of the \s-1FQDN\s0 which can be used to identify the host.
 .Ip "hostdomain ()" 4
-.IX Item "hostdomain ()"
 Returns the remainder of the \s-1FQDN\s0 after the \fIhostname\fR has been removed.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
-Graham Barr <gbarr@ti.com>.
+Graham Barr <gbarr@pobox.com>.
 Adapted from Sys::Hostname by David Sundstrom <sunds@asictest.sc.ti.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1997 Graham Barr. All rights reserved.
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "Net::Domain 3"
+.IX Name "Net::Domain - Attempt to evaluate the current host's internet name and domain"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "hostfqdn ()"
+
+.IX Item "hostname ()"
+
+.IX Item "hostdomain ()"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Dumper 3 "perl 5.004, patch 01" "7/Dec/96" "User Contributed Perl Documentation"
-.IX Title "Dumper 3"
+.TH Dumper 3 "perl 5.004, patch 55" "7/Dec/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "Data::Dumper - stringified perl data structures, suitable for both printing and C<eval>"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Data::Dumper \- stringified perl data structures, suitable for both printing and \f(CWeval\fR
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use Data::Dumper;
@@ -225,7 +221,6 @@ Data::Dumper \- stringified perl data structures, suitable for both printing and
 \&    eval $d->Dump;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Given a list of scalars or reference variables, writes out their contents in
 perl syntax. The references can also be objects.  The contents of each
 variable is output in a single Perl statement.
@@ -258,9 +253,7 @@ Several styles of output are possible, all controlled by setting
 the \f(CWIndent\fR flag.  See the section on \fIConfiguration Variables or Methods\fR below 
 for details.
 .Sh "Methods"
-.IX Subsection "Methods"
 .Ip "\fI\s-1PACKAGE\s0\fR\->new(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)" 4
-.IX Item "\fI\s-1PACKAGE\s0\fR\->new(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)"
 Returns a newly created \f(CWData::Dumper\fR object.  The first argument is an
 anonymous array of values to be dumped.  The optional second argument is an
 anonymous array of names for the values.  The names need not have a leading
@@ -278,7 +271,6 @@ interdependencies in the original set of values.  Structure traversal is
 depth-first,  and proceeds in order from the first supplied value to
 the last.
 .Ip "\fI$\s-1OBJ\s0\fR\->Dump  \fIor\fR  \fI\s-1PACKAGE\s0\fR\->Dump(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)" 4
-.IX Item "\fI$\s-1OBJ\s0\fR\->Dump  \fIor\fR  \fI\s-1PACKAGE\s0\fR\->Dump(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)"
 Returns the stringified form of the values stored in the object (preserving
 the order in which they were supplied to \f(CWnew\fR), subject to the
 configuration options below.  In an array context, it returns a list
@@ -287,12 +279,10 @@ of strings corresponding to the supplied values.
 The second form, for convenience, simply calls the \f(CWnew\fR method on its
 arguments before dumping the object immediately.
 .Ip "\fI$\s-1OBJ\s0\fR\->Dumpxs  \fIor\fR  \fI\s-1PACKAGE\s0\fR\->Dumpxs(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)" 4
-.IX Item "\fI$\s-1OBJ\s0\fR\->Dumpxs  \fIor\fR  \fI\s-1PACKAGE\s0\fR\->Dumpxs(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)"
 This method is available if you were able to compile and install the \s-1XSUB\s0
 extension to \f(CWData::Dumper\fR. It is exactly identical to the \f(CWDump\fR method 
 above, only about 4 to 5 times faster, since it is written entirely in C.
 .Ip "\fI$\s-1OBJ\s0\fR\->Seen(\fI[\s-1HASHREF\s0]\fR)" 4
-.IX Item "\fI$\s-1OBJ\s0\fR\->Seen(\fI[\s-1HASHREF\s0]\fR)"
 Queries or adds to the internal table of already encountered references.
 You must use \f(CWReset\fR to explicitly clear the table if needed.  Such
 references are not dumped; instead, their names are inserted wherever they
@@ -302,30 +292,23 @@ Expects a anonymous hash of name => value pairs.  Same rules apply for names
 as in \f(CWnew\fR.  If no argument is supplied, will return the \*(L"seen\*(R" list of
 name => value pairs, in an array context.
 .Ip "\fI$\s-1OBJ\s0\fR\->Values(\fI[\s-1ARRAYREF\s0]\fR)" 4
-.IX Item "\fI$\s-1OBJ\s0\fR\->Values(\fI[\s-1ARRAYREF\s0]\fR)"
 Queries or replaces the internal array of values that will be dumped.
 .Ip "\fI$\s-1OBJ\s0\fR\->Names(\fI[\s-1ARRAYREF\s0]\fR)" 4
-.IX Item "\fI$\s-1OBJ\s0\fR\->Names(\fI[\s-1ARRAYREF\s0]\fR)"
 Queries or replaces the internal array of user supplied names for the values
 that will be dumped.
 .Ip "\fI$\s-1OBJ\s0\fR\->Reset" 4
-.IX Item "\fI$\s-1OBJ\s0\fR\->Reset"
 Clears the internal table of \*(L"seen\*(R" references.
 .Sh "Functions"
-.IX Subsection "Functions"
 .Ip "Dumper(\fI\s-1LIST\s0\fR)" 4
-.IX Item "Dumper(\fI\s-1LIST\s0\fR)"
 Returns the stringified form of the values in the list, subject to the
 configuration options below.  The values will be named \f(CW$VAR\fR\fIn\fR in the
 output, where \fIn\fR is a numeric suffix.  Will return a list of strings
 in an array context.
 .Ip "DumperX(\fI\s-1LIST\s0\fR)" 4
-.IX Item "DumperX(\fI\s-1LIST\s0\fR)"
 Identical to the \f(CWDumper()\fR function above, but this calls the \s-1XSUB\s0 
 implementation.  Only available if you were able to compile and install
 the \s-1XSUB\s0 extensions in \f(CWData::Dumper\fR.
 .Sh "Configuration Variables or Methods"
-.IX Subsection "Configuration Variables or Methods"
 Several configuration variables can be used to control the kind of output
 generated when using the procedural interface.  These variables are usually
 \f(CWlocal\fRized in a block so that other parts of the code are not affected by
@@ -336,7 +319,6 @@ the \f(CWnew\fR method, but cannot be used to alter the state of the object
 thereafter.  The equivalent method names should be used instead to query
 or set the internal state of the object.
 .Ip "$Data::Dumper::Indent  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Indent(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Indent  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Indent(\fI[\s-1NEWVAL\s0]\fR)"
 Controls the style of indentation.  It can be set to 0, 1, 2 or 3.  Style 0
 spews output without any newlines, indentation, or spaces between list
 items.  It is the most compact format possible that can still be called
@@ -348,21 +330,17 @@ up).  Style 3 is like style 2, but also annotates the elements of arrays
 with their index (but the comment is on its own line, so array output
 consumes twice the number of lines).  Style 2 is the default.
 .Ip "$Data::Dumper::Purity  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Purity(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Purity  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Purity(\fI[\s-1NEWVAL\s0]\fR)"
 Controls the degree to which the output can be \f(CWeval\fRed to recreate the
 supplied reference structures.  Setting it to 1 will output additional perl
 statements that will correctly recreate nested references.  The default is
 0.
 .Ip "$Data::Dumper::Pad  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Pad(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Pad  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Pad(\fI[\s-1NEWVAL\s0]\fR)"
 Specifies the string that will be prefixed to every line of the output.
 Empty string by default.
 .Ip "$Data::Dumper::Varname  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Varname(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Varname  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Varname(\fI[\s-1NEWVAL\s0]\fR)"
 Contains the prefix to use for tagging variable names in the output. The
 default is \*(L"\s-1VAR\s0\*(R".
 .Ip "$Data::Dumper::Useqq  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Useqq(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Useqq  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Useqq(\fI[\s-1NEWVAL\s0]\fR)"
 When set, enables the use of double quotes for representing string values.
 Whitespace other than space will be represented as \f(CW[\en\et\er]\fR, \*(L"unsafe\*(R"
 characters will be backslashed, and unprintable characters will be output as
@@ -370,13 +348,11 @@ quoted octal integers.  Since setting this variable imposes a performance
 penalty, the default is 0.  The \f(CWDumpxs()\fR method does not honor this
 flag yet.
 .Ip "$Data::Dumper::Terse  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Terse(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Terse  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Terse(\fI[\s-1NEWVAL\s0]\fR)"
 When set, Data::Dumper will emit single, non-self-referential values as
 atoms/terms rather than statements.  This means that the \f(CW$VAR\fR\fIn\fR names
 will be avoided where possible, but be advised that such output may not
 always be parseable by \f(CWeval\fR.
 .Ip "$Data::Dumper::Freezer  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Freezer(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Freezer  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Freezer(\fI[\s-1NEWVAL\s0]\fR)"
 Can be set to a method name, or to an empty string to disable the feature.
 Data::Dumper will invoke that method via the object before attempting to
 stringify it.  This method can alter the contents of the object (if, for
@@ -386,7 +362,6 @@ method can be called via the object, and that the object ends up containing
 only perl data types after the method has been called.  Defaults to an empty
 string.
 .Ip "$Data::Dumper::Toaster  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Toaster(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Toaster  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Toaster(\fI[\s-1NEWVAL\s0]\fR)"
 Can be set to a method name, or to an empty string to disable the feature.
 Data::Dumper will emit a method call for any objects that are to be dumped
 using the syntax \f(CWbless(DATA, CLASS)-\fR\fI\s-1METHOD\s0()\fR>.  Note that this means that
@@ -396,16 +371,12 @@ different package) and then return it.  The client is responsible for making
 sure the method can be called via the object, and that it returns a valid
 object.  Defaults to an empty string.
 .Ip "$Data::Dumper::Deepcopy  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Deepcopy(\fI[\s-1NEWVAL\s0]\fR)" 4
-.IX Item "$Data::Dumper::Deepcopy  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Deepcopy(\fI[\s-1NEWVAL\s0]\fR)"
 Can be set to a boolean value to enable deep copies of structures.
 Cross-referencing will then only be done when absolutely essential
 (i.e., to break reference cycles).  Default is 0.
 .Sh "Exports"
-.IX Subsection "Exports"
 .Ip "Dumper" 0
-.IX Item "Dumper"
 .SH "EXAMPLE"
-.IX Header "EXAMPLE"
 Run these code snippets to get a quick feel for the behavior of this
 module.  When you are through with these examples, you may want to
 add or change the various configuration variables described above,
@@ -534,7 +505,6 @@ distribution for more examples.)
 \&    print Data::Dumper->Dump([$d], ['d']);
 .Ve
 .SH "BUGS"
-.IX Header "BUGS"
 Due to limitations of Perl subroutine call semantics, you cannot pass an
 array or hash.  Prepend it with a \f(CW\e\fR to pass its reference instead.  This
 will be remedied in time, with the arrival of prototypes in later versions
@@ -554,17 +524,79 @@ strings in single quotes).
 .PP
 SCALAR objects have the weirdest looking \f(CWbless\fR workaround.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gurusamy Sarathy        gsar@umich.edu
 .PP
 Copyright (c) 1996 Gurusamy Sarathy. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "VERSION"
-.IX Header "VERSION"
 Version 2.07    (7 December 1996)
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1)
 
 .rn }` ''
+.IX Title "Dumper 3"
+.IX Name "Data::Dumper - stringified perl data structures, suitable for both printing and C<eval>"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Methods"
+
+.IX Item "\fI\s-1PACKAGE\s0\fR\->new(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)"
+
+.IX Item "\fI$\s-1OBJ\s0\fR\->Dump  \fIor\fR  \fI\s-1PACKAGE\s0\fR\->Dump(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)"
+
+.IX Item "\fI$\s-1OBJ\s0\fR\->Dumpxs  \fIor\fR  \fI\s-1PACKAGE\s0\fR\->Dumpxs(\fI\s-1ARRAYREF\s0 [\fR, \fI\s-1ARRAYREF\s0]\fR)"
+
+.IX Item "\fI$\s-1OBJ\s0\fR\->Seen(\fI[\s-1HASHREF\s0]\fR)"
+
+.IX Item "\fI$\s-1OBJ\s0\fR\->Values(\fI[\s-1ARRAYREF\s0]\fR)"
+
+.IX Item "\fI$\s-1OBJ\s0\fR\->Names(\fI[\s-1ARRAYREF\s0]\fR)"
+
+.IX Item "\fI$\s-1OBJ\s0\fR\->Reset"
+
+.IX Subsection "Functions"
+
+.IX Item "Dumper(\fI\s-1LIST\s0\fR)"
+
+.IX Item "DumperX(\fI\s-1LIST\s0\fR)"
+
+.IX Subsection "Configuration Variables or Methods"
+
+.IX Item "$Data::Dumper::Indent  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Indent(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Purity  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Purity(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Pad  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Pad(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Varname  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Varname(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Useqq  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Useqq(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Terse  \fIor\fR  \fI$\s-1OBJ\s0\fR\->Terse(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Freezer  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Freezer(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Toaster  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Toaster(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Item "$Data::Dumper::Deepcopy  \fIor\fR  $\fI\s-1OBJ\s0\fR\->Deepcopy(\fI[\s-1NEWVAL\s0]\fR)"
+
+.IX Subsection "Exports"
+
+.IX Item "Dumper"
+
+.IX Header "EXAMPLE"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+
+.IX Header "VERSION"
+
+.IX Header "SEE ALSO"
+

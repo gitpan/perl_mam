@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH QuotedPrint 3 "perl 5.004, patch 01" "10/Jun/97" "User Contributed Perl Documentation"
-.IX Title "QuotedPrint 3"
+.TH QuotedPrint 3 "perl 5.004, patch 55" "2/Dec/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "encode_qp - Encode string using quoted-printable encoding"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,12 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
-encode_qp \- Encode string using quoted-printable encoding
-.PP
-decode_qp \- Decode quoted-printable string
+MIME::QuotedPrint \- Encoding and decoding of quoted-printable strings
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use MIME::QuotedPrint;
@@ -205,7 +199,6 @@ decode_qp \- Decode quoted-printable string
 \& $decoded = decode_qp($encoded);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provides functions to encode and decode strings into the
 Quoted-Printable encoding specified in RFC 2045 \- \fIMIME (Multipurpose
 Internet Mail Extensions)\fR.  The Quoted-Printable encoding is intended
@@ -215,9 +208,17 @@ characters (as defined by english americans) are represented by a
 triplet consisting of the character \*(L"=\*(R" followed by two hexadecimal
 digits.
 .PP
-Note that the \fIencode_qp()\fR routine does not change newlines \f(CW"\en"\fR to
-the CRLF sequence even though this might be considered the right thing
-to do (RFC 1521 (Q\-P Rule #4)).
+The following functions are provided:
+.Ip "encode_qp($str)" 4
+This function will return an encoded version of the string given as
+argument.
+.Sp
+Note that \fIencode_qp()\fR does not change newlines \f(CW"\en"\fR to the \s-1CRLF\s0
+sequence even though this might be considered the right thing to do
+(\s-1RFC\s0 2045 (Q\-P Rule #4)).
+.Ip "decode_qp($str);" 4
+This function will return the plain text version of the string given
+as argument.
 .PP
 If you prefer not to import these routines into your namespace you can
 call them as:
@@ -228,10 +229,24 @@ call them as:
 \&  $decoded = MIME::QuotedPrint::decode($encoded);
 .Ve
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1995-1997 Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "QuotedPrint 3"
+.IX Name "MIME::QuotedPrint - Encoding and decoding of quoted-printable strings"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "encode_qp($str)"
+
+.IX Item "decode_qp($str);"
+
+.IX Header "COPYRIGHT"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Time::tm 3 "perl 5.004, patch 01" "9/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Time::tm 3"
+.TH Time::tm 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Time::tm - internal object used by Time::gmtime and Time::localtime"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,13 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Time::tm \- internal object used by Time::gmtime and Time::localtime
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 Don't use this module directly.
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module is used internally as a base class by Time::localtime And
 Time::gmtime functions.  It creates a Time::tm struct object which is
 addressable just like's C's tm structure from \fItime.h\fR; namely with sec,
@@ -204,7 +199,17 @@ min, hour, mday, mon, year, wday, yday, and isdst.
 .PP
 This class is an internal interface only. 
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen
 
 .rn }` ''
+.IX Title "Time::tm 3"
+.IX Name "Time::tm - internal object used by Time::gmtime and Time::localtime"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::POP3 3 "perl 5.004, patch 01" "17/Mar/97" "User Contributed Perl Documentation"
-.IX Title "Net::POP3 3"
+.TH Net::POP3 3 "perl 5.004, patch 55" "4/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::POP3 - Post Office Protocol 3 Client class (RFC1081)"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::POP3 \- Post Office Protocol 3 Client class (RFC1081)
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \&    use Net::POP3;
@@ -203,7 +199,6 @@ Net::POP3 \- Post Office Protocol 3 Client class (RFC1081)
 \&    $pop = Net::POP3->new('pop3host', Timeout => 60);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module implements a client interface to the POP3 protocol, enabling
 a perl5 application to talk to POP3 servers. This documentation assumes
 that you are familiar with the POP3 protocol described in RFC1081.
@@ -212,15 +207,12 @@ A new Net::POP3 object must be created with the \fInew\fR method. Once
 this has been done, all POP3 commands are accessed via method calls
 on the object.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 .PP
 .Vb 1
 \&    Need some small examples in here :-)
 .Ve
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ( [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ] )" 4
-.IX Item "new ( [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ] )"
 This is the constructor for a new Net::\s-1POP3\s0 object. \f(CWHOST\fR is the
 name of the remote host to which a \s-1POP3\s0 connection is required.
 .Sp
@@ -235,32 +227,34 @@ Possible options are:
 .Sp
 \fBDebug\fR \- Enable debugging information
 .SH "METHODS"
-.IX Header "METHODS"
 Unless otherwise stated all methods return either a \fItrue\fR or \fIfalse\fR
 value, with \fItrue\fR meaning that the operation was a success. When a method
 states that it returns a value, failure will be returned as \fIundef\fR or an
 empty list.
 .Ip "user ( \s-1USER\s0 )" 4
-.IX Item "user ( \s-1USER\s0 )"
 Send the \s-1USER\s0 command.
 .Ip "pass ( \s-1PASS\s0 )" 4
-.IX Item "pass ( \s-1PASS\s0 )"
 Send the \s-1PASS\s0 command. Returns the number of messages in the mailbox.
 .Ip "login ( [ \s-1USER\s0 [, \s-1PASS\s0 ]] )" 4
-.IX Item "login ( [ \s-1USER\s0 [, \s-1PASS\s0 ]] )"
 Send both the the \s-1USER\s0 and \s-1PASS\s0 commands. If \f(CWPASS\fR is not given the
 \f(CWNet::POP3\fR uses \f(CWNet::Netrc\fR to lookup the password using the host
 and username. If the username is not specified then the current user name
 will be used.
 .Sp
 Returns the number of messages in the mailbox.
+.Sp
+If the server cannot authenticate \f(CWUSER\fR the \fIundef\fR will be returned.
+.Ip "apop ( \s-1USER\s0, \s-1PASS\s0 )" 4
+Authenticate with the server identifying as \f(CWUSER\fR with password \f(CWPASS\fR.
+Similar ti the \fIlogin\fR manpage, but the password is not sent in clear text. 
+.Sp
+To use this method you must have the \s-1MD5\s0 package installed, if you do not
+this method will return \fIundef\fR
 .Ip "top ( \s-1MSGNUM\s0 [, \s-1NUMLINES\s0 ] )" 4
-.IX Item "top ( \s-1MSGNUM\s0 [, \s-1NUMLINES\s0 ] )"
 Get the header and the first \f(CWNUMLINES\fR of the body for the message
 \f(CWMSGNUM\fR. Returns a reference to an array which contains the lines of text
 read from the server.
 .Ip "list ( [ \s-1MSGNUM\s0 ] )" 4
-.IX Item "list ( [ \s-1MSGNUM\s0 ] )"
 If called with an argument the \f(CWlist\fR returns the size of the message
 in octets.
 .Sp
@@ -268,45 +262,90 @@ If called without arguments a reference to a hash is returned. The
 keys will be the \f(CWMSGNUM\fR's of all undeleted messages and the values will
 be their size in octets.
 .Ip "get ( \s-1MSGNUM\s0 )" 4
-.IX Item "get ( \s-1MSGNUM\s0 )"
 Get the message \f(CWMSGNUM\fR from the remote mailbox. Returns a reference to an
 array which contains the lines of text read from the server.
 .Ip "last ()" 4
-.IX Item "last ()"
 Returns the highest \f(CWMSGNUM\fR of all the messages accessed.
 .Ip "popstat ()" 4
-.IX Item "popstat ()"
 Returns an array of two elements. These are the number of undeleted
 elements and the size of the mbox in octets.
+.Ip "uidl ( [ \s-1MSGNUM\s0 ] )" 4
+Returns a unique identifier for \f(CWMSGNUM\fR if given. If \f(CWMSGNUM\fR is not
+given \f(CWuidl\fR returns a reference to a hash where the keys are the
+message numbers and the values are the unique identifiers.
 .Ip "delete ( \s-1MSGNUM\s0 )" 4
-.IX Item "delete ( \s-1MSGNUM\s0 )"
 Mark message \f(CWMSGNUM\fR to be deleted from the remote mailbox. All messages
 that are marked to be deleted will be removed from the remote mailbox
 when the server connection closed.
 .Ip "reset ()" 4
-.IX Item "reset ()"
 Reset the status of the remote \s-1POP3\s0 server. This includes reseting the
 status of all messages to not be deleted.
 .Ip "quit ()" 4
-.IX Item "quit ()"
 Quit and close the connection to the remote \s-1POP3\s0 server. Any messages marked
 as deleted will be deleted from the remote mailbox.
 .SH "NOTES"
-.IX Header "NOTES"
 If a \f(CWNet::POP3\fR object goes out of scope before \f(CWquit\fR method is called
 then the \f(CWreset\fR method will called before the connection is closed. This
 means that any messages marked to be deleted will not be.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fINet::Netrc\fR manpage
 the \fINet::Cmd\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
-Graham Barr <gbarr@ti.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1997 Graham Barr. All rights reserved.
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "Net::POP3 3"
+.IX Name "Net::POP3 - Post Office Protocol 3 Client class (RFC1081)"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ( [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ] )"
+
+.IX Header "METHODS"
+
+.IX Item "user ( \s-1USER\s0 )"
+
+.IX Item "pass ( \s-1PASS\s0 )"
+
+.IX Item "login ( [ \s-1USER\s0 [, \s-1PASS\s0 ]] )"
+
+.IX Item "apop ( \s-1USER\s0, \s-1PASS\s0 )"
+
+.IX Item "top ( \s-1MSGNUM\s0 [, \s-1NUMLINES\s0 ] )"
+
+.IX Item "list ( [ \s-1MSGNUM\s0 ] )"
+
+.IX Item "get ( \s-1MSGNUM\s0 )"
+
+.IX Item "last ()"
+
+.IX Item "popstat ()"
+
+.IX Item "uidl ( [ \s-1MSGNUM\s0 ] )"
+
+.IX Item "delete ( \s-1MSGNUM\s0 )"
+
+.IX Item "reset ()"
+
+.IX Item "quit ()"
+
+.IX Header "NOTES"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

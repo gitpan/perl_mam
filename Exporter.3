@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Exporter 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Exporter 3"
+.TH Exporter 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Exporter - Implements default import method for modules"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Exporter \- Implements default import method for modules
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 In module ModuleName.pm:
 .PP
 .Vb 3
@@ -218,7 +214,6 @@ In other files which wish to use ModuleName:
 \&  use ModuleName ();            # do not import any symbols
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The Exporter module implements a default \f(CWimport\fR method which
 many modules choose to inherit rather than implement their own.
 .PP
@@ -228,7 +223,6 @@ in the \fIperlfunc\fR manpage and the \fIperlmod\fR manpage. Understanding the c
 modules and how the \f(CWuse\fR statement operates is important to
 understanding the Exporter.
 .Sh "Selecting What To Export"
-.IX Subsection "Selecting What To Export"
 Do \fBnot\fR export method names!
 .PP
 Do \fBnot\fR export anything else by default without a good reason!
@@ -257,7 +251,6 @@ then export nothing. If it's just a collection of functions then
 .PP
 Other module design guidelines can be found in the \fIperlmod\fR manpage.
 .Sh "Specialised Import Lists"
-.IX Subsection "Specialised Import Lists"
 If the first entry in an import list begins with !, : or / then the
 list is treated as a series of specifications which either add to or
 delete from the list of names to import. They are processed left to
@@ -303,8 +296,51 @@ with a leading ^, e.g., \f(CW/^EXIT/\fR rather than \f(CW/EXIT/\fR.
 You can say \f(CWBEGIN { $Exporter::Verbose=1 }\fR to see how the
 specifications are being processed and what is actually being imported
 into modules.
+.Sh "Exporting without using Export's import method"
+Exporter has a special method, \*(L'export_to_level\*(R' which is used in situations
+where you can't directly call Export's import method. The export_to_level
+method looks like:
+.PP
+MyPackage->\fIexport_to_level\fR\|($where_to_export, \f(CW@what_to_export\fR);
+.PP
+where \f(CW$where_to_export\fR is an integer telling how far up the calling stack
+to export your symbols, and \f(CW@what_to_export\fR is an array telling what
+symbols *to* export (usually this is \f(CW@_\fR).
+.PP
+For example, suppose that you have a module, A, which already has an
+import function:
+.PP
+package A;
+.PP
+@\s-1ISA\s0 = \fIqw\fR\|(Exporter);
+\f(CW@EXPORT_OK\fR = qw ($b);
+.PP
+sub import
+{
+    \f(CW$A::b\fR = 1;     # not a very useful import method
+}
+.PP
+and you want to Export symbol \f(CW$A::b\fR back to the module that called 
+package A. Since Exporter relies on the import method to work, via 
+inheritance, as it stands \fIExporter::import()\fR will never get called. 
+Instead, say the following:
+.PP
+package A;
+\f(CW@ISA\fR = \fIqw\fR\|(Exporter);
+\f(CW@EXPORT_OK\fR = qw ($b);
+.PP
+sub import
+{
+    \f(CW$A::b\fR = 1;
+    A\->\fIexport_to_level\fR\|(1, \f(CW@_\fR);
+}
+.PP
+This will export the symbols one level \*(L'above\*(R' the current package \- ie: to 
+the program or module that used package A. 
+.PP
+Note: Be careful not to modify \*(L'@_\*(R' at all before you call export_to_level
+\- or people using your package will get very unexplained results!
 .Sh "Module Version Checking"
-.IX Subsection "Module Version Checking"
 The Exporter module will convert an attempt to import a number from a
 module into a call to \f(CW$module_name\fR\->\fIrequire_version\fR\|($value). This can
 be used to validate that the version of the module being used is
@@ -318,7 +354,6 @@ a simple numeric value it will regard version 1.10 as lower than
 1.9. For this reason it is strongly recommended that you use numbers
 with at least two decimal places, e.g., 1.09.
 .Sh "Managing Unknown Symbols"
-.IX Subsection "Managing Unknown Symbols"
 In some situations you may want to prevent certain symbols from being
 exported. Typically this applies to extensions which have functions
 or constants that may not exist on some systems.
@@ -346,7 +381,6 @@ symbols into \f(CW@EXPORT_FAIL\fR by default and then take them out if someone
 actually tries to use them and an expensive check shows that they are
 usable on that platform).
 .Sh "Tag Handling Utility Functions"
-.IX Subsection "Tag Handling Utility Functions"
 Since the symbols listed within \f(CW%EXPORT_TAGS\fR must also appear in either
 \f(CW@EXPORT\fR or \f(CW@EXPORT_OK\fR, two utility functions are provided which allow
 you to easily add tagged sets of symbols to \f(CW@EXPORT\fR or \f(CW@EXPORT_OK:\fR
@@ -364,3 +398,24 @@ names being silently added to \f(CW@EXPORT\fR or \f(CW@EXPORT_OK\fR. Future vers
 may make this a fatal error.
 
 .rn }` ''
+.IX Title "Exporter 3"
+.IX Name "Exporter - Implements default import method for modules"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Selecting What To Export"
+
+.IX Subsection "Specialised Import Lists"
+
+.IX Subsection "Exporting without using Export's import method"
+
+.IX Subsection "Module Version Checking"
+
+.IX Subsection "Managing Unknown Symbols"
+
+.IX Subsection "Tag Handling Utility Functions"
+

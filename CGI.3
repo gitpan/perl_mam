@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI 3 "perl 5.004, patch 01" "9/May/97" "Perl Programmers Reference Guide"
-.IX Title "CGI 3"
+.TH CGI 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CGI - Simple Common Gateway Interface Class"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CGI \- Simple Common Gateway Interface Class
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&  use CGI;
 \&  # the rest is too complicated for a synopsis; keep reading
 .Ve
 .SH "ABSTRACT"
-.IX Header "ABSTRACT"
 This perl library uses perl5 objects to make it easy to create
 Web fill-out forms and parse their contents.  This package
 defines CGI objects, entities that contain the values of the
@@ -217,7 +212,6 @@ The current version of CGI.pm is available at
 \&  ftp://ftp-genome.wi.mit.edu/pub/software/WWW/
 .Ve
 .SH "INSTALLATION"
-.IX Header "INSTALLATION"
 CGI is a part of the base Perl installation.  However, you may need
 to install a newer version someday.  Therefore:
 .PP
@@ -264,9 +258,7 @@ out which CGI script is generating  error messages.  If you choose,
 you can even have fatal error messages echoed to the browser to avoid
 the annoying and uninformative \*(L"Server Error\*(R" message.
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 .Sh "\s-1CREATING\s0 A \s-1NEW\s0 \s-1QUERY\s0 \s-1OBJECT\s0:"
-.IX Subsection "\s-1CREATING\s0 A \s-1NEW\s0 \s-1QUERY\s0 \s-1OBJECT\s0:"
 .PP
 .Vb 1
 \&     $query = new CGI;
@@ -274,7 +266,6 @@ the annoying and uninformative \*(L"Server Error\*(R" message.
 This will parse the input (from both \s-1POST\s0 and \s-1GET\s0 methods) and store
 it into a perl5 object called \f(CW$query\fR.  
 .Sh "\s-1CREATING\s0 A \s-1NEW\s0 \s-1QUERY\s0 \s-1OBJECT\s0 \s-1FROM\s0 \s-1AN\s0 \s-1INPUT\s0 \s-1FILE\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1NEW\s0 \s-1QUERY\s0 \s-1OBJECT\s0 \s-1FROM\s0 \s-1AN\s0 \s-1INPUT\s0 \s-1FILE\s0"
 .PP
 .Vb 1
 \&     $query = new CGI(INPUTFILE);
@@ -315,7 +306,6 @@ To create an empty query, initialize it from an empty string or hash:
 \&        $empty_query = new CGI({});
 .Ve
 .Sh "\s-1FETCHING\s0 A \s-1LIST\s0 \s-1OF\s0 \s-1KEYWORDS\s0 \s-1FROM\s0 \s-1THE\s0 \s-1QUERY\s0:"
-.IX Subsection "\s-1FETCHING\s0 A \s-1LIST\s0 \s-1OF\s0 \s-1KEYWORDS\s0 \s-1FROM\s0 \s-1THE\s0 \s-1QUERY\s0:"
 .PP
 .Vb 1
 \&     @keywords = $query->keywords
@@ -323,7 +313,6 @@ To create an empty query, initialize it from an empty string or hash:
 If the script was invoked as the result of an <\s-1ISINDEX\s0> search, the
 parsed keywords can be obtained as an array using the \fIkeywords()\fR method.
 .Sh "\s-1FETCHING\s0 \s-1THE\s0 \s-1NAMES\s0 \s-1OF\s0 \s-1ALL\s0 \s-1THE\s0 \s-1PARAMETERS\s0 \s-1PASSED\s0 \s-1TO\s0 \s-1YOUR\s0 \s-1SCRIPT\s0:"
-.IX Subsection "\s-1FETCHING\s0 \s-1THE\s0 \s-1NAMES\s0 \s-1OF\s0 \s-1ALL\s0 \s-1THE\s0 \s-1PARAMETERS\s0 \s-1PASSED\s0 \s-1TO\s0 \s-1YOUR\s0 \s-1SCRIPT\s0:"
 .PP
 .Vb 1
 \&     @names = $query->param
@@ -340,7 +329,6 @@ Usually this order is the same as the order in which the
 parameters are defined in the form (however, this isn't part
 of the spec, and so isn't guaranteed).
 .Sh "\s-1FETCHING\s0 \s-1THE\s0 \s-1VALUE\s0 \s-1OR\s0 \s-1VALUES\s0 \s-1OF\s0 A \s-1SINGLE\s0 \s-1NAMED\s0 \s-1PARAMETER\s0:"
-.IX Subsection "\s-1FETCHING\s0 \s-1THE\s0 \s-1VALUE\s0 \s-1OR\s0 \s-1VALUES\s0 \s-1OF\s0 A \s-1SINGLE\s0 \s-1NAMED\s0 \s-1PARAMETER\s0:"
 .PP
 .Vb 1
 \&    @values = $query->param('foo');
@@ -356,7 +344,6 @@ named parameter. If the parameter is multivalued (e.g. from multiple
 selections in a scrolling list), you can ask to receive an array.  Otherwise
 the method will return a single value.
 .Sh "\s-1SETTING\s0 \s-1THE\s0 \fI\s-1VALUE\s0\fR\|(S) \s-1OF\s0 A \s-1NAMED\s0 \s-1PARAMETER\s0:"
-.IX Subsection "\s-1SETTING\s0 \s-1THE\s0 \fI\s-1VALUE\s0\fR\|(S) \s-1OF\s0 A \s-1NAMED\s0 \s-1PARAMETER\s0:"
 .PP
 .Vb 1
 \&    $query->param('foo','an','array','of','values');
@@ -380,7 +367,6 @@ in more detail later:
 \&    $query->param(-name=>'foo',-value=>'the value');
 .Ve
 .Sh "\s-1APPENDING\s0 \s-1ADDITIONAL\s0 \s-1VALUES\s0 \s-1TO\s0 A \s-1NAMED\s0 \s-1PARAMETER\s0:"
-.IX Subsection "\s-1APPENDING\s0 \s-1ADDITIONAL\s0 \s-1VALUES\s0 \s-1TO\s0 A \s-1NAMED\s0 \s-1PARAMETER\s0:"
 .PP
 .Vb 1
 \&   $query->append(-name=>;'foo',-values=>['yet','more','values']);
@@ -390,7 +376,6 @@ values are appended to the end of the parameter if it already exists.
 Otherwise the parameter is created.  Note that this method only
 recognizes the named argument calling syntax.
 .Sh "\s-1IMPORTING\s0 \s-1ALL\s0 \s-1PARAMETERS\s0 \s-1INTO\s0 A \s-1NAMESPACE\s0:"
-.IX Subsection "\s-1IMPORTING\s0 \s-1ALL\s0 \s-1PARAMETERS\s0 \s-1INTO\s0 A \s-1NAMESPACE\s0:"
 .PP
 .Vb 1
 \&   $query->import_names('R');
@@ -405,7 +390,6 @@ In older versions, this method was called \fBimport()\fR.  As of version 2.20,
 this name has been removed completely to avoid conflict with the built-in
 Perl module \fBimport\fR operator.
 .Sh "\s-1DELETING\s0 A \s-1PARAMETER\s0 \s-1COMPLETELY\s0:"
-.IX Subsection "\s-1DELETING\s0 A \s-1PARAMETER\s0 \s-1COMPLETELY\s0:"
 .PP
 .Vb 1
 \&    $query->delete('foo');
@@ -414,13 +398,11 @@ This completely clears a parameter.  It sometimes useful for
 resetting parameters that you don't want passed down between
 script invocations.
 .Sh "\s-1DELETING\s0 \s-1ALL\s0 \s-1PARAMETERS\s0:"
-.IX Subsection "\s-1DELETING\s0 \s-1ALL\s0 \s-1PARAMETERS\s0:"
 $query->\fIdelete_all()\fR;
 .PP
 This clears the \s-1CGI\s0 object completely.  It might be useful to ensure
 that all the defaults are taken when you create a fill-out form.
 .Sh "\s-1SAVING\s0 \s-1THE\s0 \s-1STATE\s0 \s-1OF\s0 \s-1THE\s0 \s-1FORM\s0 \s-1TO\s0 A \s-1FILE\s0:"
-.IX Subsection "\s-1SAVING\s0 \s-1THE\s0 \s-1STATE\s0 \s-1OF\s0 \s-1THE\s0 \s-1FORM\s0 \s-1TO\s0 A \s-1FILE\s0:"
 .PP
 .Vb 1
 \&    $query->save(FILEHANDLE)
@@ -476,7 +458,6 @@ manipulated and even databased using Boulderio utilities.  See
 .PP
 for further details.
 .Sh "\s-1CREATING\s0 A \s-1SELF\s0\-\s-1REFERENCING\s0 \s-1URL\s0 \s-1THAT\s0 \s-1PRESERVES\s0 \s-1STATE\s0 \s-1INFORMATION\s0:"
-.IX Subsection "\s-1CREATING\s0 A \s-1SELF\s0\-\s-1REFERENCING\s0 \s-1URL\s0 \s-1THAT\s0 \s-1PRESERVES\s0 \s-1STATE\s0 \s-1INFORMATION\s0:"
 .PP
 .Vb 2
 \&    $myself = $query->self_url;
@@ -507,7 +488,6 @@ You can also retrieve the unprocessed query string with \fIquery_string()\fR:
 \&    $the_string = $query->query_string;
 .Ve
 .Sh "\s-1COMPATIBILITY\s0 \s-1WITH\s0 \s-1CGI\s0\-\s-1LIB\s0.\s-1PL\s0"
-.IX Subsection "\s-1COMPATIBILITY\s0 \s-1WITH\s0 \s-1CGI\s0\-\s-1LIB\s0.\s-1PL\s0"
 To make it easier to port existing programs that use cgi-lib.pl
 the compatibility routine \*(L"ReadParse\*(R" is provided.  Porting is
 simple:
@@ -539,7 +519,6 @@ this way:
 This allows you to start using the more interesting features
 of \s-1CGI\s0.pm without rewriting your old scripts from scratch.
 .Sh "\s-1CALLING\s0 \s-1CGI\s0 \s-1FUNCTIONS\s0 \s-1THAT\s0 \s-1TAKE\s0 \s-1MULTIPLE\s0 \s-1ARGUMENTS\s0"
-.IX Subsection "\s-1CALLING\s0 \s-1CGI\s0 \s-1FUNCTIONS\s0 \s-1THAT\s0 \s-1TAKE\s0 \s-1MULTIPLE\s0 \s-1ARGUMENTS\s0"
 In versions of \s-1CGI\s0.pm prior to 2.0, it could get difficult to remember
 the proper order of arguments in \s-1CGI\s0 function calls that accepted five
 or six different arguments.  As of 2.0, there's a better way to pass
@@ -592,7 +571,6 @@ figures out when you're referring to a function and when you're
 referring to a string, you probably should put quotation marks around
 all string constants just to play it safe.
 .Sh "\s-1CREATING\s0 \s-1THE\s0 \s-1HTTP\s0 \s-1HEADER\s0:"
-.IX Subsection "\s-1CREATING\s0 \s-1THE\s0 \s-1HTTP\s0 \s-1HEADER\s0:"
 .PP
 .Vb 1
 \&        print $query->header;
@@ -669,7 +647,6 @@ headers to work with a \s-1NPH\s0 (no-parse-header) script.  This is important
 to use with certain servers, such as Microsoft Internet Explorer, which
 expect all their scripts to be \s-1NPH\s0.
 .Sh "\s-1GENERATING\s0 A \s-1REDIRECTION\s0 \s-1INSTRUCTION\s0"
-.IX Subsection "\s-1GENERATING\s0 A \s-1REDIRECTION\s0 \s-1INSTRUCTION\s0"
 .PP
 .Vb 1
 \&   print $query->redirect('http://somewhere.else/in/movie/land');
@@ -696,7 +673,6 @@ headers to work with a \s-1NPH\s0 (no-parse-header) script.  This is important
 to use with certain servers, such as Microsoft Internet Explorer, which
 expect all their scripts to be \s-1NPH\s0.
 .Sh "\s-1CREATING\s0 \s-1THE\s0 \s-1HTML\s0 \s-1HEADER\s0:"
-.IX Subsection "\s-1CREATING\s0 \s-1THE\s0 \s-1HTML\s0 \s-1HEADER\s0:"
 .PP
 .Vb 8
 \&   print $query->start_html(-title=>'Secrets of the Pyramids',
@@ -848,31 +824,24 @@ for more information about JavaScript.
 .PP
 The old-style positional parameters are as follows:
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The title
 .Ip "2." 4
-.IX Item "2."
 The author's e-mail address (will create a <\s-1LINK\s0 \s-1REV\s0="\s-1MADE\s0"> tag if present
 .Ip "3." 4
-.IX Item "3."
 A \*(L'true\*(R' flag if you want to include a <\s-1BASE\s0> tag in the header.  This
 helps resolve relative addresses to absolute ones when the document is moved, 
 but makes the document hierarchy non-portable.  Use with care!
 .Ip "4, 5, 6..." 4
-.IX Item "4, 5, 6..."
 Any other parameters you want to include in the <\s-1BODY\s0> tag.  This is a good
 place to put Netscape extensions, such as colors and wallpaper patterns.
 .Sh "\s-1ENDING\s0 \s-1THE\s0 \s-1HTML\s0 \s-1DOCUMENT\s0:"
-.IX Subsection "\s-1ENDING\s0 \s-1THE\s0 \s-1HTML\s0 \s-1DOCUMENT\s0:"
 .PP
 .Vb 1
 \&        print $query->end_html
 .Ve
 This ends an \s-1HTML\s0 document by printing the </\s-1BODY\s0></\s-1HTML\s0> tags.
 .SH "CREATING FORMS"
-.IX Header "CREATING FORMS"
 \fIGeneral note\fR  The various form-creating methods all return strings
 to the caller, containing the tag or tags that will create the requested
 form element.  You are responsible for actually printing out these strings.
@@ -912,7 +881,6 @@ into your fields.  If you wish to turn off automatic escaping, call the
 \&                             
 .Ve
 .Sh "\s-1CREATING\s0 \s-1AN\s0 \s-1ISINDEX\s0 \s-1TAG\s0"
-.IX Subsection "\s-1CREATING\s0 \s-1AN\s0 \s-1ISINDEX\s0 \s-1TAG\s0"
 .PP
 .Vb 1
 \&   print $query->isindex(-action=>$action);
@@ -927,7 +895,6 @@ Prints out an <\s-1ISINDEX\s0> tag.  Not very exciting.  The parameter
 \-action specifies the \s-1URL\s0 of the script to process the query.  The
 default is to process the query with the current script.
 .Sh "\s-1STARTING\s0 \s-1AND\s0 \s-1ENDING\s0 A \s-1FORM\s0"
-.IX Subsection "\s-1STARTING\s0 \s-1AND\s0 \s-1ENDING\s0 A \s-1FORM\s0"
 .PP
 .Vb 5
 \&    print $query->startform(-method=>$method,
@@ -957,14 +924,12 @@ action and form encoding that you specify.  The defaults are:
 fields of the form before sending the form to the server.  Two
 values are possible:
 .Ip "\fBapplication/x-www-form-urlencoded\fR" 4
-.IX Item "\fBapplication/x-www-form-urlencoded\fR"
 This is the older type of encoding used by all browsers prior to
 Netscape 2.0.  It is compatible with many \s-1CGI\s0 scripts and is
 suitable for short fields containing text data.  For your
 convenience, \s-1CGI\s0.pm stores the name of this encoding
 type in \fB$\s-1CGI::URL_ENCODED\s0\fR.
 .Ip "\fBmultipart/form-data\fR" 4
-.IX Item "\fBmultipart/form-data\fR"
 This is the newer type of encoding introduced by Netscape 2.0.
 It is suitable for forms that contain very large fields or that
 are intended for transferring binary data.  Most importantly,
@@ -995,7 +960,6 @@ Usually the bulk of JavaScript functions are defined in a <\s-1SCRIPT\s0>
 block in the \s-1HTML\s0 header and \-onSubmit points to one of these function
 call.  See \fIstart_html()\fR for details.
 .Sh "\s-1CREATING\s0 A \s-1TEXT\s0 \s-1FIELD\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1TEXT\s0 \s-1FIELD\s0"
 .PP
 .Vb 5
 \&    print $query->textfield(-name=>'field_name',
@@ -1009,20 +973,15 @@ call.  See \fIstart_html()\fR for details.
 .Ve
 \fItextfield()\fR will return a text input field.  
 .Ip "\fBParameters\fR" 4
-.IX Item "\fBParameters\fR"
 .Ip "1." 4
-.IX Item "1."
 The first parameter is the required name for the field (\-name).  
 .Ip "2." 4
-.IX Item "2."
 The optional second parameter is the default starting value for the field
 contents (\-default).  
 .Ip "3." 4
-.IX Item "3."
 The optional third parameter is the size of the field in
       characters (\-size).
 .Ip "4." 4
-.IX Item "4."
 The optional fourth parameter is the maximum number of characters the
       field will accept (\-maxlength).
 .PP
@@ -1059,7 +1018,6 @@ onFocus and onBlur are called respectively when the insertion point
 moves into and out of the text field.  onSelect is called when the
 user changes the portion of the text that is selected.
 .Sh "\s-1CREATING\s0 A \s-1BIG\s0 \s-1TEXT\s0 \s-1FIELD\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1BIG\s0 \s-1TEXT\s0 \s-1FIELD\s0"
 .PP
 .Vb 4
 \&   print $query->textarea(-name=>'foo',
@@ -1081,7 +1039,6 @@ multiple lines.
 \s-1JAVASCRIPTING\s0: The \fB\-onChange\fR, \fB\-onFocus\fR, \fB\-onBlur\fR
 and \fB\-onSelect\fR parameters are recognized.  See \fItextfield()\fR.
 .Sh "\s-1CREATING\s0 A \s-1PASSWORD\s0 \s-1FIELD\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1PASSWORD\s0 \s-1FIELD\s0"
 .PP
 .Vb 5
 \&   print $query->password_field(-name=>'secret',
@@ -1099,7 +1056,6 @@ will be starred out on the web page.
 \s-1JAVASCRIPTING\s0: The \fB\-onChange\fR, \fB\-onFocus\fR, \fB\-onBlur\fR
 and \fB\-onSelect\fR parameters are recognized.  See \fItextfield()\fR.
 .Sh "\s-1CREATING\s0 A \s-1FILE\s0 \s-1UPLOAD\s0 \s-1FIELD\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1FILE\s0 \s-1UPLOAD\s0 \s-1FIELD\s0"
 .PP
 .Vb 5
 \&    print $query->filefield(-name=>'uploaded_file',
@@ -1118,12 +1074,9 @@ by calling \fBstartform()\fR with an encoding type of \fB$\s-1CGI::MULTIPART\s0\
 or by calling the new method \fBstart_multipart_form()\fR instead of
 vanilla \fBstartform()\fR.
 .Ip "\fBParameters\fR" 4
-.IX Item "\fBParameters\fR"
 .Ip "1." 4
-.IX Item "1."
 The first parameter is the required name for the field (\-name).  
 .Ip "2." 4
-.IX Item "2."
 The optional second parameter is the starting value for the field contents
 to be used as the default file name (\-default).
 .Sp
@@ -1134,11 +1087,9 @@ contents.  The starting value field is called for in the \s-1HTML\s0
 specification, however, and possibly later versions of Netscape will
 honor it.
 .Ip "3." 4
-.IX Item "3."
 The optional third parameter is the size of the field in
 characters (\-size).
 .Ip "4." 4
-.IX Item "4."
 The optional fourth parameter is the maximum number of characters the
 field will accept (\-maxlength).
 .PP
@@ -1203,7 +1154,6 @@ Otherwise you may find that binary files are corrupted during file uploads.
 and \fB\-onSelect\fR parameters are recognized.  See \fItextfield()\fR
 for details. 
 .Sh "\s-1CREATING\s0 A \s-1POPUP\s0 \s-1MENU\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1POPUP\s0 \s-1MENU\s0"
 .PP
 .Vb 3
 \&   print $query->popup_menu('menu_name',
@@ -1232,21 +1182,17 @@ for details.
 .Ve
 \fIpopup_menu()\fR creates a menu.
 .Ip "1." 4
-.IX Item "1."
 The required first argument is the menu's name (\-name).
 .Ip "2." 4
-.IX Item "2."
 The required second argument (\-values) is an array \fBreference\fR
 containing the list of menu items in the menu.  You can pass the
 method an anonymous array, as shown in the example, or a reference to
 a named array, such as \*(L"\e@foo\*(R".
 .Ip "3." 4
-.IX Item "3."
 The optional third parameter (\-default) is the name of the default
 menu choice.  If not specified, the first item will be the default.
 The values of the previous choice will be maintained across queries.
 .Ip "4." 4
-.IX Item "4."
 The optional fourth parameter (\-labels) is provided for people who
 want to use different values for the user-visible label inside the
 popup menu nd the value returned to your script.  It's a pointer to an
@@ -1264,7 +1210,6 @@ be retrieved using:
 \fB\-onChange\fR, \fB\-onFocus\fR, and \fB\-onBlur\fR.  See the \fItextfield()\fR
 section for details on when these handlers are called.
 .Sh "\s-1CREATING\s0 A \s-1SCROLLING\s0 \s-1LIST\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1SCROLLING\s0 \s-1LIST\s0"
 .PP
 .Vb 4
 \&   print $query->scrolling_list('list_name',
@@ -1291,14 +1236,11 @@ section for details on when these handlers are called.
 .Ve
 \fIscrolling_list()\fR creates a scrolling list.  
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first and second arguments are the list name (\-name) and values
 (\-values).  As in the popup menu, the second argument should be an
 array reference.
 .Ip "2." 4
-.IX Item "2."
 The optional third argument (\-default) can be either a reference to a
 list containing the values to be selected by default, or can be a
 single value to select.  If this argument is missing or undefined,
@@ -1306,15 +1248,12 @@ then nothing is selected when the list first appears.  In the named
 parameter version, you can use the synonym \*(L"\-defaults\*(R" for this
 parameter.
 .Ip "3." 4
-.IX Item "3."
 The optional fourth argument is the size of the list (\-size).
 .Ip "4." 4
-.IX Item "4."
 The optional fifth argument can be set to true to allow multiple
 simultaneous selections (\-multiple).  Otherwise only one selection
 will be allowed at a time.
 .Ip "5." 4
-.IX Item "5."
 The optional sixth argument is a pointer to an associative array
 containing long user-visible labels for the list items (\-labels).
 If not provided, the values will be displayed.
@@ -1331,7 +1270,6 @@ selected items can be retrieved with:
 \fB\-onChange\fR, \fB\-onFocus\fR, and \fB\-onBlur\fR.  See \fItextfield()\fR for
 the description of when these handlers are called.
 .Sh "\s-1CREATING\s0 A \s-1GROUP\s0 \s-1OF\s0 \s-1RELATED\s0 \s-1CHECKBOXES\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1GROUP\s0 \s-1OF\s0 \s-1RELATED\s0 \s-1CHECKBOXES\s0"
 .PP
 .Vb 5
 \&   print $query->checkbox_group(-name=>'group_name',
@@ -1357,33 +1295,27 @@ the description of when these handlers are called.
 \fIcheckbox_group()\fR creates a list of checkboxes that are related
 by the same name.
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first and second arguments are the checkbox name and values,
 respectively (\-name and \-values).  As in the popup menu, the second
 argument should be an array reference.  These values are used for the
 user-readable labels printed next to the checkboxes as well as for the
 values passed to your script in the query string.
 .Ip "2." 4
-.IX Item "2."
 The optional third argument (\-default) can be either a reference to a
 list containing the values to be checked by default, or can be a
 single value to checked.  If this argument is missing or undefined,
 then nothing is selected when the list first appears.
 .Ip "3." 4
-.IX Item "3."
 The optional fourth argument (\-linebreak) can be set to true to place
 line breaks between the checkboxes so that they appear as a vertical
 list.  Otherwise, they will be strung together on a horizontal line.
 .Ip "4." 4
-.IX Item "4."
 The optional fifth argument is a pointer to an associative array
 relating the checkbox values to the user-visible labels that will
 be printed next to them (\-labels).  If not provided, the values will
 be used as the default.
 .Ip "5." 4
-.IX Item "5."
 \fB\s-1HTML3-\s0compatible browsers\fR (such as Netscape) can take advantage 
 of the optional 
 parameters \fB\-rows\fR, and \fB\-columns\fR.  These parameters cause
@@ -1421,7 +1353,6 @@ function call to be executed every time the user clicks on
 any of the buttons in the group.  You can retrieve the identity
 of the particular button clicked on using the \*(L"this\*(R" variable.
 .Sh "\s-1CREATING\s0 A \s-1STANDALONE\s0 \s-1CHECKBOX\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1STANDALONE\s0 \s-1CHECKBOX\s0"
 .PP
 .Vb 4
 \&    print $query->checkbox(-name=>'checkbox_name',
@@ -1438,23 +1369,18 @@ of the particular button clicked on using the \*(L"this\*(R" variable.
 \fIcheckbox()\fR is used to create an isolated checkbox that isn't logically
 related to any others.
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first parameter is the required name for the checkbox (\-name).  It
 will also be used for the user-readable label printed next to the
 checkbox.
 .Ip "2." 4
-.IX Item "2."
 The optional second parameter (\-checked) specifies that the checkbox
 is turned on by default.  Synonyms are \-selected and \-on.
 .Ip "3." 4
-.IX Item "3."
 The optional third parameter (\-value) specifies the value of the
 checkbox when it is checked.  If not provided, the word \*(L"on\*(R" is
 assumed.
 .Ip "4." 4
-.IX Item "4."
 The optional fourth parameter (\-label) is the user-readable label to
 be attached to the checkbox.  If not provided, the checkbox name is
 used.
@@ -1467,7 +1393,6 @@ The value of the checkbox can be retrieved using:
 \s-1JAVASCRIPTING\s0: \fIcheckbox()\fR recognizes the \fB\-onClick\fR
 parameter.  See \fIcheckbox_group()\fR for further details.
 .Sh "\s-1CREATING\s0 A \s-1RADIO\s0 \s-1BUTTON\s0 \s-1GROUP\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1RADIO\s0 \s-1BUTTON\s0 \s-1GROUP\s0"
 .PP
 .Vb 5
 \&   print $query->radio_group(-name=>'group_name',
@@ -1494,35 +1419,28 @@ parameter.  See \fIcheckbox_group()\fR for further details.
 \fIradio_group()\fR creates a set of logically-related radio buttons
 (turning one member of the group on turns the others off)
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first argument is the name of the group and is required (\-name).
 .Ip "2." 4
-.IX Item "2."
 The second argument (\-values) is the list of values for the radio
 buttons.  The values and the labels that appear on the page are
 identical.  Pass an array \fIreference\fR in the second argument, either
 using an anonymous array, as shown, or by referencing a named array as
 in \*(L"\e@foo\*(R".
 .Ip "3." 4
-.IX Item "3."
 The optional third parameter (\-default) is the name of the default
 button to turn on. If not specified, the first item will be the
 default.  You can provide a nonexistent button name, such as \*(L"\-\*(R" to
 start up with no buttons selected.
 .Ip "4." 4
-.IX Item "4."
 The optional fourth parameter (\-linebreak) can be set to \*(L'true\*(R' to put
 line breaks between the buttons, creating a vertical list.
 .Ip "5." 4
-.IX Item "5."
 The optional fifth parameter (\-labels) is a pointer to an associative
 array relating the radio button values to user-visible labels to be
 used in the display.  If not provided, the values themselves are
 displayed.
 .Ip "6." 4
-.IX Item "6."
 \fB\s-1HTML3-\s0compatible browsers\fR (such as Netscape) can take advantage 
 of the optional 
 parameters \fB\-rows\fR, and \fB\-columns\fR.  These parameters cause
@@ -1554,7 +1472,6 @@ or in other creative ways:
 \&    &use_in_creative_way(@h);
 .Ve
 .Sh "\s-1CREATING\s0 A \s-1SUBMIT\s0 \s-1BUTTON\s0 "
-.IX Subsection "\s-1CREATING\s0 A \s-1SUBMIT\s0 \s-1BUTTON\s0 "
 .PP
 .Vb 2
 \&   print $query->submit(-name=>'button_name',
@@ -1569,16 +1486,13 @@ or in other creative ways:
 \fIsubmit()\fR will create the query submission button.  Every form
 should have one of these.
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first argument (\-name) is optional.  You can give the button a
 name if you have several submission buttons in your form and you want
 to distinguish between them.  The name will also be used as the
 user-visible label.  Be aware that a few older browsers don't deal with this correctly and
 \fBnever\fR send back a value from a button.
 .Ip "2." 4
-.IX Item "2."
 The second argument (\-value) is also optional.  This gives the button
 a value that will be passed to your script in the query string.
 .PP
@@ -1591,7 +1505,6 @@ values for each one:
 \s-1JAVASCRIPTING\s0: \fIradio_group()\fR recognizes the \fB\-onClick\fR
 parameter.  See \fIcheckbox_group()\fR for further details.
 .Sh "\s-1CREATING\s0 A \s-1RESET\s0 \s-1BUTTON\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1RESET\s0 \s-1BUTTON\s0"
 .PP
 .Vb 1
 \&   print $query->reset
@@ -1600,7 +1513,6 @@ parameter.  See \fIcheckbox_group()\fR for further details.
 form to its value from the last time the script was called, 
 \s-1NOT\s0 necessarily to the defaults.
 .Sh "\s-1CREATING\s0 A \s-1DEFAULT\s0 \s-1BUTTON\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1DEFAULT\s0 \s-1BUTTON\s0"
 .PP
 .Vb 1
 \&   print $query->defaults('button_label')
@@ -1609,7 +1521,6 @@ form to its value from the last time the script was called,
 form to be completely reset to its defaults, wiping out all the
 changes the user ever made.
 .Sh "\s-1CREATING\s0 A \s-1HIDDEN\s0 \s-1FIELD\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1HIDDEN\s0 \s-1FIELD\s0"
 .PP
 .Vb 2
 \&        print $query->hidden(-name=>'hidden_name',
@@ -1625,13 +1536,10 @@ changes the user ever made.
 is useful for passing state variable information from one invocation
 of the script to the next.
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first argument is required and specifies the name of this
 field (\-name).
 .Ip "2.  " 4
-.IX Item "2.  "
 The second argument is also required and specifies its value
 (\-default).  In the named parameter style of calling, you can provide
 a single value here or a reference to a whole list
@@ -1650,7 +1558,6 @@ do it manually:
 \&     $query->param('hidden_name','new','values','here');
 .Ve
 .Sh "\s-1CREATING\s0 A \s-1CLICKABLE\s0 \s-1IMAGE\s0 \s-1BUTTON\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1CLICKABLE\s0 \s-1IMAGE\s0 \s-1BUTTON\s0"
 .PP
 .Vb 3
 \&     print $query->image_button(-name=>'button_name',
@@ -1671,22 +1578,17 @@ to it.
 \s-1JAVASCRIPTING\s0: \fIimage_button()\fR recognizes the \fB\-onClick\fR
 parameter.  See \fIcheckbox_group()\fR for further details.
 .Ip "\fBParameters:\fR" 4
-.IX Item "\fBParameters:\fR"
 .Ip "1." 4
-.IX Item "1."
 The first argument (\-name) is required and specifies the name of this
 field.
 .Ip "2." 4
-.IX Item "2."
 The second argument (\-src) is also required and specifies the \s-1URL\s0
 .Ip "3. The third option (\-align, optional) is an alignment type, and may be \s-1TOP\s0, \s-1BOTTOM\s0 or \s-1MIDDLE\s0" 4
-.IX Item "3. The third option (\-align, optional) is an alignment type, and may be \s-1TOP\s0, \s-1BOTTOM\s0 or \s-1MIDDLE\s0"
 .PP
 Fetch the value of the button this way:
      \f(CW$x\fR = \f(CW$query\fR\->\fIparam\fR\|('button_name.x');
      \f(CW$y\fR = \f(CW$query\fR\->\fIparam\fR\|('button_name.y');
 .Sh "\s-1CREATING\s0 A \s-1JAVASCRIPT\s0 \s-1ACTION\s0 \s-1BUTTON\s0"
-.IX Subsection "\s-1CREATING\s0 A \s-1JAVASCRIPT\s0 \s-1ACTION\s0 \s-1BUTTON\s0"
 .PP
 .Vb 3
 \&     print $query->button(-name=>'button_name',
@@ -1705,7 +1607,6 @@ pointed to by the \fB\-onClick\fR parameter will be executed.  On
 non-Netscape browsers this form element will probably not even
 display.
 .SH "NETSCAPE COOKIES"
-.IX Header "NETSCAPE COOKIES"
 Netscape browsers versions 1.1 and higher support a so-called
 \*(L"cookie\*(R" designed to help maintain state within a browser session.
 CGI.pm has several methods that support cookies.
@@ -1719,14 +1620,12 @@ to the CGI script during subsequent interactions.
 In addition to the required name=value pair, each cookie has several
 optional attributes:
 .Ip "1. an expiration time" 4
-.IX Item "1. an expiration time"
 This is a time/date string (in a special \s-1GMT\s0 format) that indicates
 when a cookie expires.  The cookie will be saved and returned to your
 script until this expiration date is reached if the user exits
 Netscape and restarts it.  If an expiration date isn't specified, the cookie
 will remain active until the user quits Netscape.
 .Ip "2. a domain" 4
-.IX Item "2. a domain"
 This is a partial or complete domain name for which the cookie is 
 valid.  The browser will return the cookie to any host that matches
 the partial domain name.  For example, if you specify a domain name
@@ -1738,7 +1637,6 @@ on top level domains like \*(L".edu\*(R".  If no domain is specified, then
 the browser will only return the cookie to servers on the host the
 cookie originated from.
 .Ip "3. a path" 4
-.IX Item "3. a path"
 If you provide a cookie path attribute, the browser will check it
 against your script's \s-1URL\s0 before returning the cookie.  For example,
 if you specify the path \*(L"/cgi-bin\*(R", then the cookie will be returned
@@ -1747,7 +1645,6 @@ and \*(L"/cgi-bin/customer_service/complain.pl\*(R", but not to the script
 \*(L"/cgi-private/site_admin.pl\*(R".  By default, path is set to \*(L"/\*(R", which
 causes the cookie to be sent to any \s-1CGI\s0 script on your site.
 .Ip "4. a \*(N"secure\*(T" flag" 4
-.IX Item "4. a \*(N"secure\*(T" flag"
 If the \*(L"secure\*(R" attribute is set, the cookie will only be sent to your
 script if the \s-1CGI\s0 request is occurring on a secure channel, such as \s-1SSL\s0.
 .PP
@@ -1764,13 +1661,11 @@ The interface to Netscape cookies is the \fBcookie()\fR method:
 .Ve
 \fBcookie()\fR creates a new cookie.  Its parameters include:
 .Ip "\fB\-name\fR" 4
-.IX Item "\fB\-name\fR"
 The name of the cookie (required).  This can be any string at all.
 Although Netscape limits its cookie names to non-whitespace
 alphanumeric characters, \s-1CGI\s0.pm removes this restriction by escaping
 and unescaping cookies behind the scenes.
 .Ip "\fB\-value\fR" 4
-.IX Item "\fB\-value\fR"
 The value of the cookie.  This can be any scalar value,
 array reference, or even associative array reference.  For example,
 you can store an entire associative array into a cookie this way:
@@ -1780,15 +1675,12 @@ you can store an entire associative array into a cookie this way:
 \&                               -value=>\e%childrens_ages);
 .Ve
 .Ip "\fB\-path\fR" 4
-.IX Item "\fB\-path\fR"
 The optional partial path for which this cookie will be valid, as described
 above.
 .Ip "\fB\-domain\fR" 4
-.IX Item "\fB\-domain\fR"
 The optional partial domain for which this cookie will be valid, as described
 above.
 .Ip "\fB\-expires\fR" 4
-.IX Item "\fB\-expires\fR"
 The optional expiration date for this cookie.  The format is as described 
 in the section on the \fBheader()\fR method:
 .Sp
@@ -1796,7 +1688,6 @@ in the section on the \fBheader()\fR method:
 \&        "+1h"  one hour from now
 .Ve
 .Ip "\fB\-secure\fR" 4
-.IX Item "\fB\-secure\fR"
 If set to true, this cookie will only be used within a secure
 \s-1SSL\s0 session.
 .PP
@@ -1846,12 +1737,10 @@ it's probably better to create a unique session \s-1ID\s0, store it in a
 cookie, and use the session \s-1ID\s0 to locate an external file/database
 saved on the server's side of the connection.
 .SH "WORKING WITH NETSCAPE FRAMES"
-.IX Header "WORKING WITH NETSCAPE FRAMES"
 It's possible for CGI.pm scripts to write into several browser
 panels and windows using Netscape's frame mechanism.  
 There are three techniques for defining new frames programmatically:
 .Ip "1. Create a <Frameset> document" 4
-.IX Item "1. Create a <Frameset> document"
 After writing out the \s-1HTTP\s0 header, instead of creating a standard
 \s-1HTML\s0 document using the \fIstart_html()\fR call, create a <\s-1FRAMESET\s0> 
 document that defines the frames on the page.  Specify your \fIscript\fR\|(s)
@@ -1865,7 +1754,6 @@ documentation in Netscape's home pages for details
 \&  http://home.netscape.com/assist/net_sites/frames.html
 .Ve
 .Ip "2. Specify the destination for the document in the \s-1HTTP\s0 header" 4
-.IX Item "2. Specify the destination for the document in the \s-1HTTP\s0 header"
 You may provide a \fB\-target\fR parameter to the \fIheader()\fR method:
    
     print \f(CW$q\fR\->\fIheader\fR\|(\-target=>'ResultsWindow');
@@ -1877,7 +1765,6 @@ script's document into that.  There are a number of magic names
 that you can use for targets.  See the frame documents on Netscape's
 home pages for details.
 .Ip "3. Specify the destination for the document in the <\s-1FORM\s0> tag" 4
-.IX Item "3. Specify the destination for the document in the <\s-1FORM\s0> tag"
 You can specify the frame to load in the \s-1FORM\s0 tag itself.  With
 \s-1CGI\s0.pm it looks like this:
 .Sp
@@ -1892,7 +1779,6 @@ The script \*(L"frameset.cgi\*(R" in the examples directory shows one way to
 create pages in which the fill-out form and the response live in
 side-by-side frames.
 .SH "LIMITED SUPPORT FOR CASCADING STYLE SHEETS"
-.IX Header "LIMITED SUPPORT FOR CASCADING STYLE SHEETS"
 CGI.pm has limited support for HTML3's cascading style sheets (css).
 To incorporate a stylesheet into your document, pass the
 \fIstart_html()\fR method a \fB\-style\fR parameter.  The value of this
@@ -1964,7 +1850,6 @@ http://www.w3.org/pub/WWW/TR/Wd-css-1.html for more information.
 \&    print end_html;
 .Ve
 .SH "DEBUGGING"
-.IX Header "DEBUGGING"
 If you are running the script
 from the command line or in the perl debugger, you can pass the script
 a list of keywords or parameter=value pairs on the command line or 
@@ -2001,7 +1886,6 @@ pairs:
 \&   your_script.pl "name1='I am a long value'" "name2=two\e words"
 .Ve
 .Sh "\s-1DUMPING\s0 \s-1OUT\s0 \s-1ALL\s0 \s-1THE\s0 \s-1NAME/VALUE\s0 \s-1PAIRS\s0"
-.IX Subsection "\s-1DUMPING\s0 \s-1OUT\s0 \s-1ALL\s0 \s-1THE\s0 \s-1NAME/VALUE\s0 \s-1PAIRS\s0"
 The \fIdump()\fR method produces a string consisting of all the query's
 name/value pairs formatted nicely as a nested list.  This is useful
 for debugging purposes:
@@ -2038,11 +1922,9 @@ shown above:
 \&    print "<H2>Current Values</H2> $query\en";
 .Ve
 .SH "FETCHING ENVIRONMENT VARIABLES"
-.IX Header "FETCHING ENVIRONMENT VARIABLES"
 Some of the more useful environment variables can be fetched
 through this interface.  The methods are as follows:
 .Ip "\fBaccept()\fR" 4
-.IX Item "\fBaccept()\fR"
 Return a list of \s-1MIME\s0 types that the remote browser
 accepts. If you give this method a single argument
 corresponding to a \s-1MIME\s0 type, as in
@@ -2052,7 +1934,6 @@ preference for this type from 0.0 (don't want) to 1.0.
 Glob types (e.g. text/*) in the browser's accept list
 are handled correctly.
 .Ip "\fBraw_cookie()\fR" 4
-.IX Item "\fBraw_cookie()\fR"
 Returns the \s-1HTTP_COOKIE\s0 variable, an \s-1HTTP\s0 extension
 implemented by Netscape browsers version 1.1
 and higher.  Cookies have a special format, and this 
@@ -2060,13 +1941,11 @@ method call just returns the raw form (?cookie dough).
 See \fIcookie()\fR for ways of setting and retrieving
 cooked cookies.
 .Ip "\fBuser_agent()\fR" 4
-.IX Item "\fBuser_agent()\fR"
 Returns the \s-1HTTP_USER_AGENT\s0 variable.  If you give
 this method a single argument, it will attempt to
 pattern match on it, allowing you to do something
 like \f(CW$query\fR\->\fIuser_agent\fR\|(netscape);
 .Ip "\fBpath_info()\fR" 4
-.IX Item "\fBpath_info()\fR"
 Returns additional path information from the script \s-1URL\s0.
 E.G. fetching /cgi-bin/your_script/additional/stuff will
 result in \f(CW$query\fR\->\fIpath_info()\fR returning
@@ -2081,7 +1960,6 @@ path information will be present in the environment,
 but incorrect.  The best thing to do is to avoid using additional
 path information in \s-1CGI\s0 scripts destined for use with \s-1IIS\s0.
 .Ip "\fBpath_translated()\fR" 4
-.IX Item "\fBpath_translated()\fR"
 As per \fIpath_info()\fR but returns the additional
 path information translated into a physical path, e.g.
 \*(L"/usr/local/etc/httpd/htdocs/additional/stuff\*(R".
@@ -2089,47 +1967,36 @@ path information translated into a physical path, e.g.
 The Microsoft \s-1IIS\s0 is broken with respect to the translated
 path as well.
 .Ip "\fBremote_host()\fR" 4
-.IX Item "\fBremote_host()\fR"
 Returns either the remote host name or \s-1IP\s0 address.
 if the former is unavailable.
 .Ip "\fBscript_name()\fR Return the script name as a partial \s-1URL\s0, for self-refering scripts." 4
-.IX Item "\fBscript_name()\fR Return the script name as a partial \s-1URL\s0, for self-refering scripts."
 .Ip "\fBreferer()\fR" 4
-.IX Item "\fBreferer()\fR"
 Return the \s-1URL\s0 of the page the browser was viewing
 prior to fetching your script.  Not available for all
 browsers.
 .Ip "\fBauth_type ()\fR" 4
-.IX Item "\fBauth_type ()\fR"
 Return the authorization/verification method in use for this
 script, if any.
 .Ip "\fBserver_name ()\fR" 4
-.IX Item "\fBserver_name ()\fR"
 Returns the name of the server, usually the machine's host
 name.
 .Ip "\fBvirtual_host ()\fR" 4
-.IX Item "\fBvirtual_host ()\fR"
 When using virtual hosts, returns the name of the host that
 the browser attempted to contact
 .Ip "\fBserver_software ()\fR" 4
-.IX Item "\fBserver_software ()\fR"
 Returns the server software and version number.
 .Ip "\fBremote_user ()\fR" 4
-.IX Item "\fBremote_user ()\fR"
 Return the authorization/verification name used for user
 verification, if this script is protected.
 .Ip "\fBuser_name ()\fR" 4
-.IX Item "\fBuser_name ()\fR"
 Attempt to obtain the remote user's name, using a variety
 of different techniques.  This only works with older browsers
 such as Mosaic.  Netscape does not reliably report the user
 name!
 .Ip "\fBrequest_method()\fR" 4
-.IX Item "\fBrequest_method()\fR"
 Returns the method used to access your script, usually
 one of \*(L'\s-1POST\s0\*(R', \*(L'\s-1GET\s0\*(R' or \*(L'\s-1HEAD\s0\*(R'.
 .SH "CREATING HTML ELEMENTS"
-.IX Header "CREATING HTML ELEMENTS"
 In addition to its shortcuts for creating form elements, CGI.pm
 defines general HTML shortcut methods as well.  HTML shortcuts are
 named after a single HTML element and return a fragment of HTML text
@@ -2173,7 +2040,6 @@ completely (see the next section for more details):
 \&               hr;
 .Ve
 .Sh "\s-1PROVIDING\s0 \s-1ARGUMENTS\s0 \s-1TO\s0 \s-1HTML\s0 \s-1SHORTCUTS\s0"
-.IX Subsection "\s-1PROVIDING\s0 \s-1ARGUMENTS\s0 \s-1TO\s0 \s-1HTML\s0 \s-1SHORTCUTS\s0"
 The \s-1HTML\s0 methods will accept zero, one or multiple arguments.  If you
 provide no arguments, you get a single tag:
 .PP
@@ -2204,7 +2070,6 @@ names if you prefer:
 \&        # gives <img ALIGN="LEFT" SRC="fred.gif">
 .Ve
 .Sh "Generating new \s-1HTML\s0 tags"
-.IX Subsection "Generating new \s-1HTML\s0 tags"
 Since no mere mortal can keep up with Netscape and Microsoft as they
 battle it out for control of \s-1HTML\s0, the code that generates \s-1HTML\s0 tags
 is general and extensible.  You can create new \s-1HTML\s0 tags freely just
@@ -2221,7 +2086,6 @@ tags named \*(L"winkin\*(R", \*(L"blinkin\*(R" and \*(L"nod\*(R".  You can use t
 \&        # <blinkin COLOR="blue" RATE="fast">Yahoo!</blinkin>
 .Ve
 .SH "IMPORTING CGI METHOD CALLS INTO YOUR NAME SPACE"
-.IX Header "IMPORTING CGI METHOD CALLS INTO YOUR NAME SPACE"
 As a convenience, you can import most of the CGI method calls directly
 into your name space.  The syntax for doing this is:
 .PP
@@ -2241,31 +2105,23 @@ methods, and then use them directly:
 You can import groups of methods by referring to a number of special
 names:
 .Ip "\fBcgi\fR" 4
-.IX Item "\fBcgi\fR"
 Import all \s-1CGI\s0\-handling methods, such as \fBparam()\fR, \fBpath_info()\fR
 and the like.
 .Ip "\fBform\fR" 4
-.IX Item "\fBform\fR"
 Import all fill-out form generating methods, such as \fBtextfield()\fR.
 .Ip "\fBhtml2\fR" 4
-.IX Item "\fBhtml2\fR"
 Import all methods that generate \s-1HTML\s0 2.0 standard elements.
 .Ip "\fBhtml3\fR" 4
-.IX Item "\fBhtml3\fR"
 Import all methods that generate \s-1HTML\s0 3.0 proposed elements (such as
 <table>, <super> and <sub>).
 .Ip "\fBnetscape\fR" 4
-.IX Item "\fBnetscape\fR"
 Import all methods that generate Netscape-specific \s-1HTML\s0 extensions.
 .Ip "\fBshortcuts\fR" 4
-.IX Item "\fBshortcuts\fR"
 Import all \s-1HTML\s0\-generating shortcuts (i.e. \*(L'html2\*(R' + \*(L'html3\*(R' +
 \&'netscape')...
 .Ip "\fBstandard\fR" 4
-.IX Item "\fBstandard\fR"
 Import \*(L"standard\*(R" features, \*(L'html2\*(R', \*(L'form\*(R' and \*(L'cgi\*(R'.
 .Ip "\fBall\fR" 4
-.IX Item "\fBall\fR"
 Import all the available methods.  For the full list, see the \s-1CGI\s0.pm
 code, where the variable \f(CW%TAGS\fR is defined.
 .PP
@@ -2310,7 +2166,6 @@ importing \s-1CGI\s0.pm methods, you can create visually elegant scripts:
 \&    print end_html;
 .Ve
 .SH "USING NPH SCRIPTS"
-.IX Header "USING NPH SCRIPTS"
 NPH, or \*(L"no-parsed-header\*(R", scripts bypass the server completely by
 sending the complete HTTP header directly to the browser.  This has
 slight performance benefits, but is of most use for taking advantage
@@ -2335,26 +2190,22 @@ it won't hurt anything if you do.
 .PP
 There are a number of ways to put CGI.pm into NPH mode:
 .Ip "In the \fBuse\fR statement Simply add \*(N":nph\*(T" to the list of symbols to be imported into your script:" 4
-.IX Item "In the \fBuse\fR statement Simply add \*(N":nph\*(T" to the list of symbols to be imported into your script:"
 .Sp
 .Vb 1
 \&      use CGI qw(:standard :nph)
 .Ve
 .Ip "By calling the \fBnph()\fR method:" 4
-.IX Item "By calling the \fBnph()\fR method:"
 Call \fBnph()\fR with a non-zero parameter at any point after using \s-1CGI\s0.pm in your program.
 .Sp
 .Vb 1
 \&      CGI->nph(1)
 .Ve
 .Ip "By using \fB\-nph\fR parameters in the \fBheader()\fR and \fBredirect()\fR  statements:" 4
-.IX Item "By using \fB\-nph\fR parameters in the \fBheader()\fR and \fBredirect()\fR  statements:"
 .Sp
 .Vb 1
 \&      print $q->header(-nph=&gt;1);
 .Ve
 .SH "AUTHOR INFORMATION"
-.IX Header "AUTHOR INFORMATION"
 Copyright 1995,1996, Lincoln D. Stein.  All rights reserved.  It may
 be used and modified freely, but I do request that this copyright
 notice remain attached to the file.  You may modify this module as you
@@ -2364,49 +2215,28 @@ listing the modifications you have made.
 Address bug reports and comments to:
 lstein@genome.wi.mit.edu
 .SH "CREDITS"
-.IX Header "CREDITS"
 Thanks very much to:
 .Ip "Matt Heffron (heffron@falstaff.css.beckman.com)" 4
-.IX Item "Matt Heffron (heffron@falstaff.css.beckman.com)"
 .Ip "James Taylor (james.taylor@srs.gov)" 4
-.IX Item "James Taylor (james.taylor@srs.gov)"
 .Ip "Scott Anguish <sanguish@digifix.com>" 4
-.IX Item "Scott Anguish <sanguish@digifix.com>"
 .Ip "Mike Jewell (mlj3u@virginia.edu)" 4
-.IX Item "Mike Jewell (mlj3u@virginia.edu)"
 .Ip "Timothy Shimmin (tes@kbs.citri.edu.au)" 4
-.IX Item "Timothy Shimmin (tes@kbs.citri.edu.au)"
 .Ip "Joergen Haegg (jh@axis.se)" 4
-.IX Item "Joergen Haegg (jh@axis.se)"
 .Ip "Laurent Delfosse (delfosse@csgrad1.cs.wvu.edu)" 4
-.IX Item "Laurent Delfosse (delfosse@csgrad1.cs.wvu.edu)"
 .Ip "Richard Resnick (applepi1@aol.com)" 4
-.IX Item "Richard Resnick (applepi1@aol.com)"
 .Ip "Craig Bishop (csb@barwonwater.vic.gov.au)" 4
-.IX Item "Craig Bishop (csb@barwonwater.vic.gov.au)"
 .Ip "Tony Curtis (tc@vcpc.univie.ac.at)" 4
-.IX Item "Tony Curtis (tc@vcpc.univie.ac.at)"
 .Ip "Tim Bunce (Tim.Bunce@ig.co.uk)" 4
-.IX Item "Tim Bunce (Tim.Bunce@ig.co.uk)"
 .Ip "Tom Christiansen (tchrist@convex.com)" 4
-.IX Item "Tom Christiansen (tchrist@convex.com)"
 .Ip "Andreas Koenig (k@franz.ww.\s-1TU\s0\-Berlin.\s-1DE\s0)" 4
-.IX Item "Andreas Koenig (k@franz.ww.\s-1TU\s0\-Berlin.\s-1DE\s0)"
 .Ip "Tim MacKenzie (Tim.MacKenzie@fulcrum.com.au)" 4
-.IX Item "Tim MacKenzie (Tim.MacKenzie@fulcrum.com.au)"
 .Ip "Kevin B. Hendricks (kbhend@dogwood.tyler.wm.edu)" 4
-.IX Item "Kevin B. Hendricks (kbhend@dogwood.tyler.wm.edu)"
 .Ip "Stephen Dahmen (joyfire@inxpress.net)" 4
-.IX Item "Stephen Dahmen (joyfire@inxpress.net)"
 .Ip "Ed Jordan (ed@fidalgo.net)" 4
-.IX Item "Ed Jordan (ed@fidalgo.net)"
 .Ip "David Alan Pisoni (david@cnation.com)" 4
-.IX Item "David Alan Pisoni (david@cnation.com)"
 .Ip "...and many many more..." 4
-.IX Item "...and many many more..."
 for suggestions and bug fixes.
 .SH "A COMPLETE EXAMPLE OF A SIMPLE FORM\-BASED SCRIPT"
-.IX Header "A COMPLETE EXAMPLE OF A SIMPLE FORM\-BASED SCRIPT"
 .PP
 .Vb 5
 \&        #!/usr/local/bin/perl
@@ -2496,7 +2326,6 @@ for suggestions and bug fixes.
 \&        }
 .Ve
 .SH "BUGS"
-.IX Header "BUGS"
 This module has grown large and monolithic.  Furthermore it's doing many
 things, such as handling URLs, parsing CGI input, writing HTML, etc., that
 are also done in the LWP modules. It should be discarded in favor of
@@ -2505,9 +2334,351 @@ the CGI::* modules, but somehow I continue to work on it.
 Note that the code is truly contorted in order to avoid spurious
 warnings when programs are run with the \fB\-w\fR switch.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fICGI::Carp\fR manpage, the \fIURI::URL\fR manpage, the \fICGI::Request\fR manpage, the \fICGI::MiniSvr\fR manpage,
 the \fICGI::Base\fR manpage, the \fICGI::Form\fR manpage, the \fICGI::Apache\fR manpage, the \fICGI::Switch\fR manpage,
 the \fICGI::Push\fR manpage, the \fICGI::Fast\fR manpage
 
 .rn }` ''
+.IX Title "CGI 3"
+.IX Name "CGI - Simple Common Gateway Interface Class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "ABSTRACT"
+
+.IX Header "INSTALLATION"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1NEW\s0 \s-1QUERY\s0 \s-1OBJECT\s0:"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1NEW\s0 \s-1QUERY\s0 \s-1OBJECT\s0 \s-1FROM\s0 \s-1AN\s0 \s-1INPUT\s0 \s-1FILE\s0"
+
+.IX Subsection "\s-1FETCHING\s0 A \s-1LIST\s0 \s-1OF\s0 \s-1KEYWORDS\s0 \s-1FROM\s0 \s-1THE\s0 \s-1QUERY\s0:"
+
+.IX Subsection "\s-1FETCHING\s0 \s-1THE\s0 \s-1NAMES\s0 \s-1OF\s0 \s-1ALL\s0 \s-1THE\s0 \s-1PARAMETERS\s0 \s-1PASSED\s0 \s-1TO\s0 \s-1YOUR\s0 \s-1SCRIPT\s0:"
+
+.IX Subsection "\s-1FETCHING\s0 \s-1THE\s0 \s-1VALUE\s0 \s-1OR\s0 \s-1VALUES\s0 \s-1OF\s0 A \s-1SINGLE\s0 \s-1NAMED\s0 \s-1PARAMETER\s0:"
+
+.IX Subsection "\s-1SETTING\s0 \s-1THE\s0 \fI\s-1VALUE\s0\fR\|(S) \s-1OF\s0 A \s-1NAMED\s0 \s-1PARAMETER\s0:"
+
+.IX Subsection "\s-1APPENDING\s0 \s-1ADDITIONAL\s0 \s-1VALUES\s0 \s-1TO\s0 A \s-1NAMED\s0 \s-1PARAMETER\s0:"
+
+.IX Subsection "\s-1IMPORTING\s0 \s-1ALL\s0 \s-1PARAMETERS\s0 \s-1INTO\s0 A \s-1NAMESPACE\s0:"
+
+.IX Subsection "\s-1DELETING\s0 A \s-1PARAMETER\s0 \s-1COMPLETELY\s0:"
+
+.IX Subsection "\s-1DELETING\s0 \s-1ALL\s0 \s-1PARAMETERS\s0:"
+
+.IX Subsection "\s-1SAVING\s0 \s-1THE\s0 \s-1STATE\s0 \s-1OF\s0 \s-1THE\s0 \s-1FORM\s0 \s-1TO\s0 A \s-1FILE\s0:"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1SELF\s0\-\s-1REFERENCING\s0 \s-1URL\s0 \s-1THAT\s0 \s-1PRESERVES\s0 \s-1STATE\s0 \s-1INFORMATION\s0:"
+
+.IX Subsection "\s-1COMPATIBILITY\s0 \s-1WITH\s0 \s-1CGI\s0\-\s-1LIB\s0.\s-1PL\s0"
+
+.IX Subsection "\s-1CALLING\s0 \s-1CGI\s0 \s-1FUNCTIONS\s0 \s-1THAT\s0 \s-1TAKE\s0 \s-1MULTIPLE\s0 \s-1ARGUMENTS\s0"
+
+.IX Subsection "\s-1CREATING\s0 \s-1THE\s0 \s-1HTTP\s0 \s-1HEADER\s0:"
+
+.IX Subsection "\s-1GENERATING\s0 A \s-1REDIRECTION\s0 \s-1INSTRUCTION\s0"
+
+.IX Subsection "\s-1CREATING\s0 \s-1THE\s0 \s-1HTML\s0 \s-1HEADER\s0:"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4, 5, 6..."
+
+.IX Subsection "\s-1ENDING\s0 \s-1THE\s0 \s-1HTML\s0 \s-1DOCUMENT\s0:"
+
+.IX Header "CREATING FORMS"
+
+.IX Subsection "\s-1CREATING\s0 \s-1AN\s0 \s-1ISINDEX\s0 \s-1TAG\s0"
+
+.IX Subsection "\s-1STARTING\s0 \s-1AND\s0 \s-1ENDING\s0 A \s-1FORM\s0"
+
+.IX Item "\fBapplication/x-www-form-urlencoded\fR"
+
+.IX Item "\fBmultipart/form-data\fR"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1TEXT\s0 \s-1FIELD\s0"
+
+.IX Item "\fBParameters\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1BIG\s0 \s-1TEXT\s0 \s-1FIELD\s0"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1PASSWORD\s0 \s-1FIELD\s0"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1FILE\s0 \s-1UPLOAD\s0 \s-1FIELD\s0"
+
+.IX Item "\fBParameters\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1POPUP\s0 \s-1MENU\s0"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1SCROLLING\s0 \s-1LIST\s0"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Item "5."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1GROUP\s0 \s-1OF\s0 \s-1RELATED\s0 \s-1CHECKBOXES\s0"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Item "5."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1STANDALONE\s0 \s-1CHECKBOX\s0"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1RADIO\s0 \s-1BUTTON\s0 \s-1GROUP\s0"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Item "4."
+
+.IX Item "5."
+
+.IX Item "6."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1SUBMIT\s0 \s-1BUTTON\s0 "
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Subsection "\s-1CREATING\s0 A \s-1RESET\s0 \s-1BUTTON\s0"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1DEFAULT\s0 \s-1BUTTON\s0"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1HIDDEN\s0 \s-1FIELD\s0"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2.  "
+
+.IX Subsection "\s-1CREATING\s0 A \s-1CLICKABLE\s0 \s-1IMAGE\s0 \s-1BUTTON\s0"
+
+.IX Item "\fBParameters:\fR"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3. The third option (\-align, optional) is an alignment type, and may be \s-1TOP\s0, \s-1BOTTOM\s0 or \s-1MIDDLE\s0"
+
+.IX Subsection "\s-1CREATING\s0 A \s-1JAVASCRIPT\s0 \s-1ACTION\s0 \s-1BUTTON\s0"
+
+.IX Header "NETSCAPE COOKIES"
+
+.IX Item "1. an expiration time"
+
+.IX Item "2. a domain"
+
+.IX Item "3. a path"
+
+.IX Item "4. a \*(N"secure\*(T" flag"
+
+.IX Item "\fB\-name\fR"
+
+.IX Item "\fB\-value\fR"
+
+.IX Item "\fB\-path\fR"
+
+.IX Item "\fB\-domain\fR"
+
+.IX Item "\fB\-expires\fR"
+
+.IX Item "\fB\-secure\fR"
+
+.IX Header "WORKING WITH NETSCAPE FRAMES"
+
+.IX Item "1. Create a <Frameset> document"
+
+.IX Item "2. Specify the destination for the document in the \s-1HTTP\s0 header"
+
+.IX Item "3. Specify the destination for the document in the <\s-1FORM\s0> tag"
+
+.IX Header "LIMITED SUPPORT FOR CASCADING STYLE SHEETS"
+
+.IX Header "DEBUGGING"
+
+.IX Subsection "\s-1DUMPING\s0 \s-1OUT\s0 \s-1ALL\s0 \s-1THE\s0 \s-1NAME/VALUE\s0 \s-1PAIRS\s0"
+
+.IX Header "FETCHING ENVIRONMENT VARIABLES"
+
+.IX Item "\fBaccept()\fR"
+
+.IX Item "\fBraw_cookie()\fR"
+
+.IX Item "\fBuser_agent()\fR"
+
+.IX Item "\fBpath_info()\fR"
+
+.IX Item "\fBpath_translated()\fR"
+
+.IX Item "\fBremote_host()\fR"
+
+.IX Item "\fBscript_name()\fR Return the script name as a partial \s-1URL\s0, for self-refering scripts."
+
+.IX Item "\fBreferer()\fR"
+
+.IX Item "\fBauth_type ()\fR"
+
+.IX Item "\fBserver_name ()\fR"
+
+.IX Item "\fBvirtual_host ()\fR"
+
+.IX Item "\fBserver_software ()\fR"
+
+.IX Item "\fBremote_user ()\fR"
+
+.IX Item "\fBuser_name ()\fR"
+
+.IX Item "\fBrequest_method()\fR"
+
+.IX Header "CREATING HTML ELEMENTS"
+
+.IX Subsection "\s-1PROVIDING\s0 \s-1ARGUMENTS\s0 \s-1TO\s0 \s-1HTML\s0 \s-1SHORTCUTS\s0"
+
+.IX Subsection "Generating new \s-1HTML\s0 tags"
+
+.IX Header "IMPORTING CGI METHOD CALLS INTO YOUR NAME SPACE"
+
+.IX Item "\fBcgi\fR"
+
+.IX Item "\fBform\fR"
+
+.IX Item "\fBhtml2\fR"
+
+.IX Item "\fBhtml3\fR"
+
+.IX Item "\fBnetscape\fR"
+
+.IX Item "\fBshortcuts\fR"
+
+.IX Item "\fBstandard\fR"
+
+.IX Item "\fBall\fR"
+
+.IX Header "USING NPH SCRIPTS"
+
+.IX Item "In the \fBuse\fR statement Simply add \*(N":nph\*(T" to the list of symbols to be imported into your script:"
+
+.IX Item "By calling the \fBnph()\fR method:"
+
+.IX Item "By using \fB\-nph\fR parameters in the \fBheader()\fR and \fBredirect()\fR  statements:"
+
+.IX Header "AUTHOR INFORMATION"
+
+.IX Header "CREDITS"
+
+.IX Item "Matt Heffron (heffron@falstaff.css.beckman.com)"
+
+.IX Item "James Taylor (james.taylor@srs.gov)"
+
+.IX Item "Scott Anguish <sanguish@digifix.com>"
+
+.IX Item "Mike Jewell (mlj3u@virginia.edu)"
+
+.IX Item "Timothy Shimmin (tes@kbs.citri.edu.au)"
+
+.IX Item "Joergen Haegg (jh@axis.se)"
+
+.IX Item "Laurent Delfosse (delfosse@csgrad1.cs.wvu.edu)"
+
+.IX Item "Richard Resnick (applepi1@aol.com)"
+
+.IX Item "Craig Bishop (csb@barwonwater.vic.gov.au)"
+
+.IX Item "Tony Curtis (tc@vcpc.univie.ac.at)"
+
+.IX Item "Tim Bunce (Tim.Bunce@ig.co.uk)"
+
+.IX Item "Tom Christiansen (tchrist@convex.com)"
+
+.IX Item "Andreas Koenig (k@franz.ww.\s-1TU\s0\-Berlin.\s-1DE\s0)"
+
+.IX Item "Tim MacKenzie (Tim.MacKenzie@fulcrum.com.au)"
+
+.IX Item "Kevin B. Hendricks (kbhend@dogwood.tyler.wm.edu)"
+
+.IX Item "Stephen Dahmen (joyfire@inxpress.net)"
+
+.IX Item "Ed Jordan (ed@fidalgo.net)"
+
+.IX Item "David Alan Pisoni (david@cnation.com)"
+
+.IX Item "...and many many more..."
+
+.IX Header "A COMPLETE EXAMPLE OF A SIMPLE FORM\-BASED SCRIPT"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+

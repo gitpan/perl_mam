@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH locale 3 "perl 5.004, patch 01" "24/Nov/96" "Perl Programmers Reference Guide"
-.IX Title "locale 3"
+.TH locale 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "locale - Perl pragma to use and avoid POSIX locales for built-in operations"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 locale \- Perl pragma to use and avoid POSIX locales for built-in operations
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \&    @x = sort @y;       # ASCII sorting order
@@ -204,10 +200,18 @@ locale \- Perl pragma to use and avoid POSIX locales for built-in operations
 \&    @x = sort @y;       # ASCII sorting order again
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This pragma tells the compiler to enable (or disable) the use of POSIX
 locales for built-in operations (LC_CTYPE for regular expressions, and
 LC_COLLATE for string comparison).  Each \*(L"use locale\*(R" or \*(L"no locale\*(R"
 affects statements to the end of the enclosing BLOCK.
 
 .rn }` ''
+.IX Title "locale 3"
+.IX Name "locale - Perl pragma to use and avoid POSIX locales for built-in operations"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

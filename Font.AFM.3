@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Font::AFM 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::Font::AFM 3"
+.TH lib::Font::AFM 3 "perl 5.004, patch 55" "20/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Font::AFM - Interface to Adobe Font Metrics files"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Font::AFM \- Interface to Adobe Font Metrics files
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \& use Font::AFM;
@@ -204,7 +200,6 @@ Font::AFM \- Interface to Adobe Font Metrics files
 \& $h->dump;  # for debugging
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module implements the Font::AFM class. Objects of this class are
 initialised from an AFM\-file and allows you to obtain information
 about the font and the metrics of the various glyphs in the font.
@@ -215,94 +210,71 @@ sizes in a document, these amounts should be multiplied by (scale
 factor of font)/1000.
 .PP
 The following methods are available:
-.Ip "new($fontname)" 3
-.IX Item "new($fontname)"
+.Ip "$afm = Font::\s-1AFM\s0\->new($fontname)" 3
 Object constructor. Takes the name of the font as argument. It will
 croak if the font can not be found.
-.Ip "latin1_wx_table()" 3
-.IX Item "latin1_wx_table()"
+.Ip "$afm->latin1_wx_table()" 3
 Returns a 256 element array, where each element contains the width
 of the corresponding character in the iso-8859-1 character set.
-.Ip "stringwidth($string, [$fontsize])" 3
-.IX Item "stringwidth($string, [$fontsize])"
+.Ip "$afm->stringwidth($string, [$fontsize])" 3
 Returns the width of the string passed as argument. The string is
 assumed to be encoded in the iso-8859-1 character set.  A second
 argument can be used to scale the width according to the font size.
-.Ip "FontName" 3
-.IX Item "FontName"
+.Ip "$afm->FontName" 3
 The name of the font as presented to the PostScript language
 \f(CWfindfont\fR operator, for instance \*(L"Times-Roman\*(R".
-.Ip "FullName" 3
-.IX Item "FullName"
+.Ip "$afm->FullName" 3
 Unique, human-readable name for an individual font, for instance
 \*(L"Times Roman\*(R".
-.Ip "FamilyName" 3
-.IX Item "FamilyName"
+.Ip "$afm->FamilyName" 3
 Human-readable name for a group of fonts that are stylistic variants
 of a single design. All fonts that are member of such a group should
 have exactly the same \f(CWFamilyName\fR. Example of a family name is
 \*(L"Times\*(R".
-.Ip "Weight" 3
-.IX Item "Weight"
+.Ip "$afm->Weight" 3
 Human-readable name for the weight, or \*(L"boldness\*(R", attribute of a font.
 Exampes are \f(CWRoman\fR, \f(CWBold\fR, \f(CWLight\fR.
-.Ip "ItalicAngle" 3
-.IX Item "ItalicAngle"
+.Ip "$afm->ItalicAngle" 3
 Angle in degrees counterclockwise from the vertical of the dominant
 vertical strokes of the font.
-.Ip "IsFixedPitch" 3
-.IX Item "IsFixedPitch"
+.Ip "$afm->IsFixedPitch" 3
 If the value is \f(CWtrue\fR, it indicated that the font is a fixed-pitch
 (monospaced) font.
-.Ip "FontBBox" 3
-.IX Item "FontBBox"
+.Ip "$afm->FontBBox" 3
 A string of four numbers giving the lower-left x, lower-left y,
 upper-right x, and upper-right y of the font bounding box. The font
 bounding box is the smallest rectangle enclosing the shape that would
 result if all the characters of the font were placed with their
 origins coincident, and then painted.
-.Ip "UnderlinePosition" 3
-.IX Item "UnderlinePosition"
+.Ip "$afm->UnderlinePosition" 3
 Recommended distance from the baseline for positioning underline
 stokes. This number is the y coordinate of the center of the stroke.
-.Ip "UnderlineThickness" 3
-.IX Item "UnderlineThickness"
+.Ip "$afm->UnderlineThickness" 3
 Recommended stroke width for underlining.
-.Ip "Version" 3
-.IX Item "Version"
+.Ip "$afm->Version" 3
 Version number of the font.
-.Ip "Notice" 3
-.IX Item "Notice"
+.Ip "$afm->Notice" 3
 Trademark or copyright notice, if applicable.
-.Ip "Comment" 3
-.IX Item "Comment"
+.Ip "$afm->Comment" 3
 Comments found in the \s-1AFM\s0 file.
-.Ip "EncodingScheme" 3
-.IX Item "EncodingScheme"
+.Ip "$afm->EncodingScheme" 3
 The name of the standard encoding scheme for the font. Most Adobe
 fonts use the \f(CWAdobeStandardEncoding\fR. Special fonts might state
 \f(CWFontSpecific\fR.
-.Ip "CapHeight" 3
-.IX Item "CapHeight"
+.Ip "$afm->CapHeight" 3
 Usually the y-value of the top of the capital H.
-.Ip "XHeight" 3
-.IX Item "XHeight"
+.Ip "$afm->XHeight" 3
 Typically the y-value of the top of the lowercase x.
-.Ip "Ascender" 3
-.IX Item "Ascender"
+.Ip "$afm->Ascender" 3
 Typically the y-value of the top of the lowercase d.
-.Ip "Descender" 3
-.IX Item "Descender"
+.Ip "$afm->Descender" 3
 Typically the y-value of the bottom of the lowercase p.
-.Ip "Wx" 3
-.IX Item "Wx"
+.Ip "$afm->Wx" 3
 Returns a hash table that maps from glyph names to the width of that glyph.
-.Ip "BBox" 3
-.IX Item "BBox"
+.Ip "$afm->BBox" 3
 Returns a hash table that maps from glyph names to bounding box information.
 The bounding box consist of 4 numbers: llx, lly, urx, ury.
-.Ip "dump" 3
-.IX Item "dump"
+.Ip "$afm->dump" 3
 Dumps the content of the Font::\s-1AFM\s0 object to \s-1STDOUT\s0.  Might sometimes
 be useful for debugging.
 .PP
@@ -312,9 +284,7 @@ The \s-1AFM\s0 specification can be found at:
 \&   ftp://ftp.adobe.com/pub/adobe/DeveloperSupport/TechNotes/PSfiles/5004.AFM_Spec.ps
 .Ve
 .SH "ENVIRONMENT"
-.IX Header "ENVIRONMENT"
 .Ip "\s-1METRICS\s0" 10
-.IX Item "\s-1METRICS\s0"
 Contains the path to seach for \s-1AFM\s0\-files.  Format is as for the \s-1PATH\s0
 environment variable. The default path built into this library is:
 .Sp
@@ -322,14 +292,75 @@ environment variable. The default path built into this library is:
 \& /usr/lib/afm:/usr/local/lib/afm:/usr/openwin/lib/fonts/afm/:.
 .Ve
 .SH "BUGS"
-.IX Header "BUGS"
 Kerning data and composite character data is not yet parsed.
 Ligature data is not parsed.
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
-Copyright 1995 Gisle Aas. All rights reserved.
+Copyright 1995-1997 Gisle Aas. All rights reserved.
 .PP
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "lib::Font::AFM 3"
+.IX Name "Font::AFM - Interface to Adobe Font Metrics files"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "$afm = Font::\s-1AFM\s0\->new($fontname)"
+
+.IX Item "$afm->latin1_wx_table()"
+
+.IX Item "$afm->stringwidth($string, [$fontsize])"
+
+.IX Item "$afm->FontName"
+
+.IX Item "$afm->FullName"
+
+.IX Item "$afm->FamilyName"
+
+.IX Item "$afm->Weight"
+
+.IX Item "$afm->ItalicAngle"
+
+.IX Item "$afm->IsFixedPitch"
+
+.IX Item "$afm->FontBBox"
+
+.IX Item "$afm->UnderlinePosition"
+
+.IX Item "$afm->UnderlineThickness"
+
+.IX Item "$afm->Version"
+
+.IX Item "$afm->Notice"
+
+.IX Item "$afm->Comment"
+
+.IX Item "$afm->EncodingScheme"
+
+.IX Item "$afm->CapHeight"
+
+.IX Item "$afm->XHeight"
+
+.IX Item "$afm->Ascender"
+
+.IX Item "$afm->Descender"
+
+.IX Item "$afm->Wx"
+
+.IX Item "$afm->BBox"
+
+.IX Item "$afm->dump"
+
+.IX Header "ENVIRONMENT"
+
+.IX Item "\s-1METRICS\s0"
+
+.IX Header "BUGS"
+
+.IX Header "COPYRIGHT"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CPAN 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "CPAN 3"
+.TH CPAN 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CPAN - query, download and build perl modules from CPAN sites"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CPAN \- query, download and build perl modules from CPAN sites
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 Interactive mode:
 .PP
 .Vb 1
@@ -208,7 +204,6 @@ Batch mode:
 \&  autobundle, clean, install, make, recompile, test
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The CPAN module is designed to automate the make and install of perl
 modules and extensions. It includes some searching capabilities and
 knows how to use Net::FTP or LWP (or lynx or an external ftp client)
@@ -232,7 +227,6 @@ mechanism.
 All methods provided are accessible in a programmer style and in an
 interactive shell style.
 .Sh "Interactive Mode"
-.IX Subsection "Interactive Mode"
 The interactive mode is entered by running
 .PP
 .Vb 1
@@ -247,7 +241,6 @@ self-explanatory.
 .PP
 The most common uses of the interactive modes are
 .Ip "Searching for authors, bundles, distribution files and modules" 2
-.IX Item "Searching for authors, bundles, distribution files and modules"
 There are corresponding one-letter commands \f(CWa\fR, \f(CWb\fR, \f(CWd\fR, and \f(CWm\fR
 for each of the four categories and another, \f(CWi\fR for any of the
 mentioned four. Each of the four entities is implemented as a class
@@ -265,13 +258,13 @@ of object->as_string, but if we find more than one, we display
 each as object->as_glimpse. E.g.
 .Sp
 .Vb 4
-\&    cpan> a ANDK     
+\&    cpan> a ANDK
 \&    Author id = ANDK
 \&        EMAIL        a.koenig@franz.ww.TU-Berlin.DE
 \&        FULLNAME     Andreas König
 .Ve
 .Vb 4
-\&    cpan> a /andk/   
+\&    cpan> a /andk/
 \&    Author id = ANDK
 \&        EMAIL        a.koenig@franz.ww.TU-Berlin.DE
 \&        FULLNAME     Andreas König
@@ -282,19 +275,18 @@ each as object->as_glimpse. E.g.
 \&    Author          MERLYN (Randal L. Schwartz)
 .Ve
 .Ip "make, test, install, clean  modules or distributions" 2
-.IX Item "make, test, install, clean  modules or distributions"
 These commands do indeed exist just as written above. Each of them
 takes any number of arguments and investigates for each what it might
 be. Is it a distribution file (recognized by embedded slashes), this
 file is being processed. Is it a module, \s-1CPAN\s0 determines the
 distribution file where this module is included and processes that.
 .Sp
-Any \f(CWmake\fR, \f(CWtest\fR, and \f(CWreadme\fR are run unconditionally. A 
+Any \f(CWmake\fR, \f(CWtest\fR, and \f(CWreadme\fR are run unconditionally. A
 .Sp
 .Vb 1
 \&  install <distribution_file>
 .Ve
-also is run unconditionally.  But for 
+also is run unconditionally.  But for
 .Sp
 .Vb 1
 \&  install <module>
@@ -320,29 +312,26 @@ Example:
 \&    [...]
 .Ve
 .Ip "readme, look module or distribution" 2
-.IX Item "readme, look module or distribution"
 These two commands take only one argument, be it a module or a
 distribution file. \f(CWreadme\fR displays the \s-1README\s0 of the associated
 distribution file. \f(CWLook\fR gets and untars (if not yet done) the
 distribution file, changes to the appropriate directory and opens a
 subshell process in that directory.
 .Sh "\s-1CPAN::\s0Shell"
-.IX Subsection "\s-1CPAN::\s0Shell"
 The commands that are available in the shell interface are methods in
 the package \s-1CPAN::\s0Shell. If you enter the shell command, all your
 input is split by the \fIText::ParseWords::shellwords()\fR routine which
 acts like most shells do. The first word is being interpreted as the
 method to be called and the rest of the words are treated as arguments
-to this method.
+to this method. Continuation lines are supported if a line ends with a
+literal backslash.
 .Sh "autobundle"
-.IX Subsection "autobundle"
 \f(CWautobundle\fR writes a bundle file into the
 \f(CW$CPAN::Config->{cpan_home}/Bundle\fR directory. The file contains
 a list of all modules that are both available from \s-1CPAN\s0 and currently
 installed within \f(CW@INC\fR. The name of the bundle file is based on the
 current date and a counter.
 .Sh "recompile"
-.IX Subsection "recompile"
 \fIrecompile()\fR is a very special command in that it takes no argument and
 runs the make/test/install cycle with brute force over all installed
 dynamically loadable extensions (aka \s-1XS\s0 modules) with \*(L'force\*(R' in
@@ -360,8 +349,7 @@ Another popular use for \f(CWrecompile\fR is to act as a rescue in case your
 perl breaks binary compatibility. If one of the modules that \s-1CPAN\s0 uses
 is in turn depending on binary compatibility (so you cannot run \s-1CPAN\s0
 commands), then you should try the \s-1CPAN::\s0Nox module for recovery.
-.Sh "The 4 Classes: Authors, Bundles, Modules, Distributions"
-.IX Subsection "The 4 Classes: Authors, Bundles, Modules, Distributions"
+.Sh "The four \f(CWCPAN::*\fR Classes: Author, Bundle, Module, Distribution"
 Although it may be considered internal, the class hierarchie does
 matter for both users and programmer. \s-1CPAN\s0.pm deals with above
 mentioned four classes, and all those classes share a set of
@@ -394,34 +382,33 @@ This would install the complete distribution file (say
 you would like to install version 1.23_90, you need to know where the
 distribution file resides on \s-1CPAN\s0 relative to the authors/id/
 directory. If the author is \s-1BAR\s0, this might be \s-1BAR/\s0Foo-1.23_90.tar.gz,
-so he would have say
+so you would have to say
 .PP
 .Vb 1
 \&    install BAR/Foo-1.23_90.tar.gz
 .Ve
 The first example will be driven by an object of the class
-\s-1CPAN::\s0Module, the second by an object of class Distribution.
+\s-1CPAN::\s0Module, the second by an object of class \s-1CPAN::\s0Distribution.
 .Sh "Programmer's interface"
-.IX Subsection "Programmer's interface"
 If you do not enter the shell, the available shell commands are both
 available as methods (\f(CWCPAN::Shell->\fIinstall\fR\|(...)\fR) and as
 functions in the calling package (\f(CWinstall(...)\fR).
 .PP
 There's currently only one class that has a stable interface,
 \s-1CPAN::\s0Shell. All commands that are available in the \s-1CPAN\s0 shell are
-methods of the class \s-1CPAN::\s0Shell. The commands that produce listings
-of modules (\f(CWr\fR, \f(CWautobundle\fR, \f(CWu\fR) return a list of the IDs of all
-modules within the list.
+methods of the class \s-1CPAN::\s0Shell. Each of the commands that produce
+listings of modules (\f(CWr\fR, \f(CWautobundle\fR, \f(CWu\fR) returns a list of the
+IDs of all modules within the list.
 .Ip "expand($type,@things)" 2
-.IX Item "expand($type,@things)"
 The IDs of all objects available within a program are strings that can
 be expanded to the corresponding real objects with the
-\f(CWCPAN::Shell->\fIexpand()\fR\fR method. Expand returns a list of
-\s-1CPAN::\s0Module objects according to the \f(CW@things\fR arguments given. In
-scalar context it only returns the first element of the list.
+\f(CWCPAN::Shell->\fIexpand\fR\|("Module",@things)\fR method. Expand returns a
+list of \s-1CPAN::\s0Module objects according to the \f(CW@things\fR arguments
+given. In scalar context it only returns the first element of the
+list.
 .Ip "Programming Examples" 2
-.IX Item "Programming Examples"
-This enables the programmer to do operations like these:
+This enables the programmer to do operations that combine
+functionalities that are available in the shell.
 .Sp
 .Vb 2
 \&    # install everything that is outdated on my disk:
@@ -434,8 +421,17 @@ This enables the programmer to do operations like these:
 \&        $obj->install;
 \&    }
 .Ve
+.Vb 7
+\&    # list all modules on my disk that have no VERSION number
+\&    for $mod (CPAN::Shell->expand("Module","/./")){
+\&        next unless $mod->inst_file;
+\&        # MakeMaker convention for undefined $VERSION:
+\&        next unless $mod->inst_version eq "undef";
+\&        print "No VERSION in ", $mod->id, "\en";
+\&    }
+.Ve
+.Sh "Methods in the four"
 .Sh "Cache Manager"
-.IX Subsection "Cache Manager"
 Currently the cache manager only keeps track of the build directory
 ($\s-1CPAN::\s0Config->{build_dir}). It is a simple \s-1FIFO\s0 mechanism that
 deletes complete directories below \f(CWbuild_dir\fR as soon as the size of
@@ -452,7 +448,6 @@ you choose to have the same directory as build_dir and as
 keep_source_where directory, then your sources will be deleted with
 the same fifo mechanism.
 .Sh "Bundles"
-.IX Subsection "Bundles"
 A bundle is just a perl module in the namespace Bundle:: that does not
 define any functions or methods. It usually only contains documentation.
 .PP
@@ -484,12 +479,7 @@ own Bundles locally by placing a conformant Bundle file somewhere into
 your \f(CW@INC\fR path. The \fIautobundle()\fR command which is available in the
 shell interface does that for you by including all currently installed
 modules in a snapshot bundle file.
-.PP
-There is a meaningless Bundle::Demo available on \s-1CPAN\s0. Try to install
-it, it usually does no harm, just demonstrates what the Bundle
-interface looks like.
 .Sh "Prerequisites"
-.IX Subsection "Prerequisites"
 If you have a local mirror of \s-1CPAN\s0 and can access all files with
 \*(L"file:\*(R" URLs, then you only need a perl better than perl5.003 to run
 this module. Otherwise Net::\s-1FTP\s0 is strongly recommended. \s-1LWP\s0 may be
@@ -502,7 +492,6 @@ command.
 .PP
 This module presumes that all packages on \s-1CPAN\s0
 .Ip "\(bu" 2
-.IX Item "\(bu"
 declare their \f(CW$VERSION\fR variable in an easy to parse manner. This
 prerequisite can hardly be relaxed because it consumes by far too much
 memory to load all packages into the running program just to determine
@@ -516,12 +505,10 @@ version use something like this
 If you are author of a package and wonder if your \f(CW$VERSION\fR can be
 parsed, please try the above method.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 come as compressed or gzipped tarfiles or as zip files and contain a
 Makefile.\s-1PL\s0 (well we try to handle a bit more, but without much
 enthusiasm).
 .Sh "Debugging"
-.IX Subsection "Debugging"
 The debugging of this module is pretty difficult, because we have
 interferences of the software producing the indices on \s-1CPAN\s0, of the
 mirroring process on \s-1CPAN\s0, of packaging, of configuration, of
@@ -534,7 +521,6 @@ have an idea which part of the package may have a bug, it's sometimes
 worth to give it a try and send me more specific output. You should
 know that \*(L"o debug\*(R" has built-in completion support.
 .Sh "Floppy, Zip, and all that Jazz"
-.IX Subsection "Floppy, Zip, and all that Jazz"
 \s-1CPAN\s0.pm works nicely without network too. If you maintain machines
 that are not networked at all, you should consider working with file:
 URLs. Of course, you have to collect your modules somewhere first. So
@@ -544,7 +530,6 @@ machine. Then copy the \f(CW$CPAN::Config\fR\->{keep_source_where} (but not
 of a personal \s-1CPAN\s0. \s-1CPAN\s0.pm on the non-networked machines works nicely
 with this floppy.
 .SH "CONFIGURATION"
-.IX Header "CONFIGURATION"
 When the CPAN module is installed a site wide configuration file is
 created as CPAN/Config.pm. The default values defined there can be
 overridden in another configuration file: CPAN/MyConfig.pm. You can
@@ -579,23 +564,31 @@ defined:
 You can set and query each of these options interactively in the cpan
 shell with the command set defined within the \f(CWo conf\fR command:
 .Ip "o conf <scalar option>" 2
-.IX Item "o conf <scalar option>"
 prints the current value of the \fIscalar option\fR
 .Ip "o conf <scalar option> <value>" 2
-.IX Item "o conf <scalar option> <value>"
 Sets the value of the \fIscalar option\fR to \fIvalue\fR
 .Ip "o conf <list option>" 2
-.IX Item "o conf <list option>"
 prints the current value of the \fIlist option\fR in MakeMaker's
 neatvalue format.
 .Ip "o conf <list option> [shift|pop]" 2
-.IX Item "o conf <list option> [shift|pop]"
 shifts or pops the array in the \fIlist option\fR variable
 .Ip "o conf <list option> [unshift|push|splice] <list>" 2
-.IX Item "o conf <list option> [unshift|push|splice] <list>"
 works like the corresponding perl commands.
+.Sh "\s-1CD\s0\-\s-1ROM\s0 support"
+The \f(CWurllist\fR parameter of the configuration table contains a list of
+URLs that are to be used for downloading. If the list contains any
+\f(CWfile\fR URLs, \s-1CPAN\s0 always tries to get files from there first. This
+feature is disabled for index files. So the recommendation for the
+owner of a \s-1CD\s0\-\s-1ROM\s0 with \s-1CPAN\s0 contents is: include your local, possibly
+outdated \s-1CD\s0\-\s-1ROM\s0 as a \f(CWfile\fR \s-1URL\s0 at the end of urllist, e.g.
+.PP
+.Vb 1
+\&  o conf urllist push file://localhost/CDROM/CPAN
+.Ve
+\s-1CPAN\s0.pm will then fetch the index files from one of the \s-1CPAN\s0 sites
+that come at the beginning of urllist. It will later check for each
+module if there is a local copy of the most recent version.
 .SH "SECURITY"
-.IX Header "SECURITY"
 There's no strong security layer in CPAN.pm. CPAN.pm helps you to
 install foreign, unmasked, unsigned code on your machine. We compare
 to a checksum that comes from the net just as the distribution file
@@ -603,24 +596,91 @@ itself. If somebody has managed to tamper with the distribution file,
 they may have as well tampered with the CHECKSUMS file. Future
 development will go towards strong authentification.
 .SH "EXPORT"
-.IX Header "EXPORT"
 Most functions in package CPAN are exported per default. The reason
 for this is that the primary use is intended for the cpan shell or for
 oneliners.
 .SH "BUGS"
-.IX Header "BUGS"
 we should give coverage for _all_ of the CPAN and not just the
-_\|_PAUSE_\|_ part, right? In this discussion CPAN and PAUSE have become
+PAUSE part, right? In this discussion CPAN and PAUSE have become
 equal -- but they are not. PAUSE is authors/ and modules/. CPAN is
 PAUSE plus the clpa/, doc/, misc/, ports/, src/, scripts/.
 .PP
-Future development should be directed towards a better intergration of
+Future development should be directed towards a better integration of
 the other parts.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Andreas König <a.koenig@mind.de>
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1), \fICPAN::Nox\fR\|(3)
 
 .rn }` ''
+.IX Title "CPAN 3"
+.IX Name "CPAN - query, download and build perl modules from CPAN sites"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Interactive Mode"
+
+.IX Item "Searching for authors, bundles, distribution files and modules"
+
+.IX Item "make, test, install, clean  modules or distributions"
+
+.IX Item "readme, look module or distribution"
+
+.IX Subsection "\s-1CPAN::\s0Shell"
+
+.IX Subsection "autobundle"
+
+.IX Subsection "recompile"
+
+.IX Subsection "The four \f(CWCPAN::*\fR Classes: Author, Bundle, Module, Distribution"
+
+.IX Subsection "Programmer's interface"
+
+.IX Item "expand($type,@things)"
+
+.IX Item "Programming Examples"
+
+.IX Subsection "Methods in the four"
+
+.IX Subsection "Cache Manager"
+
+.IX Subsection "Bundles"
+
+.IX Subsection "Prerequisites"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "Debugging"
+
+.IX Subsection "Floppy, Zip, and all that Jazz"
+
+.IX Header "CONFIGURATION"
+
+.IX Item "o conf <scalar option>"
+
+.IX Item "o conf <scalar option> <value>"
+
+.IX Item "o conf <list option>"
+
+.IX Item "o conf <list option> [shift|pop]"
+
+.IX Item "o conf <list option> [unshift|push|splice] <list>"
+
+.IX Subsection "\s-1CD\s0\-\s-1ROM\s0 support"
+
+.IX Header "SECURITY"
+
+.IX Header "EXPORT"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

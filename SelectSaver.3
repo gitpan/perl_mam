@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH SelectSaver 3 "perl 5.004, patch 01" "30/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "SelectSaver 3"
+.TH SelectSaver 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "SelectSaver - save and restore selected file handle"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 SelectSaver \- save and restore selected file handle
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use SelectSaver;
@@ -213,7 +209,6 @@ SelectSaver \- save and restore selected file handle
 \&    # previous handle is selected
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 A \f(CWSelectSaver\fR object contains a reference to the file handle that
 was selected when it was created.  If its \f(CWnew\fR method gets an extra
 parameter, then that parameter is selected; otherwise, the selected
@@ -223,3 +218,12 @@ When a \f(CWSelectSaver\fR is destroyed, it re-selects the file handle
 that was selected when it was created.
 
 .rn }` ''
+.IX Title "SelectSaver 3"
+.IX Name "SelectSaver - save and restore selected file handle"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

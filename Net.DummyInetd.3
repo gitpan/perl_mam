@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::DummyInetd 3 "perl 5.004, patch 01" "17/Mar/97" "User Contributed Perl Documentation"
-.IX Title "Net::DummyInetd 3"
+.TH Net::DummyInetd 3 "perl 5.004, patch 55" "26/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::DummyInetd - A dummy Inetd server"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::DummyInetd \- A dummy Inetd server
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \&    use Net::DummyInetd;
@@ -204,7 +200,6 @@ Net::DummyInetd \- A dummy Inetd server
 \&    $smtp  = Net::SMTP->new('localhost', Port => $inetd->port);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWNet::DummyInetd\fR is just what it's name says, it is a dummy inetd server.
 Creation of a \f(CWNet::DummyInetd\fR will cause a child process to be spawned off
 which will listen to a socket. When a connection arrives on this socket
@@ -215,24 +210,39 @@ This package was added as an example of how to use \f(CWNet::SMTP\fR to connect
 to a \f(CWsendmail\fR process, which is not the default, via SIDIN and STDOUT.
 A \f(CWNet::Inetd\fR package will be available in the next release of \f(CWlibnet\fR
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ( \s-1CMD\s0 )" 4
-.IX Item "new ( \s-1CMD\s0 )"
 Creates a new object and spawns a child process which listens to a socket.
 \f(CWCMD\fR is a list, which will be passed to \f(CWexec\fR when a new process needs
 to be created.
 .SH "METHODS"
-.IX Header "METHODS"
 .Ip "port" 4
-.IX Item "port"
 Returns the port number on which the \fIDummyInetd\fR object is listening
 .SH "AUTHOR"
-.IX Header "AUTHOR"
-Graham Barr <gbarr@ti.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1997 Graham Barr. All rights reserved.
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "Net::DummyInetd 3"
+.IX Name "Net::DummyInetd - A dummy Inetd server"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ( \s-1CMD\s0 )"
+
+.IX Header "METHODS"
+
+.IX Item "port"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

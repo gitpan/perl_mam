@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Select 3 "perl 5.004, patch 01" "24/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "IO::Select 3"
+.TH IO::Select 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IO::Select - OO interface to the select system call"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IO::Select \- OO interface to the select system call
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use IO::Select;
@@ -212,20 +208,15 @@ IO::Select \- OO interface to the select system call
 \&    @ready = IO::Select->new(@handles)->read(0);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWIO::Select\fR package implements an object approach to the system \f(CWselect\fR
 function call. It allows the user to see what IO handles, see the \fIIO::Handle\fR manpage,
 are ready for reading, writing or have an error condition pending.
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ( [ \s-1HANDLES\s0 ] )" 4
-.IX Item "new ( [ \s-1HANDLES\s0 ] )"
 The constructor creates a new object and optionally initialises it with a set
 of handles.
 .SH "METHODS"
-.IX Header "METHODS"
 .Ip "add ( \s-1HANDLES\s0 )" 4
-.IX Item "add ( \s-1HANDLES\s0 )"
 Add the list of handles to the \f(CWIO::Select\fR object. It is these values that
 will be returned when an event occurs. \f(CWIO::Select\fR keeps these values in a
 cache which is indexed by the \f(CWfileno\fR of the handle, so if more than one
@@ -234,43 +225,33 @@ handle with the same \f(CWfileno\fR is specified then only the last one is cache
 Each handle can be an \f(CWIO::Handle\fR object, an integer or an array
 reference where the first element is a \f(CWIO::Handle\fR or an integer.
 .Ip "remove ( \s-1HANDLES\s0 )" 4
-.IX Item "remove ( \s-1HANDLES\s0 )"
 Remove all the given handles from the object. This method also works
 by the \f(CWfileno\fR of the handles. So the exact handles that were added
 need not be passed, just handles that have an equivalent \f(CWfileno\fR
 .Ip "exists ( \s-1HANDLE\s0 )" 4
-.IX Item "exists ( \s-1HANDLE\s0 )"
 Returns a true value (actually the handle itself) if it is present.
 Returns undef otherwise.
 .Ip "handles" 4
-.IX Item "handles"
 Return an array of all registered handles.
 .Ip "can_read ( [ \s-1TIMEOUT\s0 ] )" 4
-.IX Item "can_read ( [ \s-1TIMEOUT\s0 ] )"
 Return an array of handles that are ready for reading. \f(CWTIMEOUT\fR is
 the maximum amount of time to wait before returning an empty list. If
 \f(CWTIMEOUT\fR is not given and any handles are registered then the call
 will block.
 .Ip "can_write ( [ \s-1TIMEOUT\s0 ] )" 4
-.IX Item "can_write ( [ \s-1TIMEOUT\s0 ] )"
 Same as \f(CWcan_read\fR except check for handles that can be written to.
 .Ip "has_error ( [ \s-1TIMEOUT\s0 ] )" 4
-.IX Item "has_error ( [ \s-1TIMEOUT\s0 ] )"
 Same as \f(CWcan_read\fR except check for handles that have an error
 condition, for example \s-1EOF\s0.
 .Ip "count ()" 4
-.IX Item "count ()"
 Returns the number of handles that the object will check for when
 one of the \f(CWcan_\fR methods is called or the object is passed to
 the \f(CWselect\fR static method.
 .Ip "bits()" 4
-.IX Item "bits()"
 Return the bit string suitable as argument to the core \fIselect()\fR call.
 .Ip "bits()" 4
-.IX Item "bits()"
 Return the bit string suitable as argument to the core \fIselect()\fR call.
 .Ip "select ( \s-1READ\s0, \s-1WRITE\s0, \s-1ERROR\s0 [, \s-1TIMEOUT\s0 ] )" 4
-.IX Item "select ( \s-1READ\s0, \s-1WRITE\s0, \s-1ERROR\s0 [, \s-1TIMEOUT\s0 ] )"
 \f(CWselect\fR is a static method, that is you call it with the package
 name like \f(CWnew\fR. \f(CWREAD\fR, \f(CWWRITE\fR and \f(CWERROR\fR are either \f(CWundef\fR
 or \f(CWIO::Select\fR objects. \f(CWTIMEOUT\fR is optional and has the same
@@ -280,7 +261,6 @@ The result will be an array of 3 elements, each a reference to an array
 which will hold the handles that are ready for reading, writing and have
 error conditions respectively. Upon error an empty array is returned.
 .SH "EXAMPLE"
-.IX Header "EXAMPLE"
 Here is a short example which shows how \f(CWIO::Select\fR could be used
 to write a server which communicates with several sockets while also
 listening for more connections on a listen socket
@@ -312,12 +292,53 @@ listening for more connections on a listen socket
 \&    }
 .Ve
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Graham Barr <\fIGraham.Barr@tiuk.ti.com\fR>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995 Graham Barr. All rights reserved. This program is free
 software; you can redistribute it and/or modify it under the same terms
 as Perl itself.
 
 .rn }` ''
+.IX Title "IO::Select 3"
+.IX Name "IO::Select - OO interface to the select system call"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ( [ \s-1HANDLES\s0 ] )"
+
+.IX Header "METHODS"
+
+.IX Item "add ( \s-1HANDLES\s0 )"
+
+.IX Item "remove ( \s-1HANDLES\s0 )"
+
+.IX Item "exists ( \s-1HANDLE\s0 )"
+
+.IX Item "handles"
+
+.IX Item "can_read ( [ \s-1TIMEOUT\s0 ] )"
+
+.IX Item "can_write ( [ \s-1TIMEOUT\s0 ] )"
+
+.IX Item "has_error ( [ \s-1TIMEOUT\s0 ] )"
+
+.IX Item "count ()"
+
+.IX Item "bits()"
+
+.IX Item "bits()"
+
+.IX Item "select ( \s-1READ\s0, \s-1WRITE\s0, \s-1ERROR\s0 [, \s-1TIMEOUT\s0 ] )"
+
+.IX Header "EXAMPLE"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

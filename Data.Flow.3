@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Flow 3 "perl 5.004, patch 01" "4/Aug/96" "User Contributed Perl Documentation"
-.IX Title "Flow 3"
+.TH Flow 3 "perl 5.004, patch 55" "20/Aug/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Data::Flow - Perl extension for simple-minded recipe-controlled build of data."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Data::Flow \- Perl extension for simple-minded recipe-controlled build of data.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 11
 \&  use Data::Flow;
@@ -219,7 +215,6 @@ Data::Flow \- Perl extension for simple-minded recipe-controlled build of data.
 \&  print $request{contents};
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The module Data::Flow provides its services via objects. The objects may
 be obtained by the usual
 .PP
@@ -245,7 +240,6 @@ hash.
 .PP
 The internal hashes may have the following keys:
 .Ip "\f(CWdefault\fR" 8
-.IX Item "\f(CWdefault\fR"
 describes the default value for the key, if none is provided by
 \fIset()\fR. The value becomes the value of the field of the object. No
 additional processing is performed. Example:
@@ -254,7 +248,6 @@ additional processing is performed. Example:
 \&  default => $Config{installdir}
 .Ve
 .Ip "\f(CWprerequisites\fR" 8
-.IX Item "\f(CWprerequisites\fR"
 gives the fields which are needed for the construction of the given
 field. The corresponding value is an array references. The array
 contains the \fIrequired\fR fields.
@@ -267,7 +260,6 @@ fields are build before any further processing is done. Example:
 \&  prerequisites => [ qw(prefix arch) ]
 .Ve
 .Ip "\f(CWprocess\fR" 8
-.IX Item "\f(CWprocess\fR"
 contains the rule to build the field. The value is a reference to a
 subroutine taking 2 arguments: the object \f(CW$request\fR, and the name of
 the required field. It is up to the subroutine to actually fill the
@@ -279,7 +271,6 @@ not. Example:
 \&                   $data->set( time => localtime(time) ) }
 .Ve
 .Ip "\f(CWoutput\fR" 8
-.IX Item "\f(CWoutput\fR"
 the corresponing value has the same meaning as for \f(CWprocess\fR, but the
 return value of the subroutine is used as the value of the
 \fIfield\fR. Example:
@@ -288,7 +279,6 @@ return value of the subroutine is used as the value of the
 \&  output => sub { localtime(time) }
 .Ve
 .Ip "\f(CWfilter\fR" 8
-.IX Item "\f(CWfilter\fR"
 contains the rule to build the field basing on other fields. The value
 is a reference to an array. The first element of the array is a
 reference to a subroutine, the rest contains names of the fields. When
@@ -304,7 +294,6 @@ return value of the subroutine is used as the value of the
 Note that the mentioned field will be automatically marked as
 prerequisites.
 .Ip "\f(CWclass_filter\fR" 8
-.IX Item "\f(CWclass_filter\fR"
 is similar to \f(CWfilter\fR, but the first argument is the name of the
 method to call, second one is the name of the package to use for the
 method invocation. The rest contains names of field to provide as
@@ -314,7 +303,6 @@ method arguments. Example:
 \&  class_filter => [ 'new', 'FileHandle', 'filename' ]
 .Ve
 .Ip "\f(CWmethod_filter\fR" 8
-.IX Item "\f(CWmethod_filter\fR"
 is similar to \f(CWclass_filter\fR, but the second argument is the name of the
 field which is used to call the method upon. Example:
 .Sp
@@ -322,14 +310,40 @@ field which is used to call the method upon. Example:
 \&  method_filter => [ 'show', 'widget_name', 'current_display' ]
 .Ve
 .Sh "Tied interface"
-.IX Subsection "Tied interface"
 The access to the same functionality is available via tied hash
 interface.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Ilya Zakharevich, ilya@math.ohio-state.edu
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1), \fImake\fR\|(1).
 
 .rn }` ''
+.IX Title "Flow 3"
+.IX Name "Data::Flow - Perl extension for simple-minded recipe-controlled build of data."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\f(CWdefault\fR"
+
+.IX Item "\f(CWprerequisites\fR"
+
+.IX Item "\f(CWprocess\fR"
+
+.IX Item "\f(CWoutput\fR"
+
+.IX Item "\f(CWfilter\fR"
+
+.IX Item "\f(CWclass_filter\fR"
+
+.IX Item "\f(CWmethod_filter\fR"
+
+.IX Subsection "Tied interface"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

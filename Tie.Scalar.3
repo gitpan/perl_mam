@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Tie::Scalar 3 "perl 5.004, patch 01" "16/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "Tie::Scalar 3"
+.TH Tie::Scalar 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Tie::Scalar, Tie::StdScalar - base class definitions for tied scalars"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Tie::Scalar, Tie::StdScalar \- base class definitions for tied scalars
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 22
 \&    package NewScalar;
@@ -220,7 +216,6 @@ Tie::Scalar, Tie::StdScalar \- base class definitions for tied scalars
 \&    tie $new_std_scalar, 'NewStdScalar';
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provides some skeletal methods for scalar-tying classes. See
 the \fIperltie\fR manpage for a list of the functions required in tying a scalar to a
 package. The basic \fBTie::Scalar\fR package provides a \f(CWnew\fR method, as well
@@ -235,26 +230,40 @@ For developers wishing to write their own tied-scalar classes, the methods
 are summarized below. The the \fIperltie\fR manpage section not only documents these, but
 has sample code as well:
 .Ip "\s-1TIESCALAR\s0 classname, \s-1LIST\s0" 5
-.IX Item "\s-1TIESCALAR\s0 classname, \s-1LIST\s0"
 The method invoked by the command \f(CWtie $scalar, classname\fR. Associates a new
 scalar instance with the specified class. \f(CWLIST\fR would represent additional
 arguments (along the lines of the \fIAnyDBM_File\fR manpage and compatriots) needed to
 complete the association.
 .Ip "\s-1FETCH\s0 this" 5
-.IX Item "\s-1FETCH\s0 this"
 Retrieve the value of the tied scalar referenced by \fIthis\fR.
 .Ip "\s-1STORE\s0 this, value" 5
-.IX Item "\s-1STORE\s0 this, value"
 Store data \fIvalue\fR in the tied scalar referenced by \fIthis\fR.
 .Ip "\s-1DESTROY\s0 this" 5
-.IX Item "\s-1DESTROY\s0 this"
 Free the storage associated with the tied scalar referenced by \fIthis\fR.
 This is rarely needed, as Perl manages its memory quite well. But the
 option exists, should a class wish to perform specific actions upon the
 destruction of an instance.
 .SH "MORE INFORMATION"
-.IX Header "MORE INFORMATION"
 The the \fIperltie\fR manpage section uses a good example of tying scalars by associating
 process IDs with priority.
 
 .rn }` ''
+.IX Title "Tie::Scalar 3"
+.IX Name "Tie::Scalar, Tie::StdScalar - base class definitions for tied scalars"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\s-1TIESCALAR\s0 classname, \s-1LIST\s0"
+
+.IX Item "\s-1FETCH\s0 this"
+
+.IX Item "\s-1STORE\s0 this, value"
+
+.IX Item "\s-1DESTROY\s0 this"
+
+.IX Header "MORE INFORMATION"
+

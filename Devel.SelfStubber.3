@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Devel::SelfStubber 3 "perl 5.004, patch 01" "2/Jan/97" "Perl Programmers Reference Guide"
-.IX Title "Devel::SelfStubber 3"
+.TH Devel::SelfStubber 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Devel::SelfStubber - generate stubs for a SelfLoading module"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Devel::SelfStubber \- generate stubs for a SelfLoading module
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 To generate just the stubs:
 .PP
 .Vb 2
@@ -212,7 +208,6 @@ NOT \*(L'Devel/SelfStubber\*(R' or \*(L'Devel/SelfStubber.pm\*(R'.
 .PP
 MY_LIB_DIR defaults to \*(L'.\*(R' if not present.
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Devel::SelfStubber prints the stubs you need to put in the module
 before the _\|_DATA_\|_ token (or you can get it to print the entire
 module with stubs correctly placed). The stubs ensure that if
@@ -265,3 +260,12 @@ SelfStubber actually uses the SelfLoader to determine which
 stubs are needed.
 
 .rn }` ''
+.IX Title "Devel::SelfStubber 3"
+.IX Name "Devel::SelfStubber - generate stubs for a SelfLoading module"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

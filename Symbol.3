@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Symbol 3 "perl 5.004, patch 01" "20/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "Symbol 3"
+.TH Symbol 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Symbol - manipulate Perl symbols and their names"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Symbol \- manipulate Perl symbols and their names
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use Symbol;
@@ -222,7 +218,6 @@ Symbol \- manipulate Perl symbols and their names
 \&    $ref = qualify_to_ref $name, $pkg;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWSymbol::gensym\fR creates an anonymous glob and returns a reference
 to it.  Such a glob reference can be used as a file or directory
 handle.
@@ -247,3 +242,12 @@ returns a glob ref rather than a symbol name, so you can use the result
 even if \f(CWuse strict 'refs'\fR is in effect.
 
 .rn }` ''
+.IX Title "Symbol 3"
+.IX Name "Symbol - manipulate Perl symbols and their names"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH integer 3 "perl 5.004, patch 01" "7/Jun/95" "Perl Programmers Reference Guide"
-.IX Title "integer 3"
+.TH integer 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "integer - Perl pragma to compute arithmetic in integer instead of double"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 integer \- Perl pragma to compute arithmetic in integer instead of double
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \&    use integer;
@@ -201,7 +197,6 @@ integer \- Perl pragma to compute arithmetic in integer instead of double
 \&    # $x is now 3, not 3.33333333333333333
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This tells the compiler that it's okay to use integer operations
 from here to the end of the enclosing BLOCK.  On many machines, 
 this doesn't matter a great deal for most computations, but on those 
@@ -210,3 +205,12 @@ without floating point hardware, it can make a big difference.
 See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.
 
 .rn }` ''
+.IX Title "integer 3"
+.IX Name "integer - Perl pragma to compute arithmetic in integer instead of double"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

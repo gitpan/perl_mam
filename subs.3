@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH subs 3 "perl 5.004, patch 01" "24/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "subs 3"
+.TH subs 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "subs - Perl pragma to predeclare sub names"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 subs \- Perl pragma to predeclare sub names
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use subs qw(frob);
 \&    frob 3..10;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This will predeclare all the subroutine whose names are 
 in the list, allowing you to use them without parentheses
 even before they're declared.
@@ -213,3 +208,12 @@ declarations with \f(CWno vars\fR or \f(CWno subs\fR.
 See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage and the section on \fIstrict subs\fR in the \fIstrict\fR manpage.
 
 .rn }` ''
+.IX Title "subs 3"
+.IX Name "subs - Perl pragma to predeclare sub names"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File::DosGlob 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "File::DosGlob 3"
+.TH File::DosGlob 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "File::DosGlob - DOS like globbing and then some"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,26 +188,26 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 File::DosGlob \- DOS like globbing and then some
 .PP
 perlglob.bat \- a more capable perlglob.exe replacement
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
-.Vb 9
+.Vb 12
 \&    require 5.004;
-\&    use File::DosGlob 'glob';  # override CORE::glob
+\&    
+\&    # override CORE::glob in current package
+\&    use File::DosGlob 'glob';
+\&    
 \&    @perlfiles = glob  "..\e\epe?l/*.p?";
 \&    print <..\e\epe?l/*.p?>;
 \&    
-\&    # from the command line
+\&    # from the command line (overrides only in main::)
 \&    > perl -MFile::DosGlob=glob -e "print <../pe*/*p?>"
 \&    
 \&    > perlglob ../pe*/*p?
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 A module that implements DOS\-like globbing with a few enhancements.
 This file is also a portable replacement for perlglob.exe.  It
 is largely compatible with perlglob.exe (the M$ setargv.obj
@@ -229,35 +227,59 @@ to standard output.
 While one may replace perlglob.exe with this, usage by overriding
 CORE::glob via importation should be much more efficient, because
 it avoids launching a separate process, and is therefore strongly
-recommended.
+recommended.  Note that it is currently possible to override
+builtins like \fIglob()\fR only on a per-package basis, not \*(L"globally\*(R".
+Thus, every namespace that wants to override \fIglob()\fR must explicitly
+request the override.  See the \fIperlsub\fR manpage.
 .PP
 Extending it to csh patterns is left as an exercise to the reader.
 .SH "EXPORTS (by request only)"
-.IX Header "EXPORTS (by request only)"
 \fIglob()\fR
 .SH "BUGS"
-.IX Header "BUGS"
 Should probably be built into the core, and needs to stop
 pandering to DOS habits.  Needs a dose of optimizium too.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gurusamy Sarathy <gsar@umich.edu>
 .SH "HISTORY"
-.IX Header "HISTORY"
 .Ip "\(bu" 4
-.IX Item "\(bu"
+Scalar context, independent iterator context fixes (\s-1GSAR\s0 15-\s-1SEP\s0\-97)
+.Ip "\(bu" 4
 A few dir-vs-file optimizations result in glob importation being
 10 times faster than using perlglob.exe, and using perlglob.bat is
 only twice as slow as perlglob.exe (\s-1GSAR\s0 28-\s-1MAY\s0\-97)
 .Ip "\(bu" 4
-.IX Item "\(bu"
 Several cleanups prompted by lack of compatible perlglob.exe
 under Borland (\s-1GSAR\s0 27-\s-1MAY\s0\-97)
 .Ip "\(bu" 4
-.IX Item "\(bu"
 Initial version (\s-1GSAR\s0 20-\s-1FEB\s0\-97)
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 perl
 
 .rn }` ''
+.IX Title "File::DosGlob 3"
+.IX Name "File::DosGlob - DOS like globbing and then some"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXPORTS (by request only)"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+
+.IX Header "HISTORY"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Header "SEE ALSO"
+

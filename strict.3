@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH strict 3 "perl 5.004, patch 01" "24/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "strict 3"
+.TH strict 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "strict - Perl pragma to restrict unsafe constructs"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 strict \- Perl pragma to restrict unsafe constructs
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use strict;
@@ -208,13 +204,11 @@ strict \- Perl pragma to restrict unsafe constructs
 \&    no strict "vars";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 If no import list is supplied, all possible restrictions are assumed.
 (This is the safest mode to operate in, but is sometimes too strict for
 casual programming.)  Currently, there are three possible things to be
 strict about:  \*(L"subs\*(R", \*(L"vars\*(R", and \*(L"refs\*(R".
 .Ip "\f(CWstrict refs\fR" 6
-.IX Item "\f(CWstrict refs\fR"
 This generates a runtime error if you 
 use symbolic references (see the \fIperlref\fR manpage).
 .Sp
@@ -226,7 +220,6 @@ use symbolic references (see the \fIperlref\fR manpage).
 \&    print $$ref;        # runtime error; normally ok
 .Ve
 .Ip "\f(CWstrict vars\fR" 6
-.IX Item "\f(CWstrict vars\fR"
 This generates a compile-time error if you access a variable that wasn't
 localized via \f(CWmy()\fR or wasn't fully qualified.  Because this is to avoid
 variable suicide problems and subtle dynamic scoping issues, a merely
@@ -242,7 +235,6 @@ the \f(CWlocal\fR entry in the \fIperlfunc\fR manpage.
 The \fIlocal()\fR generated a compile-time error because you just touched a global
 name without fully qualifying it.
 .Ip "\f(CWstrict subs\fR" 6
-.IX Item "\f(CWstrict subs\fR"
 This disables the poetry optimization, generating a compile-time error if
 you try to use a bareword identifier that's not a subroutine, unless it
 appears in curly braces or on the left hand side of the \*(L"=>\*(R" symbol.
@@ -257,3 +249,18 @@ appears in curly braces or on the left hand side of the \*(L"=>\*(R" symbol.
 See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.
 
 .rn }` ''
+.IX Title "strict 3"
+.IX Name "strict - Perl pragma to restrict unsafe constructs"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\f(CWstrict refs\fR"
+
+.IX Item "\f(CWstrict vars\fR"
+
+.IX Item "\f(CWstrict subs\fR"
+

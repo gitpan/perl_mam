@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH DirHandle 3 "perl 5.004, patch 01" "29/Jan/96" "Perl Programmers Reference Guide"
-.IX Title "DirHandle 3"
+.TH DirHandle 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "DirHandle - supply object methods for directory handles"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 DirHandle \- supply object methods for directory handles
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 8
 \&    use DirHandle;
@@ -206,7 +202,6 @@ DirHandle \- supply object methods for directory handles
 \&    }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWDirHandle\fR method provide an alternative interface to the
 \fIopendir()\fR, \fIclosedir()\fR, \fIreaddir()\fR, and \fIrewinddir()\fR functions.
 .PP
@@ -214,3 +209,12 @@ The only objective benefit to using \f(CWDirHandle\fR is that it avoids
 namespace pollution by creating globs to hold directory handles.
 
 .rn }` ''
+.IX Title "DirHandle 3"
+.IX Name "DirHandle - supply object methods for directory handles"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

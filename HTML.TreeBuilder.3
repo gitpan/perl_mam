@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::TreeBuilder 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::TreeBuilder 3"
+.TH lib::HTML::TreeBuilder 3 "perl 5.004, patch 55" "9/Jun/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::TreeBuilder - Parser that builds a HTML syntax tree"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::TreeBuilder \- Parser that builds a HTML syntax tree
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& $h = new HTML::TreeBuilder;
@@ -204,7 +200,6 @@ HTML::TreeBuilder \- Parser that builds a HTML syntax tree
 \& print $h->as_HTML;  # or any other HTML::Element method
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This is a parser that builds (and actually itself is) a HTML syntax tree.
 .PP
 Objects of this class inherit the methods of both \f(CWHTML::Parser\fR and
@@ -214,7 +209,6 @@ the syntax tree itself.
 The following method all control how parsing takes place.  You can set
 the attributes by passing a TRUE or FALSE value as argument.
 .Ip "$p->implicit_tags" 4
-.IX Item "$p->implicit_tags"
 Setting this attribute to true will instruct the parser to try to
 deduce implicit elements and implicit end tags.  If it is false you
 get a parse tree that just reflects the text as it stands.  Might be
@@ -222,29 +216,46 @@ useful for quick & dirty parsing.  Default is true.
 .Sp
 Implicit elements have the \fIimplicit()\fR attribute set.
 .Ip "$p->ignore_unknown" 4
-.IX Item "$p->ignore_unknown"
 This attribute controls whether unknown tags should be represented as
 elements in the parse tree.  Default is true.
 .Ip "$p->ignore_text" 4
-.IX Item "$p->ignore_text"
 Do not represent the text content of elements.  This saves space if
 all you want is to examine the structure of the document.  Default is
 false.
 .Ip "$p->warn" 4
-.IX Item "$p->warn"
 Call \fIwarn()\fR with an appropriate message for syntax errors.  Default is
 false.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Parser\fR manpage, the \fIHTML::Element\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1995-1996 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::TreeBuilder 3"
+.IX Name "HTML::TreeBuilder - Parser that builds a HTML syntax tree"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "$p->implicit_tags"
+
+.IX Item "$p->ignore_unknown"
+
+.IX Item "$p->ignore_text"
+
+.IX Item "$p->warn"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

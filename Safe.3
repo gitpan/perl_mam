@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Safe 3 "perl 5.004, patch 01" "24/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "Safe 3"
+.TH Safe 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Safe - Compile and execute code in restricted compartments"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Safe \- Compile and execute code in restricted compartments
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&  use Safe;
@@ -208,11 +204,9 @@ Safe \- Compile and execute code in restricted compartments
 \&  $result = $compartment->reval($unsafe_code);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The Safe extension module allows the creation of compartments
 in which perl code can be evaluated. Each compartment has
 .Ip "a new namespace" 8
-.IX Item "a new namespace"
 The \*(L"root\*(R" of the namespace (i.e. \*(L"main::") is changed to a
 different package and code evaluated in the compartment cannot
 refer to variables outside this namespace, even with run-time
@@ -229,7 +223,6 @@ used \f(CW%_\fR, the _ filehandle and so on). This is because otherwise perl
 operators which default to \f(CW$_\fR will not work and neither will the
 assignment of arguments to \f(CW@_\fR on subroutine entry.
 .Ip "an operator mask" 8
-.IX Item "an operator mask"
 Each compartment has an associated \*(L"operator mask\*(R". Recall that
 perl code is compiled into an internal format before execution.
 Evaluating perl code (e.g. via \*(L"eval\*(R" or \*(L"do \*(L'file'") causes
@@ -260,7 +253,6 @@ outside the compartment) placed into the compartment. For example,
 \&    $cpt->share('&wrapper');
 .Ve
 .SH "WARNING"
-.IX Header "WARNING"
 The authors make \fBno warranty\fR, implied or otherwise, about the
 suitability of this software for safety or security purposes.
 .PP
@@ -270,13 +262,11 @@ of this software.
 .PP
 Your mileage will vary. If in any doubt \fBdo not use it\fR.
 .Sh "\s-1RECENT\s0 \s-1CHANGES\s0"
-.IX Subsection "\s-1RECENT\s0 \s-1CHANGES\s0"
 The interface to the Safe module has changed quite dramatically since
 version 1 (as supplied with Perl5.002). Study these pages carefully if
 you have code written to use Safe version 1 because you will need to
 makes changes.
 .Sh "Methods in class Safe"
-.IX Subsection "Methods in class Safe"
 To create a new compartment, use
 .PP
 .Vb 1
@@ -294,29 +284,22 @@ The following methods can then be used on the compartment
 object returned by the above constructor. The object argument
 is implicit in each case.
 .Ip "permit (\s-1OP\s0, ...)" 8
-.IX Item "permit (\s-1OP\s0, ...)"
 Permit the listed operators to be used when compiling code in the
 compartment (in \fIaddition\fR to any operators already permitted).
 .Ip "permit_only (\s-1OP\s0, ...)" 8
-.IX Item "permit_only (\s-1OP\s0, ...)"
 Permit \fIonly\fR the listed operators to be used when compiling code in
 the compartment (\fIno\fR other operators are permitted).
 .Ip "deny (\s-1OP\s0, ...)" 8
-.IX Item "deny (\s-1OP\s0, ...)"
 Deny the listed operators from being used when compiling code in the
 compartment (other operators may still be permitted).
 .Ip "deny_only (\s-1OP\s0, ...)" 8
-.IX Item "deny_only (\s-1OP\s0, ...)"
 Deny \fIonly\fR the listed operators from being used when compiling code
 in the compartment (\fIall\fR other operators will be permitted).
 .Ip "trap (\s-1OP\s0, ...)" 8
-.IX Item "trap (\s-1OP\s0, ...)"
 .Ip "untrap (\s-1OP\s0, ...)" 8
-.IX Item "untrap (\s-1OP\s0, ...)"
 The trap and untrap methods are synonyms for deny and permit
 respectfully.
 .Ip "share (\s-1NAME\s0, ...)" 8
-.IX Item "share (\s-1NAME\s0, ...)"
 This shares the \fIvariable\fR\|(s) in the argument list with the compartment.
 This is almost identical to exporting variables using the the \fIExporter(3)\fR manpage
 module.
@@ -332,7 +315,6 @@ including scalar, array, hash, sub and filehandle).
 Each \s-1NAME\s0 is assumed to be in the calling package. See share_from
 for an alternative method (which share uses).
 .Ip "share_from (\s-1PACKAGE\s0, \s-1ARRAYREF\s0)" 8
-.IX Item "share_from (\s-1PACKAGE\s0, \s-1ARRAYREF\s0)"
 This method is similar to \fIshare()\fR but allows you to explicitly name the
 package that symbols should be shared from. The symbol names (including
 type characters) are supplied as an array reference.
@@ -341,7 +323,6 @@ type characters) are supplied as an array reference.
 \&    $safe->share_from('main', [ '$foo', '%bar', 'func' ]);
 .Ve
 .Ip "varglob (\s-1VARNAME\s0)" 8
-.IX Item "varglob (\s-1VARNAME\s0)"
 This returns a glob reference for the symbol table entry of \s-1VARNAME\s0 in
 the package of the compartment. \s-1VARNAME\s0 must be the \fBname\fR of a
 variable without any leading type marker. For example,
@@ -353,7 +334,6 @@ variable without any leading type marker. For example,
 \&    ${$cpt->varglob('foo')} = "Hello world";
 .Ve
 .Ip "reval (\s-1STRING\s0)" 8
-.IX Item "reval (\s-1STRING\s0)"
 This evaluates \s-1STRING\s0 as perl code inside the compartment.
 .Sp
 The code can only see the compartment's namespace (as returned by the
@@ -413,11 +393,9 @@ the code in the compartment.
 A similar effect applies to \fIall\fR runtime symbol lookups in code
 called from a compartment but not compiled within it.
 .Ip "rdo (\s-1FILENAME\s0)" 8
-.IX Item "rdo (\s-1FILENAME\s0)"
 This evaluates the contents of file \s-1FILENAME\s0 inside the compartment.
 See above documentation on the \fBreval\fR method for further details.
 .Ip "root (\s-1NAMESPACE\s0)" 8
-.IX Item "root (\s-1NAMESPACE\s0)"
 This method returns the name of the package that is the root of the
 compartment's namespace.
 .Sp
@@ -425,7 +403,6 @@ Note that this behaviour differs from version 1.00 of the Safe module
 where the root module could be used to change the namespace. That
 functionality has been withdrawn pending deeper consideration.
 .Ip "mask (\s-1MASK\s0)" 8
-.IX Item "mask (\s-1MASK\s0)"
 This is a get-or-set method for the compartment's operator mask.
 .Sp
 With no \s-1MASK\s0 argument present, it returns the current operator mask of
@@ -434,23 +411,18 @@ the compartment.
 With the \s-1MASK\s0 argument present, it sets the operator mask for the
 compartment (equivalent to calling the deny_only method).
 .Sh "Some Safety Issues"
-.IX Subsection "Some Safety Issues"
 This section is currently just an outline of some of the things code in
 a compartment might do (intentionally or unintentionally) which can
 have an effect outside the compartment.
 .Ip "Memory" 8
-.IX Item "Memory"
 Consuming all (or nearly all) available memory.
 .Ip "\s-1CPU\s0" 8
-.IX Item "\s-1CPU\s0"
 Causing infinite loops etc.
 .Ip "Snooping" 8
-.IX Item "Snooping"
 Copying private information out of your system. Even something as
 simple as your user name is of value to others. Much useful information
 could be gleaned from your environment variables for example.
 .Ip "Signals" 8
-.IX Item "Signals"
 Causing signals (especially \s-1SIGFPE\s0 and \s-1SIGALARM\s0) to affect your process.
 .Sp
 Setting up a signal handler will need to be carefully considered
@@ -461,12 +433,10 @@ restricted mask get re-instated before the handler is called?
 Does an imported handler get called with its original mask or
 the user's one?
 .Ip "State Changes" 8
-.IX Item "State Changes"
 Ops such as chdir obviously effect the process as a whole and not just
 the code in the compartment. Ops such as rand and srand have a similar
 but more subtle effect.
 .Sh "\s-1AUTHOR\s0"
-.IX Subsection "\s-1AUTHOR\s0"
 Originally designed and implemented by Malcolm Beattie,
 mbeattie@sable.ox.ac.uk.
 .PP
@@ -474,3 +444,62 @@ Reworked to use the Opcode module and other changes added by Tim Bunce
 <\fITim.Bunce@ig.co.uk\fR>.
 
 .rn }` ''
+.IX Title "Safe 3"
+.IX Name "Safe - Compile and execute code in restricted compartments"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "a new namespace"
+
+.IX Item "an operator mask"
+
+.IX Header "WARNING"
+
+.IX Subsection "\s-1RECENT\s0 \s-1CHANGES\s0"
+
+.IX Subsection "Methods in class Safe"
+
+.IX Item "permit (\s-1OP\s0, ...)"
+
+.IX Item "permit_only (\s-1OP\s0, ...)"
+
+.IX Item "deny (\s-1OP\s0, ...)"
+
+.IX Item "deny_only (\s-1OP\s0, ...)"
+
+.IX Item "trap (\s-1OP\s0, ...)"
+
+.IX Item "untrap (\s-1OP\s0, ...)"
+
+.IX Item "share (\s-1NAME\s0, ...)"
+
+.IX Item "share_from (\s-1PACKAGE\s0, \s-1ARRAYREF\s0)"
+
+.IX Item "varglob (\s-1VARNAME\s0)"
+
+.IX Item "reval (\s-1STRING\s0)"
+
+.IX Item "rdo (\s-1FILENAME\s0)"
+
+.IX Item "root (\s-1NAMESPACE\s0)"
+
+.IX Item "mask (\s-1MASK\s0)"
+
+.IX Subsection "Some Safety Issues"
+
+.IX Item "Memory"
+
+.IX Item "\s-1CPU\s0"
+
+.IX Item "Snooping"
+
+.IX Item "Signals"
+
+.IX Item "State Changes"
+
+.IX Subsection "\s-1AUTHOR\s0"
+

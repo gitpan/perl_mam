@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Command 3 "perl 5.004, patch 01" "1/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::Command 3"
+.TH ExtUtils::Command 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::Command - utilities to replace common UNIX commands in Makefiles etc."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,67 +188,86 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::Command \- utilities to replace common UNIX commands in Makefiles etc.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 10
-\&  perl -MExtUtils::command -e cat files... > destination
-\&  perl -MExtUtils::command -e mv source... destination
-\&  perl -MExtUtils::command -e cp source... destination
-\&  perl -MExtUtils::command -e touch files...
-\&  perl -MExtUtils::command -e rm_f file...
-\&  perl -MExtUtils::command -e rm_rf directories...
-\&  perl -MExtUtils::command -e mkpath directories...
-\&  perl -MExtUtils::command -e eqtime source destination
-\&  perl -MExtUtils::command -e chmod mode files...
-\&  perl -MExtUtils::command -e test_f file
+\&  perl -MExtUtils::Command -e cat files... > destination
+\&  perl -MExtUtils::Command -e mv source... destination
+\&  perl -MExtUtils::Command -e cp source... destination
+\&  perl -MExtUtils::Command -e touch files...
+\&  perl -MExtUtils::Command -e rm_f file...
+\&  perl -MExtUtils::Command -e rm_rf directories...
+\&  perl -MExtUtils::Command -e mkpath directories...
+\&  perl -MExtUtils::Command -e eqtime source destination
+\&  perl -MExtUtils::Command -e chmod mode files...
+\&  perl -MExtUtils::Command -e test_f file
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The module is used in Win32 port to replace common UNIX commands.
 Most commands are wrapers on generic modules File::Path and File::Basename.
 .Ip "cat " 4
-.IX Item "cat "
 Concatenates all files mentioned on command line to \s-1STDOUT\s0.
 .Ip "eqtime src dst" 4
-.IX Item "eqtime src dst"
 Sets modified time of dst to that of src
 .Ip "rm_f files...." 4
-.IX Item "rm_f files...."
 Removes directories \- recursively (even if readonly)
 .Ip "rm_f files...." 4
-.IX Item "rm_f files...."
 Removes files (even if readonly)
 .Ip "touch files ..." 4
-.IX Item "touch files ..."
 Makes files exist, with current timestamp 
 .Ip "mv source... destination" 4
-.IX Item "mv source... destination"
 Moves source to destination.
 Multiple sources are allowed if destination is an existing directory.
 .Ip "cp source... destination" 4
-.IX Item "cp source... destination"
 Copies source to destination.
 Multiple sources are allowed if destination is an existing directory.
 .Ip "chmod mode files..." 4
-.IX Item "chmod mode files..."
 Sets \s-1UNIX\s0 like permissions \*(L'mode\*(R' on all the files.
 .Ip "mkpath directory..." 4
-.IX Item "mkpath directory..."
 Creates directory, including any parent directories.
 .Ip "test_f file" 4
-.IX Item "test_f file"
 Tests if a file exists
 .SH "BUGS"
-.IX Header "BUGS"
 Should probably be Auto/Self loaded.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 ExtUtils::MakeMaker, ExtUtils::MM_Unix, ExtUtils::MM_Win32
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Nick Ing-Simmons <\fInick@ni-s.u-net.com\fR>.
 
 .rn }` ''
+.IX Title "ExtUtils::Command 3"
+.IX Name "ExtUtils::Command - utilities to replace common UNIX commands in Makefiles etc."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "cat "
+
+.IX Item "eqtime src dst"
+
+.IX Item "rm_f files...."
+
+.IX Item "rm_f files...."
+
+.IX Item "touch files ..."
+
+.IX Item "mv source... destination"
+
+.IX Item "cp source... destination"
+
+.IX Item "chmod mode files..."
+
+.IX Item "mkpath directory..."
+
+.IX Item "test_f file"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

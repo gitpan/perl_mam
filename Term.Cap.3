@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Term::Cap 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Term::Cap 3"
+.TH Term::Cap 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Term::Cap - Perl termcap interface"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Term::Cap \- Perl termcap interface
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \&    require Term::Cap;
@@ -204,7 +200,6 @@ Term::Cap \- Perl termcap interface
 \&    $terminal->Tpad($string, $count, $FH);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 These are low-level functions to extract and use capabilities from
 a terminal capability (termcap) database.
 .PP
@@ -253,7 +248,6 @@ output the string to \f(CW$FH\fR if specified.
 The extracted termcap entry is available in the object
 as \f(CW$self->{TERMCAP}\fR.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 .PP
 .Vb 5
 \&    # Get terminal output speed
@@ -289,3 +283,14 @@ as \f(CW$self->{TERMCAP}\fR.
 .Ve
 
 .rn }` ''
+.IX Title "Term::Cap 3"
+.IX Name "Term::Cap - Perl termcap interface"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+

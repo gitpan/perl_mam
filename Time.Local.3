@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Time::Local 3 "perl 5.004, patch 01" "24/Nov/96" "Perl Programmers Reference Guide"
-.IX Title "Time::Local 3"
+.TH Time::Local 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Time::Local - efficiently compute time from local and GMT time"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Time::Local \- efficiently compute time from local and GMT time
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    $time = timelocal($sec,$min,$hours,$mday,$mon,$year);
 \&    $time = timegm($sec,$min,$hours,$mday,$mon,$year);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 These routines are quite efficient and yet are always guaranteed to agree
 with \fIlocaltime()\fR and \fIgmtime()\fR.  We manage this by caching the start times
 of any months we've seen before.  If we know the start time of the month,
@@ -222,3 +217,12 @@ Both routines return \-1 if the integer limit is hit. I.e. for dates
 after the 1st of January, 2038 on most machines.
 
 .rn }` ''
+.IX Title "Time::Local 3"
+.IX Name "Time::Local - efficiently compute time from local and GMT time"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

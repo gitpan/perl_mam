@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Net::Telnet 3 "perl 5.004, patch 01" "15/Mar/97" "User Contributed Perl Documentation"
-.IX Title "lib::Net::Telnet 3"
+.TH lib::Net::Telnet 3 "perl 5.004, patch 55" "15/Mar/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::Telnet - interact with TELNET port or other TCP ports"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::Telnet \- interact with TELNET port or other TCP ports
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use Net::Telnet ();
 \&    see METHODS section below
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Net::Telnet allows you to make client connections to a TCP port and do
 network I/O, especially with a port using the TELNET protocol.  Simple
 I/O methods such as print, get, and getline are provided.  More
@@ -227,15 +222,12 @@ doesn't match, it's likely those commands will timeout.
 .PP
 Other reasons to use this class than strictly with a TELNET port are:
 .Ip "\(bu" 2
-.IX Item "\(bu"
 You're not familiar with sockets and you want a simple way to make
 client connections to \s-1TCP\s0 services.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 You want to be able to specify your own time-out while connecting,
 reading, or writing.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 You're communicating with an interactive program at the other end of
 some socket or pipe and you want to wait for certain patterns to
 appear.
@@ -287,9 +279,7 @@ This is an alpha version \- meaning that the interface may change in
 future versions.  Contact me, Jay Rogers <jay@rgrs.com>, if you find
 any bugs or have suggestions for improvement.
 .SH "METHODS"
-.IX Header "METHODS"
 .Sh "new \- create a new Net::Telnet object"
-.IX Subsection "new \- create a new Net::Telnet object"
 .PP
 .Vb 13
 \&    $obj = Net::Telnet->new([Binmode    => $mode,]
@@ -316,31 +306,22 @@ connecting to \s-1TCP\s0 \fI$port\fR on \fI$host\fR.  Also see \fBopen()\fR.  Th
 object returned is given the following defaults in the absence of
 corresponding named arguments:
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBhost\fR is \fB"localhost\*(R"\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBport\fR is \fB23\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBprompt\fR is \fB'/[$%#\fR>\fB] $/\*(R'\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBtimeout\fR is \fB10\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBerrmode\fR is \fB'die\*(R'\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBoutput_record_separator\fR is \fB\*(R"\en\*(R"\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBinput_record_separator\fR is \fB\*(R"\en\*(R"\fR
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The default \fBbinmode\fR is \fB0\fR, which means do newline translations
 .Sh "binmode \- turn off/on newline translation"
-.IX Subsection "binmode \- turn off/on newline translation"
 .PP
 .Vb 1
 \&    $prev = $obj->binmode($mode);
@@ -360,7 +341,6 @@ Note that input is always buffered.  Changing binmode doesn't effect
 what's already been read into the buffer.  Output is not buffered and
 changing binmode will have an immediate effect.
 .Sh "break \- send \s-1TELNET\s0 break character"
-.IX Subsection "break \- send \s-1TELNET\s0 break character"
 .PP
 .Vb 1
 \&    $ok = $obj->break;
@@ -370,7 +350,6 @@ provided because it's a signal outside the \s-1USASCII\s0 set which is
 currently given local meaning within many systems.  It's intended to
 indicate that the Break Key or the Attention Key was hit.
 .Sh "close \- close object"
-.IX Subsection "close \- close object"
 .PP
 .Vb 1
 \&    $ok = $obj->close;
@@ -378,7 +357,6 @@ indicate that the Break Key or the Attention Key was hit.
 This method closes the socket, file, or pipe associated with the
 object.
 .Sh "cmd \- issue command and retrieve output"
-.IX Subsection "cmd \- issue command and retrieve output"
 .PP
 .Vb 5
 \&    $ok = $obj->cmd($string);
@@ -420,7 +398,6 @@ is returned in the referenced scalar.  If you pass an array or hash
 reference, the lines of output are returned in the referenced array or
 hash.
 .Sh "dump_log \- log all I/O in dump format"
-.IX Subsection "dump_log \- log all I/O in dump format"
 .PP
 .Vb 1
 \&    $fh = $obj->dump_log;
@@ -446,7 +423,6 @@ If an open filehandle is given, it is used for logging and returned.
 Otherwise, the argument is assumed to be the name of a file, the file
 is opened and a filehandle to it is returned.
 .Sh "eof \- end of file read indicator"
-.IX Subsection "eof \- end of file read indicator"
 .PP
 .Vb 1
 \&    $eof = $obj->eof;
@@ -457,7 +433,6 @@ words \fI$obj\fR can be closed but there still can be stuff in the buffer
 to be read.  Under this condition you can still read but you won't be
 able to write.
 .Sh "errmode \- set action to perform on error"
-.IX Subsection "errmode \- set action to perform on error"
 .PP
 .Vb 1
 \&    $mode = $obj->errmode;
@@ -493,7 +468,6 @@ arguments.  Using this mode you may have your own subroutine handle
 errors.  If the \fIcoderef\fR itself returns then the method generating
 the error returns undefined or a null list depending on context.
 .Sh "errmsg \- most recent error message"
-.IX Subsection "errmsg \- most recent error message"
 .PP
 .Vb 1
 \&    $msg = $obj->errmsg;
@@ -508,7 +482,6 @@ for the object to the concatenation of \fI@msgs\fR and returns the
 previous error message.  Normally, error messages are set internally
 by a method when an error is encountered.
 .Sh "error \- perform the error mode action"
-.IX Subsection "error \- perform the error mode action"
 .PP
 .Vb 1
 \&    $obj->error(@msgs);
@@ -523,7 +496,6 @@ value or a null list is returned depending on context.
 This method is primarily used by this class or a sub-class to perform
 the user requested action when an error is encountered.
 .Sh "fhopen \- use an existing open filehandle"
-.IX Subsection "fhopen \- use an existing open filehandle"
 .PP
 .Vb 1
 \&    $ok = $obj->fhopen($fh);
@@ -537,7 +509,6 @@ to do I/O to something other than a \s-1TCP\s0 port.  Instead of opening the
 object for I/O to a \s-1TCP\s0 port by passing a \fBhost\fR arg to \fBnew()\fR or
 invoking \fBopen()\fR, call this method instead.
 .Sh "get \- read block of data"
-.IX Subsection "get \- read block of data"
 .PP
 .Vb 1
 \&    $data = $obj->get([Timeout => $secs,]);
@@ -552,7 +523,6 @@ for a block of data that can be immediately read.
 On eof an undefined value is returned.  On timeout or other errors the
 error mode action is performed.
 .Sh "getline \- read next line"
-.IX Subsection "getline \- read next line"
 .PP
 .Vb 1
 \&    $line = $obj->getline([Timeout => $secs,]);
@@ -568,7 +538,6 @@ method using \fI$secs\fR.  Also see \fBtimeout()\fR.
 On eof an undefined value is returned.  On timeout or other errors the
 error mode action is performed.
 .Sh "getlines \- read next lines"
-.IX Subsection "getlines \- read next lines"
 .PP
 .Vb 1
 \&    @lines = $obj->getlines([Timeout => $secs,]);
@@ -584,7 +553,6 @@ timeout for this method using \fI$secs\fR.  Also see \fBtimeout()\fR.
 On eof a null array is returned.  On timeout or other errors the error
 mode action is performed.
 .Sh "host \- name of remote host"
-.IX Subsection "host \- name of remote host"
 .PP
 .Vb 1
 \&    $host = $obj->host;
@@ -598,7 +566,6 @@ sets the current host name to \fI$host\fR and returns the previous host
 name.  You may indicate the remote host using either a hostname or an
 \s-1IP\s0 address.
 .Sh "input_log \- log all input"
-.IX Subsection "input_log \- log all input"
 .PP
 .Vb 1
 \&    $fh = $obj->input_log;
@@ -624,7 +591,6 @@ If an open filehandle is given, it is used for logging and returned.
 Otherwise, the argument is assumed to be the name of a file, the file
 is opened for logging and a filehandle to it is returned.
 .Sh "input_record_separator \- input line delimiter"
-.IX Subsection "input_record_separator \- input line delimiter"
 .PP
 .Vb 1
 \&    $rs = $obj->input_record_separator;
@@ -640,7 +606,6 @@ With no argument this method returns the current input record
 separator set in the object.  With an argument it sets the input
 record separator to \fI$rs\fR and returns the previous value.
 .Sh "lastline \- the lastline read"
-.IX Subsection "lastline \- the lastline read"
 .PP
 .Vb 1
 \&    $line = $obj->lastline;
@@ -658,7 +623,6 @@ object.  With an argument it sets the last line read to \fI$line\fR and
 returns the previous value.  Normally, only internal methods set the
 last line.
 .Sh "login \- perform standard login"
-.IX Subsection "login \- perform standard login"
 .PP
 .Vb 1
 \&    $ok = $obj->login($username, $password);
@@ -692,7 +656,6 @@ The command interpreter prompt must match the current value of
 Optional named arguments are provided to override the current settings
 of prompt and timeout.
 .Sh "max_buffer_length \- maximum size of input buffer"
-.IX Subsection "max_buffer_length \- maximum size of input buffer"
 .PP
 .Vb 1
 \&    $len = $obj->max_buffer_length;
@@ -711,7 +674,6 @@ With no argument this method returns the current maximum buffer length
 set in the object.  With an argument it sets the maximum buffer length
 to \fI$len\fR and returns the previous value.
 .Sh "open \- connect to host and port"
-.IX Subsection "open \- connect to host and port"
 .PP
 .Vb 1
 \&    $ok = $obj->open($host);
@@ -735,7 +697,6 @@ reaches its own time-out while trying to connect.
 A side effect of this method is to reset the alarm interval associated
 with \s-1SIGALRM\s0.
 .Sh "output_field_separator \- field separator for print"
-.IX Subsection "output_field_separator \- field separator for print"
 .PP
 .Vb 1
 \&    $ofs = $obj->output_field_separator;
@@ -752,7 +713,6 @@ With no argument this method returns the current output field
 separator set in the object.  With an argument it sets the output
 field separator to \fI$ofs\fR and returns the previous value.
 .Sh "output_log \- log all output"
-.IX Subsection "output_log \- log all output"
 .PP
 .Vb 1
 \&    $fh = $obj->output_log;
@@ -779,7 +739,6 @@ If an open filehandle is given, it is used for logging and returned.
 Otherwise, the argument is assumed to be the name of a file, the file
 is opened for logging and a filehandle to it is returned.
 .Sh "output_record_separator \- output line delimiter"
-.IX Subsection "output_record_separator \- output line delimiter"
 .PP
 .Vb 1
 \&    $ors = $obj->output_record_separator;
@@ -800,7 +759,6 @@ With no argument this method returns the current output record
 separator set in the object.  With an argument it sets the output
 record separator to \fI$ors\fR and returns the previous value.
 .Sh "port \- remote port"
-.IX Subsection "port \- remote port"
 .PP
 .Vb 1
 \&    $port = $obj->port;
@@ -814,7 +772,6 @@ current port number to \fI$port\fR and returns the previous port.  If
 \fI$port\fR is a service name, then first it's converted to a port number
 using the perl function \fBgetservbyname()\fR.
 .Sh "print \- write to object"
-.IX Subsection "print \- write to object"
 .PP
 .Vb 1
 \&    $ok = $obj->print(@list);
@@ -833,7 +790,6 @@ On failure, it's possible that some data was written.  If you choose
 to try and recover from a print timing-out, use \fBprint_length()\fR to
 determine how much was written before timeout occurred.
 .Sh "print_length \- number of bytes written by print"
-.IX Subsection "print_length \- number of bytes written by print"
 .PP
 .Vb 1
 \&    $num = $obj->print_length;
@@ -841,7 +797,6 @@ determine how much was written before timeout occurred.
 This returns the number of bytes successfully written by the most
 recent \fBprint()\fR.
 .Sh "prompt \- pattern to match a prompt"
-.IX Subsection "prompt \- pattern to match a prompt"
 .PP
 .Vb 1
 \&    $matchop = $obj->prompt;
@@ -865,7 +820,6 @@ Always use single quotes to construct \fI$matchop\fR to avoid unintended
 backslash interpretation.  Using single quotes, you only need add
 extra backslashes to quote patterns containing \fB\e\*(R'\fR or \fB\e\e\fR.
 .Sh "telnetmode \- turn off/on telnet command interpretation"
-.IX Subsection "telnetmode \- turn off/on telnet command interpretation"
 .PP
 .Vb 1
 \&    $prev = $obj->telnet($mode);
@@ -879,7 +833,6 @@ you should turn this mode off.  The default is \fIon\fR.
 If \fI$mode\fR is \fB0\fR then telnet mode is off.  If \fI$mode\fR is missing
 or \fB1\fR then telnet mode is on.
 .Sh "timed_out \- timeout indicator"
-.IX Subsection "timed_out \- timeout indicator"
 .PP
 .Vb 1
 \&    $boolean = $obj->timed_out;
@@ -893,7 +846,6 @@ With no argument this method returns true if a previous method
 timed-out.  With an argument it sets the indicator.  Generally this is
 used by internal methods to clear it.
 .Sh "timeout \- I/O timeout interval"
-.IX Subsection "timeout \- I/O timeout interval"
 .PP
 .Vb 1
 \&    $secs = $obj->timeout;
@@ -920,7 +872,6 @@ With no argument this method returns the timeout set in the object.
 With an argument it sets the timeout to \fI$secs\fR and returns the
 previous value.
 .Sh "watchfor \- wait for pattern in the input"
-.IX Subsection "watchfor \- wait for pattern in the input"
 .PP
 .Vb 4
 \&    $ok = $obj->waitfor($matchop);
@@ -954,18 +905,13 @@ Always use single quotes to construct \fI$matchop\fR to avoid unintended
 backslash interpretation.  Using single quotes, you only need add
 extra backslashes to quote patterns containing \fB\e\*(R'\fR or \fB\e\e\fR.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 .Ip "\(bu" 2
-.IX Item "\(bu"
 \s-1RFC\s0 854 \- \s-1TELNET\s0 Protocol Specification
 .Ip "\(bu" 2
-.IX Item "\(bu"
 \s-1RFC\s0 1143 \- The Q Method of Implementing \s-1TELNET\s0 Option Negotiation
 .Ip "\(bu" 2
-.IX Item "\(bu"
 \s-1TELNET\s0 Options
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 This example gets the current weather forecast for Brainerd, Minnesota.
 .PP
 .Vb 2
@@ -1208,12 +1154,121 @@ to the telnet session.
 \&    exit;
 .Ve
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Jay Rogers <jay@rgrs.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1997 Jay Rogers. All rights reserved.  This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 
 .rn }` ''
+.IX Title "lib::Net::Telnet 3"
+.IX Name "Net::Telnet - interact with TELNET port or other TCP ports"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Header "METHODS"
+
+.IX Subsection "new \- create a new Net::Telnet object"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "binmode \- turn off/on newline translation"
+
+.IX Subsection "break \- send \s-1TELNET\s0 break character"
+
+.IX Subsection "close \- close object"
+
+.IX Subsection "cmd \- issue command and retrieve output"
+
+.IX Subsection "dump_log \- log all I/O in dump format"
+
+.IX Subsection "eof \- end of file read indicator"
+
+.IX Subsection "errmode \- set action to perform on error"
+
+.IX Subsection "errmsg \- most recent error message"
+
+.IX Subsection "error \- perform the error mode action"
+
+.IX Subsection "fhopen \- use an existing open filehandle"
+
+.IX Subsection "get \- read block of data"
+
+.IX Subsection "getline \- read next line"
+
+.IX Subsection "getlines \- read next lines"
+
+.IX Subsection "host \- name of remote host"
+
+.IX Subsection "input_log \- log all input"
+
+.IX Subsection "input_record_separator \- input line delimiter"
+
+.IX Subsection "lastline \- the lastline read"
+
+.IX Subsection "login \- perform standard login"
+
+.IX Subsection "max_buffer_length \- maximum size of input buffer"
+
+.IX Subsection "open \- connect to host and port"
+
+.IX Subsection "output_field_separator \- field separator for print"
+
+.IX Subsection "output_log \- log all output"
+
+.IX Subsection "output_record_separator \- output line delimiter"
+
+.IX Subsection "port \- remote port"
+
+.IX Subsection "print \- write to object"
+
+.IX Subsection "print_length \- number of bytes written by print"
+
+.IX Subsection "prompt \- pattern to match a prompt"
+
+.IX Subsection "telnetmode \- turn off/on telnet command interpretation"
+
+.IX Subsection "timed_out \- timeout indicator"
+
+.IX Subsection "timeout \- I/O timeout interval"
+
+.IX Subsection "watchfor \- wait for pattern in the input"
+
+.IX Header "SEE ALSO"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Header "EXAMPLES"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

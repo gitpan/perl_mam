@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Socket 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "IO::Socket 3"
+.TH IO::Socket 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IO::Socket - Object interface to socket communications"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,16 +188,13 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IO::Socket \- Object interface to socket communications
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use IO::Socket;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWIO::Socket\fR provides an object interface to creating and using sockets. It
 is built upon the the \fIIO::Handle\fR manpage interface and inherits all the methods defined
 by the \fIIO::Handle\fR manpage.
@@ -210,17 +205,19 @@ domain have methods defined in sub classes of \f(CWIO::Socket\fR
 .PP
 \f(CWIO::Socket\fR will export all functions (and constants) defined by the \fISocket\fR manpage.
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ( [\s-1ARGS\s0] )" 4
-.IX Item "new ( [\s-1ARGS\s0] )"
 Creates an \f(CWIO::Socket\fR, which is a reference to a
 newly created symbol (see the \f(CWSymbol\fR package). \f(CWnew\fR
 optionally takes arguments, these arguments are in key-value pairs.
 \f(CWnew\fR only looks for one key \f(CWDomain\fR which tells new which domain
 the socket will be in. All other arguments will be passed to the
 configuration method of the package for that domain, See below.
+.Sp
+\f(CWIO::Socket\fRs will be in autoflush mode after creation.  Note that
+versions of \s-1IO::\s0Socket prior to 1.1603 (as shipped with Perl 5.004_04)
+did not do this.   So if you need backward compatibility, you should
+set autoflush explicitly.
 .SH "METHODS"
-.IX Header "METHODS"
 See the \fIperlfunc\fR manpage for complete descriptions of each of the following
 supported \f(CWIO::Socket\fR methods, which are just front ends for the
 corresponding built-in functions:
@@ -239,7 +236,6 @@ corresponding built-in functions:
 Some methods take slightly different arguments to those defined in the \fIperlfunc\fR manpage
 in attempt to make the interface more flexible. These are
 .Ip "accept([\s-1PKG\s0])" 4
-.IX Item "accept([\s-1PKG\s0])"
 perform the system call \f(CWaccept\fR on the socket and return a new object. The
 new object will be created in the same class as the listen socket, unless
 \f(CWPKG\fR is specified. This object can be used to communicate with the client
@@ -250,31 +246,24 @@ be empty upon failure.
 .Sp
 Additional methods that are provided are
 .Ip "timeout([\s-1VAL\s0])" 4
-.IX Item "timeout([\s-1VAL\s0])"
 Set or get the timeout value associated with this socket. If called without
 any arguments then the current setting is returned. If called with an argument
 the current setting is changed and the previous value returned.
 .Ip "sockopt(\s-1OPT\s0 [, \s-1VAL\s0])" 4
-.IX Item "sockopt(\s-1OPT\s0 [, \s-1VAL\s0])"
 Unified method to both set and get options in the \s-1SOL_SOCKET\s0 level. If called
 with one argument then getsockopt is called, otherwise setsockopt is called.
 .Ip "sockdomain" 4
-.IX Item "sockdomain"
 Returns the numerical number for the socket domain type. For example, for
 a \s-1AF_INET\s0 socket the value of &\s-1AF_INET\s0 will be returned.
 .Ip "socktype" 4
-.IX Item "socktype"
 Returns the numerical number for the socket type. For example, for
 a \s-1SOCK_STREAM\s0 socket the value of &\s-1SOCK_STREAM\s0 will be returned.
 .Ip "protocol" 4
-.IX Item "protocol"
 Returns the numerical number for the protocol being used on the socket, if
 known. If the protocol is unknown, as with an \s-1AF_UNIX\s0 socket, zero
 is returned.
 .SH "SUB\-CLASSES"
-.IX Header "SUB\-CLASSES"
 .Sh "\s-1IO::\s0Socket::\s-1INET\s0"
-.IX Subsection "\s-1IO::\s0Socket::\s-1INET\s0"
 \f(CWIO::Socket::INET\fR provides a constructor to create an \s-1AF_INET\s0 domain socket
 and some related methods. The constructor can take the following options
 .PP
@@ -283,7 +272,7 @@ and some related methods. The constructor can take the following options
 \&    PeerPort    Remote port or service       <service>[(<no>)] | <no>
 \&    LocalAddr   Local host bind address      hostname[:port]
 \&    LocalPort   Local host bind port         <service>[(<no>)] | <no>
-\&    Proto       Protocol name                "tcp" | "udp" | ...
+\&    Proto       Protocol name (or number)    "tcp" | "udp" | ...
 \&    Type        Socket type                  SOCK_STREAM | SOCK_DGRAM | ...
 \&    Listen      Queue size for listen
 \&    Reuse       Set SO_REUSEADDR before binding
@@ -300,10 +289,13 @@ parenthesis which is used if the service is not known by the system.
 The \f(CWPeerPort\fR specification can also be embedded in the \f(CWPeerAddr\fR
 by preceding it with a \*(L":\*(R".
 .PP
-Only one of \f(CWType\fR or \f(CWProto\fR needs to be specified, one will be
-assumed from the other.  If you specify a symbolic \f(CWPeerPort\fR port,
-then the constructor will try to derive \f(CWType\fR and \f(CWProto\fR from
-the service name.
+If \f(CWProto\fR is not given and you specify a symbolic \f(CWPeerPort\fR port,
+then the constructor will try to derive \f(CWProto\fR from the service
+name.  As a last resort \f(CWProto\fR \*(L"tcp\*(R" is assumed.  The \f(CWType\fR
+parameter will be deduced from \f(CWProto\fR if not specified.
+.PP
+If the constructor is only passed a single argument, it is assumed to
+be a \f(CWPeerAddr\fR specification.
 .PP
 Examples:
 .PP
@@ -321,31 +313,26 @@ Examples:
 \&                                 LocalPort => 9000,
 \&                                 Proto     => 'tcp');
 .Ve
+.Vb 1
+\&   $sock = IO::Socket::INET->new('127.0.0.1:25');
+.Ve
 .Sh "\s-1METHODS\s0"
-.IX Subsection "\s-1METHODS\s0"
 .Ip "sockaddr ()" 4
-.IX Item "sockaddr ()"
 Return the address part of the sockaddr structure for the socket
 .Ip "sockport ()" 4
-.IX Item "sockport ()"
 Return the port number that the socket is using on the local host
 .Ip "sockhost ()" 4
-.IX Item "sockhost ()"
 Return the address part of the sockaddr structure for the socket in a
 text form xx.xx.xx.xx
 .Ip "peeraddr ()" 4
-.IX Item "peeraddr ()"
 Return the address part of the sockaddr structure for the socket on
 the peer host
 .Ip "peerport ()" 4
-.IX Item "peerport ()"
 Return the port number for the socket on the peer host.
 .Ip "peerhost ()" 4
-.IX Item "peerhost ()"
 Return the address part of the sockaddr structure for the socket on the
 peer host in a text form xx.xx.xx.xx
 .Sh "\s-1IO::\s0Socket::\s-1UNIX\s0"
-.IX Subsection "\s-1IO::\s0Socket::\s-1UNIX\s0"
 \f(CWIO::Socket::UNIX\fR provides a constructor to create an \s-1AF_UNIX\s0 domain socket
 and some related methods. The constructor can take the following options
 .PP
@@ -356,23 +343,76 @@ and some related methods. The constructor can take the following options
 \&    Listen      Create a listen socket
 .Ve
 .Sh "\s-1METHODS\s0"
-.IX Subsection "\s-1METHODS\s0"
 .Ip "hostpath()" 4
-.IX Item "hostpath()"
 Returns the pathname to the fifo at the local end
 .Ip "peerpath()" 4
-.IX Item "peerpath()"
 Returns the pathanme to the fifo at the peer end
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fISocket\fR manpage, the \fIIO::Handle\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Graham Barr <\fIGraham.Barr@tiuk.ti.com\fR>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1996 Graham Barr. All rights reserved. This program is free
 software; you can redistribute it and/or modify it under the same terms
 as Perl itself.
 
 .rn }` ''
+.IX Title "IO::Socket 3"
+.IX Name "IO::Socket - Object interface to socket communications"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ( [\s-1ARGS\s0] )"
+
+.IX Header "METHODS"
+
+.IX Item "accept([\s-1PKG\s0])"
+
+.IX Item "timeout([\s-1VAL\s0])"
+
+.IX Item "sockopt(\s-1OPT\s0 [, \s-1VAL\s0])"
+
+.IX Item "sockdomain"
+
+.IX Item "socktype"
+
+.IX Item "protocol"
+
+.IX Header "SUB\-CLASSES"
+
+.IX Subsection "\s-1IO::\s0Socket::\s-1INET\s0"
+
+.IX Subsection "\s-1METHODS\s0"
+
+.IX Item "sockaddr ()"
+
+.IX Item "sockport ()"
+
+.IX Item "sockhost ()"
+
+.IX Item "peeraddr ()"
+
+.IX Item "peerport ()"
+
+.IX Item "peerhost ()"
+
+.IX Subsection "\s-1IO::\s0Socket::\s-1UNIX\s0"
+
+.IX Subsection "\s-1METHODS\s0"
+
+.IX Item "hostpath()"
+
+.IX Item "peerpath()"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

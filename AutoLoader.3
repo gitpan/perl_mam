@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH AutoLoader 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "AutoLoader 3"
+.TH AutoLoader 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "AutoLoader - load subroutines only on demand"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 AutoLoader \- load subroutines only on demand
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    package Foo;
@@ -209,7 +205,6 @@ AutoLoader \- load subroutines only on demand
 \&    }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fBAutoLoader\fR module works with the \fBAutoSplit\fR module and the
 \f(CW__END__\fR token to defer the loading of some subroutines until they are
 used rather than loading them all at once.
@@ -234,7 +229,6 @@ thus (presumably) defining the needed subroutine.  AUTOLOAD will then
 Once this process completes for a given funtion, it is defined, so
 future calls to the subroutine will bypass the AUTOLOAD mechanism.
 .Sh "Subroutine Stubs"
-.IX Subsection "Subroutine Stubs"
 In order for object method lookup and/or prototype checking to operate
 correctly even when methods have not yet been defined it is necessary to
 \*(L"forward declare\*(R" each subroutine (as in \f(CWsub NAME;\fR).  See
@@ -250,7 +244,6 @@ package.
 Because of this mechanism it is important that \fBAutoLoader\fR is always
 \f(CWuse\fRd and not \f(CWrequire\fRd.
 .Sh "Using \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
-.IX Subsection "Using \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
 In order to use \fBAutoLoader\fR's \s-1AUTOLOAD\s0 subroutine you \fImust\fR
 explicitly import it:
 .PP
@@ -258,7 +251,6 @@ explicitly import it:
 \&    use AutoLoader 'AUTOLOAD';
 .Ve
 .Sh "Overriding \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
-.IX Subsection "Overriding \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
 Some modules, mainly extensions, provide their own \s-1AUTOLOAD\s0 subroutines.
 They typically need to check for some special cases (such as constants)
 and then fallback to \fBAutoLoader\fR's \s-1AUTOLOAD\s0 for the rest.
@@ -267,8 +259,9 @@ Such modules should \fInot\fR import \fBAutoLoader\fR's \s-1AUTOLOAD\s0 subrouti
 Instead, they should define their own \s-1AUTOLOAD\s0 subroutines along these
 lines:
 .PP
-.Vb 1
+.Vb 2
 \&    use AutoLoader;
+\&    use Carp;
 .Ve
 .Vb 16
 \&    sub AUTOLOAD {
@@ -284,7 +277,7 @@ lines:
 \&                croak "Your vendor has not defined constant $constname";
 \&            }
 \&        }
-\&        eval "sub $AUTOLOAD { $val }";
+\&        *$AUTOLOAD = sub { $val }; # same as: eval "sub $AUTOLOAD { $val }";
 \&        goto &$AUTOLOAD;
 \&    }
 .Ve
@@ -292,7 +285,6 @@ If any module's own \s-1AUTOLOAD\s0 subroutine has no need to fallback to the
 AutoLoader's \s-1AUTOLOAD\s0 subroutine (because it doesn't have any AutoSplit
 subroutines), then that module should not use \fBAutoLoader\fR at all.
 .Sh "Package Lexicals"
-.IX Subsection "Package Lexicals"
 Package lexicals declared with \f(CWmy\fR in the main block of a package
 using \fBAutoLoader\fR will not be visible to auto-loaded subroutines, due to
 the fact that the given scope ends at the \f(CW__END__\fR marker.  A module
@@ -305,7 +297,6 @@ the package namespace.  Variables pre-declared with this pragma will be
 visible to any autoloaded routines (but will not be invisible outside
 the package, unfortunately).
 .Sh "\fBAutoLoader\fR vs. \fBSelfLoader\fR"
-.IX Subsection "\fBAutoLoader\fR vs. \fBSelfLoader\fR"
 The \fBAutoLoader\fR is similar in purpose to \fBSelfLoader\fR: both delay the
 loading of subroutines.
 .PP
@@ -322,7 +313,6 @@ create the individual files.  the \fIExtUtils::MakeMaker\fR manpage will invoke
 \fBAutoSplit\fR automatically if \fBAutoLoader\fR is used in a module source
 file.
 .SH "CAVEATS"
-.IX Header "CAVEATS"
 AutoLoaders prior to Perl 5.002 had a slightly different interface.  Any
 old modules which use \fBAutoLoader\fR should be changed to the new calling
 style.  Typically this just means changing a require to a use, adding
@@ -334,7 +324,29 @@ to a subroutine may have a shorter name that the routine itself.  This
 can lead to conflicting file names.  The \fIAutoSplit\fR package warns of
 these potential conflicts when used to split a module.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fISelfLoader\fR manpage \- an autoloader that doesn't use external files.
 
 .rn }` ''
+.IX Title "AutoLoader 3"
+.IX Name "AutoLoader - load subroutines only on demand"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Subroutine Stubs"
+
+.IX Subsection "Using \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
+
+.IX Subsection "Overriding \fBAutoLoader\fR's \s-1AUTOLOAD\s0 Subroutine"
+
+.IX Subsection "Package Lexicals"
+
+.IX Subsection "\fBAutoLoader\fR vs. \fBSelfLoader\fR"
+
+.IX Header "CAVEATS"
+
+.IX Header "SEE ALSO"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Push 3 "perl 5.004, patch 01" "11/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "CGI::Push 3"
+.TH CGI::Push 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CGI::Push - Simple Interface to Server Push"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CGI::Push \- Simple Interface to Server Push
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use CGI::Push qw(:standard);
@@ -223,7 +219,6 @@ CGI::Push \- Simple Interface to Server Push
 \&     }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 CGI::Push is a subclass of the CGI object created by CGI.pm.  It is
 specialized for server push operations, which allow you to create
 animated pages whose content changes at regular intervals.
@@ -235,7 +230,6 @@ in such a way that it will replace what was there beforehand.  The
 technique will work with HTML pages as well as with graphics files, 
 allowing you to create animated GIFs.
 .SH "USING CGI::Push"
-.IX Header "USING CGI::Push"
 CGI::Push adds one new method to the standard CGI suite, \fIdo_push()\fR.
 When you call this method, you pass it a reference to a subroutine
 that is responsible for drawing each new page, an interval delay, and
@@ -260,7 +254,6 @@ prefer:
 .Ve
 Parameters are as follows:
 .Ip "-next_page" 4
-.IX Item "-next_page"
 .Sp
 .Vb 1
 \&    do_push(-next_page=>\e&my_draw_routine);
@@ -283,29 +276,24 @@ redrawing loop and print out the final page (if any)
 \&    }
 .Ve
 .Ip "-last_page" 4
-.IX Item "-last_page"
 This optional parameter points to a reference to the subroutine
 responsible for drawing the last page of the series.  It is called
 after the \-next_page routine returns a false value.  The subroutine
 itself should have exactly the same calling conventions as the
 \-next_page routine.
 .Ip "-type" 4
-.IX Item "-type"
 This optional parameter indicates the content type of each page.  It
 defaults to \*(L"text/html\*(R".  Currently, server push of heterogeneous
 document types is not supported.
 .Ip "-delay" 4
-.IX Item "-delay"
 This indicates the delay, in seconds, between frames.  Smaller delays
 refresh the page faster.  Fractional values are allowed.
 .Sp
 \fBIf not specified, \-delay will default to 1 second\fR
 .Ip "-cookie, \-target, \-expires" 4
-.IX Item "-cookie, \-target, \-expires"
 These have the same meaning as the like-named parameters in
 \fI\s-1CGI::\s0header()\fR.
 .SH "INSTALLING CGI::Push SCRIPTS"
-.IX Header "INSTALLING CGI::Push SCRIPTS"
 Server push scripts \fBmust\fR be installed as no-parsed-header (NPH)
 scripts in order to work correctly.  On Unix systems, this is most
 often accomplished by prefixing the script's name with \*(L"nph-\*(R".  
@@ -313,10 +301,8 @@ Recognition of NPH scripts happens automatically with WebSTAR and
 Microsoft IIS.  Users of other servers should see their documentation
 for help.
 .SH "CAVEATS"
-.IX Header "CAVEATS"
 This is a new module.  It hasn't been extensively tested.
 .SH "AUTHOR INFORMATION"
-.IX Header "AUTHOR INFORMATION"
 be used and modified freely, but I do request that this copyright
 notice remain attached to the file.  You may modify this module as you
 wish, but if you redistribute a modified version, please attach a note
@@ -325,10 +311,39 @@ listing the modifications you have made.
 Address bug reports and comments to:
 lstein@genome.wi.mit.edu
 .SH "BUGS"
-.IX Header "BUGS"
 This section intentionally left blank.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fICGI::Carp\fR manpage, the \fICGI\fR manpage
 
 .rn }` ''
+.IX Title "CGI::Push 3"
+.IX Name "CGI::Push - Simple Interface to Server Push"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "USING CGI::Push"
+
+.IX Item "-next_page"
+
+.IX Item "-last_page"
+
+.IX Item "-type"
+
+.IX Item "-delay"
+
+.IX Item "-cookie, \-target, \-expires"
+
+.IX Header "INSTALLING CGI::Push SCRIPTS"
+
+.IX Header "CAVEATS"
+
+.IX Header "AUTHOR INFORMATION"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+

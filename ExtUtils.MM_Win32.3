@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::MM_Win32 3 "perl 5.004, patch 01" "12/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::MM_Win32 3"
+.TH ExtUtils::MM_Win32 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::MM_Win32 - methods to override UN*X behaviour in ExtUtils::MakeMaker"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,80 +188,103 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::MM_Win32 \- methods to override UN*X behaviour in ExtUtils::MakeMaker
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use ExtUtils::MM_Win32; # Done internally by ExtUtils::MakeMaker if needed
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 See ExtUtils::MM_Unix for a documentation of the methods provided
 there. This package overrides the implementation of these methods, not
 the semantics.
 .Ip "catfile" 5
-.IX Item "catfile"
 Concatenate one or more directory names and a filename to form a
 complete path ending with a filename
 .Ip "constants (o)" 5
-.IX Item "constants (o)"
 Initializes lots of constants and .\s-1SUFFIXES\s0 and .\s-1PHONY\s0
 .Ip "static_lib (o)" 5
-.IX Item "static_lib (o)"
 Defines how to produce the *.a (or equivalent) files.
 .Ip "dynamic_bs (o)" 5
-.IX Item "dynamic_bs (o)"
 Defines targets for bootstrap files.
 .Ip "dynamic_lib (o)" 5
-.IX Item "dynamic_lib (o)"
 Defines how to produce the *.so (or equivalent) files.
 .Ip "canonpath" 5
-.IX Item "canonpath"
 No physical check on the filesystem, but a logical cleanup of a
 path. On \s-1UNIX\s0 eliminated successive slashes and successive \*(L"/.\*(R".
 .Ip "perl_script" 5
-.IX Item "perl_script"
 Takes one argument, a file name, and returns the file name, if the
 argument is likely to be a perl script. On MM_Unix this is true for
 any ordinary, readable file.
 .Ip "pm_to_blib" 5
-.IX Item "pm_to_blib"
 Defines target that copies all files in the hash \s-1PM\s0 to their
 destination and autosplits them. See the \f(CWDESCRIPTION\fR entry in the \fIExtUtils::Install\fR manpage
 .Ip "test_via_harness (o)" 5
-.IX Item "test_via_harness (o)"
 Helper method to write the test targets
 .Ip "tool_autosplit (override)" 5
-.IX Item "tool_autosplit (override)"
 Use Win32 quoting on command line.
 .Ip "tools_other (o)" 5
-.IX Item "tools_other (o)"
 Win32 overrides.
 .Sp
 Defines \s-1SHELL\s0, \s-1LD\s0, \s-1TOUCH\s0, \s-1CP\s0, \s-1MV\s0, \s-1RM_F\s0, \s-1RM_RF\s0, \s-1CHMOD\s0, \s-1UMASK_NULL\s0 in
 the Makefile. Also defines the perl programs \s-1MKPATH\s0,
 \s-1WARN_IF_OLD_PACKLIST\s0, \s-1MOD_INSTALL\s0. \s-1DOC_INSTALL\s0, and \s-1UNINSTALL\s0.
 .Ip "xs_o (o)" 5
-.IX Item "xs_o (o)"
 Defines suffix rules to go from \s-1XS\s0 to object files directly. This is
 only intended for broken make implementations.
 .Ip "top_targets (o)" 5
-.IX Item "top_targets (o)"
 Defines the targets all, subdirs, config, and O_FILES
 .Ip "manifypods (o)" 5
-.IX Item "manifypods (o)"
 We don't want manpage process.  \s-1XXX\s0 add pod2html support later.
 .Ip "dist_ci (o)" 5
-.IX Item "dist_ci (o)"
 Same as MM_Unix version (changes command-line quoting).
 .Ip "dist_core (o)" 5
-.IX Item "dist_core (o)"
 Same as MM_Unix version (changes command-line quoting).
 .Ip "pasthru (o)" 5
-.IX Item "pasthru (o)"
 Defines the string that is passed to recursive make calls in
 subdirectories.
 
 .rn }` ''
+.IX Title "ExtUtils::MM_Win32 3"
+.IX Name "ExtUtils::MM_Win32 - methods to override UN*X behaviour in ExtUtils::MakeMaker"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "catfile"
+
+.IX Item "constants (o)"
+
+.IX Item "static_lib (o)"
+
+.IX Item "dynamic_bs (o)"
+
+.IX Item "dynamic_lib (o)"
+
+.IX Item "canonpath"
+
+.IX Item "perl_script"
+
+.IX Item "pm_to_blib"
+
+.IX Item "test_via_harness (o)"
+
+.IX Item "tool_autosplit (override)"
+
+.IX Item "tools_other (o)"
+
+.IX Item "xs_o (o)"
+
+.IX Item "top_targets (o)"
+
+.IX Item "manifypods (o)"
+
+.IX Item "dist_ci (o)"
+
+.IX Item "dist_core (o)"
+
+.IX Item "pasthru (o)"
+

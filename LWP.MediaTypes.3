@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::MediaTypes 3 "perl 5.004, patch 01" "25/May/97" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::MediaTypes 3"
+.TH lib::LWP::MediaTypes 3 "perl 5.004, patch 55" "25/May/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "guess_media_type - guess media type for a file or a URL."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,19 +188,16 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 guess_media_type \- guess media type for a file or a URL.
 .PP
 media_suffix \- returns file extentions for a media type
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& use LWP::MediaTypes qw(guess_media_type);
 \& $type = guess_media_type("/tmp/foo.gif");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provides functions for handling of media (also known as
 MIME) types and encodings.  The mapping from file extentions to media
 types is defined by the \fImedia.types\fR file.  If the \fI~/.media.types\fR
@@ -210,9 +205,7 @@ file exist it is used as a replacement.
 .PP
 For backwards compatability we will also look for \fI~/.mime.types\fR.
 .SH "FUNCTIONS"
-.IX Header "FUNCTIONS"
 .Sh "\fIguess_media_type\fR\|($filename_or_url, [$header_to_modify])"
-.IX Subsection "\fIguess_media_type\fR\|($filename_or_url, [$header_to_modify])"
 This function tries to guess media type and encoding for given file.
 In scalar context it returns only the content-type.  In array context
 it returns an array consisting of content-type followed by any
@@ -231,7 +224,6 @@ object (or some \s-1HTTP::\s0Message object).  When present this function
 will set the value of the \*(L'Content-Type\*(R' and \*(L'Content-Encoding\*(R' for
 this header.
 .Sh "\fImedia_suffix\fR\|($type,...)"
-.IX Subsection "\fImedia_suffix\fR\|($type,...)"
 This function will return all suffixes that can be used to denote the
 specified media \fItype\fR\|(s).  Wildcard types can be used.  In scalar
 context it will return the first suffix found.
@@ -244,3 +236,18 @@ Examples:
 .Ve
 
 .rn }` ''
+.IX Title "lib::LWP::MediaTypes 3"
+.IX Name "guess_media_type - guess media type for a file or a URL."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "FUNCTIONS"
+
+.IX Subsection "\fIguess_media_type\fR\|($filename_or_url, [$header_to_modify])"
+
+.IX Subsection "\fImedia_suffix\fR\|($type,...)"
+

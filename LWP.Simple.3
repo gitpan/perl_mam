@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Simple 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::Simple 3"
+.TH lib::LWP::Simple 3 "perl 5.004, patch 55" "20/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "get, head, getprint, getstore, mirror - Procedural LWP interface"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,67 +188,63 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 get, head, getprint, getstore, mirror \- Procedural LWP interface
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& perl -MLWP::Simple -e 'getprint "http://www.sn.no"'
 .Ve
-.Vb 8
+.Vb 5
 \& use LWP::Simple;
 \& $content = get("http://www.sn.no/")
 \& if (mirror("http://www.sn.no/", "foo") == RC_NOT_MODIFIED) {
 \&     ...
 \& }
+.Ve
+.Vb 3
 \& if (is_success(getprint("http://www.sn.no/"))) {
 \&     ...
 \& }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This interface is intended for those who want a simplified view of the
-libwww-perl library.  This interface should also be suitable for
-one-liners.  If you need more control or access to the header fields
-in the requests sent and responses received you should use the full OO
-interface provided by the LWP::UserAgent module.
+libwww-perl library.  It should also be suitable for one-liners.  If
+you need more control or access to the header fields in the requests
+sent and responses received you should use the full object oriented
+interface provided by the \f(CWLWP::UserAgent\fR module.
 .PP
-This following functions are provided (and exported) by this module:
+The following functions are provided (and exported) by this module:
 .Ip "get($url)" 3
-.IX Item "get($url)"
-This function will get the document identified by the given \s-1URL\s0.  The
-\fIget()\fR function will return the document if successful or \*(L'undef\*(R' if it
-fails.  The \f(CW$url\fR argument can be either a simple string or a reference
-to a \s-1URI::URL\s0 object.
+The \fIget()\fR function will fetch the document identified by the given \s-1URL\s0
+and return it.  It returns \f(CWundef\fR if it fails.  The \f(CW$url\fR argument can
+be either a simple string or a reference to a \s-1URI::URL\s0 object.
 .Sp
 You will not be able to examine the response code or response headers
-(like \fIContent-Type\fR) when you are accessing the web using this
-function.  If you need this you should use the full \s-1OO\s0 interface.
+(like \*(L'Content-Type') when you are accessing the web using this
+function.  If you need this information you should use the full \s-1OO\s0
+interface (see the \fI\s-1LWP::\s0UserAgent\fR manpage).
 .Ip "head($url)" 3
-.IX Item "head($url)"
-Get document headers. Returns the following values if successful:
+Get document headers. Returns the following 5 values if successful:
 ($content_type, \f(CW$document_length\fR, \f(CW$modified_time\fR, \f(CW$expires\fR, \f(CW$server\fR)
 .Sp
-Returns an empty list if it fails.
+Returns an empty list if it fails.  In scalar context returns \s-1TRUE\s0 if
+successful.
 .Ip "getprint($url)" 3
-.IX Item "getprint($url)"
-Get and print a document identified by a \s-1URL\s0. The document is printet
-on \s-1STDOUT\s0. The error message (formatted as \s-1HTML\s0) is printed on \s-1STDERR\s0
-if the request fails.  The return value is the \s-1HTTP\s0 response code.
+Get and print a document identified by a \s-1URL\s0. The document is printed
+on \s-1STDOUT\s0 as data is received from the network.  If the request fails,
+then the status code and message is printed on \s-1STDERR\s0.  The return
+value is the \s-1HTTP\s0 response code.
 .Ip "getstore($url, $file)" 3
-.IX Item "getstore($url, $file)"
 Gets a document identified by a \s-1URL\s0 and stores it in the file. The
 return value is the \s-1HTTP\s0 response code.
 .Ip "mirror($url, $file)" 3
-.IX Item "mirror($url, $file)"
 Get and store a document identified by a \s-1URL\s0, using
 \fIIf-modified-since\fR, and checking of the \fIContent-Length\fR.  Returns
 the \s-1HTTP\s0 response code.
 .PP
-This module also exports the \s-1HTTP::\s0Status constants and
-procedures.  These can be used when you check the response code from
-\fIgetprint()\fR, \fIgetstore()\fR and \fImirror()\fR.  The constants are:
+This module also exports the \s-1HTTP::\s0Status constants and procedures.
+These can be used when you check the response code from \fIgetprint()\fR,
+\fIgetstore()\fR and \fImirror()\fR.  The constants are:
 .PP
 .Vb 37
 \&   RC_CONTINUE
@@ -293,20 +287,44 @@ procedures.  These can be used when you check the response code from
 .Ve
 The \s-1HTTP::\s0Status classification functions are:
 .Ip "is_success($rc)" 3
-.IX Item "is_success($rc)"
 Check if response code indicated successfull request.
 .Ip "is_error($rc)" 3
-.IX Item "is_error($rc)"
 Check if response code indicated that an error occured.
 .PP
 The module will also export the \s-1LWP::\s0UserAgent object as \f(CW$ua\fR if you
 ask for it explicitly.
 .PP
 The user agent created by this module will identify itself as
-\*(L"\s-1LWP::\s0Simple/0.00\*(R" and will initialize its proxy defaults from the
-environment (by calling \f(CW$ua\fR\->env_proxy).
+\*(L"\s-1LWP::\s0Simple/#.##\*(R" (where \*(L"#.##\*(R" is the libwww-perl version number)
+and will initialize its proxy defaults from the environment (by
+calling \f(CW$ua\fR\->env_proxy).
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
-the \fILWP\fR manpage, the \fILWP::UserAgent\fR manpage, the \fIHTTP::Status\fR manpage, the \fIrequest\fR manpage, the \fImirror\fR manpage
+the \fILWP\fR manpage, the \fILWP::UserAgent\fR manpage, the \fIHTTP::Status\fR manpage, the \fIlwp-request\fR manpage,
+the \fIlwp-mirror\fR manpage
 
 .rn }` ''
+.IX Title "lib::LWP::Simple 3"
+.IX Name "get, head, getprint, getstore, mirror - Procedural LWP interface"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "get($url)"
+
+.IX Item "head($url)"
+
+.IX Item "getprint($url)"
+
+.IX Item "getstore($url, $file)"
+
+.IX Item "mirror($url, $file)"
+
+.IX Item "is_success($rc)"
+
+.IX Item "is_error($rc)"
+
+.IX Header "SEE ALSO"
+

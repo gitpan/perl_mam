@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Scan 3 "perl 5.004, patch 01" "27/Sep/96" "User Contributed Perl Documentation"
-.IX Title "Scan 3"
+.TH Scan 3 "perl 5.004, patch 55" "20/Aug/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "C::Scan - scan C language files for easily recognized constructs."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 C::Scan \- scan C language files for easily recognized constructs.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \&  $c = new C::Scan 'filename' => $filename, 'filename_filter' => $filter,
@@ -203,7 +199,6 @@ C::Scan \- scan C language files for easily recognized constructs.
 \&  my $fdec = $c->get('parsed_fdecls');
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fBThis description is \fIVERY\fR incomplete.\fR
 .PP
 This module uses \f(CWData::Flow\fR interface, thus one uses it in the
@@ -222,12 +217,9 @@ Attributes are depending on some other attributes. The only
 .PP
 All other attributes are either optional, or would be calculated basing on values of required and optional attributes.
 .Sh "Output attributes"
-.IX Subsection "Output attributes"
 .Ip "\f(CWincludes\fR" 14
-.IX Item "\f(CWincludes\fR"
 Value: reference to a list of included files.
 .Ip "\f(CWdefines_args\fR" 14
-.IX Item "\f(CWdefines_args\fR"
 Value: reference to hash of macros with arguments. The values are
 references to an array of length 2, the first element is a reference
 to the list of arguments, the second one being the expansion.
@@ -239,7 +231,6 @@ Newlines are not unescaped, thus
 .Ve
 will finish with \f(CW("C" => [ ["x", "y"], "E\enF"])\fR.
 .Ip "\f(CWdefines_no_args\fR" 14
-.IX Item "\f(CWdefines_no_args\fR"
 Value: reference to hash of macros without arguments.  Newlines are
 not escaped, thus
 .Sp
@@ -248,13 +239,10 @@ not escaped, thus
 .Ve
 will finish with \f(CW("A" => "B")\fR.
 .Ip "\f(CWfdecls\fR" 14
-.IX Item "\f(CWfdecls\fR"
 Value: reference to list of declarations of functions.
 .Ip "\f(CWinlines\fR" 14
-.IX Item "\f(CWinlines\fR"
 Value: reference to list of definitions of functions.
 .Ip "\f(CWparsed_fdecls\fR" 14
-.IX Item "\f(CWparsed_fdecls\fR"
 Value: reference to list of parsed declarations of functions. 
 .Sp
 A parsed declaration is a reference to a list of \f(CW(rt, nm, args, ft,
@@ -267,18 +255,45 @@ ft, mod)\fR, here \f(CWty\fR is the type of an argument, \f(CWnm\fR is the name 
 generated one if missing in the declaration), \f(CWargs\fR is \f(CWundef\fR, and
 \f(CWmod\fR is the string of array modifiers.
 .Ip "\f(CWtypedef_hash\fR" 14
-.IX Item "\f(CWtypedef_hash\fR"
 Value: a reference to a hash which contains known \f(CWtypedef\fRs as keys.
 .Ip "\f(CWtypedef_texts\fR" 14
-.IX Item "\f(CWtypedef_texts\fR"
 Value: a reference to a list which contains known expansions of
 \f(CWtypedef\fRs.
 .Ip "\f(CWtypedefs_maybe\fR" 14
-.IX Item "\f(CWtypedefs_maybe\fR"
 Value: a reference to a list of \f(CWtypedef\fRed names. (Syncronized with
 \f(CWtypedef_texts\fR).
 .Ip "\f(CWvdecls\fR" 14
-.IX Item "\f(CWvdecls\fR"
 Value: a reference to a list of \f(CWextern\fR variable declarations.
 
 .rn }` ''
+.IX Title "Scan 3"
+.IX Name "C::Scan - scan C language files for easily recognized constructs."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Output attributes"
+
+.IX Item "\f(CWincludes\fR"
+
+.IX Item "\f(CWdefines_args\fR"
+
+.IX Item "\f(CWdefines_no_args\fR"
+
+.IX Item "\f(CWfdecls\fR"
+
+.IX Item "\f(CWinlines\fR"
+
+.IX Item "\f(CWparsed_fdecls\fR"
+
+.IX Item "\f(CWtypedef_hash\fR"
+
+.IX Item "\f(CWtypedef_texts\fR"
+
+.IX Item "\f(CWtypedefs_maybe\fR"
+
+.IX Item "\f(CWvdecls\fR"
+

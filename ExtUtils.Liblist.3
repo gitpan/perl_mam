@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Liblist 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::Liblist 3"
+.TH ExtUtils::Liblist 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::Liblist - determine libraries to use and how to use them"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,15 +188,12 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::Liblist \- determine libraries to use and how to use them
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 \f(CWrequire ExtUtils::Liblist;\fR
 .PP
-\f(CWExtUtils::Liblist::ext($self, $potential_libs, $Verbose);\fR
+\f(CWExtUtils::Liblist::ext($self, $potential_libs, $verbose);\fR
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This utility takes a list of libraries in the form \f(CW-llib1 -llib2
 -llib3\fR and prints out lines suitable for inclusion in an extension
 Makefile.  Extra library paths may be included with the form
@@ -212,46 +207,37 @@ below.
 .PP
 Dependent libraries can be linked in one of three ways:
 .Ip "\(bu For static extensions" 2
-.IX Item "\(bu For static extensions"
 by the ld command when the perl binary is linked with the extension
 library. See \s-1EXTRALIBS\s0 below.
 .Ip "\(bu For dynamic extensions" 2
-.IX Item "\(bu For dynamic extensions"
 by the ld command when the shared object is built/linked. See
 \s-1LDLOADLIBS\s0 below.
 .Ip "\(bu For dynamic extensions" 2
-.IX Item "\(bu For dynamic extensions"
 by the DynaLoader when the shared object is loaded. See \s-1BSLOADLIBS\s0
 below.
 .Sh "\s-1EXTRALIBS\s0"
-.IX Subsection "\s-1EXTRALIBS\s0"
 List of libraries that need to be linked with when linking a perl
 binary which includes this extension Only those libraries that
 actually exist are included.  These are written to a file and used
 when linking perl.
 .Sh "\s-1LDLOADLIBS\s0 and \s-1LD_RUN_PATH\s0"
-.IX Subsection "\s-1LDLOADLIBS\s0 and \s-1LD_RUN_PATH\s0"
 List of those libraries which can or must be linked into the shared
 library when created using ld. These may be static or dynamic
 libraries.  \s-1LD_RUN_PATH\s0 is a colon separated list of the directories
 in \s-1LDLOADLIBS\s0. It is passed as an environment variable to the process
 that links the shared library.
 .Sh "\s-1BSLOADLIBS\s0"
-.IX Subsection "\s-1BSLOADLIBS\s0"
 List of those libraries that are needed but can be linked in
 dynamically at run time on this platform.  SunOS/Solaris does not need
 this because ld records the information (from \s-1LDLOADLIBS\s0) into the
 object file.  This list is used to create a .bs (bootstrap) file.
 .SH "PORTABILITY"
-.IX Header "PORTABILITY"
 This module deals with a lot of system dependencies and has quite a
 few architecture specific \fBif\fRs in the code.
 .Sh "\s-1VMS\s0 implementation"
-.IX Subsection "\s-1VMS\s0 implementation"
 The version of \fIext()\fR which is executed under \s-1VMS\s0 differs from the
 Unix-\s-1OS/2\s0 version in several respects:
 .Ip "\(bu" 2
-.IX Item "\(bu"
 Input library and path specifications are accepted with or without the
 \f(CW-l\fR and \f(CW-L\fR prefices used by Unix linkers.  If neither prefix is
 present, a token is considered a directory to search if it is in fact
@@ -259,19 +245,16 @@ a directory, and a library to search for otherwise.  Authors who wish
 their extensions to be portable to Unix or \s-1OS/2\s0 should use the Unix
 prefixes, since the Unix-\s-1OS/2\s0 version of \fIext()\fR requires them.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 Wherever possible, shareable images are preferred to object libraries,
 and object libraries to plain object files.  In accordance with \s-1VMS\s0
 naming conventions, \fIext()\fR looks for files named \fIlib\fRshr and \fIlib\fRrtl;
 it also looks for \fIlib\fRlib and lib\fIlib\fR to accomodate Unix conventions
 used in some ported software.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 For each library that is found, an appropriate directive for a linker options
 file is generated.  The return values are space-separated strings of
 these directives, rather than elements used on the linker command line.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 \s-1LDLOADLIBS\s0 and \s-1EXTRALIBS\s0 are always identical under \s-1VMS\s0, and \s-1BSLOADLIBS\s0
 and \s-1LD_RIN_PATH\s0 are always empty.
 .PP
@@ -284,11 +267,9 @@ extensions originally designed for a Unix or \s-1VMS\s0 environment.  If you
 encounter problems, or discover cases where the search could be improved,
 please let us know.
 .Sh "Win32 implementation"
-.IX Subsection "Win32 implementation"
 The version of \fIext()\fR which is executed under Win32 differs from the
 Unix-\s-1OS/2\s0 version in several respects:
 .Ip "\(bu" 2
-.IX Item "\(bu"
 Input library and path specifications are accepted with or without the
 \f(CW-l\fR and \f(CW-L\fR prefices used by Unix linkers.  \f(CW-lfoo\fR specifies the
 library \f(CWfoo.lib\fR and \f(CW-Ls:ome\edir\fR specifies a directory to look for
@@ -300,11 +281,9 @@ have the suffix.  Authors who wish their extensions to be portable to
 Unix or \s-1OS/2\s0 should use the Unix prefixes, since the Unix-\s-1OS/2\s0 version
 of \fIext()\fR requires them.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 Entries cannot be plain object files, as many Win32 compilers will
 not handle object files in the place of libraries.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 If \f(CW$potential_libs\fR is empty, the return value will be empty.
 Otherwise, the libraries specified by \f(CW$Config{libs}\fR (see Config.pm)
 will be appended to the list of \f(CW$potential_libs\fR.  The libraries
@@ -315,17 +294,61 @@ You may specify an entry that matches \f(CW/:nodefault/i\fR in
 \f(CW$potential_libs\fR to disable the appending of default libraries
 found in \f(CW$Config{libs}\fR (this should be only needed very rarely).
 .Ip "\(bu" 2
-.IX Item "\(bu"
 The libraries specified may be a mixture of static libraries and
 import libraries (to link with DLLs).  Since both kinds are used
 pretty transparently on the win32 platform, we do not attempt to
 distinguish between them.
 .Ip "\(bu" 2
-.IX Item "\(bu"
 \s-1LDLOADLIBS\s0 and \s-1EXTRALIBS\s0 are always identical under Win32, and \s-1BSLOADLIBS\s0
 and \s-1LD_RUN_PATH\s0 are always empty (this may change in future).
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage
 
 .rn }` ''
+.IX Title "ExtUtils::Liblist 3"
+.IX Name "ExtUtils::Liblist - determine libraries to use and how to use them"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\(bu For static extensions"
+
+.IX Item "\(bu For dynamic extensions"
+
+.IX Item "\(bu For dynamic extensions"
+
+.IX Subsection "\s-1EXTRALIBS\s0"
+
+.IX Subsection "\s-1LDLOADLIBS\s0 and \s-1LD_RUN_PATH\s0"
+
+.IX Subsection "\s-1BSLOADLIBS\s0"
+
+.IX Header "PORTABILITY"
+
+.IX Subsection "\s-1VMS\s0 implementation"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "Win32 implementation"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Header "SEE ALSO"
+

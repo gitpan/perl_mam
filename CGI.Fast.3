@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Fast 3 "perl 5.004, patch 01" "29/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "CGI::Fast 3"
+.TH CGI::Fast 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CGI::Fast - CGI Interface for Fast CGI"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CGI::Fast \- CGI Interface for Fast CGI
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 12
 \&    use CGI::Fast qw(:standard);
@@ -210,7 +206,6 @@ CGI::Fast \- CGI Interface for Fast CGI
 \&    }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 CGI::Fast is a subclass of the CGI object created by
 CGI.pm.  It is specialized to work well with the Open Market
 FastCGI standard, which greatly speeds up CGI scripts by
@@ -219,7 +214,6 @@ that perform time-consuming initialization processes, such as
 loading large modules or opening persistent database connections,
 will see large performance improvements.
 .SH "OTHER PIECES OF THE PUZZLE"
-.IX Header "OTHER PIECES OF THE PUZZLE"
 In order to use CGI::Fast you'll need a FastCGI\-enabled Web
 server.  Open Market's server is FastCGI\-savvy.  There are also
 freely redistributable FastCGI modules for NCSA httpd 1.5 and Apache.
@@ -240,7 +234,6 @@ Perl interpreters, and the FastCGI developer's kit all at URL:
 \&  http://www.fastcgi.com/
 .Ve
 .SH "WRITING FASTCGI PERL SCRIPTS"
-.IX Header "WRITING FASTCGI PERL SCRIPTS"
 FastCGI scripts are persistent: one or more copies of the script 
 are started up when the server initializes, and stay around until
 the server exits or they die a natural death.  After performing
@@ -278,7 +271,6 @@ this way:
 Calls to \fIheader()\fR, \fIstart_form()\fR, etc. will all operate on the
 current request.
 .SH "INSTALLING FASTCGI SCRIPTS"
-.IX Header "INSTALLING FASTCGI SCRIPTS"
 See the FastCGI developer's kit documentation for full details.  On
 the Apache server, the following line must be added to srm.conf:
 .PP
@@ -294,15 +286,12 @@ install, you must add something like the following to srm.conf:
 This instructs Apache to launch two copies of file_upload.fcgi at 
 startup time.
 .SH "USING FASTCGI SCRIPTS AS CGI SCRIPTS"
-.IX Header "USING FASTCGI SCRIPTS AS CGI SCRIPTS"
 Any script that works correctly as a FastCGI script will also work
 correctly when installed as a vanilla CGI script.  However it will
 not see any performance benefit.
 .SH "CAVEATS"
-.IX Header "CAVEATS"
 I haven't tested this very much.
 .SH "AUTHOR INFORMATION"
-.IX Header "AUTHOR INFORMATION"
 be used and modified freely, but I do request that this copyright
 notice remain attached to the file.  You may modify this module as you
 wish, but if you redistribute a modified version, please attach a note
@@ -311,12 +300,35 @@ listing the modifications you have made.
 Address bug reports and comments to:
 lstein@genome.wi.mit.edu
 .SH "BUGS"
-.IX Header "BUGS"
 This section intentionally left blank.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fICGI::Carp\fR manpage, the \fICGI\fR manpage
  
 =cut
 
 .rn }` ''
+.IX Title "CGI::Fast 3"
+.IX Name "CGI::Fast - CGI Interface for Fast CGI"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "OTHER PIECES OF THE PUZZLE"
+
+.IX Header "WRITING FASTCGI PERL SCRIPTS"
+
+.IX Header "INSTALLING FASTCGI SCRIPTS"
+
+.IX Header "USING FASTCGI SCRIPTS AS CGI SCRIPTS"
+
+.IX Header "CAVEATS"
+
+.IX Header "AUTHOR INFORMATION"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+

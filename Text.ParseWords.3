@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Text::ParseWords 3 "perl 5.004, patch 01" "17/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Text::ParseWords 3"
+.TH Text::ParseWords 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Text::ParseWords - parse text into an array of tokens"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Text::ParseWords \- parse text into an array of tokens
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \&  use Text::ParseWords;
@@ -202,7 +198,6 @@ Text::ParseWords \- parse text into an array of tokens
 \&  @words = &old_shellwords(@lines);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 &\fIquotewords()\fR accepts a delimiter (which can be a regular expression)
 and a list of lines and then breaks those lines up into a list of
 words ignoring delimiters that appear inside quotes.
@@ -220,10 +215,20 @@ to be a mis-feature.
 string in \f(CW$_\fR and then pulling off words a bit at a time until \f(CW$_\fR
 is exhausted.
 .SH "AUTHORS"
-.IX Header "AUTHORS"
 Hal Pomeranz (pomeranz@netcom.com), 23 March 1994
 .PP
 Basically an update and generalization of the old shellwords.pl.
 Much code shamelessly stolen from the old version (author unknown).
 
 .rn }` ''
+.IX Title "Text::ParseWords 3"
+.IX Name "Text::ParseWords - parse text into an array of tokens"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHORS"
+

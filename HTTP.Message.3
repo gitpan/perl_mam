@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Message 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Message 3"
+.TH lib::HTTP::Message 3 "perl 5.004, patch 55" "5/Apr/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Message - Class encapsulating HTTP messages"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Message \- Class encapsulating HTTP messages
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& package HTTP::Request;  # or HTTP::Response
@@ -201,36 +197,28 @@ HTTP::Message \- Class encapsulating HTTP messages
 \& @ISA=qw(HTTP::Message);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 A \f(CWHTTP::Message\fR object contains some headers and a content (body).
 The class is abstract, i.e. it only used as a base class for
 \f(CWHTTP::Request\fR and \f(CWHTTP::Response\fR and should never instantiated
 as itself.
 .SH "METHODS"
-.IX Header "METHODS"
 .Sh "\f(CW$mess\fR = new \s-1HTTP::\s0Message;"
-.IX Subsection "\f(CW$mess\fR = new \s-1HTTP::\s0Message;"
 This is the object constructor.  It should only be called internally
 by this library.  External code should construct \f(CWHTTP::Request\fR or
 \f(CWHTTP::Response\fR objects.
 .Sh "\f(CW$mess\fR\->\fIclone()\fR"
-.IX Subsection "\f(CW$mess\fR\->\fIclone()\fR"
 Returns a copy of the object.
 .Sh "\f(CW$mess\fR\->\fIprotocol\fR\|([$proto])"
-.IX Subsection "\f(CW$mess\fR\->\fIprotocol\fR\|([$proto])"
 Sets the \s-1HTTP\s0 protocol used for the message.  The \fIprotocol()\fR is a string
 like \*(L"\s-1HTTP/1\s0.0\*(R" or \*(L"\s-1HTTP/1\s0.1\*(R".
 .Sh "\f(CW$mess\fR\->\fIcontent\fR\|([$content])"
-.IX Subsection "\f(CW$mess\fR\->\fIcontent\fR\|([$content])"
 The \fIcontent()\fR method sets the content if an argument is given.  If no
 argument is given the content is not touched.  In either case the
 previous content is returned.
 .Sh "\f(CW$mess\fR\->\fIadd_content\fR\|($data)"
-.IX Subsection "\f(CW$mess\fR\->\fIadd_content\fR\|($data)"
 The \fIadd_content()\fR methods appends more data to the end of the previous
 content.
 .Sh "\f(CW$mess\fR\->content_ref"
-.IX Subsection "\f(CW$mess\fR\->content_ref"
 The \fIcontent_ref()\fR method will return a reference to content string.
 It can be more efficient to access the content this way if the content
 is huge, and it can be used for direct manipulation of the content,
@@ -240,7 +228,6 @@ for instance:
 \&  ${$res->content_ref} =~ s/\ebfoo\eb/bar/g;
 .Ve
 .SH "HEADER METHODS"
-.IX Header "HEADER METHODS"
 All unknown \f(CWHTTP::Message\fR methods are delegated to the
 \f(CWHTTP::Headers\fR object that is part of every message.  This allows
 convenient access to these methods.  Refer to the \fIHTTP::Headers\fR manpage for
@@ -270,8 +257,34 @@ details of these methods:
 \&  $mess->authorization_basic;
 .Ve
 .Sh "\f(CW$mess\fR\->\fIheaders_as_string\fR\|([$endl])"
-.IX Subsection "\f(CW$mess\fR\->\fIheaders_as_string\fR\|([$endl])"
 Call the \s-1HTTP::\s0Headers->\fIas_string()\fR method for the headers in the
 message.
 
 .rn }` ''
+.IX Title "lib::HTTP::Message 3"
+.IX Name "HTTP::Message - Class encapsulating HTTP messages"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$mess\fR = new \s-1HTTP::\s0Message;"
+
+.IX Subsection "\f(CW$mess\fR\->\fIclone()\fR"
+
+.IX Subsection "\f(CW$mess\fR\->\fIprotocol\fR\|([$proto])"
+
+.IX Subsection "\f(CW$mess\fR\->\fIcontent\fR\|([$content])"
+
+.IX Subsection "\f(CW$mess\fR\->\fIadd_content\fR\|($data)"
+
+.IX Subsection "\f(CW$mess\fR\->content_ref"
+
+.IX Header "HEADER METHODS"
+
+.IX Subsection "\f(CW$mess\fR\->\fIheaders_as_string\fR\|([$endl])"
+

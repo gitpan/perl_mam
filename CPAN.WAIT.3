@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::CPAN::WAIT 3 "perl 5.004, patch 01" "17/Feb/97" "User Contributed Perl Documentation"
-.IX Title "lib::CPAN::WAIT 3"
+.TH lib::CPAN::WAIT 3 "perl 5.004, patch 55" "12/Aug/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "CPAN::WAIT - adds commands to search a WAIT4CPAN server to the CPAN C<shell()>"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CPAN::WAIT \- adds commands to search a WAIT4CPAN server to the CPAN \f(CWshell()\fR
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \&  perl -MCPAN -e shell
@@ -205,7 +201,6 @@ CPAN::WAIT \- adds commands to search a WAIT4CPAN server to the CPAN \f(CWshell(
 \&  > wh wq
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fBCPAN::WAIT\fR adds some comands to the CPAN \f(CWshell()\fR to perform
 searches on a WAIT server. It connects to a WAIT server using a simple
 protocoll resembling NNTP as described in RFC977. It uses the
@@ -218,18 +213,19 @@ tries to connect via your HTTP proxy (as given by the CPAN
 configuration). Be warned though that the emulation of the stateful
 protocol via HTTP is slow.
 .PP
+The variable \f(CWCPAN::WAIT::TIMEOUT\fR specifies the number of seconds to
+wait for an answer from the server. The default is 20. You may want to
+set it to some larger value if you have a slow connection.
+.PP
 The commands available are:
 .Ip "\fBwh\fR [\fBcommand\fR]" 5
-.IX Item "\fBwh\fR [\fBcommand\fR]"
 Displays a short help message if called without arguments. If you
 provide the name of another command you will get more information on
 this command if available. Currently only \fBwq\fR will be explained.
 .Ip "\fBwl\fR \fIcount\fR" 5
-.IX Item "\fBwl\fR \fIcount\fR"
 Limit the number of hits returned in a search to \fIcount\fR. The limit
 usually is set ot 10 of you don't set it.
 .Ip "\fBwq\fR \fIquery\fR" 5
-.IX Item "\fBwq\fR \fIquery\fR"
 Send a query to the server. 
 .Sp
 Here are some query examples:
@@ -268,7 +264,6 @@ The result should look like this:
 \&  10 8.039 perlpod - plain old documentation 
 .Ve
 .Ip "\fBwr\fR \fIhit-number\fR" 5
-.IX Item "\fBwr\fR \fIhit-number\fR"
 Display the Record of hit number \fIhit-number\fR:
 .Sp
 .Vb 6
@@ -280,14 +275,33 @@ Display the Record of hit number \fIhit-number\fR:
 \&  docid           data/perl/x2p/a2p.pod
 .Ve
 .Ip "\fBwd\fR \fIhit-number\fR" 5
-.IX Item "\fBwd\fR \fIhit-number\fR"
 Fetches the full text from the server and runs \fBperlpod\fR on it. Make
 sure that you have \fBperlpod\fR in your path. Also check if your
 \fBperlpod\fR version can handle absolute pathes. Some older versions
 ironically do not find a document if the full patch is given on the
 command line.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Ulrich Pfeifer <\fIpfeifer@ls6.informatik.uni-dortmund.de\fR>
 
 .rn }` ''
+.IX Title "lib::CPAN::WAIT 3"
+.IX Name "CPAN::WAIT - adds commands to search a WAIT4CPAN server to the CPAN C<shell()>"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\fBwh\fR [\fBcommand\fR]"
+
+.IX Item "\fBwl\fR \fIcount\fR"
+
+.IX Item "\fBwq\fR \fIquery\fR"
+
+.IX Item "\fBwr\fR \fIhit-number\fR"
+
+.IX Item "\fBwd\fR \fIhit-number\fR"
+
+.IX Header "AUTHOR"
+

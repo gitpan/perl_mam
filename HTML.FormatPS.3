@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::FormatPS 3 "perl 5.004, patch 01" "25/Feb/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::FormatPS 3"
+.TH lib::HTML::FormatPS 3 "perl 5.004, patch 55" "12/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::FormatPS - Format HTML as postscript"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::FormatPS \- Format HTML as postscript
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \&  require HTML::FormatPS;
@@ -204,72 +200,96 @@ HTML::FormatPS \- Format HTML as postscript
 \&  print $formatter->format($html);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The HTML::FormatPS is a formatter that outputs PostScript code.
 Formatting of HTML tables and forms is not implemented.
 .PP
 You might specify the following parameters when constructing the formatter:
 .Ip "PaperSize" 4
-.IX Item "PaperSize"
 What kind of paper should we format for.  The value can be one of
 these: A3, A4, A5, B4, B5, Letter, Legal, Executive, Tabloid,
 Statement, Folio, 10x14, Quarto.
 .Sp
 The default is \*(L"A4\*(R".
 .Ip "PaperWidth" 4
-.IX Item "PaperWidth"
 The width of the paper in points.  Setting PaperSize also defines this
 value.
 .Ip "PaperHeight" 4
-.IX Item "PaperHeight"
 The height of the paper in points.  Setting PaperSize also defines
 this value.
 .Ip "LeftMargin" 4
-.IX Item "LeftMargin"
 The left margin in points.
 .Ip "RightMargin" 4
-.IX Item "RightMargin"
 The right margin in points.
 .Ip "HorizontalMargin" 4
-.IX Item "HorizontalMargin"
 Both left and right margin at the same time.  The default value is 4 cm.
 .Ip "TopMargin" 4
-.IX Item "TopMargin"
 The top margin in points.
 .Ip "BottomMargin" 4
-.IX Item "BottomMargin"
 The bottom margin in points.
 .Ip "VerticalMargin" 4
-.IX Item "VerticalMargin"
 Both top and bottom margin at the same time.  The default value is 2 cm.
 .Ip "PageNo" 4
-.IX Item "PageNo"
 The parameter determines if we should put page numbers on the pages.
 The default is yes, so you have to set this value to 0 in order to
 suppress page numbers.
 .Ip "FontFamily" 4
-.IX Item "FontFamily"
 The parameter specifies which family of fonts to use for the formatting.
 Legal values are \*(L"Courier\*(R", \*(L"Helvetica\*(R" and \*(L"Times\*(R".  The default is
 \*(L"Times\*(R".
 .Ip "FontScale" 4
-.IX Item "FontScale"
 All fontsizes might be scaled by this factor.
 .Ip "Leading" 4
-.IX Item "Leading"
 How much space between lines.  This is a factor of the fontsize used
 for that line.  Default is 0.1.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Formatter\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
-Copyright (c) 1995 Gisle Aas. All rights reserved.
+Copyright (c) 1995-1997 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@oslonett.no>
 
 .rn }` ''
+.IX Title "lib::HTML::FormatPS 3"
+.IX Name "HTML::FormatPS - Format HTML as postscript"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "PaperSize"
+
+.IX Item "PaperWidth"
+
+.IX Item "PaperHeight"
+
+.IX Item "LeftMargin"
+
+.IX Item "RightMargin"
+
+.IX Item "HorizontalMargin"
+
+.IX Item "TopMargin"
+
+.IX Item "BottomMargin"
+
+.IX Item "VerticalMargin"
+
+.IX Item "PageNo"
+
+.IX Item "FontFamily"
+
+.IX Item "FontScale"
+
+.IX Item "Leading"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

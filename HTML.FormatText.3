@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::FormatText 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::FormatText 3"
+.TH lib::HTML::FormatText 3 "perl 5.004, patch 55" "12/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::FormatText - Format HTML as text"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,33 +188,53 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::FormatText \- Format HTML as text
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \& require HTML::FormatText;
 \& $html = parse_htmlfile("test.html");
-\& $formatter = new HTML::FormatText;
+\& $formatter = HTML::FormatText->new(leftmargin => 0, rightmargin => 50);
 \& print $formatter->format($html);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The HTML::FormatText is a formatter that outputs plain latin1 text.
 All character attributes (bold/italic/underline) are ignored.
 Formatting of HTML tables and forms is not implemented.
+.PP
+You might specify the following parameters when constructing the
+formatter:
+.Ip "\fIleftmargin\fR (alias \fIlm\fR)" 4
+The column of the left margin. The default is 3.
+.Ip "\fIrightmargin\fR (alias \fIrm\fR)" 4
+The column of the right margin. The default is 72.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Formatter\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
-Copyright (c) 1995 Gisle Aas. All rights reserved.
+Copyright (c) 1995-1997 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@oslonett.no>
 
 .rn }` ''
+.IX Title "lib::HTML::FormatText 3"
+.IX Name "HTML::FormatText - Format HTML as text"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\fIleftmargin\fR (alias \fIlm\fR)"
+
+.IX Item "\fIrightmargin\fR (alias \fIrm\fR)"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Negotiate 3 "perl 5.004, patch 01" "3/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Negotiate 3"
+.TH lib::HTTP::Negotiate 3 "perl 5.004, patch 55" "3/Apr/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "choose - choose a variant of a document to serve (HTTP content negotiation)"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 choose \- choose a variant of a document to serve (HTTP content negotiation)
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use HTTP::Negotiate;
@@ -211,7 +207,6 @@ choose \- choose a variant of a document to serve (HTTP content negotiation)
 \& $the_one  = choose($variants);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provide a complete implementation of the HTTP content
 negotiation algorithm specified in \fIdraft-ietf-http-v11-spec-00.ps\fR
 chapter 12.  Content negotiation allows for the selection of a
@@ -254,16 +249,13 @@ highest score or \f(CWundef\fR if none have non-zero quality.
 If the \f(CW$HTTP::Negotiate::DEBUG\fR variable is set to TRUE, then a lot of
 noise is generated on STDOUT during evaluation of \fIchoose()\fR.
 .SH "VARIANTS"
-.IX Header "VARIANTS"
 A variant is described by a list of the following values.  If the
 attribute does not make sense or is unknown for a variant, then use
 \f(CWundef\fR instead.
 .Ip "identifier" 3
-.IX Item "identifier"
 This is just some string that you use as a name for the variant.  The
 identifier of the preferred variant is returned by \fIchoose()\fR.
 .Ip "qs" 3
-.IX Item "qs"
 This is a number between 0.000 and 1.000 that describes the \*(L"source
 quality\*(R".  This is what \fIdraft-ietf-http-v11-spec-00.ps\fR says about this
 value:
@@ -278,7 +270,6 @@ captured in \s-1JPEG\s0 form.  The qs values should be assigned to each
 variant by the content provider; if no qs value has been assigned, the
 default is generally \*(L"qs=1\*(R".
 .Ip "content-type" 3
-.IX Item "content-type"
 This is the media type of the variant.  The media type does not
 include a charset attribute, but might contain other parameters.
 Examples are:
@@ -291,7 +282,6 @@ Examples are:
 \&  image/jpg
 .Ve
 .Ip "content-encoding" 3
-.IX Item "content-encoding"
 This is one or more content encodings that has been applied to the
 variant.  The content encoding is generally used as a modifier to the
 content media type.  The most common content encodings are:
@@ -301,7 +291,6 @@ content media type.  The most common content encodings are:
 \&  compress
 .Ve
 .Ip "content-charset" 3
-.IX Item "content-charset"
 This is the character set used when the variant contains textual
 content.  The charset value should generally be \f(CWundef\fR or one of these:
 .Sp
@@ -316,7 +305,6 @@ content.  The charset value should generally be \f(CWundef\fR or one of these:
 \&  unicode-1-1-utf-8
 .Ve
 .Ip "content-language" 3
-.IX Item "content-language"
 This describes one or more languages that are used in the variant.
 Language is described like this in \fIdraft-ietf-http-v11-spec-00.ps\fR: A
 language is in this context a natural language spoken, written, or
@@ -333,15 +321,12 @@ are:
 \&  en-cockney
 .Ve
 .Ip "content-length" 3
-.IX Item "content-length"
 This is the number of bytes used to represent the content.
 .SH "ACCEPT HEADERS"
-.IX Header "ACCEPT HEADERS"
 The following Accept* headers can be used for describing content
 preferences in a request (This description is an edited extract from
 \fIdraft-ietf-http-v11-spec-00.ps\fR):
 .Ip "Accept" 3
-.IX Item "Accept"
 This header can be used to indicate a list of media ranges which are
 acceptable as a reponse to the request.  The \*(L"*\*(R" character is used to
 group media types into ranges, with \*(L"*/*\*(R" indicating all media types
@@ -362,7 +347,6 @@ would mean: \*(L"I prefer audio/basic (of any size), but send me any audio
 type if it is the best available after an 80% mark-down in quality and
 its size is less than 200000 bytes\*(R"
 .Ip "Accept-Charset" 3
-.IX Item "Accept-Charset"
 Used to indicate what character sets are acceptable for the response.
 The \*(L"us-ascii\*(R" character set is assumed to be acceptable for all user
 agents.  If no Accept-Charset field is given, the default is that any
@@ -372,7 +356,6 @@ charset is acceptable.  Example:
 \&  Accept-Charset: iso-8859-1, unicode-1-1
 .Ve
 .Ip "Accept-Encoding" 3
-.IX Item "Accept-Encoding"
 Restricts the Content-Encoding values which are acceptable in the
 response.  If no Accept-Encoding field is present, the server may
 assume that the client will accept any content encoding.  An empty
@@ -382,7 +365,6 @@ Accept-Encoding means that no content encoding is acceptable.  Example:
 \&  Accept-Encoding: compress, gzip
 .Ve
 .Ip "Accept-Language" 3
-.IX Item "Accept-Language"
 This field is similar to Accept, but restrict the set of natural
 languages that are preferred as a response.  Each language may be
 given an associated quality value which represents an estimate of the
@@ -394,13 +376,50 @@ user's comprehension of that language.  For example:
 would mean: \*(L"I prefer Norwegian, but will accept British English (with
 80% comprehension) or German (with 55% comprehension).
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1996, Gisle Aas.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTTP::Negotiate 3"
+.IX Name "choose - choose a variant of a document to serve (HTTP content negotiation)"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "VARIANTS"
+
+.IX Item "identifier"
+
+.IX Item "qs"
+
+.IX Item "content-type"
+
+.IX Item "content-encoding"
+
+.IX Item "content-charset"
+
+.IX Item "content-language"
+
+.IX Item "content-length"
+
+.IX Header "ACCEPT HEADERS"
+
+.IX Item "Accept"
+
+.IX Item "Accept-Charset"
+
+.IX Item "Accept-Encoding"
+
+.IX Item "Accept-Language"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::File 3 "perl 5.004, patch 01" "15/May/97" "Perl Programmers Reference Guide"
-.IX Title "IO::File 3"
+.TH IO::File 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IO::File - supply object methods for filehandles"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IO::File \- supply object methods for filehandles
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use IO::File;
@@ -236,27 +232,21 @@ IO::File \- supply object methods for filehandles
 \&    autoflush STDOUT 1;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWIO::File\fR inherits from \f(CWIO::Handle\fR and \f(CWIO::Seekable\fR. It extends
 these classes with methods that are specific to file handles.
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new ([ \s-1ARGS\s0 ] )" 4
-.IX Item "new ([ \s-1ARGS\s0 ] )"
 Creates a \f(CWIO::File\fR.  If it receives any parameters, they are passed to
 the method \f(CWopen\fR; if the open fails, the object is destroyed.  Otherwise,
 it is returned to the caller.
 .Ip "new_tmpfile" 4
-.IX Item "new_tmpfile"
 Creates an \f(CWIO::File\fR opened for read/write on a newly created temporary
 file.  On systems where this is possible, the temporary file is anonymous
 (i.e. it is unlinked after creation, but held open).  If the temporary
 file cannot be created or opened, the \f(CWIO::File\fR object is destroyed.
 Otherwise, it is returned to the caller.
 .SH "METHODS"
-.IX Header "METHODS"
 .Ip "open( \s-1FILENAME\s0 [,\s-1MODE\s0 [,\s-1PERMS\s0]] )" 4
-.IX Item "open( \s-1FILENAME\s0 [,\s-1MODE\s0 [,\s-1PERMS\s0]] )"
 \f(CWopen\fR accepts one, two or three parameters.  With one parameter,
 it is just a front end for the built-in \f(CWopen\fR function.  With two
 parameters, the first parameter is a filename that may include
@@ -273,13 +263,34 @@ For convenience, \f(CWIO::File::import\fR tries to import the O_XXX
 constants from the Fcntl module.  If dynamic loading is not available,
 this may fail, but the rest of \s-1IO::\s0File will still work.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperlfunc\fR manpage, 
 the section on \fII/O Operators\fR in the \fIperlop\fR manpage,
 the \fIIO::Handle\fR manpage
 the \fIIO::Seekable\fR manpage
 .SH "HISTORY"
-.IX Header "HISTORY"
 Derived from FileHandle.pm by Graham Barr <\fIbodg@tiuk.ti.com\fR>.
 
 .rn }` ''
+.IX Title "IO::File 3"
+.IX Name "IO::File - supply object methods for filehandles"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new ([ \s-1ARGS\s0 ] )"
+
+.IX Item "new_tmpfile"
+
+.IX Header "METHODS"
+
+.IX Item "open( \s-1FILENAME\s0 [,\s-1MODE\s0 [,\s-1PERMS\s0]] )"
+
+.IX Header "SEE ALSO"
+
+.IX Header "HISTORY"
+

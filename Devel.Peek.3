@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Peek 3 "perl 5.004, patch 01" "20/Jan/97" "User Contributed Perl Documentation"
-.IX Title "Peek 3"
+.TH Peek 3 "perl 5.004, patch 55" "28/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Devel::Peek - A data debugging tool for the XS programmer"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,19 +188,17 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Devel::Peek \- A data debugging tool for the XS programmer
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
-.Vb 4
+.Vb 5
 \&        use Devel::Peek;
 \&        Dump( $a );
 \&        Dump( $a, 5 );
+\&        DumpArray( 5, $a, $b, ... );
 \&        mstat "Point 5";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Devel::Peek contains functions which allows raw Perl datatypes to be
 manipulated from a Perl script.  This is used by those who do XS programming
 to check that the data they are sending from C to Perl looks as they think
@@ -223,8 +219,10 @@ datatype, and \f(CWmstat("marker")\fR function to report on memory usage
 counts on SVs.  This document will take a passive, and safe, approach
 to data debugging and for that it will describe only the \f(CWDump()\fR
 function.
+.PP
+Function \f(CWDumpArray()\fR allows dumping of multiple values (useful when you
+need to analize returns of functions).
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 The following examples don't attempt to show everything as that would be a
 monumental task, and, frankly, we don't want this manpage to be an internals
 document for Perl.  The examples do demonstrate some basics of the raw Perl
@@ -236,7 +234,6 @@ the quicksand (it's bad for business).
 Oh, one final bit of advice: take the \fIperlguts\fR manpage with you.  When you return we
 expect to see it well-thumbed.
 .Sh "A simple scalar string"
-.IX Subsection "A simple scalar string"
 Let's begin by looking a simple scalar which is holding a string.
 .PP
 .Vb 3
@@ -264,7 +261,6 @@ at the \s-1IV\s0 item.  \s-1CUR\s0 indicates the number of characters in the \s-
 \s-1CUR\s0, in this case, because \s-1LEN\s0 includes an extra byte for the
 end-of-string marker).
 .Sh "A simple scalar number"
-.IX Subsection "A simple scalar number"
 If the scalar contains a number the raw \s-1SV\s0 will be leaner.
 .PP
 .Vb 3
@@ -285,7 +281,6 @@ reference count is 1.  It has the \f(CWIOK\fR flag set, meaning it is currently
 being evaluated as a number.  Because \s-1IOK\s0 is set we look at the \s-1IV\s0 item to
 see what is in the scalar.
 .Sh "A simple scalar with an extra reference"
-.IX Subsection "A simple scalar with an extra reference"
 If the scalar from the previous example had an extra reference:
 .PP
 .Vb 4
@@ -306,7 +301,6 @@ Notice that this example differs from the previous example only in its
 reference count.  Compare this to the next example, where we dump \f(CW$b\fR
 instead of \f(CW$a\fR.
 .Sh "A reference to a simple scalar"
-.IX Subsection "A reference to a simple scalar"
 This shows what a reference looks like when it references a simple scalar.
 .PP
 .Vb 4
@@ -338,7 +332,6 @@ stringify \f(CW$b\fR. The addresses inside \fI\s-1RV\s0()\fR and \fI\s-1IV\s0()\
 \f(CWX***\fR structure which holds the current state of an \f(CWSV\fR. This
 address may change during lifetime of an \s-1SV\s0.
 .Sh "A reference to an array"
-.IX Subsection "A reference to an array"
 This shows what a reference to an array looks like.
 .PP
 .Vb 3
@@ -416,7 +409,6 @@ Note that \f(CWDump\fR will not report \fIall\fR the elements in the array,
 only several first (depending on how deep it already went into the
 report tree).
 .Sh "A reference to a hash"
-.IX Subsection "A reference to a hash"
 The following shows the raw form of a reference to a hash.
 .PP
 .Vb 3
@@ -451,7 +443,6 @@ The output:
 This shows \f(CW$a\fR is a reference pointing to an \s-1SV\s0.  That \s-1SV\s0 is a \s-1PVHV\s0, a
 hash. Fields \s-1RITER\s0 and \s-1EITER\s0 are used by \f(CWthe \fIeach\fR\fR manpage.
 .Sh "Dumping a large array or hash"
-.IX Subsection "Dumping a large array or hash"
 The \f(CWDump()\fR function, by default, dumps up to 4 elements from a
 toplevel array or hash.  This number can be increased by supplying a
 second argument to the function.
@@ -470,7 +461,6 @@ The following code will print all of the elements.
 \&        Dump $a, 5;
 .Ve
 .Sh "A reference to an \s-1SV\s0 which holds a C pointer"
-.IX Subsection "A reference to an \s-1SV\s0 which holds a C pointer"
 This is what you really need to know as an \s-1XS\s0 programmer, of course.  When
 an \s-1XSUB\s0 returns a pointer to a C structure that pointer is stored in an \s-1SV\s0
 and a reference to that \s-1SV\s0 is placed on the \s-1XSUB\s0 stack.  So the output from
@@ -512,7 +502,6 @@ doesn't bless the object, might look something like this:
 \&          PV = 0
 .Ve
 .Sh "A reference to a subroutine"
-.IX Subsection "A reference to a subroutine"
 Looks like this:
 .PP
 .Vb 18
@@ -537,34 +526,72 @@ Looks like this:
 .Ve
 This shows that 
 .Ip "" 5
-.IX Item ""
 the subroutine is not an \s-1XSUB\s0 (since \f(CWSTART\fR and \f(CWROOT\fR are
 non-zero, and \f(CWXSUB\fR is zero);
 .Ip "" 5
-.IX Item ""
 that it was compiled in the package \f(CWmain\fR;
 .Ip "" 5
-.IX Item ""
 under the name \f(CWMY::top_targets\fR; 
 .Ip "" 5
-.IX Item ""
 inside a 5th eval in the program;
 .Ip "" 5
-.IX Item ""
 it is not currently executed (see \f(CWDEPTH\fR);
 .Ip "" 5
-.IX Item ""
 it has no prototype (\f(CWPROTOTYPE\fR field is missing).
 .SH "EXPORTS"
-.IX Header "EXPORTS"
 \f(CWPeek\fR, \f(CWmstats\fR, \f(CWDeadCode\fR by default. Additionally available \f(CWSvREFCNT\fR,
 \f(CWSvREFCNT_inc\fR, \f(CWSvREFCNT_dec\fR.
 .SH "BUGS"
-.IX Header "BUGS"
 Readers have been known to skip important parts of the \fIperlguts\fR manpage, causing much
 frustration for all.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperlguts\fR manpage, and the \fIperlguts\fR manpage, again.
 
 .rn }` ''
+.IX Title "Peek 3"
+.IX Name "Devel::Peek - A data debugging tool for the XS programmer"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Subsection "A simple scalar string"
+
+.IX Subsection "A simple scalar number"
+
+.IX Subsection "A simple scalar with an extra reference"
+
+.IX Subsection "A reference to a simple scalar"
+
+.IX Subsection "A reference to an array"
+
+.IX Subsection "A reference to a hash"
+
+.IX Subsection "Dumping a large array or hash"
+
+.IX Subsection "A reference to an \s-1SV\s0 which holds a C pointer"
+
+.IX Subsection "A reference to a subroutine"
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Item ""
+
+.IX Header "EXPORTS"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+

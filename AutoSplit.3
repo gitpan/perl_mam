@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH AutoSplit 3 "perl 5.004, patch 01" "13/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "AutoSplit 3"
+.TH AutoSplit 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "AutoSplit - split a package for autoloading"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 AutoSplit \- split a package for autoloading
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& perl -e 'use AutoSplit; autosplit_lib_modules(@ARGV)' ...
@@ -207,7 +203,6 @@ for perl versions 5.002 and later:
 \& perl -MAutoSplit -e 'autosplit($ARGV[0], $ARGV[1], $k, $chk, $modtime)' ...
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This function will split up your program into files that the AutoLoader
 module can handle. It is used by both the standard perl libraries and by
 the MakeMaker utility, to automatically configure libraries for autoloading.
@@ -251,11 +246,9 @@ perl special marker \fI_\|_END_\|_\fR are split out into separate files. Some
 routines may be placed prior to this marker to force their immediate loading
 and parsing.
 .SH "CAVEATS"
-.IX Header "CAVEATS"
 Currently, \f(CWAutoSplit\fR cannot handle multiple package specifications
 within one file.
 .SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
 \f(CWAutoSplit\fR will inform the user if it is necessary to create the top-level
 directory specified in the invocation. It is preferred that the script or
 installation process that invokes \f(CWAutoSplit\fR have created the full directory
@@ -274,3 +267,16 @@ the \fI_\|_END_\|_\fR marker or a \*(L"package Name;\*(R"\-style specification.
 directories or files.
 
 .rn }` ''
+.IX Title "AutoSplit 3"
+.IX Name "AutoSplit - split a package for autoloading"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CAVEATS"
+
+.IX Header "DIAGNOSTICS"
+

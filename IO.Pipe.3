@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Pipe 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "IO::Pipe 3"
+.TH IO::Pipe 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IO::pipe - supply object methods for pipes"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IO::pipe \- supply object methods for pipes
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&        use IO::Pipe;
@@ -234,13 +230,10 @@ IO::pipe \- supply object methods for pipes
 \&        }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWIO::Pipe\fR provides an interface to createing pipes between
 processes.
 .SH "CONSTRCUTOR"
-.IX Header "CONSTRCUTOR"
 .Ip "new ( [\s-1READER\s0, \s-1WRITER\s0] )" 4
-.IX Item "new ( [\s-1READER\s0, \s-1WRITER\s0] )"
 Creates a \f(CWIO::Pipe\fR, which is a reference to a newly created symbol
 (see the \f(CWSymbol\fR package). \f(CWIO::Pipe::new\fR optionally takes two
 arguments, which should be objects blessed into \f(CWIO::Handle\fR, or a
@@ -251,32 +244,52 @@ on the new \f(CWIO::Pipe\fR object.
 These two handles are held in the array part of the \s-1GLOB\s0 until either
 \f(CWreader\fR or \f(CWwriter\fR is called.
 .SH "METHODS"
-.IX Header "METHODS"
 .Ip "reader ([\s-1ARGS\s0])" 4
-.IX Item "reader ([\s-1ARGS\s0])"
 The object is re-blessed into a sub-class of \f(CWIO::Handle\fR, and becomes a
 handle at the reading end of the pipe. If \f(CWARGS\fR are given then \f(CWfork\fR
 is called and \f(CWARGS\fR are passed to exec.
 .Ip "writer ([\s-1ARGS\s0])" 4
-.IX Item "writer ([\s-1ARGS\s0])"
 The object is re-blessed into a sub-class of \f(CWIO::Handle\fR, and becomes a
 handle at the writing end of the pipe. If \f(CWARGS\fR are given then \f(CWfork\fR
 is called and \f(CWARGS\fR are passed to exec.
 .Ip "handles ()" 4
-.IX Item "handles ()"
 This method is called during construction by \f(CWIO::Pipe::new\fR
 on the newly created \f(CWIO::Pipe\fR object. It returns an array of two objects
 blessed into \f(CWIO::Pipe::End\fR, or a subclass thereof.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIIO::Handle\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Graham Barr <bodg@tiuk.ti.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1996 Graham Barr. All rights reserved. This program is free
 software; you can redistribute it and/or modify it under the same terms
 as Perl itself.
 
 .rn }` ''
+.IX Title "IO::Pipe 3"
+.IX Name "IO::pipe - supply object methods for pipes"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CONSTRCUTOR"
+
+.IX Item "new ( [\s-1READER\s0, \s-1WRITER\s0] )"
+
+.IX Header "METHODS"
+
+.IX Item "reader ([\s-1ARGS\s0])"
+
+.IX Item "writer ([\s-1ARGS\s0])"
+
+.IX Item "handles ()"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

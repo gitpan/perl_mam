@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::URI::Escape 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::URI::Escape 3"
+.TH lib::URI::Escape 3 "perl 5.004, patch 55" "9/Apr/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "uri_escape - Escape unsafe characters"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,12 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 uri_escape \- Escape unsafe characters
 .PP
 uri_unescape \- Unescape escaped characters
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \& use URI::Escape;
@@ -204,7 +200,6 @@ uri_unescape \- Unescape escaped characters
 \& $str  = uri_unescape($safe);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provide functions to escape and unescape URI strings.
 Some characters are regarded as \*(L"unsafe\*(R" and must be escaped in
 accordance with RFC 1738.  Escaped characters are represented by a
@@ -229,7 +224,17 @@ The default set of characters to be escaped is:
 The module can also export the \f(CW%escapes\fR hash which contains the
 mapping from all characters to the corresponding escape code.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIURI::URL\fR manpage
 
 .rn }` ''
+.IX Title "lib::URI::Escape 3"
+.IX Name "uri_escape - Escape unsafe characters"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::Ping 3 "perl 5.004, patch 01" "26/Sep/96" "Perl Programmers Reference Guide"
-.IX Title "Net::Ping 3"
+.TH Net::Ping 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Net::Ping - check a remote host for reachability"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::Ping \- check a remote host for reachability
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use Net::Ping;
@@ -227,7 +223,6 @@ Net::Ping \- check a remote host for reachability
 \&    print "$host is alive.\en" if pingecho($host);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module contains methods to test the reachability of remote
 hosts on a network.  A ping object is first created with optional
 parameters, a variable number of hosts may be pinged multiple
@@ -253,9 +248,7 @@ the echoed information is correct, the remote host is considered
 reachable.  Specifying the \*(L"icmp\*(R" protocol requires that the program
 be run as root or that the program be setuid to root.
 .Sh "Functions"
-.IX Subsection "Functions"
 .Ip "Net::Ping->new([$proto [, $def_timeout [, $bytes]]]);" 4
-.IX Item "Net::Ping->new([$proto [, $def_timeout [, $bytes]]]);"
 Create a new ping object.  All of the parameters are optional.  \f(CW$proto\fR
 specifies the protocol to use when doing a ping.  The current choices
 are \*(L"tcp\*(R", \*(L"udp\*(R" or \*(L"icmp\*(R".  The default is \*(L"udp\*(R".
@@ -271,7 +264,6 @@ default) number of data bytes is 1 if the protocol is \*(L"udp\*(R" and 0
 otherwise.  The maximum number of data bytes that can be specified is
 1024.
 .Ip "$p->ping($host [, $timeout]);" 4
-.IX Item "$p->ping($host [, $timeout]);"
 Ping the remote host and wait for a response.  \f(CW$host\fR can be either the
 hostname or the \s-1IP\s0 number of the remote host.  The optional timeout
 must be greater than 0 seconds and defaults to whatever was specified
@@ -280,13 +272,11 @@ there is a problem with the \s-1IP\s0 number, undef is returned.  Otherwise,
 1 is returned if the host is reachable and 0 if it is not.  For all
 practical purposes, undef and 0 and can be treated as the same case.
 .Ip "$p->close();" 4
-.IX Item "$p->close();"
 Close the network connection for this ping object.  The network
 connection is also closed by \*(L"undef \f(CW$p\fR\*(R".  The network connection is
 automatically closed if the ping object goes out of scope (e.g. \f(CW$p\fR is
 local to a subroutine and you leave the subroutine).
 .Ip "pingecho($host [, $timeout]);" 4
-.IX Item "pingecho($host [, $timeout]);"
 To provide backward compatibility with the previous version of
 Net::Ping, a \fIpingecho()\fR subroutine is available with the same
 functionality as before.  \fIpingecho()\fR uses the tcp protocol.  The
@@ -294,13 +284,11 @@ return values and parameters are the same as described for the \fIping()\fR
 method.  This subroutine is obsolete and may be removed in a future
 version of Net::Ping.
 .SH "WARNING"
-.IX Header "WARNING"
 \fIpingecho()\fR or a ping object with the tcp protocol use \fIalarm()\fR to
 implement the timeout.  So, don't use \fIalarm()\fR in your program while
 you are using \fIpingecho()\fR or a ping object with the tcp protocol.  The
 udp and icmp protocols do not use \fIalarm()\fR to implement the timeout.
 .SH "NOTES"
-.IX Header "NOTES"
 There will be less network overhead (and some efficiency in your
 program) if you specify either the udp or the icmp protocol.  The tcp
 protocol will generate 2.5 times or more traffic for each ping than
@@ -328,3 +316,26 @@ separate module to be written which understands all of the different
 kinds of ICMP packets.
 
 .rn }` ''
+.IX Title "Net::Ping 3"
+.IX Name "Net::Ping - check a remote host for reachability"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Functions"
+
+.IX Item "Net::Ping->new([$proto [, $def_timeout [, $bytes]]]);"
+
+.IX Item "$p->ping($host [, $timeout]);"
+
+.IX Item "$p->close();"
+
+.IX Item "pingecho($host [, $timeout]);"
+
+.IX Header "WARNING"
+
+.IX Header "NOTES"
+

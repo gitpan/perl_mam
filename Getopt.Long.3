@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Getopt::Long 3 "perl 5.004, patch 01" "18/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Getopt::Long 3"
+.TH Getopt::Long 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "GetOptions - extended processing of command line options"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 GetOptions \- extended processing of command line options
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&  use Getopt::Long;
 \&  $result = GetOptions (...option-descriptions...);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The Getopt::Long module implements an extended getopt function called
 \fIGetOptions()\fR. This function adheres to the POSIX syntax for command
 line options, with GNU extensions. In general, this means that options
@@ -239,8 +234,9 @@ value. With a command line of \*(L"\*(--size 24\*(R" this will cause the variabl
 \f(CW$offset\fR to get the value 24.
 .PP
 Alternatively, the first argument to GetOptions may be a reference to
-a HASH describing the linkage for the options. The following call is
-equivalent to the example above:
+a HASH describing the linkage for the options, or an object whose
+class is based on a HASH. The following call is equivalent to the
+example above:
 .PP
 .Vb 2
 \&  %optctl = ("size" => \e$offset);
@@ -257,49 +253,41 @@ the command line.
 Each option specifier designates the name of the option, optionally
 followed by an argument specifier. Values for argument specifiers are:
 .Ip "<none>" 8
-.IX Item "<none>"
 Option does not take an argument. 
 The option variable will be set to 1.
 .Ip "!" 8
-.IX Item "!"
 Option does not take an argument and may be negated, i.e. prefixed by
 \*(L"no\*(R". E.g. \*(L"foo!\*(R" will allow \fB--foo\fR (with value 1) and \fB\-nofoo\fR
 (with value 0).
 The option variable will be set to 1, or 0 if negated.
 .Ip "=s" 8
-.IX Item "=s"
 Option takes a mandatory string argument.
 This string will be assigned to the option variable.
 Note that even if the string argument starts with \fB\-\fR or \fB--\fR, it
 will not be considered an option on itself.
 .Ip ":s" 8
-.IX Item ":s"
 Option takes an optional string argument.
 This string will be assigned to the option variable.
 If omitted, it will be assigned "" (an empty string).
 If the string argument starts with \fB\-\fR or \fB--\fR, it
 will be considered an option on itself.
 .Ip "=i" 8
-.IX Item "=i"
 Option takes a mandatory integer argument.
 This value will be assigned to the option variable.
 Note that the value may start with \fB\-\fR to indicate a negative
 value. 
 .Ip ":i" 8
-.IX Item ":i"
 Option takes an optional integer argument.
 This value will be assigned to the option variable.
 If omitted, the value 0 will be assigned.
 Note that the value may start with \fB\-\fR to indicate a negative
 value.
 .Ip "=f" 8
-.IX Item "=f"
 Option takes a mandatory real number argument.
 This value will be assigned to the option variable.
 Note that the value may start with \fB\-\fR to indicate a negative
 value.
 .Ip ":f" 8
-.IX Item ":f"
 Option takes an optional real number argument.
 This value will be assigned to the option variable.
 If omitted, the value 0 will be assigned.
@@ -309,7 +297,6 @@ name is the empty string.
 .PP
 A double dash on itself \fB--\fR signals end of the options list.
 .Sh "Linkage specification"
-.IX Subsection "Linkage specification"
 The linkage specifier is optional. If no linkage is explicitly
 specified but a ref \s-1HASH\s0 is passed, GetOptions will place the value in
 the \s-1HASH\s0. For example:
@@ -389,7 +376,6 @@ If a \s-1REF\s0 \s-1CODE\s0 is supplied, the referenced subroutine is called wit
 two arguments: the option name and the option value.
 The option name is always the true name, not an abbreviation or alias.
 .Sh "Aliases and abbreviations"
-.IX Subsection "Aliases and abbreviations"
 The option name may actually be a list of option names, separated by
 \*(L"|"s, e.g. \*(L"foo|bar|blech=s\*(R". In this example, \*(L"foo\*(R" is the true name
 of this option. If no linkage is specified, options \*(L"foo\*(R", \*(L"bar\*(R" and
@@ -398,7 +384,6 @@ of this option. If no linkage is specified, options \*(L"foo\*(R", \*(L"bar\*(R"
 Option names may be abbreviated to uniqueness, depending on
 configuration option \fBauto_abbrev\fR.
 .Sh "Non-option call-back routine"
-.IX Subsection "Non-option call-back routine"
 A special option specifier, <>, can be used to designate a subroutine
 to handle non-option arguments. GetOptions will immediately call this
 subroutine for every non-option it encounters in the options list.
@@ -408,7 +393,6 @@ This feature requires configuration option \fBpermute\fR, see section
 .PP
 See also the examples.
 .Sh "Option starters"
-.IX Subsection "Option starters"
 On the command line, options can start with \fB\-\fR (traditional), \fB--\fR
 (\s-1POSIX\s0) and \fB+\fR (\s-1GNU\s0, now being phased out). The latter is not
 allowed if the environment variable \fB\s-1POSIXLY_CORRECT\s0\fR has been
@@ -417,11 +401,9 @@ defined.
 Options that start with \*(L"--\*(R" may have an argument appended, separated
 with an \*(L"=\*(R", e.g. \*(L"\*(--foo=bar\*(R".
 .Sh "Return value"
-.IX Subsection "Return value"
 A return status of 0 (false) indicates that the function detected
 one or more errors.
 .SH "COMPATIBILITY"
-.IX Header "COMPATIBILITY"
 \fIGetopt::Long::GetOptions()\fR is the successor of
 \fBnewgetopt.pl\fR that came with Perl 4. It is fully upward compatible.
 In fact, the Perl 5 version of newgetopt.pl is just a wrapper around
@@ -456,7 +438,6 @@ so it is possible to write:
 \&   GetOptions qw(-foo=s --bar=i --ar=s);
 .Ve
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 If the option specifier is \*(L"one:i\*(R" (i.e. takes an optional integer
 argument), then the following situations are handled:
 .PP
@@ -516,7 +497,6 @@ This will leave the non-options in \f(CW@ARGV:\fR
 \&   @ARGV -> qw(bar blech)
 .Ve
 .SH "CONFIGURATION OPTIONS"
-.IX Header "CONFIGURATION OPTIONS"
 \fBGetOptions\fR can be configured by calling subroutine
 \fBGetopt::Long::config\fR. This subroutine takes a list of quoted
 strings, each specifying a configuration option to be set, e.g.
@@ -531,21 +511,17 @@ is much easier.
 .PP
 The following options are available:
 .Ip "default" 12
-.IX Item "default"
 This option causes all configuration options to be reset to their
 default values.
 .Ip "auto_abbrev" 12
-.IX Item "auto_abbrev"
 Allow option names to be abbreviated to uniqueness.
 Default is set unless environment variable
 \s-1POSIXLY_CORRECT\s0 has been set, in which case \fBauto_abbrev\fR is reset.
 .Ip "getopt_compat   " 12
-.IX Item "getopt_compat   "
 Allow \*(L'+\*(R' to start options.
 Default is set unless environment variable
 \s-1POSIXLY_CORRECT\s0 has been set, in which case \fBgetopt_compat\fR is reset.
 .Ip "require_order" 12
-.IX Item "require_order"
 Whether non-options are allowed to be mixed with
 options.
 Default is set unless environment variable
@@ -553,7 +529,6 @@ Default is set unless environment variable
 .Sp
 See also \fBpermute\fR, which is the opposite of \fBrequire_order\fR.
 .Ip "permute" 12
-.IX Item "permute"
 Whether non-options are allowed to be mixed with
 options.
 Default is set unless environment variable
@@ -592,7 +567,6 @@ is equivalent to
 \&    -foo -- arg1 -bar arg2 arg3
 .Ve
 .Ip "bundling (default: reset)" 12
-.IX Item "bundling (default: reset)"
 Setting this variable to a non-zero value will allow single-character
 options to be bundled. To distinguish bundles from long option names,
 long options must be introduced with \fB--\fR and single-character
@@ -622,7 +596,6 @@ is equivalent to
 .Ve
 Note: resetting \fBbundling\fR also resets \fBbundling_override\fR.
 .Ip "bundling_override (default: reset)" 12
-.IX Item "bundling_override (default: reset)"
 If \fBbundling_override\fR is set, bundling is enabled as with
 \fBbundling\fR but now long option names override option bundles. In the
 above example, \fB\-vax\fR would be interpreted as the option \*(L"vax\*(R", not
@@ -633,18 +606,15 @@ Note: resetting \fBbundling_override\fR also resets \fBbundling\fR.
 \fBNote:\fR Using option bundling can easily lead to unexpected results,
 especially when mixing long options and bundles. Caveat emptor.
 .Ip "ignore_case  (default: set)" 12
-.IX Item "ignore_case  (default: set)"
 If set, case is ignored when matching options.
 .Sp
 Note: resetting \fBignore_case\fR also resets \fBignore_case_always\fR.
 .Ip "ignore_case_always (default: reset)" 12
-.IX Item "ignore_case_always (default: reset)"
 When bundling is in effect, case is ignored on single-character
 options also. 
 .Sp
 Note: resetting \fBignore_case_always\fR also resets \fBignore_case\fR.
 .Ip "pass_through (default: reset)" 12
-.IX Item "pass_through (default: reset)"
 Unknown options are passed through in \f(CW@ARGV\fR instead of being flagged
 as errors. This makes it possible to write wrapper scripts that
 process only part of the user supplied options, and passes the
@@ -652,12 +622,9 @@ remaining options to some other program.
 .Sp
 This can be very confusing, especially when \fBpermute\fR is also set.
 .Ip "debug (default: reset)" 12
-.IX Item "debug (default: reset)"
 Enable copious debugging output.
 .SH "OTHER USEFUL VARIABLES"
-.IX Header "OTHER USEFUL VARIABLES"
 .Ip "$Getopt::Long::\s-1VERSION\s0" 12
-.IX Item "$Getopt::Long::\s-1VERSION\s0"
 The version number of this Getopt::Long implementation in the format
 \f(CWmajor\fR.\f(CWminor\fR. This can be used to have Exporter check the
 version, e.g.
@@ -668,8 +635,76 @@ version, e.g.
 You can inspect \f(CW$Getopt::Long::major_version\fR and
 \f(CW$Getopt::Long::minor_version\fR for the individual components.
 .Ip "$Getopt::Long::error" 12
-.IX Item "$Getopt::Long::error"
 Internal error flag. May be incremented from a call-back routine to
 cause options parsing to fail.
 
 .rn }` ''
+.IX Title "Getopt::Long 3"
+.IX Name "GetOptions - extended processing of command line options"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "<none>"
+
+.IX Item "!"
+
+.IX Item "=s"
+
+.IX Item ":s"
+
+.IX Item "=i"
+
+.IX Item ":i"
+
+.IX Item "=f"
+
+.IX Item ":f"
+
+.IX Subsection "Linkage specification"
+
+.IX Subsection "Aliases and abbreviations"
+
+.IX Subsection "Non-option call-back routine"
+
+.IX Subsection "Option starters"
+
+.IX Subsection "Return value"
+
+.IX Header "COMPATIBILITY"
+
+.IX Header "EXAMPLES"
+
+.IX Header "CONFIGURATION OPTIONS"
+
+.IX Item "default"
+
+.IX Item "auto_abbrev"
+
+.IX Item "getopt_compat   "
+
+.IX Item "require_order"
+
+.IX Item "permute"
+
+.IX Item "bundling (default: reset)"
+
+.IX Item "bundling_override (default: reset)"
+
+.IX Item "ignore_case  (default: set)"
+
+.IX Item "ignore_case_always (default: reset)"
+
+.IX Item "pass_through (default: reset)"
+
+.IX Item "debug (default: reset)"
+
+.IX Header "OTHER USEFUL VARIABLES"
+
+.IX Item "$Getopt::Long::\s-1VERSION\s0"
+
+.IX Item "$Getopt::Long::error"
+

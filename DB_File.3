@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH DB_File 3 "perl 5.004, patch 01" "30/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "DB_File 3"
+.TH DB_File 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "DB_File - Perl5 access to Berkeley DB"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 DB_File \- Perl5 access to Berkeley DB
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \& use DB_File ;
@@ -229,7 +225,6 @@ DB_File \- Perl5 access to Berkeley DB
 \& untie @array ;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fBDB_File\fR is a module which allows Perl programs to make use of the
 facilities provided by Berkeley DB.  If you intend to use this
 module you should really have a copy of the Berkeley DB manual pages at
@@ -246,7 +241,6 @@ three of the database types currently supported by Berkeley DB.
 .PP
 The file types are:
 .Ip "\fB\s-1DB_HASH\s0\fR" 5
-.IX Item "\fB\s-1DB_HASH\s0\fR"
 This database type allows arbitrary key/value pairs to be stored in data
 files. This is equivalent to the functionality provided by other
 hashing packages like \s-1DBM\s0, \s-1NDBM\s0, \s-1ODBM\s0, \s-1GDBM\s0, and \s-1SDBM\s0. Remember though,
@@ -258,7 +252,6 @@ applications, is built into Berkeley \s-1DB\s0. If you do need to use your own
 hashing algorithm it is possible to write your own in Perl and have
 \fBDB_File\fR use it instead.
 .Ip "\fB\s-1DB_BTREE\s0\fR" 5
-.IX Item "\fB\s-1DB_BTREE\s0\fR"
 The btree format allows arbitrary key/value pairs to be stored in a
 sorted, balanced binary tree.
 .Sp
@@ -266,13 +259,11 @@ As with the \s-1DB_HASH\s0 format, it is possible to provide a user defined
 Perl routine to perform the comparison of keys. By default, though, the
 keys are stored in lexical order.
 .Ip "\fB\s-1DB_RECNO\s0\fR" 5
-.IX Item "\fB\s-1DB_RECNO\s0\fR"
 \s-1DB_RECNO\s0 allows both fixed-length and variable-length flat text files
 to be manipulated using the same key/value pair interface as in \s-1DB_HASH\s0
 and \s-1DB_BTREE\s0.  In this case the key will consist of a record (line)
 number.
 .Sh "Interface to Berkeley \s-1DB\s0"
-.IX Subsection "Interface to Berkeley \s-1DB\s0"
 \fBDB_File\fR allows access to Berkeley \s-1DB\s0 files using the \fItie()\fR mechanism
 in Perl 5 (for full details, see the \f(CWtie()\fR entry in the \fIperlfunc\fR manpage). This facility
 allows \fBDB_File\fR to access Berkeley \s-1DB\s0 files using either an
@@ -283,7 +274,6 @@ In addition to the \fItie()\fR interface, it is also possible to access most
 of the functions provided in the Berkeley \s-1DB\s0 \s-1API\s0 directly.
 See the section on \fI\s-1THE\s0 \s-1API\s0 \s-1INTERFACE\s0\fR.
 .Sh "Opening a Berkeley \s-1DB\s0 Database File"
-.IX Subsection "Opening a Berkeley \s-1DB\s0 Database File"
 Berkeley \s-1DB\s0 uses the function \fIdbopen()\fR to open or create a database.
 Here is the C prototype for \fIdbopen()\fR:
 .PP
@@ -412,7 +402,6 @@ See the section on \fIChanging the \s-1BTREE\s0 sort order\fR for an example of 
 If you are using the \s-1DB_RECNO\s0 interface and you intend making use of
 \f(CWbval\fR, you should check out the section on \fIThe \*(L'bval\*(R' Option\fR.
 .Sh "Default Parameters"
-.IX Subsection "Default Parameters"
 It is possible to omit some or all of the final 4 parameters in the
 call to \f(CWtie\fR and let them take default values. As \s-1DB_HASH\s0 is the most
 common file format used, the call:
@@ -439,17 +428,14 @@ is equivalent to:
 See the section on \fIIn Memory Databases\fR for a discussion on the use of \f(CWundef\fR
 in place of a filename.
 .Sh "In Memory Databases"
-.IX Subsection "In Memory Databases"
 Berkeley \s-1DB\s0 allows the creation of in-memory databases by using \s-1NULL\s0
 (that is, a \f(CW(char *)0\fR in C) in place of the filename.  \fBDB_File\fR
 uses \f(CWundef\fR instead of \s-1NULL\s0 to provide this functionality.
 .SH "DB_HASH"
-.IX Header "DB_HASH"
 The DB_HASH file format is probably the most commonly used of the three
 file formats that \fBDB_File\fR supports. It is also very straightforward
 to use.
 .Sh "A Simple Example"
-.IX Subsection "A Simple Example"
 This example shows how to create a database, add key/value pairs to the
 database, delete keys/value pairs and finally how to enumerate the
 contents of the database.
@@ -498,13 +484,11 @@ here is the output:
 Note that the like ordinary associative arrays, the order of the keys
 retrieved is in an apparently random order.
 .SH "DB_BTREE"
-.IX Header "DB_BTREE"
 The DB_BTREE format is useful when you want to store data in a given
 order. By default the keys will be stored in lexical order, but as you
 will see from the example shown in the next section, it is very easy to
 define your own sorting function.
 .Sh "Changing the \s-1BTREE\s0 sort order"
-.IX Subsection "Changing the \s-1BTREE\s0 sort order"
 This script shows how to override the default sorting algorithm that
 \s-1BTREE\s0 uses. Instead of using the normal lexical ordering, a case
 insensitive compare function will be used.
@@ -562,15 +546,12 @@ Here is the output from the code above.
 There are a few point to bear in mind if you want to change the
 ordering in a \s-1BTREE\s0 database:
 .Ip "1." 5
-.IX Item "1."
 The new compare function must be specified when you create the database.
 .Ip "2." 5
-.IX Item "2."
 You cannot change the ordering once the database has been created. Thus
 you must use the same compare function every time you access the
 database.
 .Sh "Handling Duplicate Keys "
-.IX Subsection "Handling Duplicate Keys "
 The \s-1BTREE\s0 file type optionally allows a single key to be associated
 with an arbitrary number of values. This option is enabled by setting
 the flags element of \f(CW$DB_BTREE\fR to R_DUP when creating the database.
@@ -685,7 +666,6 @@ that prints:
 This time we have got all the key/value pairs, including the multiple
 values associated with the key \f(CWWall\fR.
 .Sh "The \fIget_dup()\fR Method"
-.IX Subsection "The \fIget_dup()\fR Method"
 \fBDB_File\fR comes with a utility method, called \f(CWget_dup\fR, to assist in
 reading duplicate values from \s-1BTREE\s0 databases. The method can take the
 following forms:
@@ -741,7 +721,6 @@ and it will print:
 \&    Dog =>      []
 .Ve
 .Sh "Matching Partial Keys "
-.IX Subsection "Matching Partial Keys "
 The \s-1BTREE\s0 interface has a feature which allows partial keys to be
 matched. This functionality is \fIonly\fR available when the \f(CWseq\fR method
 is used along with the R_CURSOR flag.
@@ -830,7 +809,6 @@ Here is the output:
 \&    a  -> mouse -> mickey
 .Ve
 .SH "DB_RECNO"
-.IX Header "DB_RECNO"
 DB_RECNO provides an interface to flat text files. Both variable and
 fixed length records are supported.
 .PP
@@ -842,7 +820,6 @@ negative indexes. The index \-1 refers to the last element of the array,
 \-2 the second last, and so on. Attempting to access an element before
 the start of the array will raise a fatal run-time error.
 .Sh "The \*(M'bval\*(S' Option"
-.IX Subsection "The \*(M'bval\*(S' Option"
 The operation of the bval option warrants some discussion. Here is the
 definition of bval from the Berkeley \s-1DB\s0 1.85 recno manual page:
 .PP
@@ -869,7 +846,6 @@ That means that you can specify other options (e.g. cachesize) and
 still have bval default to \f(CW"\en"\fR for variable length records, and
 space for fixed length records.
 .Sh "A Simple Example"
-.IX Subsection "A Simple Example"
 Here is a simple example that uses \s-1RECNO\s0.
 .PP
 .Vb 2
@@ -907,7 +883,6 @@ Here is the output from the script:
 \&    The 2nd last element is blue
 .Ve
 .Sh "Extra Methods"
-.IX Subsection "Extra Methods"
 As you can see from the example above, the tied array interface is
 quite limited. To make the interface more useful, a number of methods
 are supplied with \fBDB_File\fR to simulate the standard array operations
@@ -916,22 +891,16 @@ these methods are accessed via the object returned from the tie call.
 .PP
 Here are the methods:
 .Ip "\fB$X\->push(list) ;\fR" 5
-.IX Item "\fB$X\->push(list) ;\fR"
 Pushes the elements of \f(CWlist\fR to the end of the array.
 .Ip "\fB$value = $X\->pop ;\fR" 5
-.IX Item "\fB$value = $X\->pop ;\fR"
 Removes and returns the last element of the array.
 .Ip "\fB$X\->shift\fR" 5
-.IX Item "\fB$X\->shift\fR"
 Removes and returns the first element of the array.
 .Ip "\fB$X\->unshift(list) ;\fR" 5
-.IX Item "\fB$X\->unshift(list) ;\fR"
 Pushes the elements of \f(CWlist\fR to the start of the array.
 .Ip "\fB$X\->length\fR" 5
-.IX Item "\fB$X\->length\fR"
 Returns the number of elements in the array.
 .Sh "Another Example"
-.IX Subsection "Another Example"
 Here is a more complete example that makes use of some of the methods
 described above. It also makes use of the \s-1API\s0 interface directly (see 
 the section on \fI\s-1THE\s0 \s-1API\s0 \s-1INTERFACE\s0\fR).
@@ -1051,7 +1020,6 @@ and this is what it outputs:
 .Ve
 Notes:
 .Ip "1." 5
-.IX Item "1."
 Rather than iterating through the array, \f(CW@h\fR like this:
 .Sp
 .Vb 1
@@ -1070,13 +1038,11 @@ or this:
 \&         $a = $H->get($k, $v, R_NEXT) )
 .Ve
 .Ip "2." 5
-.IX Item "2."
 Notice that both times the \f(CWput\fR method was used the record index was
 specified using a variable, \f(CW$i\fR, rather than the literal value
 itself. This is because \f(CWput\fR will return the record number of the
 inserted line via that parameter.
 .SH "THE API INTERFACE"
-.IX Header "THE API INTERFACE"
 As well as accessing Berkeley DB using a tied hash or array, it is also
 possible to make direct use of most of the API functions defined in the
 Berkeley DB documentation.
@@ -1112,7 +1078,6 @@ All the functions defined in the \fIdbopen\fR manpage are available except for
 supported functions have been implemented to mirror the way Berkeley DB
 works whenever possible. In particular note that:
 .Ip "\(bu" 5
-.IX Item "\(bu"
 The methods return a status value. All return 0 on success.
 All return \-1 to signify an error and set \f(CW$!\fR to the exact
 error code. The return code 1 generally (but not always) means that the
@@ -1122,11 +1087,9 @@ Other return codes are defined. See below and in the Berkeley \s-1DB\s0
 documentation for details. The Berkeley \s-1DB\s0 documentation should be used
 as the definitive source.
 .Ip "\(bu" 5
-.IX Item "\(bu"
 Whenever a Berkeley \s-1DB\s0 function returns data via one of its parameters,
 the equivalent \fBDB_File\fR method does exactly the same.
 .Ip "\(bu" 5
-.IX Item "\(bu"
 If you are careful, it is possible to mix \s-1API\s0 calls with the tied
 hash/array interface in the same piece of code. Although only a few of
 the methods used to implement the tied interface currently make use of
@@ -1177,7 +1140,6 @@ in the methods defined below are also available. Refer to the Berkeley
 .PP
 Below is a list of the methods available.
 .Ip "\fB$status = $X\->get($key, $value [, $flags]) ;\fR" 5
-.IX Item "\fB$status = $X\->get($key, $value [, $flags]) ;\fR"
 Given a key (\f(CW$key\fR) this method reads the value associated with it
 from the database. The value read from the database is returned in the
 \f(CW$value\fR parameter.
@@ -1186,7 +1148,6 @@ If the key does not exist the method returns 1.
 .Sp
 No flags are currently defined for this method.
 .Ip "\fB$status = $X\->put($key, $value [, $flags]) ;\fR" 5
-.IX Item "\fB$status = $X\->put($key, $value [, $flags]) ;\fR"
 Stores the key/value pair in the database.
 .Sp
 If you use either the R_IAFTER or R_IBEFORE flags, the \f(CW$key\fR parameter
@@ -1195,7 +1156,6 @@ will have the record number of the inserted key/value pair set.
 Valid flags are R_CURSOR, R_IAFTER, R_IBEFORE, R_NOOVERWRITE and
 R_SETCURSOR.
 .Ip "\fB$status = $X\->del($key [, $flags]) ;\fR" 5
-.IX Item "\fB$status = $X\->del($key [, $flags]) ;\fR"
 Removes all key/value pairs with key \f(CW$key\fR from the database.
 .Sp
 A return code of 1 means that the requested key was not in the
@@ -1203,13 +1163,11 @@ database.
 .Sp
 R_CURSOR is the only valid flag at present.
 .Ip "\fB$status = $X\->fd ;\fR" 5
-.IX Item "\fB$status = $X\->fd ;\fR"
 Returns the file descriptor for the underlying database.
 .Sp
 See the section on \fILocking Databases\fR for an example of how to make use of the
 \f(CWfd\fR method to lock your database.
 .Ip "\fB$status = $X\->seq($key, $value, $flags) ;\fR" 5
-.IX Item "\fB$status = $X\->seq($key, $value, $flags) ;\fR"
 This interface allows sequential retrieval from the database. See
 the \fIdbopen\fR manpage for full details.
 .Sp
@@ -1219,14 +1177,11 @@ pair read from the database.
 The flags parameter is mandatory. The valid flag values are R_CURSOR,
 R_FIRST, R_LAST, R_NEXT and R_PREV.
 .Ip "\fB$status = $X\->sync([$flags]) ;\fR" 5
-.IX Item "\fB$status = $X\->sync([$flags]) ;\fR"
 Flushes any cached buffers to disk.
 .Sp
 R_RECNOSYNC is the only valid flag at present.
 .SH "HINTS AND TIPS"
-.IX Header "HINTS AND TIPS"
 .Sh "Locking Databases"
-.IX Subsection "Locking Databases"
 Concurrent access of a read-write database by several parties requires
 them all to use some kind of locking.  Here's an example of Tom's that
 uses the \fIfd\fR method to get the file descriptor, and then a careful
@@ -1296,7 +1251,6 @@ in the background to watch the locks granted in proper order.
 \&    print "$$: Updated db to $key=$value\en";
 .Ve
 .Sh "Sharing Databases With C Applications"
-.IX Subsection "Sharing Databases With C Applications"
 There is no technical reason why a Berkeley \s-1DB\s0 database cannot be
 shared by both a Perl and a C application.
 .PP
@@ -1363,7 +1317,6 @@ Here is a snippet of code that is loosely based on Tom Christiansen's
 \&    untie %hist_db ;
 .Ve
 .Sh "The \fIuntie()\fR Gotcha"
-.IX Subsection "The \fIuntie()\fR Gotcha"
 If you make use of the Berkeley \s-1DB\s0 \s-1API\s0, it is \fIvery\fR strongly
 recommended that you read the section on \fIThe untie Gotcha\fR in the \fIperltie\fR manpage. 
 .PP
@@ -1442,9 +1395,7 @@ before the untie:
 \&    ...
 .Ve
 .SH "COMMON QUESTIONS"
-.IX Header "COMMON QUESTIONS"
 .Sh "Why is there Perl source in my database?"
-.IX Subsection "Why is there Perl source in my database?"
 If you look at the contents of a database file created by DB_File,
 there can sometimes be part of a Perl script included in it.
 .PP
@@ -1460,27 +1411,22 @@ the compilation of the script.
 Unless you don't like the possibility of there being part of your Perl
 scripts embedded in a database file, this is nothing to worry about.
 .Sh "How do I store complex data structures with DB_File?"
-.IX Subsection "How do I store complex data structures with DB_File?"
 Although \fBDB_File\fR cannot do this directly, there is a module which
 can layer transparently over \fBDB_File\fR to accomplish this feat.
 .PP
 Check out the \s-1MLDBM\s0 module, available on \s-1CPAN\s0 in the directory
 \fImodules/by-module/\s-1MLDBM\s0\fR.
 .Sh "What does \*(M"Invalid Argument\*(S" mean?"
-.IX Subsection "What does \*(M"Invalid Argument\*(S" mean?"
 You will get this error message when one of the parameters in the
 \f(CWtie\fR call is wrong. Unfortunately there are quite a few parameters to
 get wrong, so it can be difficult to figure out which one it is.
 .PP
 Here are a couple of possibilities:
 .Ip "1." 5
-.IX Item "1."
 Attempting to reopen a database without closing it. 
 .Ip "2." 5
-.IX Item "2."
 Using the O_WRONLY flag.
 .Sh "What does \*(M"Bareword \*(M'DB_File\*(S' not allowed\*(S" mean? "
-.IX Subsection "What does \*(M"Bareword \*(M'DB_File\*(S' not allowed\*(S" mean? "
 You will encounter this particular error message when you have the
 \f(CWstrict 'subs'\fR pragma (or the full strict pragma) in your script.
 Consider this script:
@@ -1505,21 +1451,16 @@ double quotes, like this:
 Although it might seem like a real pain, it is really worth the effort
 of having a \f(CWuse strict\fR in all your scripts.
 .SH "HISTORY"
-.IX Header "HISTORY"
 .Ip "0.1" 5
-.IX Item "0.1"
 First Release.
 .Ip "0.2" 5
-.IX Item "0.2"
 When \fBDB_File\fR is opening a database file it no longer terminates the
 process if \fIdbopen\fR returned an error. This allows file protection
 errors to be caught at run time. Thanks to Judith Grass
 <grass@cybercash.com> for spotting the bug.
 .Ip "0.3" 5
-.IX Item "0.3"
 Added prototype support for multiple btree compare callbacks.
 .Ip "1.0" 5
-.IX Item "1.0"
 \fBDB_File\fR has been in use for over a year. To reflect that, the
 version number has been incremented to 1.0.
 .Sp
@@ -1528,13 +1469,11 @@ Added complete support for multiple concurrent callbacks.
 Using the \fIpush\fR method on an empty list didn't work properly. This
 has been fixed.
 .Ip "1.01" 5
-.IX Item "1.01"
 Fixed a core dump problem with SunOS.
 .Sp
 The return value from \s-1TIEHASH\s0 wasn't set to \s-1NULL\s0 when dbopen returned
 an error.
 .Ip "1.02" 5
-.IX Item "1.02"
 Merged \s-1OS/2\s0 specific code into DB_File.xs
 .Sp
 Removed some redundant code in DB_File.xs.
@@ -1550,7 +1489,6 @@ The example code which showed how to lock a database needed a call to
 .Sp
 Added get_dup method.
 .Ip "1.03" 5
-.IX Item "1.03"
 Documentation update.
 .Sp
 \fBDB_File\fR now imports the constants (O_RDWR, O_CREAT etc.) from Fcntl
@@ -1561,7 +1499,6 @@ The standard hash function \f(CWexists\fR is now supported.
 Modified the behavior of get_dup. When it returns an associative
 array, the value is the count of the number of matching \s-1BTREE\s0 values.
 .Ip "1.04" 5
-.IX Item "1.04"
 Minor documentation changes.
 .Sp
 Fixed a bug in hash_cb. Patches supplied by Dave Hammen,
@@ -1573,45 +1510,49 @@ constructors to make them \f(CW-w\fR clean.
 .Sp
 Reworked part of the test harness to be more locale friendly.
 .Ip "1.05" 5
-.IX Item "1.05"
 Made all scripts in the documentation \f(CWstrict\fR and \f(CW-w\fR clean.
 .Sp
 Added logic to \fIDB_File.xs\fR to allow the module to be built after Perl
 is installed.
 .Ip "1.06" 5
-.IX Item "1.06"
 Minor namespace cleanup: Localized \f(CWPrintBtree\fR.
 .Ip "1.07" 5
-.IX Item "1.07"
 Fixed bug with \s-1RECNO\s0, where bval wasn't defaulting to \*(L"\en\*(R".
 .Ip "1.08" 5
-.IX Item "1.08"
 Documented operation of bval.
 .Ip "1.09" 5
-.IX Item "1.09"
 Minor bug fix in DB_File::\s-1HASHINFO\s0, DB_File::\s-1RECNOINFO\s0 and
 DB_File::\s-1BTREEINFO\s0.
 .Sp
 Changed default mode to 0666.
 .Ip "1.10" 5
-.IX Item "1.10"
 Fixed fd method so that it still returns \-1 for in-memory files when db
 1.86 is used.
 .Ip "1.11" 5
-.IX Item "1.11"
 Documented the untie gotcha.
 .Ip "1.12" 5
-.IX Item "1.12"
 Documented the incompatibility with version 2 of Berkeley \s-1DB\s0.
 .Ip "1.13" 5
-.IX Item "1.13"
 Minor changes to DB_FIle.xs and DB_File.pm
 .Ip "1.14" 5
-.IX Item "1.14"
 Made it illegal to tie an associative array to a \s-1RECNO\s0 database and an
 ordinary array to a \s-1HASH\s0 or \s-1BTREE\s0 database.
+.Ip "1.15" 5
+Patch from Gisle Aas <gisle@aas.no> to suppress \*(L"use of undefined
+value\*(R" warning with db_get and db_seq.
+.Sp
+Patch from Gisle Aas <gisle@aas.no> to make DB_File export only the O_*
+constants from Fcntl.
+.Sp
+Removed the \s-1DESTROY\s0 method from the DB_File::\s-1HASHINFO\s0 module.
+.Sp
+Previously DB_File hard-wired the class name of any object that it
+created to \*(L"DB_File\*(R". This makes sub-classing difficult. Now DB_File
+creats objects in the namespace of the package it has been inherited
+into.
+.Ip "1.16" 5
+Minor changes to DB_File.xs to support multithreaded perl.
 .SH "BUGS"
-.IX Header "BUGS"
 Some older versions of Berkeley DB had problems with fixed length
 records using the RECNO file format. The newest version at the time of
 writing was 1.85 \- this seems to have fixed the problems with RECNO.
@@ -1619,7 +1560,6 @@ writing was 1.85 \- this seems to have fixed the problems with RECNO.
 I am sure there are bugs in the code. If you do find any, or can
 suggest any enhancements, I would welcome your comments.
 .SH "AVAILABILITY"
-.IX Header "AVAILABILITY"
 \fBDB_File\fR comes with the standard Perl source distribution. Look in
 the directory \fIext/DB_File\fR.
 .PP
@@ -1657,13 +1597,168 @@ using it:
 \&    before upgrading from 1.85.  
 .Ve
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperl(1)\fR manpage, the \fIdbopen(3)\fR manpage, the \fIhash(3)\fR manpage, the \fIrecno(3)\fR manpage, the \fIbtree(3)\fR manpage 
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 The DB_File interface was written by Paul Marquess
 <pmarquess@bfsec.bt.co.uk>.
 Questions about the DB system itself may be addressed to
 <db@sleepycat.com<gt>.
 
 .rn }` ''
+.IX Title "DB_File 3"
+.IX Name "DB_File - Perl5 access to Berkeley DB"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\fB\s-1DB_HASH\s0\fR"
+
+.IX Item "\fB\s-1DB_BTREE\s0\fR"
+
+.IX Item "\fB\s-1DB_RECNO\s0\fR"
+
+.IX Subsection "Interface to Berkeley \s-1DB\s0"
+
+.IX Subsection "Opening a Berkeley \s-1DB\s0 Database File"
+
+.IX Subsection "Default Parameters"
+
+.IX Subsection "In Memory Databases"
+
+.IX Header "DB_HASH"
+
+.IX Subsection "A Simple Example"
+
+.IX Header "DB_BTREE"
+
+.IX Subsection "Changing the \s-1BTREE\s0 sort order"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Subsection "Handling Duplicate Keys "
+
+.IX Subsection "The \fIget_dup()\fR Method"
+
+.IX Subsection "Matching Partial Keys "
+
+.IX Header "DB_RECNO"
+
+.IX Subsection "The \*(M'bval\*(S' Option"
+
+.IX Subsection "A Simple Example"
+
+.IX Subsection "Extra Methods"
+
+.IX Item "\fB$X\->push(list) ;\fR"
+
+.IX Item "\fB$value = $X\->pop ;\fR"
+
+.IX Item "\fB$X\->shift\fR"
+
+.IX Item "\fB$X\->unshift(list) ;\fR"
+
+.IX Item "\fB$X\->length\fR"
+
+.IX Subsection "Another Example"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Header "THE API INTERFACE"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Item "\fB$status = $X\->get($key, $value [, $flags]) ;\fR"
+
+.IX Item "\fB$status = $X\->put($key, $value [, $flags]) ;\fR"
+
+.IX Item "\fB$status = $X\->del($key [, $flags]) ;\fR"
+
+.IX Item "\fB$status = $X\->fd ;\fR"
+
+.IX Item "\fB$status = $X\->seq($key, $value, $flags) ;\fR"
+
+.IX Item "\fB$status = $X\->sync([$flags]) ;\fR"
+
+.IX Header "HINTS AND TIPS"
+
+.IX Subsection "Locking Databases"
+
+.IX Subsection "Sharing Databases With C Applications"
+
+.IX Subsection "The \fIuntie()\fR Gotcha"
+
+.IX Header "COMMON QUESTIONS"
+
+.IX Subsection "Why is there Perl source in my database?"
+
+.IX Subsection "How do I store complex data structures with DB_File?"
+
+.IX Subsection "What does \*(M"Invalid Argument\*(S" mean?"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Subsection "What does \*(M"Bareword \*(M'DB_File\*(S' not allowed\*(S" mean? "
+
+.IX Header "HISTORY"
+
+.IX Item "0.1"
+
+.IX Item "0.2"
+
+.IX Item "0.3"
+
+.IX Item "1.0"
+
+.IX Item "1.01"
+
+.IX Item "1.02"
+
+.IX Item "1.03"
+
+.IX Item "1.04"
+
+.IX Item "1.05"
+
+.IX Item "1.06"
+
+.IX Item "1.07"
+
+.IX Item "1.08"
+
+.IX Item "1.09"
+
+.IX Item "1.10"
+
+.IX Item "1.11"
+
+.IX Item "1.12"
+
+.IX Item "1.13"
+
+.IX Item "1.14"
+
+.IX Item "1.15"
+
+.IX Item "1.16"
+
+.IX Header "BUGS"
+
+.IX Header "AVAILABILITY"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::BigFloat 3 "perl 5.004, patch 01" "14/Feb/96" "Perl Programmers Reference Guide"
-.IX Title "Math::BigFloat 3"
+.TH Math::BigFloat 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Math::BigFloat - Arbitrary length float math package"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Math::BigFloat \- Arbitrary length float math package
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&  use Math::BogFloat;
@@ -213,7 +209,6 @@ Math::BigFloat \- Arbitrary length float math package
 \&  $f->fsqrt([SCALE]) return NSTR        sqrt to SCALE places
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 All basic math operations are overloaded if you declare your big
 floats as
 .PP
@@ -221,23 +216,37 @@ floats as
 \&    $float = new Math::BigFloat "2.123123123123123123123123123123123";
 .Ve
 .Ip "number format" 2
-.IX Item "number format"
 canonical strings have the form /[+\-]\ed+E[+\-]\ed+/ .  Input values can
 have inbedded whitespace.
 .Ip "Error returns \*(N'NaN\*(T'" 2
-.IX Item "Error returns \*(N'NaN\*(T'"
 An input parameter was \*(L"Not a Number\*(R" or divide by zero or sqrt of
 negative number.
 .Ip "Division is computed to " 2
-.IX Item "Division is computed to "
 \f(CWmax($div_scale,length(dividend)+length(divisor))\fR digits by default.
 Also used for default sqrt scale.
 .SH "BUGS"
-.IX Header "BUGS"
 The current version of this module is a preliminary version of the
 real thing that is currently (as of perl5.002) under development.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Mark Biggar
 
 .rn }` ''
+.IX Title "Math::BigFloat 3"
+.IX Name "Math::BigFloat - Arbitrary length float math package"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "number format"
+
+.IX Item "Error returns \*(N'NaN\*(T'"
+
+.IX Item "Division is computed to "
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::RobotUA 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::RobotUA 3"
+.TH lib::LWP::RobotUA 3 "perl 5.004, patch 55" "6/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::RobotUA - A class for Web Robots"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::RobotUA \- A class for Web Robots
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \&  require LWP::RobotUA;
@@ -204,7 +200,6 @@ LWP::RobotUA \- A class for Web Robots
 \&  $res = $ua->request($req);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This class implements a user agent that is suitable for robot
 applications.  Robots should be nice to the servers they visit.  They
 should consult the \fIrobots.txt\fR file to ensure that they are welcomed
@@ -218,7 +213,6 @@ really have to think about these things yourself.  Just send requests
 as you do when you are using a normal \fILWP::UserAgent\fR and this
 special agent will make sure you are nice.
 .SH "METHODS"
-.IX Header "METHODS"
 The LWP::RobotUA is a sub-class of LWP::UserAgent and implements the
 same methods.  The \fIuse_alarm()\fR method also desides whether we will
 wait if a request is tried too early (if true), or will return an error
@@ -226,35 +220,64 @@ response (if false).
 .PP
 In addition these methods are provided:
 .Sh "\f(CW$ua\fR = \s-1LWP::\s0RobotUA\->\fInew\fR\|($agent_name, \f(CW$from\fR, [$rules])"
-.IX Subsection "\f(CW$ua\fR = \s-1LWP::\s0RobotUA\->\fInew\fR\|($agent_name, \f(CW$from\fR, [$rules])"
 Your robot's name and the mail address of the human responsible for
 the robot (i.e. you) is required by the constructor.
 .PP
 Optionally it allows you to specify the \fI\s-1WWW::\s0RobotRules\fR object to
 use.
 .Sh "\f(CW$ua\fR\->\fIdelay\fR\|([$minutes])"
-.IX Subsection "\f(CW$ua\fR\->\fIdelay\fR\|([$minutes])"
 Set the minimum delay between requests to the same server.  The
 default is 1 minute.
+.Sh "\f(CW$ua\fR\->\fIuse_sleep\fR\|([$boolean])"
+Get/set a value indicating wether the \s-1UA\s0 should \fIsleep()\fR if request
+arrive to fast (before \f(CW$ua\fR\->delay minutes has passed).  The default is
+\s-1TRUE\s0.  If this value is \s-1FALSE\s0 then an internal \s-1SERVICE_UNAVAILABLE\s0
+response will be generated.  It will have an Retry-After header that
+indicate when it is \s-1OK\s0 to send another request to this server.
 .Sh "\f(CW$ua\fR\->\fIrules\fR\|([$rules])"
-.IX Subsection "\f(CW$ua\fR\->\fIrules\fR\|([$rules])"
 Set/get which \fI\s-1WWW::\s0RobotRules\fR object to use. 
 .Sh "\f(CW$ua\fR\->\fIno_visits\fR\|($netloc)"
-.IX Subsection "\f(CW$ua\fR\->\fIno_visits\fR\|($netloc)"
-Returns the number of documents fetched from this server host.
+Returns the number of documents fetched from this server host. Yes I
+know, this method should probably have been named \fInum_visits()\fR or
+something like that :\-(
 .Sh "\f(CW$ua\fR\->\fIhost_wait\fR\|($netloc)"
-.IX Subsection "\f(CW$ua\fR\->\fIhost_wait\fR\|($netloc)"
-Returns the number of seconds you must wait before you can make a new
-request to this host.
+Returns the number of seconds (from now) you must wait before you can
+make a new request to this host.
 .Sh "\f(CW$ua\fR\->as_string"
-.IX Subsection "\f(CW$ua\fR\->as_string"
 Returns a text that describe the state of the \s-1UA\s0.
 Mainly useful for debugging.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fILWP::UserAgent\fR manpage, the \fIWWW::RobotRules\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::LWP::RobotUA 3"
+.IX Name "LWP::RobotUA - A class for Web Robots"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$ua\fR = \s-1LWP::\s0RobotUA\->\fInew\fR\|($agent_name, \f(CW$from\fR, [$rules])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIdelay\fR\|([$minutes])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIuse_sleep\fR\|([$boolean])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIrules\fR\|([$rules])"
+
+.IX Subsection "\f(CW$ua\fR\->\fIno_visits\fR\|($netloc)"
+
+.IX Subsection "\f(CW$ua\fR\->\fIhost_wait\fR\|($netloc)"
+
+.IX Subsection "\f(CW$ua\fR\->as_string"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

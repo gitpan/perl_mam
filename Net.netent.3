@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::netent 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Net::netent 3"
+.TH Net::netent 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Net::netent - by-name interface to Perl's built-in getnet*() functions"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::netent \- by-name interface to Perl's built-in getnet*() functions
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& use Net::netent qw(:FIELDS);
@@ -212,7 +208,6 @@ Net::netent \- by-name interface to Perl's built-in getnet*() functions
 \& printf "%s is %08X [%d.%d.%d.%d]\en", $n->name, $n->net, @bytes;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module's default exports override the core \fIgetnetbyname()\fR and
 \fIgetnetbyaddr()\fR functions, replacing them with versions that return
 \*(L"Net::netent\*(R" objects.  This object has methods that return the similarly
@@ -238,7 +233,6 @@ function functions with their full qualified names.
 On the other hand, the built-ins are still available
 via the \f(CWCORE::\fR pseudo-package.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 The \fIgetnet()\fR functions do this in the Perl core:
 .PP
 .Vb 1
@@ -296,11 +290,24 @@ This seems a bug, but here's how to deal with it:
 \& }
 .Ve
 .SH "NOTE"
-.IX Header "NOTE"
 While this class is currently implemented using the Class::Struct
 module to build a struct-like class, you shouldn't rely upon this.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen
 
 .rn }` ''
+.IX Title "Net::netent 3"
+.IX Name "Net::netent - by-name interface to Perl's built-in getnet*() functions"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Header "NOTE"
+
+.IX Header "AUTHOR"
+

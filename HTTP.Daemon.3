@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Daemon 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Daemon 3"
+.TH lib::HTTP::Daemon 3 "perl 5.004, patch 55" "14/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Daemon - a simple http server class"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Daemon \- a simple http server class
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&  use HTTP::Daemon;
@@ -216,7 +212,6 @@ HTTP::Daemon \- a simple http server class
 \&  }
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Instances of the \fIHTTP::Daemon\fR class are HTTP/1.1 servers that
 listens on a socket for incoming requests. The \fIHTTP::Daemon\fR is a
 sub-class of \fIIO::Socket::INET\fR, so you can do socket operations
@@ -234,11 +229,9 @@ desirable.  Also note that the user is responsible for generating
 responses that conforms to the HTTP/1.1 protocol.  The
 \fIHTTP::Daemon::ClientConn\fR provide some methods that make this easier.
 .SH "METHODS"
-.IX Header "METHODS"
 The following is a list of methods that are new (or enhanced) relative
 to the \fIIO::Socket::INET\fR base class.
 .Ip "$d = new \s-1HTTP::\s0Daemon" 4
-.IX Item "$d = new \s-1HTTP::\s0Daemon"
 The object constructor takes the same parameters as the
 \fI\s-1IO::\s0Socket::\s-1INET\s0\fR constructor.  It can also be called without
 specifying any parameters. The daemon will then set up a listen queue
@@ -251,16 +244,14 @@ will be constructed like this:
 \&        LocalAddr => 'www.someplace.com',
 \&        LocalPort => 80;
 .Ve
-.Ip "$c = $d->accept" 4
-.IX Item "$c = $d->accept"
+.Ip "$c = $d->accept([$pkg])" 4
 Same as \fI\s-1IO::\s0Socket::accept\fR but will return an
-\fI\s-1HTTP::\s0Daemon::ClientConn\fR reference.  It will return undef if you
-have specified a timeout and no connection is made within that time.
+\fI\s-1HTTP::\s0Daemon::ClientConn\fR reference by default.  It will return
+undef if you have specified a timeout and no connection is made within
+that time.
 .Ip "$d->url" 4
-.IX Item "$d->url"
 Returns a \s-1URL\s0 string that can be used to access the server root.
 .Ip "$d->product_tokens" 4
-.IX Item "$d->product_tokens"
 Returns the name that this server will use to identify itself.  This
 is the string that is sent with the \fIServer\fR response header.
 .PP
@@ -269,7 +260,6 @@ subclass. Instances of this class are returned by the \fIaccept()\fR method
 of the \fI\s-1HTTP::\s0Daemon\fR.  The following additional methods are
 provided:
 .Ip "$c->get_request" 4
-.IX Item "$c->get_request"
 Will read data from the client and turn it into a \fI\s-1HTTP::\s0Request\fR
 object which is then returned. Will return undef if reading of the
 request failed.  If it fails, then the \fI\s-1HTTP::\s0Daemon::ClientConn\fR
@@ -278,49 +268,81 @@ object ($c) should be discarded.
 The \f(CW$c\fR\->get_request method support \s-1HTTP/1\s0.1 content bodies, including
 \fIchunked\fR transfer encoding with footer and \fImultipart/*\fR types.
 .Ip "$c->antique_client" 4
-.IX Item "$c->antique_client"
 Returns \s-1TRUE\s0 if the client speaks the \s-1HTTP/0\s0.9 protocol, i.e. no
 status code or headers should be returned.
 .Ip "$c->send_status_line( [$code, [$mess, [$proto]]] )" 4
-.IX Item "$c->send_status_line( [$code, [$mess, [$proto]]] )"
 Sends the status line back to the client.
 .Ip "$c->send_basic_header( [$code, [$mess, [$proto]]] )" 4
-.IX Item "$c->send_basic_header( [$code, [$mess, [$proto]]] )"
 Sends the status line and the \*(L"Date:\*(R" and \*(L"Server:\*(R" headers back to
 the client.
 .Ip "$c->send_response( [$res] )" 4
-.IX Item "$c->send_response( [$res] )"
 Takes a \fI\s-1HTTP::\s0Response\fR object as parameter and send it back to the
 client as the response.
 .Ip "$c->send_redirect( $loc, [$code, [$entity_body]] )" 4
-.IX Item "$c->send_redirect( $loc, [$code, [$entity_body]] )"
 Sends a redirect response back to the client.  The location ($loc) can
 be an absolute or a relative \s-1URL\s0. The \f(CW$code\fR must be one the redirect
 status codes, and it defaults to \*(L"301 Moved Permanently\*(R"
 .Ip "$c->send_error( [$code, [$error_message]] )" 4
-.IX Item "$c->send_error( [$code, [$error_message]] )"
 Send an error response back to the client.  If the \f(CW$code\fR is missing a
 \*(L"Bad Request\*(R" error is reported.  The \f(CW$error_message\fR is a string that
 is incorporated in the body of the \s-1HTML\s0 entity body.
 .Ip "$c->send_file_response($filename)" 4
-.IX Item "$c->send_file_response($filename)"
 Send back a response with the specified \f(CW$filename\fR as content.  If the
 file happen to be a directory we will generate a \s-1HTML\s0 index for it.
 .Ip "$c->send_file($fd);" 4
-.IX Item "$c->send_file($fd);"
 Copies the file back to the client.  The file can be a string (which
 will be interpreted as a filename) or a reference to a glob.
 .Ip "$c->daemon" 4
-.IX Item "$c->daemon"
 Return a reference to the corresponding \fI\s-1HTTP::\s0Daemon\fR object.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIIO::Socket\fR manpage, the \fIApache\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1996, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "lib::HTTP::Daemon 3"
+.IX Name "HTTP::Daemon - a simple http server class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Item "$d = new \s-1HTTP::\s0Daemon"
+
+.IX Item "$c = $d->accept([$pkg])"
+
+.IX Item "$d->url"
+
+.IX Item "$d->product_tokens"
+
+.IX Item "$c->get_request"
+
+.IX Item "$c->antique_client"
+
+.IX Item "$c->send_status_line( [$code, [$mess, [$proto]]] )"
+
+.IX Item "$c->send_basic_header( [$code, [$mess, [$proto]]] )"
+
+.IX Item "$c->send_response( [$res] )"
+
+.IX Item "$c->send_redirect( $loc, [$code, [$entity_body]] )"
+
+.IX Item "$c->send_error( [$code, [$error_message]] )"
+
+.IX Item "$c->send_file_response($filename)"
+
+.IX Item "$c->send_file($fd);"
+
+.IX Item "$c->daemon"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+

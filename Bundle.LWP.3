@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::Bundle::LWP 3 "perl 5.004, patch 01" "10/Jun/97" "User Contributed Perl Documentation"
-.IX Title "lib::Bundle::LWP 3"
+.TH lib::Bundle::LWP 3 "perl 5.004, patch 55" "17/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Bundle::LWP - A bundle to install all libwww-perl related modules"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,28 +188,36 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Bundle::LWP \- A bundle to install all libwww-perl related modules
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& perl -MCPAN -e 'install Bundle::LWP'
 .Ve
 .SH "CONTENTS"
-.IX Header "CONTENTS"
 Net::FTP 2.00      \- If you want ftp://\-support
-.PP
-IO::Socket 1.13    \- Used by HTTP::Daemon
 .PP
 MIME::Base64       \- Used in authentication headers
 .PP
 MD5                \- Needed to Digest authentication
+.PP
+LWP                \- The reason why you need the modules above
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This bundle defines all reqreq modules for libwww-perl.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::Bundle::LWP 3"
+.IX Name "Bundle::LWP - A bundle to install all libwww-perl related modules"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "CONTENTS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHOR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH LWPCOOK 1 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "LWPCOOK 1"
+.TH LWPCOOK 1 "perl 5.004, patch 55" "17/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "lwpcook - libwww-perl cookbook"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 lwpcook \- libwww-perl cookbook
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This document contain some examples that show typical usage of the
 libwww-perl library.  You should consult the documentation for the
 individual modules for more detail.
@@ -201,7 +197,6 @@ individual modules for more detail.
 All examples should be runnable programs. You can, in most cases, test
 the code sections by piping the program text directly to perl.
 .SH "GET"
-.IX Header "GET"
 It is very easy to use this library to just fetch documents from the
 net.  The LWP::Simple module provides the \fIget()\fR function that return
 the document specified by its URL argument:
@@ -259,7 +254,6 @@ The lwp-request program (alias GET) that is distributed with the
 library can also be used to fetch documents from WWW servers.
   
 .SH "HEAD"
-.IX Header "HEAD"
 If you just want to check if a document is present (i.e. the URL is
 valid) try to run code that looks like this:
 .PP
@@ -279,7 +273,6 @@ More control over the request or access to all header values returned
 require that you use the object oriented interface described for GET
 above.  Just s/GET/HEAD/g.
 .SH "POST"
-.IX Header "POST"
 There is no simple interface for posting data to a WWW server.  You
 must use the object oriented interface for this. The most common POST
 operation is to access a WWW form application:
@@ -297,27 +290,18 @@ operation is to access a WWW form application:
 \&  my $res = $ua->request($req);
 \&  print $res->as_string;
 .Ve
-If your application has the key/value pairs to be posted in an
-associative array, then we can exploit the URI::URL module to create
-the content for the POST request message (it handles all the escaping
-issues):
+You can also use the HTTP::Request::Common module to set up a suitable
+POST request message (it handles all the escaping issues) and has a
+suitable default for the content_type:
 .PP
-.Vb 1
-\&  %form = ( search => 'www', errors => 0 );
-.Ve
 .Vb 3
-\&  use URI::URL;
+\&  use HTTP::Request::Common qw(POST);
 \&  use LWP::UserAgent;
 \&  $ua = new LWP::UserAgent;
 .Ve
 .Vb 2
-\&  my $req = new HTTP::Request 'POST', 'http://www.perl.com/cgi-bin/BugGlimpse';
-\&  $req->content_type('application/x-www-form-urlencoded');
-.Ve
-.Vb 3
-\&  my $curl = url("http:");      # create an empty HTTP URL object
-\&  $curl->query_form(%form);
-\&  $req->content($curl->equery); # %form content as escaped query string
+\&  my $req = POST 'http://www.perl.com/cgi-bin/BugGlimpse',
+\&                [ search => 'www', errors => 0 ];
 .Ve
 .Vb 1
 \&  print $ua->request($req)->as_string;
@@ -325,7 +309,6 @@ issues):
 The lwp-request program (alias POST) that is distributed with the
 library can also be used for posting data.
 .SH "PROXIES"
-.IX Header "PROXIES"
 Some sites use proxies to go through fire wall machines, or just as
 cache in order to improve performance.  Proxies can also be used for
 accessing resources through protocols not supported directly (or
@@ -350,8 +333,36 @@ requests:
 The LWP::Simple interface will call \fIenv_proxy()\fR for you automatically.
 Applications that use the \f(CW$ua\fR\->\fIenv_proxy()\fR method will normally not
 use the \f(CW$ua\fR\->\fIproxy()\fR and \f(CW$ua\fR\->\fIno_proxy()\fR methods.
+.PP
+Some proxies also require that you send it a username/password in
+order to let requests through.  LWP does not support
+Proxy-Authorization directly yet, but you should be able to add the
+required header manually.
+.PP
+Do something like this:
+.PP
+.Vb 2
+\& use LWP::UserAgent;
+\& use MIME::Base64 qw(encode_base64);
+.Ve
+.Vb 2
+\& $ua = new LWP::UserAgent;
+\& $ua->proxy(['http', 'ftp'] => 'http://proxy.myorg.com');
+.Ve
+.Vb 1
+\& $proxy_auth = "Basic " . encode_base64("proxy_user:proxy_password");
+.Ve
+.Vb 2
+\& $req = new HTTP::Request 'GET',"http://www.perl.com";
+\& $req->header("Proxy-Authorization" => $proxy_auth);  # This is the key!
+.Ve
+.Vb 2
+\& $res = $ua->request($req);
+\& print $res->content if $res->is_success;
+.Ve
+Replace \f(CWproxy.myorg.com\fR, \f(CWproxy_user\fR and
+\f(CWproxy_password\fR with something suitable for your site.
 .SH "ACCESS TO PROTECTED DOCUMENTS"
-.IX Header "ACCESS TO PROTECTED DOCUMENTS"
 Documents protected by basic authorization can easily be accessed
 like this:
 .PP
@@ -366,7 +377,6 @@ The other alternative is to provide a subclass of \fILWP::UserAgent\fR that
 overrides the \fIget_basic_credentials()\fR method. Study the \fIlwp-request\fR
 program for an example of this.
 .SH "MIRRORING"
-.IX Header "MIRRORING"
 If you want to mirror documents from a WWW server, then try to run
 code similar to this at regular intervals:
 .PP
@@ -393,7 +403,6 @@ Or, as a perl one-liner:
 .Ve
 The document will not be transfered unless it has been updated.
 .SH "LARGE DOCUMENTS"
-.IX Header "LARGE DOCUMENTS"
 If the document you want to fetch is too large to be kept in memory,
 then you have two alternatives.  You can instruct the library to write
 the document content to a file (second \f(CW$ua\fR\->\fIrequest()\fR argument is a file
@@ -441,7 +450,6 @@ argument is a code reference):
 \&               });
 .Ve
 .SH "HTML FORMATTING"
-.IX Header "HTML FORMATTING"
 It is easy to convert HTML code to \*(L"readable\*(R" text.
 .PP
 .Vb 3
@@ -450,7 +458,6 @@ It is easy to convert HTML code to \*(L"readable\*(R" text.
 \&  print parse_html(get 'http://www.sn.no/libwww-perl/')->format;
 .Ve
 .SH "PARSE URLS"
-.IX Header "PARSE URLS"
 To access individual elements of a URL, try this:
 .PP
 .Vb 2
@@ -472,7 +479,6 @@ or even
 \&  my($host,$port) = (url("ftp://ftp.sn.no/test/aas;type=i")->crack)[3,4];
 .Ve
 .SH "EXPAND RELATIVE URLS"
-.IX Header "EXPAND RELATIVE URLS"
 This code reads URLs and print expanded version.
 .PP
 .Vb 5
@@ -519,7 +525,6 @@ tree that we then traverse:
 \&  }
 .Ve
 .SH "BASE URL"
-.IX Header "BASE URL"
 If you want to resolve relative links in a page you will have to
 determine which base URL to use.  The HTTP::Response objects now has a
 \fIbase()\fR method.
@@ -529,3 +534,32 @@ determine which base URL to use.  The HTTP::Response objects now has a
 .Ve
 
 .rn }` ''
+.IX Title "LWPCOOK 1"
+.IX Name "lwpcook - libwww-perl cookbook"
+
+.IX Header "NAME"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "GET"
+
+.IX Header "HEAD"
+
+.IX Header "POST"
+
+.IX Header "PROXIES"
+
+.IX Header "ACCESS TO PROTECTED DOCUMENTS"
+
+.IX Header "MIRRORING"
+
+.IX Header "LARGE DOCUMENTS"
+
+.IX Header "HTML FORMATTING"
+
+.IX Header "PARSE URLS"
+
+.IX Header "EXPAND RELATIVE URLS"
+
+.IX Header "BASE URL"
+

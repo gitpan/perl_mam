@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::AsSubs 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::AsSubs 3"
+.TH lib::HTML::AsSubs 3 "perl 5.004, patch 55" "6/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::AsSubs - functions that construct a HTML syntax tree"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::AsSubs \- functions that construct a HTML syntax tree
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 11
 \& use HTML::AsSubs;
@@ -209,7 +205,6 @@ HTML::AsSubs \- functions that construct a HTML syntax tree
 \& print $h->as_HTML;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module exports functions that can be used to construct various
 HTML elements. The functions are named after the tags of the
 correponding HTML element and are all written in lower case. If the
@@ -217,7 +212,6 @@ first argument is a \fIhash\fR then it will be used to initialize the
 attributes of this element. The remaining arguments are regarded as
 content.
 .SH "ACKNOWLEDGEMENT"
-.IX Header "ACKNOWLEDGEMENT"
 This module was inspired by the following message:
 .PP
 .Vb 2
@@ -246,12 +240,25 @@ This module was inspired by the following message:
 \& p.p.p.s. It's a pity that overloads are not inherited. Is this a bug?
 .Ve
 .SH "BUGS"
-.IX Header "BUGS"
 The exported \fIlink()\fR function overrides the builtin \fIlink()\fR function.
 The exported \fItr()\fR function must be called using &\fItr\fR\|(...) syntax
 because it clashes with the builtin tr/../../ operator.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Element\fR manpage
 
 .rn }` ''
+.IX Title "lib::HTML::AsSubs 3"
+.IX Name "HTML::AsSubs - functions that construct a HTML syntax tree"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "ACKNOWLEDGEMENT"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Apache 3 "perl 5.004, patch 01" "12/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "CGI::Apache 3"
+.TH CGI::Apache 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CGI::Apache - Make things work with CGI.pm against Perl-Apache API"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CGI::Apache \- Make things work with CGI.pm against Perl-Apache API
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& require CGI::Apache;
@@ -208,24 +204,36 @@ CGI::Apache \- Make things work with CGI.pm against Perl-Apache API
 \& #do things just like you do with CGI.pm
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 When using the Perl-Apache API, your applications are faster, but the
 enviroment is different than CGI.
 This module attempts to set-up that environment as best it can.
 .SH "NOTE 1"
-.IX Header "NOTE 1"
 This module used to be named Apache::CGI.  Sorry for the confusion.
 .SH "NOTE 2"
-.IX Header "NOTE 2"
 If you're going to inherit from this class, make sure to \*(L"use\*(R" it
 after your package declaration rather than \*(L"require\*(R" it.  This is
 because CGI.pm does a little magic during the \fIimport()\fR step in order
 to make autoloading work correctly.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1), \fIApache\fR\|(3), \fICGI\fR\|(3)
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Doug MacEachern <dougm@osf.org>, hacked over by Andreas König <a.koenig@mind.de>, modified by Lincoln Stein <lt>lstein@genome.wi.mit.edu<gt>
 
 .rn }` ''
+.IX Title "CGI::Apache 3"
+.IX Name "CGI::Apache - Make things work with CGI.pm against Perl-Apache API"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "NOTE 1"
+
+.IX Header "NOTE 2"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

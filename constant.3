@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH constant 3 "perl 5.004, patch 01" "1/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "constant 3"
+.TH constant 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "constant - Perl pragma to declare constants"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 constant \- Perl pragma to declare constants
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \&    use constant BUFFER_SIZE    => 4096;
@@ -211,7 +207,6 @@ constant \- Perl pragma to declare constants
 \&    print "This line does nothing"              unless DEBUGGING;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This will declare a symbol to be a constant with the given scalar
 or list value.
 .PP
@@ -222,7 +217,6 @@ read, more likely to be maintained (and maintained correctly), and
 far less likely to send a space probe to the wrong planet because
 nobody noticed the one equation in which you wrote \f(CW3.14195\fR.
 .SH "NOTES"
-.IX Header "NOTES"
 The value or values are evaluated in a list context. You may override
 this with \f(CWscalar\fR as shown above.
 .PP
@@ -280,7 +274,6 @@ constants at compile time, allowing for way cool stuff like this.
 \&    print 0+E2BIG, "\en";        # "7"
 .Ve
 .SH "TECHNICAL NOTE"
-.IX Header "TECHNICAL NOTE"
 In the current implementation, scalar constants are actually
 inlinable subroutines. As of version 5.004 of Perl, the appropriate
 scalar constant is inserted directly in place of some subroutine
@@ -288,7 +281,6 @@ calls, thereby saving the overhead of a subroutine call. See
 the section on \fIConstant Functions\fR in the \fIperlsub\fR manpage for details about how and when this
 happens.
 .SH "BUGS"
-.IX Header "BUGS"
 In the current version of Perl, list constants are not inlined
 and some symbols may be redefined without generating a warning.
 .PP
@@ -298,14 +290,31 @@ name as a constant. This is probably a Good Thing.
 Unlike constants in some languages, these cannot be overridden
 on the command line or via environment variables.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Phoenix, <\fIrootbeer@teleport.com\fR>, with help from
 many other folks.
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (C) 1997, Tom Phoenix
 .PP
 This module is free software; you can redistribute it or modify it
 under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "constant 3"
+.IX Name "constant - Perl pragma to declare constants"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "NOTES"
+
+.IX Header "TECHNICAL NOTE"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

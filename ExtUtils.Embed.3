@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Embed 3 "perl 5.004, patch 01" "2/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::Embed 3"
+.TH ExtUtils::Embed 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::Embed - Utilities for embedding Perl in C/C++ applications"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,31 +188,25 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::Embed \- Utilities for embedding Perl in C/\*(C+ applications
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& perl -MExtUtils::Embed -e xsinit 
 \& perl -MExtUtils::Embed -e ldopts 
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 ExtUtils::Embed provides utility functions for embedding a Perl interpreter
 and extensions in your C/\*(C+ applications.  
 Typically, an application \fBMakefile\fR will invoke ExtUtils::Embed
 functions while building your application.  
 .SH "\f(CW@EXPORT\fR"
-.IX Header "\f(CW@EXPORT\fR"
 ExtUtils::Embed exports the following functions:
 .PP
 \fIxsinit()\fR, \fIldopts()\fR, \fIccopts()\fR, \fIperl_inc()\fR, \fIccflags()\fR, 
 \fIccdlflags()\fR, \fIxsi_header()\fR, \fIxsi_protos()\fR, \fIxsi_body()\fR
 .SH "FUNCTIONS"
-.IX Header "FUNCTIONS"
 .Ip "xsinit()" 5
-.IX Item "xsinit()"
 Generate C/\*(C+ code for the \s-1XS\s0 initializer function.
 .Sp
 When invoked as \f(CW`perl -MExtUtils::Embed -e xsinit --`\fR
@@ -241,7 +233,6 @@ Where,
 .Sp
 \fB[@modules]\fR is an array ref, same as additional arguments mentioned above.
 .Ip "Examples" 5
-.IX Item "Examples"
 .Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e xsinit -- -o xsinit.c Socket
@@ -267,7 +258,6 @@ for \fB\s-1DBI\s0\fR and \fB\s-1DBD::\s0Oracle\fR.
 If you have a working \fBDynaLoader\fR then there is rarely any need to statically link in any 
 other extensions.
 .Ip "ldopts()" 5
-.IX Item "ldopts()"
 Output arguments for linking the Perl library and extensions to your
 application.
 .Sp
@@ -318,7 +308,6 @@ Where,
 In addition, when ldopts is called with parameters, it will return the argument string
 rather than print it to \s-1STDOUT\s0.
 .Ip "Examples" 5
-.IX Item "Examples"
 .Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e ldopts
@@ -349,7 +338,6 @@ Any arguments after the second \*(L'--\*(R' token are additional linker
 arguments that will be examined for potential conflict.  If there is no
 conflict, the additional arguments will be part of the output.  
 .Ip "perl_inc()" 5
-.IX Item "perl_inc()"
 For including perl header files this function simply prints:
 .Sp
 .Vb 1
@@ -366,36 +354,67 @@ Just say:
 \& perl -MExtUtils::Embed -e perl_inc
 .Ve
 .Ip "ccflags(), ccdlflags()" 5
-.IX Item "ccflags(), ccdlflags()"
 These functions simply print \f(CW$Config\fR{ccflags} and \f(CW$Config\fR{ccdlflags}
 .Ip "ccopts()" 5
-.IX Item "ccopts()"
 This function combines \fIperl_inc()\fR, \fIccflags()\fR and \fIccdlflags()\fR into one.
 .Ip "xsi_header()" 5
-.IX Item "xsi_header()"
 This function simply returns a string defining the same \fB\s-1EXTERN_C\s0\fR macro as
 \fBperlmain.c\fR along with #including \fBperl.h\fR and \fB\s-1EXTERN\s0.h\fR.  
 .Ip "xsi_protos(@modules)" 5
-.IX Item "xsi_protos(@modules)"
 This function returns a string of \fBboot_$ModuleName\fR prototypes for each \f(CW@modules\fR.
 .Ip "xsi_body(@modules)" 5
-.IX Item "xsi_body(@modules)"
 This function returns a string of calls to \fBnewXS()\fR that glue the module \fBbootstrap\fR
 function to \fBboot_ModuleName\fR for each \f(CW@modules\fR.
 .Sp
 \fBxsinit()\fR uses the xsi_* functions to generate most of it's code.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 For examples on how to use \fBExtUtils::Embed\fR for building C/\*(C+ applications
 with embedded perl, see the eg/ directory and the \fIperlembed\fR manpage.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperlembed\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Doug MacEachern <\fIdougm@osf.org\fR>
 .PP
 Based on ideas from Tim Bunce <\fITim.Bunce@ig.co.uk\fR> and
 \fBminimod.pl\fR by Andreas Koenig <\fIk@anna.in-berlin.de\fR> and Tim Bunce.
 
 .rn }` ''
+.IX Title "ExtUtils::Embed 3"
+.IX Name "ExtUtils::Embed - Utilities for embedding Perl in C/C++ applications"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "\f(CW@EXPORT\fR"
+
+.IX Header "FUNCTIONS"
+
+.IX Item "xsinit()"
+
+.IX Item "Examples"
+
+.IX Item "ldopts()"
+
+.IX Item "Examples"
+
+.IX Item "perl_inc()"
+
+.IX Item "ccflags(), ccdlflags()"
+
+.IX Item "ccopts()"
+
+.IX Item "xsi_header()"
+
+.IX Item "xsi_protos(@modules)"
+
+.IX Item "xsi_body(@modules)"
+
+.IX Header "EXAMPLES"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

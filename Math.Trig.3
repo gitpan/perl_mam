@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::Trig 3 "perl 5.004, patch 01" "24/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Math::Trig 3"
+.TH Math::Trig 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Math::Trig - trigonometric functions"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Math::Trig \- trigonometric functions
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \&        use Math::Trig;
@@ -208,13 +204,11 @@ Math::Trig \- trigonometric functions
 \&        $rad = deg2rad(120);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWMath::Trig\fR defines many trigonometric functions not defined by the
 core Perl which defines only the \f(CWsin()\fR and \f(CWcos()\fR.  The constant
 \fBpi\fR is also defined as are a few convenience functions for angle
 conversions.
 .SH "TRIGONOMETRIC FUNCTIONS"
-.IX Header "TRIGONOMETRIC FUNCTIONS"
 The tangent
 .PP
 .Vb 1
@@ -272,7 +266,6 @@ The trigonometric constant \fBpi\fR is also defined.
 \&        $pi2 = 2 * pi;
 .Ve
 .Sh "\s-1ERRORS\s0 \s-1DUE\s0 \s-1TO\s0 \s-1DIVISION\s0 \s-1BY\s0 \s-1ZERO\s0"
-.IX Subsection "\s-1ERRORS\s0 \s-1DUE\s0 \s-1TO\s0 \s-1DIVISION\s0 \s-1BY\s0 \s-1ZERO\s0"
 The following functions
 .PP
 .Vb 14
@@ -292,20 +285,27 @@ The following functions
 \&        acoth
 .Ve
 cannot be computed for all arguments because that would mean dividing
-by zero. These situations cause fatal runtime errors looking like this
+by zero or taking logarithm of zero. These situations cause fatal
+runtime errors looking like this
 .PP
 .Vb 3
 \&        cot(0): Division by zero.
 \&        (Because in the definition of cot(0), the divisor sin(0) is 0)
 \&        Died at ...
 .Ve
-For the \f(CWcsc\fR, \f(CWcot\fR, \f(CWasec\fR, \f(CWacsc\fR, \f(CWcsch\fR, \f(CWcoth\fR, \f(CWasech\fR,
-\f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero). For the \f(CWatanh\fR,
-\f(CWacoth\fR, the argument cannot be \f(CW1\fR (one). For the \f(CWtan\fR, \f(CWsec\fR,
-\f(CWtanh\fR, \f(CWsech\fR, the argument cannot be \fIpi/2 + k * pi\fR, where \fIk\fR is
-any integer.
+or
+.PP
+.Vb 2
+\&        atanh(-1): Logarithm of zero.
+\&        Died at...
+.Ve
+For the \f(CWcsc\fR, \f(CWcot\fR, \f(CWasec\fR, \f(CWacsc\fR, \f(CWacot\fR, \f(CWcsch\fR, \f(CWcoth\fR,
+\f(CWasech\fR, \f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero).  For the
+\f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be \f(CW1\fR (one).  For the
+\f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be \f(CW-1\fR (minus one).  For the
+\f(CWtan\fR, \f(CWsec\fR, \f(CWtanh\fR, \f(CWsech\fR, the argument cannot be \fIpi/2 + k *
+pi\fR, where \fIk\fR is any integer.
 .Sh "\s-1SIMPLE\s0 (\s-1REAL\s0) \s-1ARGUMENTS\s0, \s-1COMPLEX\s0 \s-1RESULTS\s0"
-.IX Subsection "\s-1SIMPLE\s0 (\s-1REAL\s0) \s-1ARGUMENTS\s0, \s-1COMPLEX\s0 \s-1RESULTS\s0"
 Please note that some of the trigonometric functions can break out
 from the \fBreal axis\fR into the \fBcomplex plane\fR. For example
 \f(CWasin(2)\fR has no definition for plain real numbers but it has
@@ -333,7 +333,6 @@ details like for example how to display complex numbers. For example:
 That is, a complex number with the real part of approximately \f(CW1.571\fR
 and the imaginary part of approximately \f(CW-1.317\fR.
 .SH "ANGLE CONVERSIONS"
-.IX Header "ANGLE CONVERSIONS"
 (Plane, 2-dimensional) angles may be converted with the following functions.
 .PP
 .Vb 8
@@ -348,7 +347,6 @@ and the imaginary part of approximately \f(CW-1.317\fR.
 .Ve
 The full circle is 2 \fIpi\fR radians or \fI360\fR degrees or \fI400\fR gradians.
 .SH "BUGS"
-.IX Header "BUGS"
 Saying \f(CWuse Math::Trig;\fR exports many mathematical routines in the
 caller environment and even overrides some (\f(CWsin\fR, \f(CWcos\fR).  This is
 construed as a feature by the Authors, actually... ;\-)
@@ -359,8 +357,28 @@ the computations even when the arguments are not. This, however,
 cannot be completely avoided if we want things like \f(CWasin(2)\fR to give
 an answer instead of giving a fatal runtime error.
 .SH "AUTHORS"
-.IX Header "AUTHORS"
 Jarkko Hietaniemi <\fIjhi@iki.fi\fR> and 
 Raphael Manfredi <\fIRaphael_Manfredi@grenoble.hp.com\fR>.
 
 .rn }` ''
+.IX Title "Math::Trig 3"
+.IX Name "Math::Trig - trigonometric functions"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "TRIGONOMETRIC FUNCTIONS"
+
+.IX Subsection "\s-1ERRORS\s0 \s-1DUE\s0 \s-1TO\s0 \s-1DIVISION\s0 \s-1BY\s0 \s-1ZERO\s0"
+
+.IX Subsection "\s-1SIMPLE\s0 (\s-1REAL\s0) \s-1ARGUMENTS\s0, \s-1COMPLEX\s0 \s-1RESULTS\s0"
+
+.IX Header "ANGLE CONVERSIONS"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHORS"
+

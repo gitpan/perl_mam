@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH FileCache 3 "perl 5.004, patch 01" "13/Jan/97" "Perl Programmers Reference Guide"
-.IX Title "FileCache 3"
+.TH FileCache 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "FileCache - keep more files open than the system permits"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,24 +188,31 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 FileCache \- keep more files open than the system permits
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    cacheout $path;
 \&    print $path @data;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWcacheout\fR function will make sure that there's a filehandle open
 for writing available as the pathname you give it.  It automatically
 closes and re-opens files if you exceed your system file descriptor
 maximum.
 .SH "BUGS"
-.IX Header "BUGS"
 \fIsys/param.h\fR lies with its \f(CWNOFILE\fR define on some systems,
-so you may have to set \f(CW$cacheout::maxopen\fR yourself.
+so you may have to set \f(CW$FileCache::cacheout_maxopen\fR yourself.
 
 .rn }` ''
+.IX Title "FileCache 3"
+.IX Name "FileCache - keep more files open than the system permits"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "BUGS"
+

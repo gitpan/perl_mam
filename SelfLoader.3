@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH SelfLoader 3 "perl 5.004, patch 01" "28/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "SelfLoader 3"
+.TH SelfLoader 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "SelfLoader - load functions only on demand"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 SelfLoader \- load functions only on demand
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \&    package FOOBAR;
@@ -205,12 +201,10 @@ SelfLoader \- load functions only on demand
 \&    sub {....
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module tells its users that functions in the FOOBAR package are to be
 autoloaded from after the \f(CW__DATA__\fR token.  See also
 the section on \fIAutoloading\fR in the \fIperlsub\fR manpage.
 .Sh "The _\|_DATA_\|_ token"
-.IX Subsection "The _\|_DATA_\|_ token"
 The \f(CW__DATA__\fR token tells the perl compiler that the perl code
 for compilation is finished. Everything after the \f(CW__DATA__\fR token
 is available for reading via the filehandle \s-1FOOBAR::DATA\s0,
@@ -231,7 +225,6 @@ then the \f(CWDATA\fR filehandle is set to access the data after the \f(CW__DATA
 in the module, _not_ the data after the \f(CW__END__\fR token in the \*(L'main\*(R'
 program, since the compiler encounters the \*(L'require'd file later.
 .Sh "SelfLoader autoloading"
-.IX Subsection "SelfLoader autoloading"
 The \fBSelfLoader\fR works by the user placing the \f(CW__DATA__\fR
 token \fIafter\fR perl code which needs to be compiled and
 run at \*(L'require\*(R' time, but \fIbefore\fR subroutine declarations
@@ -259,7 +252,6 @@ subroutine when it is first called.
 There is no advantage to putting subroutines which will _always_
 be called after the \f(CW__DATA__\fR token.
 .Sh "Autoloading and package lexicals"
-.IX Subsection "Autoloading and package lexicals"
 A \*(L'my \f(CW$pack_lexical\fR\*(R' statement makes the variable \f(CW$pack_lexical\fR
 local _only_ to the file up to the \f(CW__DATA__\fR token. Subroutines
 declared elsewhere _cannot_ see these types of variables,
@@ -272,7 +264,6 @@ The \f(CWvars\fR pragma provides an alternative to defining package-level
 globals that will be visible to autoloaded routines. See the documentation
 on \fBvars\fR in the pragma section of the \fIperlmod\fR manpage.
 .Sh "SelfLoader and AutoLoader"
-.IX Subsection "SelfLoader and AutoLoader"
 The \fBSelfLoader\fR can replace the AutoLoader \- just change \*(L'use AutoLoader\*(R'
 to \*(L'use SelfLoader\*(R' (though note that the \fBSelfLoader\fR exports
 the \s-1AUTOLOAD\s0 function \- but if you have your own \s-1AUTOLOAD\s0 and
@@ -291,7 +282,6 @@ to parse the code after the \f(CW__DATA__\fR. Details of the \fBAutoLoader\fR an
 another view of these distinctions can be found in that module's
 documentation.
 .Sh "_\|_DATA_\|_, _\|_END_\|_, and the \s-1FOOBAR::DATA\s0 filehandle."
-.IX Subsection "_\|_DATA_\|_, _\|_END_\|_, and the \s-1FOOBAR::DATA\s0 filehandle."
 This section is only relevant if you want to use
 the \f(CWFOOBAR::DATA\fR together with the \fBSelfLoader\fR.
 .PP
@@ -324,7 +314,6 @@ declarations.
 .PP
 You could conceivably do both.
 .Sh "Classes and inherited methods."
-.IX Subsection "Classes and inherited methods."
 For modules which are not classes, this section is not relevant.
 This section is only relevant if you have methods which could
 be inherited.
@@ -351,7 +340,6 @@ that the stubs are in the module. If this is done I strongly recommend
 that this is done \s-1BEFORE\s0 releasing the module \- it should \s-1NOT\s0 be done
 at install time in general.
 .SH "Multiple packages and fully qualified subroutine names"
-.IX Header "Multiple packages and fully qualified subroutine names"
 Subroutines in multiple packages within the same file are supported \- but you
 should note that this requires exporting the \f(CWSelfLoader::AUTOLOAD\fR to
 every package which requires it. This is done automatically by the
@@ -373,3 +361,26 @@ will ensure that the packages \*(L'foo\*(R' and \*(L'baz\*(R' correctly have the
 parsed.
 
 .rn }` ''
+.IX Title "SelfLoader 3"
+.IX Name "SelfLoader - load functions only on demand"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "The _\|_DATA_\|_ token"
+
+.IX Subsection "SelfLoader autoloading"
+
+.IX Subsection "Autoloading and package lexicals"
+
+.IX Subsection "SelfLoader and AutoLoader"
+
+.IX Subsection "_\|_DATA_\|_, _\|_END_\|_, and the \s-1FOOBAR::DATA\s0 filehandle."
+
+.IX Subsection "Classes and inherited methods."
+
+.IX Header "Multiple packages and fully qualified subroutine names"
+

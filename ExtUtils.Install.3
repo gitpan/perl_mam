@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Install 3 "perl 5.004, patch 01" "6/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::Install 3"
+.TH ExtUtils::Install 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::Install - install files from here to there"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::Install \- install files from here to there
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 \fBuse ExtUtils::Install;\fR
 .PP
 \fBinstall($hashref,$verbose,$nonono);\fR
@@ -202,7 +198,6 @@ ExtUtils::Install \- install files from here to there
 .PP
 \fBpm_to_blib($hashref);\fR
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Both \fIinstall()\fR and \fIuninstall()\fR are specific to the way
 ExtUtils::MakeMaker handles the installation and deinstallation of
 perl modules. They are not designed as general purpose tools.
@@ -222,6 +217,21 @@ be merged into the written file. The read and the written file may be
 identical, but on AFS it is quite likely, people are installing to a
 different directory than the one where the files later appear.
 .PP
+\fIinstall_default()\fR takes one or less arguments.  If no arguments are 
+specified, it takes \f(CW$ARGV\fR[0] as if it was specified as an argument.  
+The argument is the value of MakeMaker's \f(CWFULLEXT\fR key, like \fITk/Canvas\fR.  
+This function calls \fIinstall()\fR with the same arguments as the defaults 
+the MakeMaker would use.
+.PP
+The argumement-less form is convenient for install scripts like
+.PP
+.Vb 1
+\&  perl -MExtUtils::Install -e install_default Tk/Canvas
+.Ve
+Assuming this command is executed in a directory with populated \fIblib\fR 
+directory, it will proceed as if the \fIblib\fR was build by MakeMaker on 
+this machine.  This is useful for binary distributions.
+.PP
 \fIuninstall()\fR takes as first argument a file containing filenames to be
 unlinked. The second argument is a verbose switch, the third is a
 no-don't-really-do-it-now switch.
@@ -232,3 +242,12 @@ the extension pm are autosplit. Second argument is the autosplit
 directory.
 
 .rn }` ''
+.IX Title "ExtUtils::Install 3"
+.IX Name "ExtUtils::Install - install files from here to there"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+

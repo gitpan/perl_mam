@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO::Seekable 3 "perl 5.004, patch 01" "18/Feb/97" "Perl Programmers Reference Guide"
-.IX Title "IO::Seekable 3"
+.TH IO::Seekable 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IO::Seekable - supply seek based methods for I/O objects"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IO::Seekable \- supply seek based methods for I/O objects
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \&    use IO::Seekable;
@@ -201,7 +197,6 @@ IO::Seekable \- supply seek based methods for I/O objects
 \&    @ISA = qw(IO::Seekable);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWIO::Seekable\fR does not have a constuctor of its own as is intended to
 be inherited by other \f(CWIO::Handle\fR based objects. It provides methods
 which allow seeking of the file descriptors.
@@ -220,13 +215,24 @@ corresponding built-in functions:
 \&    tell
 .Ve
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIperlfunc\fR manpage, 
 the section on \fII/O Operators\fR in the \fIperlop\fR manpage,
 the \fIIO::Handle\fR manpage
 the \fIIO::File\fR manpage
 .SH "HISTORY"
-.IX Header "HISTORY"
 Derived from FileHandle.pm by Graham Barr <bodg@tiuk.ti.com>
 
 .rn }` ''
+.IX Title "IO::Seekable 3"
+.IX Name "IO::Seekable - supply seek based methods for I/O objects"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+
+.IX Header "HISTORY"
+

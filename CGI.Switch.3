@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CGI::Switch 3 "perl 5.004, patch 01" "29/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "CGI::Switch 3"
+.TH CGI::Switch 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CGI::Switch - Try more than one constructors and return the first object available"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CGI::Switch \- Try more than one constructors and return the first object available
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& 
@@ -209,7 +205,6 @@ CGI::Switch \- Try more than one constructors and return the first object availa
 \& my $q = new CGI::Switch;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Per default the \fInew()\fR method tries to call \fInew()\fR in the three packages
 Apache::CGI, CGI::XA, and CGI. It returns the first CGI object it
 succeeds with.
@@ -217,10 +212,21 @@ succeeds with.
 The import method allows you to set up the default order of the
 modules to be tested.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1), \fIApache\fR\|(3), \fICGI\fR\|(3), \fICGI::XA\fR\|(3)
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Andreas König <a.koenig@mind.de>
 
 .rn }` ''
+.IX Title "CGI::Switch 3"
+.IX Name "CGI::Switch - Try more than one constructors and return the first object available"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

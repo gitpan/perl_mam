@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Request 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Request 3"
+.TH lib::HTTP::Request 3 "perl 5.004, patch 55" "18/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Request - Class encapsulating HTTP Requests"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Request \- Class encapsulating HTTP Requests
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& require HTTP::Request;
-\& $request = new HTTP::Request 'GET', 'http://www.oslonett.no/';
+\& $request = new HTTP::Request GET => 'http://www.oslonett.no/';
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWHTTP::Request\fR is a class encapsulating HTTP style requests,
 consisting of a request line, a MIME header, and optional
 content. Note that the LWP library also uses this HTTP style requests
@@ -211,29 +206,25 @@ of an \f(CWLWP::UserAgent\fR object:
 .PP
 .Vb 3
 \& $ua = new LWP::UserAgent;
-\& $request = new HTTP::Request 'http://www.oslonett.no/';
+\& $request = new HTTP::Request GET => 'http://www.oslonett.no/';
 \& $response = $ua->request($request);
 .Ve
 .SH "METHODS"
-.IX Header "METHODS"
 \f(CWHTTP::Request\fR is a subclass of \f(CWHTTP::Message\fR and therefore
 inherits its methods.  The inherited methods are \fIheader()\fR,
 \fIpush_header()\fR, \fIremove_header()\fR, \fIheaders_as_string()\fR and \fIcontent()\fR.
 See the \fIHTTP::Message\fR manpage for details.
 .Sh "\f(CW$r\fR = new \s-1HTTP::\s0Request \f(CW$method\fR, \f(CW$url\fR, [$header, [$content]]"
-.IX Subsection "\f(CW$r\fR = new \s-1HTTP::\s0Request \f(CW$method\fR, \f(CW$url\fR, [$header, [$content]]"
 Constructs a new \f(CWHTTP::Request\fR object describing a request on the
 object \f(CW$url\fR using method \f(CW$method\fR.  The \f(CW$url\fR argument can be
 either a string, or a reference to a \f(CWURI::URL\fR object.  The \f(CW$header\fR
 argument should be a reference to a \s-1HTTP::\s0Headers object.
 .PP
 .Vb 1
-\& $request = new HTTP::Request 'GET', 'http://www.oslonett.no/';
+\& $request = new HTTP::Request GET => 'http://www.oslonett.no/';
 .Ve
 .Sh "\f(CW$r\fR\->\fImethod\fR\|([$val])"
-.IX Subsection "\f(CW$r\fR\->\fImethod\fR\|([$val])"
 .Sh "\f(CW$r\fR\->\fIurl\fR\|([$val])"
-.IX Subsection "\f(CW$r\fR\->\fIurl\fR\|([$val])"
 These methods provide public access to the member variables containing
 respectively the method of the request and the \s-1URL\s0 object of the
 request.
@@ -246,8 +237,26 @@ The \fIurl()\fR method accept both a reference to a \s-1URI::URL\s0 object and a
 string as its argument.  If a string is given, then it should be
 parseable as an absolute \s-1URL\s0.
 .Sh "\f(CW$r\fR\->\fIas_string()\fR"
-.IX Subsection "\f(CW$r\fR\->\fIas_string()\fR"
 Method returning a textual representation of the request.
 Mainly useful for debugging purposes. It takes no arguments.
 
 .rn }` ''
+.IX Title "lib::HTTP::Request 3"
+.IX Name "HTTP::Request - Class encapsulating HTTP Requests"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$r\fR = new \s-1HTTP::\s0Request \f(CW$method\fR, \f(CW$url\fR, [$header, [$content]]"
+
+.IX Subsection "\f(CW$r\fR\->\fImethod\fR\|([$val])"
+
+.IX Subsection "\f(CW$r\fR\->\fIurl\fR\|([$val])"
+
+.IX Subsection "\f(CW$r\fR\->\fIas_string()\fR"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH FindBin 3 "perl 5.004, patch 01" "15/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "FindBin 3"
+.TH FindBin 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "FindBin - Locate directory of original perl script"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 FindBin \- Locate directory of original perl script
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& use FindBin;
@@ -207,7 +203,6 @@ FindBin \- Locate directory of original perl script
 \& use lib "$Bin/../lib";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Locates the full path to the script bin directory to allow the use
 of paths relative to the bin directory.
 .PP
@@ -220,7 +215,6 @@ If perl is invoked using the \fB\-e\fR option or the perl script is read from
 \f(CWSTDIN\fR then FindBin sets both \f(CW$Bin\fR and \f(CW$RealBin\fR to the current
 directory.
 .SH "EXPORTABLE VARIABLES"
-.IX Header "EXPORTABLE VARIABLES"
 .PP
 .Vb 4
 \& $Bin         - path to bin directory from where script was invoked
@@ -229,7 +223,6 @@ directory.
 \& $RealScript  - $Script with all links resolved
 .Ve
 .SH "KNOWN BUGS"
-.IX Header "KNOWN BUGS"
 if perl is invoked as
 .PP
 .Vb 1
@@ -245,16 +238,32 @@ Workaround is to invoke perl as
 \& perl ./filename
 .Ve
 .SH "AUTHORS"
-.IX Header "AUTHORS"
 Graham Barr <\fIbodg@tiuk.ti.com\fR>
 Nick Ing-Simmons <\fInik@tiuk.ti.com\fR>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995 Graham Barr & Nick Ing-Simmons. All rights reserved.
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 .SH "REVISION"
-.IX Header "REVISION"
 $Revision: 1.4 $
 
 .rn }` ''
+.IX Title "FindBin 3"
+.IX Name "FindBin - Locate directory of original perl script"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXPORTABLE VARIABLES"
+
+.IX Header "KNOWN BUGS"
+
+.IX Header "AUTHORS"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "REVISION"
+

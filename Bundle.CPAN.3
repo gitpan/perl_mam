@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Bundle::CPAN 3 "perl 5.004, patch 01" "2/Feb/97" "Perl Programmers Reference Guide"
-.IX Title "Bundle::CPAN 3"
+.TH Bundle::CPAN 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Bundle::CPAN - A bundle to play with all the other modules on CPAN"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,25 +188,43 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Bundle::CPAN \- A bundle to play with all the other modules on CPAN
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 \f(CWperl -MCPAN -e 'install Bundle::CPAN'\fR
 .SH "CONTENTS"
-.IX Header "CONTENTS"
-CPAN
+MD5
+.PP
+Data::Dumper  # Bundle::libnet may have problems to work without it
+.PP
+Bundle::libnet
+.PP
+Term::ReadKey
+.PP
+Term::ReadLine::Perl # sorry, I'm discriminating the ::Gnu module
 .PP
 CPAN::WAIT
+.PP
+CPAN
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This bundle includes CPAN.pm as the base module and CPAN::WAIT, the
 first plugin for CPAN that was developed even before there was an API.
 .PP
 After installing this bundle, it is recommended to quit the current
-session and start again in a new process.
+session and start again in a new process to enable Term::ReadLine.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Andreas König
 
 .rn }` ''
+.IX Title "Bundle::CPAN 3"
+.IX Name "Bundle::CPAN - A bundle to play with all the other modules on CPAN"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "CONTENTS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "AUTHOR"
+

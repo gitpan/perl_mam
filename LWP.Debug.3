@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Debug 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::Debug 3"
+.TH lib::LWP::Debug 3 "perl 5.004, patch 55" "9/Apr/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::Debug - debug routines for the libwww-perl library"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::Debug \- debug routines for the libwww-perl library
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use LWP::Debug qw(+ -conns);
@@ -205,15 +201,12 @@ LWP::Debug \- debug routines for the libwww-perl library
 \& LWP::Debug::conns("read $n bytes: $data");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 LWP::Debug provides tracing facilities. The \fItrace()\fR, \fIdebug()\fR and
 \fIconns()\fR function are called within the library and they log
 information at increasing levels of detail. Which level of detail is
 actually printed is controlled with the \f(CWlevel()\fR function.
 .SH "FUNCTIONS"
-.IX Header "FUNCTIONS"
 .Sh "\fIlevel\fR\|(...)"
-.IX Subsection "\fIlevel\fR\|(...)"
 The \f(CWlevel()\fR function controls the level of detail being
 logged. Passing \*(L'+\*(R' or \*(L'\-\*(R' indicates full and no logging
 respectively. Inidividual levels can switched on and of by passing the
@@ -236,19 +229,35 @@ your namespace):
 \&  use LWP::Debug qw(level); level('+');
 .Ve
 .Sh "\fItrace\fR\|($msg)"
-.IX Subsection "\fItrace\fR\|($msg)"
 The \f(CWtrace()\fR function is used for tracing function
 calls. The package and calling subroutine name is
 printed along with the passed argument. This should
 be called at the start of every major function.
 .Sh "\fIdebug\fR\|($msg)"
-.IX Subsection "\fIdebug\fR\|($msg)"
 The \f(CWdebug()\fR function is used for high-granularity
 reporting of state in functions.
 .Sh "\fIconns\fR\|($msg)"
-.IX Subsection "\fIconns\fR\|($msg)"
 The \f(CWconns()\fR function is used to show data being
 transferred over the connections. This may generate
 considerable output.
 
 .rn }` ''
+.IX Title "lib::LWP::Debug 3"
+.IX Name "LWP::Debug - debug routines for the libwww-perl library"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "FUNCTIONS"
+
+.IX Subsection "\fIlevel\fR\|(...)"
+
+.IX Subsection "\fItrace\fR\|($msg)"
+
+.IX Subsection "\fIdebug\fR\|($msg)"
+
+.IX Subsection "\fIconns\fR\|($msg)"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IPC::Open3 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "IPC::Open3 3"
+.TH IPC::Open3 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IPC::Open3, open3 - open a process for reading, writing, and error handling"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IPC::Open3, open3 \- open a process for reading, writing, and error handling
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
-\&    $pid = open3(\e*WTRFH, \e*RDRFH, \e*ERRFH
+\&    $pid = open3(\e*WTRFH, \e*RDRFH, \e*ERRFH,
 \&                    'some cmd and args', 'optarg', ...);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Extremely similar to \fIopen2()\fR, \fIopen3()\fR spawns the given \f(CW$cmd\fR and
 connects RDRFH for reading, WTRFH for writing, and ERRFH for errors.  If
 ERRFH is \*(L'\*(R', or the same as RDRFH, then STDOUT and STDERR of the child are
@@ -219,7 +214,6 @@ of normal stuff.
 \fIopen3()\fR returns the process ID of the child process.  It doesn't return on
 failure: it just raises an exception matching \f(CW/^open3:/\fR.
 .SH "WARNING"
-.IX Header "WARNING"
 It will not create these file handles for you.  You have to do this
 yourself.  So don't pass it empty variables expecting them to get filled
 in for you.
@@ -237,3 +231,14 @@ what it does with pipe buffering.  Thus you can't just open a pipe to
 \f(CWcat -v\fR and continually read and write a line from it.
 
 .rn }` ''
+.IX Title "IPC::Open3 3"
+.IX Name "IPC::Open3, open3 - open a process for reading, writing, and error handling"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "WARNING"
+

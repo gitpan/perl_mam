@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Entities 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::Entities 3"
+.TH lib::HTML::Entities 3 "perl 5.004, patch 55" "5/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "decode - Expand HTML entities in a string"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,12 +188,10 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 decode \- Expand HTML entities in a string
 .PP
 encode \- Encode chars in a string using HTML entities
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& use HTML::Entities;
@@ -206,7 +202,6 @@ encode \- Encode chars in a string using HTML entities
 \& encode_entities($a, "\e200-\e377");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIdecode_entities()\fR routine replaces valid HTML entities found
 in the string with the corresponding ISO\-8859/1 character.
 .PP
@@ -230,13 +225,20 @@ The module can also export the \f(CW%char2entity\fR and the \f(CW%entity2char\fR
 hashes which contains the mapping from all characters to the
 corresponding entities.
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
-Copyright 1995, 1996 Gisle Aas. All rights reserved.
+Copyright 1995-1997 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
-.SH "AUTHOR"
-.IX Header "AUTHOR"
-Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::Entities 3"
+.IX Name "decode - Expand HTML entities in a string"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "COPYRIGHT"
+

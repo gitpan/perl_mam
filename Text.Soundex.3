@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Text::Soundex 3 "perl 5.004, patch 01" "18/Nov/96" "Perl Programmers Reference Guide"
-.IX Title "Text::Soundex 3"
+.TH Text::Soundex 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Text::Soundex - Implementation of the Soundex Algorithm as Described by Knuth"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Text::Soundex \- Implementation of the Soundex Algorithm as Described by Knuth
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&  use Text::Soundex;
@@ -209,7 +205,6 @@ Text::Soundex \- Implementation of the Soundex Algorithm as Described by Knuth
 \&  $soundex_nocode = 'Z000';
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module implements the soundex algorithm as described by Donald Knuth
 in Volume 3 of \fBThe Art of Computer Programming\fR.  The algorithm is
 intended to hash words (in particular surnames) into a small space using a
@@ -232,7 +227,6 @@ soundex code for the corresponding argument passed to \f(CWsoundex\fR e.g.
 .Ve
 leaves \f(CW@codes\fR containing \f(CW('M200', 'S320')\fR.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 Knuth's examples of various names and the soundex codes they map to
 are listed below:
 .PP
@@ -251,7 +245,6 @@ so:
 \&  @list = soundex qw(Lloyd Gauss);      # @list contains 'L300', 'G200'
 .Ve
 .SH "LIMITATIONS"
-.IX Header "LIMITATIONS"
 As the soundex algorithm was originally used a \fBlong\fR time ago in the US
 it considers only the English alphabet and pronunciation.
 .PP
@@ -261,9 +254,23 @@ similarity of two strings which end up with the same soundex code.  For
 example, both \f(CWHilbert\fR and \f(CWHeilbronn\fR end up with a soundex code
 of \f(CWH416\fR.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 This code was implemented by Mike Stok (\f(CWstok@cybercom.net\fR) from the 
 description given by Knuth.  Ian Phillips (\f(CWian@pipex.net\fR) and Rich Pinder 
 (\f(CWrpinder@hsc.usc.edu\fR) supplied ideas and spotted mistakes.
 
 .rn }` ''
+.IX Title "Text::Soundex 3"
+.IX Name "Text::Soundex - Implementation of the Soundex Algorithm as Described by Knuth"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Header "LIMITATIONS"
+
+.IX Header "AUTHOR"
+

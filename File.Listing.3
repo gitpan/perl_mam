@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::File::Listing 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::File::Listing 3"
+.TH lib::File::Listing 3 "perl 5.004, patch 55" "14/Nov/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "parse_dir - parse directory listing"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 parse_dir \- parse directory listing
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \& use File::Listing;
@@ -209,7 +205,6 @@ parse_dir \- parse directory listing
 \& $dir = parse_dir(\e*LISTING, '+0000');
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIparse_dir()\fR routine can be used to parse directory
 listings. Currently it only understand Unix \f(CW'ls -l'\fR and \f(CW'ls -lR'\fR
 format.  It should eventually be able to most things you might get
@@ -246,8 +241,18 @@ directory entries are represented by an array consisting of [
 \f(CW$filetime\fR value is converted to seconds since Jan 1, 1970.  The
 \f(CW$filemode\fR is a bitmask like the mode returned by \fIstat()\fR.
 .SH "CREDITS"
-.IX Header "CREDITS"
 Based on lsparse.pl (from Lee McLoughlin's ftp mirror package) and
 Net::FTP's parse_dir (Graham Barr).
 
 .rn }` ''
+.IX Title "lib::File::Listing 3"
+.IX Name "parse_dir - parse directory listing"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "CREDITS"
+

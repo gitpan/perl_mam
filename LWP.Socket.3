@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Socket 3 "perl 5.004, patch 01" "27/Jan/97" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::Socket 3"
+.TH lib::LWP::Socket 3 "perl 5.004, patch 55" "27/Jan/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::Socket - TCP/IP socket interface"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::Socket \- TCP/IP socket interface
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \& $socket = new LWP::Socket;
@@ -205,7 +201,6 @@ LWP::Socket \- TCP/IP socket interface
 \& $socket = undef;  # close
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This class implements TCP/IP sockets.  It groups socket generation,
 TCP address manipulation and buffered reading. Errors are handled by
 dying (throws exceptions).
@@ -216,31 +211,22 @@ be part of the standard Perl5 library.
 Running this module standalone executes a self test which requires
 localhost to serve chargen and echo protocols.
 .SH "METHODS"
-.IX Header "METHODS"
 .Sh "\f(CW$sock\fR = new \fI\s-1LWP::\s0Socket()\fR"
-.IX Subsection "\f(CW$sock\fR = new \fI\s-1LWP::\s0Socket()\fR"
 Constructs a new socket object.
 .Sh "\f(CW$sock\fR\->\fIconnect\fR\|($host, \f(CW$port\fR)"
-.IX Subsection "\f(CW$sock\fR\->\fIconnect\fR\|($host, \f(CW$port\fR)"
 Connect the socket to given host and port.
 .Sh "\f(CW$sock\fR\->\fIshutdown()\fR"
-.IX Subsection "\f(CW$sock\fR\->\fIshutdown()\fR"
 Shuts down the connection.
 .Sh "\f(CW$sock\fR\->\fIbind\fR\|($host, \f(CW$port\fR)"
-.IX Subsection "\f(CW$sock\fR\->\fIbind\fR\|($host, \f(CW$port\fR)"
 Binds a name to the socket.
 .Sh "\f(CW$sock\fR\->\fIlisten\fR\|($queuesize)"
-.IX Subsection "\f(CW$sock\fR\->\fIlisten\fR\|($queuesize)"
 Set up listen queue for socket.
 .Sh "\f(CW$sock\fR\->\fIaccept\fR\|($timeout)"
-.IX Subsection "\f(CW$sock\fR\->\fIaccept\fR\|($timeout)"
 Accepts a new connection.  Returns a new \s-1LWP::\s0Socket object if successful.
 Timeout not implemented yet.
 .Sh "\f(CW$sock\fR\->\fIgetsockname()\fR"
-.IX Subsection "\f(CW$sock\fR\->\fIgetsockname()\fR"
 Returns a 2 element array ($host, \f(CW$port\fR)
 .Sh "\f(CW$sock\fR\->\fIread_until\fR\|($delim, \f(CW$data_ref\fR, \f(CW$size\fR, \f(CW$timeout\fR)"
-.IX Subsection "\f(CW$sock\fR\->\fIread_until\fR\|($delim, \f(CW$data_ref\fR, \f(CW$size\fR, \f(CW$timeout\fR)"
 Reads data from the socket, up to a delimiter specified by a regular
 expression.  If \f(CW$delim\fR is undefined all data is read.  If \f(CW$size\fR is
 defined, data will be read internally in chunks of \f(CW$size\fR bytes.  This
@@ -248,15 +234,12 @@ does not mean that we will return the data when size bytes are read.
 .PP
 Note that \f(CW$delim\fR is discarded from the data returned.
 .Sh "\f(CW$sock\fR\->\fIread\fR\|($bufref, [$size, \f(CW$timeout\fR])"
-.IX Subsection "\f(CW$sock\fR\->\fIread\fR\|($bufref, [$size, \f(CW$timeout\fR])"
 Reads data of the socket.  Not more than \f(CW$size\fR bytes.  Might return
 less if the data is available.  Dies on timeout.
 .Sh "\f(CW$sock\fR\->\fIpushback\fR\|($data)"
-.IX Subsection "\f(CW$sock\fR\->\fIpushback\fR\|($data)"
 Put data back into the socket.  Data will returned next time you
 \fIread()\fR.  Can be used if you find out that you have read too much.
 .Sh "\f(CW$sock\fR\->\fIwrite\fR\|($data, [$timeout])"
-.IX Subsection "\f(CW$sock\fR\->\fIwrite\fR\|($data, [$timeout])"
 Write data to socket.  The \f(CW$data\fR argument might be a scalar or code.
 .PP
 If data is a reference to a subroutine, then we will call this routine
@@ -266,15 +249,50 @@ as a scalar or as a reference to a scalar.
 .PP
 Write returns the number of bytes written to the socket.
 .Sh "\fI_getaddress\fR\|($h, \f(CW$p\fR)"
-.IX Subsection "\fI_getaddress\fR\|($h, \f(CW$p\fR)"
 Given a host and a port, it will return the address (sockaddr_in)
 suitable as the \f(CWname\fR argument for \fIconnect()\fR or \fIbind()\fR. Might return
 several addresses in array context if the hostname is bound to several
 \s-1IP\s0 addresses.
 .SH "SELF TEST"
-.IX Header "SELF TEST"
 This self test is only executed when this file is run standalone. It
 tests its functions against some standard TCP services implemented by
 inetd. If you do not have them around the tests will fail.
 
 .rn }` ''
+.IX Title "lib::LWP::Socket 3"
+.IX Name "LWP::Socket - TCP/IP socket interface"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$sock\fR = new \fI\s-1LWP::\s0Socket()\fR"
+
+.IX Subsection "\f(CW$sock\fR\->\fIconnect\fR\|($host, \f(CW$port\fR)"
+
+.IX Subsection "\f(CW$sock\fR\->\fIshutdown()\fR"
+
+.IX Subsection "\f(CW$sock\fR\->\fIbind\fR\|($host, \f(CW$port\fR)"
+
+.IX Subsection "\f(CW$sock\fR\->\fIlisten\fR\|($queuesize)"
+
+.IX Subsection "\f(CW$sock\fR\->\fIaccept\fR\|($timeout)"
+
+.IX Subsection "\f(CW$sock\fR\->\fIgetsockname()\fR"
+
+.IX Subsection "\f(CW$sock\fR\->\fIread_until\fR\|($delim, \f(CW$data_ref\fR, \f(CW$size\fR, \f(CW$timeout\fR)"
+
+.IX Subsection "\f(CW$sock\fR\->\fIread\fR\|($bufref, [$size, \f(CW$timeout\fR])"
+
+.IX Subsection "\f(CW$sock\fR\->\fIpushback\fR\|($data)"
+
+.IX Subsection "\f(CW$sock\fR\->\fIwrite\fR\|($data, [$timeout])"
+
+.IX Subsection "\fI_getaddress\fR\|($h, \f(CW$p\fR)"
+
+.IX Header "SELF TEST"
+

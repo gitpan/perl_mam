@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Class::Struct 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Class::Struct 3"
+.TH Class::Struct 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Class::Struct - declare struct-like datatypes as Perl classes"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Class::Struct \- declare struct-like datatypes as Perl classes
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \&    use Class::Struct;
@@ -241,7 +237,6 @@ Class::Struct \- declare struct-like datatypes as Perl classes
 \&    $obj->c(new My_Other_Class);        # assign a new object
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWClass::Struct\fR exports a single function, \f(CWstruct\fR.
 Given a list of element names and types, and optionally
 a class name, \f(CWstruct\fR creates a Perl 5 class that implements
@@ -257,7 +252,6 @@ same name in the package.  (See Example 2.)
 .PP
 Each element's type can be scalar, array, hash, or class.
 .Sh "The \f(CWstruct()\fR function"
-.IX Subsection "The \f(CWstruct()\fR function"
 The \f(CWstruct\fR function has three forms of parameter-list.
 .PP
 .Vb 3
@@ -291,7 +285,6 @@ element name will be defined as an accessor method unless a
 method by that name is explicitly defined; in the latter case, a
 warning is issued if the warning flag (\fB\-w\fR) is set.
 .Sh "Element Types and Accessor Methods"
-.IX Subsection "Element Types and Accessor Methods"
 The four element types -- scalar, array, hash, and class -- are
 represented by strings -- \f(CW'$'\fR, \f(CW'@'\fR, \f(CW'%'\fR, and a class name --
 optionally preceded by a \f(CW'*'\fR.
@@ -299,7 +292,6 @@ optionally preceded by a \f(CW'*'\fR.
 The accessor method provided by \f(CWstruct\fR for an element depends
 on the declared type of the element.
 .Ip "Scalar (\f(CW'$'\fR or \f(CW'*$'\fR)" 5
-.IX Item "Scalar (\f(CW'$'\fR or \f(CW'*$'\fR)"
 The element is a scalar, and is initialized to \f(CWundef\fR.
 .Sp
 The accessor's argument, if any, is assigned to the element.
@@ -308,7 +300,6 @@ If the element type is \f(CW'$'\fR, the value of the element (after
 assignment) is returned. If the element type is \f(CW'*$'\fR, a reference
 to the element is returned.
 .Ip "Array (\f(CW'@'\fR or \f(CW'*@'\fR)" 5
-.IX Item "Array (\f(CW'@'\fR or \f(CW'*@'\fR)"
 The element is an array, initialized to \f(CW()\fR.
 .Sp
 With no argument, the accessor returns a reference to the
@@ -321,7 +312,6 @@ is \f(CW'@'\fR, the accessor returns the array element value.  If the
 element type is \f(CW'*@'\fR, a reference to the array element is
 returned.
 .Ip "Hash (\f(CW'%'\fR or \f(CW'*%'\fR)" 5
-.IX Item "Hash (\f(CW'%'\fR or \f(CW'*%'\fR)"
 The element is a hash, initialized to \f(CW()\fR.
 .Sp
 With no argument, the accessor returns a reference to the
@@ -333,7 +323,6 @@ assigned to the hash element.  If the element type is \f(CW'%'\fR, the
 accessor returns the hash element value.  If the element type is
 \&\f(CW'*%'\fR, a reference to the hash element is returned.
 .Ip "Class (\f(CW'Class_Name'\fR or \f(CW'*Class_Name'\fR)" 5
-.IX Item "Class (\f(CW'Class_Name'\fR or \f(CW'*Class_Name'\fR)"
 The element's value must be a reference blessed to the named
 class or to one of its subclasses. The element is initialized to
 the result of calling the \f(CWnew\fR constructor of the named class.
@@ -346,9 +335,7 @@ If the element type does not start with a \f(CW'*'\fR, the accessor
 returns the element value (after assignment). If the element type
 starts with a \f(CW'*'\fR, a reference to the element itself is returned.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 .Ip "Example 1" 5
-.IX Item "Example 1"
 Giving a struct element a class type that is also a struct is how
 structs are nested.  Here, \f(CWtimeval\fR represents a time (seconds and
 microseconds), and \f(CWrusage\fR has two elements, each of which is of
@@ -382,7 +369,6 @@ type \f(CWtimeval\fR.
 \&    $t->ru_stime->tv_usecs(0);
 .Ve
 .Ip "Example 2" 5
-.IX Item "Example 2"
 An accessor function can be redefined in order to provide
 additional checking of values, etc.  Here, we want the \f(CWcount\fR
 element always to be nonnegative, so we redefine the \f(CWcount\fR
@@ -423,7 +409,6 @@ accessor accordingly.
 \&                            # dies due to negative argument!
 .Ve
 .SH "Author and Modification History"
-.IX Header "Author and Modification History"
 Renamed to \f(CWClass::Struct\fR and modified by Jim Miner, 1997-04-02.
 .Sp
 .Vb 8
@@ -461,3 +446,32 @@ Originally \f(CWClass::Template\fR by Dean Roehrich.
 .Ve
 
 .rn }` ''
+.IX Title "Class::Struct 3"
+.IX Name "Class::Struct - declare struct-like datatypes as Perl classes"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "The \f(CWstruct()\fR function"
+
+.IX Subsection "Element Types and Accessor Methods"
+
+.IX Item "Scalar (\f(CW'$'\fR or \f(CW'*$'\fR)"
+
+.IX Item "Array (\f(CW'@'\fR or \f(CW'*@'\fR)"
+
+.IX Item "Hash (\f(CW'%'\fR or \f(CW'*%'\fR)"
+
+.IX Item "Class (\f(CW'Class_Name'\fR or \f(CW'*Class_Name'\fR)"
+
+.IX Header "EXAMPLES"
+
+.IX Item "Example 1"
+
+.IX Item "Example 2"
+
+.IX Header "Author and Modification History"
+

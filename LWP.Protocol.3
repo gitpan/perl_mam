@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::Protocol 3 "perl 5.004, patch 01" "7/May/97" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::Protocol 3"
+.TH lib::LWP::Protocol 3 "perl 5.004, patch 55" "7/May/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::Protocol - Base class for LWP protocols"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::Protocol \- Base class for LWP protocols
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& package LWP::Protocol::foo;
@@ -201,7 +197,6 @@ LWP::Protocol \- Base class for LWP protocols
 \& @ISA=qw(LWP::Protocol);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This class is used a the base class for all protocol implementations
 supported by the LWP library.
 .PP
@@ -216,27 +211,21 @@ method which is used to service a request. The overridden method can
 make use of the \fIcollect()\fR function to collect together chunks of data
 as it is received.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 Inspect the \fILWP/Protocol/file.pm\fR and \fILWP/Protocol/http.pm\fR files
 for examples of usage.
 .SH "METHODS AND FUNCTIONS"
-.IX Header "METHODS AND FUNCTIONS"
 .Sh "\f(CW$prot\fR = new \s-1HTTP::\s0Protocol;"
-.IX Subsection "\f(CW$prot\fR = new \s-1HTTP::\s0Protocol;"
 The \s-1LWP::\s0Protocol constructor is inherited by subclasses. As this is a
 virtual base class this method should \fBnot\fR be called directly.
 .Sh "\f(CW$prot\fR = \fI\s-1LWP::\s0Protocol::create\fR\|($url)"
-.IX Subsection "\f(CW$prot\fR = \fI\s-1LWP::\s0Protocol::create\fR\|($url)"
 Create an object of the class implementing the protocol to handle the
 given scheme. This is a function, not a method. It is more an object
 factory than a constructor. This is the function user agents should
 use to access protocols.
 .Sh "\f(CW$class\fR = \fI\s-1LWP::\s0Protocol::implementor\fR\|($scheme, [$class])"
-.IX Subsection "\f(CW$class\fR = \fI\s-1LWP::\s0Protocol::implementor\fR\|($scheme, [$class])"
 Get and/or set implementor class for a scheme.  Returns \*(L'\*(R' if the
 specified scheme is not supported.
 .Sh "\f(CW$prot\fR\->\fIrequest\fR\|(...)"
-.IX Subsection "\f(CW$prot\fR\->\fIrequest\fR\|(...)"
 .PP
 .Vb 3
 \& $response = $protocol->request($request, $proxy, undef);
@@ -247,18 +236,14 @@ Dispactches a request over the protocol, and returns a response
 object. This method needs to be overridden in subclasses.  Referer to
 the \fI\s-1LWP::\s0UserAgent\fR manpage for description of the arguments.
 .Sh "\f(CW$prot\fR\->\fItimeout\fR\|($seconds)"
-.IX Subsection "\f(CW$prot\fR\->\fItimeout\fR\|($seconds)"
 Get and set the timeout value in seconds
 .Sh "\f(CW$prot\fR\->\fIuse_alarm\fR\|($yesno)"
-.IX Subsection "\f(CW$prot\fR\->\fIuse_alarm\fR\|($yesno)"
 Indicates if the library is allowed to use the core \fIalarm()\fR
 function to implement timeouts.
 .Sh "\f(CW$prot\fR\->\fIparse_head\fR\|($yesno)"
-.IX Subsection "\f(CW$prot\fR\->\fIparse_head\fR\|($yesno)"
 Should we initialize response headers from the <head> section of \s-1HTML\s0
 documents.
 .Sh "\f(CW$prot\fR\->\fIcollect\fR\|($arg, \f(CW$response\fR, \f(CW$collector\fR)"
-.IX Subsection "\f(CW$prot\fR\->\fIcollect\fR\|($arg, \f(CW$response\fR, \f(CW$collector\fR)"
 Called to collect the content of a request, and process it
 appropriately into a scalar, file, or by calling a callback.  If \f(CW$arg\fR
 is undefined, then the content is stored within the \f(CW$response\fR.  If
@@ -278,10 +263,40 @@ The return value from \fIcollect()\fR is the \f(CW$response\fR object reference.
 redirects and authentization responses to the callback which would be
 confusing.
 .Sh "\f(CW$prot\fR\->\fIcollect_once\fR\|($arg, \f(CW$response\fR, \f(CW$content\fR)"
-.IX Subsection "\f(CW$prot\fR\->\fIcollect_once\fR\|($arg, \f(CW$response\fR, \f(CW$content\fR)"
 Can be called when the whole response content is available as
 \f(CW$content\fR.  This will invoke \fIcollect()\fR with a collector callback that
 returns a reference to \f(CW$content\fR the first time and an empty string the
 next.
 
 .rn }` ''
+.IX Title "lib::LWP::Protocol 3"
+.IX Name "LWP::Protocol - Base class for LWP protocols"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+
+.IX Header "METHODS AND FUNCTIONS"
+
+.IX Subsection "\f(CW$prot\fR = new \s-1HTTP::\s0Protocol;"
+
+.IX Subsection "\f(CW$prot\fR = \fI\s-1LWP::\s0Protocol::create\fR\|($url)"
+
+.IX Subsection "\f(CW$class\fR = \fI\s-1LWP::\s0Protocol::implementor\fR\|($scheme, [$class])"
+
+.IX Subsection "\f(CW$prot\fR\->\fIrequest\fR\|(...)"
+
+.IX Subsection "\f(CW$prot\fR\->\fItimeout\fR\|($seconds)"
+
+.IX Subsection "\f(CW$prot\fR\->\fIuse_alarm\fR\|($yesno)"
+
+.IX Subsection "\f(CW$prot\fR\->\fIparse_head\fR\|($yesno)"
+
+.IX Subsection "\f(CW$prot\fR\->\fIcollect\fR\|($arg, \f(CW$response\fR, \f(CW$collector\fR)"
+
+.IX Subsection "\f(CW$prot\fR\->\fIcollect_once\fR\|($arg, \f(CW$response\fR, \f(CW$content\fR)"
+

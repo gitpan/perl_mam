@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH FileHandle 3 "perl 5.004, patch 01" "31/Jan/97" "Perl Programmers Reference Guide"
-.IX Title "FileHandle 3"
+.TH FileHandle 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "FileHandle - supply object methods for filehandles"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 FileHandle \- supply object methods for filehandles
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use FileHandle;
@@ -240,7 +236,6 @@ FileHandle \- supply object methods for filehandles
 \&    autoflush STDOUT 1;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 NOTE: This class is now a front-end to the IO::* classes.
 .PP
 \f(CWFileHandle::new\fR creates a \f(CWFileHandle\fR, which is a reference to a
@@ -322,25 +317,39 @@ supported \f(CWFileHandle\fR methods:
 .Ve
 Furthermore, for doing normal I/O you might need these:
 .Ip "$fh->print" 5
-.IX Item "$fh->print"
 See the \f(CWprint\fR entry in the \fIperlfunc\fR manpage.
 .Ip "$fh->printf" 5
-.IX Item "$fh->printf"
 See the \f(CWprintf\fR entry in the \fIperlfunc\fR manpage.
 .Ip "$fh->getline" 5
-.IX Item "$fh->getline"
 This works like <$fh> described in the section on \fII/O Operators\fR in the \fIperlop\fR manpage
 except that it's more readable and can be safely called in an
 array context but still returns just one line.
 .Ip "$fh->getlines" 5
-.IX Item "$fh->getlines"
 This works like <$fh> when called in an array context to
 read all the remaining lines in a file, except that it's more readable.
 It will also \fIcroak()\fR if accidentally called in a scalar context.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 The \fBIO\fR extension,
 the \fIperlfunc\fR manpage, 
 the section on \fII/O Operators\fR in the \fIperlop\fR manpage.
 
 .rn }` ''
+.IX Title "FileHandle 3"
+.IX Name "FileHandle - supply object methods for filehandles"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "$fh->print"
+
+.IX Item "$fh->printf"
+
+.IX Item "$fh->getline"
+
+.IX Item "$fh->getlines"
+
+.IX Header "SEE ALSO"
+

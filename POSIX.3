@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH POSIX 3 "perl 5.004, patch 01" "18/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "POSIX 3"
+.TH POSIX 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "POSIX - Perl interface to IEEE Std 1003.1"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 POSIX \- Perl interface to IEEE Std 1003.1
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \&    use POSIX;
@@ -211,7 +207,6 @@ POSIX \- Perl interface to IEEE Std 1003.1
 \&        # note: that's a filedescriptor, *NOT* a filehandle
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The POSIX module permits you to access all (or nearly all) the standard
 POSIX 1003.1 identifiers.  Many of these identifiers have been given Perl-ish
 interfaces.  Things which are \f(CW#defines\fR in C, like EINTR or O_NDELAY, are
@@ -230,13 +225,11 @@ and other miscellaneous objects.  The remaining sections list various
 constants and macros in an organization which roughly follows IEEE Std
 1003.1b-1993.
 .SH "NOTE"
-.IX Header "NOTE"
 The POSIX module is probably the most complex Perl module supplied with
 the standard distribution.  It incorporates autoloading, namespace games,
 and dynamic loading of code that's in Perl, C, or both.  It's a great
 source of wisdom.
 .SH "CAVEATS"
-.IX Header "CAVEATS"
 A few functions are not implemented because they are C specific.  If you
 attempt to call these, they will print a message telling you that they
 aren't implemented, and suggest using the Perl equivalent should one
@@ -252,18 +245,13 @@ successfully say \*(L"use POSIX\*(R",  and then later in your program you find
 that your vendor has been lax and there's no usable ICANON macro after
 all.  This could be construed to be a bug.
 .SH "FUNCTIONS"
-.IX Header "FUNCTIONS"
 .Ip "_exit" 8
-.IX Item "_exit"
 This is identical to the C function \f(CW_exit()\fR.
 .Ip "abort" 8
-.IX Item "abort"
 This is identical to the C function \f(CWabort()\fR.
 .Ip "abs" 8
-.IX Item "abs"
 This is identical to Perl's builtin \f(CWabs()\fR function.
 .Ip "access" 8
-.IX Item "access"
 Determines the accessibility of a file.
 .Sp
 .Vb 3
@@ -273,64 +261,44 @@ Determines the accessibility of a file.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "acos" 8
-.IX Item "acos"
 This is identical to the C function \f(CWacos()\fR.
 .Ip "alarm" 8
-.IX Item "alarm"
 This is identical to Perl's builtin \f(CWalarm()\fR function.
 .Ip "asctime" 8
-.IX Item "asctime"
 This is identical to the C function \f(CWasctime()\fR.
 .Ip "asin" 8
-.IX Item "asin"
 This is identical to the C function \f(CWasin()\fR.
 .Ip "assert" 8
-.IX Item "assert"
 Unimplemented.
 .Ip "atan" 8
-.IX Item "atan"
 This is identical to the C function \f(CWatan()\fR.
 .Ip "atan2" 8
-.IX Item "atan2"
 This is identical to Perl's builtin \f(CWatan2()\fR function.
 .Ip "atexit" 8
-.IX Item "atexit"
 \fIatexit()\fR is C\-specific: use \s-1END\s0 {} instead.
 .Ip "atof" 8
-.IX Item "atof"
 \fIatof()\fR is C\-specific.
 .Ip "atoi" 8
-.IX Item "atoi"
 \fIatoi()\fR is C\-specific.
 .Ip "atol" 8
-.IX Item "atol"
 \fIatol()\fR is C\-specific.
 .Ip "bsearch" 8
-.IX Item "bsearch"
 \fIbsearch()\fR not supplied.
 .Ip "calloc" 8
-.IX Item "calloc"
 \fIcalloc()\fR is C\-specific.
 .Ip "ceil" 8
-.IX Item "ceil"
 This is identical to the C function \f(CWceil()\fR.
 .Ip "chdir" 8
-.IX Item "chdir"
 This is identical to Perl's builtin \f(CWchdir()\fR function.
 .Ip "chmod" 8
-.IX Item "chmod"
 This is identical to Perl's builtin \f(CWchmod()\fR function.
 .Ip "chown" 8
-.IX Item "chown"
 This is identical to Perl's builtin \f(CWchown()\fR function.
 .Ip "clearerr" 8
-.IX Item "clearerr"
 Use method \f(CWIO::Handle::clearerr()\fR instead.
 .Ip "clock" 8
-.IX Item "clock"
 This is identical to the C function \f(CWclock()\fR.
 .Ip "close" 8
-.IX Item "close"
 Close the file.  This uses file descriptors such as those obtained by calling
 \f(CWPOSIX::open\fR.
 .Sp
@@ -340,16 +308,12 @@ Close the file.  This uses file descriptors such as those obtained by calling
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "closedir" 8
-.IX Item "closedir"
 This is identical to Perl's builtin \f(CWclosedir()\fR function.
 .Ip "cos" 8
-.IX Item "cos"
 This is identical to Perl's builtin \f(CWcos()\fR function.
 .Ip "cosh" 8
-.IX Item "cosh"
 This is identical to the C function \f(CWcosh()\fR.
 .Ip "creat" 8
-.IX Item "creat"
 Create a new file.  This returns a file descriptor like the ones returned by
 \f(CWPOSIX::open\fR.  Use \f(CWPOSIX::close\fR to close the file.
 .Sp
@@ -358,30 +322,24 @@ Create a new file.  This returns a file descriptor like the ones returned by
 \&        POSIX::close( $fd );
 .Ve
 .Ip "ctermid" 8
-.IX Item "ctermid"
 Generates the path name for the controlling terminal.
 .Sp
 .Vb 1
 \&        $path = POSIX::ctermid();
 .Ve
 .Ip "ctime" 8
-.IX Item "ctime"
 This is identical to the C function \f(CWctime()\fR.
 .Ip "cuserid" 8
-.IX Item "cuserid"
 Get the character login name of the user.
 .Sp
 .Vb 1
 \&        $name = POSIX::cuserid();
 .Ve
 .Ip "difftime" 8
-.IX Item "difftime"
 This is identical to the C function \f(CWdifftime()\fR.
 .Ip "div" 8
-.IX Item "div"
 \fIdiv()\fR is C\-specific.
 .Ip "dup" 8
-.IX Item "dup"
 This is similar to the C function \f(CWdup()\fR.
 .Sp
 This uses file descriptors such as those obtained by calling
@@ -389,7 +347,6 @@ This uses file descriptors such as those obtained by calling
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "dup2" 8
-.IX Item "dup2"
 This is similar to the C function \f(CWdup2()\fR.
 .Sp
 This uses file descriptors such as those obtained by calling
@@ -397,83 +354,58 @@ This uses file descriptors such as those obtained by calling
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "errno" 8
-.IX Item "errno"
 Returns the value of errno.
 .Sp
 .Vb 1
 \&        $errno = POSIX::errno();
 .Ve
 .Ip "execl" 8
-.IX Item "execl"
 \fIexecl()\fR is C\-specific.
 .Ip "execle" 8
-.IX Item "execle"
 \fIexecle()\fR is C\-specific.
 .Ip "execlp" 8
-.IX Item "execlp"
 \fIexeclp()\fR is C\-specific.
 .Ip "execv" 8
-.IX Item "execv"
 \fIexecv()\fR is C\-specific.
 .Ip "execve" 8
-.IX Item "execve"
 \fIexecve()\fR is C\-specific.
 .Ip "execvp" 8
-.IX Item "execvp"
 \fIexecvp()\fR is C\-specific.
 .Ip "exit" 8
-.IX Item "exit"
 This is identical to Perl's builtin \f(CWexit()\fR function.
 .Ip "exp" 8
-.IX Item "exp"
 This is identical to Perl's builtin \f(CWexp()\fR function.
 .Ip "fabs" 8
-.IX Item "fabs"
 This is identical to Perl's builtin \f(CWabs()\fR function.
 .Ip "fclose" 8
-.IX Item "fclose"
 Use method \f(CWIO::Handle::close()\fR instead.
 .Ip "fcntl" 8
-.IX Item "fcntl"
 This is identical to Perl's builtin \f(CWfcntl()\fR function.
 .Ip "fdopen" 8
-.IX Item "fdopen"
 Use method \f(CWIO::Handle::new_from_fd()\fR instead.
 .Ip "feof" 8
-.IX Item "feof"
 Use method \f(CWIO::Handle::eof()\fR instead.
 .Ip "ferror" 8
-.IX Item "ferror"
 Use method \f(CWIO::Handle::error()\fR instead.
 .Ip "fflush" 8
-.IX Item "fflush"
 Use method \f(CWIO::Handle::flush()\fR instead.
 .Ip "fgetc" 8
-.IX Item "fgetc"
 Use method \f(CWIO::Handle::getc()\fR instead.
 .Ip "fgetpos" 8
-.IX Item "fgetpos"
 Use method \f(CWIO::Seekable::getpos()\fR instead.
 .Ip "fgets" 8
-.IX Item "fgets"
 Use method \f(CWIO::Handle::gets()\fR instead.
 .Ip "fileno" 8
-.IX Item "fileno"
 Use method \f(CWIO::Handle::fileno()\fR instead.
 .Ip "floor" 8
-.IX Item "floor"
 This is identical to the C function \f(CWfloor()\fR.
 .Ip "fmod" 8
-.IX Item "fmod"
 This is identical to the C function \f(CWfmod()\fR.
 .Ip "fopen" 8
-.IX Item "fopen"
 Use method \f(CWIO::File::open()\fR instead.
 .Ip "fork" 8
-.IX Item "fork"
 This is identical to Perl's builtin \f(CWfork()\fR function.
 .Ip "fpathconf" 8
-.IX Item "fpathconf"
 Retrieves the value of a configurable limit on a file or directory.  This
 uses file descriptors such as those obtained by calling \f(CWPOSIX::open\fR.
 .Sp
@@ -486,41 +418,30 @@ pathname on the filesystem which holds \f(CW/tmp/foo\fR.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "fprintf" 8
-.IX Item "fprintf"
 \fIfprintf()\fR is C\-specific\*(--use printf instead.
 .Ip "fputc" 8
-.IX Item "fputc"
 \fIfputc()\fR is C\-specific\*(--use print instead.
 .Ip "fputs" 8
-.IX Item "fputs"
 \fIfputs()\fR is C\-specific\*(--use print instead.
 .Ip "fread" 8
-.IX Item "fread"
 \fIfread()\fR is C\-specific\*(--use read instead.
 .Ip "free" 8
-.IX Item "free"
 \fIfree()\fR is C\-specific.
 .Ip "freopen" 8
-.IX Item "freopen"
 \fIfreopen()\fR is C\-specific\*(--use open instead.
 .Ip "frexp" 8
-.IX Item "frexp"
 Return the mantissa and exponent of a floating-point number.
 .Sp
 .Vb 1
 \&        ($mantissa, $exponent) = POSIX::frexp( 3.14 );
 .Ve
 .Ip "fscanf" 8
-.IX Item "fscanf"
 \fIfscanf()\fR is C\-specific\*(--use <> and regular expressions instead.
 .Ip "fseek" 8
-.IX Item "fseek"
 Use method \f(CWIO::Seekable::seek()\fR instead.
 .Ip "fsetpos" 8
-.IX Item "fsetpos"
 Use method \f(CWIO::Seekable::setpos()\fR instead.
 .Ip "fstat" 8
-.IX Item "fstat"
 Get file status.  This uses file descriptors such as those obtained by
 calling \f(CWPOSIX::open\fR.  The data returned is identical to the data from
 Perl's builtin \f(CWstat\fR function.
@@ -530,133 +451,94 @@ Perl's builtin \f(CWstat\fR function.
 \&        @stats = POSIX::fstat( $fd );
 .Ve
 .Ip "ftell" 8
-.IX Item "ftell"
 Use method \f(CWIO::Seekable::tell()\fR instead.
 .Ip "fwrite" 8
-.IX Item "fwrite"
 \fIfwrite()\fR is C\-specific\*(--use print instead.
 .Ip "getc" 8
-.IX Item "getc"
 This is identical to Perl's builtin \f(CWgetc()\fR function.
 .Ip "getchar" 8
-.IX Item "getchar"
 Returns one character from \s-1STDIN\s0.
 .Ip "getcwd" 8
-.IX Item "getcwd"
 Returns the name of the current working directory.
 .Ip "getegid" 8
-.IX Item "getegid"
 Returns the effective group id.
 .Ip "getenv" 8
-.IX Item "getenv"
 Returns the value of the specified enironment variable.
 .Ip "geteuid" 8
-.IX Item "geteuid"
 Returns the effective user id.
 .Ip "getgid" 8
-.IX Item "getgid"
 Returns the user's real group id.
 .Ip "getgrgid" 8
-.IX Item "getgrgid"
 This is identical to Perl's builtin \f(CWgetgrgid()\fR function.
 .Ip "getgrnam" 8
-.IX Item "getgrnam"
 This is identical to Perl's builtin \f(CWgetgrnam()\fR function.
 .Ip "getgroups" 8
-.IX Item "getgroups"
 Returns the ids of the user's supplementary groups.
 .Ip "getlogin" 8
-.IX Item "getlogin"
 This is identical to Perl's builtin \f(CWgetlogin()\fR function.
 .Ip "getpgrp" 8
-.IX Item "getpgrp"
 This is identical to Perl's builtin \f(CWgetpgrp()\fR function.
 .Ip "getpid" 8
-.IX Item "getpid"
 Returns the process's id.
 .Ip "getppid" 8
-.IX Item "getppid"
 This is identical to Perl's builtin \f(CWgetppid()\fR function.
 .Ip "getpwnam" 8
-.IX Item "getpwnam"
 This is identical to Perl's builtin \f(CWgetpwnam()\fR function.
 .Ip "getpwuid" 8
-.IX Item "getpwuid"
 This is identical to Perl's builtin \f(CWgetpwuid()\fR function.
 .Ip "gets" 8
-.IX Item "gets"
 Returns one line from \s-1STDIN\s0.
 .Ip "getuid" 8
-.IX Item "getuid"
 Returns the user's id.
 .Ip "gmtime" 8
-.IX Item "gmtime"
 This is identical to Perl's builtin \f(CWgmtime()\fR function.
 .Ip "isalnum" 8
-.IX Item "isalnum"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isalpha" 8
-.IX Item "isalpha"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isatty" 8
-.IX Item "isatty"
 Returns a boolean indicating whether the specified filehandle is connected
 to a tty.
 .Ip "iscntrl" 8
-.IX Item "iscntrl"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isdigit" 8
-.IX Item "isdigit"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isgraph" 8
-.IX Item "isgraph"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "islower" 8
-.IX Item "islower"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isprint" 8
-.IX Item "isprint"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "ispunct" 8
-.IX Item "ispunct"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isspace" 8
-.IX Item "isspace"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isupper" 8
-.IX Item "isupper"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "isxdigit" 8
-.IX Item "isxdigit"
 This is identical to the C function, except that it can apply to a single
 character or to a whole string.
 .Ip "kill" 8
-.IX Item "kill"
 This is identical to Perl's builtin \f(CWkill()\fR function.
 .Ip "labs" 8
-.IX Item "labs"
 \fIlabs()\fR is C\-specific, use abs instead.
 .Ip "ldexp" 8
-.IX Item "ldexp"
 This is identical to the C function \f(CWldexp()\fR.
 .Ip "ldiv" 8
-.IX Item "ldiv"
 \fIldiv()\fR is C\-specific, use / and int instead.
 .Ip "link" 8
-.IX Item "link"
 This is identical to Perl's builtin \f(CWlink()\fR function.
 .Ip "localeconv" 8
-.IX Item "localeconv"
 Get numeric formatting information.  Returns a reference to a hash
 containing the current locale formatting values.
 .Sp
@@ -686,19 +568,14 @@ The database for the \fBde\fR (Deutsch or German) locale.
 \&        print "n_sign_posn      = ", $lconv->{n_sign_posn},     "\en";
 .Ve
 .Ip "localtime" 8
-.IX Item "localtime"
 This is identical to Perl's builtin \f(CWlocaltime()\fR function.
 .Ip "log" 8
-.IX Item "log"
 This is identical to Perl's builtin \f(CWlog()\fR function.
 .Ip "log10" 8
-.IX Item "log10"
 This is identical to the C function \f(CWlog10()\fR.
 .Ip "longjmp" 8
-.IX Item "longjmp"
 \fIlongjmp()\fR is C\-specific: use die instead.
 .Ip "lseek" 8
-.IX Item "lseek"
 Move the file's read/write position.  This uses file descriptors such as
 those obtained by calling \f(CWPOSIX::open\fR.
 .Sp
@@ -708,42 +585,30 @@ those obtained by calling \f(CWPOSIX::open\fR.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "malloc" 8
-.IX Item "malloc"
 \fImalloc()\fR is C\-specific.
 .Ip "mblen" 8
-.IX Item "mblen"
 This is identical to the C function \f(CWmblen()\fR.
 .Ip "mbstowcs" 8
-.IX Item "mbstowcs"
 This is identical to the C function \f(CWmbstowcs()\fR.
 .Ip "mbtowc" 8
-.IX Item "mbtowc"
 This is identical to the C function \f(CWmbtowc()\fR.
 .Ip "memchr" 8
-.IX Item "memchr"
 \fImemchr()\fR is C\-specific, use \fIindex()\fR instead.
 .Ip "memcmp" 8
-.IX Item "memcmp"
 \fImemcmp()\fR is C\-specific, use eq instead.
 .Ip "memcpy" 8
-.IX Item "memcpy"
 \fImemcpy()\fR is C\-specific, use = instead.
 .Ip "memmove" 8
-.IX Item "memmove"
 \fImemmove()\fR is C\-specific, use = instead.
 .Ip "memset" 8
-.IX Item "memset"
 \fImemset()\fR is C\-specific, use x instead.
 .Ip "mkdir" 8
-.IX Item "mkdir"
 This is identical to Perl's builtin \f(CWmkdir()\fR function.
 .Ip "mkfifo" 8
-.IX Item "mkfifo"
 This is similar to the C function \f(CWmkfifo()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "mktime" 8
-.IX Item "mktime"
 Convert date/time info to a calendar time.
 .Sp
 Synopsis:
@@ -765,22 +630,18 @@ Calendar time for December 12, 1995, at 10:30 am.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "modf" 8
-.IX Item "modf"
 Return the integral and fractional parts of a floating-point number.
 .Sp
 .Vb 1
 \&        ($fractional, $integral) = POSIX::modf( 3.14 );
 .Ve
 .Ip "nice" 8
-.IX Item "nice"
 This is similar to the C function \f(CWnice()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "offsetof" 8
-.IX Item "offsetof"
 \fIoffsetof()\fR is C\-specific.
 .Ip "open" 8
-.IX Item "open"
 Open a file for reading for writing.  This returns file descriptors, not
 Perl filehandles.  Use \f(CWPOSIX::close\fR to close the file.
 .Sp
@@ -806,7 +667,6 @@ Create a new file with mode 0640.  Set up the file for writing.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "opendir" 8
-.IX Item "opendir"
 Open a directory for reading.
 .Sp
 .Vb 3
@@ -816,7 +676,6 @@ Open a directory for reading.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "pathconf" 8
-.IX Item "pathconf"
 Retrieves the value of a configurable limit on a file or directory.
 .Sp
 The following will determine the maximum length of the longest allowable
@@ -827,15 +686,12 @@ pathname on the filesystem which holds \f(CW/tmp\fR.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "pause" 8
-.IX Item "pause"
 This is similar to the C function \f(CWpause()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "perror" 8
-.IX Item "perror"
 This is identical to the C function \f(CWperror()\fR.
 .Ip "pipe" 8
-.IX Item "pipe"
 Create an interprocess channel.  This returns file descriptors like those
 returned by \f(CWPOSIX::open\fR.
 .Sp
@@ -845,35 +701,26 @@ returned by \f(CWPOSIX::open\fR.
 \&        POSIX::read( $fd1, $buf, 5 );
 .Ve
 .Ip "pow" 8
-.IX Item "pow"
 Computes \f(CW$x\fR raised to the power \f(CW$exponent\fR.
 .Sp
 .Vb 1
 \&        $ret = POSIX::pow( $x, $exponent );
 .Ve
 .Ip "printf" 8
-.IX Item "printf"
 Prints the specified arguments to \s-1STDOUT\s0.
 .Ip "putc" 8
-.IX Item "putc"
 \fIputc()\fR is C\-specific\*(--use print instead.
 .Ip "putchar" 8
-.IX Item "putchar"
 \fIputchar()\fR is C\-specific\*(--use print instead.
 .Ip "puts" 8
-.IX Item "puts"
 \fIputs()\fR is C\-specific\*(--use print instead.
 .Ip "qsort" 8
-.IX Item "qsort"
 \fIqsort()\fR is C\-specific, use sort instead.
 .Ip "raise" 8
-.IX Item "raise"
 Sends the specified signal to the current process.
 .Ip "rand" 8
-.IX Item "rand"
 \fIrand()\fR is non-portable, use Perl's rand instead.
 .Ip "read" 8
-.IX Item "read"
 Read from a file.  This uses file descriptors such as those obtained by
 calling \f(CWPOSIX::open\fR.  If the buffer \f(CW$buf\fR is not large enough for the
 read then Perl will extend it to make room for the request.
@@ -884,37 +731,26 @@ read then Perl will extend it to make room for the request.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "readdir" 8
-.IX Item "readdir"
 This is identical to Perl's builtin \f(CWreaddir()\fR function.
 .Ip "realloc" 8
-.IX Item "realloc"
 \fIrealloc()\fR is C\-specific.
 .Ip "remove" 8
-.IX Item "remove"
 This is identical to Perl's builtin \f(CWunlink()\fR function.
 .Ip "rename" 8
-.IX Item "rename"
 This is identical to Perl's builtin \f(CWrename()\fR function.
 .Ip "rewind" 8
-.IX Item "rewind"
 Seeks to the beginning of the file.
 .Ip "rewinddir" 8
-.IX Item "rewinddir"
 This is identical to Perl's builtin \f(CWrewinddir()\fR function.
 .Ip "rmdir" 8
-.IX Item "rmdir"
 This is identical to Perl's builtin \f(CWrmdir()\fR function.
 .Ip "scanf" 8
-.IX Item "scanf"
 \fIscanf()\fR is C\-specific\*(--use <> and regular expressions instead.
 .Ip "setgid" 8
-.IX Item "setgid"
 Sets the real group id for this process.
 .Ip "setjmp" 8
-.IX Item "setjmp"
 \fIsetjmp()\fR is C\-specific: use eval {} instead.
 .Ip "setlocale" 8
-.IX Item "setlocale"
 Modifies and queries program's locale.
 .Sp
 The following will set the traditional \s-1UNIX\s0 system locale behavior
@@ -946,18 +782,14 @@ out which locales are available in your system.
 \&        $loc = POSIX::setlocale( &POSIX::LC_ALL, "es_AR.ISO8859-1" );
 .Ve
 .Ip "setpgid" 8
-.IX Item "setpgid"
 This is similar to the C function \f(CWsetpgid()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "setsid" 8
-.IX Item "setsid"
 This is identical to the C function \f(CWsetsid()\fR.
 .Ip "setuid" 8
-.IX Item "setuid"
 Sets the real user id for this process.
 .Ip "sigaction" 8
-.IX Item "sigaction"
 Detailed signal management.  This uses \f(CWPOSIX::SigAction\fR objects for the
 \f(CWaction\fR and \f(CWoldaction\fR arguments.  Consult your system's \f(CWsigaction\fR
 manpage for details.
@@ -969,10 +801,8 @@ Synopsis:
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "siglongjmp" 8
-.IX Item "siglongjmp"
 \fIsiglongjmp()\fR is C\-specific: use die instead.
 .Ip "sigpending" 8
-.IX Item "sigpending"
 Examine signals that are blocked and pending.  This uses \f(CWPOSIX::SigSet\fR
 objects for the \f(CWsigset\fR argument.  Consult your system's \f(CWsigpending\fR
 manpage for details.
@@ -984,7 +814,6 @@ Synopsis:
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "sigprocmask" 8
-.IX Item "sigprocmask"
 Change and/or examine calling process's signal mask.  This uses
 \f(CWPOSIX::SigSet\fR objects for the \f(CWsigset\fR and \f(CWoldsigset\fR arguments.
 Consult your system's \f(CWsigprocmask\fR manpage for details.
@@ -996,10 +825,8 @@ Synopsis:
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "sigsetjmp" 8
-.IX Item "sigsetjmp"
 \fIsigsetjmp()\fR is C\-specific: use eval {} instead.
 .Ip "sigsuspend" 8
-.IX Item "sigsuspend"
 Install a signal mask and suspend process until signal arrives.  This uses
 \f(CWPOSIX::SigSet\fR objects for the \f(CWsignal_mask\fR argument.  Consult your
 system's \f(CWsigsuspend\fR manpage for details.
@@ -1011,52 +838,36 @@ Synopsis:
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "sin" 8
-.IX Item "sin"
 This is identical to Perl's builtin \f(CWsin()\fR function.
 .Ip "sinh" 8
-.IX Item "sinh"
 This is identical to the C function \f(CWsinh()\fR.
 .Ip "sleep" 8
-.IX Item "sleep"
 This is identical to Perl's builtin \f(CWsleep()\fR function.
 .Ip "sprintf" 8
-.IX Item "sprintf"
 This is identical to Perl's builtin \f(CWsprintf()\fR function.
 .Ip "sqrt" 8
-.IX Item "sqrt"
 This is identical to Perl's builtin \f(CWsqrt()\fR function.
 .Ip "srand" 8
-.IX Item "srand"
 \fIsrand()\fR.
 .Ip "sscanf" 8
-.IX Item "sscanf"
 \fIsscanf()\fR is C\-specific\*(--use regular expressions instead.
 .Ip "stat" 8
-.IX Item "stat"
 This is identical to Perl's builtin \f(CWstat()\fR function.
 .Ip "strcat" 8
-.IX Item "strcat"
 \fIstrcat()\fR is C\-specific, use .= instead.
 .Ip "strchr" 8
-.IX Item "strchr"
 \fIstrchr()\fR is C\-specific, use \fIindex()\fR instead.
 .Ip "strcmp" 8
-.IX Item "strcmp"
 \fIstrcmp()\fR is C\-specific, use eq instead.
 .Ip "strcoll" 8
-.IX Item "strcoll"
 This is identical to the C function \f(CWstrcoll()\fR.
 .Ip "strcpy" 8
-.IX Item "strcpy"
 \fIstrcpy()\fR is C\-specific, use = instead.
 .Ip "strcspn" 8
-.IX Item "strcspn"
 \fIstrcspn()\fR is C\-specific, use regular expressions instead.
 .Ip "strerror" 8
-.IX Item "strerror"
 Returns the error string for the specified errno.
 .Ip "strftime" 8
-.IX Item "strftime"
 Convert date and time information to string.  Returns the string.
 .Sp
 Synopsis:
@@ -1077,34 +888,24 @@ The string for Tuesday, December 12, 1995.
 \&        print "$str\en";
 .Ve
 .Ip "strlen" 8
-.IX Item "strlen"
 \fIstrlen()\fR is C\-specific, use length instead.
 .Ip "strncat" 8
-.IX Item "strncat"
 \fIstrncat()\fR is C\-specific, use .= instead.
 .Ip "strncmp" 8
-.IX Item "strncmp"
 \fIstrncmp()\fR is C\-specific, use eq instead.
 .Ip "strncpy" 8
-.IX Item "strncpy"
 \fIstrncpy()\fR is C\-specific, use = instead.
 .Ip "stroul" 8
-.IX Item "stroul"
 \fIstroul()\fR is C\-specific.
 .Ip "strpbrk" 8
-.IX Item "strpbrk"
 \fIstrpbrk()\fR is C\-specific.
 .Ip "strrchr" 8
-.IX Item "strrchr"
 \fIstrrchr()\fR is C\-specific, use \fIrindex()\fR instead.
 .Ip "strspn" 8
-.IX Item "strspn"
 \fIstrspn()\fR is C\-specific.
 .Ip "strstr" 8
-.IX Item "strstr"
 This is identical to Perl's builtin \f(CWindex()\fR function.
 .Ip "strtod" 8
-.IX Item "strtod"
 String to double translation. Returns the parsed number and the number
 of characters in the unparsed portion of the string.  Truly
 \s-1POSIX\s0\-compliant systems set $! ($\s-1ERRNO\s0) to indicate a translation
@@ -1128,10 +929,8 @@ The second returned item and $! can be used to check for valid input:
 .Ve
 When called in a scalar context strtod returns the parsed number.
 .Ip "strtok" 8
-.IX Item "strtok"
 \fIstrtok()\fR is C\-specific.
 .Ip "strtol" 8
-.IX Item "strtol"
 String to (long) integer translation.  Returns the parsed number and
 the number of characters in the unparsed portion of the string.  Truly
 \s-1POSIX\s0\-compliant systems set $! ($\s-1ERRNO\s0) to indicate a translation
@@ -1162,7 +961,6 @@ The second returned item and $! can be used to check for valid input:
 .Ve
 When called in a scalar context strtol returns the parsed number.
 .Ip "strtoul" 8
-.IX Item "strtoul"
 String to unsigned (long) integer translation.  strtoul is identical
 to strtol except that strtoul only parses unsigned integers.  See
 \fIstrtol\fR for details.
@@ -1170,14 +968,12 @@ to strtol except that strtoul only parses unsigned integers.  See
 Note: Some vendors supply strtod and strtol but not strtoul.
 Other vendors that do suply strtoul parse \*(L"\-1\*(R" as a valid value.
 .Ip "strxfrm" 8
-.IX Item "strxfrm"
 String transformation.  Returns the transformed string.
 .Sp
 .Vb 1
 \&        $dst = POSIX::strxfrm( $src );
 .Ve
 .Ip "sysconf" 8
-.IX Item "sysconf"
 Retrieves values of system configurable variables.
 .Sp
 The following will get the machine's clock speed.
@@ -1187,47 +983,36 @@ The following will get the machine's clock speed.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "system" 8
-.IX Item "system"
 This is identical to Perl's builtin \f(CWsystem()\fR function.
 .Ip "tan" 8
-.IX Item "tan"
 This is identical to the C function \f(CWtan()\fR.
 .Ip "tanh" 8
-.IX Item "tanh"
 This is identical to the C function \f(CWtanh()\fR.
 .Ip "tcdrain" 8
-.IX Item "tcdrain"
 This is similar to the C function \f(CWtcdrain()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "tcflow" 8
-.IX Item "tcflow"
 This is similar to the C function \f(CWtcflow()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "tcflush" 8
-.IX Item "tcflush"
 This is similar to the C function \f(CWtcflush()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "tcgetpgrp" 8
-.IX Item "tcgetpgrp"
 This is identical to the C function \f(CWtcgetpgrp()\fR.
 .Ip "tcsendbreak" 8
-.IX Item "tcsendbreak"
 This is similar to the C function \f(CWtcsendbreak()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "tcsetpgrp" 8
-.IX Item "tcsetpgrp"
 This is similar to the C function \f(CWtcsetpgrp()\fR.
 .Sp
 Returns \f(CWundef\fR on failure.
 .Ip "time" 8
-.IX Item "time"
 This is identical to Perl's builtin \f(CWtime()\fR function.
 .Ip "times" 8
-.IX Item "times"
 The \fItimes()\fR function returns elapsed realtime since some point in the past
 (such as system startup), user and system times for this process, and user
 and system times used by child processes.  All times are returned in clock
@@ -1239,26 +1024,20 @@ ticks.
 Note: Perl's builtin \f(CWtimes()\fR function returns four values, measured in
 seconds.
 .Ip "tmpfile" 8
-.IX Item "tmpfile"
 Use method \f(CWIO::File::new_tmpfile()\fR instead.
 .Ip "tmpnam" 8
-.IX Item "tmpnam"
 Returns a name for a temporary file.
 .Sp
 .Vb 1
 \&        $tmpfile = POSIX::tmpnam();
 .Ve
 .Ip "tolower" 8
-.IX Item "tolower"
 This is identical to Perl's builtin \f(CWlc()\fR function.
 .Ip "toupper" 8
-.IX Item "toupper"
 This is identical to Perl's builtin \f(CWuc()\fR function.
 .Ip "ttyname" 8
-.IX Item "ttyname"
 This is identical to the C function \f(CWttyname()\fR.
 .Ip "tzname" 8
-.IX Item "tzname"
 Retrieves the time conversion information from the \f(CWtzname\fR variable.
 .Sp
 .Vb 2
@@ -1266,41 +1045,30 @@ Retrieves the time conversion information from the \f(CWtzname\fR variable.
 \&        ($std, $dst) = POSIX::tzname();
 .Ve
 .Ip "tzset" 8
-.IX Item "tzset"
 This is identical to the C function \f(CWtzset()\fR.
 .Ip "umask" 8
-.IX Item "umask"
 This is identical to Perl's builtin \f(CWumask()\fR function.
 .Ip "uname" 8
-.IX Item "uname"
 Get name of current operating system.
 .Sp
 .Vb 1
 \&        ($sysname, $nodename, $release, $version, $machine ) = POSIX::uname();
 .Ve
 .Ip "ungetc" 8
-.IX Item "ungetc"
 Use method \f(CWIO::Handle::ungetc()\fR instead.
 .Ip "unlink" 8
-.IX Item "unlink"
 This is identical to Perl's builtin \f(CWunlink()\fR function.
 .Ip "utime" 8
-.IX Item "utime"
 This is identical to Perl's builtin \f(CWutime()\fR function.
 .Ip "vfprintf" 8
-.IX Item "vfprintf"
 \fIvfprintf()\fR is C\-specific.
 .Ip "vprintf" 8
-.IX Item "vprintf"
 \fIvprintf()\fR is C\-specific.
 .Ip "vsprintf" 8
-.IX Item "vsprintf"
 \fIvsprintf()\fR is C\-specific.
 .Ip "wait" 8
-.IX Item "wait"
 This is identical to Perl's builtin \f(CWwait()\fR function.
 .Ip "waitpid" 8
-.IX Item "waitpid"
 Wait for a child process to change state.  This is identical to Perl's
 builtin \f(CWwaitpid()\fR function.
 .Sp
@@ -1309,13 +1077,10 @@ builtin \f(CWwaitpid()\fR function.
 \&        print "status = ", ($? / 256), "\en";
 .Ve
 .Ip "wcstombs" 8
-.IX Item "wcstombs"
 This is identical to the C function \f(CWwcstombs()\fR.
 .Ip "wctomb" 8
-.IX Item "wctomb"
 This is identical to the C function \f(CWwctomb()\fR.
 .Ip "write" 8
-.IX Item "write"
 Write to a file.  This uses file descriptors such as those obtained by
 calling \f(CWPOSIX::open\fR.
 .Sp
@@ -1326,11 +1091,8 @@ calling \f(CWPOSIX::open\fR.
 .Ve
 Returns \f(CWundef\fR on failure.
 .SH "CLASSES"
-.IX Header "CLASSES"
 .Sh "\s-1POSIX::\s0SigAction"
-.IX Subsection "\s-1POSIX::\s0SigAction"
 .Ip "new" 8
-.IX Item "new"
 Creates a new \f(CWPOSIX::SigAction\fR object which corresponds to the C
 \f(CWstruct sigaction\fR.  This object will be destroyed automatically when it is
 no longer needed.  The first parameter is the fully-qualified name of a sub
@@ -1345,9 +1107,7 @@ object, it defaults to the empty set.  The third parameter contains the
 This \f(CWPOSIX::SigAction\fR object should be used with the \f(CWPOSIX::sigaction()\fR
 function.
 .Sh "\s-1POSIX::\s0SigSet"
-.IX Subsection "\s-1POSIX::\s0SigSet"
 .Ip "new" 8
-.IX Item "new"
 Create a new SigSet object.  This object will be destroyed automatically
 when it is no longer needed.  Arguments may be supplied to initialize the
 set.
@@ -1363,7 +1123,6 @@ Create a set with \s-1SIGUSR1\s0.
 \&        $sigset = POSIX::SigSet->new( &POSIX::SIGUSR1 );
 .Ve
 .Ip "addset" 8
-.IX Item "addset"
 Add a signal to a SigSet object.
 .Sp
 .Vb 1
@@ -1371,7 +1130,6 @@ Add a signal to a SigSet object.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "delset" 8
-.IX Item "delset"
 Remove a signal from the SigSet object.
 .Sp
 .Vb 1
@@ -1379,7 +1137,6 @@ Remove a signal from the SigSet object.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "emptyset" 8
-.IX Item "emptyset"
 Initialize the SigSet object to be empty.
 .Sp
 .Vb 1
@@ -1387,7 +1144,6 @@ Initialize the SigSet object to be empty.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "fillset" 8
-.IX Item "fillset"
 Initialize the SigSet object to include all signals.
 .Sp
 .Vb 1
@@ -1395,7 +1151,6 @@ Initialize the SigSet object to include all signals.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "ismember" 8
-.IX Item "ismember"
 Tests the SigSet object to see if it contains a specific signal.
 .Sp
 .Vb 3
@@ -1404,9 +1159,7 @@ Tests the SigSet object to see if it contains a specific signal.
 \&        }
 .Ve
 .Sh "\s-1POSIX::\s0Termios"
-.IX Subsection "\s-1POSIX::\s0Termios"
 .Ip "new" 8
-.IX Item "new"
 Create a new Termios object.  This object will be destroyed automatically
 when it is no longer needed.
 .Sp
@@ -1414,7 +1167,6 @@ when it is no longer needed.
 \&        $termios = POSIX::Termios->new;
 .Ve
 .Ip "getattr" 8
-.IX Item "getattr"
 Get terminal control attributes.
 .Sp
 Obtain the attributes for stdin.
@@ -1429,7 +1181,6 @@ Obtain the attributes for stdout.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "getcc" 8
-.IX Item "getcc"
 Retrieve a value from the c_cc field of a termios object.  The c_cc field is
 an array so an index must be specified.
 .Sp
@@ -1437,49 +1188,42 @@ an array so an index must be specified.
 \&        $c_cc[1] = $termios->getcc(1);
 .Ve
 .Ip "getcflag" 8
-.IX Item "getcflag"
 Retrieve the c_cflag field of a termios object.
 .Sp
 .Vb 1
 \&        $c_cflag = $termios->getcflag;
 .Ve
 .Ip "getiflag" 8
-.IX Item "getiflag"
 Retrieve the c_iflag field of a termios object.
 .Sp
 .Vb 1
 \&        $c_iflag = $termios->getiflag;
 .Ve
 .Ip "getispeed" 8
-.IX Item "getispeed"
 Retrieve the input baud rate.
 .Sp
 .Vb 1
 \&        $ispeed = $termios->getispeed;
 .Ve
 .Ip "getlflag" 8
-.IX Item "getlflag"
 Retrieve the c_lflag field of a termios object.
 .Sp
 .Vb 1
 \&        $c_lflag = $termios->getlflag;
 .Ve
 .Ip "getoflag" 8
-.IX Item "getoflag"
 Retrieve the c_oflag field of a termios object.
 .Sp
 .Vb 1
 \&        $c_oflag = $termios->getoflag;
 .Ve
 .Ip "getospeed" 8
-.IX Item "getospeed"
 Retrieve the output baud rate.
 .Sp
 .Vb 1
 \&        $ospeed = $termios->getospeed;
 .Ve
 .Ip "setattr" 8
-.IX Item "setattr"
 Set terminal control attributes.
 .Sp
 Set attributes immediately for stdout.
@@ -1489,7 +1233,6 @@ Set attributes immediately for stdout.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "setcc" 8
-.IX Item "setcc"
 Set a value in the c_cc field of a termios object.  The c_cc field is an
 array so an index must be specified.
 .Sp
@@ -1497,21 +1240,18 @@ array so an index must be specified.
 \&        $termios->setcc( &POSIX::VEOF, 1 );
 .Ve
 .Ip "setcflag" 8
-.IX Item "setcflag"
 Set the c_cflag field of a termios object.
 .Sp
 .Vb 1
 \&        $termios->setcflag( &POSIX::CLOCAL );
 .Ve
 .Ip "setiflag" 8
-.IX Item "setiflag"
 Set the c_iflag field of a termios object.
 .Sp
 .Vb 1
 \&        $termios->setiflag( &POSIX::BRKINT );
 .Ve
 .Ip "setispeed" 8
-.IX Item "setispeed"
 Set the input baud rate.
 .Sp
 .Vb 1
@@ -1519,21 +1259,18 @@ Set the input baud rate.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "setlflag" 8
-.IX Item "setlflag"
 Set the c_lflag field of a termios object.
 .Sp
 .Vb 1
 \&        $termios->setlflag( &POSIX::ECHO );
 .Ve
 .Ip "setoflag" 8
-.IX Item "setoflag"
 Set the c_oflag field of a termios object.
 .Sp
 .Vb 1
 \&        $termios->setoflag( &POSIX::OPOST );
 .Ve
 .Ip "setospeed" 8
-.IX Item "setospeed"
 Set the output baud rate.
 .Sp
 .Vb 1
@@ -1541,45 +1278,30 @@ Set the output baud rate.
 .Ve
 Returns \f(CWundef\fR on failure.
 .Ip "Baud rate values" 8
-.IX Item "Baud rate values"
 B38400 B75 B200 B134 B300 B1800 B150 B0 B19200 B1200 B9600 B600 B4800 B50 B2400 B110
 .Ip "Terminal interface values" 8
-.IX Item "Terminal interface values"
 \s-1TCSADRAIN\s0 \s-1TCSANOW\s0 \s-1TCOON\s0 \s-1TCIOFLUSH\s0 \s-1TCOFLUSH\s0 \s-1TCION\s0 \s-1TCIFLUSH\s0 \s-1TCSAFLUSH\s0 \s-1TCIOFF\s0 \s-1TCOOFF\s0
 .Ip "c_cc field values" 8
-.IX Item "c_cc field values"
 \s-1VEOF\s0 \s-1VEOL\s0 \s-1VERASE\s0 \s-1VINTR\s0 \s-1VKILL\s0 \s-1VQUIT\s0 \s-1VSUSP\s0 \s-1VSTART\s0 \s-1VSTOP\s0 \s-1VMIN\s0 \s-1VTIME\s0 \s-1NCCS\s0
 .Ip "c_cflag field values" 8
-.IX Item "c_cflag field values"
 \s-1CLOCAL\s0 \s-1CREAD\s0 \s-1CSIZE\s0 \s-1CS5\s0 \s-1CS6\s0 \s-1CS7\s0 \s-1CS8\s0 \s-1CSTOPB\s0 \s-1HUPCL\s0 \s-1PARENB\s0 \s-1PARODD\s0
 .Ip "c_iflag field values" 8
-.IX Item "c_iflag field values"
 \s-1BRKINT\s0 \s-1ICRNL\s0 \s-1IGNBRK\s0 \s-1IGNCR\s0 \s-1IGNPAR\s0 \s-1INLCR\s0 \s-1INPCK\s0 \s-1ISTRIP\s0 \s-1IXOFF\s0 \s-1IXON\s0 \s-1PARMRK\s0
 .Ip "c_lflag field values" 8
-.IX Item "c_lflag field values"
 \s-1ECHO\s0 \s-1ECHOE\s0 \s-1ECHOK\s0 \s-1ECHONL\s0 \s-1ICANON\s0 \s-1IEXTEN\s0 \s-1ISIG\s0 \s-1NOFLSH\s0 \s-1TOSTOP\s0
 .Ip "c_oflag field values" 8
-.IX Item "c_oflag field values"
 \s-1OPOST\s0
 .SH "PATHNAME CONSTANTS"
-.IX Header "PATHNAME CONSTANTS"
 .Ip "Constants" 8
-.IX Item "Constants"
 _PC_CHOWN_RESTRICTED _PC_LINK_MAX _PC_MAX_CANON _PC_MAX_INPUT _PC_NAME_MAX _PC_NO_TRUNC _PC_PATH_MAX _PC_PIPE_BUF _PC_VDISABLE
 .SH "POSIX CONSTANTS"
-.IX Header "POSIX CONSTANTS"
 .Ip "Constants" 8
-.IX Item "Constants"
 _POSIX_ARG_MAX _POSIX_CHILD_MAX _POSIX_CHOWN_RESTRICTED _POSIX_JOB_CONTROL _POSIX_LINK_MAX _POSIX_MAX_CANON _POSIX_MAX_INPUT _POSIX_NAME_MAX _POSIX_NGROUPS_MAX _POSIX_NO_TRUNC _POSIX_OPEN_MAX _POSIX_PATH_MAX _POSIX_PIPE_BUF _POSIX_SAVED_IDS _POSIX_SSIZE_MAX _POSIX_STREAM_MAX _POSIX_TZNAME_MAX _POSIX_VDISABLE _POSIX_VERSION
 .SH "SYSTEM CONFIGURATION"
-.IX Header "SYSTEM CONFIGURATION"
 .Ip "Constants" 8
-.IX Item "Constants"
 _SC_ARG_MAX _SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL _SC_NGROUPS_MAX _SC_OPEN_MAX _SC_SAVED_IDS _SC_STREAM_MAX _SC_TZNAME_MAX _SC_VERSION
 .SH "ERRNO"
-.IX Header "ERRNO"
 .Ip "Constants" 8
-.IX Item "Constants"
 E2BIG \s-1EACCES\s0 \s-1EADDRINUSE\s0 \s-1EADDRNOTAVAIL\s0 \s-1EAFNOSUPPORT\s0 \s-1EAGAIN\s0 \s-1EALREADY\s0 \s-1EBADF\s0
 \s-1EBUSY\s0 \s-1ECHILD\s0 \s-1ECONNABORTED\s0 \s-1ECONNREFUSED\s0 \s-1ECONNRESET\s0 \s-1EDEADLK\s0 \s-1EDESTADDRREQ\s0
 \s-1EDOM\s0 \s-1EDQUOT\s0 \s-1EEXIST\s0 \s-1EFAULT\s0 \s-1EFBIG\s0 \s-1EHOSTDOWN\s0 \s-1EHOSTUNREACH\s0 \s-1EINPROGRESS\s0 \s-1EINTR\s0
@@ -1591,77 +1313,659 @@ E2BIG \s-1EACCES\s0 \s-1EADDRINUSE\s0 \s-1EADDRNOTAVAIL\s0 \s-1EAFNOSUPPORT\s0 \
 \s-1ESHUTDOWN\s0 \s-1ESOCKTNOSUPPORT\s0 \s-1ESPIPE\s0 \s-1ESRCH\s0 \s-1ESTALE\s0 \s-1ETIMEDOUT\s0 \s-1ETOOMANYREFS\s0
 \s-1ETXTBSY\s0 \s-1EUSERS\s0 \s-1EWOULDBLOCK\s0 \s-1EXDEV\s0
 .SH "FCNTL"
-.IX Header "FCNTL"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1FD_CLOEXEC\s0 F_DUPFD F_GETFD F_GETFL F_GETLK F_OK F_RDLCK F_SETFD F_SETFL F_SETLK F_SETLKW F_UNLCK F_WRLCK O_ACCMODE O_APPEND O_CREAT O_EXCL O_NOCTTY O_NONBLOCK O_RDONLY O_RDWR O_TRUNC O_WRONLY
 .SH "FLOAT"
-.IX Header "FLOAT"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1DBL_DIG\s0 \s-1DBL_EPSILON\s0 \s-1DBL_MANT_DIG\s0 \s-1DBL_MAX\s0 \s-1DBL_MAX_10_EXP\s0 \s-1DBL_MAX_EXP\s0 \s-1DBL_MIN\s0 \s-1DBL_MIN_10_EXP\s0 \s-1DBL_MIN_EXP\s0 \s-1FLT_DIG\s0 \s-1FLT_EPSILON\s0 \s-1FLT_MANT_DIG\s0 \s-1FLT_MAX\s0 \s-1FLT_MAX_10_EXP\s0 \s-1FLT_MAX_EXP\s0 \s-1FLT_MIN\s0 \s-1FLT_MIN_10_EXP\s0 \s-1FLT_MIN_EXP\s0 \s-1FLT_RADIX\s0 \s-1FLT_ROUNDS\s0 \s-1LDBL_DIG\s0 \s-1LDBL_EPSILON\s0 \s-1LDBL_MANT_DIG\s0 \s-1LDBL_MAX\s0 \s-1LDBL_MAX_10_EXP\s0 \s-1LDBL_MAX_EXP\s0 \s-1LDBL_MIN\s0 \s-1LDBL_MIN_10_EXP\s0 \s-1LDBL_MIN_EXP\s0
 .SH "LIMITS"
-.IX Header "LIMITS"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1ARG_MAX\s0 \s-1CHAR_BIT\s0 \s-1CHAR_MAX\s0 \s-1CHAR_MIN\s0 \s-1CHILD_MAX\s0 \s-1INT_MAX\s0 \s-1INT_MIN\s0 \s-1LINK_MAX\s0 \s-1LONG_MAX\s0 \s-1LONG_MIN\s0 \s-1MAX_CANON\s0 \s-1MAX_INPUT\s0 \s-1MB_LEN_MAX\s0 \s-1NAME_MAX\s0 \s-1NGROUPS_MAX\s0 \s-1OPEN_MAX\s0 \s-1PATH_MAX\s0 \s-1PIPE_BUF\s0 \s-1SCHAR_MAX\s0 \s-1SCHAR_MIN\s0 \s-1SHRT_MAX\s0 \s-1SHRT_MIN\s0 \s-1SSIZE_MAX\s0 \s-1STREAM_MAX\s0 \s-1TZNAME_MAX\s0 \s-1UCHAR_MAX\s0 \s-1UINT_MAX\s0 \s-1ULONG_MAX\s0 \s-1USHRT_MAX\s0
 .SH "LOCALE"
-.IX Header "LOCALE"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1LC_ALL\s0 \s-1LC_COLLATE\s0 \s-1LC_CTYPE\s0 \s-1LC_MONETARY\s0 \s-1LC_NUMERIC\s0 \s-1LC_TIME\s0
 .SH "MATH"
-.IX Header "MATH"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1HUGE_VAL\s0
 .SH "SIGNAL"
-.IX Header "SIGNAL"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1SA_NOCLDSTOP\s0 \s-1SA_NOCLDWAIT\s0 \s-1SA_NODEFER\s0 \s-1SA_ONSTACK\s0 \s-1SA_RESETHAND\s0 \s-1SA_RESTART\s0
 \s-1SA_SIGINFO\s0 \s-1SIGABRT\s0 \s-1SIGALRM\s0 \s-1SIGCHLD\s0 \s-1SIGCONT\s0 \s-1SIGFPE\s0 \s-1SIGHUP\s0 \s-1SIGILL\s0 \s-1SIGINT\s0
 \s-1SIGKILL\s0 \s-1SIGPIPE\s0 \s-1SIGQUIT\s0 \s-1SIGSEGV\s0 \s-1SIGSTOP\s0 \s-1SIGTERM\s0 \s-1SIGTSTP\s0 \s-1SIGTTIN\s0 \s-1SIGTTOU\s0
 \s-1SIGUSR1\s0 \s-1SIGUSR2\s0 \s-1SIG_BLOCK\s0 \s-1SIG_DFL\s0 \s-1SIG_ERR\s0 \s-1SIG_IGN\s0 \s-1SIG_SETMASK\s0
 \s-1SIG_UNBLOCK\s0
 .SH "STAT"
-.IX Header "STAT"
 .Ip "Constants" 8
-.IX Item "Constants"
 S_IRGRP S_IROTH S_IRUSR S_IRWXG S_IRWXO S_IRWXU S_ISGID S_ISUID S_IWGRP S_IWOTH S_IWUSR S_IXGRP S_IXOTH S_IXUSR
 .Ip "Macros" 8
-.IX Item "Macros"
 S_ISBLK S_ISCHR S_ISDIR S_ISFIFO S_ISREG
 .SH "STDLIB"
-.IX Header "STDLIB"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1EXIT_FAILURE\s0 \s-1EXIT_SUCCESS\s0 \s-1MB_CUR_MAX\s0 \s-1RAND_MAX\s0
 .SH "STDIO"
-.IX Header "STDIO"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1BUFSIZ\s0 \s-1EOF\s0 \s-1FILENAME_MAX\s0 L_ctermid L_cuserid L_tmpname \s-1TMP_MAX\s0
 .SH "TIME"
-.IX Header "TIME"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1CLK_TCK\s0 \s-1CLOCKS_PER_SEC\s0
 .SH "UNISTD"
-.IX Header "UNISTD"
 .Ip "Constants" 8
-.IX Item "Constants"
 R_OK \s-1SEEK_CUR\s0 \s-1SEEK_END\s0 \s-1SEEK_SET\s0 \s-1STDIN_FILENO\s0 \s-1STDOUT_FILENO\s0 \s-1STRERR_FILENO\s0 W_OK X_OK
 .SH "WAIT"
-.IX Header "WAIT"
 .Ip "Constants" 8
-.IX Item "Constants"
 \s-1WNOHANG\s0 \s-1WUNTRACED\s0
 .Ip "Macros" 8
-.IX Item "Macros"
 \s-1WIFEXITED\s0 \s-1WEXITSTATUS\s0 \s-1WIFSIGNALED\s0 \s-1WTERMSIG\s0 \s-1WIFSTOPPED\s0 \s-1WSTOPSIG\s0
 .SH "CREATION"
-.IX Header "CREATION"
 This document generated by ./mkposixman.PL version 19960129.
 
 .rn }` ''
+.IX Title "POSIX 3"
+.IX Name "POSIX - Perl interface to IEEE Std 1003.1"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "NOTE"
+
+.IX Header "CAVEATS"
+
+.IX Header "FUNCTIONS"
+
+.IX Item "_exit"
+
+.IX Item "abort"
+
+.IX Item "abs"
+
+.IX Item "access"
+
+.IX Item "acos"
+
+.IX Item "alarm"
+
+.IX Item "asctime"
+
+.IX Item "asin"
+
+.IX Item "assert"
+
+.IX Item "atan"
+
+.IX Item "atan2"
+
+.IX Item "atexit"
+
+.IX Item "atof"
+
+.IX Item "atoi"
+
+.IX Item "atol"
+
+.IX Item "bsearch"
+
+.IX Item "calloc"
+
+.IX Item "ceil"
+
+.IX Item "chdir"
+
+.IX Item "chmod"
+
+.IX Item "chown"
+
+.IX Item "clearerr"
+
+.IX Item "clock"
+
+.IX Item "close"
+
+.IX Item "closedir"
+
+.IX Item "cos"
+
+.IX Item "cosh"
+
+.IX Item "creat"
+
+.IX Item "ctermid"
+
+.IX Item "ctime"
+
+.IX Item "cuserid"
+
+.IX Item "difftime"
+
+.IX Item "div"
+
+.IX Item "dup"
+
+.IX Item "dup2"
+
+.IX Item "errno"
+
+.IX Item "execl"
+
+.IX Item "execle"
+
+.IX Item "execlp"
+
+.IX Item "execv"
+
+.IX Item "execve"
+
+.IX Item "execvp"
+
+.IX Item "exit"
+
+.IX Item "exp"
+
+.IX Item "fabs"
+
+.IX Item "fclose"
+
+.IX Item "fcntl"
+
+.IX Item "fdopen"
+
+.IX Item "feof"
+
+.IX Item "ferror"
+
+.IX Item "fflush"
+
+.IX Item "fgetc"
+
+.IX Item "fgetpos"
+
+.IX Item "fgets"
+
+.IX Item "fileno"
+
+.IX Item "floor"
+
+.IX Item "fmod"
+
+.IX Item "fopen"
+
+.IX Item "fork"
+
+.IX Item "fpathconf"
+
+.IX Item "fprintf"
+
+.IX Item "fputc"
+
+.IX Item "fputs"
+
+.IX Item "fread"
+
+.IX Item "free"
+
+.IX Item "freopen"
+
+.IX Item "frexp"
+
+.IX Item "fscanf"
+
+.IX Item "fseek"
+
+.IX Item "fsetpos"
+
+.IX Item "fstat"
+
+.IX Item "ftell"
+
+.IX Item "fwrite"
+
+.IX Item "getc"
+
+.IX Item "getchar"
+
+.IX Item "getcwd"
+
+.IX Item "getegid"
+
+.IX Item "getenv"
+
+.IX Item "geteuid"
+
+.IX Item "getgid"
+
+.IX Item "getgrgid"
+
+.IX Item "getgrnam"
+
+.IX Item "getgroups"
+
+.IX Item "getlogin"
+
+.IX Item "getpgrp"
+
+.IX Item "getpid"
+
+.IX Item "getppid"
+
+.IX Item "getpwnam"
+
+.IX Item "getpwuid"
+
+.IX Item "gets"
+
+.IX Item "getuid"
+
+.IX Item "gmtime"
+
+.IX Item "isalnum"
+
+.IX Item "isalpha"
+
+.IX Item "isatty"
+
+.IX Item "iscntrl"
+
+.IX Item "isdigit"
+
+.IX Item "isgraph"
+
+.IX Item "islower"
+
+.IX Item "isprint"
+
+.IX Item "ispunct"
+
+.IX Item "isspace"
+
+.IX Item "isupper"
+
+.IX Item "isxdigit"
+
+.IX Item "kill"
+
+.IX Item "labs"
+
+.IX Item "ldexp"
+
+.IX Item "ldiv"
+
+.IX Item "link"
+
+.IX Item "localeconv"
+
+.IX Item "localtime"
+
+.IX Item "log"
+
+.IX Item "log10"
+
+.IX Item "longjmp"
+
+.IX Item "lseek"
+
+.IX Item "malloc"
+
+.IX Item "mblen"
+
+.IX Item "mbstowcs"
+
+.IX Item "mbtowc"
+
+.IX Item "memchr"
+
+.IX Item "memcmp"
+
+.IX Item "memcpy"
+
+.IX Item "memmove"
+
+.IX Item "memset"
+
+.IX Item "mkdir"
+
+.IX Item "mkfifo"
+
+.IX Item "mktime"
+
+.IX Item "modf"
+
+.IX Item "nice"
+
+.IX Item "offsetof"
+
+.IX Item "open"
+
+.IX Item "opendir"
+
+.IX Item "pathconf"
+
+.IX Item "pause"
+
+.IX Item "perror"
+
+.IX Item "pipe"
+
+.IX Item "pow"
+
+.IX Item "printf"
+
+.IX Item "putc"
+
+.IX Item "putchar"
+
+.IX Item "puts"
+
+.IX Item "qsort"
+
+.IX Item "raise"
+
+.IX Item "rand"
+
+.IX Item "read"
+
+.IX Item "readdir"
+
+.IX Item "realloc"
+
+.IX Item "remove"
+
+.IX Item "rename"
+
+.IX Item "rewind"
+
+.IX Item "rewinddir"
+
+.IX Item "rmdir"
+
+.IX Item "scanf"
+
+.IX Item "setgid"
+
+.IX Item "setjmp"
+
+.IX Item "setlocale"
+
+.IX Item "setpgid"
+
+.IX Item "setsid"
+
+.IX Item "setuid"
+
+.IX Item "sigaction"
+
+.IX Item "siglongjmp"
+
+.IX Item "sigpending"
+
+.IX Item "sigprocmask"
+
+.IX Item "sigsetjmp"
+
+.IX Item "sigsuspend"
+
+.IX Item "sin"
+
+.IX Item "sinh"
+
+.IX Item "sleep"
+
+.IX Item "sprintf"
+
+.IX Item "sqrt"
+
+.IX Item "srand"
+
+.IX Item "sscanf"
+
+.IX Item "stat"
+
+.IX Item "strcat"
+
+.IX Item "strchr"
+
+.IX Item "strcmp"
+
+.IX Item "strcoll"
+
+.IX Item "strcpy"
+
+.IX Item "strcspn"
+
+.IX Item "strerror"
+
+.IX Item "strftime"
+
+.IX Item "strlen"
+
+.IX Item "strncat"
+
+.IX Item "strncmp"
+
+.IX Item "strncpy"
+
+.IX Item "stroul"
+
+.IX Item "strpbrk"
+
+.IX Item "strrchr"
+
+.IX Item "strspn"
+
+.IX Item "strstr"
+
+.IX Item "strtod"
+
+.IX Item "strtok"
+
+.IX Item "strtol"
+
+.IX Item "strtoul"
+
+.IX Item "strxfrm"
+
+.IX Item "sysconf"
+
+.IX Item "system"
+
+.IX Item "tan"
+
+.IX Item "tanh"
+
+.IX Item "tcdrain"
+
+.IX Item "tcflow"
+
+.IX Item "tcflush"
+
+.IX Item "tcgetpgrp"
+
+.IX Item "tcsendbreak"
+
+.IX Item "tcsetpgrp"
+
+.IX Item "time"
+
+.IX Item "times"
+
+.IX Item "tmpfile"
+
+.IX Item "tmpnam"
+
+.IX Item "tolower"
+
+.IX Item "toupper"
+
+.IX Item "ttyname"
+
+.IX Item "tzname"
+
+.IX Item "tzset"
+
+.IX Item "umask"
+
+.IX Item "uname"
+
+.IX Item "ungetc"
+
+.IX Item "unlink"
+
+.IX Item "utime"
+
+.IX Item "vfprintf"
+
+.IX Item "vprintf"
+
+.IX Item "vsprintf"
+
+.IX Item "wait"
+
+.IX Item "waitpid"
+
+.IX Item "wcstombs"
+
+.IX Item "wctomb"
+
+.IX Item "write"
+
+.IX Header "CLASSES"
+
+.IX Subsection "\s-1POSIX::\s0SigAction"
+
+.IX Item "new"
+
+.IX Subsection "\s-1POSIX::\s0SigSet"
+
+.IX Item "new"
+
+.IX Item "addset"
+
+.IX Item "delset"
+
+.IX Item "emptyset"
+
+.IX Item "fillset"
+
+.IX Item "ismember"
+
+.IX Subsection "\s-1POSIX::\s0Termios"
+
+.IX Item "new"
+
+.IX Item "getattr"
+
+.IX Item "getcc"
+
+.IX Item "getcflag"
+
+.IX Item "getiflag"
+
+.IX Item "getispeed"
+
+.IX Item "getlflag"
+
+.IX Item "getoflag"
+
+.IX Item "getospeed"
+
+.IX Item "setattr"
+
+.IX Item "setcc"
+
+.IX Item "setcflag"
+
+.IX Item "setiflag"
+
+.IX Item "setispeed"
+
+.IX Item "setlflag"
+
+.IX Item "setoflag"
+
+.IX Item "setospeed"
+
+.IX Item "Baud rate values"
+
+.IX Item "Terminal interface values"
+
+.IX Item "c_cc field values"
+
+.IX Item "c_cflag field values"
+
+.IX Item "c_iflag field values"
+
+.IX Item "c_lflag field values"
+
+.IX Item "c_oflag field values"
+
+.IX Header "PATHNAME CONSTANTS"
+
+.IX Item "Constants"
+
+.IX Header "POSIX CONSTANTS"
+
+.IX Item "Constants"
+
+.IX Header "SYSTEM CONFIGURATION"
+
+.IX Item "Constants"
+
+.IX Header "ERRNO"
+
+.IX Item "Constants"
+
+.IX Header "FCNTL"
+
+.IX Item "Constants"
+
+.IX Header "FLOAT"
+
+.IX Item "Constants"
+
+.IX Header "LIMITS"
+
+.IX Item "Constants"
+
+.IX Header "LOCALE"
+
+.IX Item "Constants"
+
+.IX Header "MATH"
+
+.IX Item "Constants"
+
+.IX Header "SIGNAL"
+
+.IX Item "Constants"
+
+.IX Header "STAT"
+
+.IX Item "Constants"
+
+.IX Item "Macros"
+
+.IX Header "STDLIB"
+
+.IX Item "Constants"
+
+.IX Header "STDIO"
+
+.IX Item "Constants"
+
+.IX Header "TIME"
+
+.IX Item "Constants"
+
+.IX Header "UNISTD"
+
+.IX Item "Constants"
+
+.IX Header "WAIT"
+
+.IX Item "Constants"
+
+.IX Item "Macros"
+
+.IX Header "CREATION"
+

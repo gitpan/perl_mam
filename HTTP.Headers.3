@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Headers 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Headers 3"
+.TH lib::HTTP::Headers 3 "perl 5.004, patch 55" "16/Sep/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Headers - Class encapsulating HTTP Message headers"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Headers \- Class encapsulating HTTP Message headers
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& require HTTP::Headers;
 \& $request = new HTTP::Headers;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWHTTP::Headers\fR class encapsulates HTTP\-style message headers.
 The headers consist of attribute-value pairs, which may be repeated,
 and which are printed in a particular order.
@@ -209,9 +204,7 @@ Instances of this class are usually created as member variables of the
 \f(CWHTTP::Request\fR and \f(CWHTTP::Response\fR classes, internal to the
 library.
 .SH "METHODS"
-.IX Header "METHODS"
 .Sh "\f(CW$h\fR = new \s-1HTTP::\s0Headers"
-.IX Subsection "\f(CW$h\fR = new \s-1HTTP::\s0Headers"
 Constructs a new \f(CWHTTP::Headers\fR object.  You might pass some initial
 attribute-value pairs as parameters to the constructor.  \fIE.g.\fR:
 .PP
@@ -222,7 +215,6 @@ attribute-value pairs as parameters to the constructor.  \fIE.g.\fR:
 \&     Content_Base => 'http://www.sn.no/';
 .Ve
 .Sh "\f(CW$h\fR\->\fIheader\fR\|($field [=> \f(CW$val\fR],...)"
-.IX Subsection "\f(CW$h\fR\->\fIheader\fR\|($field [=> \f(CW$val\fR],...)"
 Get or set the value of a header.  The header field name is not case
 sensitive.  To make the life easier for perl users who wants to avoid
 quoting before the => operator, you can use \*(L'_\*(R' as a synonym for \*(L'\-\*(R'
@@ -245,7 +237,6 @@ first header value is returned in scalar context.
 \& @accepts = $header->header('Accept');
 .Ve
 .Sh "\f(CW$h\fR\->\fIscan\fR\|(\e&doit)"
-.IX Subsection "\f(CW$h\fR\->\fIscan\fR\|(\e&doit)"
 Apply a subroutine to each header in turn.  The callback routine is
 called with two parameters; the name of the field and a single value.
 If the header has more than one value, then the routine is called once
@@ -253,7 +244,6 @@ for each value.  The field name passed to the callback routine has
 case as suggested by \s-1HTTP\s0 Spec, and the headers will be visited in the
 recommended \*(L"Good Practice\*(R" order.
 .Sh "\f(CW$h\fR\->\fIas_string\fR\|([$endl])"
-.IX Subsection "\f(CW$h\fR\->\fIas_string\fR\|([$endl])"
 Return the header fields as a formatted \s-1MIME\s0 header.  Since it
 internally uses the \f(CWscan()\fR method to build the string, the result
 will use case as suggested by \s-1HTTP\s0 Spec, and it will follow
@@ -264,7 +254,6 @@ The optional parameter specifies the line ending sequence to use.  The
 default is \f(CW"\en"\fR.  Embedded \*(L"\en\*(R" characters in the header will be
 substitued with this line ending sequence.
 .Sh "\f(CW$h\fR\->\fIpush_header\fR\|($field, \f(CW$val\fR)"
-.IX Subsection "\f(CW$h\fR\->\fIpush_header\fR\|($field, \f(CW$val\fR)"
 Add a new field value of the specified header.  The header field name
 is not case sensitive.  The field need not already have a
 value. Previous values for the same field are retained.  The argument
@@ -274,13 +263,10 @@ may be a scalar or a reference to a list of scalars.
 \& $header->push_header(Accept => 'image/jpeg');
 .Ve
 .Sh "\f(CW$h\fR\->\fIremove_header\fR\|($field,...)"
-.IX Subsection "\f(CW$h\fR\->\fIremove_header\fR\|($field,...)"
 This function removes the headers with the specified names.
 .Sh "\f(CW$h\fR\->clone"
-.IX Subsection "\f(CW$h\fR\->clone"
 Returns a copy of this \s-1HTTP::\s0Headers object.
 .SH "CONVENIENCE METHODS"
-.IX Header "CONVENIENCE METHODS"
 The most frequently used headers can also be accessed through the
 following convenience methods.  These methods can both be used to read
 and to set the value of a header.  The header value is set if you pass
@@ -290,7 +276,6 @@ Methods that deal with dates/times always convert their value to system
 time (seconds since Jan 1, 1970) and they also expect this kind of
 value when the header value is set.
 .Sh "\f(CW$h\fR\->date"
-.IX Subsection "\f(CW$h\fR\->date"
 This header represents the date and time at which the message was
 originated. \fIE.g.\fR:
 .PP
@@ -298,17 +283,14 @@ originated. \fIE.g.\fR:
 \&  $h->date(time);  # set current date
 .Ve
 .Sh "\f(CW$h\fR\->expires"
-.IX Subsection "\f(CW$h\fR\->expires"
 This header gives the date and time after which the entity should be
 considered stale.
 .Sh "\f(CW$h\fR\->if_modified_since"
-.IX Subsection "\f(CW$h\fR\->if_modified_since"
 This header is used to make a request conditional.  If the requested
 resource has not been modified since the time specified in this field,
 then the server will return a \f(CW"304 Not Modified"\fR response instead of
 the document itself.
 .Sh "\f(CW$h\fR\->last_modified"
-.IX Subsection "\f(CW$h\fR\->last_modified"
 This header indicates the date and time at which the resource was last
 modified. \fIE.g.\fR:
 .PP
@@ -319,7 +301,6 @@ modified. \fIE.g.\fR:
 \&  }
 .Ve
 .Sh "\f(CW$h\fR\->content_type"
-.IX Subsection "\f(CW$h\fR\->content_type"
 The Content-Type header field indicates the media type of the message
 content. \fIE.g.\fR:
 .PP
@@ -338,21 +319,17 @@ an array context.  This makes it safe to do the following:
 \&  }
 .Ve
 .Sh "\f(CW$h\fR\->content_encoding"
-.IX Subsection "\f(CW$h\fR\->content_encoding"
 The Content-Encoding header field is used as a modifier to the
 media type.  When present, its value indicates what additional
 encoding mechanism has been applied to the resource.
 .Sh "\f(CW$h\fR\->content_length"
-.IX Subsection "\f(CW$h\fR\->content_length"
 A decimal number indicating the size in bytes of the message content.
 .Sh "\f(CW$h\fR\->title"
-.IX Subsection "\f(CW$h\fR\->title"
 The title of the document.  In libwww-perl this header will be
 initialized automatically from the <\s-1TITLE\s0>...</\s-1TITLE\s0> element
 of \s-1HTML\s0 documents.  \fIThis header is no longer part of the \s-1HTTP\s0
 standard.\fR
 .Sh "\f(CW$h\fR\->user_agent"
-.IX Subsection "\f(CW$h\fR\->user_agent"
 This header field is used in request messages and contains information
 about the user agent originating the request.  \fIE.g.\fR:
 .PP
@@ -360,11 +337,9 @@ about the user agent originating the request.  \fIE.g.\fR:
 \&  $h->user_agent('Mozilla/1.2');
 .Ve
 .Sh "\f(CW$h\fR\->server"
-.IX Subsection "\f(CW$h\fR\->server"
 The server header field contains information about the software being
 used by the originating server program handling the request.
 .Sh "\f(CW$h\fR\->from"
-.IX Subsection "\f(CW$h\fR\->from"
 This header should contain an Internet e-mail address for the human
 user who controls the requesting user agent.  The address should be
 machine-usable, as defined by \s-1RFC822\s0.  E.g.:
@@ -373,20 +348,16 @@ machine-usable, as defined by \s-1RFC822\s0.  E.g.:
 \&  $h->from('Gisle Aas <aas@sn.no>');
 .Ve
 .Sh "\f(CW$h\fR\->referer"
-.IX Subsection "\f(CW$h\fR\->referer"
 Used to specify the address (\s-1URI\s0) of the document from which the
 requested resouce address was obtained.
 .Sh "\f(CW$h\fR\->www_authenticate"
-.IX Subsection "\f(CW$h\fR\->www_authenticate"
 This header must be included as part of a \*(L"401 Unauthorized\*(R" response.
 The field value consist of a challenge that indicates the
 authentication scheme and parameters applicable to the requested \s-1URI\s0.
 .Sh "\f(CW$h\fR\->authorization"
-.IX Subsection "\f(CW$h\fR\->authorization"
 A user agent that wishes to authenticate itself with a server, may do
 so by including this header.
 .Sh "\f(CW$h\fR\->authorization_basic"
-.IX Subsection "\f(CW$h\fR\->authorization_basic"
 This method is used to get or set an authorization header that use the
 \*(L"Basic Authentication Scheme\*(R".  In array context it will return two
 values; the user name and the password.  In scalar context it will
@@ -399,3 +370,60 @@ When used to set the header value, it expects two arguments.  \fIE.g.\fR:
 .Ve
 
 .rn }` ''
+.IX Title "lib::HTTP::Headers 3"
+.IX Name "HTTP::Headers - Class encapsulating HTTP Message headers"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$h\fR = new \s-1HTTP::\s0Headers"
+
+.IX Subsection "\f(CW$h\fR\->\fIheader\fR\|($field [=> \f(CW$val\fR],...)"
+
+.IX Subsection "\f(CW$h\fR\->\fIscan\fR\|(\e&doit)"
+
+.IX Subsection "\f(CW$h\fR\->\fIas_string\fR\|([$endl])"
+
+.IX Subsection "\f(CW$h\fR\->\fIpush_header\fR\|($field, \f(CW$val\fR)"
+
+.IX Subsection "\f(CW$h\fR\->\fIremove_header\fR\|($field,...)"
+
+.IX Subsection "\f(CW$h\fR\->clone"
+
+.IX Header "CONVENIENCE METHODS"
+
+.IX Subsection "\f(CW$h\fR\->date"
+
+.IX Subsection "\f(CW$h\fR\->expires"
+
+.IX Subsection "\f(CW$h\fR\->if_modified_since"
+
+.IX Subsection "\f(CW$h\fR\->last_modified"
+
+.IX Subsection "\f(CW$h\fR\->content_type"
+
+.IX Subsection "\f(CW$h\fR\->content_encoding"
+
+.IX Subsection "\f(CW$h\fR\->content_length"
+
+.IX Subsection "\f(CW$h\fR\->title"
+
+.IX Subsection "\f(CW$h\fR\->user_agent"
+
+.IX Subsection "\f(CW$h\fR\->server"
+
+.IX Subsection "\f(CW$h\fR\->from"
+
+.IX Subsection "\f(CW$h\fR\->referer"
+
+.IX Subsection "\f(CW$h\fR\->www_authenticate"
+
+.IX Subsection "\f(CW$h\fR\->authorization"
+
+.IX Subsection "\f(CW$h\fR\->authorization_basic"
+

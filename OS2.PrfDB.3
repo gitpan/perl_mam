@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH OS2::PrfDB 3 "perl 5.004, patch 01" "16/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "OS2::PrfDB 3"
+.TH OS2::PrfDB 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "OS2::PrfDB - Perl extension for access to OS/2 setting database."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 OS2::PrfDB \- Perl extension for access to OS/2 setting database.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \&  use OS2::PrfDB;
@@ -209,11 +205,9 @@ OS2::PrfDB \- Perl extension for access to OS/2 setting database.
 \&  $system{myapp}{mykey} = "myvalue";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The extention provides both high-level and low-level access to .ini
 files. 
 .Sh "High level access"
-.IX Subsection "High level access"
 High-level access is the tie-hash access via two packages:
 \f(CWOS2::PrfDB\fR and \f(CWOS2::PrfDB::Sub\fR. First one supports one argument,
 the name of the file to open, the second one the name of the file to
@@ -230,58 +224,84 @@ functions \fISystemIni()\fR, \fIUserIni()\fR, and \fIAnyIni()\fR provide handles
 \*(L"systemish\*(R" databases. AniIni will read from both, and write into User
 database.
 .Sh "Low-level access"
-.IX Subsection "Low-level access"
 Low-level access functions reside in the package \f(CWOS2::Prf\fR. They are
 .Ip "\f(CWOpen(file)\fR" 14
-.IX Item "\f(CWOpen(file)\fR"
 Opens the database, returns an \fIinteger handle\fR.
 .Ip "\f(CWClose(hndl)\fR" 14
-.IX Item "\f(CWClose(hndl)\fR"
 Closes the database given an \fIinteger handle\fR.
 .Ip "\f(CWGet(hndl, appname, key)\fR" 14
-.IX Item "\f(CWGet(hndl, appname, key)\fR"
 Retrieves data from the database given 2-part-key \f(CWappname\fR \f(CWkey\fR.
 If \f(CWkey\fR is \f(CWundef\fR, return the \*(L"\e0\*(R" delimited list of \f(CWkey\fRs,
 terminated by \e0. If \f(CWappname\fR is \f(CWundef\fR, returns the list of
 possible \f(CWappname\fRs in the same form.
 .Ip "\f(CWGetLength(hndl, appname, key)\fR" 14
-.IX Item "\f(CWGetLength(hndl, appname, key)\fR"
 Same as above, but returns the length of the value.
 .Ip "\f(CWSet(hndl, appname, key, value [ , length ])\fR" 14
-.IX Item "\f(CWSet(hndl, appname, key, value [ , length ])\fR"
 Sets the value. If the \f(CWvalue\fR is not defined, removes the \f(CWkey\fR. If
 the \f(CWkey\fR is not defined, removes the \f(CWappname\fR.
 .Ip "\f(CWSystem(val)\fR" 14
-.IX Item "\f(CWSystem(val)\fR"
 Return an \fIinteger handle\fR associated with the system database. If
 \f(CWval\fR is 1, it is \fIUser\fR database, if 2, \fISystem\fR database, if
 0, handle for \*(L"both\*(R" of them: the handle works for read from any one,
 and for write into \fIUser\fR one.
 .Ip "\f(CWProfiles()\fR" 14
-.IX Item "\f(CWProfiles()\fR"
 returns a reference to a list of two strings, giving names of the
 \fIUser\fR and \fISystem\fR databases.
 .Ip "\f(CWSetUser(file)\fR" 14
-.IX Item "\f(CWSetUser(file)\fR"
 \fB(Not tested.)\fR Sets the profile name of the \fIUser\fR database. The
 application should have a message queue to use this function!
 .Sh "Integer handles"
-.IX Subsection "Integer handles"
 To convert a name or an integer handle into an object acceptable as
 argument to \fItie()\fR interface, one may use the following functions from
 the package \f(CWOS2::Prf::Hini\fR:
 .Ip "\f(CWnew(package, file)\fR" 14
-.IX Item "\f(CWnew(package, file)\fR"
 .Ip "\f(CWnew_from_int(package, int_hndl [ , filename ])\fR" 14
-.IX Item "\f(CWnew_from_int(package, int_hndl [ , filename ])\fR"
 .Sh "Exports"
-.IX Subsection "Exports"
 \fISystemIni()\fR, \fIUserIni()\fR, and \fIAnyIni()\fR.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Ilya Zakharevich, ilya@math.ohio-state.edu
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1).
 
 .rn }` ''
+.IX Title "OS2::PrfDB 3"
+.IX Name "OS2::PrfDB - Perl extension for access to OS/2 setting database."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "High level access"
+
+.IX Subsection "Low-level access"
+
+.IX Item "\f(CWOpen(file)\fR"
+
+.IX Item "\f(CWClose(hndl)\fR"
+
+.IX Item "\f(CWGet(hndl, appname, key)\fR"
+
+.IX Item "\f(CWGetLength(hndl, appname, key)\fR"
+
+.IX Item "\f(CWSet(hndl, appname, key, value [ , length ])\fR"
+
+.IX Item "\f(CWSystem(val)\fR"
+
+.IX Item "\f(CWProfiles()\fR"
+
+.IX Item "\f(CWSetUser(file)\fR"
+
+.IX Subsection "Integer handles"
+
+.IX Item "\f(CWnew(package, file)\fR"
+
+.IX Item "\f(CWnew_from_int(package, int_hndl [ , filename ])\fR"
+
+.IX Subsection "Exports"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

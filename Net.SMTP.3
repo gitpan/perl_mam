@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::SMTP 3 "perl 5.004, patch 01" "19/Mar/97" "User Contributed Perl Documentation"
-.IX Title "Net::SMTP 3"
+.TH Net::SMTP 3 "perl 5.004, patch 55" "17/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::SMTP - Simple Mail Transfer Protocol Client"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::SMTP \- Simple Mail Transfer Protocol Client
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 5
 \&    use Net::SMTP;
@@ -203,7 +199,6 @@ Net::SMTP \- Simple Mail Transfer Protocol Client
 \&    $smtp = Net::SMTP->new('mailhost', Timeout => 60);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module implements a client interface to the SMTP and ESMTP
 protocol, enabling a perl5 application to talk to SMTP servers. This
 documentation assumes that you are familiar with the concepts of the
@@ -214,7 +209,6 @@ this has been done, all SMTP commands are accessed through this object.
 .PP
 The Net::SMTP class is a subclass of Net::Cmd and IO::Socket::INET.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 This example prints the mail domain name of the SMTP server known as mailhost:
 .PP
 .Vb 7
@@ -248,9 +242,7 @@ known as mailhost:
 \&    $smtp->quit;
 .Ve
 .SH "CONSTRUCTOR"
-.IX Header "CONSTRUCTOR"
 .Ip "new Net::\s-1SMTP\s0 [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ]" 4
-.IX Item "new Net::\s-1SMTP\s0 [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ]"
 This is the constructor for a new Net::\s-1SMTP\s0 object. \f(CWHOST\fR is the
 name of the remote host to which a \s-1SMTP\s0 connection is required.
 .Sp
@@ -279,29 +271,22 @@ Example:
 \&                          );
 .Ve
 .SH "METHODS"
-.IX Header "METHODS"
 Unless otherwise stated all methods return either a \fItrue\fR or \fIfalse\fR
 value, with \fItrue\fR meaning that the operation was a success. When a method
 states that it returns a value, failure will be returned as \fIundef\fR or an
 empty list.
 .Ip "domain ()" 8
-.IX Item "domain ()"
 Returns the domain that the remote \s-1SMTP\s0 server identified itself as during
 connection.
 .Ip "hello ( \s-1DOMAIN\s0 )" 8
-.IX Item "hello ( \s-1DOMAIN\s0 )"
 Tell the remote server the mail domain which you are in using the \s-1EHLO\s0
 command (or \s-1HELO\s0 if \s-1EHLO\s0 fails).  Since this method is invoked
 automatically when the Net::\s-1SMTP\s0 object is constructed the user should
 normally not have to call it manually.
 .Ip "mail ( \s-1ADDRESS\s0 [, \s-1OPTIONS\s0] )" 8
-.IX Item "mail ( \s-1ADDRESS\s0 [, \s-1OPTIONS\s0] )"
 .Ip "send ( \s-1ADDRESS\s0 )" 8
-.IX Item "send ( \s-1ADDRESS\s0 )"
 .Ip "send_or_mail ( \s-1ADDRESS\s0 )" 8
-.IX Item "send_or_mail ( \s-1ADDRESS\s0 )"
 .Ip "send_and_mail ( \s-1ADDRESS\s0 )" 8
-.IX Item "send_and_mail ( \s-1ADDRESS\s0 )"
 Send the appropriate command to the server \s-1MAIL\s0, \s-1SEND\s0, \s-1SOML\s0 or \s-1SAML\s0. \f(CWADDRESS\fR
 is the address of the sender. This initiates the sending of a message. The
 method \f(CWrecipient\fR should be called for each address that the message is to
@@ -318,22 +303,18 @@ in hash like fashion, using key and value pairs.  Possible options are:
 \& Envelope    => <ENVID>
 .Ve
 .Ip "reset ()" 8
-.IX Item "reset ()"
 Reset the status of the server. This may be called after a message has been 
 initiated, but before any data has been sent, to cancel the sending of the
 message.
 .Ip "recipient ( \s-1ADDRESS\s0 [, \s-1ADDRESS\s0 [ ...]] )" 8
-.IX Item "recipient ( \s-1ADDRESS\s0 [, \s-1ADDRESS\s0 [ ...]] )"
 Notify the server that the current message should be sent to all of the
 addresses given. Each address is sent as a separate command to the server.
 Should the sending of any address result in a failure then the
 process is aborted and a \fIfalse\fR value is returned. It is up to the
 user to call \f(CWreset\fR if they so desire.
 .Ip "to ( \s-1ADDRESS\s0 [, \s-1ADDRESS\s0 [...]] )" 8
-.IX Item "to ( \s-1ADDRESS\s0 [, \s-1ADDRESS\s0 [...]] )"
 A synonym for \f(CWrecipient\fR.
 .Ip "data ( [ \s-1DATA\s0 ] )" 8
-.IX Item "data ( [ \s-1DATA\s0 ] )"
 Initiate the sending of the data from the current message. 
 .Sp
 \f(CWDATA\fR may be a reference to a list or a list. If specified the contents
@@ -344,28 +325,72 @@ If \f(CWDATA\fR is not specified then the result will indicate that the server
 wishes the data to be sent. The data must then be sent using the \f(CWdatasend\fR
 and \f(CWdataend\fR methods described in the \fINet::Cmd\fR manpage.
 .Ip "expand ( \s-1ADDRESS\s0 )" 8
-.IX Item "expand ( \s-1ADDRESS\s0 )"
-Request the server to expand the given address Returns a reference to an array
+Request the server to expand the given address Returns an array
 which contains the text read from the server.
 .Ip "verify ( \s-1ADDRESS\s0 )" 8
-.IX Item "verify ( \s-1ADDRESS\s0 )"
 Verify that \f(CWADDRESS\fR is a legitimate mailing address.
 .Ip "help ( [ $subject ] )" 8
-.IX Item "help ( [ $subject ] )"
 Request help text from the server. Returns the text or undef upon failure
 .Ip "quit ()" 8
-.IX Item "quit ()"
 Send the \s-1QUIT\s0 command to the remote \s-1SMTP\s0 server and close the socket connection.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fINet::Cmd\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
-Graham Barr <gbarr@ti.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1997 Graham Barr. All rights reserved.
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "Net::SMTP 3"
+.IX Name "Net::SMTP - Simple Mail Transfer Protocol Client"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Header "CONSTRUCTOR"
+
+.IX Item "new Net::\s-1SMTP\s0 [ \s-1HOST\s0, ] [ \s-1OPTIONS\s0 ]"
+
+.IX Header "METHODS"
+
+.IX Item "domain ()"
+
+.IX Item "hello ( \s-1DOMAIN\s0 )"
+
+.IX Item "mail ( \s-1ADDRESS\s0 [, \s-1OPTIONS\s0] )"
+
+.IX Item "send ( \s-1ADDRESS\s0 )"
+
+.IX Item "send_or_mail ( \s-1ADDRESS\s0 )"
+
+.IX Item "send_and_mail ( \s-1ADDRESS\s0 )"
+
+.IX Item "reset ()"
+
+.IX Item "recipient ( \s-1ADDRESS\s0 [, \s-1ADDRESS\s0 [ ...]] )"
+
+.IX Item "to ( \s-1ADDRESS\s0 [, \s-1ADDRESS\s0 [...]] )"
+
+.IX Item "data ( [ \s-1DATA\s0 ] )"
+
+.IX Item "expand ( \s-1ADDRESS\s0 )"
+
+.IX Item "verify ( \s-1ADDRESS\s0 )"
+
+.IX Item "help ( [ $subject ] )"
+
+.IX Item "quit ()"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::File::CounterFile 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::File::CounterFile 3"
+.TH lib::File::CounterFile 3 "perl 5.004, patch 55" "31/Oct/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "File::CounterFile - Persistent counter class"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 File::CounterFile \- Persistent counter class
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \& use File::CounterFile;
@@ -204,7 +200,6 @@ File::CounterFile \- Persistent counter class
 \& open(F, ">F$id");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module implements a persistent counter class.  Each counter is
 represented by a separate file in the file system.  File locking is
 applied, so multiple processes might try to access the same counters
@@ -243,21 +238,34 @@ File::CounterFile object.  This means that you might use the \f(CW++\fR
 operator for incrementing the counter, \f(CW--\fR operator for decrementing
 and you can interpolate counters diretly into strings.
 .SH "BUGS"
-.IX Header "BUGS"
 It uses \fIflock\fR\|(2) to lock the counter file.  This does not work on all
 systems.  Perhaps we should use the File::Lock module?
 .SH "INSTALLATION"
-.IX Header "INSTALLATION"
 Copy this file to the \fIFile\fR subdirectory of your Perl 5 library
 directory (often \fI/usr/local/lib/perl5\fR).
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1996 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::File::CounterFile 3"
+.IX Name "File::CounterFile - Persistent counter class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "BUGS"
+
+.IX Header "INSTALLATION"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

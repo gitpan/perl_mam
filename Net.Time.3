@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::Time 3 "perl 5.004, patch 01" "17/Mar/97" "User Contributed Perl Documentation"
-.IX Title "Net::Time 3"
+.TH Net::Time 3 "perl 5.004, patch 55" "26/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "Net::Time - time and daytime network client interface"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::Time \- time and daytime network client interface
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 9
 \&    use Net::Time qw(inet_time inet_daytime);
@@ -207,28 +203,40 @@ Net::Time \- time and daytime network client interface
 \&    print inet_daytime('localhost', 'tcp');
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWNet::Time\fR provides subroutines that obtain the time on a remote machine.
 .Ip "inet_time ( [\s-1HOST\s0 [, \s-1PROTOCOL\s0 [, \s-1TIMEOUT\s0]]])" 4
-.IX Item "inet_time ( [\s-1HOST\s0 [, \s-1PROTOCOL\s0 [, \s-1TIMEOUT\s0]]])"
 Obtain the time on \f(CWHOST\fR, or some default host if \f(CWHOST\fR is not given
 or not defined, using the protocol as defined in \s-1RFC868\s0. The optional
 argument \f(CWPROTOCOL\fR should define the protocol to use, either \f(CWtcp\fR or
 \f(CWudp\fR. The result will be a unix-like time value or \fIundef\fR upon
 failure.
 .Ip "inet_daytime ( [\s-1HOST\s0 [, \s-1PROTOCOL\s0 [, \s-1TIMEOUT\s0]]])" 4
-.IX Item "inet_daytime ( [\s-1HOST\s0 [, \s-1PROTOCOL\s0 [, \s-1TIMEOUT\s0]]])"
 Obtain the time on \f(CWHOST\fR, or some default host if \f(CWHOST\fR is not given
 or not defined, using the protocol as defined in \s-1RFC867\s0. The optional
 argument \f(CWPROTOCOL\fR should define the protocol to use, either \f(CWtcp\fR or
 \f(CWudp\fR. The result will be an \s-1ASCII\s0 string or \fIundef\fR upon failure.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
-Graham Barr <gbarr@ti.com>
+Graham Barr <gbarr@pobox.com>
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright (c) 1995-1997 Graham Barr. All rights reserved.
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "Net::Time 3"
+.IX Name "Net::Time - time and daytime network client interface"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "inet_time ( [\s-1HOST\s0 [, \s-1PROTOCOL\s0 [, \s-1TIMEOUT\s0]]])"
+
+.IX Item "inet_daytime ( [\s-1HOST\s0 [, \s-1PROTOCOL\s0 [, \s-1TIMEOUT\s0]]])"
+
+.IX Header "AUTHOR"
+
+.IX Header "COPYRIGHT"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Tie::Hash 3 "perl 5.004, patch 01" "30/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "Tie::Hash 3"
+.TH Tie::Hash 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Tie::Hash, Tie::StdHash - base class definitions for tied hashes"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Tie::Hash, Tie::StdHash \- base class definitions for tied hashes
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 22
 \&    package NewHash;
@@ -220,7 +216,6 @@ Tie::Hash, Tie::StdHash \- base class definitions for tied hashes
 \&    tie %new_std_hash, 'NewStdHash';
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provides some skeletal methods for hash-tying classes. See
 the \fIperltie\fR manpage for a list of the functions required in order to tie a hash
 to a package. The basic \fBTie::Hash\fR package provides a \f(CWnew\fR method, as well
@@ -234,43 +229,62 @@ For developers wishing to write their own tied hashes, the required methods
 are briefly defined below. See the the \fIperltie\fR manpage section for more detailed
 descriptive, as well as example code:
 .Ip "\s-1TIEHASH\s0 classname, \s-1LIST\s0" 5
-.IX Item "\s-1TIEHASH\s0 classname, \s-1LIST\s0"
 The method invoked by the command \f(CWtie %hash, classname\fR. Associates a new
 hash instance with the specified class. \f(CWLIST\fR would represent additional
 arguments (along the lines of the \fIAnyDBM_File\fR manpage and compatriots) needed to
 complete the association.
 .Ip "\s-1STORE\s0 this, key, value" 5
-.IX Item "\s-1STORE\s0 this, key, value"
 Store datum \fIvalue\fR into \fIkey\fR for the tied hash \fIthis\fR.
 .Ip "\s-1FETCH\s0 this, key" 5
-.IX Item "\s-1FETCH\s0 this, key"
 Retrieve the datum in \fIkey\fR for the tied hash \fIthis\fR.
 .Ip "\s-1FIRSTKEY\s0 this" 5
-.IX Item "\s-1FIRSTKEY\s0 this"
 Return the (key, value) pair for the first key in the hash.
 .Ip "\s-1NEXTKEY\s0 this, lastkey" 5
-.IX Item "\s-1NEXTKEY\s0 this, lastkey"
 Return the next (key, value) pair for the hash.
 .Ip "\s-1EXISTS\s0 this, key" 5
-.IX Item "\s-1EXISTS\s0 this, key"
 Verify that \fIkey\fR exists with the tied hash \fIthis\fR.
 .Ip "\s-1DELETE\s0 this, key" 5
-.IX Item "\s-1DELETE\s0 this, key"
 Delete the key \fIkey\fR from the tied hash \fIthis\fR.
 .Ip "\s-1CLEAR\s0 this" 5
-.IX Item "\s-1CLEAR\s0 this"
 Clear all values from the tied hash \fIthis\fR.
 .SH "CAVEATS"
-.IX Header "CAVEATS"
 The the \fIperltie\fR manpage documentation includes a method called \f(CWDESTROY\fR as
 a necessary method for tied hashes. Neither \fBTie::Hash\fR nor \fBTie::StdHash\fR
 define a default for this method. This is a standard for class packages,
 but may be omitted in favor of a simple default.
 .SH "MORE INFORMATION"
-.IX Header "MORE INFORMATION"
 The packages relating to various DBM\-related implemetations (\fIDB_File\fR,
 \fINDBM_File\fR, etc.) show examples of general tied hashes, as does the
 the \fIConfig\fR manpage module. While these do not utilize \fBTie::Hash\fR, they serve as
 good working examples.
 
 .rn }` ''
+.IX Title "Tie::Hash 3"
+.IX Name "Tie::Hash, Tie::StdHash - base class definitions for tied hashes"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\s-1TIEHASH\s0 classname, \s-1LIST\s0"
+
+.IX Item "\s-1STORE\s0 this, key, value"
+
+.IX Item "\s-1FETCH\s0 this, key"
+
+.IX Item "\s-1FIRSTKEY\s0 this"
+
+.IX Item "\s-1NEXTKEY\s0 this, lastkey"
+
+.IX Item "\s-1EXISTS\s0 this, key"
+
+.IX Item "\s-1DELETE\s0 this, key"
+
+.IX Item "\s-1CLEAR\s0 this"
+
+.IX Header "CAVEATS"
+
+.IX Header "MORE INFORMATION"
+

@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::LinkExtor 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::LinkExtor 3"
+.TH lib::HTML::LinkExtor 3 "perl 5.004, patch 55" "3/Sep/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::LinkExtor - Extract links from an HTML document"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,22 +188,19 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::LinkExtor \- Extract links from an HTML document
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 7
 \& require HTML::LinkExtor;
 \& $p = HTML::LinkExtor->new(\e&cb, "http://www.sn.no/");
 \& sub cb {
-\&     my($tag, %links);
+\&     my($tag, %links) = @_;
 \&     print "$tag @{[%links]}\en";
 \& }
 \& $p->parse_file("index.html");
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIHTML::LinkExtor\fR (link extractor) is an HTML parser that takes a
 callback routine as parameter.  This routine is then called as the
 various link attributes are recognized.
@@ -214,7 +209,6 @@ The \fIHTML::LinkExtor\fR is a subclass of \fIHTML::Parser\fR. This means
 that the document should be given to the parser by calling the
 \f(CW$p\fR\->\fIparse()\fR or \f(CW$p\fR\->\fIparse_file()\fR methods.
 .Sh "\f(CW$p\fR = \s-1HTML::\s0LinkExtor->\fInew\fR\|([$callback[, \f(CW$base\fR]])"
-.IX Subsection "\f(CW$p\fR = \s-1HTML::\s0LinkExtor->\fInew\fR\|([$callback[, \f(CW$base\fR]])"
 The constructor takes two optional argument. The first is a reference
 to a callback routine. It will be called as links are found. If a
 callback is not provided, then links are just accumulated internally
@@ -225,7 +219,6 @@ The callback is called with the lowercase tag name as first argument,
 and then all link attributes as separate key/value pairs.  All
 non-link attributes are removed.
 .Sh "\f(CW$p\fR\->links"
-.IX Subsection "\f(CW$p\fR\->links"
 Returns a list of all links found in the document.  The returned
 values will be anonymous arrays with the follwing elements:
 .PP
@@ -239,7 +232,6 @@ between then the second call will return an empty list.
 Also note that \f(CW$p\fR\->links will always be empty if a callback routine
 was provided when the the \fI\s-1HTML::\s0LinkExtor\fR manpage was created.
 .SH "EXAMPLE"
-.IX Header "EXAMPLE"
 This is an example showing how you can extract links as a document
 is received using LWP:
 .PP
@@ -280,10 +272,27 @@ is received using LWP:
 \&  print join("\en", @imgs), "\en";
 .Ve
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::Parser\fR manpage
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::LinkExtor 3"
+.IX Name "HTML::LinkExtor - Extract links from an HTML document"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\f(CW$p\fR = \s-1HTML::\s0LinkExtor->\fInew\fR\|([$callback[, \f(CW$base\fR]])"
+
+.IX Subsection "\f(CW$p\fR\->links"
+
+.IX Header "EXAMPLE"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

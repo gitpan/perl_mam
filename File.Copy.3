@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File::Copy 3 "perl 5.004, patch 01" "30/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "File::Copy 3"
+.TH File::Copy 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "File::Copy - Copy files or filehandles"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 File::Copy \- Copy files or filehandles
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&        use File::Copy;
@@ -212,12 +208,10 @@ File::Copy \- Copy files or filehandles
 \&        cp($n,"x");'
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The File::Copy module provides two basic functions, \f(CWcopy\fR and
 \f(CWmove\fR, which are useful for getting the contents of a file from
 one place to another.
 .Ip "\(bu" 4
-.IX Item "\(bu"
 The \f(CWcopy\fR function takes two
 parameters: a file to copy from and a file to copy to. Either
 argument may be a string, a FileHandle reference or a FileHandle
@@ -243,7 +237,6 @@ upon the file, but will generally be the whole file (up to 2Mb), or
 You may use the syntax \f(CWuse File::Copy "cp"\fR to get at the
 \*(L"cp\*(R" alias for this function. The syntax is \fIexactly\fR the same.
 .Ip "\(bu" 4
-.IX Item "\(bu"
 The \f(CWmove\fR function also takes two parameters: the current name
 and the intended name of the file to be moved.  If the destination
 already exists and is a directory, and the source is not a
@@ -266,7 +259,6 @@ structure.  For Unix systems, this is equivalent to the simple
 routine (see below).  For \s-1OS/2\s0 systems, this calls the \f(CWsyscopy\fR
 \s-1XSUB\s0 directly.
 .Sh "Special behavior if \f(CWsyscopy\fR is defined (\s-1VMS\s0 and \s-1OS/2\s0)"
-.IX Subsection "Special behavior if \f(CWsyscopy\fR is defined (\s-1VMS\s0 and \s-1OS/2\s0)"
 If both arguments to \f(CWcopy\fR are not file handles,
 then \f(CWcopy\fR will perform a \*(L"system copy\*(R" of
 the input file to a new output file, in order to preserve file
@@ -280,7 +272,6 @@ The system copy routine may also be called directly under \s-1VMS\s0 and \s-1OS/
 as \f(CWFile::Copy::syscopy\fR (or under \s-1VMS\s0 as \f(CWFile::Copy::rmscopy\fR, which
 is the routine that does the actual work for syscopy).
 .Ip "rmscopy($from,$to[,$date_flag])" 4
-.IX Item "rmscopy($from,$to[,$date_flag])"
 The first and second arguments may be strings, typeglobs, typeglob
 references, or objects inheriting from \s-1IO::\s0Handle;
 they are used in all cases to obtain the
@@ -314,12 +305,31 @@ it defaults to 0.
 Like \f(CWcopy\fR, \f(CWrmscopy\fR returns 1 on success.  If an error occurs,
 it sets \f(CW$!\fR, deletes the output file, and returns 0.
 .SH "RETURN"
-.IX Header "RETURN"
 All functions return 1 on success, 0 on failure.
 $! will be set if an error was encountered.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 File::Copy was written by Aaron Sherman \fI<ajs@ajs.com>\fR in 1995,
 and updated by Charles Bailey \fI<bailey@genetics.upenn.edu>\fR in 1996.
 
 .rn }` ''
+.IX Title "File::Copy 3"
+.IX Name "File::Copy - Copy files or filehandles"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\(bu"
+
+.IX Item "\(bu"
+
+.IX Subsection "Special behavior if \f(CWsyscopy\fR is defined (\s-1VMS\s0 and \s-1OS/2\s0)"
+
+.IX Item "rmscopy($from,$to[,$date_flag])"
+
+.IX Header "RETURN"
+
+.IX Header "AUTHOR"
+

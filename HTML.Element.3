@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Element 3 "perl 5.004, patch 01" "25/Nov/96" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::Element 3"
+.TH lib::HTML::Element 3 "perl 5.004, patch 55" "16/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::Element - Class for objects that represent HTML elements"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::Element \- Class for objects that represent HTML elements
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& require HTML::Element;
@@ -213,7 +209,6 @@ HTML::Element \- Class for objects that represent HTML elements
 \& print $a->as_HTML;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 Objects of the HTML::Element class can be used to represent elements
 of HTML.  These objects have attributes and content.  The content is an
 array of text segments and other HTML::Element objects.  Thus a
@@ -222,68 +217,52 @@ for a HTML document.
 .PP
 The following methods are available:
 .Sh "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(S', \*(M'attrname\*(S' => \*(M'value\*(S',...)"
-.IX Subsection "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(S', \*(M'attrname\*(S' => \*(M'value\*(S',...)"
 The object constructor.  Takes a tag name as argument. Optionally,
 allows you to specify initial attributes at object creation time.
 .Sh "\f(CW$h\fR\->\fItag()\fR"
-.IX Subsection "\f(CW$h\fR\->\fItag()\fR"
 Returns (optionally sets) the tag name for the element.  The tag is
 always converted to lower case.
 .Sh "\f(CW$h\fR\->\fIstarttag()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIstarttag()\fR"
 Returns the complete start tag for the element.  Including leading
 \*(L"<\*(R", trailing \*(L">\*(R" and attributes.
 .Sh "\f(CW$h\fR\->\fIendtag()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIendtag()\fR"
 Returns the complete end tag.  Includes leading \*(L"</\*(R" and the trailing
 \*(L">\*(R".
 .Sh "\f(CW$h\fR\->\fIparent\fR\|([$newparent])"
-.IX Subsection "\f(CW$h\fR\->\fIparent\fR\|([$newparent])"
 Returns (optionally sets) the parent for this element.
 .Sh "\f(CW$h\fR\->\fIimplicit\fR\|([$bool])"
-.IX Subsection "\f(CW$h\fR\->\fIimplicit\fR\|([$bool])"
 Returns (optionally sets) the implicit attribute.  This attribute is
 used to indicate that the element was not originally present in the
 source, but was inserted in order to conform to \s-1HTML\s0 strucure.
 .Sh "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(S',...)"
-.IX Subsection "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(S',...)"
 Returns true if this tag is contained inside one of the specified tags.
 .Sh "\f(CW$h\fR\->\fIpos()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIpos()\fR"
 Returns (and optionally sets) the current position.  The position is a
 reference to a \s-1HTML::\s0Element object that is part of the tree that has
 the current object as root.  This restriction is not enforced when
 setting \fIpos()\fR, but unpredictable things will happen if this is not
 true.
 .Sh "\f(CW$h\fR\->\fIattr\fR\|('attr\*(S', [$value])"
-.IX Subsection "\f(CW$h\fR\->\fIattr\fR\|('attr\*(S', [$value])"
 Returns (and optionally sets) the value of some attribute.
 .Sh "\f(CW$h\fR\->\fIcontent()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIcontent()\fR"
 Returns the content of this element.  The content is represented as a
 reference to an array of text segments and references to other
 \s-1HTML::\s0Element objects.
 .Sh "\f(CW$h\fR\->\fIis_empty()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIis_empty()\fR"
 Returns true if there is no content.
 .Sh "\f(CW$h\fR\->\fIinsert_element\fR\|($element, \f(CW$implicit\fR)"
-.IX Subsection "\f(CW$h\fR\->\fIinsert_element\fR\|($element, \f(CW$implicit\fR)"
 Inserts a new element at current position and updates \fIpos()\fR to point
 to the inserted element.  Returns \f(CW$element\fR.
 .Sh "\f(CW$h\fR\->\fIpush_content\fR\|($element_or_text,...)"
-.IX Subsection "\f(CW$h\fR\->\fIpush_content\fR\|($element_or_text,...)"
 Adds to the content of the element.  The content should be a text
 segment (scalar) or a reference to a \s-1HTML::\s0Element object.
 .Sh "\f(CW$h\fR\->\fIdelete_content()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIdelete_content()\fR"
 Clears the content.
 .Sh "\f(CW$h\fR\->\fIdelete()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIdelete()\fR"
 Frees memory associated with the element and all children.  This is
 needed because perl's reference counting does not work since we use
 circular references.
 .Sh "\f(CW$h\fR\->\fItraverse\fR\|(\e&callback, [$ignoretext])"
-.IX Subsection "\f(CW$h\fR\->\fItraverse\fR\|(\e&callback, [$ignoretext])"
 Traverse the element and all of its children.  For each node visited, the
 callback routine is called with the node, a startflag and the depth as
 arguments.  If the \f(CW$ignoretext\fR parameter is true, then the callback
@@ -293,7 +272,6 @@ node and 0 when we leave the node.
 If the returned value from the callback is false then we will not
 traverse the children.
 .Sh "\f(CW$h\fR\->\fIextract_links\fR\|([@wantedTypes])"
-.IX Subsection "\f(CW$h\fR\->\fIextract_links\fR\|([@wantedTypes])"
 Returns links found by traversing the element and all of its children.
 The return value is a reference to an array.  Each element of the
 array is an array with 2 values; the link value and a reference to the
@@ -310,16 +288,13 @@ src=\*(R"..."> links you might code it like this:
 \&  }
 .Ve
 .Sh "\f(CW$h\fR\->\fIdump()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIdump()\fR"
 Prints the element and all its children to \s-1STDOUT\s0.  Mainly useful for
 debugging.  The structure of the document is shown by indentation (no
 end tags).
 .Sh "\f(CW$h\fR\->\fIas_HTML()\fR"
-.IX Subsection "\f(CW$h\fR\->\fIas_HTML()\fR"
 Returns a string (the \s-1HTML\s0 document) that represents the element and
 its children.
 .SH "BUGS"
-.IX Header "BUGS"
 If you want to free the memory assosiated with a tree built of
 HTML::Element nodes then you will have to delete it explicitly.  The
 reason for this is that perl currently has no proper garbage
@@ -328,16 +303,68 @@ scheme fails because the parse tree contains circular references
 (parents have references to their children and children have a
 reference to their parent).
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::AsSubs\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1995,1996 Gisle Aas.  All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::Element 3"
+.IX Name "HTML::Element - Class for objects that represent HTML elements"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "\f(CW$h\fR = \s-1HTML::\s0Element->\fInew\fR\|('tag\*(S', \*(M'attrname\*(S' => \*(M'value\*(S',...)"
+
+.IX Subsection "\f(CW$h\fR\->\fItag()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIstarttag()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIendtag()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIparent\fR\|([$newparent])"
+
+.IX Subsection "\f(CW$h\fR\->\fIimplicit\fR\|([$bool])"
+
+.IX Subsection "\f(CW$h\fR\->\fIis_inside\fR\|('tag\*(S',...)"
+
+.IX Subsection "\f(CW$h\fR\->\fIpos()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIattr\fR\|('attr\*(S', [$value])"
+
+.IX Subsection "\f(CW$h\fR\->\fIcontent()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIis_empty()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIinsert_element\fR\|($element, \f(CW$implicit\fR)"
+
+.IX Subsection "\f(CW$h\fR\->\fIpush_content\fR\|($element_or_text,...)"
+
+.IX Subsection "\f(CW$h\fR\->\fIdelete_content()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIdelete()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fItraverse\fR\|(\e&callback, [$ignoretext])"
+
+.IX Subsection "\f(CW$h\fR\->\fIextract_links\fR\|([@wantedTypes])"
+
+.IX Subsection "\f(CW$h\fR\->\fIdump()\fR"
+
+.IX Subsection "\f(CW$h\fR\->\fIas_HTML()\fR"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

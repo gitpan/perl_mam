@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Term::Complete 3 "perl 5.004, patch 01" "24/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "Term::Complete 3"
+.TH Term::Complete 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Term::Complete - Perl word completion module"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,17 +188,14 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Term::Complete \- Perl word completion module
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    $input = complete('prompt_string', \e@completion_list);
 \&    $input = complete('prompt_string', @completion_list);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This routine provides word completion on the list of words in
 the array (or array ref).
 .PP
@@ -209,29 +204,45 @@ The tty driver is put into raw mode using the system command
 .PP
 The following command characters are defined:
 .Ip "<tab>" 4
-.IX Item "<tab>"
 Attempts word completion.
 Cannot be changed.
 .Ip "^D" 4
-.IX Item "^D"
 Prints completion list.
 Defined by \fI$Term::Complete::complete\fR.
 .Ip "^U" 4
-.IX Item "^U"
 Erases the current input.
 Defined by \fI$Term::Complete::kill\fR.
 .Ip "<del>, <bs>" 4
-.IX Item "<del>, <bs>"
 Erases one character.
 Defined by \fI$Term::Complete::erase1\fR and \fI$Term::Complete::erase2\fR.
 .SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
 Bell sounds when word completion fails.
 .SH "BUGS"
-.IX Header "BUGS"
 The completion charater <tab> cannot be changed.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Wayne Thompson
 
 .rn }` ''
+.IX Title "Term::Complete 3"
+.IX Name "Term::Complete - Perl word completion module"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "<tab>"
+
+.IX Item "^D"
+
+.IX Item "^U"
+
+.IX Item "<del>, <bs>"
+
+.IX Header "DIAGNOSTICS"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+

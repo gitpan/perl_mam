@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTML::Parser 3 "perl 5.004, patch 01" "21/Feb/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTML::Parser 3"
+.TH lib::HTML::Parser 3 "perl 5.004, patch 55" "21/Feb/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTML::Parser - SGML parser class"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTML::Parser \- SGML parser class
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \& require HTML::Parser;
@@ -211,7 +207,6 @@ HTML::Parser \- SGML parser class
 \& $p->parse_file(\e*F);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWHTML::Parser\fR will tokenize a HTML document when the \f(CW$p\fR\->\fIparse()\fR
 method is called.  The document to parse can be supplied in arbitrary
 chunks.  Call \f(CW$p\fR\->\fIeof()\fR the end of the document to flush any remaining
@@ -226,14 +221,12 @@ In order to make the parser do anything interesting, you must make a
 subclass where you override one or more of the following methods as
 appropriate:
 .Ip "$self->declaration($decl)" 4
-.IX Item "$self->declaration($decl)"
 This method is called when a \fImarkup declaration\fR has been
 recognized.  For typical \s-1HTML\s0 documents, the only declaration you are
 likely to find is <!\s-1DOCTYPE\s0 ...>.  The initial \*(L"<!\*(R" and ending \*(L">\*(R" is
 not part of the string passed as argument.  Comments are removed and
 entities have \fBnot\fR been expanded yet.
 .Ip "$self->start($tag, $attr, $attrseq, $origtext)" 4
-.IX Item "$self->start($tag, $attr, $attrseq, $origtext)"
 This method is called when a complete start tag has been recognized.
 The first argument is the tag name (in lower case) and the second
 argument is a reference to a hash that contain all attributes found
@@ -243,18 +236,15 @@ third argument is a reference to an array with the lower case
 attribute keys in the original order.  The fourth argument is the
 original \s-1HTML\s0 text.
 .Ip "$self->end($tag)" 4
-.IX Item "$self->end($tag)"
 This method is called when an end tag has been recognized.  The
 argument is the lower case tag name.
 .Ip "$self->text($text)" 4
-.IX Item "$self->text($text)"
 This method is called when plain text in the document is recognized.
 The text is passed on unmodified and might contain multiple lines.
 Note that for efficiency reasons entities in the text are \fBnot\fR
 expanded.  You should call \fI\s-1HTML::\s0Entities::decode\fR\|($text) before you
 process the text any further.
 .Ip "$self->comment($comment)" 4
-.IX Item "$self->comment($comment)"
 This method is called as comments are recognized.  The leading and
 trailing \*(L"--\*(R" sequences have been stripped off the comment text.
 .PP
@@ -266,22 +256,45 @@ it is likely that the parser can parse many kinds of \s-1SGML\s0 documents,
 but \s-1SGML\s0 has many obscure features (not implemented by this module)
 that prevent us from renaming this module as \f(CWSGML::Parse\fR.
 .SH "BUGS"
-.IX Header "BUGS"
 You can instruct the parser to parse comments the way Netscape does it
 by calling the \fInetscape_buggy_comment()\fR method with a TRUE argument.
 This means that comments will always be terminated by the first
 occurence of \*(L"\*(-->\*(R".
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTML::TreeBuilder\fR manpage, the \fIHTML::HeadParser\fR manpage, the \fIHTML::Entities\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1996 Gisle Aas. All rights reserved.
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Gisle Aas <aas@sn.no>
 
 .rn }` ''
+.IX Title "lib::HTML::Parser 3"
+.IX Name "HTML::Parser - SGML parser class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "$self->declaration($decl)"
+
+.IX Item "$self->start($tag, $attr, $attrseq, $origtext)"
+
+.IX Item "$self->end($tag)"
+
+.IX Item "$self->text($text)"
+
+.IX Item "$self->comment($comment)"
+
+.IX Header "BUGS"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
+.IX Header "AUTHOR"
+

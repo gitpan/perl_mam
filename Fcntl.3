@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Fcntl 3 "perl 5.004, patch 01" "9/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "Fcntl 3"
+.TH Fcntl 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Fcntl - load the C Fcntl.h defines"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,28 +188,23 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Fcntl \- load the C Fcntl.h defines
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 2
 \&    use Fcntl;
 \&    use Fcntl qw(:DEFAULT :flock);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module is just a translation of the C \fIfnctl.h\fR file.
 Unlike the old mechanism of requiring a translated \fIfnctl.ph\fR
 file, this uses the \fBh2xs\fR program (see the Perl source distribution)
 and your native C compiler.  This means that it has a 
 far more likely chance of getting the numbers right.
 .SH "NOTE"
-.IX Header "NOTE"
 Only \f(CW#define\fR symbols get translated; you must still correctly
 pack up your own arguments to pass as args for locking functions, etc.
 .SH "EXPORTED SYMBOLS"
-.IX Header "EXPORTED SYMBOLS"
 By default your system's F_* and O_* constants (eg, F_DUPFD and
 O_CREAT) and the FD_CLOEXEC constant are exported into your namespace.
 .PP
@@ -229,3 +222,16 @@ Please refer to your native \fIfcntl()\fR and \fIopen()\fR documentation to see
 what constants are implemented in your system.
 
 .rn }` ''
+.IX Title "Fcntl 3"
+.IX Name "Fcntl - load the C Fcntl.h defines"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "NOTE"
+
+.IX Header "EXPORTED SYMBOLS"
+

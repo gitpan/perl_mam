@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils::Manifest 3 "perl 5.004, patch 01" "14/Mar/97" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils::Manifest 3"
+.TH ExtUtils::Manifest 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "ExtUtils::Manifest - utilities to write and check a MANIFEST file"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 ExtUtils::Manifest \- utilities to write and check a MANIFEST file
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 \f(CWrequire ExtUtils::Manifest;\fR
 .PP
 \f(CWExtUtils::Manifest::mkmanifest;\fR
@@ -212,7 +208,6 @@ ExtUtils::Manifest \- utilities to write and check a MANIFEST file
 .PP
 \f(CWExtUtils::Manifest::manicopy($read,$target,$how);\fR
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \fIMkmanifest()\fR writes all files in and below the current directory to a
 file named in the global variable \f(CW$ExtUtils::Manifest::MANIFEST\fR (which
 defaults to \f(CWMANIFEST\fR) in the current directory. It works similar to
@@ -262,7 +257,6 @@ which actually copies the files, \f(CWln\fR which creates hard links, and
 \f(CWbest\fR which mostly links the files but copies any symbolic link to
 make a tree without any symbolic link. Best is the default.
 .SH "MANIFEST.SKIP"
-.IX Header "MANIFEST.SKIP"
 The file MANIFEST.SKIP may contain regular expressions of files that
 should be ignored by \fImkmanifest()\fR and \fIfilecheck()\fR. The regular
 expressions should appear one on each line. Blank lines and lines
@@ -280,11 +274,9 @@ expression to start with a sharp character. A typical example:
 \&    ^MakeMaker-\ed
 .Ve
 .SH "EXPORT_OK"
-.IX Header "EXPORT_OK"
 \f(CW&mkmanifest\fR, \f(CW&manicheck\fR, \f(CW&filecheck\fR, \f(CW&fullcheck\fR,
 \f(CW&maniread\fR, and \f(CW&manicopy\fR are exportable.
 .SH "GLOBAL VARIABLES"
-.IX Header "GLOBAL VARIABLES"
 \f(CW$ExtUtils::Manifest::MANIFEST\fR defaults to \f(CWMANIFEST\fR. Changing it
 results in both a different \f(CWMANIFEST\fR and a different
 \f(CWMANIFEST.SKIP\fR file. This is useful if you want to maintain
@@ -294,29 +286,51 @@ and a developer version including RCS).
 \f(CW$ExtUtils::Manifest::Quiet\fR defaults to 0. If set to a true value,
 all functions act silently.
 .SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
 All diagnostic output is sent to \f(CWSTDERR\fR.
 .Ip "\f(CWNot in MANIFEST:\fR \fIfile\fR" 5
-.IX Item "\f(CWNot in MANIFEST:\fR \fIfile\fR"
 is reported if a file is found, that is missing in the \f(CWMANIFEST\fR
 file which is excluded by a regular expression in the file
 \f(CWMANIFEST.SKIP\fR.
 .Ip "\f(CWNo such file:\fR \fIfile\fR" 5
-.IX Item "\f(CWNo such file:\fR \fIfile\fR"
 is reported if a file mentioned in a \f(CWMANIFEST\fR file does not
 exist.
 .Ip "\f(CWMANIFEST:\fR \fI$!\fR" 5
-.IX Item "\f(CWMANIFEST:\fR \fI$!\fR"
 is reported if \f(CWMANIFEST\fR could not be opened.
 .Ip "\f(CWAdded to MANIFEST:\fR \fIfile\fR" 5
-.IX Item "\f(CWAdded to MANIFEST:\fR \fIfile\fR"
 is reported by \fImkmanifest()\fR if \f(CW$Verbose\fR is set and a file is added
 to \s-1MANIFEST\s0. \f(CW$Verbose\fR is set to 1 by default.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage which has handy targets for most of the functionality.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Andreas Koenig <\fIkoenig@franz.ww.TU\-Berlin.DE\fR>
 
 .rn }` ''
+.IX Title "ExtUtils::Manifest 3"
+.IX Name "ExtUtils::Manifest - utilities to write and check a MANIFEST file"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "MANIFEST.SKIP"
+
+.IX Header "EXPORT_OK"
+
+.IX Header "GLOBAL VARIABLES"
+
+.IX Header "DIAGNOSTICS"
+
+.IX Item "\f(CWNot in MANIFEST:\fR \fIfile\fR"
+
+.IX Item "\f(CWNo such file:\fR \fIfile\fR"
+
+.IX Item "\f(CWMANIFEST:\fR \fI$!\fR"
+
+.IX Item "\f(CWAdded to MANIFEST:\fR \fIfile\fR"
+
+.IX Header "SEE ALSO"
+
+.IX Header "AUTHOR"
+

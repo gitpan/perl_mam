@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH CPAN::Nox 3 "perl 5.004, patch 01" "17/Feb/97" "Perl Programmers Reference Guide"
-.IX Title "CPAN::Nox 3"
+.TH CPAN::Nox 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "CPAN::Nox - Wrapper around CPAN.pm without using any XS module"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,23 +188,30 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 CPAN::Nox \- Wrapper around CPAN.pm without using any XS module
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 Interactive mode:
 .PP
 .Vb 1
 \&  perl -MCPAN::Nox -e shell;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This package has the same functionality as CPAN.pm, but tries to
 prevent the usage of compiled extensions during it's own
 execution. It's primary purpose is a rescue in case you upgraded perl
 and broke binary compatibility somehow.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fICPAN\fR\|(3)
 
 .rn }` ''
+.IX Title "CPAN::Nox 3"
+.IX Name "CPAN::Nox - Wrapper around CPAN.pm without using any XS module"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "SEE ALSO"
+

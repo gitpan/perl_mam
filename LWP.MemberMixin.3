@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::LWP::MemberMixin 3 "perl 5.004, patch 01" "5/Apr/97" "User Contributed Perl Documentation"
-.IX Title "lib::LWP::MemberMixin 3"
+.TH lib::LWP::MemberMixin 3 "perl 5.004, patch 55" "5/Apr/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "LWP::MemberMixin - Member access mixin class"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 LWP::MemberMixin \- Member access mixin class
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 3
 \& package Foo;
@@ -201,16 +197,12 @@ LWP::MemberMixin \- Member access mixin class
 \& @ISA=qw(LWP::MemberMixin);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 A mixin class to get methods that provide easy access to member
 variables in the %$self.
 .SH "BUGS"
-.IX Header "BUGS"
 Ideally there should be better Perl langauge support for this.
 .SH "METHODS"
-.IX Header "METHODS"
 .Sh "\fI_elem\fR\|($elem [, \f(CW$val\fR])"
-.IX Subsection "\fI_elem\fR\|($elem [, \f(CW$val\fR])"
 Internal method to get/set the value of member variable
 \f(CW$elem\fR. If \f(CW$val\fR is defined it is used as the new value
 for the member variable.  If it is undefined the current
@@ -218,3 +210,18 @@ value is not touched. In both cases the previous value of
 the member variable is returned.
 
 .rn }` ''
+.IX Title "lib::LWP::MemberMixin 3"
+.IX Name "LWP::MemberMixin - Member access mixin class"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "BUGS"
+
+.IX Header "METHODS"
+
+.IX Subsection "\fI_elem\fR\|($elem [, \f(CW$val\fR])"
+

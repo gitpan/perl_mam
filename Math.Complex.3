@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Math::Complex 3 "perl 5.004, patch 01" "24/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Math::Complex 3"
+.TH Math::Complex 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Math::Complex - complex numbers and associated mathematical functions"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,20 +188,18 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Math::Complex \- complex numbers and associated mathematical functions
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
-.Vb 5
+.Vb 1
 \&        use Math::Complex;
-\&        
+.Ve
+.Vb 3
 \&        $z = Math::Complex->make(5, 6);
 \&        $t = 4 - 3*i + $z;
 \&        $j = cplxe(1, 2*pi/3);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This package lets you create and manipulate complex numbers. By default,
 \fIPerl\fR limits itself to real numbers, but an extra \f(CWuse\fR statement brings
 full complex support, along with a full set of mathematical functions
@@ -284,7 +280,7 @@ between this form and the cartesian form \f(CWa + bi\fR is immediate:
 which is also expressed by this formula:
 .PP
 .Vb 1
-\&        z = rho * exp(i * theta) = rho * (cos theta + i * sin theta) 
+\&        z = rho * exp(i * theta) = rho * (cos theta + i * sin theta)
 .Ve
 In other words, it's the projection of the vector onto the \fIx\fR and \fIy\fR
 axes. Mathematicians call \fIrho\fR the \fInorm\fR or \fImodulus\fR and \fItheta\fR
@@ -294,8 +290,8 @@ noted \f(CWabs(z)\fR.
 The polar notation (also known as the trigonometric
 representation) is much more handy for performing multiplications and
 divisions of complex numbers, whilst the cartesian notation is better
-suited for additions and substractions. Real numbers are on the \fIx\fR
-axis, and therefore \fItheta\fR is zero.
+suited for additions and subtractions. Real numbers are on the \fIx\fR
+axis, and therefore \fItheta\fR is zero or \fIpi\fR.
 .PP
 All the common operations that can be performed on a real number have
 been defined to work on complex numbers as well, and are merely
@@ -304,8 +300,8 @@ they keep their natural meaning when there is no imaginary part, provided
 the number is within their definition set.
 .PP
 For instance, the \f(CWsqrt\fR routine which computes the square root of
-its argument is only defined for positive real numbers and yields a
-positive real number (it is an application from \fBR+\fR to \fBR+\fR).
+its argument is only defined for non-negative real numbers and yields a
+non-negative real number (it is an application from \fBR+\fR to \fBR+\fR).
 If we allow it to return a complex number, then it can be extended to
 negative real numbers to become an application from \fBR\fR to \fBC\fR (the
 set of complex numbers):
@@ -320,10 +316,9 @@ the following definition:
 .Vb 1
 \&        sqrt(z = [r,t]) = sqrt(r) * exp(i * t/2)
 .Ve
-Indeed, a negative real number can be noted \f(CW[x,pi]\fR
-(the modulus \fIx\fR is always positive, so \f(CW[x,pi]\fR is really \f(CW-x\fR, a
-negative number)
-and the above definition states that
+Indeed, a negative real number can be noted \f(CW[x,pi]\fR (the modulus
+\fIx\fR is always non-negative, so \f(CW[x,pi]\fR is really \f(CW-x\fR, a negative
+number) and the above definition states that
 .PP
 .Vb 1
 \&        sqrt([x,pi]) = sqrt(x) * exp(i*pi/2) = [sqrt(x),pi/2] = sqrt(x)*i
@@ -371,7 +366,6 @@ is the regular \f(CWabs\fR we know when the complex number actually has no
 imaginary part... This justifies \fIa posteriori\fR our use of the \f(CWabs\fR
 notation for the norm.
 .SH "OPERATIONS"
-.IX Header "OPERATIONS"
 Given the following notations:
 .PP
 .Vb 3
@@ -381,7 +375,7 @@ Given the following notations:
 .Ve
 the following (overloaded) operations are supported on complex numbers:
 .PP
-.Vb 14
+.Vb 13
 \&        z1 + z2 = (a + c) + i(b + d)
 \&        z1 - z2 = (a - c) + i(b - d)
 \&        z1 * z2 = (r1 * r2) * exp(i * (t1 + t2))
@@ -394,7 +388,6 @@ the following (overloaded) operations are supported on complex numbers:
 \&        log(z1) = log(r1) + i*t1
 \&        sin(z1) = 1/2i (exp(i * z1) - exp(-i * z1))
 \&        cos(z1) = 1/2 (exp(i * z1) + exp(-i * z1))
-\&        abs(z1) = r1
 \&        atan2(z1, z2) = atan(z1/z2)
 .Ve
 The following extra operations are supported on both real and complex
@@ -420,24 +413,25 @@ numbers:
 .Ve
 .Vb 3
 \&        asin(z) = -i * log(i*z + sqrt(1-z*z))
-\&        acos(z) = -i * log(z + sqrt(z*z-1))
+\&        acos(z) = -i * log(z + i*sqrt(1-z*z))
 \&        atan(z) = i/2 * log((i+z) / (i-z))
 .Ve
 .Vb 3
 \&        acsc(z) = asin(1 / z)
 \&        asec(z) = acos(1 / z)
-\&        acot(z) = -i/2 * log((i+z) / (z-i))
+\&        acot(z) = atan(1 / z) = -i/2 * log((i+z) / (z-i))
 .Ve
 .Vb 3
 \&        sinh(z) = 1/2 (exp(z) - exp(-z))
 \&        cosh(z) = 1/2 (exp(z) + exp(-z))
 \&        tanh(z) = sinh(z) / cosh(z) = (exp(z) - exp(-z)) / (exp(z) + exp(-z))
 .Ve
-.Vb 7
+.Vb 3
 \&        csch(z) = 1 / sinh(z)
 \&        sech(z) = 1 / cosh(z)
 \&        coth(z) = 1 / tanh(z)
-\&        
+.Ve
+.Vb 3
 \&        asinh(z) = log(z + sqrt(z*z+1))
 \&        acosh(z) = log(z + sqrt(z*z-1))
 \&        atanh(z) = 1/2 * log((1+z) / (1-z))
@@ -476,7 +470,6 @@ would expect, the comparison is run on the real part of the complex
 number first, and imaginary parts are compared only when the real
 parts match.
 .SH "CREATION"
-.IX Header "CREATION"
 To create a complex number, use either:
 .PP
 .Vb 2
@@ -488,15 +481,15 @@ if you know the cartesian form of the number, or
 .Vb 1
 \&        $z = 3 + 4*i;
 .Ve
-if you like. To create a number using the trigonometric form, use either:
+if you like. To create a number using the polar form, use either:
 .PP
 .Vb 2
 \&        $z = Math::Complex->emake(5, pi/3);
 \&        $x = cplxe(5, pi/3);
 .Ve
 instead. The first argument is the modulus, the second is the angle
-(in radians, the full circle is 2*pi).  (Mnmemonic: \f(CWe\fR is used as a
-notation for complex numbers in the trigonometric form).
+(in radians, the full circle is 2*pi).  (Mnemonic: \f(CWe\fR is used as a
+notation for complex numbers in the polar form).
 .PP
 It is possible to write:
 .PP
@@ -504,10 +497,9 @@ It is possible to write:
 \&        $x = cplxe(-3, pi/4);
 .Ve
 but that will be silently converted into \f(CW[3,-3pi/4]\fR, since the modulus
-must be positive (it represents the distance to the origin in the complex
+must be non-negative (it represents the distance to the origin in the complex
 plane).
 .SH "STRINGIFICATION"
-.IX Header "STRINGIFICATION"
 When printed, a complex number is usually shown under its cartesian
 form \fIa+bi\fR, but there are legitimate cases where the polar format
 \fI[r,t]\fR is more appropriate.
@@ -537,7 +529,6 @@ For instance:
 The polar format attempts to emphasize arguments like \fIk*pi/n\fR
 (where \fIn\fR is a positive integer and \fIk\fR an integer within [\-9,+9]).
 .SH "USAGE"
-.IX Header "USAGE"
 Thanks to overloading, the handling of arithmetics with complex numbers
 is simple and almost transparent.
 .PP
@@ -560,7 +551,6 @@ Here are some examples:
 \&        print "$j - $k = ", $j - $k, "\en";
 .Ve
 .SH "ERRORS DUE TO DIVISION BY ZERO"
-.IX Header "ERRORS DUE TO DIVISION BY ZERO"
 The division (/) and the following functions
 .PP
 .Vb 16
@@ -582,40 +572,63 @@ The division (/) and the following functions
 \&        acoth
 .Ve
 cannot be computed for all arguments because that would mean dividing
-by zero. These situations cause fatal runtime errors looking like this
+by zero or taking logarithm of zero. These situations cause fatal
+runtime errors looking like this
 .PP
 .Vb 3
 \&        cot(0): Division by zero.
 \&        (Because in the definition of cot(0), the divisor sin(0) is 0)
 \&        Died at ...
 .Ve
-For the \f(CWcsc\fR, \f(CWcot\fR, \f(CWasec\fR, \f(CWacsc\fR, \f(CWcsch\fR, \f(CWcoth\fR, \f(CWasech\fR,
-\f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero). For the \f(CWatanh\fR,
-\f(CWacoth\fR, the argument cannot be \f(CW1\fR (one). For the \f(CWatan\fR, \f(CWacot\fR,
-the argument cannot be \f(CWi\fR (the imaginary unit).  For the \f(CWtan\fR,
-\f(CWsec\fR, \f(CWtanh\fR, \f(CWsech\fR, the argument cannot be \fIpi/2 + k * pi\fR, where
-\fIk\fR is any integer.
+or
+.PP
+.Vb 2
+\&        atanh(-1): Logarithm of zero.
+\&        Died at...
+.Ve
+For the \f(CWcsc\fR, \f(CWcot\fR, \f(CWasec\fR, \f(CWacsc\fR, \f(CWacot\fR, \f(CWcsch\fR, \f(CWcoth\fR,
+\f(CWasech\fR, \f(CWacsch\fR, the argument cannot be \f(CW0\fR (zero).  For the
+\f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be \f(CW1\fR (one).  For the
+\f(CWatanh\fR, \f(CWacoth\fR, the argument cannot be \f(CW-1\fR (minus one).  For the
+\f(CWatan\fR, \f(CWacot\fR, the argument cannot be \f(CWi\fR (the imaginary unit).
+For the \f(CWatan\fR, \f(CWacoth\fR, the argument cannot be \f(CW-i\fR (the negative
+imaginary unit).  For the \f(CWtan\fR, \f(CWsec\fR, \f(CWtanh\fR, \f(CWsech\fR, the
+argument cannot be \fIpi/2 + k * pi\fR, where \fIk\fR is any integer.
 .SH "BUGS"
-.IX Header "BUGS"
 Saying \f(CWuse Math::Complex;\fR exports many mathematical routines in the
-caller environment and even overrides some (\f(CWsin\fR, \f(CWcos\fR, \f(CWsqrt\fR,
-\f(CWlog\fR, \f(CWexp\fR).  This is construed as a feature by the Authors,
-actually... ;\-)
-.PP
-The code is not optimized for speed, although we try to use the cartesian
-form for addition-like operators and the trigonometric form for all
-multiplication-like operators.
-.PP
-The \fIarg()\fR routine does not ensure the angle is within the range [\-pi,+pi]
-(a side effect caused by multiplication and division using the trigonometric
-representation).
+caller environment and even overrides some (\f(CWsqrt\fR, \f(CWlog\fR).
+This is construed as a feature by the Authors, actually... ;\-)
 .PP
 All routines expect to be given real or complex numbers. Don't attempt to
 use BigFloat, since Perl has currently no rule to disambiguate a \*(L'+\*(R'
 operation (for instance) between two overloaded entities.
 .SH "AUTHORS"
-.IX Header "AUTHORS"
 Raphael Manfredi <\fIRaphael_Manfredi@grenoble.hp.com\fR> and
 Jarkko Hietaniemi <\fIjhi@iki.fi\fR>.
+.PP
+Extensive patches by Daniel S. Lewart <\fId-lewart@uiuc.edu\fR>.
 
 .rn }` ''
+.IX Title "Math::Complex 3"
+.IX Name "Math::Complex - complex numbers and associated mathematical functions"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "OPERATIONS"
+
+.IX Header "CREATION"
+
+.IX Header "STRINGIFICATION"
+
+.IX Header "USAGE"
+
+.IX Header "ERRORS DUE TO DIVISION BY ZERO"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHORS"
+

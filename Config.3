@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Config 3 "perl 5.004, patch 01" "16/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "Config 3"
+.TH Config 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Config - access Perl configuration information"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Config \- access Perl configuration information
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \&    use Config;
@@ -214,7 +210,6 @@ Config \- access Perl configuration information
 \&    config_vars(qw(osname archname));
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The Config module contains all the information that was available to
 the \f(CWConfigure\fR program at Perl build time (over 900 values).
 .PP
@@ -225,15 +220,12 @@ Values stored in config.sh as \*(L'undef\*(R' are returned as undefined
 values.  The perl \f(CWexists\fR function can be used to check if a
 named variable exists.
 .Ip "myconfig()" 4
-.IX Item "myconfig()"
 Returns a textual summary of the major perl configuration values.
 See also \f(CW-V\fR in the \f(CWSwitches\fR entry in the \fIperlrun\fR manpage.
 .Ip "config_sh()" 4
-.IX Item "config_sh()"
 Returns the entire perl configuration information in the form of the
 original config.sh shell variable assignment script.
 .Ip "config_vars(@names)" 4
-.IX Item "config_vars(@names)"
 Prints to \s-1STDOUT\s0 the values of the named configuration variable. Each is
 printed on a separate line in the form:
 .Sp
@@ -243,7 +235,6 @@ printed on a separate line in the form:
 Names which are unknown are output as \f(CWname='UNKNOWN';\fR.
 See also \f(CW-V:name\fR in the \f(CWSwitches\fR entry in the \fIperlrun\fR manpage.
 .SH "EXAMPLE"
-.IX Header "EXAMPLE"
 Here's a more sophisticated example of using \f(CW%Config:\fR
 .PP
 .Vb 2
@@ -270,7 +261,6 @@ Here's a more sophisticated example of using \f(CW%Config:\fR
 \&    }   
 .Ve
 .SH "WARNING"
-.IX Header "WARNING"
 Because this information is not stored within the perl executable
 itself it is possible (but unlikely) that the information does not
 relate to the actual perl binary which is being used to access it.
@@ -279,9 +269,29 @@ The Config module is installed into the architecture and version
 specific library directory ($Config{installarchlib}) and it checks the
 perl version number when loaded.
 .SH "NOTE"
-.IX Header "NOTE"
 This module contains a good example of how to use tie to implement a
 cache and an example of how to make a tied variable readonly to those
 outside of it.
 
 .rn }` ''
+.IX Title "Config 3"
+.IX Name "Config - access Perl configuration information"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "myconfig()"
+
+.IX Item "config_sh()"
+
+.IX Item "config_vars(@names)"
+
+.IX Header "EXAMPLE"
+
+.IX Header "WARNING"
+
+.IX Header "NOTE"
+

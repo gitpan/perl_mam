@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IPC::Open2 3 "perl 5.004, patch 01" "11/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "IPC::Open2 3"
+.TH IPC::Open2 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "IPC::Open2, open2 - open a process for both reading and writing"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 IPC::Open2, open2 \- open a process for both reading and writing
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \&    use IPC::Open2;
@@ -202,7 +198,6 @@ IPC::Open2, open2 \- open a process for both reading and writing
 \&    $pid = open2(\e*RDR, \e*WTR, 'some', 'cmd', 'and', 'args');
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fIopen2()\fR function spawns the given \f(CW$cmd\fR and connects \f(CW$rdr\fR for
 reading and \f(CW$wtr\fR for writing.  It's what you think should work 
 when you try
@@ -222,7 +217,6 @@ from it directly.  In both cases, there will be a \fIdup\fR\|(2) instead of a
 \fIopen2()\fR returns the process ID of the child process.  It doesn't return on
 failure: it just raises an exception matching \f(CW/^open2:/\fR.
 .SH "WARNING"
-.IX Header "WARNING"
 It will not create these file handles for you.  You have to do this yourself.
 So don't pass it empty variables expecting them to get filled in for you.
 .PP
@@ -238,8 +232,20 @@ over source code being run in the child process, you can't control
 what it does with pipe buffering.  Thus you can't just open a pipe to
 \f(CWcat -v\fR and continually read and write a line from it.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 See the \fIIPC::Open3\fR manpage for an alternative that handles STDERR as well.  This
 function is really just a wrapper around \fIopen3()\fR.
 
 .rn }` ''
+.IX Title "IPC::Open2 3"
+.IX Name "IPC::Open2, open2 - open a process for both reading and writing"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "WARNING"
+
+.IX Header "SEE ALSO"
+

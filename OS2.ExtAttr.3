@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH OS2::ExtAttr 3 "perl 5.004, patch 01" "16/Jun/97" "Perl Programmers Reference Guide"
-.IX Title "OS2::ExtAttr 3"
+.TH OS2::ExtAttr 3 "perl 5.004, patch 55" "26/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "OS2::ExtAttr - Perl access to extended attributes."
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 OS2::ExtAttr \- Perl access to extended attributes.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 6
 \&  use OS2::ExtAttr;
@@ -204,11 +200,9 @@ OS2::ExtAttr \- Perl access to extended attributes.
 \&  untie %ea;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The package provides low-level and high-level interface to Extended
 Attributes under OS/2. 
 .Sh "High-level interface: \f(CWtie\fR"
-.IX Subsection "High-level interface: \f(CWtie\fR"
 The only argument of \fItie()\fR is a file name, or an open file handle.
 .PP
 Note that all the changes of the tied hash happen in core, to
@@ -224,7 +218,6 @@ high-level interface, one should use the low-level interface
 instead. To use it on a tied hash one needs undocumented way to find
 \f(CWeas\fR give the tied hash.
 .Sh "Low-level interface"
-.IX Subsection "Low-level interface"
 Two low-level methods are supported by the objects: \fIcopy()\fR and
 \fIupdate()\fR. The \fIcopy()\fR takes one argument: the name of a file to copy
 the attributes to, or an opened file handle. \fIupdate()\fR takes no
@@ -242,10 +235,25 @@ The default value for \f(CWflag\fR is 0.
 In addition, all the \f(CW_ea_*\fR and \f(CW_ead_*\fR functions defined in \s-1EMX\s0
 library are supported, with leading \f(CW_ea/_ead\fR stripped.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Ilya Zakharevich, ilya@math.ohio-state.edu
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 \fIperl\fR\|(1).
 
 .rn }` ''
+.IX Title "OS2::ExtAttr 3"
+.IX Name "OS2::ExtAttr - Perl access to extended attributes."
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "High-level interface: \f(CWtie\fR"
+
+.IX Subsection "Low-level interface"
+
+.IX Header "AUTHOR"
+
+.IX Header "SEE ALSO"
+

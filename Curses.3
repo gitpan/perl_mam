@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Curses 3 "perl 5.004, patch 01" "28/Mar/95" "User Contributed Perl Documentation"
-.IX Title "Curses 3"
+.TH Curses 3 "perl 5.004, patch 55" "12/Dec/96" "User Contributed Perl Documentation"
 .UC
-.IX Name "Curses - terminal screen handling and optimization"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Curses \- terminal screen handling and optimization
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \&    use Curses;
@@ -204,7 +200,6 @@ Curses \- terminal screen handling and optimization
 \&    endwin;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 \f(CWCurses\fR is the interface between Perl and your system's \fIcurses\fR\|(3)
 library.  For descriptions on the usage of a given function, variable,
 or constant, consult your system's documentation, as such information
@@ -213,7 +208,6 @@ operating systems.  This document describes the interface itself, and
 assumes that you already know how your system's \fIcurses\fR\|(3) library
 works.
 .Sh "Unified Functions"
-.IX Subsection "Unified Functions"
 Many \fIcurses\fR\|(3) functions have variants starting with the prefixes
 \fIw-\fR, \fImv-\fR, and/or \fIwmv-\fR.  These variants differ only in the
 explicit addition of a window, or by the addition of two coordinates
@@ -249,7 +243,6 @@ variable \f(CW$Curses::OldCurses\fR to a non-zero value before using the
 \f(CWCurses\fR package.  See the section on \fIPerl 4.X \f(CWcursperl\fR Compatibility\*(R"\fR
 for an example of this.
 .Sh "Objects"
-.IX Subsection "Objects"
 Objects are supported.  Example:
 .PP
 .Vb 4
@@ -265,9 +258,7 @@ can be called as a method for a Curses object.
 Do not use \f(CWinitscr()\fR if using objects, as the first call to get
 a \f(CWnew Curses\fR will do it for you.
 .SH "COMPATIBILITY"
-.IX Header "COMPATIBILITY"
 .Sh "Perl 4.X \f(CWcursperl\fR Compatibility"
-.IX Subsection "Perl 4.X \f(CWcursperl\fR Compatibility"
 \f(CWCurses\fR has been written to take advantage of the new features of
 Perl.  I felt it better to provide an improved curses programming
 environment rather than to be 100% compatible.  However, many old
@@ -285,95 +276,65 @@ Some functions and variables are not supported by \f(CWCurses\fR, even with
 the \f(CWBEGIN\fR line.  They are listed under
 the section on \fIcurses(3) items not supported by Curses\fR.
 .PP
-One incompatibility of note is that the variables \f(CW$stdscr\fR and
-\f(CW$curscr\fR do not work.  You should use the functions \f(CWstdscr\fR and
-\f(CWcurscr\fR instead.  I would like to make the variables work, but
-haven't yet figure out how.
+The variables \f(CW$stdscr\fR and \f(CW$curscr\fR are also available as
+functions \f(CWstdscr\fR and \f(CWcurscr\fR.  This is because of a Perl bug.
+See the the \fI\s-1BUGS\s0\fR manpage section for details.
 .Sh "Incompatibilities with previous versions of \f(CWCurses\fR"
-.IX Subsection "Incompatibilities with previous versions of \f(CWCurses\fR"
 In previous versions of this software, some Perl functions took a
 different set of parameters than their C counterparts.  This is no
 longer true.  You should now use \f(CWgetstr($str)\fR and \f(CWgetyx($y, $x)\fR
 instead of \f(CW$str = getstr()\fR and \f(CW($y, $x) = getyx()\fR.
 .Sh "Incompatibilities with other Perl programs"
-.IX Subsection "Incompatibilities with other Perl programs"
 .PP
-.Vb 6
-\&    menu.pl, v3.0
-\&        There is a bug somewhere that keeps you from redefining
-\&        functions that are dynamically loaded.  If you need to
-\&        uncomment the getcap() function in menu.pl, version 3.0, apply
-\&        the patch in F<menu-3.0.patch> first.  This is a workaround
-\&        until the bug gets found.
-.Ve
-.Vb 7
-\&        There is also a bug in some versions of libcurses.a.  If your
-\&        curses is based on BSD curses and you use more than four
-\&        getcap()'s (as menu.pl does), it can corrupt the libcurses.a
-\&        data structures.  This is noticable as an "A", "B", "C" or "D"
-\&        being printed every time the screen is cleared.  A workaround
-\&        is to apply the F<menu-3.0.patch> and uncomment the getcap()
-\&        function.
-.Ve
 .Vb 4
-\&    menu.pl, v3.1
-\&        Termcap.pm has been rewritten, so the getcap() solution no
-\&        longer works, as written.  You may need to apply the
-\&        F<menu-3.1.patch> to get things running correctly.
+\&    menu.pl, v3.0 and v3.1
+\&        There were various interaction problems between these two
+\&        releases and Curses.  Please upgrade to the latest version
+\&        (v3.3 as of 3/16/96).
 .Ve
 .SH "DIAGNOSTICS"
-.IX Header "DIAGNOSTICS"
 .Ip "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..." 4
-.IX Item "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..."
 You have called a \f(CWCurses\fR function with a wrong number of
 arguments.
 .Ip "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..." 4
-.IX Item "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..."
 The window argument you gave to the function wasn't really a window.
 .Sp
 This probably means that you didn't give the right arguments to a
 \fIunified\fR function.  See the \s-1DESCRIPTION\s0 section on the section on \fIUnified
 Functions\fR for more information.
 .Ip "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..." 4
-.IX Item "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..."
 You have a \f(CWCurses\fR function in your code that your system's \fIcurses\fR\|(3)
 library doesn't define.
 .Ip "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..." 4
-.IX Item "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..."
 You have a \f(CWCurses\fR constant in your code that your system's \fIcurses\fR\|(3)
 library doesn't define.
-.Ip "\(bu Curses does not support the curses function \*(N'$_[0]\*(T', used at ..." 4
-.IX Item "\(bu Curses does not support the curses function \*(N'$_[0]\*(T', used at ..."
+.Ip "\(bu Curses does not support the curses function \*(N'%s\*(T', used at ..." 4
 You have a \fIcurses\fR\|(3) function in your code that the \f(CWCurses\fR module
 doesn't support.
-.Ip "\(bu Curses does not support the curses variable \*(N'$_[0]\*(T', used at ..." 4
-.IX Item "\(bu Curses does not support the curses variable \*(N'$_[0]\*(T', used at ..."
+.Ip "\(bu Curses does not support the curses variable \*(N'%s\*(T', used at ..." 4
 You have a \fIcurses\fR\|(3) variable in your code that the \f(CWCurses\fR module
 doesn't support.
-.Ip "\(bu Curses does not support the curses constant \*(N'$_[0]\*(T', used at ..." 4
-.IX Item "\(bu Curses does not support the curses constant \*(N'$_[0]\*(T', used at ..."
+.Ip "\(bu Curses does not support the curses constant \*(N'%s\*(T', used at ..." 4
 You have a bareword in your code that is trying to be interpreted as
 a \f(CWCurses\fR constant, but \f(CWCurses\fR doesn't know anything about it.
 .Ip "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..." 4
-.IX Item "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..."
 You've been playing with the \f(CWtie\fR interface to the \f(CWCurses\fR
 variables.  Don't do that.  :\-)
 .Ip "\(bu Anything else" 4
-.IX Item "\(bu Anything else"
 Check out the \fIperldiag\fR man page to see if the error is in there.
 .SH "BUGS"
-.IX Header "BUGS"
-The functions \f(CWstdscr\fR and \f(CWcurscr\fR should be \f(CW$stdscr\fR and \f(CW$curscr\fR.
-I can't figure out if this is \f(CWCurses\fR\*(R' fault or Perl's.
+If you use the variables \f(CW$stdscr\fR and \f(CW$curscr\fR instead of their
+functional counterparts (\f(CWstdscr\fR and \f(CWcurscr\fR), you might run into
+a bug in Perl where the \*(L"magic\*(R" isn't called early enough.  This is
+manifested by the \f(CWCurses\fR package telling you \f(CW$stdscr\fR isn't a
+window.  One workaround is to put a line like \f(CW$stdscr = $stdscr\fR
+near the front of your program.
 .PP
 Probably many more.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 William Setzer <William_Setzer@ncsu.edu>
 .SH "SYNOPSIS OF PERL CURSES SUPPORT"
-.IX Header "SYNOPSIS OF PERL CURSES SUPPORT"
 .Sh "Supported Functions"
-.IX Subsection "Supported Functions"
 .PP
 .Vb 139
 \&        Supported     Unified?          Supported via $OldCurses[*]
@@ -516,7 +477,57 @@ William Setzer <William_Setzer@ncsu.edu>
 \&C<Curses> package.  See L<"Perl 4.X cursperl Compatibility"> for an
 \&example of this.
 .Ve
-.Sh "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term stdscr[*] curscr[*]   [*] stdscr and curscr are available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
-.IX Subsection "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term stdscr[*] curscr[*]   [*] stdscr and curscr are available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
+.Sh "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0		stdscr[*]	curscr[*] 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term   [*] stdscr and curscr are also available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
 
 .rn }` ''
+.IX Title "Curses 3"
+.IX Name "Curses - terminal screen handling and optimization"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Subsection "Unified Functions"
+
+.IX Subsection "Objects"
+
+.IX Header "COMPATIBILITY"
+
+.IX Subsection "Perl 4.X \f(CWcursperl\fR Compatibility"
+
+.IX Subsection "Incompatibilities with previous versions of \f(CWCurses\fR"
+
+.IX Subsection "Incompatibilities with other Perl programs"
+
+.IX Header "DIAGNOSTICS"
+
+.IX Item "\(bu Curses function \*(N'%s\*(T' called with too %s arguments at ..."
+
+.IX Item "\(bu argument %d to Curses function \*(N'%s\*(T' is not a Curses window at ... =item * argument is not a Curses window at ..."
+
+.IX Item "\(bu Curses function \*(N'%s\*(T' is not defined by your vendor at ..."
+
+.IX Item "\(bu Curses constant \*(N'%s\*(T' is not defined by your vendor at ..."
+
+.IX Item "\(bu Curses does not support the curses function \*(N'%s\*(T', used at ..."
+
+.IX Item "\(bu Curses does not support the curses variable \*(N'%s\*(T', used at ..."
+
+.IX Item "\(bu Curses does not support the curses constant \*(N'%s\*(T', used at ..."
+
+.IX Item "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..."
+
+.IX Item "\(bu Anything else"
+
+.IX Header "BUGS"
+
+.IX Header "AUTHOR"
+
+.IX Header "SYNOPSIS OF PERL CURSES SUPPORT"
+
+.IX Subsection "Supported Functions"
+
+.IX Subsection "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0		stdscr[*]	curscr[*] 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term   [*] stdscr and curscr are also available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
+

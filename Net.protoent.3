@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::protoent 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Net::protoent 3"
+.TH Net::protoent 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Net::protoent - by-name interface to Perl's built-in getproto*() functions"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::protoent \- by-name interface to Perl's built-in getproto*() functions
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \& use Net::protoent;
@@ -207,7 +203,6 @@ Net::protoent \- by-name interface to Perl's built-in getproto*() functions
 \& print "proto for $p_name is $p_proto, aliases are @p_aliases\en";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module's default exports override the core \fIgetprotoent()\fR,
 \fIgetprotobyname()\fR, and \fIgetnetbyport()\fR functions, replacing them with
 versions that return \*(L"Net::protoent\*(R" objects.  They take default
@@ -233,11 +228,22 @@ function functions with their full qualified names.
 On the other hand, the built-ins are still available
 via the \f(CWCORE::\fR pseudo-package.
 .SH "NOTE"
-.IX Header "NOTE"
 While this class is currently implemented using the Class::Struct
 module to build a struct-like class, you shouldn't rely upon this.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen
 
 .rn }` ''
+.IX Title "Net::protoent 3"
+.IX Name "Net::protoent - by-name interface to Perl's built-in getproto*() functions"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "NOTE"
+
+.IX Header "AUTHOR"
+

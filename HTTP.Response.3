@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Response 3 "perl 5.004, patch 01" "20/May/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Response 3"
+.TH lib::HTTP::Response 3 "perl 5.004, patch 55" "18/Nov/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Response - Class encapsulating HTTP Responses"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,16 +188,13 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Response \- Class encapsulating HTTP Responses
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 1
 \& require HTTP::Response;
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \f(CWHTTP::Response\fR class encapsulate HTTP style responses.  A
 response consist of a response line, some headers, and a (potential
 empty) content. Note that the LWP library will use HTTP style
@@ -218,24 +213,18 @@ Instances of this class are usually created and returned by the
 \& }
 .Ve
 .SH "METHODS"
-.IX Header "METHODS"
 \f(CWHTTP::Response\fR is a subclass of \f(CWHTTP::Message\fR and therefore
 inherits its methods.  The inherited methods are \fIheader()\fR,
 \fIpush_header()\fR, \fIremove_header()\fR, \fIheaders_as_string()\fR, and \fIcontent()\fR.
 The header convenience methods are also available.  See
 the \fIHTTP::Message\fR manpage for details.
 .Sh "\f(CW$r\fR = new \s-1HTTP::\s0Response ($rc, [$msg, [$header, [$content]]])"
-.IX Subsection "\f(CW$r\fR = new \s-1HTTP::\s0Response ($rc, [$msg, [$header, [$content]]])"
 Constructs a new \f(CWHTTP::Response\fR object describing a response with
 response code \f(CW$rc\fR and optional message \f(CW$msg\fR.
 .Sh "\f(CW$r\fR\->\fIcode\fR\|([$code])"
-.IX Subsection "\f(CW$r\fR\->\fIcode\fR\|([$code])"
 .Sh "\f(CW$r\fR\->\fImessage\fR\|([$message])"
-.IX Subsection "\f(CW$r\fR\->\fImessage\fR\|([$message])"
 .Sh "\f(CW$r\fR\->\fIrequest\fR\|([$request])"
-.IX Subsection "\f(CW$r\fR\->\fIrequest\fR\|([$request])"
 .Sh "\f(CW$r\fR\->\fIprevious\fR\|([$previousResponse])"
-.IX Subsection "\f(CW$r\fR\->\fIprevious\fR\|([$previousResponse])"
 These methods provide public access to the member variables.  The
 first two containing respectively the response code and the message
 of the response.
@@ -249,24 +238,20 @@ The previous attribute is used to link together chains of responses.
 You get chains of responses if the first response is redirect or
 unauthorized.
 .Sh "\f(CW$r\fR\->base"
-.IX Subsection "\f(CW$r\fR\->base"
 Returns the base \s-1URL\s0 for this response.  The return value will be a
 reference to a \s-1URI::URL\s0 object.
 .PP
 The base \s-1URL\s0 is obtained from one the following sources (in priority
 order):
 .Ip "1." 4
-.IX Item "1."
 Embedded in the document content, for instance <\s-1BASE\s0 \s-1HREF\s0=\*(R"...">
 in \s-1HTML\s0 documents.
 .Ip "2." 4
-.IX Item "2."
 A \*(L"Content-Base:\*(R" or a \*(L"Content-Location:\*(R" header in the response.
 .Sp
 For backwards compatability with older \s-1HTTP\s0 implementations we will
 also look for the \*(L"Base:\*(R" header.
 .Ip "3." 4
-.IX Item "3."
 The \s-1URL\s0 used to request this response. This might not be the original
 \s-1URL\s0 that was passed to \f(CW$ua\fR\->\fIrequest()\fR method, because we might have
 received some redirect responses first.
@@ -277,32 +262,24 @@ initialized the \*(L"Content-Base:\*(R" header. This means that this method
 only perform the last 2 steps (the content is not always available
 either).
 .Sh "\f(CW$r\fR\->\fIas_string()\fR"
-.IX Subsection "\f(CW$r\fR\->\fIas_string()\fR"
 Method returning a textual representation of the request.  Mainly
 useful for debugging purposes. It takes no arguments.
 .Sh "\f(CW$r\fR\->is_info"
-.IX Subsection "\f(CW$r\fR\->is_info"
 .Sh "\f(CW$r\fR\->is_success"
-.IX Subsection "\f(CW$r\fR\->is_success"
 .Sh "\f(CW$r\fR\->is_redirect"
-.IX Subsection "\f(CW$r\fR\->is_redirect"
 .Sh "\f(CW$r\fR\->is_error"
-.IX Subsection "\f(CW$r\fR\->is_error"
 These methods indicate if the response was informational, sucessful, a
 redirection, or an error.
 .Sh "\f(CW$r\fR\->\fIerror_as_HTML()\fR"
-.IX Subsection "\f(CW$r\fR\->\fIerror_as_HTML()\fR"
 Return a string containing a complete \s-1HTML\s0 document indicating what
 error occurred.  This method should only be called when \f(CW$r\fR\->is_error
 is \s-1TRUE\s0.
 .Sh "\f(CW$r\fR\->current_age"
-.IX Subsection "\f(CW$r\fR\->current_age"
 This function will calculate the \*(L"current age\*(R" of the response as
 specified by <draft-ietf-http-v11-spec-07> section 13.2.3.  The
 age of a response is the time since it was sent by the origin server.
 The returned value is a number representing the age in seconds.
 .Sh "\f(CW$r\fR\->freshness_lifetime"
-.IX Subsection "\f(CW$r\fR\->freshness_lifetime"
 This function will calculate the \*(L"freshness lifetime\*(R" of the response
 as specified by <draft-ietf-http-v11-spec-07> section 13.2.4.  The
 \*(L"freshness lifetime\*(R" is the length of time between the generation of a
@@ -313,13 +290,60 @@ If the response does not contain an \*(L"Expires\*(R" or a \*(L"Cache-Control\*(
 header, then this function will apply some simple heuristic based on
 \&'Last-Modified\*(R' to determine a suitable lifetime.
 .Sh "\f(CW$r\fR\->is_fresh"
-.IX Subsection "\f(CW$r\fR\->is_fresh"
 Returns \s-1TRUE\s0 if the response is fresh, based on the values of
 \fIfreshness_lifetime()\fR and \fIcurrent_age()\fR.  If the response is not longer
 fresh, then it has to be refetched or revalidated by the origin
 server.
 .Sh "\f(CW$r\fR\->fresh_until"
-.IX Subsection "\f(CW$r\fR\->fresh_until"
 Returns the time when this entiy is no longer fresh.
 
 .rn }` ''
+.IX Title "lib::HTTP::Response 3"
+.IX Name "HTTP::Response - Class encapsulating HTTP Responses"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "METHODS"
+
+.IX Subsection "\f(CW$r\fR = new \s-1HTTP::\s0Response ($rc, [$msg, [$header, [$content]]])"
+
+.IX Subsection "\f(CW$r\fR\->\fIcode\fR\|([$code])"
+
+.IX Subsection "\f(CW$r\fR\->\fImessage\fR\|([$message])"
+
+.IX Subsection "\f(CW$r\fR\->\fIrequest\fR\|([$request])"
+
+.IX Subsection "\f(CW$r\fR\->\fIprevious\fR\|([$previousResponse])"
+
+.IX Subsection "\f(CW$r\fR\->base"
+
+.IX Item "1."
+
+.IX Item "2."
+
+.IX Item "3."
+
+.IX Subsection "\f(CW$r\fR\->\fIas_string()\fR"
+
+.IX Subsection "\f(CW$r\fR\->is_info"
+
+.IX Subsection "\f(CW$r\fR\->is_success"
+
+.IX Subsection "\f(CW$r\fR\->is_redirect"
+
+.IX Subsection "\f(CW$r\fR\->is_error"
+
+.IX Subsection "\f(CW$r\fR\->\fIerror_as_HTML()\fR"
+
+.IX Subsection "\f(CW$r\fR\->current_age"
+
+.IX Subsection "\f(CW$r\fR\->freshness_lifetime"
+
+.IX Subsection "\f(CW$r\fR\->is_fresh"
+
+.IX Subsection "\f(CW$r\fR\->fresh_until"
+

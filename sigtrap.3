@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH sigtrap 3 "perl 5.004, patch 01" "5/Dec/96" "Perl Programmers Reference Guide"
-.IX Title "sigtrap 3"
+.TH sigtrap 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "sigtrap - Perl pragma to enable simple signal handling"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 sigtrap \- Perl pragma to enable simple signal handling
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 11
 \&    use sigtrap;
@@ -209,7 +205,6 @@ sigtrap \- Perl pragma to enable simple signal handling
 \&                    stack-trace error-signals);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 The \fBsigtrap\fR pragma is a simple interface to installing signal
 handlers.  You can have it install one of two handlers supplied by
 \fBsigtrap\fR itself (one which provides a Perl stack trace and one which
@@ -224,40 +219,31 @@ are processed in order.  When a signal name or the name of one of
 installed, when an option is encountered it affects subsequently
 installed handlers.
 .SH "OPTIONS"
-.IX Header "OPTIONS"
 .Sh "\s-1SIGNAL\s0 \s-1HANDLERS\s0"
-.IX Subsection "\s-1SIGNAL\s0 \s-1HANDLERS\s0"
 These options affect which handler will be used for subsequently
 installed signals.
 .Ip "\fBstack-trace\fR" 4
-.IX Item "\fBstack-trace\fR"
 The handler used for subsequently installed signals outputs a Perl stack
 trace to \s-1STDERR\s0 and then tries to dump core.  This is the default signal
 handler.
 .Ip "\fBdie\fR" 4
-.IX Item "\fBdie\fR"
 The handler used for subsequently installed signals calls \f(CWdie\fR
 (actually \f(CWcroak\fR) with a message indicating which signal was caught.
 .Ip "\fBhandler\fR \fIyour-handler\fR" 4
-.IX Item "\fBhandler\fR \fIyour-handler\fR"
 \fIyour-handler\fR will be used as the handler for subsequently installed
 signals.  \fIyour-handler\fR can be any value which is valid as an
 assignment to an element of \f(CW%SIG\fR.
 .Sh "\s-1SIGNAL\s0 \s-1LISTS\s0"
-.IX Subsection "\s-1SIGNAL\s0 \s-1LISTS\s0"
 \fBsigtrap\fR has a few built-in lists of signals to trap.  They are:
 .Ip "\fBnormal-signals\fR" 4
-.IX Item "\fBnormal-signals\fR"
 These are the signals which a program might normally expect to encounter
 and which by default cause it to terminate.  They are \s-1HUP\s0, \s-1INT\s0, \s-1PIPE\s0 and
 \s-1TERM\s0.
 .Ip "\fBerror-signals\fR" 4
-.IX Item "\fBerror-signals\fR"
 These signals usually indicate a serious problem with the Perl
 interpreter or with your script.  They are \s-1ABRT\s0, \s-1BUS\s0, \s-1EMT\s0, \s-1FPE\s0, \s-1ILL\s0,
 \s-1QUIT\s0, \s-1SEGV\s0, \s-1SYS\s0 and \s-1TRAP\s0.
 .Ip "\fBold-interface-signals\fR" 4
-.IX Item "\fBold-interface-signals\fR"
 These are the signals which were trapped by default by the old
 \fBsigtrap\fR interface, they are \s-1ABRT\s0, \s-1BUS\s0, \s-1EMT\s0, \s-1FPE\s0, \s-1ILL\s0, \s-1PIPE\s0, \s-1QUIT\s0,
 \s-1SEGV\s0, \s-1SYS\s0, \s-1TERM\s0, and \s-1TRAP\s0.  If no signals or signals lists are passed to
@@ -268,25 +254,19 @@ trapped is checked before trapping; if your architecture does not
 implement a particular signal, it will not be trapped but rather
 silently ignored.
 .Sh "\s-1OTHER\s0"
-.IX Subsection "\s-1OTHER\s0"
 .Ip "\fBuntrapped\fR" 4
-.IX Item "\fBuntrapped\fR"
 This token tells \fBsigtrap\fR to install handlers only for subsequently
 listed signals which aren't already trapped or ignored.
 .Ip "\fBany\fR" 4
-.IX Item "\fBany\fR"
 This token tells \fBsigtrap\fR to install handlers for all subsequently
 listed signals.  This is the default behavior.
 .Ip "\fIsignal\fR" 4
-.IX Item "\fIsignal\fR"
 Any argument which looks like a signal name (that is,
 \f(CW/^[A-Z][A-Z0-9]*$/\fR) indicates that \fBsigtrap\fR should install a
 handler for that name.
 .Ip "\fInumber\fR" 4
-.IX Item "\fInumber\fR"
 Require that at least version \fInumber\fR of \fBsigtrap\fR is being used.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 Provide a stack trace for the old-interface-signals:
 .PP
 .Vb 1
@@ -340,3 +320,42 @@ Perl stack trace on receipt of one of the error-signals:
 .Ve
 
 .rn }` ''
+.IX Title "sigtrap 3"
+.IX Name "sigtrap - Perl pragma to enable simple signal handling"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "OPTIONS"
+
+.IX Subsection "\s-1SIGNAL\s0 \s-1HANDLERS\s0"
+
+.IX Item "\fBstack-trace\fR"
+
+.IX Item "\fBdie\fR"
+
+.IX Item "\fBhandler\fR \fIyour-handler\fR"
+
+.IX Subsection "\s-1SIGNAL\s0 \s-1LISTS\s0"
+
+.IX Item "\fBnormal-signals\fR"
+
+.IX Item "\fBerror-signals\fR"
+
+.IX Item "\fBold-interface-signals\fR"
+
+.IX Subsection "\s-1OTHER\s0"
+
+.IX Item "\fBuntrapped\fR"
+
+.IX Item "\fBany\fR"
+
+.IX Item "\fIsignal\fR"
+
+.IX Item "\fInumber\fR"
+
+.IX Header "EXAMPLES"
+

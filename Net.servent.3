@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Net::servent 3 "perl 5.004, patch 01" "10/Apr/97" "Perl Programmers Reference Guide"
-.IX Title "Net::servent 3"
+.TH Net::servent 3 "perl 5.004, patch 55" "25/Nov/97" "Perl Programmers Reference Guide"
 .UC
-.IX Name "Net::servent - by-name interface to Perl's built-in getserv*() functions"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 Net::servent \- by-name interface to Perl's built-in getserv*() functions
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \& use Net::servent;
@@ -207,7 +203,6 @@ Net::servent \- by-name interface to Perl's built-in getserv*() functions
 \& print "port for $s_name is $s_port, aliases are @s_aliases\en";
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module's default exports override the core \fIgetservent()\fR,
 \fIgetservbyname()\fR, and
 \fIgetnetbyport()\fR functions, replacing them with versions that return
@@ -233,7 +228,6 @@ function functions with their full qualified names.
 On the other hand, the built-ins are still available
 via the \f(CWCORE::\fR pseudo-package.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
 .PP
 .Vb 1
 \& use Net::servent qw(:FIELDS);
@@ -251,11 +245,24 @@ via the \f(CWCORE::\fR pseudo-package.
 \& }
 .Ve
 .SH "NOTE"
-.IX Header "NOTE"
 While this class is currently implemented using the Class::Struct
 module to build a struct-like class, you shouldn't rely upon this.
 .SH "AUTHOR"
-.IX Header "AUTHOR"
 Tom Christiansen
 
 .rn }` ''
+.IX Title "Net::servent 3"
+.IX Name "Net::servent - by-name interface to Perl's built-in getserv*() functions"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Header "EXAMPLES"
+
+.IX Header "NOTE"
+
+.IX Header "AUTHOR"
+

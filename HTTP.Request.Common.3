@@ -93,10 +93,8 @@
 .nr % 0
 .rr F
 .\}
-.TH lib::HTTP::Request::Common 3 "perl 5.004, patch 01" "24/May/97" "User Contributed Perl Documentation"
-.IX Title "lib::HTTP::Request::Common 3"
+.TH lib::HTTP::Request::Common 3 "perl 5.004, patch 55" "13/Oct/97" "User Contributed Perl Documentation"
 .UC
-.IX Name "HTTP::Request::Common - Construct common HTTP::Request objects"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -190,10 +188,8 @@
 .\}
 .rm #[ #] #H #V #F C
 .SH "NAME"
-.IX Header "NAME"
 HTTP::Request::Common \- Construct common HTTP::Request objects
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
 .PP
 .Vb 4
 \&  use HTTP::Request::Common;
@@ -202,13 +198,11 @@ HTTP::Request::Common \- Construct common HTTP::Request objects
 \&  $ua->request(POST 'http://somewhere/foo', [foo => bar, bar => foo]);
 .Ve
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 This module provide functions that return newly created HTTP::Request
 objects.  These functions are usually more convenient than the
 standard HTTP::Request constructor for these common requests.  The
 following functions are provided.
 .Ip "\s-1GET\s0 $url, [Header => Value,...]" 4
-.IX Item "\s-1GET\s0 $url, [Header => Value,...]"
 The \fI\s-1GET\s0()\fR function returns a \s-1HTTP::\s0Request object initialized with the
 \s-1GET\s0 method and the specified \s-1URL\s0.  Without additional arguments it
 is exactly equivalent to the following call
@@ -236,13 +230,10 @@ some key/value pairs as optional arguments.  For instance:
 A header key called \*(L'Content\*(R' is special and when seen the value will
 initialize the content part of the request instead of setting a header.
 .Ip "\s-1HEAD\s0 $url, [Header => Value,...]" 4
-.IX Item "\s-1HEAD\s0 $url, [Header => Value,...]"
 Like \fI\s-1GET\s0()\fR but the method in the request is \s-1HEAD\s0.
 .Ip "\s-1PUT\s0 $url, [Header => Value,...]" 4
-.IX Item "\s-1PUT\s0 $url, [Header => Value,...]"
 Like \fI\s-1GET\s0()\fR but the method in the request is \s-1PUT\s0.
 .Ip "\s-1POST\s0 $url, [$form_ref], [Header => Value,...]" 4
-.IX Item "\s-1POST\s0 $url, [$form_ref], [Header => Value,...]"
 This works mostly like \fI\s-1GET\s0()\fR with \s-1POST\s0 as method, but this function
 also takes a second optional array reference parameter ($form_ref).
 This argument can be used to pass key/value pairs for the form
@@ -336,13 +327,32 @@ different):
 \&  --6G+f--
 .Ve
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
 the \fIHTTP::Request\fR manpage, the \fILWP::UserAgent\fR manpage
 .SH "COPYRIGHT"
-.IX Header "COPYRIGHT"
 Copyright 1997, Gisle Aas
 .PP
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
 .rn }` ''
+.IX Title "lib::HTTP::Request::Common 3"
+.IX Name "HTTP::Request::Common - Construct common HTTP::Request objects"
+
+.IX Header "NAME"
+
+.IX Header "SYNOPSIS"
+
+.IX Header "DESCRIPTION"
+
+.IX Item "\s-1GET\s0 $url, [Header => Value,...]"
+
+.IX Item "\s-1HEAD\s0 $url, [Header => Value,...]"
+
+.IX Item "\s-1PUT\s0 $url, [Header => Value,...]"
+
+.IX Item "\s-1POST\s0 $url, [$form_ref], [Header => Value,...]"
+
+.IX Header "SEE ALSO"
+
+.IX Header "COPYRIGHT"
+
