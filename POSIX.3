@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH POSIX 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
+.TH POSIX 3 "perl 5.003, patch 93" "22/Jan/97" "Perl Programmers Reference Guide"
 .IX Title "POSIX 3"
 .UC
 .IX Name "POSIX - Perl interface to IEEE Std 1003.1"
@@ -305,7 +305,7 @@ This is identical to Perl's builtin \f(CWchmod()\fR function.
 This is identical to Perl's builtin \f(CWchown()\fR function.
 .Ip "clearerr" 8
 .IX Item "clearerr"
-Use method \f(CWFileHandle::clearerr()\fR instead.
+Use method \f(CWIO::Handle::clearerr()\fR instead.
 .Ip "clock" 8
 .IX Item "clock"
 This is identical to the C function \f(CWclock()\fR.
@@ -412,34 +412,34 @@ This is identical to Perl's builtin \f(CWexp()\fR function.
 This is identical to Perl's builtin \f(CWabs()\fR function.
 .Ip "fclose" 8
 .IX Item "fclose"
-Use method \f(CWFileHandle::close()\fR instead.
+Use method \f(CWIO::Handle::close()\fR instead.
 .Ip "fcntl" 8
 .IX Item "fcntl"
 This is identical to Perl's builtin \f(CWfcntl()\fR function.
 .Ip "fdopen" 8
 .IX Item "fdopen"
-Use method \f(CWFileHandle::new_from_fd()\fR instead.
+Use method \f(CWIO::Handle::new_from_fd()\fR instead.
 .Ip "feof" 8
 .IX Item "feof"
-Use method \f(CWFileHandle::eof()\fR instead.
+Use method \f(CWIO::Handle::eof()\fR instead.
 .Ip "ferror" 8
 .IX Item "ferror"
-Use method \f(CWFileHandle::error()\fR instead.
+Use method \f(CWIO::Handle::error()\fR instead.
 .Ip "fflush" 8
 .IX Item "fflush"
-Use method \f(CWFileHandle::flush()\fR instead.
+Use method \f(CWIO::Handle::flush()\fR instead.
 .Ip "fgetc" 8
 .IX Item "fgetc"
-Use method \f(CWFileHandle::getc()\fR instead.
+Use method \f(CWIO::Handle::getc()\fR instead.
 .Ip "fgetpos" 8
 .IX Item "fgetpos"
-Use method \f(CWFileHandle::getpos()\fR instead.
+Use method \f(CWIO::Seekable::getpos()\fR instead.
 .Ip "fgets" 8
 .IX Item "fgets"
-Use method \f(CWFileHandle::gets()\fR instead.
+Use method \f(CWIO::Handle::gets()\fR instead.
 .Ip "fileno" 8
 .IX Item "fileno"
-Use method \f(CWFileHandle::fileno()\fR instead.
+Use method \f(CWIO::Handle::fileno()\fR instead.
 .Ip "floor" 8
 .IX Item "floor"
 This is identical to the C function \f(CWfloor()\fR.
@@ -448,7 +448,7 @@ This is identical to the C function \f(CWfloor()\fR.
 This is identical to the C function \f(CWfmod()\fR.
 .Ip "fopen" 8
 .IX Item "fopen"
-Use method \f(CWFileHandle::open()\fR instead.
+Use method \f(CWIO::File::open()\fR instead.
 .Ip "fork" 8
 .IX Item "fork"
 This is identical to Perl's builtin \f(CWfork()\fR function.
@@ -495,10 +495,10 @@ Return the mantissa and exponent of a floating-point number.
 \fIfscanf()\fR is C\-specific\*(--use <> and regular expressions instead.
 .Ip "fseek" 8
 .IX Item "fseek"
-Use method \f(CWFileHandle::seek()\fR instead.
+Use method \f(CWIO::Seekable::seek()\fR instead.
 .Ip "fsetpos" 8
 .IX Item "fsetpos"
-Use method \f(CWFileHandle::setpos()\fR instead.
+Use method \f(CWIO::Seekable::setpos()\fR instead.
 .Ip "fstat" 8
 .IX Item "fstat"
 Get file status.  This uses file descriptors such as those obtained by
@@ -511,7 +511,7 @@ Perl's builtin \f(CWstat\fR function.
 .Ve
 .Ip "ftell" 8
 .IX Item "ftell"
-Use method \f(CWFileHandle::tell()\fR instead.
+Use method \f(CWIO::Seekable::tell()\fR instead.
 .Ip "fwrite" 8
 .IX Item "fwrite"
 \fIfwrite()\fR is C\-specific\*(--use print instead.
@@ -897,10 +897,33 @@ Sets the real group id for this process.
 .IX Item "setlocale"
 Modifies and queries program's locale.
 .Sp
-The following will set the traditional \s-1UNIX\s0 system locale behavior.
+The following will set the traditional \s-1UNIX\s0 system locale behavior
+(the second argument \f(CW"C"\fR).
 .Sp
 .Vb 1
 \&        $loc = POSIX::setlocale( &POSIX::LC_ALL, "C" );
+.Ve
+The following will query (the missing second argument) the current
+\s-1LC_CTYPE\s0 category.
+.Sp
+.Vb 1
+\&        $loc = POSIX::setlocale( &POSIX::LC_CTYPE);
+.Ve
+The following will set the \s-1LC_CTYPE\s0 behaviour according to the locale
+environment variables (the second argument \f(CW""\fR).
+Please see your systems the \fIsetlocale(3)\fR manpage documentation for the locale
+environment variables\*(R' meaning or consult the \fIperllocale\fR manpage.
+.Sp
+.Vb 1
+\&        $loc = POSIX::setlocale( &POSIX::LC_CTYPE, "");
+.Ve
+The following will set the \s-1LC_COLLATE\s0 behaviour to Argentinian
+Spanish. \fB\s-1NOTE\s0\fR: The naming and availability of locales depends on
+your operating system. Please consult the \fIperllocale\fR manpage for how to find
+out which locales are available in your system.
+.Sp
+.Vb 1
+\&        $loc = POSIX::setlocale( &POSIX::LC_ALL, "es_AR.ISO8859-1" );
 .Ve
 .Ip "setpgid" 8
 .IX Item "setpgid"
@@ -1062,13 +1085,70 @@ The string for Tuesday, December 12, 1995.
 This is identical to Perl's builtin \f(CWindex()\fR function.
 .Ip "strtod" 8
 .IX Item "strtod"
-\fIstrtod()\fR is C\-specific.
+String to double translation. Returns the parsed number and the number
+of characters in the unparsed portion of the string.  Truly
+\s-1POSIX\s0\-compliant systems set $! ($\s-1ERRNO\s0) to indicate a translation
+error, so clear $! before calling strtod.  However, non-\s-1POSIX\s0 systems
+may not check for overflow, and therefore will never set $!.
+.Sp
+strtod should respect any \s-1POSIX\s0 \fIsetlocale()\fR settings.
+.Sp
+To parse a string \f(CW$str\fR as a floating point number use
+.Sp
+.Vb 2
+\&    $! = 0;
+\&    ($num, $n_unparsed) = POSIX::strtod($str);
+.Ve
+The second returned item and $! can be used to check for valid input:
+.Sp
+.Vb 3
+\&    if (($str eq '') || ($n_unparsed != 0) || !$!) {
+\&        die "Non-numeric input $str" . $! ? ": $!\en" : "\en";
+\&    }
+.Ve
+When called in a scalar context strtod returns the parsed number.
 .Ip "strtok" 8
 .IX Item "strtok"
 \fIstrtok()\fR is C\-specific.
 .Ip "strtol" 8
 .IX Item "strtol"
-\fIstrtol()\fR is C\-specific.
+String to (long) integer translation.  Returns the parsed number and
+the number of characters in the unparsed portion of the string.  Truly
+\s-1POSIX\s0\-compliant systems set $! ($\s-1ERRNO\s0) to indicate a translation
+error, so clear $! before calling strtol.  However, non-\s-1POSIX\s0 systems
+may not check for overflow, and therefore will never set $!.
+.Sp
+strtol should respect any \s-1POSIX\s0 \fIsetlocale()\fR settings.
+.Sp
+To parse a string \f(CW$str\fR as a number in some base \f(CW$base\fR use
+.Sp
+.Vb 2
+\&    $! = 0;
+\&    ($num, $n_unparsed) = POSIX::strtol($str, $base);
+.Ve
+The base should be zero or between 2 and 36, inclusive.  When the base
+is zero or omitted strtol will use the string itself to determine the
+base: a leading \*(L"0x\*(R" or \*(L"0X\*(R" means hexadecimal; a leading \*(L"0\*(R" means
+octal; any other leading characters mean decimal.  Thus, \*(L"1234\*(R" is
+parsed as a decimal number, \*(L"01234\*(R" as an octal number, and \*(L"0x1234\*(R"
+as a hexadecimal number.
+.Sp
+The second returned item and $! can be used to check for valid input:
+.Sp
+.Vb 3
+\&    if (($str eq '') || ($n_unparsed != 0) || !$!) {
+\&        die "Non-numeric input $str" . $! ? ": $!\en" : "\en";
+\&    }
+.Ve
+When called in a scalar context strtol returns the parsed number.
+.Ip "strtoul" 8
+.IX Item "strtoul"
+String to unsigned (long) integer translation.  strtoul is identical
+to strtol except that strtoul only parses unsigned integers.  See
+\fIstrtol\fR for details.
+.Sp
+Note: Some vendors supply strtod and strtol but not strtoul.
+Other vendors that do suply strtoul parse \*(L"\-1\*(R" as a valid value.
 .Ip "strxfrm" 8
 .IX Item "strxfrm"
 String transformation.  Returns the transformed string.
@@ -1140,7 +1220,7 @@ Note: Perl's builtin \f(CWtimes()\fR function returns four values, measured in
 seconds.
 .Ip "tmpfile" 8
 .IX Item "tmpfile"
-Use method \f(CWFileHandle::new_tmpfile()\fR instead.
+Use method \f(CWIO::File::new_tmpfile()\fR instead.
 .Ip "tmpnam" 8
 .IX Item "tmpnam"
 Returns a name for a temporary file.
@@ -1180,7 +1260,7 @@ Get name of current operating system.
 .Ve
 .Ip "ungetc" 8
 .IX Item "ungetc"
-Use method \f(CWFileHandle::ungetc()\fR instead.
+Use method \f(CWIO::Handle::ungetc()\fR instead.
 .Ip "unlink" 8
 .IX Item "unlink"
 This is identical to Perl's builtin \f(CWunlink()\fR function.
@@ -1235,10 +1315,11 @@ Creates a new \f(CWPOSIX::SigAction\fR object which corresponds to the C
 \f(CWstruct sigaction\fR.  This object will be destroyed automatically when it is
 no longer needed.  The first parameter is the fully-qualified name of a sub
 which is a signal-handler.  The second parameter is a \f(CWPOSIX::SigSet\fR
-object.  The third parameter contains the \f(CWsa_flags\fR.
+object, it defaults to the empty set.  The third parameter contains the
+\f(CWsa_flags\fR, it defaults to 0.
 .Sp
 .Vb 2
-\&        $sigset = POSIX::SigSet->new;
+\&        $sigset = POSIX::SigSet->new(SIGINT, SIGQUIT);
 \&        $sigaction = POSIX::SigAction->new( 'main::handler', $sigset, &POSIX::SA_NOCLDSTOP );
 .Ve
 This \f(CWPOSIX::SigAction\fR object should be used with the \f(CWPOSIX::sigaction()\fR
@@ -1479,7 +1560,16 @@ _SC_ARG_MAX _SC_CHILD_MAX _SC_CLK_TCK _SC_JOB_CONTROL _SC_NGROUPS_MAX _SC_OPEN_M
 .IX Header "ERRNO"
 .Ip "Constants" 8
 .IX Item "Constants"
-E2BIG \s-1EACCES\s0 \s-1EAGAIN\s0 \s-1EBADF\s0 \s-1EBUSY\s0 \s-1ECHILD\s0 \s-1EDEADLK\s0 \s-1EDOM\s0 \s-1EEXIST\s0 \s-1EFAULT\s0 \s-1EFBIG\s0 \s-1EINTR\s0 \s-1EINVAL\s0 \s-1EIO\s0 \s-1EISDIR\s0 \s-1EMFILE\s0 \s-1EMLINK\s0 \s-1ENAMETOOLONG\s0 \s-1ENFILE\s0 \s-1ENODEV\s0 \s-1ENOENT\s0 \s-1ENOEXEC\s0 \s-1ENOLCK\s0 \s-1ENOMEM\s0 \s-1ENOSPC\s0 \s-1ENOSYS\s0 \s-1ENOTDIR\s0 \s-1ENOTEMPTY\s0 \s-1ENOTTY\s0 \s-1ENXIO\s0 \s-1EPERM\s0 \s-1EPIPE\s0 \s-1ERANGE\s0 \s-1EROFS\s0 \s-1ESPIPE\s0 \s-1ESRCH\s0 \s-1EXDEV\s0
+E2BIG \s-1EACCES\s0 \s-1EADDRINUSE\s0 \s-1EADDRNOTAVAIL\s0 \s-1EAFNOSUPPORT\s0 \s-1EAGAIN\s0 \s-1EALREADY\s0 \s-1EBADF\s0
+\s-1EBUSY\s0 \s-1ECHILD\s0 \s-1ECONNABORTED\s0 \s-1ECONNREFUSED\s0 \s-1ECONNRESET\s0 \s-1EDEADLK\s0 \s-1EDESTADDRREQ\s0
+\s-1EDOM\s0 \s-1EDQUOT\s0 \s-1EEXIST\s0 \s-1EFAULT\s0 \s-1EFBIG\s0 \s-1EHOSTDOWN\s0 \s-1EHOSTUNREACH\s0 \s-1EINPROGRESS\s0 \s-1EINTR\s0
+\s-1EINVAL\s0 \s-1EIO\s0 \s-1EISCONN\s0 \s-1EISDIR\s0 \s-1ELOOP\s0 \s-1EMFILE\s0 \s-1EMLINK\s0 \s-1EMSGSIZE\s0 \s-1ENAMETOOLONG\s0
+\s-1ENETDOWN\s0 \s-1ENETRESET\s0 \s-1ENETUNREACH\s0 \s-1ENFILE\s0 \s-1ENOBUFS\s0 \s-1ENODEV\s0 \s-1ENOENT\s0 \s-1ENOEXEC\s0
+\s-1ENOLCK\s0 \s-1ENOMEM\s0 \s-1ENOPROTOOPT\s0 \s-1ENOSPC\s0 \s-1ENOSYS\s0 \s-1ENOTBLK\s0 \s-1ENOTCONN\s0 \s-1ENOTDIR\s0
+\s-1ENOTEMPTY\s0 \s-1ENOTSOCK\s0 \s-1ENOTTY\s0 \s-1ENXIO\s0 \s-1EOPNOTSUPP\s0 \s-1EPERM\s0 \s-1EPFNOSUPPORT\s0 \s-1EPIPE\s0
+\s-1EPROCLIM\s0 \s-1EPROTONOSUPPORT\s0 \s-1EPROTOTYPE\s0 \s-1ERANGE\s0 \s-1EREMOTE\s0 \s-1ERESTART\s0 \s-1EROFS\s0
+\s-1ESHUTDOWN\s0 \s-1ESOCKTNOSUPPORT\s0 \s-1ESPIPE\s0 \s-1ESRCH\s0 \s-1ESTALE\s0 \s-1ETIMEDOUT\s0 \s-1ETOOMANYREFS\s0
+\s-1ETXTBSY\s0 \s-1EUSERS\s0 \s-1EWOULDBLOCK\s0 \s-1EXDEV\s0
 .SH "FCNTL"
 .IX Header "FCNTL"
 .Ip "Constants" 8
@@ -1509,7 +1599,11 @@ E2BIG \s-1EACCES\s0 \s-1EAGAIN\s0 \s-1EBADF\s0 \s-1EBUSY\s0 \s-1ECHILD\s0 \s-1ED
 .IX Header "SIGNAL"
 .Ip "Constants" 8
 .IX Item "Constants"
-\s-1SA_NOCLDSTOP\s0 \s-1SIGABRT\s0 \s-1SIGALRM\s0 \s-1SIGCHLD\s0 \s-1SIGCONT\s0 \s-1SIGFPE\s0 \s-1SIGHUP\s0 \s-1SIGILL\s0 \s-1SIGINT\s0 \s-1SIGKILL\s0 \s-1SIGPIPE\s0 \s-1SIGQUIT\s0 \s-1SIGSEGV\s0 \s-1SIGSTOP\s0 \s-1SIGTERM\s0 \s-1SIGTSTP\s0 \s-1SIGTTIN\s0 \s-1SIGTTOU\s0 \s-1SIGUSR1\s0 \s-1SIGUSR2\s0 \s-1SIG_BLOCK\s0 \s-1SIG_DFL\s0 \s-1SIG_ERR\s0 \s-1SIG_IGN\s0 \s-1SIG_SETMASK\s0 \s-1SIG_UNBLOCK\s0
+\s-1SA_NOCLDSTOP\s0 \s-1SA_NOCLDWAIT\s0 \s-1SA_NODEFER\s0 \s-1SA_ONSTACK\s0 \s-1SA_RESETHAND\s0 \s-1SA_RESTART\s0
+\s-1SA_SIGINFO\s0 \s-1SIGABRT\s0 \s-1SIGALRM\s0 \s-1SIGCHLD\s0 \s-1SIGCONT\s0 \s-1SIGFPE\s0 \s-1SIGHUP\s0 \s-1SIGILL\s0 \s-1SIGINT\s0
+\s-1SIGKILL\s0 \s-1SIGPIPE\s0 \s-1SIGQUIT\s0 \s-1SIGSEGV\s0 \s-1SIGSTOP\s0 \s-1SIGTERM\s0 \s-1SIGTSTP\s0 \s-1SIGTTIN\s0 \s-1SIGTTOU\s0
+\s-1SIGUSR1\s0 \s-1SIGUSR2\s0 \s-1SIG_BLOCK\s0 \s-1SIG_DFL\s0 \s-1SIG_ERR\s0 \s-1SIG_IGN\s0 \s-1SIG_SETMASK\s0
+\s-1SIG_UNBLOCK\s0
 .SH "STAT"
 .IX Header "STAT"
 .Ip "Constants" 8

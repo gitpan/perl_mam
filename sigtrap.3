@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH sigtrap 3 "perl 5.003, patch 05" "25/Aug/96" "Perl Programmers Reference Guide"
+.TH sigtrap 3 "perl 5.003, patch 93" "5/Dec/96" "Perl Programmers Reference Guide"
 .IX Title "sigtrap 3"
 .UC
 .IX Name "sigtrap - Perl pragma to enable simple signal handling"
@@ -211,9 +211,9 @@ These options affect which handler will be used for subsequently
 installed signals.
 .Ip "\fBstack-trace\fR" 4
 .IX Item "\fBstack-trace\fR"
-The handler used for subsequently installed signals will output a Perl
-stack trace to \s-1STDERR\s0 and then tries to dump core.  This is the default
-signal handler.
+The handler used for subsequently installed signals outputs a Perl stack
+trace to \s-1STDERR\s0 and then tries to dump core.  This is the default signal
+handler.
 .Ip "\fBdie\fR" 4
 .IX Item "\fBdie\fR"
 The handler used for subsequently installed signals calls \f(CWdie\fR
@@ -225,7 +225,7 @@ signals.  \fIyour-handler\fR can be any value which is valid as an
 assignment to an element of \f(CW%SIG\fR.
 .Sh "\s-1SIGNAL\s0 \s-1LISTS\s0"
 .IX Subsection "\s-1SIGNAL\s0 \s-1LISTS\s0"
-\fBsigtrap\fR has two built-in lists of signals to trap.  They are:
+\fBsigtrap\fR has a few built-in lists of signals to trap.  They are:
 .Ip "\fBnormal-signals\fR" 4
 .IX Item "\fBnormal-signals\fR"
 These are the signals which a program might normally expect to encounter
@@ -241,12 +241,17 @@ interpreter or with your script.  They are \s-1ABRT\s0, \s-1BUS\s0, \s-1EMT\s0, 
 These are the signals which were trapped by default by the old
 \fBsigtrap\fR interface, they are \s-1ABRT\s0, \s-1BUS\s0, \s-1EMT\s0, \s-1FPE\s0, \s-1ILL\s0, \s-1PIPE\s0, \s-1QUIT\s0,
 \s-1SEGV\s0, \s-1SYS\s0, \s-1TERM\s0, and \s-1TRAP\s0.  If no signals or signals lists are passed to
-\fBsigtrap\fR this list is used.
+\fBsigtrap\fR, this list is used.
+.PP
+For each of these three lists, the collection of signals set to be
+trapped is checked before trapping; if your architecture does not
+implement a particular signal, it will not be trapped but rather
+silently ignored.
 .Sh "\s-1OTHER\s0"
 .IX Subsection "\s-1OTHER\s0"
 .Ip "\fBuntrapped\fR" 4
 .IX Item "\fBuntrapped\fR"
-This token tells \fBsigtrap\fR only to install handlers for subsequently
+This token tells \fBsigtrap\fR to install handlers only for subsequently
 listed signals which aren't already trapped or ignored.
 .Ip "\fBany\fR" 4
 .IX Item "\fBany\fR"
@@ -254,9 +259,9 @@ This token tells \fBsigtrap\fR to install handlers for all subsequently
 listed signals.  This is the default behavior.
 .Ip "\fIsignal\fR" 4
 .IX Item "\fIsignal\fR"
-Any argument which looks like a signals name (that is,
-\f(CW/^[A-Z][A-Z0-9]*$/\fR) is taken as a signal name and indicates that
-\fBsigtrap\fR should install a handler for it.
+Any argument which looks like a signal name (that is,
+\f(CW/^[A-Z][A-Z0-9]*$/\fR) indicates that \fBsigtrap\fR should install a
+handler for that name.
 .Ip "\fInumber\fR" 4
 .IX Item "\fInumber\fR"
 Require that at least version \fInumber\fR of \fBsigtrap\fR is being used.

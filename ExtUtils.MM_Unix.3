@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils/MM_Unix 3 "perl 5.003, patch 05" "5/Oct/96" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils/MM_Unix 3"
+.TH ExtUtils::MM_Unix 3 "perl 5.003, patch 93" "17/Feb/97" "Perl Programmers Reference Guide"
+.IX Title "ExtUtils::MM_Unix 3"
 .UC
 .IX Name "ExtUtils::MM_Unix - methods used by ExtUtils::MakeMaker"
 .if n .hy 0
@@ -188,8 +188,8 @@ overrides by defining rather primitive operations within
 ExtUtils::MM_Unix.
 .PP
 If you are going to write a platform specific MM package, please try
-to limit the necessary overrides to primitiv methods, and if it is not
-possible to do so, let's work it out how to achieve that gain.
+to limit the necessary overrides to primitive methods, and if it is not
+possible to do so, let's work out how to achieve that gain.
 .PP
 If you are overriding any of these methods in your Makefile.PL (in the
 MY class), please report that to the makemaker mailing list. We are
@@ -315,16 +315,14 @@ Called by init_others, and calls ext ExtUtils::Liblist. See
 the \fIExtUtils::Liblist\fR manpage for details.
 .Ip "file_name_is_absolute" 2
 .IX Item "file_name_is_absolute"
-Takes as argument a path and returns true, it it is an absolute path.
+Takes as argument a path and returns true, if it is an absolute path.
 .Ip "find_perl" 2
 .IX Item "find_perl"
 Finds the executables \s-1PERL\s0 and \s-1FULLPERL\s0
 .Sh "Methods to actually produce chunks of text for the Makefile"
 .IX Subsection "Methods to actually produce chunks of text for the Makefile"
-The methods here are called in the order specified by
-\f(CW@ExtUtils::MakeMaker::MM_Sections\fR. This manpage reflects the order as
-well as possible. Some methods call each other, so in doubt refer to
-the code.
+The methods here are called for each MakeMaker object in the order
+specified by \f(CW@ExtUtils::MakeMaker::MM_Sections\fR.
 .Ip "force (o)" 2
 .IX Item "force (o)"
 Just writes \s-1FORCE\s0:
@@ -378,6 +376,10 @@ into the Makefile.
 .IX Item "makeaperl (o)"
 Called by staticmake. Defines how to write the Makefile to produce a
 static new perl.
+.Sp
+By default the Makefile produced includes all the static extensions in
+the perl library. (Purified versions of library files, e.g.,
+DynaLoader_pure_p1_c0_032.a are automatically ignored to avoid link errors.)
 .Ip "makefile (o)" 2
 .IX Item "makefile (o)"
 Defines how to rewrite the Makefile.
@@ -426,14 +428,14 @@ distribution.
 .Ip "pm_to_blib" 2
 .IX Item "pm_to_blib"
 Defines target that copies all files in the hash \s-1PM\s0 to their
-destination and autosplits them. See the \f(CWpm_to_blib\fR entry in the \fIExtUtils::Install\fR manpage
+destination and autosplits them. See the \f(CWDESCRIPTION\fR entry in the \fIExtUtils::Install\fR manpage
 .Ip "post_constants (o)" 2
 .IX Item "post_constants (o)"
 Returns an empty string per default. Dedicated to overrides from
 within Makefile.\s-1PL\s0 after all constants have been defined.
 .Ip "post_initialize (o)" 2
 .IX Item "post_initialize (o)"
-Returns an ampty string per default. Used in Makefile.PLs to add some
+Returns an empty string per default. Used in Makefile.PLs to add some
 chunk of text to the Makefile after the object is initialized.
 .Ip "postamble (o)" 2
 .IX Item "postamble (o)"

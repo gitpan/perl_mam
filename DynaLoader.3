@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH DynaLoader 3 "perl 5.003, patch 05" "28/Mar/96" "Perl Programmers Reference Guide"
+.TH DynaLoader 3 "perl 5.003, patch 93" "31/Jan/97" "Perl Programmers Reference Guide"
 .IX Title "DynaLoader 3"
 .UC
 .IX Name "DynaLoader - Dynamically load C libraries into Perl code"
@@ -173,7 +173,7 @@
 .IX Header "NAME"
 DynaLoader \- Dynamically load C libraries into Perl code
 .PP
-\fIdl_error()\fR, \fIdl_findfile()\fR, \fIdl_expandspec()\fR, \fIdl_load_file()\fR, \fIdl_find_symbol()\fR, \fIdl_undef_symbols()\fR, \fIdl_install_xsub()\fR, \fIboostrap()\fR \- routines used by DynaLoader modules
+\fIdl_error()\fR, \fIdl_findfile()\fR, \fIdl_expandspec()\fR, \fIdl_load_file()\fR, \fIdl_find_symbol()\fR, \fIdl_find_symbol_anywhere()\fR, \fIdl_undef_symbols()\fR, \fIdl_install_xsub()\fR, \fIdl_load_flags()\fR, \fIbootstrap()\fR \- routines used by DynaLoader modules
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
@@ -182,6 +182,10 @@ DynaLoader \- Dynamically load C libraries into Perl code
 \&    require DynaLoader;
 \&    @ISA = qw(... DynaLoader ...);
 \&    bootstrap YourPackage;
+.Ve
+.Vb 2
+\&    # optional method for 'global' loading
+\&    sub dl_load_flags { 0x01 }     
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -209,17 +213,21 @@ separate dynamically loaded module.
 .PP
 DynaLoader Interface Summary
 .PP
-.Vb 7
+.Vb 11
 \&  @dl_library_path
 \&  @dl_resolve_using
 \&  @dl_require_symbols
 \&  $dl_debug
+\&  @dl_librefs
+\&  @dl_modules
 \&                                                  Implemented in:
 \&  bootstrap($modulename)                               Perl
 \&  @filepaths = dl_findfile(@names)                     Perl
+\&  $flags = $modulename->dl_load_flags                  Perl
+\&  $symref  = dl_find_symbol_anywhere($symbol)          Perl
 .Ve
 .Vb 5
-\&  $libref  = dl_load_file($filename)                   C
+\&  $libref  = dl_load_file($filename, $flags)           C
 \&  $symref  = dl_find_symbol($libref, $symbol)          C
 \&  @symbols = dl_undef_symbols()                        C
 \&  dl_install_xsub($name, $symref [, $filename])        C
@@ -272,6 +280,15 @@ Example usage:
 .IX Item "@dl_require_symbols"
 A list of one or more symbol names that are in the library/object file
 to be dynamically loaded.  This is only required on some platforms.
+.Ip "@dl_librefs" 4
+.IX Item "@dl_librefs"
+An array of the handles returned by successful calls to \fIdl_load_file()\fR,
+made by bootstrap, in the order in which they were loaded.
+Can be used with \fIdl_find_symbol()\fR to look for a symbol in any of
+the loaded files.
+.Ip "@dl_modules" 4
+.IX Item "@dl_modules"
+An array of module (package) names that have been bootstrap'ed.
 .Ip "dl_error()" 4
 .IX Item "dl_error()"
 Syntax:
@@ -352,19 +369,27 @@ more information.
 Syntax:
 .Sp
 .Vb 1
-\&    $libref = dl_load_file($filename)
+\&    $libref = dl_load_file($filename, $flags)
 .Ve
 Dynamically load \f(CW$filename\fR, which must be the path to a shared object
 or library.  An opaque \*(L'library reference\*(R' is returned as a handle for
 the loaded object.  Returns undef on error.
 .Sp
+The \f(CW$flags\fR argument to alters dl_load_file behaviour.  
+Assigned bits:
+.Sp
+.Vb 3
+\& 0x01  make symbols available for linking later dl_load_file's.
+\&       (only known to work on Solaris 2 using dlopen(RTLD_GLOBAL))
+\&       (ignored under VMS; this is a normal part of image linking)
+.Ve
 (On systems that provide a handle for the loaded object such as SunOS
 and \s-1HPUX\s0, \f(CW$libref\fR will be that handle.  On other systems \f(CW$libref\fR will
 typically be \f(CW$filename\fR or a pointer to a buffer containing \f(CW$filename\fR.
 The application should not examine or alter \f(CW$libref\fR in any way.)
 .Sp
-This is function that does the real work.  It should use the current
-values of \f(CW@dl_require_symbols\fR and \f(CW@dl_resolve_using\fR if required.
+This is the function that does the real work.  It should use the
+current values of \f(CW@dl_require_symbols\fR and \f(CW@dl_resolve_using\fR if required.
 .Sp
 .Vb 5
 \&    SunOS: dlopen($filename)
@@ -373,6 +398,20 @@ values of \f(CW@dl_require_symbols\fR and \f(CW@dl_resolve_using\fR if required.
 \&    NeXT:  rld_load($filename, @dl_resolve_using)
 \&    VMS:   lib$find_image_symbol($filename,$dl_require_symbols[0])
 .Ve
+(The \fIdlopen()\fR function is also used by Solaris and some versions of
+Linux, and is a common choice when providing a \*(L"wrapper\*(R" on other
+mechanisms as is done in the \s-1OS/2\s0 port.)
+.Ip "dl_loadflags()" 4
+.IX Item "dl_loadflags()"
+Syntax:
+.Sp
+.Vb 1
+\&    $flags = dl_loadflags $modulename;
+.Ve
+Designed to be a method call, and to be overridden by a derived class
+(i.e. a class which has DynaLoader in its \f(CW@ISA\fR).  The definition in
+DynaLoader itself returns 0, which produces standard behavior from
+\fIdl_load_file()\fR.
 .Ip "dl_find_symbol()" 4
 .IX Item "dl_find_symbol()"
 Syntax:
@@ -396,6 +435,15 @@ be passed to, and understood by, \fIdl_install_xsub()\fR.
 \&    NeXT:  rld_lookup("_$symbol")
 \&    VMS:   lib$find_image_symbol($libref,$symbol)
 .Ve
+.Ip "dl_find_symbol_anywhere()" 4
+.IX Item "dl_find_symbol_anywhere()"
+Syntax:
+.Sp
+.Vb 1
+\&    $symref = dl_find_symbol_anywhere($symbol)
+.Ve
+Applies \fIdl_find_symbol()\fR to the members of \f(CW@dl_librefs\fR and returns
+the first match found.
 .Ip "dl_undef_symbols()" 4
 .IX Item "dl_undef_symbols()"
 Example
@@ -422,8 +470,8 @@ function.
 The \f(CW$filename\fR parameter is used by Perl to identify the source file for
 the function if required by \fIdie()\fR, \fIcaller()\fR or the debugger.  If
 \f(CW$filename\fR is not defined then \*(L"DynaLoader\*(R" will be used.
-.Ip "boostrap()" 4
-.IX Item "boostrap()"
+.Ip "bootstrap()" 4
+.IX Item "bootstrap()"
 Syntax:
 .Sp
 \fIbootstrap\fR\|($module)
@@ -445,6 +493,9 @@ sets \f(CW@dl_require_symbols\fR to \f(CW("boot_$module")\fR
 executes an \fIauto/$module/$module.bs\fR file if it exists
 (typically used to add to \f(CW@dl_resolve_using\fR any files which
 are required to load the module on the current platform)
+.Ip "\(bu" 12
+.IX Item "\(bu"
+calls \fIdl_load_flags()\fR to determine how to load the file.
 .Ip "\(bu" 12
 .IX Item "\(bu"
 calls \fIdl_load_file()\fR to load the file
@@ -471,5 +522,8 @@ Siegel, Thomas Neumann, Paul Marquess, Charles Bailey, myself and others.
 .PP
 Larry Wall designed the elegant inherited bootstrap mechanism and
 implemented the first Perl 5 dynamic loader using it.
+.PP
+Solaris global loading added by Nick Ing-Simmons with design/coding
+assistance from Tim Bunce, January 1996.
 
 .rn }` ''

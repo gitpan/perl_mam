@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO/File 3 "perl 5.003, patch 05" "29/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "IO/File 3"
+.TH IO::File 3 "perl 5.003, patch 93" "5/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "IO::File 3"
 .UC
 .IX Name "IO::File - supply object methods for filehandles"
 .if n .hy 0
@@ -180,13 +180,13 @@ IO::File \- supply object methods for filehandles
 .Ve
 .Vb 5
 \&    $fh = new IO::File;
-\&    if ($fh->open "< file") {
+\&    if ($fh->open("< file")) {
 \&        print <$fh>;
 \&        $fh->close;
 \&    }
 .Ve
 .Vb 5
-\&    $fh = new IO::File "> FOO";
+\&    $fh = new IO::File "> file";
 \&    if (defined $fh) {
 \&        print $fh "bar\en";
 \&        $fh->close;
@@ -199,57 +199,67 @@ IO::File \- supply object methods for filehandles
 \&        undef $fh;       # automatically closes the file
 \&    }
 .Ve
-.Vb 5
+.Vb 3
 \&    $fh = new IO::File "file", O_WRONLY|O_APPEND;
 \&    if (defined $fh) {
 \&        print $fh "corge\en";
-\&        undef $fh;       # automatically closes the file
-\&    }
 .Ve
 .Vb 2
-\&    $pos = $fh->getpos;
-\&    $fh->setpos $pos;
+\&        $pos = $fh->getpos;
+\&        $fh->setpos($pos);
 .Ve
-.Vb 1
-\&    $fh->setvbuf($buffer_var, _IOLBF, 1024);
+.Vb 2
+\&        undef $fh;       # automatically closes the file
+\&    }
 .Ve
 .Vb 1
 \&    autoflush STDOUT 1;
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\f(CWIO::File::new\fR creates a \f(CWIO::File\fR, which is a reference to a
-newly created symbol (see the \f(CWSymbol\fR package).  If it receives any
-parameters, they are passed to \f(CWIO::File::open\fR; if the open fails,
-the \f(CWIO::File\fR object is destroyed.  Otherwise, it is returned to
-the caller.
-.PP
-\f(CWIO::File::open\fR accepts one parameter or two.  With one parameter,
+\f(CWIO::File\fR inherits from \f(CWIO::Handle\fR and \f(CWIO::Seekable\fR. It extends
+these classes with methods that are specific to file handles.
+.SH "CONSTRUCTOR"
+.IX Header "CONSTRUCTOR"
+.Ip "new ([ \s-1ARGS\s0 ] )" 4
+.IX Item "new ([ \s-1ARGS\s0 ] )"
+Creates a \f(CWIO::File\fR.  If it receives any parameters, they are passed to
+the method \f(CWopen\fR; if the open fails, the object is destroyed.  Otherwise,
+it is returned to the caller.
+.Ip "new_tmpfile" 4
+.IX Item "new_tmpfile"
+Creates an \f(CWIO::File\fR opened for read/write on a newly created temporary
+file.  On systems where this is possible, the temporary file is anonymous
+(i.e. it is unlinked after creation, but held open).  If the temporary
+file cannot be created or opened, the \f(CWIO::File\fR object is destroyed.
+Otherwise, it is returned to the caller.
+.SH "METHODS"
+.IX Header "METHODS"
+.Ip "open( \s-1FILENAME\s0 [,\s-1MODE\s0 [,\s-1PERMS\s0]] )" 4
+.IX Item "open( \s-1FILENAME\s0 [,\s-1MODE\s0 [,\s-1PERMS\s0]] )"
+\f(CWopen\fR accepts one, two or three parameters.  With one parameter,
 it is just a front end for the built-in \f(CWopen\fR function.  With two
 parameters, the first parameter is a filename that may include
 whitespace or other special characters, and the second parameter is
 the open mode, optionally followed by a file permission value.
-.PP
+.Sp
 If \f(CWIO::File::open\fR receives a Perl mode string (">\*(R", \*(L"+<\*(R", etc.)
-or a POSIX \fIfopen()\fR mode string ("w\*(R", \*(L"r+\*(R", etc.), it uses the basic
+or a \s-1POSIX\s0 \fIfopen()\fR mode string ("w\*(R", \*(L"r+\*(R", etc.), it uses the basic
 Perl \f(CWopen\fR operator.
-.PP
+.Sp
 If \f(CWIO::File::open\fR is given a numeric mode, it passes that mode
 and the optional permissions value to the Perl \f(CWsysopen\fR operator.
 For convenience, \f(CWIO::File::import\fR tries to import the O_XXX
 constants from the Fcntl module.  If dynamic loading is not available,
-this may fail, but the rest of IO::File will still work.
+this may fail, but the rest of \s-1IO::\s0File will still work.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIperlfunc\fR manpage, 
 the section on \fII/O Operators\fR in the \fIperlop\fR manpage,
-the section on \fIIO::Handle\fR
-the section on \fIIO::Seekable\fR
+the \fIIO::Handle\fR manpage
+the \fIIO::Seekable\fR manpage
 .SH "HISTORY"
 .IX Header "HISTORY"
-Derived from FileHandle.pm by Graham Barr <bodg@tiuk.ti.com>
-.SH "REVISION"
-.IX Header "REVISION"
-$Revision: 1.3 $
+Derived from FileHandle.pm by Graham Barr <\fIbodg@tiuk.ti.com\fR>.
 
 .rn }` ''

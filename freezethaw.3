@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH FREEZETHAW 1 "perl 5.003, patch 05" "3/May/96" "User Contributed Perl Documentation"
+.TH FREEZETHAW 1 "perl 5.003, patch 93" "14/Oct/96" "User Contributed Perl Documentation"
 .IX Title "FREEZETHAW 1"
 .UC
 .IX Name "FreezeThaw - converting Perl structures to strings and back."
@@ -172,14 +172,6 @@
 .SH "NAME"
 .IX Header "NAME"
 FreezeThaw \- converting Perl structures to strings and back.
-.SH "EXPORT"
-.IX Header "EXPORT"
-.Ip "Default" 12
-.IX Item "Default"
-None.
-.Ip "Exportable" 12
-.IX Item "Exportable"
-\f(CWfreeze thaw cmpStr cmpStrHard safeFreeze\fR.
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
@@ -190,6 +182,21 @@ None.
 \&  ($olddata1, $olddata2, $olddata3) = thaw $string;
 \&  if (cmpStr($olddata2,$data2) == 0) {print "OK!"}
 .Ve
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+Converts data to/from stringified form, appropriate for
+saving-to/reading-from permanent storage.
+.PP
+Deals with objects, circular lists, repeated appearence of the same
+refence. Does not deal with overloaded \fIstringify\fR operator yet.
+.SH "EXPORT"
+.IX Header "EXPORT"
+.Ip "Default" 12
+.IX Item "Default"
+None.
+.Ip "Exportable" 12
+.IX Item "Exportable"
+\f(CWfreeze thaw cmpStr cmpStrHard safeFreeze\fR.
 .SH "User API"
 .IX Header "User API"
 .Ip "\f(CWcmpStr\fR" 12

@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils/Liblist 3 "perl 5.003, patch 05" "3/Sep/96" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils/Liblist 3"
+.TH ExtUtils::Liblist 3 "perl 5.003, patch 93" "4/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "ExtUtils::Liblist 3"
 .UC
 .IX Name "ExtUtils::Liblist - determine libraries to use and how to use them"
 .if n .hy 0
@@ -224,6 +224,43 @@ object file.  This list is used to create a .bs (bootstrap) file.
 .IX Header "PORTABILITY"
 This module deals with a lot of system dependencies and has quite a
 few architecture specific \fBif\fRs in the code.
+.Sh "\s-1VMS\s0 implementation"
+.IX Subsection "\s-1VMS\s0 implementation"
+The version of \fIext()\fR which is executed under \s-1VMS\s0 differs from the
+Unix-\s-1OS/2\s0 version in several respects:
+.Ip "\(bu" 2
+.IX Item "\(bu"
+Input library and path specifications are accepted with or without the
+\f(CW-l\fR and \f(CW-L\fR prefices used by Unix linkers.  If neither prefix is
+present, a token is considered a directory to search if it is in fact
+a directory, and a library to search for otherwise.  Authors who wish
+their extensions to be portable to Unix or \s-1OS/2\s0 should use the Unix
+prefixes, since the Unix-\s-1OS/2\s0 version of \fIext()\fR requires them.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+Wherever possible, shareable images are preferred to object libraries,
+and object libraries to plain object files.  In accordance with \s-1VMS\s0
+naming conventions, \fIext()\fR looks for files named \fIlib\fRshr and \fIlib\fRrtl;
+it also looks for \fIlib\fRlib and lib\fIlib\fR to accomodate Unix conventions
+used in some ported software.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+For each library that is found, an appropriate directive for a linker options
+file is generated.  The return values are space-separated strings of
+these directives, rather than elements used on the linker command line.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+\s-1LDLOADLIBS\s0 and \s-1EXTRALIBS\s0 are always identical under \s-1VMS\s0, and \s-1BSLOADLIBS\s0
+and \s-1LD_RIN_PATH\s0 are always empty.
+.PP
+In addition, an attempt is made to recognize several common Unix library
+names, and filter them out or convert them to their \s-1VMS\s0 equivalents, as
+appropriate.
+.PP
+In general, the \s-1VMS\s0 version of \fIext()\fR should properly handle input from
+extensions originally designed for a Unix or \s-1VMS\s0 environment.  If you
+encounter problems, or discover cases where the search could be improved,
+please let us know.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIExtUtils::MakeMaker\fR manpage

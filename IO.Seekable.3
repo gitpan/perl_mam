@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO/Seekable 3 "perl 5.003, patch 05" "25/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "IO/Seekable 3"
+.TH IO::Seekable 3 "perl 5.003, patch 93" "18/Feb/97" "Perl Programmers Reference Guide"
+.IX Title "IO::Seekable 3"
 .UC
 .IX Name "IO::Seekable - supply seek based methods for I/O objects"
 .if n .hy 0
@@ -176,9 +176,9 @@ IO::Seekable \- supply seek based methods for I/O objects
 .IX Header "SYNOPSIS"
 .PP
 .Vb 3
-\&        use IO::Seekable;
-\&        package IO::Something;
-\&        @ISA = qw(IO::Seekable);
+\&    use IO::Seekable;
+\&    package IO::Something;
+\&    @ISA = qw(IO::Seekable);
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -194,21 +194,19 @@ that value to return to a previously visited position.
 See the \fIperlfunc\fR manpage for complete descriptions of each of the following
 supported \f(CWIO::Seekable\fR methods, which are just front ends for the
 corresponding built-in functions:
-  
-    clearerr
-    seek
-    tell
+.PP
+.Vb 2
+\&    seek
+\&    tell
+.Ve
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIperlfunc\fR manpage, 
 the section on \fII/O Operators\fR in the \fIperlop\fR manpage,
-the section on \fIIO::Handle\fR
-the section on \fIIO::File\fR
+the \fIIO::Handle\fR manpage
+the \fIIO::File\fR manpage
 .SH "HISTORY"
 .IX Header "HISTORY"
 Derived from FileHandle.pm by Graham Barr <bodg@tiuk.ti.com>
-.SH "REVISION"
-.IX Header "REVISION"
-$Revision: 1.4 $
 
 .rn }` ''

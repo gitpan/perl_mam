@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils/Install 3 "perl 5.003, patch 05" "7/Sep/96" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils/Install 3"
+.TH ExtUtils::Install 3 "perl 5.003, patch 93" "6/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "ExtUtils::Install 3"
 .UC
 .IX Name "ExtUtils::Install - install files from here to there"
 .if n .hy 0
@@ -196,8 +196,8 @@ be copied preserving timestamps and permissions.
 .PP
 There are two keys with a special meaning in the hash: \*(L"read\*(R" and
 \*(L"write\*(R". After the copying is done, install will write the list of
-target files to the file named by \f(CW$hashref\fR\->{write}. If there is
-another file named by \f(CW$hashref\fR\->{read}, the contents of this file will
+target files to the file named by \f(CW$hashref->{write}\fR. If there is
+another file named by \f(CW$hashref->{read}\fR, the contents of this file will
 be merged into the written file. The read and the written file may be
 identical, but on AFS it is quite likely, people are installing to a
 different directory than the one where the files later appear.

@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH vars 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
+.TH vars 3 "perl 5.003, patch 93" "21/Feb/97" "Perl Programmers Reference Guide"
 .IX Title "vars 3"
 .UC
 .IX Name "vars - Perl pragma to predeclare global variable names"
@@ -183,6 +183,11 @@ vars \- Perl pragma to predeclare global variable names
 This will predeclare all the variables whose names are 
 in the list, allowing you to use them under \*(L"use strict\*(R", and
 disabling any typo warnings.
+.PP
+Unlike pragmas that affect the \f(CW$^H\fR hints variable, the \f(CWuse vars\fR and
+\f(CWuse subs\fR declarations are not BLOCK\-scoped.  They are thus effective
+for the entire file in which they appear.  You may not rescind such
+declarations with \f(CWno vars\fR or \f(CWno subs\fR.
 .PP
 Packages such as the \fBAutoLoader\fR and \fBSelfLoader\fR that delay loading
 of subroutines within packages can create problems with package lexicals

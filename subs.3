@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH subs 3 "perl 5.003, patch 05" "2/Feb/96" "Perl Programmers Reference Guide"
+.TH subs 3 "perl 5.003, patch 93" "18/Nov/96" "Perl Programmers Reference Guide"
 .IX Title "subs 3"
 .UC
 .IX Name "subs - Perl pragma to predeclare sub names"
@@ -185,6 +185,11 @@ This will predeclare all the subroutine whose names are
 in the list, allowing you to use them without parentheses
 even before they're declared.
 .PP
-See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage and the \f(CWsubs\fR entry in the \fIstrict\fR manpage.
+Unlike pragmas that affect the \f(CW$^H\fR hints variable, the \f(CWuse vars\fR and
+\f(CWuse subs\fR declarations are not BLOCK\-scoped.  They are thus effective
+for the entire file in which they appear.  You may not rescind such
+declarations with \f(CWno vars\fR or \f(CWno subs\fR.
+.PP
+See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage and the section on \fIstrict subs\fR in the \fIstrict\fR manpage.
 
 .rn }` ''

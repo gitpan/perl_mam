@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Safe 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
+.TH Safe 3 "perl 5.003, patch 93" "18/Dec/96" "Perl Programmers Reference Guide"
 .IX Title "Safe 3"
 .UC
 .IX Name "Safe - Compile and execute code in restricted compartments"
@@ -223,8 +223,8 @@ compilation to fail with an error. The code will not be executed.
 The default operator mask for a newly created compartment is
 the \*(L':default\*(R' optag.
 .Sp
-It is important that you read the the \fIOpcode(3)\fR manpage module documentation
-for more information. Especially for details definitions of opnames,
+It is important that you read the \fIOpcode\fR\|(3) module documentation
+for more information, especially for detailed definitions of opnames,
 optags and opsets.
 .Sp
 Since it is only at the compilation stage that the operator mask
@@ -375,7 +375,7 @@ problem.
 .Sp
 Consider a function \fIfoo()\fR in package pkg compiled outside a compartment
 but shared with it. Assume the compartment has a root package called
-\*(L'Root\*(R'. If \fIfoo()\fR contains an eval statement like eval \*(L'$baz = 1\*(R' then,
+\*(L'Root\*(R'. If \fIfoo()\fR contains an eval statement like eval \*(L'$foo = 1\*(R' then,
 normally, \f(CW$pkg::foo\fR will be set to 1.  If \fIfoo()\fR is called from the
 compartment (by whatever means) then instead of setting \f(CW$pkg::foo\fR, the
 eval will actually set \f(CW$Root::pkg::foo\fR.
@@ -451,6 +451,6 @@ Originally designed and implemented by Malcolm Beattie,
 mbeattie@sable.ox.ac.uk.
 .PP
 Reworked to use the Opcode module and other changes added by Tim Bunce
-<Tim.Bunce@ig.co.uk>.
+<\fITim.Bunce@ig.co.uk\fR>.
 
 .rn }` ''

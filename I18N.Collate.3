@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH I18N/Collate 3 "perl 5.003, patch 05" "14/Feb/96" "Perl Programmers Reference Guide"
-.IX Title "I18N/Collate 3"
+.TH I18N::Collate 3 "perl 5.003, patch 93" "20/Dec/96" "Perl Programmers Reference Guide"
+.IX Title "I18N::Collate 3"
 .UC
 .IX Name "I18N::Collate - compare 8-bit scalar data according to the current locale"
 .if n .hy 0
@@ -194,20 +194,19 @@ You can compare \f(CW$s1\fR and \f(CW$s2\fR above with
 .Ve
 to extract the data itself, you'll need a dereference: $$s1
 .PP
-This uses \fIPOSIX::setlocale()\fR. The basic collation conversion is done by
-\fIstrxfrm()\fR which terminates at NUL characters being a decent C routine.
-\fIcollate_xfrm()\fR handles embedded NUL characters gracefully.  Due to \f(CWcmp\fR
-and overload magic, \f(CWlt\fR, \f(CWle\fR, \f(CWeq\fR, \f(CWge\fR, and \f(CWgt\fR work also.  The
-available locales depend on your operating system; try whether \f(CWlocale
--a\fR shows them or man pages for \*(L"locale\*(R" or \*(L"nlsinfo\*(R" or
-the direct approach \f(CWls /usr/lib/nls/loc\fR or \f(CWls
-/usr/lib/nls\fR.  Not all the locales that your vendor supports
-are necessarily installed: please consult your operating system's
-documentation and possibly your local system administration.
+This module uses \fIPOSIX::setlocale()\fR. The basic collation conversion is
+done by \fIstrxfrm()\fR which terminates at NUL characters being a decent C
+routine.  \fIcollate_xfrm()\fR handles embedded NUL characters gracefully.
 .PP
-The locale names are probably something like
-\f(CW"xx_XX.(ISO)?8859-N"\fR or \f(CW"xx_XX.(ISO)?8859N"\fR, for example
-\f(CW"fr_CH.ISO8859-1"\fR is the Swiss (CH) variant of French (fr),
-ISO Latin (8859) 1 (\-1) which is the Western European character set.
+The available locales depend on your operating system; try whether
+\f(CWlocale -a\fR shows them or man pages for \*(L"locale\*(R" or \*(L"nlsinfo\*(R" or the
+direct approach \f(CWls /usr/lib/nls/loc\fR or \f(CWls /usr/lib/nls\fR or
+\f(CWls /usr/lib/locale\fR.  Not all the locales that your vendor supports
+are necessarily installed: please consult your operating system's
+documentation and possibly your local system administration.  The
+locale names are probably something like \f(CWxx_XX.(ISO)?8859-N\fR or
+\f(CWxx_XX.(ISO)?8859N\fR, for example \f(CWfr_CH.ISO8859-1\fR is the Swiss (CH)
+variant of French (fr), ISO Latin (8859) 1 (\-1) which is the Western
+European character set.
 
 .rn }` ''

@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH FindBin 3 "perl 5.003, patch 05" "25/Aug/96" "Perl Programmers Reference Guide"
+.TH FindBin 3 "perl 5.003, patch 93" "18/Nov/96" "Perl Programmers Reference Guide"
 .IX Title "FindBin 3"
 .UC
 .IX Name "FindBin - Locate directory of original perl script"
@@ -177,14 +177,14 @@ FindBin \- Locate directory of original perl script
 .PP
 .Vb 2
 \& use FindBin;
-\& BEGIN { unshift(@INC,"$FindBin::Bin/../lib") }
+\& use lib "$FindBin::Bin/../lib";
 .Ve
 .Vb 1
 \& or 
 .Ve
 .Vb 2
 \& use FindBin qw($Bin);
-\& BEGIN { unshift(@INC,"$Bin/../lib") }
+\& use lib "$Bin/../lib";
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -226,8 +226,8 @@ Workaround is to invoke perl as
 .Ve
 .SH "AUTHORS"
 .IX Header "AUTHORS"
-Graham Barr <bodg@tiuk.ti.com>
-Nick Ing-Simmons <nik@tiuk.ti.com>
+Graham Barr <\fIbodg@tiuk.ti.com\fR>
+Nick Ing-Simmons <\fInik@tiuk.ti.com\fR>
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
 Copyright (c) 1995 Graham Barr & Nick Ing-Simmons. All rights reserved.

@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Socket 3 "perl 5.003, patch 05" "9/Sep/96" "Perl Programmers Reference Guide"
+.TH Socket 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "Socket 3"
 .UC
 .IX Name "Socket, sockaddr_in, sockaddr_un, inet_aton, inet_ntoa - load the C socket.h defines and structure manipulators"
@@ -217,49 +217,58 @@ far more likely chance of getting the numbers right.  This includes
 all of the commonly used pound-defines like AF_INET, SOCK_STREAM, etc.
 .PP
 In addition, some structure manipulation functions are available:
-.Ip "inet_aton \s-1HOSTNAME\s0" 0
+.Ip "inet_aton \s-1HOSTNAME\s0" 5
 .IX Item "inet_aton \s-1HOSTNAME\s0"
 Takes a string giving the name of a host, and translates that
 to the 4-byte string (structure). Takes arguments of both
 the \*(L'rtfm.mit.edu\*(R' type and \*(L'18.181.0.24\*(R'. If the host name
-cannot be resolved, returns undef.
-.Ip "inet_ntoa \s-1IP_ADDRESS\s0" 0
+cannot be resolved, returns undef. For multi-homed hosts (hosts
+with more than one address), the first address found is returned.
+.Ip "inet_ntoa \s-1IP_ADDRESS\s0" 5
 .IX Item "inet_ntoa \s-1IP_ADDRESS\s0"
 Takes a four byte ip address (as returned by \fIinet_aton()\fR)
 and translates it into a string of the form \*(L'd.d.d.d\*(R'
 where the \*(L'd's are numbers less than 256 (the normal
 readable four dotted number notation for internet addresses).
-.Ip "\s-1INADDR_ANY\s0" 0
+.Ip "\s-1INADDR_ANY\s0" 5
 .IX Item "\s-1INADDR_ANY\s0"
 Note: does not return a number, but a packed string.
-.PP
+.Sp
 Returns the 4-byte wildcard ip address which specifies any
 of the hosts ip addresses. (A particular machine can have
 more than one ip address, each address corresponding to
 a particular network interface. This wildcard address
 allows you to bind to all of them simultaneously.)
 Normally equivalent to \fIinet_aton\fR\|('0.0.0.0').
-.Ip "\s-1INADDR_LOOPBACK\s0" 0
+.Ip "\s-1INADDR_BROADCAST\s0" 5
+.IX Item "\s-1INADDR_BROADCAST\s0"
+Note: does not return a number, but a packed string.
+.Sp
+Returns the 4-byte \*(L'this-lan\*(R' ip broadcast address.
+This can be useful for some protocols to solicit information
+from all servers on the same \s-1LAN\s0 cable.
+Normally equivalent to \fIinet_aton\fR\|('255.255.255.255').
+.Ip "\s-1INADDR_LOOPBACK\s0" 5
 .IX Item "\s-1INADDR_LOOPBACK\s0"
 Note \- does not return a number.
-.PP
+.Sp
 Returns the 4-byte loopback address. Normally equivalent
 to \fIinet_aton\fR\|('localhost').
-.Ip "\s-1INADDR_NONE\s0" 0
+.Ip "\s-1INADDR_NONE\s0" 5
 .IX Item "\s-1INADDR_NONE\s0"
 Note \- does not return a number.
-.PP
-Returns the 4-byte invalid ip address. Normally equivalent
+.Sp
+Returns the 4-byte \*(L'invalid\*(R' ip address. Normally equivalent
 to \fIinet_aton\fR\|('255.255.255.255').
-.Ip "sockaddr_in \s-1PORT\s0, \s-1ADDRESS\s0" 0
+.Ip "sockaddr_in \s-1PORT\s0, \s-1ADDRESS\s0" 5
 .IX Item "sockaddr_in \s-1PORT\s0, \s-1ADDRESS\s0"
-.Ip "sockaddr_in \s-1SOCKADDR_IN\s0" 0
+.Ip "sockaddr_in \s-1SOCKADDR_IN\s0" 5
 .IX Item "sockaddr_in \s-1SOCKADDR_IN\s0"
 In an array context, unpacks its \s-1SOCKADDR_IN\s0 argument and returns an array
 consisting of (\s-1PORT\s0, \s-1ADDRESS\s0).  In a scalar context, packs its (\s-1PORT\s0,
 \s-1ADDRESS\s0) arguments as a \s-1SOCKADDR_IN\s0 and returns it.  If this is confusing,
 use \fIpack_sockaddr_in()\fR and \fIunpack_sockaddr_in()\fR explicitly.
-.Ip "pack_sockaddr_in \s-1PORT\s0, \s-1IP_ADDRESS\s0" 0
+.Ip "pack_sockaddr_in \s-1PORT\s0, \s-1IP_ADDRESS\s0" 5
 .IX Item "pack_sockaddr_in \s-1PORT\s0, \s-1IP_ADDRESS\s0"
 Takes two arguments, a port number and a 4 byte \s-1IP_ADDRESS\s0 (as returned by
 \fIinet_aton()\fR). Returns the sockaddr_in structure with those arguments
@@ -267,28 +276,28 @@ packed in with \s-1AF_INET\s0 filled in.  For internet domain sockets, this
 structure is normally what you need for the arguments in \fIbind()\fR,
 \fIconnect()\fR, and \fIsend()\fR, and is also returned by \fIgetpeername()\fR,
 \fIgetsockname()\fR and \fIrecv()\fR.
-.Ip "unpack_sockaddr_in \s-1SOCKADDR_IN\s0" 0
+.Ip "unpack_sockaddr_in \s-1SOCKADDR_IN\s0" 5
 .IX Item "unpack_sockaddr_in \s-1SOCKADDR_IN\s0"
 Takes a sockaddr_in structure (as returned by \fIpack_sockaddr_in()\fR) and
 returns an array of two elements: the port and the 4-byte ip-address.
 Will croak if the structure does not have \s-1AF_INET\s0 in the right place.
-.Ip "sockaddr_un \s-1PATHNAME\s0" 0
+.Ip "sockaddr_un \s-1PATHNAME\s0" 5
 .IX Item "sockaddr_un \s-1PATHNAME\s0"
-.Ip "sockaddr_un \s-1SOCKADDR_UN\s0" 0
+.Ip "sockaddr_un \s-1SOCKADDR_UN\s0" 5
 .IX Item "sockaddr_un \s-1SOCKADDR_UN\s0"
 In an array context, unpacks its \s-1SOCKADDR_UN\s0 argument and returns an array
-consisting of (\s-1PATHNAME\s0).  In a scalar context, packs its \s-1PATHANE\s0
+consisting of (\s-1PATHNAME\s0).  In a scalar context, packs its \s-1PATHNAME\s0
 arguments as a \s-1SOCKADDR_UN\s0 and returns it.  If this is confusing, use
 \fIpack_sockaddr_un()\fR and \fIunpack_sockaddr_un()\fR explicitly.
-These are only supported if your system has <sys/un.h>.
-.Ip "pack_sockaddr_un \s-1PATH\s0" 0
+These are only supported if your system has <\fIsys/un.h\fR>.
+.Ip "pack_sockaddr_un \s-1PATH\s0" 5
 .IX Item "pack_sockaddr_un \s-1PATH\s0"
 Takes one argument, a pathname. Returns the sockaddr_un structure with
 that path packed in with \s-1AF_UNIX\s0 filled in. For unix domain sockets, this
 structure is normally what you need for the arguments in \fIbind()\fR,
 \fIconnect()\fR, and \fIsend()\fR, and is also returned by \fIgetpeername()\fR,
 \fIgetsockname()\fR and \fIrecv()\fR.
-.Ip "unpack_sockaddr_un \s-1SOCKADDR_UN\s0" 0
+.Ip "unpack_sockaddr_un \s-1SOCKADDR_UN\s0" 5
 .IX Item "unpack_sockaddr_un \s-1SOCKADDR_UN\s0"
 Takes a sockaddr_un structure (as returned by \fIpack_sockaddr_un()\fR)
 and returns the pathname.  Will croak if the structure does not

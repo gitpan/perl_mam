@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IPC/Open2 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "IPC/Open2 3"
+.TH IPC::Open2 3 "perl 5.003, patch 93" "7/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "IPC::Open2 3"
 .UC
 .IX Name "IPC::Open2, open2 - open a process for both reading and writing"
 .if n .hy 0
@@ -188,8 +188,17 @@ reading and \f(CW$wtr\fR for writing.  It's what you think should work
 when you try
 .PP
 .Vb 1
-\&    open(HANDLE, "|cmd args");
+\&    open(HANDLE, "|cmd args|");
 .Ve
+The write filehandle will have autoflush turned on.
+.PP
+If \f(CW$rdr\fR is a string (that is, a bareword filehandle rather than a glob
+or a reference) and it begins with \*(L">&\*(R", then the child will send output
+directly to that file handle.  If \f(CW$wtr\fR is a string that begins with
+\*(L"<&\*(R", then WTR will be closed in the parent, and the child will read
+from it directly.  In both cases, there will be a \fIdup\fR\|(2) instead of a
+\fIpipe\fR\|(2) made.
+.PP
 \fIopen2()\fR returns the process ID of the child process.  It doesn't return on
 failure: it just raises an exception matching \f(CW/^open2:/\fR.
 .SH "WARNING"
@@ -210,6 +219,7 @@ with pipe buffering.  Thus you can't just open a pipe to \f(CWcat -v\fR and cont
 read and write a line from it.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-See the \fIopen3\fR manpage for an alternative that handles STDERR as well.
+See the \fIIPC::Open3\fR manpage for an alternative that handles STDERR as well.  This
+function is really just a wrapper around \fIopen3()\fR.
 
 .rn }` ''

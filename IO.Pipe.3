@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH IO/Pipe 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "IO/Pipe 3"
+.TH IO::Pipe 3 "perl 5.003, patch 93" "24/Feb/97" "Perl Programmers Reference Guide"
+.IX Title "IO::Pipe 3"
 .UC
 .IX Name "IO::pipe - supply object methods for pipes"
 .if n .hy 0
@@ -215,42 +215,47 @@ IO::pipe \- supply object methods for pipes
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\f(CWIO::Pipe::new\fR creates a \f(CWIO::Pipe\fR, which is a reference to a
+\f(CWIO::Pipe\fR provides an interface to createing pipes between
+processes.
+.SH "CONSTRCUTOR"
+.IX Header "CONSTRCUTOR"
+.Ip "new ( [\s-1READER\s0, \s-1WRITER\s0] )" 4
+.IX Item "new ( [\s-1READER\s0, \s-1WRITER\s0] )"
+Creates a \f(CWIO::Pipe\fR, which is a reference to a
 newly created symbol (see the \f(CWSymbol\fR package). \f(CWIO::Pipe::new\fR
 optionally takes two arguments, which should be objects blessed into
 \f(CWIO::Handle\fR, or a subclass thereof. These two objects will be used
 for the system call to \f(CWpipe\fR. If no arguments are given then then
 method \f(CWhandles\fR is called on the new \f(CWIO::Pipe\fR object.
-.PP
-These two handles are held in the array part of the GLOB untill either
+.Sp
+These two handles are held in the array part of the \s-1GLOB\s0 until either
 \f(CWreader\fR or \f(CWwriter\fR is called.
-.Ip "$fh->reader([\s-1ARGS\s0])" 5
-.IX Item "$fh->reader([\s-1ARGS\s0])"
+.SH "METHODS"
+.IX Header "METHODS"
+.Ip "reader ([\s-1ARGS\s0])" 4
+.IX Item "reader ([\s-1ARGS\s0])"
 The object is re-blessed into a sub-class of \f(CWIO::Handle\fR, and becomes a
 handle at the reading end of the pipe. If \f(CWARGS\fR are given then \f(CWfork\fR
 is called and \f(CWARGS\fR are passed to exec.
-.Ip "$fh->writer([\s-1ARGS\s0])" 5
-.IX Item "$fh->writer([\s-1ARGS\s0])"
+.Ip "writer ([\s-1ARGS\s0])" 4
+.IX Item "writer ([\s-1ARGS\s0])"
 The object is re-blessed into a sub-class of \f(CWIO::Handle\fR, and becomes a
 handle at the writing end of the pipe. If \f(CWARGS\fR are given then \f(CWfork\fR
 is called and \f(CWARGS\fR are passed to exec.
-.Ip "$fh->handles" 5
-.IX Item "$fh->handles"
+.Ip "handles ()" 4
+.IX Item "handles ()"
 This method is called during construction by \f(CWIO::Pipe::new\fR
 on the newly created \f(CWIO::Pipe\fR object. It returns an array of two objects
-blessed into \f(CWIO::Handle\fR, or a subclass thereof.
+blessed into \f(CWIO::Pipe::End\fR, or a subclass thereof.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIIO::Handle\fR manpage
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Graham Barr <bodg@tiuk.ti.com>
-.SH "REVISION"
-.IX Header "REVISION"
-$Revision: 1.4 $
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
-Copyright (c) 1995 Graham Barr. All rights reserved. This program is free
+Copyright (c) 1996 Graham Barr. All rights reserved. This program is free
 software; you can redistribute it and/or modify it under the same terms
 as Perl itself.
 

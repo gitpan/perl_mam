@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Test/Harness 3 "perl 5.003, patch 05" "29/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "Test/Harness 3"
+.TH Test::Harness 3 "perl 5.003, patch 93" "21/Feb/97" "Perl Programmers Reference Guide"
+.IX Title "Test::Harness 3"
 .UC
 .IX Name "Test::Harness - run perl standard test scripts with statistics"
 .if n .hy 0
@@ -183,7 +183,7 @@ Perl test scripts print to standard output \f(CW"ok N"\fR for each single
 test, where \f(CWN\fR is an increasing sequence of integers. The first line
 output by a standard test script is \f(CW"1..M"\fR with \f(CWM\fR being the
 number of tests that should be run within the test
-script. Test::Harness::\fIruntests\fR\|(@tests) runs all the testscripts
+script. \fITest::Harness::runtests\fR\|(@tests) runs all the testscripts
 named as arguments and checks standard output for the expected
 \f(CW"ok N"\fR strings.
 .PP
@@ -234,7 +234,7 @@ For any single script that has failing subtests statistics like the
 above are printed.
 .Ip "\f(CWTest returned status %d (wstat %d)\fR" 4
 .IX Item "\f(CWTest returned status %d (wstat %d)\fR"
-Scripts that return a non-zero exit status, both $?>>8 and $? are
+Scripts that return a non-zero exit status, both \f(CW$? >> 8\fR and \f(CW$?\fR are
 printed in a message similar to the above.
 .Ip "\f(CWFailed 1 test, %.2f%% okay. %s\fR" 4
 .IX Item "\f(CWFailed 1 test, %.2f%% okay. %s\fR"
@@ -249,8 +249,8 @@ See the \fIBenchmark\fR manpage for the underlying timing routines.
 .IX Header "AUTHORS"
 Either Tim Bunce or Andreas Koenig, we don't know. What we know for
 sure is, that it was inspired by Larry Wall's TEST script that came
-with perl distributions for ages. Current maintainer is Andreas
-Koenig.
+with perl distributions for ages. Numerous anonymous contributors
+exist. Current maintainer is Andreas Koenig.
 .SH "BUGS"
 .IX Header "BUGS"
 Test::Harness uses $^X to determine the perl binary to run the tests

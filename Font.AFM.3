@@ -1,0 +1,315 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+.ds L' '
+.ds R' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds L' `
+.ds R' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH AFM 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
+.IX Title "AFM 1"
+.UC
+.IX Name "Font::AFM - Interface to Adobe Font Metrics files"
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.IX Header "NAME"
+Font::AFM \- Interface to Adobe Font Metrics files
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+.PP
+.Vb 6
+\& use Font::AFM;
+\& $h = new Font::AFM "Helvetica";
+\& $copyright = $h->Notice;
+\& $w = $h->Wx->{"aring"};
+\& $w = $h->stringwidth("Gisle", 10);
+\& $h->dump;  # for debugging
+.Ve
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+This module implements the Font::AFM class. Objects of this class are
+initialised from an AFM\-file and allows you to obtain information
+about the font and the metrics of the various glyphs in the font.
+.PP
+All measurements in AFM files are given in terms of units equal to
+1/1000 of the scale factor of the font being used. To compute actual
+sizes in a document, these amounts should be multiplied by (scale
+factor of font)/1000.
+.PP
+The following methods are available:
+.Ip "new($fontname)" 3
+.IX Item "new($fontname)"
+Object constructor. Takes the name of the font as argument. It will
+croak if the font can not be found.
+.Ip "latin1_wx_table()" 3
+.IX Item "latin1_wx_table()"
+Returns a 256 element array, where each element contains the width
+of the corresponding character in the iso-8859-1 character set.
+.Ip "stringwidth($string, [$fontsize])" 3
+.IX Item "stringwidth($string, [$fontsize])"
+Returns the width of the string passed as argument. The string is
+assumed to be encoded in the iso-8859-1 character set.  A second
+argument can be used to scale the width according to the font size.
+.Ip "FontName" 3
+.IX Item "FontName"
+The name of the font as presented to the PostScript language
+\f(CWfindfont\fR operator, for instance \*(L"Times-Roman\*(R".
+.Ip "FullName" 3
+.IX Item "FullName"
+Unique, human-readable name for an individual font, for instance
+\*(L"Times Roman\*(R".
+.Ip "FamilyName" 3
+.IX Item "FamilyName"
+Human-readable name for a group of fonts that are stylistic variants
+of a single design. All fonts that are member of such a group should
+have exactly the same \f(CWFamilyName\fR. Example of a family name is
+\*(L"Times\*(R".
+.Ip "Weight" 3
+.IX Item "Weight"
+Human-readable name for the weight, or \*(L"boldness\*(R", attribute of a font.
+Exampes are \f(CWRoman\fR, \f(CWBold\fR, \f(CWLight\fR.
+.Ip "ItalicAngle" 3
+.IX Item "ItalicAngle"
+Angle in degrees counterclockwise from the vertical of the dominant
+vertical strokes of the font.
+.Ip "IsFixedPitch" 3
+.IX Item "IsFixedPitch"
+If the value is \f(CWtrue\fR, it indicated that the font is a fixed-pitch
+(monospaced) font.
+.Ip "FontBBox" 3
+.IX Item "FontBBox"
+A string of four numbers giving the lower-left x, lower-left y,
+upper-right x, and upper-right y of the font bounding box. The font
+bounding box is the smallest rectangle enclosing the shape that would
+result if all the characters of the font were placed with their
+origins coincident, and then painted.
+.Ip "UnderlinePosition" 3
+.IX Item "UnderlinePosition"
+Recommended distance from the baseline for positioning underline
+stokes. This number is the y coordinate of the center of the stroke.
+.Ip "UnderlineThickness" 3
+.IX Item "UnderlineThickness"
+Recommended stroke width for underlining.
+.Ip "Version" 3
+.IX Item "Version"
+Version number of the font.
+.Ip "Notice" 3
+.IX Item "Notice"
+Trademark or copyright notice, if applicable.
+.Ip "Comment" 3
+.IX Item "Comment"
+Comments found in the \s-1AFM\s0 file.
+.Ip "EncodingScheme" 3
+.IX Item "EncodingScheme"
+The name of the standard encoding scheme for the font. Most Adobe
+fonts use the \f(CWAdobeStandardEncoding\fR. Special fonts might state
+\f(CWFontSpecific\fR.
+.Ip "CapHeight" 3
+.IX Item "CapHeight"
+Usually the y-value of the top of the capital H.
+.Ip "XHeight" 3
+.IX Item "XHeight"
+Typically the y-value of the top of the lowercase x.
+.Ip "Ascender" 3
+.IX Item "Ascender"
+Typically the y-value of the top of the lowercase d.
+.Ip "Descender" 3
+.IX Item "Descender"
+Typically the y-value of the bottom of the lowercase p.
+.Ip "Wx" 3
+.IX Item "Wx"
+Returns a hash table that maps from glyph names to the width of that glyph.
+.Ip "BBox" 3
+.IX Item "BBox"
+Returns a hash table that maps from glyph names to bounding box information.
+The bounding box consist of 4 numbers: llx, lly, urx, ury.
+.Ip "dump" 3
+.IX Item "dump"
+Dumps the content of the Font::\s-1AFM\s0 object to \s-1STDOUT\s0.  Might sometimes
+be useful for debugging.
+.PP
+The \s-1AFM\s0 specification can be found at:
+.PP
+.Vb 1
+\&   ftp://ftp.adobe.com/pub/adobe/DeveloperSupport/TechNotes/PSfiles/5004.AFM_Spec.ps
+.Ve
+.SH "ENVIRONMENT"
+.IX Header "ENVIRONMENT"
+.Ip "\s-1METRICS\s0" 10
+.IX Item "\s-1METRICS\s0"
+Contains the path to seach for \s-1AFM\s0\-files.  Format is as for the \s-1PATH\s0
+environment variable. The default path built into this library is:
+.Sp
+.Vb 1
+\& /usr/lib/afm:/usr/local/lib/afm:/usr/openwin/lib/fonts/afm/:.
+.Ve
+.SH "BUGS"
+.IX Header "BUGS"
+Kerning data and composite character data is not yet parsed.
+Ligature data is not parsed.
+.SH "COPYRIGHT"
+.IX Header "COPYRIGHT"
+Copyright 1995 Gisle Aas. All rights reserved.
+.PP
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+.rn }` ''

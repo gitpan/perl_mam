@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Config 3 "perl 5.003, patch 05" "5/Oct/96" "Perl Programmers Reference Guide"
+.TH Config 3 "perl 5.003, patch 93" "13/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "Config 3"
 .UC
 .IX Name "Config - access Perl configuration information"
@@ -202,7 +202,7 @@ Shell variables from the \fIconfig.sh\fR file (written by Configure) are
 stored in the readonly-variable \f(CW%Config\fR, indexed by their names.
 .PP
 Values stored in config.sh as \*(L'undef\*(R' are returned as undefined
-values.  The perl \f(CWexists\fR function can be used to check is a
+values.  The perl \f(CWexists\fR function can be used to check if a
 named variable exists.
 .Ip "myconfig()" 4
 .IX Item "myconfig()"
@@ -226,21 +226,27 @@ See also \f(CW-V:name\fR in the \f(CWSwitches\fR entry in the \fIperlrun\fR manp
 .IX Header "EXAMPLE"
 Here's a more sophisticated example of using \f(CW%Config:\fR
 .PP
-.Vb 1
+.Vb 2
 \&    use Config;
+\&    use strict;
 .Ve
-.Vb 6
-\&    defined $Config{sig_name} || die "No sigs?";
-\&    foreach $name (split(' ', $Config{sig_name})) {
-\&        $signo{$name} = $i;
-\&        $signame[$i] = $name;
-\&        $i++;
-\&    }   
+.Vb 11
+\&    my %sig_num;
+\&    my @sig_name;
+\&    unless($Config{sig_name} && $Config{sig_num}) {
+\&        die "No sigs?";
+\&    } else {
+\&        my @names = split ' ', $Config{sig_name};
+\&        @sig_num{@names} = split ' ', $Config{sig_num};
+\&        foreach (@names) {
+\&            $sig_name[$sig_num{$_}] ||= $_;
+\&        }   
+\&    }
 .Ve
 .Vb 4
-\&    print "signal #17 = $signame[17]\en";
-\&    if ($signo{ALRM}) { 
-\&        print "SIGALRM is $signo{ALRM}\en";
+\&    print "signal #17 = $sig_name[17]\en";
+\&    if ($sig_num{ALRM}) { 
+\&        print "SIGALRM is $sig_num{ALRM}\en";
 \&    }   
 .Ve
 .SH "WARNING"

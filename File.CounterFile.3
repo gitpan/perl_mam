@@ -1,0 +1,243 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+.ds L' '
+.ds R' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds L' `
+.ds R' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH COUNTERFILE 1 "perl 5.003, patch 93" "25/Nov/96" "User Contributed Perl Documentation"
+.IX Title "COUNTERFILE 1"
+.UC
+.IX Name "File::CounterFile - Persistent counter class"
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.IX Header "NAME"
+File::CounterFile \- Persistent counter class
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+.PP
+.Vb 2
+\& use File::CounterFile;
+\& $c = new File::CounterFile "COUNTER", "aa00";
+.Ve
+.Vb 2
+\& $id = $c->inc;
+\& open(F, ">F$id");
+.Ve
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+This module implements a persistent counter class.  Each counter is
+represented by a separate file in the file system.  File locking is
+applied, so multiple processes might try to access the same counters
+at the same time without risk of counter destruction.
+.PP
+You give the file name as the first parameter to the object
+constructor (\f(CWnew\fR).  The file is created if it does not exist.
+.PP
+If the file name does not start with \*(L"/\*(R" or \*(L".\*(R", then it is
+interpreted as a file relative to \f(CW$File::CounterFile::DEFAULT_DIR\fR.
+The default value for this variable is initialized from the
+environment variable \f(CWTMPDIR\fR, or \fI/usr/tmp\fR is no environment
+variable is defined.  You may want to assign a different value to this
+variable before creating counters.
+.PP
+If you pass a second parameter to the constructor, that sets the
+initial value for a new counter.  This parameter only takes effect
+when the file is created (i.e. it does not exist before the call).
+.PP
+When you call the \f(CWinc()\fR method, you increment the counter value by
+one. When you call \f(CWdec()\fR the counter value is decrementd.  In both
+cases the new value is returned.  The \f(CWdec()\fR method only works for
+numerical counters (digits only).
+.PP
+You can peek at the value of the counter (without incrementing it) by
+using the \f(CWvalue()\fR method.
+.PP
+The counter can be locked and unlocked with the \f(CWlock()\fR and
+\f(CWunlock()\fR methods.  Incrementing and value retrieval is faster when
+the counter is locked, because we do not have to update the counter
+file all the time.  You can query whether the counter is locked with
+the \f(CWlocked()\fR method.
+.PP
+There is also an operator overloading interface to the
+File::CounterFile object.  This means that you might use the \f(CW++\fR
+operator for incrementing the counter, \f(CW--\fR operator for decrementing
+and you can interpolate counters diretly into strings.
+.SH "BUGS"
+.IX Header "BUGS"
+It uses \fIflock\fR\|(2) to lock the counter file.  This does not work on all
+systems.  Perhaps we should use the File::Lock module?
+.SH "INSTALLATION"
+.IX Header "INSTALLATION"
+Copy this file to the \fIFile\fR subdirectory of your Perl 5 library
+directory (often \fI/usr/local/lib/perl5\fR).
+.SH "COPYRIGHT"
+.IX Header "COPYRIGHT"
+Copyright (c) 1995-1996 Gisle Aas. All rights reserved.
+.PP
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Gisle Aas <aas@sn.no>
+
+.rn }` ''

@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File/Find 3 "perl 5.003, patch 05" "4/Sep/96" "Perl Programmers Reference Guide"
-.IX Title "File/Find 3"
+.TH File::Find 3 "perl 5.003, patch 93" "19/Dec/96" "Perl Programmers Reference Guide"
+.IX Title "File::Find 3"
 .UC
 .IX Name "find - traverse a file tree"
 .if n .hy 0
@@ -194,6 +194,9 @@ current filename within that directory.  \f(CW$File::Find::name\fR contains
 \f(CW"$File::Find::dir/$_"\fR.  You are \fIchdir()\fR'd to \f(CW$File::Find::dir\fR when
 the function is called.  The function may set \f(CW$File::Find::prune\fR to
 prune the tree.
+.PP
+File::Find assumes that you don't alter the \f(CW$_\fR variable.  If you do then
+make sure you return it to its original value before exiting your function.
 .PP
 This library is primarily for the \f(CWfind2perl\fR tool, which when fed, 
 .PP

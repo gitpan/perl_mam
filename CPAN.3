@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH LIB/CPAN 1 "perl 5.003, patch 05" "1/Oct/96" "User Contributed Perl Documentation"
-.IX Title "LIB/CPAN 1"
+.TH CPAN 1 "perl 5.003, patch 10" "1/Dec/96" "User Contributed Perl Documentation"
+.IX Title "CPAN 1"
 .UC
 .IX Name "CPAN - query, download and build perl modules from CPAN sites"
 .if n .hy 0
@@ -185,7 +185,7 @@ Batch mode:
 \&  use CPAN;
 .Ve
 .Vb 1
-\&  autobundle, bundle, bundles, expand, install, make, test
+\&  autobundle, bundle, clean, expand, install, make, recompile, test
 .Ve
 .SH "ALPHA ALERT"
 .IX Header "ALPHA ALERT"
@@ -281,8 +281,9 @@ Bundles are treated specially in the \s-1CPAN\s0 package. If you say \*(L'instal
 Bundle::Tkkit\*(R' (assuming such a bundle exists), \s-1CPAN\s0 will install all
 the modules in the \s-1CONTENTS\s0 section of the pod.  You can install your
 own Bundles locally by placing a conformant Bundle file somewhere into
-your \f(CW@INC\fR path. The \fIautobundle()\fR command does that for you by
-including all currently installed in a snapshot bundle file.
+your \f(CW@INC\fR path. The \fIautobundle()\fR command which is available in the
+shell interface does that for you by including all currently installed
+modules in a snapshot bundle file.
 .Sh "autobundle"
 .IX Subsection "autobundle"
 \fIautobundle()\fR writes a bundle file into the directory
@@ -301,14 +302,23 @@ command from scratch.
 Example:
 .PP
 .Vb 7
-\&    cpan> install OpenGL 
-\&    OpenGL up-to-date.
-\&    cpan> force install OpenGL 
+\&    cpan> install OpenGL
+\&    OpenGL is up to date.
+\&    cpan> force install OpenGL
 \&    Running make
 \&    OpenGL-0.4/
 \&    OpenGL-0.4/COPYRIGHT
 \&    [...]
 .Ve
+.Sh "recompile"
+.IX Subsection "recompile"
+\fIrecompile()\fR is a very special command in that it takes no argument and
+runs the make/test/install cycle with brute force over all installed
+dynamically loadable extensions (aka \s-1XS\s0 modules) with \*(L'force\*(R' in
+effect. Primary purpose of this command is to act as a rescue in case
+your perl breaks binary compatibility. If one of the modules that \s-1CPAN\s0
+uses is in turn depending on binary compatibility (so you cannot run
+\s-1CPAN\s0 commands), then you should try the \s-1CPAN::\s0Nox module for recovery.
 .SH "CONFIGURATION"
 .IX Header "CONFIGURATION"
 When the CPAN module is installed a site wide configuration file is
@@ -324,10 +334,10 @@ defined:
 .Vb 17
 \&  build_cache       size of cache for directories to build modules
 \&  build_dir         locally accessible directory to build modules
-\&  cache_expire      after how many days refetch index files
+\&  index_expire      after how many days refetch index files
 \&  cpan_home         local directory reserved for this package
 \&  gzip              location of external program gzip
-\&  inhibit-startup-message
+\&  inhibit_startup_message
 \&                    if true, does not print the startup message
 \&  keep_source       keep the source in a local directory?
 \&  keep_source_where where keep the source (if we do)
@@ -335,11 +345,30 @@ defined:
 \&  make_arg          arguments that should always be passed to 'make'
 \&  make_install_arg  same as make_arg for 'make install'
 \&  makepl_arg        arguments passed to 'perl Makefile.PL'
-\&  more              location of external program more (or any pager)
+\&  pager             location of external program more (or any pager)
 \&  tar               location of external program tar
 \&  unzip             location of external program unzip
 \&  urllist           arrayref to nearby CPAN sites (or equivalent locations)
 .Ve
+You can set and query each of these options interactively in the cpan
+shell with the command set defined within the \f(CWo conf\fR command:
+.Ip "o conf <scalar option>" 2
+.IX Item "o conf <scalar option>"
+prints the current value of the \fIscalar option\fR
+.Ip "o conf <scalar option> <value>" 2
+.IX Item "o conf <scalar option> <value>"
+Sets the value of the \fIscalar option\fR to \fIvalue\fR
+.Ip "o conf <list option>" 2
+.IX Item "o conf <list option>"
+prints the current value of the \fIlist option\fR in MakeMaker's
+neatvalue format.
+.Ip "o conf <list option> [shift|pop]" 2
+.IX Item "o conf <list option> [shift|pop]"
+shifts or pops the array in the \fIlist option\fR variable
+.Ip "o conf <list option> [unshift|push|splice] <list>" 2
+.IX Item "o conf <list option> [unshift|push|splice] <list>"
+works like the corresponding perl commands. Whitespace is used to
+determine the arguments.
 .SH "SECURITY"
 .IX Header "SECURITY"
 There's no security layer in the alpha version of CPAN.pm. CPAN.pm
@@ -349,14 +378,14 @@ should be warned now.
 .SH "EXPORT"
 .IX Header "EXPORT"
 Most functions in package CPAN are exported per default. The reason
-for this is that the primary use is intended for the cpan-shell or for
-one-liners.
+for this is that the primary use is intended for the cpan shell or for
+oneliners.
 .SH "Debugging"
 .IX Header "Debugging"
-The debugging of this module is a pretty difficult task, because we
-have interferences of the software producing the indices on CPAN, of
-the mirroring process, of improper packaging, of improper
-configuration and of bugs within CPAN.pm. 
+The debugging of this module is pretty difficult, because we have
+interferences of the software producing the indices on CPAN, of the
+mirroring process on CPAN, of packaging, of configuration, and of bugs
+within CPAN.pm.
 .PP
 In interactive mode you can try \*(L"o debug\*(R" which will list options for
 debugging the various parts of the package. The output may not be very
@@ -374,9 +403,9 @@ non-\s-1UNIX\s0 systems.
 This module presumes that all packages on \s-1CPAN\s0
 .Ip "\(bu" 2
 .IX Item "\(bu"
-Declare their \f(CW$VERSION\fR variable in an easy to parse manner. This
+declare their \f(CW$VERSION\fR variable in an easy to parse manner. This
 prerequisite can hardly be relaxed because it consumes by far too much
-memory to load all packages into a single program just to determine
+memory to load all packages into the running program just to determine
 the \f(CW$VERSION\fR variable . Currently all programs that are dealing with
 \s-1VERSION\s0 use something like this (requires MakeMaker-5.38, but don't
 bother if you don't have it):
@@ -389,13 +418,13 @@ If you are author of a package and wonder if your \s-1VERSION\s0 can be
 parsed, please try the above method.
 .Ip "\(bu" 2
 .IX Item "\(bu"
-Come as compressed or gzipped tarfiles or as zip files (well we try to
+come as compressed or gzipped tarfiles or as zip files (well we try to
 handle a bit more, but without much enthusiasm).
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Andreas König <a.koenig@mind.de>
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\fIperl\fR\|(1)
+\fIperl\fR\|(1), CPAN::\fINox\fR\|(3)
 
 .rn }` ''

@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils/MakeMaker 3 "perl 5.003, patch 05" "9/Sep/96" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils/MakeMaker 3"
+.TH ExtUtils::MakeMaker 3 "perl 5.003, patch 93" "7/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "ExtUtils::MakeMaker 3"
 .UC
 .IX Name "ExtUtils::MakeMaker - create an extension Makefile"
 .if n .hy 0
@@ -176,7 +176,7 @@ ExtUtils::MakeMaker \- create an extension Makefile
 .IX Header "SYNOPSIS"
 \f(CWuse ExtUtils::MakeMaker;\fR
 .PP
-\f(CWWriteMakefile( ATTRIBUTE => VALUE [, ...] );\fR
+\f(CW\fIWriteMakefile\fR\|( ATTRIBUTE => VALUE [, ...] );\fR
 .PP
 which is really
 .PP
@@ -197,11 +197,20 @@ object. This makes it possible to write an unlimited number of
 Makefiles with a single invocation of \fIWriteMakefile()\fR.
 .Sh "How To Write A Makefile.\s-1PL\s0"
 .IX Subsection "How To Write A Makefile.\s-1PL\s0"
-The short answer is: Don't. Run \fIh2xs\fR\|(1) before you start thinking
-about writing a module. For so called pm-only modules that consist of
-\f(CW*.pm\fR files only, h2xs has the very useful \f(CW-X\fR switch. This will
-generate dummy files of all kinds that are useful for the module
-developer.
+The short answer is: Don't.
+.PP
+.Vb 3
+\&        Always begin with h2xs.
+\&        Always begin with h2xs!
+\&        ALWAYS BEGIN WITH H2XS!
+.Ve
+even if you're not building around a header file, and even if you
+don't have an \s-1XS\s0 component.
+.PP
+Run \fIh2xs\fR\|(1) before you start thinking about writing a module. For so
+called pm-only modules that consist of \f(CW*.pm\fR files only, h2xs has
+the \f(CW-X\fR switch. This will generate dummy files of all kinds that are
+useful for the module developer.
 .PP
 The medium answer is:
 .PP
@@ -209,7 +218,7 @@ The medium answer is:
 \&    use ExtUtils::MakeMaker;
 \&    WriteMakefile( NAME => "Foo::Bar" );
 .Ve
-The long answer is below.
+The long answer is the rest of the manpage :\-)
 .Sh "Default Makefile Behaviour"
 .IX Subsection "Default Makefile Behaviour"
 The generated Makefile enables the user of the extension to invoke
@@ -237,7 +246,7 @@ Other interesting targets in the generated Makefile are
 .Ve
 .Sh "make test"
 .IX Subsection "make test"
-MakeMaker checks for the existence of a file named \*(L"test.pl\*(R" in the
+MakeMaker checks for the existence of a file named \fItest.pl\fR in the
 current directory and if it exists it adds commands to the test target
 of the generated Makefile that will execute the script with the proper
 set of perl \f(CW-I\fR options.
@@ -246,6 +255,24 @@ MakeMaker also checks for any files matching \fIglob\fR\|("t/*.t"). It will
 add commands to the test target of the generated Makefile that execute
 all matching files via the the \fITest::Harness\fR manpage module with the \f(CW-I\fR
 switches set correctly.
+.Sh "make testdb"
+.IX Subsection "make testdb"
+A useful variation of the above is the target \f(CWtestdb\fR. It runs the
+test under the Perl debugger (see the \fIperldebug\fR manpage). If the file
+\fItest.pl\fR exists in the current directory, it is used for the test.
+.PP
+If you want to debug some other testfile, set \f(CWTEST_FILE\fR variable
+thusly:
+.PP
+.Vb 1
+\&  make testdb TEST_FILE=t/mytest.t
+.Ve
+By default the debugger is called using \f(CW-d\fR option to perl. If you
+want to specify some other option, set \f(CWTESTDB_SW\fR variable:
+.PP
+.Vb 1
+\&  make testdb TESTDB_SW=-Dx
+.Ve
 .Sh "make install"
 .IX Subsection "make install"
 make alone puts all relevant files into directories that are named by
@@ -277,10 +304,8 @@ The \s-1INSTALL\s0... macros in turn default to their \f(CW%Config\fR
 .PP
 You can check the values of these variables on your system with
 .PP
-.Vb 3
-\&    perl -MConfig -le 'print join $/, map 
-\&        sprintf("%20s: %s", $_, $Config{$_}),
-\&        grep /^install/, keys %Config'
+.Vb 1
+\&    perl '-V:install.*'
 .Ve
 And to check the sequence in which the library directories are
 searched by perl, run
@@ -288,10 +313,20 @@ searched by perl, run
 .Vb 1
 \&    perl -le 'print join $/, @INC'
 .Ve
-.Sh "\s-1PREFIX\s0 attribute"
-.IX Subsection "\s-1PREFIX\s0 attribute"
-The \s-1PREFIX\s0 attribute can be used to set the \s-1INSTALL\s0* attributes in one
-go. The quickest way to install a module in a non-standard place
+.Sh "\s-1PREFIX\s0 and \s-1LIB\s0 attribute"
+.IX Subsection "\s-1PREFIX\s0 and \s-1LIB\s0 attribute"
+\s-1PREFIX\s0 and \s-1LIB\s0 can be used to set several \s-1INSTALL\s0* attributes in one
+go. The quickest way to install a module in a non-standard place might
+be
+.PP
+.Vb 1
+\&    perl Makefile.PL LIB=~/lib
+.Ve
+This will install the module's architecture-independent files into
+~/lib, the architecture-dependent files into ~/lib/$archname/auto.
+.PP
+Another way to specify many \s-1INSTALL\s0 directories with a single
+parameter is \s-1PREFIX\s0.
 .PP
 .Vb 1
 \&    perl Makefile.PL PREFIX=~
@@ -299,8 +334,10 @@ go. The quickest way to install a module in a non-standard place
 This will replace the string specified by \f(CW$Config\fR{prefix} in all
 \f(CW$Config\fR{install*} values.
 .PP
-Note, that the tilde expansion is done by MakeMaker, not by perl by
-default, nor by make.
+Note, that in both cases the tilde expansion is done by MakeMaker, not
+by perl by default, nor by make. Conflicts between parmeters \s-1LIB\s0,
+\s-1PREFIX\s0 and the various \s-1INSTALL\s0* arguments are resolved so that 
+\s-1XXX\s0
 .PP
 If the user has superuser privileges, and is not working on \s-1AFS\s0
 (Andrew File System) or relatives, then the defaults for
@@ -459,7 +496,7 @@ and the values portion of the \s-1XS\s0 attribute hash. This is not
 currently used by MakeMaker but may be handy in Makefile.PLs.
 .Ip "\s-1CONFIG\s0" 2
 .IX Item "\s-1CONFIG\s0"
-Arrayref. E.g. [qw(archname manext)] defines \s-1ARCHNAME\s0 & \s-1MANEXT\s0 from
+Arrayref. E.g. [\fIqw\fR\|(archname manext)] defines \s-1ARCHNAME\s0 & \s-1MANEXT\s0 from
 config.sh. MakeMaker will add to \s-1CONFIG\s0 the following values anyway:
 ar
 cc
@@ -515,13 +552,13 @@ e.g.
 .IX Item "\s-1DL_VARS\s0"
 Array of symbol names for variables to be made available as
 universal symbols.  Used only under \s-1AIX\s0 (export lists) and \s-1VMS\s0
-(linker options) at present.  Defaults to [].  (e.g. [ qw(
+(linker options) at present.  Defaults to [].  (e.g. [ \fIqw\fR\|(
 Foo_version Foo_numstreams Foo_tree ) ])
 .Ip "\s-1EXCLUDE_EXT\s0" 2
 .IX Item "\s-1EXCLUDE_EXT\s0"
 Array of extension names to exclude when doing a static build.  This
 is ignored if \s-1INCLUDE_EXT\s0 is present.  Consult \s-1INCLUDE_EXT\s0 for more
-details.  (e.g.  [ qw( Socket \s-1POSIX\s0 ) ] )
+details.  (e.g.  [ \fIqw\fR\|( Socket \s-1POSIX\s0 ) ] )
 .Sp
 This attribute may be most useful when specified as a string on the
 commandline:  perl Makefile.\s-1PL\s0 \s-1EXCLUDE_EXT\s0='Socket Safe\*(R'
@@ -556,7 +593,7 @@ Array of extension names to be included when doing a static build.
 MakeMaker will normally build with all of the installed extensions when
 doing a static build, and that is usually the desired behavior.  If
 \s-1INCLUDE_EXT\s0 is present then MakeMaker will build only with those extensions
-which are explicitly mentioned. (e.g.  [ qw( Socket \s-1POSIX\s0 ) ])
+which are explicitly mentioned. (e.g.  [ \fIqw\fR\|( Socket \s-1POSIX\s0 ) ])
 .Sp
 It is not necessary to mention DynaLoader or the current extension when
 filling in \s-1INCLUDE_EXT\s0.  If the \s-1INCLUDE_EXT\s0 is mentioned but is empty then
@@ -637,6 +674,10 @@ specify ld flags)
 .IX Item "\s-1LIBPERL_A\s0"
 The filename of the perllibrary that will be used together with this
 extension. Defaults to libperl.a.
+.Ip "\s-1LIB\s0" 2
+.IX Item "\s-1LIB\s0"
+\s-1LIB\s0 can only be set at \f(CWperl Makefile.PL\fR time. It has the effect of
+setting both \s-1INSTALLPRIVLIB\s0 and \s-1INSTALLSITELIB\s0 to that value regardless any
 .Ip "\s-1LIBS\s0" 2
 .IX Item "\s-1LIBS\s0"
 An anonymous array of alternative library
@@ -783,7 +824,7 @@ desired version is the value. If the required version number is 0, we
 only check if any version is installed already.
 .Ip "\s-1SKIP\s0" 2
 .IX Item "\s-1SKIP\s0"
-Arryref. E.g. [qw(name1 name2)] skip (do not write) sections of the
+Arryref. E.g. [\fIqw\fR\|(name1 name2)] skip (do not write) sections of the
 Makefile. Caution! Do not use the \s-1SKIP\s0 attribute for the neglectible
 speedup. It may seriously damage the resulting Makefile. Only use it,
 if you really need it.
@@ -816,7 +857,7 @@ MakeMaker object. The following lines will be parsed o.k.:
 .Sp
 .Vb 3
 \&    $VERSION = '1.00';
-\&    ( $VERSION ) = '$Revision: 1.207 $ ' =~ /\e$Revision:\es+([^\es]+)/;
+\&    ( $VERSION ) = '$Revision: 1.211 $ ' =~ /\e$Revision:\es+([^\es]+)/;
 \&    $FOO::VERSION = '1.10';
 .Ve
 but these will fail:
@@ -1077,11 +1118,10 @@ ExtUtils::MM_Unix, ExtUtils::Manifest, ExtUtils::testlib,
 ExtUtils::Install, ExtUtils::embed
 .SH "AUTHORS"
 .IX Header "AUTHORS"
-Andy Dougherty \fI<doughera@lafcol.lafayette.edu>\fR, Andreas
-Ko\*:nig \fI<A.Koenig@franz.ww.TU\-Berlin.DE>\fR, Tim Bunce
-\fI<Tim.Bunce@ig.co.uk>\fR.  VMS support by Charles Bailey
-\fI<bailey@genetics.upenn.edu>\fR. OS/2 support by Ilya
-Zakharevich \fI<ilya@math.ohio-state.edu>\fR. Contact the
+Andy Dougherty <\fIdoughera@lafcol.lafayette.edu\fR>, Andreas Ko\*:nig
+<\fIA.Koenig@franz.ww.TU\-Berlin.DE\fR>, Tim Bunce <\fITim.Bunce@ig.co.uk\fR>.
+VMS support by Charles Bailey <\fIbailey@genetics.upenn.edu\fR>.  OS/2
+support by Ilya Zakharevich <\fIilya@math.ohio-state.edu\fR>.  Contact the
 makemaker mailing list \f(CWmailto:makemaker@franz.ww.tu-berlin.de\fR, if
 you have any questions.
 

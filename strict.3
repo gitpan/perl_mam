@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH strict 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
+.TH strict 3 "perl 5.003, patch 93" "24/Dec/96" "Perl Programmers Reference Guide"
 .IX Title "strict 3"
 .UC
 .IX Name "strict - Perl pragma to restrict unsafe constructs"
@@ -178,11 +178,10 @@ strict \- Perl pragma to restrict unsafe constructs
 .Vb 1
 \&    use strict;
 .Ve
-.Vb 4
+.Vb 3
 \&    use strict "vars";
 \&    use strict "refs";
 \&    use strict "subs";
-\&    use strict "untie";
 .Ve
 .Vb 2
 \&    use strict;
@@ -192,8 +191,8 @@ strict \- Perl pragma to restrict unsafe constructs
 .IX Header "DESCRIPTION"
 If no import list is supplied, all possible restrictions are assumed.
 (This is the safest mode to operate in, but is sometimes too strict for
-casual programming.)  Currently, there are four possible things to be
-strict about:  \*(L"subs\*(R", \*(L"vars\*(R", \*(L"refs\*(R", and \*(L"untie\*(R".
+casual programming.)  Currently, there are three possible things to be
+strict about:  \*(L"subs\*(R", \*(L"vars\*(R", and \*(L"refs\*(R".
 .Ip "\f(CWstrict refs\fR" 6
 .IX Item "\f(CWstrict refs\fR"
 This generates a runtime error if you 
@@ -233,25 +232,6 @@ appears in curly braces or on the left hand side of the \*(L"=>\*(R" symbol.
 \&    $SIG{PIPE} = Plumber;       # blows up
 \&    $SIG{PIPE} = "Plumber";     # just fine: bareword in curlies always ok
 \&    $SIG{PIPE} = \e&Plumber;     # preferred form
-.Ve
-.Ip "\f(CWstrict untie\fR" 6
-.IX Item "\f(CWstrict untie\fR"
-This generates a runtime error if any references to the object returned
-by \f(CWtie\fR (or \f(CWtied\fR) still exist when \f(CWuntie\fR is called. Note that
-to get this strict behaviour, the \f(CWuse strict 'untie'\fR statement must
-be in the same scope as the \f(CWuntie\fR. See the \f(CWtie\fR entry in the \fIperlfunc\fR manpage,
-the \f(CWuntie\fR entry in the \fIperlfunc\fR manpage, the \f(CWtied\fR entry in the \fIperlfunc\fR manpage and the \fIperltie\fR manpage.
-.Sp
-.Vb 9
-\&    use strict 'untie';
-\&    $a = tie %a, 'SOME_PKG';
-\&    $b = tie %b, 'SOME_PKG';
-\&    $b = 0;
-\&    tie %c, PKG;
-\&    $c = tied %c;
-\&    untie %a ;          # blows up, $a is a valid object reference.
-\&    untie %b;           # ok, $b is not a reference to the object.
-\&    untie %c ;          # blows up, $c is a valid object reference.
 .Ve
 .PP
 See the section on \fIPragmatic Modules\fR in the \fIperlmod\fR manpage.

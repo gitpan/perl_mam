@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Benchmark 3 "perl 5.003, patch 05" "7/Jun/95" "Perl Programmers Reference Guide"
+.TH Benchmark 3 "perl 5.003, patch 93" "4/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "Benchmark 3"
 .UC
 .IX Name "Benchmark - benchmark running times of code"
@@ -210,7 +210,7 @@ Returns the current time.   Example:
 \&    # ... your code here ...
 \&    $t1 = new Benchmark;
 \&    $td = timediff($t1, $t0);
-\&    print "the code took:",timestr($dt),"\en";
+\&    print "the code took:",timestr($td),"\en";
 .Ve
 .Ip "debug" 10
 .IX Item "debug"
@@ -312,8 +312,8 @@ code and therefore the difference might end up being < 0.
 More documentation is needed :\-( especially for styles and formats.
 .SH "AUTHORS"
 .IX Header "AUTHORS"
-Jarkko Hietaniemi <Jarkko.Hietaniemi@hut.fi>,
-Tim Bunce <Tim.Bunce@ig.co.uk>
+Jarkko Hietaniemi <\fIJarkko.Hietaniemi@hut.fi\fR>,
+Tim Bunce <\fITim.Bunce@ig.co.uk\fR>
 .SH "MODIFICATION HISTORY"
 .IX Header "MODIFICATION HISTORY"
 September 8th, 1994; by Tim Bunce.

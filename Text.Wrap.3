@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Text/Wrap 3 "perl 5.003, patch 05" "25/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "Text/Wrap 3"
+.TH Text::Wrap 3 "perl 5.003, patch 93" "28/Jan/97" "Perl Programmers Reference Guide"
+.IX Title "Text::Wrap 3"
 .UC
 .IX Name "Text::Wrap - line wrapping to form simple paragraphs"
 .if n .hy 0
@@ -189,7 +189,7 @@ Text::Wrap \- line wrapping to form simple paragraphs
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-Text::Wrap is a very simple paragraph formatter.  It formats a
+\fIText::Wrap::wrap()\fR is a very simple paragraph formatter.  It formats a
 single paragraph at a time by breaking lines at word boundries.
 Indentation is controlled for the first line ($initial_tab) and
 all subsquent lines ($subsequent_tab) independently.  \f(CW$Text::Wrap::columns\fR
@@ -201,8 +201,14 @@ should be set to the full width of your output device.
 \&        print wrap("\et","","This is a bit of text that forms 
 \&                a normal book-style paragraph");
 .Ve
+.SH "BUGS"
+.IX Header "BUGS"
+It's not clear what the correct behavior should be when \fIWrap()\fR is
+presented with a word that is longer than a line.  The previous 
+behavior was to die.  Now the word is split at line-length.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
-David Muir Sharnoff <muir@idiom.com>
+David Muir Sharnoff <muir@idiom.com> with help from Tim Pierce and
+others.
 
 .rn }` ''

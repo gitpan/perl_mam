@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH ExtUtils/Embed 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "ExtUtils/Embed 3"
+.TH ExtUtils::Embed 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "ExtUtils::Embed 3"
 .UC
 .IX Name "ExtUtils::Embed - Utilities for embedding Perl in C/C++ applications"
 .if n .hy 0
@@ -188,119 +188,118 @@ functions while building your application.
 .SH "\f(CW@EXPORT\fR"
 .IX Header "\f(CW@EXPORT\fR"
 ExtUtils::Embed exports the following functions:
- 
-the \fIxsinit()\fR manpage, the \fIldopts()\fR manpage, the \fIccopts()\fR manpage, the \fIperl_inc()\fR manpage, the \fIccflags()\fR manpage, 
-the \fIccdlflags()\fR manpage, the \fIxsi_header()\fR manpage, the \fIxsi_protos()\fR manpage, the \fIxsi_body()\fR manpage
+.PP
+\fIxsinit()\fR, \fIldopts()\fR, \fIccopts()\fR, \fIperl_inc()\fR, \fIccflags()\fR, 
+\fIccdlflags()\fR, \fIxsi_header()\fR, \fIxsi_protos()\fR, \fIxsi_body()\fR
 .SH "FUNCTIONS"
 .IX Header "FUNCTIONS"
-.Ip "xsinit()" 0
+.Ip "xsinit()" 5
 .IX Item "xsinit()"
-Generate C/\*(C+ code for the \s-1XS\s0 intializer function.
-.PP
+Generate C/\*(C+ code for the \s-1XS\s0 initializer function.
+.Sp
 When invoked as \f(CW`perl -MExtUtils::Embed -e xsinit --`\fR
 the following options are recognized:
-.PP
+.Sp
 \fB\-o\fR <output filename> (Defaults to \fBperlxsi.c\fR)
-.PP
+.Sp
 \fB\-o \s-1STDOUT\s0\fR will print to \s-1STDOUT\s0.
-.PP
+.Sp
 \fB\-std\fR (Write code for extensions that are linked with the current Perl.)
-.PP
+.Sp
 Any additional arguments are expected to be names of modules
 to generate code for.
-.PP
+.Sp
 When invoked with parameters the following are accepted and optional:
-.PP
+.Sp
 \f(CWxsinit($filename,$std,[@modules])\fR
-.PP
+.Sp
 Where,
-.PP
+.Sp
 \fB$filename\fR is equivalent to the \fB\-o\fR option.
-.PP
+.Sp
 \fB$std\fR is boolean, equivalent to the \fB\-std\fR option.  
-.PP
+.Sp
 \fB[@modules]\fR is an array ref, same as additional arguments mentioned above.
-.Ip "Examples" 0
+.Ip "Examples" 5
 .IX Item "Examples"
-.PP
-.Vb 2
-\& 
+.Sp
+.Vb 1
 \& perl -MExtUtils::Embed -e xsinit -- -o xsinit.c Socket
 .Ve
 This will generate code with an \fBxs_init\fR function that glues the perl \fBSocket::bootstrap\fR function 
 to the C \fBboot_Socket\fR function and writes it to a file named \*(L"xsinit.c\*(R".
-.PP
+.Sp
 Note that \fBDynaLoader\fR is a special case where it must call \fBboot_DynaLoader\fR directly.
-.PP
+.Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e xsinit
 .Ve
 This will generate code for linking with \fBDynaLoader\fR and 
 each static extension found in \fB$Config{static_ext}\fR.
 The code is written to the default file name \fBperlxsi.c\fR.
-.PP
+.Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e xsinit -- -o xsinit.c -std DBI DBD::Oracle
 .Ve
 Here, code is written for all the currently linked extensions along with code
 for \fB\s-1DBI\s0\fR and \fB\s-1DBD::\s0Oracle\fR.
-.PP
+.Sp
 If you have a working \fBDynaLoader\fR then there is rarely any need to statically link in any 
 other extensions.
-.Ip "ldopts()" 0
+.Ip "ldopts()" 5
 .IX Item "ldopts()"
 Output arguments for linking the Perl library and extensions to your
 application.
-.PP
+.Sp
 When invoked as \f(CW`perl -MExtUtils::Embed -e ldopts --`\fR
 the following options are recognized:
-.PP
+.Sp
 \fB\-std\fR 
-.PP
+.Sp
 Output arguments for linking the Perl library and any extensions linked
 with the current Perl.
-.PP
+.Sp
 \fB\-I\fR <path1:path2>
-.PP
+.Sp
 Search path for ModuleName.a archives.  
 Default path is \fB@\s-1INC\s0\fR.
 Library archives are expected to be found as 
 \fB/some/path/auto/ModuleName/ModuleName.a\fR
 For example, when looking for \fBSocket.a\fR relative to a search path, 
 we should find \fBauto/Socket/Socket.a\fR  
-.PP
+.Sp
 When looking for \fB\s-1DBD::\s0Oracle\fR relative to a search path,
 we should find \fBauto/\s-1DBD/\s0Oracle/Oracle.a\fR
-.PP
+.Sp
 Keep in mind, you can always supply \fB/my/own/path/ModuleName.a\fR
 as an additional linker argument.
-.PP
+.Sp
 \fB--\fR  <list of linker args>
-.PP
+.Sp
 Additional linker arguments to be considered.
-.PP
+.Sp
 Any additional arguments found before the \fB--\fR token 
 are expected to be names of modules to generate code for.
-.PP
+.Sp
 When invoked with parameters the following are accepted and optional:
-.PP
+.Sp
 \f(CWldopts($std,[@modules],[@link_args],$path)\fR
-.PP
+.Sp
 Where,
-.PP
+.Sp
 \fB$std\fR is boolean, equivalent to the \fB\-std\fR option.  
-.PP
+.Sp
 \fB[@modules]\fR is equivalent to additional arguments found before the \fB--\fR token.
-.PP
+.Sp
 \fB[@link_args]\fR is equivalent to arguments found after the \fB--\fR token.
-.PP
+.Sp
 \fB$path\fR is equivalent to the \fB\-I\fR option.
-.PP
+.Sp
 In addition, when ldopts is called with parameters, it will return the argument string
 rather than print it to \s-1STDOUT\s0.
-.Ip "Examples" 0
+.Ip "Examples" 5
 .IX Item "Examples"
-.PP
+.Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e ldopts
 .Ve
@@ -311,74 +310,72 @@ for each extension that is found by searching \fB@\s-1INC\s0\fR or the path
 specifed by the \fB\-I\fR option.  
 In addition, when ModuleName.a is found, additional linker arguments
 are picked up from the \fBextralibs.ld\fR file in the same directory.
-.PP
-.Vb 2
+.Sp
+.Vb 1
 \& perl -MExtUtils::Embed -e ldopts -- -std Socket
-\& 
 .Ve
 This will do the same as the above example, along with printing additional arguments for linking with the \fBSocket\fR extension.
-.PP
+.Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e ldopts -- DynaLoader
 .Ve
 This will print arguments for linking with just the \fBDynaLoader\fR extension
 and \fBlibperl.a\fR.
-.PP
+.Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e ldopts -- -std Msql -- -L/usr/msql/lib -lmsql
 .Ve
 Any arguments after the second \*(L'--\*(R' token are additional linker
 arguments that will be examined for potential conflict.  If there is no
 conflict, the additional arguments will be part of the output.  
-.Ip "perl_inc()" 0
+.Ip "perl_inc()" 5
 .IX Item "perl_inc()"
 For including perl header files this function simply prints:
-.PP
+.Sp
 .Vb 1
-\& -I $Config{archlib}/CORE  
+\& -I$Config{archlibexp}/CORE  
 .Ve
 So, rather than having to say:
-.PP
+.Sp
 .Vb 1
-\& perl -MConfig -e 'print "-I $Config{archlib}/CORE"'
+\& perl -MConfig -e 'print "-I$Config{archlibexp}/CORE"'
 .Ve
 Just say:
-.PP
+.Sp
 .Vb 1
 \& perl -MExtUtils::Embed -e perl_inc
 .Ve
-.Ip "ccflags(), ccdlflags()" 0
+.Ip "ccflags(), ccdlflags()" 5
 .IX Item "ccflags(), ccdlflags()"
 These functions simply print \f(CW$Config\fR{ccflags} and \f(CW$Config\fR{ccdlflags}
-.Ip "ccopts()" 0
+.Ip "ccopts()" 5
 .IX Item "ccopts()"
 This function combines \fIperl_inc()\fR, \fIccflags()\fR and \fIccdlflags()\fR into one.
-.Ip "xsi_header()" 0
+.Ip "xsi_header()" 5
 .IX Item "xsi_header()"
 This function simply returns a string defining the same \fB\s-1EXTERN_C\s0\fR macro as
 \fBperlmain.c\fR along with #including \fBperl.h\fR and \fB\s-1EXTERN\s0.h\fR.  
-.Ip "xsi_protos(@modules)" 0
+.Ip "xsi_protos(@modules)" 5
 .IX Item "xsi_protos(@modules)"
 This function returns a string of \fBboot_$ModuleName\fR prototypes for each \f(CW@modules\fR.
-.Ip "xsi_body(@modules)" 0
+.Ip "xsi_body(@modules)" 5
 .IX Item "xsi_body(@modules)"
 This function returns a string of calls to \fBnewXS()\fR that glue the module \fBbootstrap\fR
 function to \fBboot_ModuleName\fR for each \f(CW@modules\fR.
-.PP
+.Sp
 \fBxsinit()\fR uses the xsi_* functions to generate most of it's code.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
 For examples on how to use \fBExtUtils::Embed\fR for building C/\*(C+ applications
-with embedded perl, see the eg/ directory and the \fIperlembed\fR man page.
- 
-=head1 SEE ALSO
-.PP
-the \fIperlembed\fR man page
+with embedded perl, see the eg/ directory and the \fIperlembed\fR manpage.
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+the \fIperlembed\fR manpage
 .SH "AUTHOR"
 .IX Header "AUTHOR"
-Doug MacEachern <dougm@osf.org>
+Doug MacEachern <\fIdougm@osf.org\fR>
 .PP
-Based on ideas from Tim Bunce <Tim.Bunce@ig.co.uk> and
-\fBminimod.pl\fR by Andreas Koenig <k@anna.in-berlin.de> and Tim Bunce.
+Based on ideas from Tim Bunce <\fITim.Bunce@ig.co.uk\fR> and
+\fBminimod.pl\fR by Andreas Koenig <\fIk@anna.in-berlin.de\fR> and Tim Bunce.
 
 .rn }` ''

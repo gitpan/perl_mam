@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH File/Copy 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "File/Copy 3"
+.TH File::Copy 3 "perl 5.003, patch 93" "30/Dec/96" "Perl Programmers Reference Guide"
+.IX Title "File::Copy 3"
 .UC
 .IX Name "File::Copy - Copy files or filehandles"
 .if n .hy 0
@@ -178,9 +178,10 @@ File::Copy \- Copy files or filehandles
 .Vb 1
 \&        use File::Copy;
 .Ve
-.Vb 2
+.Vb 3
 \&        copy("file1","file2");
 \&        copy("Copy.pm",\e*STDOUT);'
+\&        move("/dev1/fileA","/dev2/fileB");
 .Ve
 .Vb 2
 \&        use POSIX;
@@ -192,56 +193,81 @@ File::Copy \- Copy files or filehandles
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-The File::Copy module provides a basic function \f(CWcopy\fR which takes two
+The File::Copy module provides two basic functions, \f(CWcopy\fR and
+\f(CWmove\fR, which are useful for getting the contents of a file from
+one place to another.
+.Ip "\(bu" 4
+.IX Item "\(bu"
+The \f(CWcopy\fR function takes two
 parameters: a file to copy from and a file to copy to. Either
 argument may be a string, a FileHandle reference or a FileHandle
 glob. Obviously, if the first argument is a filehandle of some
 sort, it will be read from, and if it is a file \fIname\fR it will
 be opened for reading. Likewise, the second argument will be
-written to (and created if need be).  Note that passing in
+written to (and created if need be).
+.Sp
+\fBNote that passing in
 files as handles instead of names may lead to loss of information
 on some operating systems; it is recommended that you use file
-names whenever possible.
-.PP
+names whenever possible.\fR  Files are opened in binary mode where
+applicable.  To get a consistent behavour when copying from a
+filehandle to a file, use \f(CWbinmode\fR on the filehandle.
+.Sp
 An optional third parameter can be used to specify the buffer
 size used for copying. This is the number of bytes from the
 first file, that wil be held in memory at any given time, before
 being written to the second file. The default buffer size depends
 upon the file, but will generally be the whole file (up to 2Mb), or
 1k for filehandles that do not reference files (eg. sockets).
-.PP
+.Sp
 You may use the syntax \f(CWuse File::Copy "cp"\fR to get at the
 \*(L"cp\*(R" alias for this function. The syntax is \fIexactly\fR the same.
+.Ip "\(bu" 4
+.IX Item "\(bu"
+The \f(CWmove\fR function also takes two parameters: the current name
+and the intended name of the file to be moved.  If the destination
+already exists and is a directory, and the source is not a
+directory, then the source file will be renamed into the directory
+specified by the destination.
+.Sp
+If possible, \fImove()\fR will simply rename the file.  Otherwise, it copies
+the file to the new location and deletes the original.  If an error occurs
+during this copy-and-delete process, you may be left with a (possibly partial)
+copy of the file under the destination name.
+.Sp
+You may use the \*(L"mv\*(R" alias for this function in the same way that
+you may use the \*(L"cp\*(R" alias for \f(CWcopy\fR.
 .PP
 File::Copy also provides the \f(CWsyscopy\fR routine, which copies the
 file specified in the first parameter to the file specified in the
-second parameter, preserving OS\-specific attributes and file
+second parameter, preserving \s-1OS\s0\-specific attributes and file
 structure.  For Unix systems, this is equivalent to the simple
-\f(CWcopy\fR routine.  For VMS systems, this calls the \f(CWrmscopy\fR
-routine (see below).  For OS/2 systems, this calls the \f(CWsyscopy\fR
-XSUB directly.
-.Sh "Special behavior under \s-1VMS\s0"
-.IX Subsection "Special behavior under \s-1VMS\s0"
-If the second argument to \f(CWcopy\fR is not a file handle for an
-already opened file, then \f(CWcopy\fR will perform an \s-1RMS\s0 copy of
+\f(CWcopy\fR routine.  For \s-1VMS\s0 systems, this calls the \f(CWrmscopy\fR
+routine (see below).  For \s-1OS/2\s0 systems, this calls the \f(CWsyscopy\fR
+\s-1XSUB\s0 directly.
+.Sh "Special behavior if \f(CWsyscopy\fR is defined (\s-1VMS\s0 and \s-1OS/2\s0)"
+.IX Subsection "Special behavior if \f(CWsyscopy\fR is defined (\s-1VMS\s0 and \s-1OS/2\s0)"
+If both arguments to \f(CWcopy\fR are not file handles,
+then \f(CWcopy\fR will perform a \*(L"system copy\*(R" of
 the input file to a new output file, in order to preserve file
 attributes, indexed file structure, \fIetc.\fR  The buffer size
-parameter is ignored.  If the second argument to \f(CWcopy\fR is a
-Perl handle to an opened file, then data is copied using Perl
+parameter is ignored.  If either argument to \f(CWcopy\fR is a
+handle to an opened file, then data is copied using Perl
 operators, and no effort is made to preserve file attributes
 or record structure.
 .PP
-The \s-1RMS\s0 copy routine may also be called directly under \s-1VMS\s0
-as \f(CWFile::Copy::rmscopy\fR (or \f(CWFile::Copy::syscopy\fR, which
-is just an alias for this routine).
-.Ip "rmscopy($from,$to[,$date_flag])" 0
+The system copy routine may also be called directly under \s-1VMS\s0 and \s-1OS/2\s0
+as \f(CWFile::Copy::syscopy\fR (or under \s-1VMS\s0 as \f(CWFile::Copy::rmscopy\fR, which
+is the routine that does the actual work for syscopy).
+.Ip "rmscopy($from,$to[,$date_flag])" 4
 .IX Item "rmscopy($from,$to[,$date_flag])"
-The first and second arguments may be strings, typeglobs, or
-typeglob references; they are used in all cases to obtain the
+The first and second arguments may be strings, typeglobs, typeglob
+references, or objects inheriting from \s-1IO::\s0Handle;
+they are used in all cases to obtain the
 \fIfilespec\fR of the input and output files, respectively.  The
 name and type of the input file are used as defaults for the
 output file, if necessary.
-.PP
+.Sp
 A new version of the output file is always created, which
 inherits the structure and \s-1RMS\s0 attributes of the input file,
 except for owner and protections (and possibly timestamps;
@@ -251,7 +277,7 @@ is a file handle, its position is unchanged.  (Note that this
 means a file handle pointing to the output file will be
 associated with an old version of that file after \f(CWrmscopy\fR
 returns, not the newly created version.)
-.PP
+.Sp
 The third parameter is an integer flag, which tells \f(CWrmscopy\fR
 how to handle timestamps.  If it is < 0, none of the input file's
 timestamps are propagated to the output file.  If it is > 0, then
@@ -264,17 +290,16 @@ then no timestamps are propagated, but if they were taken implicitly
 from the input filespec, then all timestamps other than the
 revision date are propagated.  If this parameter is not supplied,
 it defaults to 0.
-.PP
+.Sp
 Like \f(CWcopy\fR, \f(CWrmscopy\fR returns 1 on success.  If an error occurs,
 it sets \f(CW$!\fR, deletes the output file, and returns 0.
 .SH "RETURN"
 .IX Header "RETURN"
-Returns 1 on success, 0 on failure. $! will be set if an error was
-encountered.
+All functions return 1 on success, 0 on failure.
+$! will be set if an error was encountered.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
-File::Copy was written by Aaron Sherman \fI<ajs@ajs.com>\fR in 1995.
-The VMS\-specific code was added by Charles Bailey
-\fI<bailey@genetics.upenn.edu>\fR in March 1996.
+File::Copy was written by Aaron Sherman \fI<ajs@ajs.com>\fR in 1995,
+and updated by Charles Bailey \fI<bailey@genetics.upenn.edu>\fR in 1996.
 
 .rn }` ''

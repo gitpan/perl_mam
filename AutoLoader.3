@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH AutoLoader 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
+.TH AutoLoader 3 "perl 5.003, patch 93" "29/Nov/96" "Perl Programmers Reference Guide"
 .IX Title "AutoLoader 3"
 .UC
 .IX Name "AutoLoader - load functions only on demand"
@@ -179,7 +179,7 @@ AutoLoader \- load functions only on demand
 \&    package FOOBAR;
 \&    use Exporter;
 \&    use AutoLoader;
-\&    @ISA = (Exporter, AutoLoader);
+\&    @ISA = qw(Exporter AutoLoader);
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -201,6 +201,32 @@ file itself. As an example, assume \fI\s-1POSIX\s0.pm\fR is located in
 \fI/usr/local/lib/perl5/\s-1POSIX\s0.pm\fR. The autoloader will look for perl
 subroutines for this package in \fI/usr/local/lib/perl5/auto/\s-1POSIX\s0/*.al\fR.
 The \f(CW.al\fR file is named using the subroutine name, sans package.
+.Sh "Loading Stubs"
+.IX Subsection "Loading Stubs"
+The \fBAutoLoader\fR module provide a special \fIimport()\fR method that will
+load the stubs (from \fIautosplit.ix\fR file) of the calling module.
+These stubs are needed to make inheritance work correctly for class
+modules.
+.PP
+Modules that inherit from \fBAutoLoader\fR should always ensure that they
+override the AutoLoader->\fIimport()\fR method.  If the module inherit from
+\fBExporter\fR like shown in the \fIsynopis\fR section this is already taken
+care of.  For class methods an empty \fIimport()\fR would do nicely:
+.PP
+.Vb 4
+\&  package MyClass;
+\&  use AutoLoader;        # load stubs
+\&  @ISA=qw(AutoLoader);
+\&  sub import {}          # hide AutoLoader::import
+.Ve
+You can also set up autoloading by importing the \s-1AUTOLOAD\s0 function
+instead of inheriting from \fBAutoLoader\fR:
+.PP
+.Vb 3
+\&  package MyClass;
+\&  use AutoLoader;        # load stubs
+\&  *AUTOLOAD = \e&AutoLoader::AUTOLOAD;
+.Ve
 .Sh "Package Lexicals"
 .IX Subsection "Package Lexicals"
 Package lexicals declared with \f(CWmy\fR in the main block of a package using
@@ -225,7 +251,8 @@ can also handle multiple packages in a file.
 .PP
 \fBAutoLoader\fR only reads code as it is requested, and in many cases should be
 faster, but requires a machanism like \fBAutoSplit\fR be used to create the
-individual files.
+individual files.  The \fBExtUtils::MakeMaker\fR will invoke \fBAutoSplit\fR
+automatically if the \fBAutoLoader\fR is used in a module source file.
 .SH "CAVEAT"
 .IX Header "CAVEAT"
 On systems with restrictions on file name length, the file corresponding to a

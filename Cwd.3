@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Cwd 3 "perl 5.003, patch 05" "5/Oct/96" "Perl Programmers Reference Guide"
+.TH Cwd 3 "perl 5.003, patch 93" "8/Jan/97" "Perl Programmers Reference Guide"
 .IX Title "Cwd 3"
 .UC
 .IX Name "getcwd - get pathname of current working directory"
@@ -209,7 +209,7 @@ the trailing line terminator). It is recommended that cwd (or another
 .PP
 If you ask to override your \fIchdir()\fR built-in function, then your PWD
 environment variable will be kept up to date.  (See
-the section on \fIOverriding builtin functions\fR in the \fIperlsub\fR manpage.) Note that it will only be
-kept up to date it all packages which use chdir import it from Cwd.
+the section on \fIOverriding Builtin Functions\fR in the \fIperlsub\fR manpage.) Note that it will only be
+kept up to date if all packages which use chdir import it from Cwd.
 
 .rn }` ''

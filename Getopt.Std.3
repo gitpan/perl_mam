@@ -73,8 +73,8 @@
 .nr % 0
 .rr F
 .\}
-.TH Getopt/Std 3 "perl 5.003, patch 05" "7/Jun/95" "Perl Programmers Reference Guide"
-.IX Title "Getopt/Std 3"
+.TH Getopt::Std 3 "perl 5.003, patch 93" "18/Nov/96" "Perl Programmers Reference Guide"
+.IX Title "Getopt::Std 3"
 .UC
 .IX Name "getopt - Process single-character switches with switch clustering"
 .if n .hy 0
@@ -177,11 +177,15 @@ getopts \- Process single-character switches with switch clustering
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
-.Vb 4
+.Vb 1
 \&    use Getopt::Std;
-\&    getopt('oDI');  # -o, -D & -I take arg.  Sets opt_* as a side effect.
+.Ve
+.Vb 5
+\&    getopt('oDI');    # -o, -D & -I take arg.  Sets opt_* as a side effect.
+\&    getopt('oDI', \e%opts);    # -o, -D & -I take arg.  Values in %opts
 \&    getopts('oif:');  # -o & -i are boolean flags, -f takes an argument
 \&                      # Sets opt_* as a side effect.
+\&    getopts('oif:', \e%opts);  # options as above. Values in %opts
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -191,5 +195,10 @@ that take an argument.  For each switch found, sets \f(CW$opt_x\fR (where x is t
 switch name) to the value of the argument, or 1 if no argument.  Switches
 which take an argument don't care whether there is a space between the
 switch and the argument.
+.PP
+For those of you who don't like additional variables being created, \fIgetopt()\fR
+and \fIgetopts()\fR will also accept a hash reference as an optional second argument. 
+Hash keys will be x (where x is the switch name) with key values the value of
+the argument or 1 if no argument is specified.
 
 .rn }` ''

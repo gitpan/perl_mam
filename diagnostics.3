@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH diagnostics 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
+.TH diagnostics 3 "perl 5.003, patch 93" "7/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "diagnostics 3"
 .UC
 .IX Name "diagnostics - Perl compiler pragma to force verbose warning diagnostics"
@@ -197,9 +197,9 @@ Aa a program:
 .Sh "The \f(CWdiagnostics\fR Pragma"
 .IX Subsection "The \f(CWdiagnostics\fR Pragma"
 This module extends the terse diagnostics normally emitted by both the
-perl compiler and the perl interpeter, augmenting them wtih the more
+perl compiler and the perl interpeter, augmenting them with the more
 explicative and endearing descriptions found in the \fIperldiag\fR manpage.  Like the
-other pragmata, it affects to compilation phase of your program rather
+other pragmata, it affects the compilation phase of your program rather
 than merely the execution phase.
 .PP
 To use in your program as a pragma, merely invoke
@@ -209,7 +209,7 @@ To use in your program as a pragma, merely invoke
 .Ve
 at the start (or near the start) of your program.  (Note 
 that this \fIdoes\fR enable perl's \fB\-w\fR flag.)  Your whole
-compilation will then be subject(ed :\-) to the enhanced diagnostics.
+compilation will then be \fIsubject\fR\|(ed :\-) to the enhanced diagnostics.
 These still go out \fB\s-1STDERR\s0\fR.
 .PP
 Due to the interaction between runtime and compiletime issues,
@@ -219,8 +219,8 @@ However, you may control there behaviour at runtime using the
 \fIdisable()\fR and \fIenable()\fR methods to turn them off and on respectively.
 .PP
 The \fB\-verbose\fR flag first prints out the the \fIperldiag\fR manpage introduction before
-any other diagnostics.  The \f(CW$diagnostics::PRETTY\fR can generate nicer escape
-sequences for pgers.
+any other diagnostics.  The \f(CW$diagnostics::PRETTY\fR variable can generate nicer
+escape sequences for pagers.
 .Sh "The \fIsplain\fR Program"
 .IX Subsection "The \fIsplain\fR Program"
 While apparently a whole nuther program, \fIsplain\fR is actually nothing
@@ -255,7 +255,7 @@ afterwards, do this:
 \&    ./splain < test.out
 .Ve
 Note that this is not in general possible in shells of more dubious heritage, 
-as the theorectical 
+as the theoretical 
 .PP
 .Vb 2
 \&    (perl -w test.pl >/dev/tty) >& test.out
@@ -306,7 +306,7 @@ runtime.  Otherwise, they may be embedded in the file itself when the
 splain package is built.   See the \fIMakefile\fR for details.
 .PP
 If an extant \f(CW$SIG\fR{_\|_WARN_\|_} handler is discovered, it will continue
-to be honored, but only after the \fIdiagnostic::splainthis()\fR function 
+to be honored, but only after the \fIdiagnostics::splainthis()\fR function 
 (the module's \f(CW$SIG\fR{_\|_WARN_\|_} interceptor) has had its way with your
 warnings.
 .PP
@@ -328,13 +328,13 @@ You have to to this instead, and \fIbefore\fR you load the module.
 \&    BEGIN { $diagnostics::PRETTY = 1 } 
 .Ve
 I could start up faster by delaying compilation until it should be
-needed, but this gets a \*(L"panic: top_level\*(R"
-when using the pragma form in 5.001e.  
+needed, but this gets a \*(L"panic: top_level\*(R" when using the pragma form
+in Perl 5.001e.
 .PP
 While it's true that this documentation is somewhat subserious, if you use
 a program named \fIsplain\fR, you should expect a bit of whimsy.
 .SH "AUTHOR"
 .IX Header "AUTHOR"
-Tom Christiansen \fI<tchrist@mox.perl.com>\fR, 25 June 1995.
+Tom Christiansen <\fItchrist@mox.perl.com\fR>, 25 June 1995.
 
 .rn }` ''

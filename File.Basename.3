@@ -73,10 +73,10 @@
 .nr % 0
 .rr F
 .\}
-.TH File/Basename 3 "perl 5.003, patch 05" "16/Aug/96" "Perl Programmers Reference Guide"
-.IX Title "File/Basename 3"
+.TH File::Basename 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
+.IX Title "File::Basename 3"
 .UC
-.IX Name "Basename - parse file specifications"
+.IX Name "fileparse - split a pathname into pieces"
 .if n .hy 0
 .if n .na
 .ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
@@ -171,8 +171,6 @@
 .rm #[ #] #H #V #F C
 .SH "NAME"
 .IX Header "NAME"
-Basename \- parse file specifications
-.PP
 fileparse \- split a pathname into pieces
 .PP
 basename \- extract just the filename from a path
@@ -203,15 +201,22 @@ pieces using the syntax of different operating systems.
 .Ip "fileparse_set_fstype" 4
 .IX Item "fileparse_set_fstype"
 You select the syntax via the routine \fIfileparse_set_fstype()\fR.
+.Sp
 If the argument passed to it contains one of the substrings
-\*(L"\s-1VMS\s0\*(R", \*(L"\s-1MSDOS\s0\*(R", or \*(L"MacOS\*(R", the file specification syntax of that
-operating system is used in future calls to \fIfileparse()\fR,
-\fIbasename()\fR, and \fIdirname()\fR.  If it contains none of these
-substrings, \s-1UNIX\s0 syntax is used.  This pattern matching is
+\*(L"\s-1VMS\s0\*(R", \*(L"\s-1MSDOS\s0\*(R", \*(L"MacOS\*(R", or \*(L"AmigaOS\*(R", the file specification 
+syntax of that operating system is used in future calls to 
+\fIfileparse()\fR, \fIbasename()\fR, and \fIdirname()\fR.  If it contains none of
+these substrings, \s-1UNIX\s0 syntax is used.  This pattern matching is
 case-insensitive.  If you've selected \s-1VMS\s0 syntax, and the file
 specification you pass to one of these routines contains a \*(L"/\*(R",
 they assume you are using \s-1UNIX\s0 emulation and apply the \s-1UNIX\s0 syntax
 rules instead, for that function call only.
+.Sp
+If the argument passed to it contains one of the substrings \*(L"\s-1VMS\s0\*(R",
+\*(L"\s-1MSDOS\s0\*(R", \*(L"MacOS\*(R", \*(L"AmigaOS\*(R", \*(L"os2\*(R", or \*(L"\s-1RISCOS\s0\*(R", then the pattern
+matching for suffix removal is performed without regard for case,
+since those systems are not case-sensitive when opening existing files
+(though some of them preserve case on file creation).
 .Sp
 If you haven't called \fIfileparse_set_fstype()\fR, the syntax is chosen
 by examining the builtin variable \f(CW$^O\fR according to these rules.
@@ -244,7 +249,7 @@ would yield
 .Vb 3
 \&    $base eq 'draft'
 \&    $path eq '/virgil/aeneid/',
-\&    $tail eq '.book7'
+\&    $type eq '.book7'
 .Ve
 Similarly, using VMS syntax:
 .PP
@@ -259,12 +264,13 @@ would yield
 \&    $dir  eq 'Doc_Root:[Help]'
 \&    $type eq '.Rnh'
 .Ve
-.Ip "\f(CWbasename\fR" 0
+.Ip "\f(CWbasename\fR" 5
 .IX Item "\f(CWbasename\fR"
 The \fIbasename()\fR routine returns the first element of the list produced
-by calling \fIfileparse()\fR with the same arguments.  It is provided for
-compatibility with the \s-1UNIX\s0 shell command \fIbasename\fR\|(1).
-.Ip "\f(CWdirname\fR" 0
+by calling \fIfileparse()\fR with the same arguments, except that it always
+quotes metacharacters in the given suffixes.  It is provided for
+programmer compatibility with the \s-1UNIX\s0 shell command \fIbasename\fR\|(1).
+.Ip "\f(CWdirname\fR" 5
 .IX Item "\f(CWdirname\fR"
 The \fIdirname()\fR routine returns the directory portion of the input file
 specification.  When using \s-1VMS\s0 or MacOS syntax, this is identical to the

@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH Fcntl 3 "perl 5.003, patch 05" "8/Sep/96" "Perl Programmers Reference Guide"
+.TH Fcntl 3 "perl 5.003, patch 93" "28/Jan/97" "Perl Programmers Reference Guide"
 .IX Title "Fcntl 3"
 .UC
 .IX Name "Fcntl - load the C Fcntl.h defines"
@@ -175,8 +175,9 @@ Fcntl \- load the C Fcntl.h defines
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
-.Vb 1
+.Vb 2
 \&    use Fcntl;
+\&    use Fcntl qw(:DEFAULT :flock);
 .Ve
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
@@ -189,5 +190,14 @@ far more likely chance of getting the numbers right.
 .IX Header "NOTE"
 Only \f(CW#define\fR symbols get translated; you must still correctly
 pack up your own arguments to pass as args for locking functions, etc.
+.SH "EXPORTED SYMBOLS"
+.IX Header "EXPORTED SYMBOLS"
+By default your system's F_* and O_* constants (eg, F_DUPFD and O_CREAT)
+are exported into your namespace.  You can request that the \fIflock()\fR
+constants (LOCK_SH, LOCK_EX, LOCK_NB and LOCK_UN) be provided by using
+the tag \f(CW:flock\fR.  See the \fIExporter\fR manpage.
+.PP
+Please refer to your native \fIfcntl()\fR and \fIopen()\fR documentation to see
+what constants are implemented in your system.
 
 .rn }` ''

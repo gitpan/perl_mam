@@ -73,7 +73,7 @@
 .nr % 0
 .rr F
 .\}
-.TH DB_File 3 "perl 5.003, patch 05" "7/Sep/96" "Perl Programmers Reference Guide"
+.TH DB_File 3 "perl 5.003, patch 93" "8/Mar/97" "Perl Programmers Reference Guide"
 .IX Title "DB_File 3"
 .UC
 .IX Name "DB_File - Perl5 access to Berkeley DB"
@@ -175,9 +175,8 @@ DB_File \- Perl5 access to Berkeley DB
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .PP
-.Vb 6
+.Vb 5
 \& use DB_File ;
-\& use strict 'untie' ;
 \& 
 \& [$X =] tie %hash,  'DB_File', [$filename, $flags, $mode, $DB_HASH] ;
 \& [$X =] tie %hash,  'DB_File', $filename, $flags, $mode, $DB_BTREE ;
@@ -348,7 +347,7 @@ values when you only want to change one. Here is an example:
 \&     $a->{'cachesize'} =  12345 ;
 \&     tie %y, 'DB_File', "filename", $flags, 0777, $a ;
 .Ve
-A few of the values need extra discussion here. When used, the C
+A few of the options need extra discussion here. When used, the C
 equivalent of the keys \f(CWhash\fR, \f(CWcompare\fR and \f(CWprefix\fR store pointers
 to C functions. In \fBDB_File\fR these keys are used to store references
 to Perl subs. Below are templates for each of the subs:
@@ -385,6 +384,9 @@ to Perl subs. Below are templates for each of the subs:
 .Ve
 See the section on \fIChanging the \s-1BTREE\s0 sort order\fR for an example of using the
 \f(CWcompare\fR template.
+.PP
+If you are using the \s-1DB_RECNO\s0 interface and you intend making use of
+\f(CWbval\fR, you should check out the section on \fIThe bval option\fR.
 .Sh "Default Parameters"
 .IX Subsection "Default Parameters"
 It is possible to omit some or all of the final 4 parameters in the
@@ -397,7 +399,7 @@ common file format used, the call:
 is equivalent to:
 .PP
 .Vb 1
-\&    tie %A, "DB_File", "filename", O_CREAT|O_RDWR, 0640, $DB_HASH ;
+\&    tie %A, "DB_File", "filename", O_CREAT|O_RDWR, 0666, $DB_HASH ;
 .Ve
 It is also possible to omit the filename parameter as well, so the
 call:
@@ -408,7 +410,7 @@ call:
 is equivalent to:
 .PP
 .Vb 1
-\&    tie %A, "DB_File", undef, O_CREAT|O_RDWR, 0640, $DB_HASH ;
+\&    tie %A, "DB_File", undef, O_CREAT|O_RDWR, 0666, $DB_HASH ;
 .Ve
 See the section on \fIIn Memory Databases\fR for a discussion on the use of \f(CWundef\fR
 in place of a filename.
@@ -428,9 +430,10 @@ This example shows how to create a database, add key/value pairs to the
 database, delete keys/value pairs and finally how to enumerate the
 contents of the database.
 .PP
-.Vb 2
+.Vb 3
+\&    use strict ;
 \&    use DB_File ;
-\&    use strict 'untie' ;
+\&    use vars qw( %h $k $v ) ;
 .Ve
 .Vb 2
 \&    tie %h, "DB_File", "fruit", O_RDWR|O_CREAT, 0640, $DB_HASH 
@@ -483,8 +486,11 @@ This script shows how to override the default sorting algorithm that
 insensitive compare function will be used.
 .PP
 .Vb 2
+\&    use strict ;
 \&    use DB_File ;
-\&    use strict 'untie' ;
+.Ve
+.Vb 1
+\&    my %h ;
 .Ve
 .Vb 5
 \&    sub Compare
@@ -549,10 +555,14 @@ There are some difficulties in using the tied hash interface if you
 want to manipulate a \s-1BTREE\s0 database with duplicate keys. Consider this
 code:
 .PP
-.Vb 18
+.Vb 2
+\&    use strict ;
 \&    use DB_File ;
-\&    use strict 'untie' ;
-\& 
+.Ve
+.Vb 1
+\&    use vars qw($filename %h ) ;
+.Ve
+.Vb 15
 \&    $filename = "tree" ;
 \&    unlink $filename ;
 \& 
@@ -605,10 +615,13 @@ and the \s-1API\s0 in general.
 .PP
 Here is the script above rewritten using the \f(CWseq\fR \s-1API\s0 method.
 .PP
-.Vb 28
+.Vb 4
+\&    use strict ;
 \&    use DB_File ;
-\&    use strict 'untie' ;
 \& 
+\&    use vars qw($filename $x %h $status $key $value) ;
+.Ve
+.Vb 26
 \&    $filename = "tree" ;
 \&    unlink $filename ;
 \& 
@@ -627,6 +640,7 @@ Here is the script above rewritten using the \f(CWseq\fR \s-1API\s0 method.
 \& 
 \&    # iterate through the btree using seq
 \&    # and print each key/value pair.
+\&    $key = $value = 0 ;
 \&    for ($status = $x->seq($key, $value, R_FIRST) ;
 \&         $status == 0 ;
 \&         $status = $x->seq($key, $value, R_NEXT) )
@@ -673,16 +687,16 @@ So assuming the database created above, we can use \f(CWget_dup\fR like
 this:
 .PP
 .Vb 2
-\&    $cnt  = $x->get_dup("Wall") ;
+\&    my $cnt  = $x->get_dup("Wall") ;
 \&    print "Wall occurred $cnt times\en" ;
 .Ve
 .Vb 3
-\&    %hash = $x->get_dup("Wall", 1) ;
+\&    my %hash = $x->get_dup("Wall", 1) ;
 \&    print "Larry is there\en" if $hash{'Larry'} ;
 \&    print "There are $hash{'Brick'} Brick Walls\en" ;
 .Ve
 .Vb 2
-\&    @list = $x->get_dup("Wall") ;
+\&    my @list = $x->get_dup("Wall") ;
 \&    print "Wall =>      [@list]\en" ;
 .Ve
 .Vb 5
@@ -724,15 +738,18 @@ In the example script below, the \f(CWmatch\fR sub uses this feature to find
 and print the first matching key/value pair given a partial key.
 .PP
 .Vb 3
+\&    use strict ;
 \&    use DB_File ;
 \&    use Fcntl ;
-\&    use strict 'untie' ;
+.Ve
+.Vb 1
+\&    use vars qw($filename $x %h $st $key $value) ;
 .Ve
 .Vb 8
 \&    sub match
 \&    {
 \&        my $key = shift ;
-\&        my $value ;
+\&        my $value = 0;
 \&        my $orig_key = $key ;
 \&        $x->seq($key, $value, R_CURSOR) ;
 \&        print "$orig_key\et-> $key\et-> $value\en" ;
@@ -753,7 +770,8 @@ and print the first matching key/value pair given a partial key.
 \&    $h{'Smith'} = 'John' ;
 \& 
 .Ve
-.Vb 8
+.Vb 9
+\&    $key = $value = 0 ;
 \&    print "IN ORDER\en" ;
 \&    for ($st = $x->seq($key, $value, R_FIRST) ;
 \&         $st == 0 ;
@@ -799,15 +817,43 @@ As with normal Perl arrays, a RECNO array can be accessed using
 negative indexes. The index \-1 refers to the last element of the array,
 \-2 the second last, and so on. Attempting to access an element before
 the start of the array will raise a fatal run-time error.
+.Sh "The bval option"
+.IX Subsection "The bval option"
+The operation of the bval option warrants some discussion. Here is the
+definition of bval from the Berkeley \s-1DB\s0 1.85 recno manual page:
+.PP
+.Vb 6
+\&    The delimiting byte to be used to mark  the  end  of  a
+\&    record for variable-length records, and the pad charac-
+\&    ter for fixed-length records.  If no  value  is  speci-
+\&    fied,  newlines  (``\en'')  are  used to mark the end of
+\&    variable-length records and  fixed-length  records  are
+\&    padded with spaces.
+.Ve
+The second sentence is wrong. In actual fact bval will only default to
+\f(CW"\en"\fR when the openinfo parameter in dbopen is \s-1NULL\s0. If a non-\s-1NULL\s0
+openinfo parameter is used at all, the value that happens to be in bval
+will be used. That means you always have to specify bval when making
+use of any of the options in the openinfo parameter. This documentation
+error will be fixed in the next release of Berkeley \s-1DB\s0.
+.PP
+That clarifies the situation with regards Berkeley \s-1DB\s0 itself. What
+about \fBDB_File\fR? Well, the behavior defined in the quote above is
+quite useful, so \fBDB_File\fR conforms it.
+.PP
+That means that you can specify other options (e.g. cachesize) and
+still have bval default to \f(CW"\en"\fR for variable length records, and
+space for fixed length records.
 .Sh "A Simple Example"
 .IX Subsection "A Simple Example"
 Here is a simple example that uses \s-1RECNO\s0.
 .PP
 .Vb 2
+\&    use strict ;
 \&    use DB_File ;
-\&    use strict 'untie' ;
 .Ve
-.Vb 2
+.Vb 3
+\&    my @h ;
 \&    tie @h, "DB_File", "text", O_RDWR|O_CREAT, 0640, $DB_RECNO 
 \&        or die "Cannot open file 'text': $!\en" ;
 .Ve
@@ -937,7 +983,7 @@ the section on \fI\s-1THE\s0 \s-1API\s0 \s-1INTERFACE\s0\fR).
 .Vb 7
 \&    # same again, but use the API functions instead
 \&    print "\enREVERSE again\en" ;
-\&    my ($s, $k, $v)  ;
+\&    my ($s, $k, $v)  = (0, 0, 0) ;
 \&    for ($s = $H->seq($k, $v, R_LAST) ; 
 \&             $s == 0 ; 
 \&             $s = $H->seq($k, $v, R_PREV))
@@ -1025,7 +1071,7 @@ as \fBDB_File\fR methods directly like this:
 \fBImportant:\fR If you have saved a copy of the object returned from
 \f(CWtie\fR, the underlying database file will \fInot\fR be closed until both
 the tied variable is untied and all copies of the saved object are
-destroyed. See the section on \fIThe strict untie pragma\fR for more details.
+destroyed. 
 .PP
 .Vb 6
 \&    use DB_File ;
@@ -1035,6 +1081,8 @@ destroyed. See the section on \fIThe strict untie pragma\fR for more details.
 \&    undef $db ;
 \&    untie %hash ;
 .Ve
+See the section on \fIThe untie Gotcha\fR for more details.
+.PP
 All the functions defined in the \fIdbopen\fR manpage are available except for
 \fIclose()\fR and \fIdbopen()\fR itself. The \fBDB_File\fR method interface to the
 supported functions have been implemented to mirror the way Berkeley DB
@@ -1153,109 +1201,6 @@ Flushes any cached buffers to disk.
 R_RECNOSYNC is the only valid flag at present.
 .SH "HINTS AND TIPS"
 .IX Header "HINTS AND TIPS"
-.Sh "The strict untie pragma"
-.IX Subsection "The strict untie pragma"
-If you run Perl version 5.004 or later (actually any version from the
-5.003_01 development release on will suffice) and you make use of the
-Berkeley \s-1DB\s0 \s-1API\s0, it is is \fIvery\fR strongly recommended that you always
-include the \f(CWuse strict 'untie'\fR pragma in any of your scripts that
-make use of \fBDB_File\fR.
-.PP
-Even if you don't currently make use of the \s-1API\s0 interface, it is still
-a good idea to include the pragma. It won't affect the performance of
-your script, but it will prevent problems in the future.
-.PP
-If possible you should try to run with the full strict pragma, but that
-is another story. For further details see the \fIstrict\fR manpage and 
-the section on \fI\s-1WHY\s0 \s-1YOU\s0 \s-1SHOULD\s0 \s-1ALWAYS\s0 \f(CWuse strict\fR in the \fIperldsc\fR manpage\fR.
-.PP
-To illustrate the importance of including the untie pragma, here is an
-example script that fails in an unexpected place because it doesn't use
-it:
-.PP
-.Vb 12
-\&    use DB_File ;
-\&    use Fcntl ;
-\& 
-\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
-\&        or die "Cannot tie first time: $!" ;
-\& 
-\&    $x{123} = 456 ;
-\& 
-\&    untie %x ;
-\& 
-\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
-\&        or die "Cannot tie second time: $!" ;
-.Ve
-.Vb 1
-\&    untie %x ;
-.Ve
-When run the script will produce this error message:
-.PP
-.Vb 1
-\&    Cannot tie second time: Invalid argument at bad.file line 12.
-.Ve
-Although the error message above refers to the second tie statement in
-the script, the source of the problem is really with the untie
-statement that precedes it.
-.PP
-To understand why there is a problem at all with the untie statement,
-consider what the tie does for a moment. 
-.PP
-Whenever the tie is executed, it creates a logical link between a Perl
-variable, the associative array \f(CW%x\fR in this case, and a Berkeley \s-1DB\s0
-database, \f(CWtst.fil\fR. The logical link ensures that all operation on
-the associative array are automatically mirrored to the database file.
-.PP
-In normal circumstances the untie is enough to break the logical link
-and also close the database. In this particular case there is another
-logical link, namely the \s-1API\s0 object returned from the tie and stored in
-\f(CW$X\fR. Whenever the untie is executed in this case, only the link
-between the associative array and the database will be broken. The \s-1API\s0
-object in \f(CW$X\fR is still valid, so the database will not be closed.
-.PP
-The end result of this is that when the second tie is executed, the
-database will be in an inconsistent state (i.e. it is still opened by
-the first tie) \- thus the second tie will fail.
-.PP
-If the \f(CWuse strict 'untie'\fR pragma is included in the script, like
-this:
-.PP
-.Vb 13
-\&    use DB_File ;
-\&    use Fcntl ;
-\&    use strict 'untie' ;
-\& 
-\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
-\&        or die "Cannot tie first time: $!" ;
-\& 
-\&    $x{123} = 456 ;
-\& 
-\&    untie %x ;
-\& 
-\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
-\&        or die "Cannot tie second time: $!" ;
-.Ve
-then the error message becomes:
-.PP
-.Vb 1
-\&    Can't untie: 1 inner references still exist at bad.file line 11.
-.Ve
-which pinpoints the real problem. Finally the script can now be
-modified to fix the original problem by destroying the \s-1API\s0 object
-before the untie:
-.PP
-.Vb 2
-\&    ...
-\&    $x{123} = 456 ;
-.Ve
-.Vb 5
-\&    undef $X ;
-\&    untie %x ;
-\& 
-\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
-\&    ...
-.Ve
 .Sh "Locking Databases"
 .IX Subsection "Locking Databases"
 Concurrent access of a read-write database by several parties requires
@@ -1264,8 +1209,7 @@ uses the \fIfd\fR method to get the file descriptor, and then a careful
 \fIopen()\fR to give something Perl will \fIflock()\fR for you.  Run this repeatedly
 in the background to watch the locks granted in proper order.
 .PP
-.Vb 2
-\&    use strict 'untie';
+.Vb 1
 \&    use DB_File;
 .Ve
 .Vb 1
@@ -1317,7 +1261,7 @@ in the background to watch the locks granted in proper order.
 .Vb 4
 \&    print "$$: Write lock granted\en";
 \&    $db{$key} = $value;
-\&    $db->sync;
+\&    $db->sync;  # to flush
 \&    sleep 10;
 .Ve
 .Vb 5
@@ -1351,11 +1295,12 @@ Here is a snippet of code that is loosely based on Tom Christiansen's
 \fIauthors/id/\s-1TOMC/\s0scripts/nshist.gz\fR).
 .PP
 .Vb 3
+\&    use strict ;
 \&    use DB_File ;
 \&    use Fcntl ;
-\&    use strict 'untie' ;
 .Ve
-.Vb 1
+.Vb 2
+\&    use vars qw( $dotdir $HISTORY %hist_db $href $binary_time $date ) ;
 \&    $dotdir = $ENV{HOME} || $ENV{LOGNAME};
 .Ve
 .Vb 1
@@ -1393,6 +1338,85 @@ Here is a snippet of code that is loosely based on Tom Christiansen's
 .Vb 1
 \&    untie %hist_db ;
 .Ve
+.Sh "The untie gotcha"
+.IX Subsection "The untie gotcha"
+If you make use of the Berkeley \s-1DB\s0 \s-1API\s0, it is is \fIvery\fR strongly
+recommended that you read the section on \fIThe untie gotcha\fR in the \fIperltie\fR manpage. 
+.PP
+Even if you don't currently make use of the \s-1API\s0 interface, it is still
+worth reading it.
+.PP
+Here is an example which illustrates the problem from a \fBDB_File\fR
+perspective:
+.PP
+.Vb 2
+\&    use DB_File ;
+\&    use Fcntl ;
+.Ve
+.Vb 2
+\&    my %x ;
+\&    my $X ;
+.Ve
+.Vb 2
+\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_TRUNC
+\&        or die "Cannot tie first time: $!" ;
+.Ve
+.Vb 1
+\&    $x{123} = 456 ;
+.Ve
+.Vb 1
+\&    untie %x ;
+.Ve
+.Vb 2
+\&    tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
+\&        or die "Cannot tie second time: $!" ;
+.Ve
+.Vb 1
+\&    untie %x ;
+.Ve
+When run, the script will produce this error message:
+.PP
+.Vb 1
+\&    Cannot tie second time: Invalid argument at bad.file line 14.
+.Ve
+Although the error message above refers to the second \fItie()\fR statement
+in the script, the source of the problem is really with the \fIuntie()\fR
+statement that precedes it.
+.PP
+Having read the \fIperltie\fR manpage you will probably have already guessed that the
+error is caused by the extra copy of the tied object stored in \f(CW$X\fR.
+If you haven't, then the problem boils down to the fact that the
+\fBDB_File\fR destructor, \s-1DESTROY\s0, will not be called until \fIall\fR
+references to the tied object are destroyed. Both the tied variable,
+\f(CW%x\fR, and \f(CW$X\fR above hold a reference to the object. The call to
+\fIuntie()\fR will destroy the first, but \f(CW$X\fR still holds a valid
+reference, so the destructor will not get called and the database file
+\fItst.fil\fR will remain open. The fact that Berkeley \s-1DB\s0 then reports the
+attempt to open a database that is alreday open via the catch-all
+\*(L"Invalid argument\*(R" doesn't help.
+.PP
+If you run the script with the \f(CW-w\fR flag the error message becomes:
+.PP
+.Vb 2
+\&    untie attempted while 1 inner references still exist at bad.file line 12.
+\&    Cannot tie second time: Invalid argument at bad.file line 14.
+.Ve
+which pinpoints the real problem. Finally the script can now be
+modified to fix the original problem by destroying the \s-1API\s0 object
+before the untie:
+.PP
+.Vb 2
+\&    ...
+\&    $x{123} = 456 ;
+.Ve
+.Vb 2
+\&    undef $X ;
+\&    untie %x ;
+.Ve
+.Vb 2
+\&    $X = tie %x, 'DB_File', 'tst.fil' , O_RDWR|O_CREAT
+\&    ...
+.Ve
 .SH "COMMON QUESTIONS"
 .IX Header "COMMON QUESTIONS"
 .Sh "Why is there Perl source in my database?"
@@ -1427,8 +1451,7 @@ get wrong, so it can be difficult to figure out which one it is.
 Here are a couple of possibilities:
 .Ip "1." 5
 .IX Item "1."
-Attempting to reopen a database without closing it. See 
-the section on \fIThe strict untie pragma\fR for an example.
+Attempting to reopen a database without closing it. 
 .Ip "2." 5
 .IX Item "2."
 Using the O_WRONLY flag.
@@ -1513,27 +1536,89 @@ The standard hash function \f(CWexists\fR is now supported.
 .Sp
 Modified the behavior of get_dup. When it returns an associative
 array, the value is the count of the number of matching \s-1BTREE\s0 values.
+.Ip "1.04" 5
+.IX Item "1.04"
+Minor documentation changes.
+.Sp
+Fixed a bug in hash_cb. Patches supplied by Dave Hammen,
+<hammen@gothamcity.jsc.nasa.gov>.
+.Sp
+Fixed a bug with the constructors for DB_File::\s-1HASHINFO\s0,
+DB_File::\s-1BTREEINFO\s0 and DB_File::\s-1RECNOINFO\s0. Also tidied up the
+constructors to make them \f(CW-w\fR clean.
+.Sp
+Reworked part of the test harness to be more locale friendly.
+.Ip "1.05" 5
+.IX Item "1.05"
+Made all scripts in the documentation \f(CWstrict\fR and \f(CW-w\fR clean.
+.Sp
+Added logic to \fIDB_File.xs\fR to allow the module to be built after Perl
+is installed.
+.Ip "1.06" 5
+.IX Item "1.06"
+Minor namespace cleanup: Localized \f(CWPrintBtree\fR.
+.Ip "1.07" 5
+.IX Item "1.07"
+Fixed bug with \s-1RECNO\s0, where bval wasn't defaulting to \*(L"\en\*(R".
+.Ip "1.08" 5
+.IX Item "1.08"
+Documented operation of bval.
+.Ip "1.09" 5
+.IX Item "1.09"
+Minor bug fix in DB_File::\s-1HASHINFO\s0, DB_File::\s-1RECNOINFO\s0 and
+DB_File::\s-1BTREEINFO\s0.
+.Sp
+Changed default mode to 0666.
+.Ip "1.10" 5
+.IX Item "1.10"
+Fixed fd method so that it still returns \-1 for in-memory files when db
+1.86 is used.
+.Ip "1.11" 5
+.IX Item "1.11"
+Documented the untie gotcha.
 .SH "BUGS"
 .IX Header "BUGS"
 Some older versions of Berkeley DB had problems with fixed length
 records using the RECNO file format. The newest version at the time of
 writing was 1.85 \- this seems to have fixed the problems with RECNO.
-.Sp
+.PP
 I am sure there are bugs in the code. If you do find any, or can
 suggest any enhancements, I would welcome your comments.
 .SH "AVAILABILITY"
 .IX Header "AVAILABILITY"
 \fBDB_File\fR comes with the standard Perl source distribution. Look in
 the directory \fIext/DB_File\fR.
-.Sp
+.PP
 Berkeley DB is available at your nearest CPAN archive (see
 the section on \fICPAN\fR in the \fIperlmod\fR manpage for a list) in \fIsrc/misc/db.1.85.tar.gz\fR, or via the
-host \fIftp.cs.berkeley.edu\fR in \fI/ucb/4bsd/db.tar.gz\fR.  It is \fInot\fR under
-the GPL.
-.Sp
+host \fIftp.cs.berkeley.edu\fR in \fI/ucb/4bsd/db.tar.gz\fR.  Alternatively,
+check out the Berkeley DB home page at \fIhttp://www.bostic.com/db\fR. It
+is \fInot\fR under the GPL.
+.PP
 If you are running IRIX, then get Berkeley DB from
 \fIhttp://reality.sgi.com/ariel\fR. It has the patches necessary to
 compile properly on IRIX 5.3.
+.PP
+As of January 1997, version 1.86 of Berkeley DB is available from the
+Berkeley DB home page. Although this release does fix a number of bugs
+that were present in 1.85 you should be aware of the following
+information (taken from the Berkeley DB home page) before you consider
+using it:
+.PP
+.Vb 4
+\&    DB version 1.86 includes a new implementation of the hash access
+\&    method that fixes a variety of hashing problems found in DB version
+\&    1.85. We are making it available as an interim solution until DB
+\&    2.0 is available.
+.Ve
+.Vb 6
+\&    PLEASE NOTE: the underlying file format for the hash access method
+\&    changed between version 1.85 and version 1.86, so you will have to
+\&    dump and reload all of your databases to convert from version 1.85
+\&    to version 1.86. If you do not absolutely require the fixes from
+\&    version 1.86, we strongly urge you to wait until DB 2.0 is released
+\&    before upgrading from 1.85.  
+.Ve
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 the \fIperl(1)\fR manpage, the \fIdbopen(3)\fR manpage, the \fIhash(3)\fR manpage, the \fIrecno(3)\fR manpage, the \fIbtree(3)\fR manpage 
