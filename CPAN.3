@@ -1,0 +1,401 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+.ds L' '
+.ds R' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds L' `
+.ds R' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH LIB/CPAN 1 "perl 5.003, patch 05" "1/Oct/96" "User Contributed Perl Documentation"
+.IX Title "LIB/CPAN 1"
+.UC
+.IX Name "CPAN - query, download and build perl modules from CPAN sites"
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.IX Header "NAME"
+CPAN \- query, download and build perl modules from CPAN sites
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+Interactive mode:
+.PP
+.Vb 1
+\&  perl -MCPAN -e shell;
+.Ve
+Batch mode:
+.PP
+.Vb 1
+\&  use CPAN;
+.Ve
+.Vb 1
+\&  autobundle, bundle, bundles, expand, install, make, test
+.Ve
+.SH "ALPHA ALERT"
+.IX Header "ALPHA ALERT"
+The interface of this \fBpackage is not yet stable\fR. Parts of it may
+still change. This is especially true for the programming
+interface. The interactive \*(L"shell\*(R" interface is already rather well
+established.
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+The CPAN module is designed to automate the building and installing of
+perl modules and extensions including the searching and fetching from
+the net.
+.PP
+Modules are fetched from one or more of the mirrored CPAN
+(Comprehensive Perl Archive Network) sites and unpacked in a dedicated
+directory.
+.PP
+The CPAN module also supports the concept of named and versioned
+\*(L'bundles\*(R' of modules. Bundles simplify the handling of sets of
+related modules. See BUNDLES below.
+.PP
+The package contains a session manager and a cache manager. There is
+no status retained between sessions. The session manager keeps track
+of what has been fetched, built and installed in the current
+session. The cache manager keeps track of the disk space occupied by
+the make processes and deletes excess space in a simple FIFO style.
+.Sh "Interactive Mode"
+.IX Subsection "Interactive Mode"
+The interactive mode is entered by running
+.PP
+.Vb 1
+\&    perl -MCPAN -e shell
+.Ve
+which puts you into a readline interface. You will have most fun if
+you install Term::ReadKey and Term::ReadLine to enjoy both history and
+completion.
+.PP
+Once you are on the command line, type \*(L'h\*(R' and the rest should be
+self-explanatory.
+.Sh "\s-1CPAN::\s0Shell"
+.IX Subsection "\s-1CPAN::\s0Shell"
+The commands that are available in the shell interface are methods in
+the package \s-1CPAN::\s0Shell. If you enter the shell command, all your
+input is split on whitespace, the first word is being interpreted as
+the method to be called and the rest of the words are treated as
+arguments to this method.
+.PP
+If you do not enter the shell, most of the available shell commands
+are both available as methods (\f(CWCPAN::Shell->\fIinstall\fR\|(...)\fR) and as
+functions in the calling package (\f(CWinstall(...)\fR).
+.Sh "Cache Manager"
+.IX Subsection "Cache Manager"
+Currently the cache manager only keeps track of the build directory
+($\s-1CPAN::\s0Config->{build_dir}). It is a simple \s-1FIFO\s0 mechanism that
+deletes complete directories below build_dir as soon as the size of
+all directories there gets bigger than \f(CW$CPAN::Config\fR\->{build_cache}
+(in \s-1MB\s0).
+.PP
+There is another directory ($\s-1CPAN::\s0Config->{keep_source_where}) where
+the original distribution files are kept. This directory is not
+covered by the cache manager and must be controlled by the user. If
+you choose to have the same directory as build_dir and as
+keep_source_where directory, then your sources will be deleted with
+the same fifo mechanism.
+.Sh "Bundles"
+.IX Subsection "Bundles"
+A bundle is just a perl module in the namespace Bundle:: that does not
+define any functions or methods. It usually only contains documentation.
+.PP
+It starts like a perl module with a package declaration and a \f(CW$VERSION\fR
+variable. After that the pod section looks like any other pod with the
+only difference, that one pod section exists starting with (verbatim):
+.PP
+.Vb 1
+\&        =head1 CONTENTS
+.Ve
+In this pod section each line obeys the format
+.PP
+.Vb 1
+\&        Module_Name [Version_String] [- optional text]
+.Ve
+The only required part is the first field, the name of a module
+(eg. Foo::Bar, ie. \fInot\fR the name of the distribution file). The rest
+of the line is optional. The comment part is delimited by a dash just
+as in the man page header.
+.PP
+The distribution of a bundle should follow the same convention as
+other distributions. The \fIbundle()\fR function in the \s-1CPAN\s0 module simply
+parses the module that defines the bundle and returns the module names
+that are listed in the described \s-1CONTENTS\s0 section.
+.PP
+Bundles are treated specially in the \s-1CPAN\s0 package. If you say \*(L'install
+Bundle::Tkkit\*(R' (assuming such a bundle exists), \s-1CPAN\s0 will install all
+the modules in the \s-1CONTENTS\s0 section of the pod.  You can install your
+own Bundles locally by placing a conformant Bundle file somewhere into
+your \f(CW@INC\fR path. The \fIautobundle()\fR command does that for you by
+including all currently installed in a snapshot bundle file.
+.Sh "autobundle"
+.IX Subsection "autobundle"
+\fIautobundle()\fR writes a bundle file into the directory
+\f(CW$CPAN::Config\fR\->{cpan_home}/Bundle directory. The file contains a list
+of all modules that are both available from \s-1CPAN\s0 and currently
+installed within \f(CW@INC\fR. The name of the bundle file is based on the
+current date and a counter.
+.Sh "Pragma: force"
+.IX Subsection "Pragma: force"
+Normally \s-1CPAN\s0 keeps track of what it has done within the current
+session and doesn't try to build a package a second time regardless if
+it succeeded or not. The force command takes as first argument the
+method to invoke (currently: make, test, or install) and executes the
+command from scratch.
+.PP
+Example:
+.PP
+.Vb 7
+\&    cpan> install OpenGL 
+\&    OpenGL up-to-date.
+\&    cpan> force install OpenGL 
+\&    Running make
+\&    OpenGL-0.4/
+\&    OpenGL-0.4/COPYRIGHT
+\&    [...]
+.Ve
+.SH "CONFIGURATION"
+.IX Header "CONFIGURATION"
+When the CPAN module is installed a site wide configuration file is
+created as CPAN/Config.pm. The default values defined there can be
+overridden in another configuration file: CPAN/MyConfig.pm. You can
+store this file in \f(CW$HOME\fR/.cpan/CPAN/MyConfig.pm if you want, because
+\f(CW$HOME\fR/.cpan is added to the search path of the CPAN module before the
+\fIuse()\fR or \fIrequire()\fR statements.
+.PP
+Currently the following keys in the hash reference \f(CW$CPAN::Config\fR are
+defined:
+.PP
+.Vb 17
+\&  build_cache       size of cache for directories to build modules
+\&  build_dir         locally accessible directory to build modules
+\&  cache_expire      after how many days refetch index files
+\&  cpan_home         local directory reserved for this package
+\&  gzip              location of external program gzip
+\&  inhibit-startup-message
+\&                    if true, does not print the startup message
+\&  keep_source       keep the source in a local directory?
+\&  keep_source_where where keep the source (if we do)
+\&  make              location of external program make
+\&  make_arg          arguments that should always be passed to 'make'
+\&  make_install_arg  same as make_arg for 'make install'
+\&  makepl_arg        arguments passed to 'perl Makefile.PL'
+\&  more              location of external program more (or any pager)
+\&  tar               location of external program tar
+\&  unzip             location of external program unzip
+\&  urllist           arrayref to nearby CPAN sites (or equivalent locations)
+.Ve
+.SH "SECURITY"
+.IX Header "SECURITY"
+There's no security layer in the alpha version of CPAN.pm. CPAN.pm
+helps you to install foreign, unmasked, unsigned code on your
+machine. It's not different than when you do that on your own, but you
+should be warned now.
+.SH "EXPORT"
+.IX Header "EXPORT"
+Most functions in package CPAN are exported per default. The reason
+for this is that the primary use is intended for the cpan-shell or for
+one-liners.
+.SH "Debugging"
+.IX Header "Debugging"
+The debugging of this module is a pretty difficult task, because we
+have interferences of the software producing the indices on CPAN, of
+the mirroring process, of improper packaging, of improper
+configuration and of bugs within CPAN.pm. 
+.PP
+In interactive mode you can try \*(L"o debug\*(R" which will list options for
+debugging the various parts of the package. The output may not be very
+useful for you as it's just a byproduct of my own testing, but if you
+have an idea which part of the package may have a bug, it's certainly
+worth to give it a try and send me more specific output. You should
+know that \*(L"o debug\*(R" has built-in completion support.
+.Sh "Prerequisites"
+.IX Subsection "Prerequisites"
+If you have a local mirror of \s-1CPAN\s0 and can access all files with
+\*(L"file:\*(R" URLs, then you only need perl5.003 to run this
+module. Otherwise you need Net::\s-1FTP\s0 intalled. \s-1LWP\s0 may be required for
+non-\s-1UNIX\s0 systems.
+.PP
+This module presumes that all packages on \s-1CPAN\s0
+.Ip "\(bu" 2
+.IX Item "\(bu"
+Declare their \f(CW$VERSION\fR variable in an easy to parse manner. This
+prerequisite can hardly be relaxed because it consumes by far too much
+memory to load all packages into a single program just to determine
+the \f(CW$VERSION\fR variable . Currently all programs that are dealing with
+\s-1VERSION\s0 use something like this (requires MakeMaker-5.38, but don't
+bother if you don't have it):
+.Sp
+.Vb 2
+\&    perl -MExtUtils::MakeMaker -le \e
+\&        'print MM->parse_version($ARGV[0])' filename
+.Ve
+If you are author of a package and wonder if your \s-1VERSION\s0 can be
+parsed, please try the above method.
+.Ip "\(bu" 2
+.IX Item "\(bu"
+Come as compressed or gzipped tarfiles or as zip files (well we try to
+handle a bit more, but without much enthusiasm).
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Andreas König <a.koenig@mind.de>
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+\fIperl\fR\|(1)
+
+.rn }` ''

@@ -1,0 +1,315 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+.ds L' '
+.ds R' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds L' `
+.ds R' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH FLOW 1 "perl 5.003, patch 05" "4/Aug/96" "User Contributed Perl Documentation"
+.IX Title "FLOW 1"
+.UC
+.IX Name "Data::Flow - Perl extension for simple-minded recipe-controlled build of data."
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.IX Header "NAME"
+Data::Flow \- Perl extension for simple-minded recipe-controlled build of data.
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+.PP
+.Vb 11
+\&  use Data::Flow;
+\&  $recipes = { path  => { default => './MANIFEST'},
+\&               contents => { prerequisites => ['path', 'x'] ,
+\&                             process => 
+\&                             sub {
+\&                               my $data = shift; 
+\&                               $data->{ shift() } = `cat $data->get('path')`
+\&                                 x $data->get('x');
+\&                             }
+\&                           },
+\&             };
+.Ve
+.Vb 3
+\&  $request = new Data::Flow $recipes;
+\&  $request->set( x => 1);
+\&  print $request->get('contents');
+.Ve
+.Vb 3
+\&  tie %request, Data::Flow, $recipes;
+\&  $request{x} = 1;
+\&  print $request{contents};
+.Ve
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+The module Data::Flow provides its services via objects. The objects may
+be obtained by the usual
+.PP
+.Vb 1
+\&  $request = new Data::Flow $recipes;
+.Ve
+paradigm. The argument \f(CW$recipes\fR is a hash reference, which provides
+the rules for request processing. The objects support two methods,
+\fIset()\fR and \fIget()\fR. The first one is used to provide input data for
+processing, the second one to obtain the output.
+.PP
+The unit of requested information is a \fIfield\fR. The method \fIset()\fR
+takes a pair \f(CWfield => value\fR, the method \fIget()\fR takes one
+argument: the \f(CWfield\fR.
+.PP
+Every object is created without any fields filled, but it knows how to
+\fIconstruct\fR fields basing on other fields or some global into. This
+knowledge is provided in the argument \f(CW$recipe\fR of the \fInew()\fR
+function. This is a reference to a hash, keyed by \fIfields\fR. The
+values of this hash are hash references themselves, which describe how
+to acquire the \fIfield\fR which is the corresponding key of the initial
+hash.
+.PP
+The internal hashes may have the following keys:
+.Ip "\f(CWdefault\fR" 8
+.IX Item "\f(CWdefault\fR"
+describes the default value for the key, if none is provided by
+\fIset()\fR. The value becomes the value of the field of the object. No
+additional processing is performed. Example:
+.Sp
+.Vb 1
+\&  default => $Config{installdir}
+.Ve
+.Ip "\f(CWprerequisites\fR" 8
+.IX Item "\f(CWprerequisites\fR"
+gives the fields which are needed for the construction of the given
+field. The corresponding value is an array references. The array
+contains the \fIrequired\fR fields.
+.Sp
+If \f(CWdefaults\fR did not satisfy the request for a field, but
+\f(CW$recipe->{field}{prerequisites}\fR exists, the \fIrequired\fR
+fields are build before any further processing is done. Example:
+.Sp
+.Vb 1
+\&  prerequisites => [ qw(prefix arch) ]
+.Ve
+.Ip "\f(CWprocess\fR" 8
+.IX Item "\f(CWprocess\fR"
+contains the rule to build the field. The value is a reference to a
+subroutine taking 2 arguments: the object \f(CW$request\fR, and the name of
+the required field. It is up to the subroutine to actually fill the
+corresponding field of \f(CW$data\fR, an error condition is raised if it did
+not. Example:
+.Sp
+.Vb 2
+\&  process => sub { my $data = shift;
+\&                   $data->set( time => localtime(time) ) }
+.Ve
+.Ip "\f(CWoutput\fR" 8
+.IX Item "\f(CWoutput\fR"
+the corresponing value has the same meaning as for \f(CWprocess\fR, but the
+return value of the subroutine is used as the value of the
+\fIfield\fR. Example:
+.Sp
+.Vb 1
+\&  output => sub { localtime(time) }
+.Ve
+.Ip "\f(CWfilter\fR" 8
+.IX Item "\f(CWfilter\fR"
+contains the rule to build the field basing on other fields. The value
+is a reference to an array. The first element of the array is a
+reference to a subroutine, the rest contains names of the fields. When
+the subroutine is called, the arguments are the values of \fIfields\fR of
+the object \f(CW$request\fR which appear in the array (in the same order). The
+return value of the subroutine is used as the value of the
+\fIfield\fR. Example:
+.Sp
+.Vb 2
+\&  filter => [ sub { shift + shift }, 
+\&              'first_half', 'second_half' ]
+.Ve
+Note that the mentioned field will be automatically marked as
+prerequisites.
+.Ip "\f(CWclass_filter\fR" 8
+.IX Item "\f(CWclass_filter\fR"
+is similar to \f(CWfilter\fR, but the first argument is the name of the
+method to call, second one is the name of the package to use for the
+method invocation. The rest contains names of field to provide as
+method arguments. Example:
+.Sp
+.Vb 1
+\&  class_filter => [ 'new', 'FileHandle', 'filename' ]
+.Ve
+.Ip "\f(CWmethod_filter\fR" 8
+.IX Item "\f(CWmethod_filter\fR"
+is similar to \f(CWclass_filter\fR, but the second argument is the name of the
+field which is used to call the method upon. Example:
+.Sp
+.Vb 1
+\&  method_filter => [ 'show', 'widget_name', 'current_display' ]
+.Ve
+.Sh "Tied interface"
+.IX Subsection "Tied interface"
+The access to the same functionality is available via tied hash
+interface.
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Ilya Zakharevich, ilya@math.ohio-state.edu
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+\fIperl\fR\|(1), \fImake\fR\|(1).
+
+.rn }` ''

@@ -1,0 +1,502 @@
+.rn '' }`
+''' $RCSfile$$Revision$$Date$
+'''
+''' $Log$
+'''
+.de Sh
+.br
+.if t .Sp
+.ne 5
+.PP
+\fB\\$1\fR
+.PP
+..
+.de Sp
+.if t .sp .5v
+.if n .sp
+..
+.de Ip
+.br
+.ie \\n(.$>=3 .ne \\$3
+.el .ne 3
+.IP "\\$1" \\$2
+..
+.de Vb
+.ft CW
+.nf
+.ne \\$1
+..
+.de Ve
+.ft R
+
+.fi
+..
+'''
+'''
+'''     Set up \*(-- to give an unbreakable dash;
+'''     string Tr holds user defined translation string.
+'''     Bell System Logo is used as a dummy character.
+'''
+.tr \(*W-|\(bv\*(Tr
+.ie n \{\
+.ds -- \(*W-
+.ds PI pi
+.if (\n(.H=4u)&(1m=24u) .ds -- \(*W\h'-12u'\(*W\h'-12u'-\" diablo 10 pitch
+.if (\n(.H=4u)&(1m=20u) .ds -- \(*W\h'-12u'\(*W\h'-8u'-\" diablo 12 pitch
+.ds L" ""
+.ds R" ""
+.ds L' '
+.ds R' '
+'br\}
+.el\{\
+.ds -- \(em\|
+.tr \*(Tr
+.ds L" ``
+.ds R" ''
+.ds L' `
+.ds R' '
+.ds PI \(*p
+'br\}
+.\"	If the F register is turned on, we'll generate
+.\"	index entries out stderr for the following things:
+.\"		TH	Title 
+.\"		SH	Header
+.\"		Sh	Subsection 
+.\"		Ip	Item
+.\"		X<>	Xref  (embedded
+.\"	Of course, you have to process the output yourself
+.\"	in some meaninful fashion.
+.if \nF \{
+.de IX
+.tm Index:\\$1\t\\n%\t"\\$2"
+..
+.nr % 0
+.rr F
+.\}
+.TH CURSES 1 "perl 5.003, patch 05" "28/Mar/95" "User Contributed Perl Documentation"
+.IX Title "CURSES 1"
+.UC
+.IX Name "Curses - terminal screen handling and optimization"
+.if n .hy 0
+.if n .na
+.ds C+ C\v'-.1v'\h'-1p'\s-2+\h'-1p'+\s0\v'.1v'\h'-1p'
+.de CQ          \" put $1 in typewriter font
+.ft CW
+'if n "\c
+'if t \\&\\$1\c
+'if n \\&\\$1\c
+'if n \&"
+\\&\\$2 \\$3 \\$4 \\$5 \\$6 \\$7
+'.ft R
+..
+.\" @(#)ms.acc 1.5 88/02/08 SMI; from UCB 4.2
+.	\" AM - accent mark definitions
+.bd B 3
+.	\" fudge factors for nroff and troff
+.if n \{\
+.	ds #H 0
+.	ds #V .8m
+.	ds #F .3m
+.	ds #[ \f1
+.	ds #] \fP
+.\}
+.if t \{\
+.	ds #H ((1u-(\\\\n(.fu%2u))*.13m)
+.	ds #V .6m
+.	ds #F 0
+.	ds #[ \&
+.	ds #] \&
+.\}
+.	\" simple accents for nroff and troff
+.if n \{\
+.	ds ' \&
+.	ds ` \&
+.	ds ^ \&
+.	ds , \&
+.	ds ~ ~
+.	ds ? ?
+.	ds ! !
+.	ds /
+.	ds q
+.\}
+.if t \{\
+.	ds ' \\k:\h'-(\\n(.wu*8/10-\*(#H)'\'\h"|\\n:u"
+.	ds ` \\k:\h'-(\\n(.wu*8/10-\*(#H)'\`\h'|\\n:u'
+.	ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'^\h'|\\n:u'
+.	ds , \\k:\h'-(\\n(.wu*8/10)',\h'|\\n:u'
+.	ds ~ \\k:\h'-(\\n(.wu-\*(#H-.1m)'~\h'|\\n:u'
+.	ds ? \s-2c\h'-\w'c'u*7/10'\u\h'\*(#H'\zi\d\s+2\h'\w'c'u*8/10'
+.	ds ! \s-2\(or\s+2\h'-\w'\(or'u'\v'-.8m'.\v'.8m'
+.	ds / \\k:\h'-(\\n(.wu*8/10-\*(#H)'\z\(sl\h'|\\n:u'
+.	ds q o\h'-\w'o'u*8/10'\s-4\v'.4m'\z\(*i\v'-.4m'\s+4\h'\w'o'u*8/10'
+.\}
+.	\" troff and (daisy-wheel) nroff accents
+.ds : \\k:\h'-(\\n(.wu*8/10-\*(#H+.1m+\*(#F)'\v'-\*(#V'\z.\h'.2m+\*(#F'.\h'|\\n:u'\v'\*(#V'
+.ds 8 \h'\*(#H'\(*b\h'-\*(#H'
+.ds v \\k:\h'-(\\n(.wu*9/10-\*(#H)'\v'-\*(#V'\*(#[\s-4v\s0\v'\*(#V'\h'|\\n:u'\*(#]
+.ds _ \\k:\h'-(\\n(.wu*9/10-\*(#H+(\*(#F*2/3))'\v'-.4m'\z\(hy\v'.4m'\h'|\\n:u'
+.ds . \\k:\h'-(\\n(.wu*8/10)'\v'\*(#V*4/10'\z.\v'-\*(#V*4/10'\h'|\\n:u'
+.ds 3 \*(#[\v'.2m'\s-2\&3\s0\v'-.2m'\*(#]
+.ds o \\k:\h'-(\\n(.wu+\w'\(de'u-\*(#H)/2u'\v'-.3n'\*(#[\z\(de\v'.3n'\h'|\\n:u'\*(#]
+.ds d- \h'\*(#H'\(pd\h'-\w'~'u'\v'-.25m'\f2\(hy\fP\v'.25m'\h'-\*(#H'
+.ds D- D\\k:\h'-\w'D'u'\v'-.11m'\z\(hy\v'.11m'\h'|\\n:u'
+.ds th \*(#[\v'.3m'\s+1I\s-1\v'-.3m'\h'-(\w'I'u*2/3)'\s-1o\s+1\*(#]
+.ds Th \*(#[\s+2I\s-2\h'-\w'I'u*3/5'\v'-.3m'o\v'.3m'\*(#]
+.ds ae a\h'-(\w'a'u*4/10)'e
+.ds Ae A\h'-(\w'A'u*4/10)'E
+.ds oe o\h'-(\w'o'u*4/10)'e
+.ds Oe O\h'-(\w'O'u*4/10)'E
+.	\" corrections for vroff
+.if v .ds ~ \\k:\h'-(\\n(.wu*9/10-\*(#H)'\s-2\u~\d\s+2\h'|\\n:u'
+.if v .ds ^ \\k:\h'-(\\n(.wu*10/11-\*(#H)'\v'-.4m'^\v'.4m'\h'|\\n:u'
+.	\" for low resolution devices (crt and lpr)
+.if \n(.H>23 .if \n(.V>19 \
+\{\
+.	ds : e
+.	ds 8 ss
+.	ds v \h'-1'\o'\(aa\(ga'
+.	ds _ \h'-1'^
+.	ds . \h'-1'.
+.	ds 3 3
+.	ds o a
+.	ds d- d\h'-1'\(ga
+.	ds D- D\h'-1'\(hy
+.	ds th \o'bp'
+.	ds Th \o'LP'
+.	ds ae ae
+.	ds Ae AE
+.	ds oe oe
+.	ds Oe OE
+.\}
+.rm #[ #] #H #V #F C
+.SH "NAME"
+.IX Header "NAME"
+Curses \- terminal screen handling and optimization
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+.PP
+.Vb 1
+\&    use Curses;
+.Ve
+.Vb 3
+\&    initscr;
+\&    ...
+\&    endwin;
+.Ve
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+\f(CWCurses\fR is the interface between Perl and your system's \fIcurses\fR\|(3)
+library.  For descriptions on the usage of a given function, variable,
+or constant, consult your system's documentation, as such information
+invariably varies (:\-) between different \fIcurses\fR\|(3) libraries and
+operating systems.  This document describes the interface itself, and
+assumes that you already know how your system's \fIcurses\fR\|(3) library
+works.
+.Sh "Unified Functions"
+.IX Subsection "Unified Functions"
+Many \fIcurses\fR\|(3) functions have variants starting with the prefixes
+\fIw-\fR, \fImv-\fR, and/or \fIwmv-\fR.  These variants differ only in the
+explicit addition of a window, or by the addition of two coordinates
+that are used to move the cursor first.  For example, \f(CWaddch()\fR has
+three other variants: \f(CWwaddch()\fR, \f(CWmvaddch()\fR, and \f(CWmvwaddch()\fR.
+The variants aren't very interesting; in fact, we could roll all of
+the variants into original function by allowing a variable number
+of arguments and analyzing the argument list for which variant the
+user wanted to call.
+.PP
+Unfortunately, \fIcurses\fR\|(3) predates \fIvarargs\fR\|(3), so in C we were stuck
+with all the variants.  However, \f(CWCurses\fR is a Perl interface, so we
+are free to \*(L"unify\*(R" these variants into one function.  The section
+the section on \fISupported Functions\fR below lists all \fIcurses\fR\|(3) function supported
+by \f(CWCurses\fR, along with a column listing if it is \fIunified\fR.  If
+so, it takes a varying number of arguments as follows:
+\f(CWfunction( [win], [y, x], args );\fR
+.Sp
+\fIwin\fR is an optional window argument, defaulting to \f(CWstdscr\fR if not
+specified.
+.Sp
+\fIy, x\fR is an optional coordinate pair used to move the cursor,
+defaulting to no move if not specified.
+.Sp
+\fIargs\fR are the required arguments of the function.  These are the
+arguments you would specify if you were just calling the base function
+and not any of the variants.
+.PP
+This makes the variants obsolete, since their functionality has been
+merged into a single function, so \f(CWCurses\fR does not define them by
+default.  You can still get them if you want, by setting the
+variable \f(CW$Curses::OldCurses\fR to a non-zero value before using the
+\f(CWCurses\fR package.  See the section on \fIPerl 4.X \f(CWcursperl\fR Compatibility\*(R"\fR
+for an example of this.
+.Sh "Objects"
+.IX Subsection "Objects"
+Objects are supported.  Example:
+.PP
+.Vb 4
+\&    $win = new Curses;
+\&    $win->addstr(10, 10, 'foo');
+\&    $win->refresh;
+\&    ...
+.Ve
+Any function that has been marked as \fIunified\fR (see
+the section on \fISupported Functions\fR below and the section on \fIUnified Functions\fR above)
+can be called as a method for a Curses object. 
+.PP
+Do not use \f(CWinitscr()\fR if using objects, as the first call to get
+a \f(CWnew Curses\fR will do it for you.
+.SH "COMPATIBILITY"
+.IX Header "COMPATIBILITY"
+.Sh "Perl 4.X \f(CWcursperl\fR Compatibility"
+.IX Subsection "Perl 4.X \f(CWcursperl\fR Compatibility"
+\f(CWCurses\fR has been written to take advantage of the new features of
+Perl.  I felt it better to provide an improved curses programming
+environment rather than to be 100% compatible.  However, many old
+\f(CWcurseperl\fR applications will probably still work by starting the
+script with:
+.PP
+.Vb 2
+\&    BEGIN { $Curses::OldCurses = 1; }
+\&    use Curses;
+.Ve
+Any old application that still does not work should print an
+understandable error message explaining the problem.
+.PP
+Some functions and variables are not supported by \f(CWCurses\fR, even with
+the \f(CWBEGIN\fR line.  They are listed under
+the section on \fIcurses(3) items not supported by Curses\fR.
+.PP
+One incompatibility of note is that the variables \f(CW$stdscr\fR and
+\f(CW$curscr\fR do not work.  You should use the functions \f(CWstdscr\fR and
+\f(CWcurscr\fR instead.  I would like to make the variables work, but
+haven't yet figure out how.
+.Sh "Incompatibilities with previous versions of \f(CWCurses\fR"
+.IX Subsection "Incompatibilities with previous versions of \f(CWCurses\fR"
+In previous versions of this software, some Perl functions took a
+different set of parameters than their C counterparts.  This is no
+longer true.  You should now use \f(CWgetstr($str)\fR and \f(CWgetyx($y, $x)\fR
+instead of \f(CW$str = getstr()\fR and \f(CW($y, $x) = getyx()\fR.
+.Sh "Incompatibilities with other Perl programs"
+.IX Subsection "Incompatibilities with other Perl programs"
+.PP
+.Vb 6
+\&    menu.pl, v3.0
+\&        There is a bug somewhere that keeps you from redefining
+\&        functions that are dynamically loaded.  If you need to
+\&        uncomment the getcap() function in menu.pl, version 3.0, apply
+\&        the patch in F<menu-3.0.patch> first.  This is a workaround
+\&        until the bug gets found.
+.Ve
+.Vb 7
+\&        There is also a bug in some versions of libcurses.a.  If your
+\&        curses is based on BSD curses and you use more than four
+\&        getcap()'s (as menu.pl does), it can corrupt the libcurses.a
+\&        data structures.  This is noticable as an "A", "B", "C" or "D"
+\&        being printed every time the screen is cleared.  A workaround
+\&        is to apply the F<menu-3.0.patch> and uncomment the getcap()
+\&        function.
+.Ve
+.Vb 4
+\&    menu.pl, v3.1
+\&        Termcap.pm has been rewritten, so the getcap() solution no
+\&        longer works, as written.  You may need to apply the
+\&        F<menu-3.1.patch> to get things running correctly.
+.Ve
+.SH "DIAGNOSTICS"
+.IX Header "DIAGNOSTICS"
+.Ip "\(bu Curses function \*(L'%s\*(R' called with too %s arguments at ..." 4
+.IX Item "\(bu Curses function \*(L'%s\*(R' called with too %s arguments at ..."
+You have called a \f(CWCurses\fR function with a wrong number of
+arguments.
+.Ip "\(bu argument %d to Curses function \*(L'%s\*(R' is not a Curses window at ... =item * argument is not a Curses window at ..." 4
+.IX Item "\(bu argument %d to Curses function \*(L'%s\*(R' is not a Curses window at ... =item * argument is not a Curses window at ..."
+The window argument you gave to the function wasn't really a window.
+.Sp
+This probably means that you didn't give the right arguments to a
+\fIunified\fR function.  See the \s-1DESCRIPTION\s0 section on L<Unified
+Functions> for more information.
+.Ip "\(bu Curses function \*(L'%s\*(R' is not defined by your vendor at ..." 4
+.IX Item "\(bu Curses function \*(L'%s\*(R' is not defined by your vendor at ..."
+You have a \f(CWCurses\fR function in your code that your system's \fIcurses\fR\|(3)
+library doesn't define.
+.Ip "\(bu Curses constant \*(L'%s\*(R' is not defined by your vendor at ..." 4
+.IX Item "\(bu Curses constant \*(L'%s\*(R' is not defined by your vendor at ..."
+You have a \f(CWCurses\fR constant in your code that your system's \fIcurses\fR\|(3)
+library doesn't define.
+.Ip "\(bu Curses does not support the curses function \*(L'$_[0]\*(R', used at ..." 4
+.IX Item "\(bu Curses does not support the curses function \*(L'$_[0]\*(R', used at ..."
+You have a \fIcurses\fR\|(3) function in your code that the \f(CWCurses\fR module
+doesn't support.
+.Ip "\(bu Curses does not support the curses variable \*(L'$_[0]\*(R', used at ..." 4
+.IX Item "\(bu Curses does not support the curses variable \*(L'$_[0]\*(R', used at ..."
+You have a \fIcurses\fR\|(3) variable in your code that the \f(CWCurses\fR module
+doesn't support.
+.Ip "\(bu Curses does not support the curses constant \*(L'$_[0]\*(R', used at ..." 4
+.IX Item "\(bu Curses does not support the curses constant \*(L'$_[0]\*(R', used at ..."
+You have a bareword in your code that is trying to be interpreted as
+a \f(CWCurses\fR constant, but \f(CWCurses\fR doesn't know anything about it.
+.Ip "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..." 4
+.IX Item "\(bu Curses::Vars::\s-1FETCH\s0 called with bad index at ... =item * Curses::Vars::\s-1STORE\s0 called with bad index at ..."
+You've been playing with the \f(CWtie\fR interface to the \f(CWCurses\fR
+variables.  Don't do that.  :\-)
+.Ip "\(bu Anything else" 4
+.IX Item "\(bu Anything else"
+Check out the \fIperldiag\fR man page to see if the error is in there.
+.SH "BUGS"
+.IX Header "BUGS"
+The functions \f(CWstdscr\fR and \f(CWcurscr\fR should be \f(CW$stdscr\fR and \f(CW$curscr\fR.
+I can't figure out if this is \f(CWCurses\fR\*(R' fault or Perl's.
+.PP
+Probably many more.
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+William Setzer <William_Setzer@ncsu.edu>
+.SH "SYNOPSIS OF PERL CURSES SUPPORT"
+.IX Header "SYNOPSIS OF PERL CURSES SUPPORT"
+.Sh "Supported Functions"
+.IX Subsection "Supported Functions"
+.PP
+.Vb 139
+\&        Supported     Unified?          Supported via $OldCurses[*]
+\&        ---------     --------          ------------------------
+\&        addch           Yes             waddch mvaddch mvwaddch
+\&        addchnstr       Yes             waddchnstr mvaddchnstr mvwaddchnstr
+\&        addchstr        Yes             waddchstr mvaddchstr mvwaddchstr
+\&        addnstr         Yes             waddnstr mvaddnstr mvwaddnstr
+\&        addstr          Yes             waddstr mvaddstr mvwaddstr
+\&        attroff         Yes             wattroff
+\&        attron          Yes             wattron
+\&        attrset         Yes             wattrset
+\&        baudrate        No
+\&        beep            No
+\&        bkgd            Yes             wbkgd
+\&        bkgdset         Yes             wbkgdset
+\&        border          Yes             wborder
+\&        box             Yes
+\&        can_change_color No
+\&        cbreak          No
+\&        clear           Yes             wclear
+\&        clearok         Yes
+\&        clrtobot        Yes             wclrtobot
+\&        clrtoeol        Yes             wclrtoeol
+\&        color_content   No
+\&        COLOR_PAIR      No
+\&        copywin         No
+\&        delch           Yes             wdelch mvdelch mvwdelch
+\&        deleteln        Yes             wdeleteln
+\&        delwin          Yes
+\&        derwin          Yes
+\&        doupdate        No
+\&        echo            No
+\&        echochar        Yes             wechochar
+\&        endwin          No
+\&        erase           Yes             werase
+\&        erasechar       No
+\&        flash           No
+\&        flushinp        No
+\&        flusok          Yes
+\&        getattrs        Yes
+\&        getbegyx        Yes
+\&        getbkgd         Yes
+\&        getcap          No
+\&        getch           Yes             wgetch mvgetch mvwgetch
+\&        getmaxyx        Yes
+\&        getnstr         Yes             wgetnstr mvgetnstr mvwgetnstr
+\&        getparyx        Yes
+\&        getstr          Yes             wgetstr mvgetstr mvwgetstr
+\&        gettmode        No
+\&        getyx           Yes
+\&        halfdelay       No
+\&        has_colors      No
+\&        has_ic          No
+\&        has_il          No
+\&        hline           Yes             whline
+\&        idcok           Yes
+\&        idlok           Yes
+\&        immedok         Yes
+\&        inch            Yes             winch mvinch mvwinch
+\&        inchnstr        Yes             winchnstr mvinchnstr mvwinchnstr
+\&        inchstr         Yes             winchstr mvinchstr mvwinchstr
+\&        init_color      No
+\&        init_pair       No
+\&        initscr         No
+\&        innstr          Yes             winnstr mvinnstr mvwinnstr
+\&        insch           Yes             winsch mvinsch mvwinsch
+\&        insdelln        Yes             winsdelln
+\&        insertln        Yes             winsertln
+\&        insnstr         Yes             winsnstr mvinsnstr mvwinsnstr
+\&        insstr          Yes             winsstr mvinsstr mvwinsstr
+\&        instr           Yes             winstr mvinstr mvwinstr
+\&        intrflush       Yes
+\&        is_linetouched  Yes
+\&        is_wintouched   Yes
+\&        isendwin        No
+\&        keyname         No
+\&        keypad          Yes
+\&        killchar        No
+\&        leaveok         Yes
+\&        longname        No
+\&        meta            Yes
+\&        move            Yes             wmove
+\&        mvcur           No
+\&        mvwin           Yes
+\&        newpad          No
+\&        newwin          No
+\&        nl              No
+\&        nocbreak        No
+\&        nodelay         Yes
+\&        noecho          No
+\&        nonl            No
+\&        noqiflush       No
+\&        noraw           No
+\&        notimeout       Yes
+\&        noutrefresh     Yes             wnoutrefresh
+\&        overlay         No
+\&        overwrite       No
+\&        pair_content    No
+\&        PAIR_NUMBER     No
+\&        pechochar       No
+\&        pnoutrefresh    No
+\&        prefresh        No
+\&        qiflush         No
+\&        raw             No
+\&        refresh         Yes             wrefresh
+\&        resetty         No
+\&        savetty         No
+\&        scrl            Yes             wscrl
+\&        scroll          Yes
+\&        scrollok        Yes
+\&        setscrreg       Yes             wsetscrreg
+\&        setterm         No
+\&        slk_clear       No
+\&        slk_init        No
+\&        slk_label       No
+\&        slk_noutrefresh No
+\&        slk_refresh     No
+\&        slk_restore     No
+\&        slk_set         No
+\&        slk_touch       No
+\&        standend        Yes             wstandend
+\&        standout        Yes             wstandout
+\&        start_color     No
+\&        subpad          No
+\&        subwin          Yes
+\&        syncok          Yes
+\&        timeout         Yes             wtimeout
+\&        touchline       Yes
+\&        touchln         Yes             wtouchln
+\&        touchoverlap    No
+\&        touchwin        Yes
+\&        typeahead       No
+\&        unctrl          No
+\&        ungetch         No
+\&        vline           Yes             wvline
+\&        
+\&[*] To use any functions in this column, the variable
+\&C<$Curses::OldCurses> must be set to a non-zero value before using the
+\&C<Curses> package.  See L<"Perl 4.X cursperl Compatibility"> for an
+\&example of this.
+.Ve
+.Sh "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term stdscr[*] curscr[*]   [*] stdscr and curscr are available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
+.IX Subsection "Supported Variables 	 	\s-1LINES\s0		\s-1COLS\s0 	 =head2 Supported Constants 	 	\s-1OK\s0		\s-1ERR\s0 	 	\s-1ACS_BLOCK\s0	\s-1ACS_BOARD\s0	\s-1ACS_BTEE\s0	\s-1ACS_BULLET\s0 	\s-1ACS_CKBOARD\s0	\s-1ACS_DARROW\s0	\s-1ACS_DEGREE\s0	\s-1ACS_DIAMOND\s0 	\s-1ACS_HLINE\s0	\s-1ACS_LANTERN\s0	\s-1ACS_LARROW\s0	\s-1ACS_LLCORNER\s0 	\s-1ACS_LRCORNER\s0	\s-1ACS_LTEE\s0	\s-1ACS_PLMINUS\s0	\s-1ACS_PLUS\s0 	\s-1ACS_RARROW\s0	\s-1ACS_RTEE\s0	\s-1ACS_S1\s0		\s-1ACS_S9\s0 	\s-1ACS_TTEE\s0	\s-1ACS_UARROW\s0	\s-1ACS_ULCORNER\s0	\s-1ACS_URCORNER\s0 	\s-1ACS_VLINE\s0 	 	A_ALTCHARSET	A_ATTRIBUTES	A_BLINK		A_BOLD 	A_CHARTEXT	A_COLOR		A_DIM		A_INVIS 	A_NORMAL	A_PROTECT	A_REVERSE	A_STANDOUT 	A_UNDERLINE 	 	\s-1COLOR_BLACK\s0	\s-1COLOR_BLUE\s0	\s-1COLOR_CYAN\s0	\s-1COLOR_GREEN\s0 	\s-1COLOR_MAGENTA\s0	\s-1COLOR_RED\s0	\s-1COLOR_WHITE\s0	\s-1COLOR_YELLOW\s0 	 	\s-1KEY_A1\s0		\s-1KEY_A3\s0		\s-1KEY_B2\s0		\s-1KEY_BACKSPACE\s0 	\s-1KEY_BEG\s0		\s-1KEY_BREAK\s0	\s-1KEY_BTAB\s0	\s-1KEY_C1\s0 	\s-1KEY_C3\s0		\s-1KEY_CANCEL\s0	\s-1KEY_CATAB\s0	\s-1KEY_CLEAR\s0 	\s-1KEY_CLOSE\s0	\s-1KEY_COMMAND\s0	\s-1KEY_COPY\s0	\s-1KEY_CREATE\s0 	\s-1KEY_CTAB\s0	\s-1KEY_DC\s0		\s-1KEY_DL\s0		\s-1KEY_DOWN\s0 	\s-1KEY_EIC\s0		\s-1KEY_END\s0		\s-1KEY_ENTER\s0	\s-1KEY_EOL\s0 	\s-1KEY_EOS\s0		\s-1KEY_EXIT\s0	\s-1KEY_F0\s0		\s-1KEY_FIND\s0 	\s-1KEY_HELP\s0	\s-1KEY_HOME\s0	\s-1KEY_IC\s0		\s-1KEY_IL\s0 	\s-1KEY_LEFT\s0	\s-1KEY_LL\s0		\s-1KEY_MARK\s0	\s-1KEY_MAX\s0 	\s-1KEY_MESSAGE\s0	\s-1KEY_MIN\s0		\s-1KEY_MOVE\s0	\s-1KEY_NEXT\s0 	\s-1KEY_NPAGE\s0	\s-1KEY_OPEN\s0	\s-1KEY_OPTIONS\s0	\s-1KEY_PPAGE\s0 	\s-1KEY_PREVIOUS\s0	\s-1KEY_PRINT\s0	\s-1KEY_REDO\s0	\s-1KEY_REFERENCE\s0 	\s-1KEY_REFRESH\s0	\s-1KEY_REPLACE\s0	\s-1KEY_RESET\s0	\s-1KEY_RESTART\s0 	\s-1KEY_RESUME\s0	\s-1KEY_RIGHT\s0	\s-1KEY_SAVE\s0	\s-1KEY_SBEG\s0 	\s-1KEY_SCANCEL\s0	\s-1KEY_SCOMMAND\s0	\s-1KEY_SCOPY\s0	\s-1KEY_SCREATE\s0 	\s-1KEY_SDC\s0		\s-1KEY_SDL\s0		\s-1KEY_SELECT\s0	\s-1KEY_SEND\s0 	\s-1KEY_SEOL\s0	\s-1KEY_SEXIT\s0	\s-1KEY_SF\s0		\s-1KEY_SFIND\s0 	\s-1KEY_SHELP\s0	\s-1KEY_SHOME\s0	\s-1KEY_SIC\s0		\s-1KEY_SLEFT\s0 	\s-1KEY_SMESSAGE\s0	\s-1KEY_SMOVE\s0	\s-1KEY_SNEXT\s0	\s-1KEY_SOPTIONS\s0 	\s-1KEY_SPREVIOUS\s0	\s-1KEY_SPRINT\s0	\s-1KEY_SR\s0		\s-1KEY_SREDO\s0 	\s-1KEY_SREPLACE\s0	\s-1KEY_SRESET\s0	\s-1KEY_SRIGHT\s0	\s-1KEY_SRSUME\s0 	\s-1KEY_SSAVE\s0	\s-1KEY_SSUSPEND\s0	\s-1KEY_STAB\s0	\s-1KEY_SUNDO\s0 	\s-1KEY_SUSPEND\s0	\s-1KEY_UNDO\s0	\s-1KEY_UP\s0 	 =head2 \fIcurses\fR\|(3) items not supported by \f(CWCurses\fR 	 	Functions 	--------- 	tstp printw wprintw mvprintw mvwprintw scanw wscanw mvscanw mvwscanw 	_putchar fullname 	 	Variables 	--------- 	ttytype Def_term My_term stdscr[*] curscr[*]   [*] stdscr and curscr are available via the Perl functions \f(CWstdscr\fR and \f(CWcurscr\fR.  See the section on \fIPerl 4.X cursperl Compatibility\fR for more information."
+
+.rn }` ''
